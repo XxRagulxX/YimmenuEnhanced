@@ -1,4 +1,4 @@
-#include "core/hooking/VMTHook.hpp"
+#include "core/hooking/DetourHook.hpp"
 #include "core/renderer/Renderer.hpp"
 #include "game/hooks/Hooks.hpp"
 
@@ -6,22 +6,23 @@ namespace YimMenu
 {
 	HRESULT SwapChain::Present(IDXGISwapChain* that, UINT syncInterval, UINT flags)
 	{
-		if (g_Running)
+		if (g_Running && !Renderer::IsResizing())
 		{
-			Renderer::OnPresent();
+			Renderer::DX12OnPresent();
 		}
-		return BaseHook::Get<SwapChain::Present, VMTHook<SwapChain::VMTSize>>()->Original<decltype(&Present)>(SwapChain::VMTPresentIdx)(that, syncInterval, flags);
+		return BaseHook::Get<SwapChain::Present, DetourHook<decltype(&SwapChain::Present)>>()->Original()(that, syncInterval, flags);
 	}
 
 	HRESULT SwapChain::ResizeBuffers(IDXGISwapChain* that, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags)
 	{
 		if (g_Running)
 		{
-			Renderer::PreResize();
-			const auto result = BaseHook::Get<SwapChain::Present, VMTHook<SwapChain::VMTSize>>()->Original<decltype(&ResizeBuffers)>(SwapChain::VMTResizeBuffersIdx)(that, bufferCount, width, height, newFormat, swapChainFlags);
-			Renderer::PostResize();
+			Renderer::DX12PreResize();
+			const auto result =
+			    BaseHook::Get<SwapChain::ResizeBuffers, DetourHook<decltype(&SwapChain::ResizeBuffers)>>()->Original()(that, bufferCount, width, height, newFormat, swapChainFlags);
+			Renderer::DX12PostResize();
 			return result;
 		}
-		return BaseHook::Get<SwapChain::Present, VMTHook<SwapChain::VMTSize>>()->Original<decltype(&ResizeBuffers)>(SwapChain::VMTResizeBuffersIdx)(that, bufferCount, width, height, newFormat, swapChainFlags);
+		return BaseHook::Get<SwapChain::ResizeBuffers, DetourHook<decltype(&SwapChain::ResizeBuffers)>>()->Original()(that, bufferCount, width, height, newFormat, swapChainFlags);
 	}
 }

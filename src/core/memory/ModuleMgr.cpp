@@ -1,6 +1,6 @@
 #include "ModuleMgr.hpp"
 
-#include "util/Joaat.hpp"
+#include "core/util/Joaat.hpp"
 
 namespace YimMenu
 {

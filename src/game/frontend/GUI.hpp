@@ -18,12 +18,22 @@ namespace YimMenu
 
 		static void Init()
 		{
-			GetInstance();
+			GetInstance().m_IsOpen = false;
 		}
 
 		static bool IsOpen()
 		{
 			return GetInstance().m_IsOpen;
+		}
+
+		static void Toggle()
+		{
+			GetInstance().m_IsOpen ^= true;
+		}
+
+		static bool IsUsingKeyboard()
+		{
+			return ImGui::GetIO().WantTextInput;
 		}
 
 	private:

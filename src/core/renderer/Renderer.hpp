@@ -1,15 +1,36 @@
 #pragma once
-#include "util/Joaat.hpp"
+#include "core/util/Joaat.hpp"
 
-#include <d3d11.h>
+#include <backends/imgui_impl_dx12.h>
+#include <comdef.h>
+#include <d3d12.h>
+#include <dxgi1_4.h>
 #include <functional>
 #include <map>
 #include <windows.h>
+#include <wrl/client.h>
+
+
+#define REL(o)       \
+	o->Release();    \
+	if (o)           \
+	{                \
+		o = nullptr; \
+	}
 
 namespace YimMenu
 {
-	using DXCallback              = std::function<void()>;
+	using namespace Microsoft::WRL;
+	using RendererCallBack        = std::function<void()>;
 	using WindowProcedureCallback = std::function<void(HWND, UINT, WPARAM, LPARAM)>;
+
+	struct FrameContext
+	{
+		ID3D12CommandAllocator* CommandAllocator;
+		ID3D12Resource* Resource;
+		D3D12_CPU_DESCRIPTOR_HANDLE Descriptor;
+		UINT64 FenceValue;
+	};
 
 	class Renderer final
 	{
@@ -41,9 +62,9 @@ namespace YimMenu
 		 * @return true Successfully added callback.
 		 * @return false Duplicate render priority was given.
 		 */
-		static bool AddDXCallback(DXCallback&& callback, std::uint32_t priority)
+		static bool AddRendererCallBack(RendererCallBack&& callback, std::uint32_t priority)
 		{
-			return GetInstance().AddDXCallbackImpl(std::move(callback), priority);
+			return GetInstance().AddRendererCallBackImpl(std::move(callback), priority);
 		}
 		/**
 		 * @brief Add a callback function to handle Windows WindowProcedure
@@ -55,30 +76,54 @@ namespace YimMenu
 			GetInstance().AddWindowProcedureCallbackImpl(std::move(callback));
 		}
 
-		static void OnPresent()
+		static void DX12OnPresent()
 		{
-			GetInstance().OnPresentImpl();
+			GetInstance().DX12OnPresentImpl();
 		}
+
 		static LRESULT WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 		{
 			return GetInstance().WndProcImpl(hwnd, msg, wparam, lparam);
 		}
 
-		static void PreResize();
-		static void PostResize();
+		static void WaitForLastFrame();
+		static void WaitForNextFrame();
+
+		static void DX12PreResize();
+		static void DX12PostResize();
+
+		static bool IsResizing()
+		{
+			return GetInstance().m_Resizing;
+		}
+
+		static void SetResizing(const bool& status)
+		{
+			GetInstance().m_Resizing = status;
+		}
+
+		static void Resize(float scale)
+		{
+			GetInstance().ResizeImpl(scale);
+		}
 
 	private:
-		static void NewFrame();
-		static void EndFrame();
+		static void DX12NewFrame();
+		static void DX12EndFrame();
 
 	private:
 		void DestroyImpl();
 		bool InitImpl();
 
-		bool AddDXCallbackImpl(DXCallback&& callback, std::uint32_t priority);
+		bool InitDX12();
+
+		void ResizeImpl(float scale);
+
+		bool AddRendererCallBackImpl(RendererCallBack&& callback, std::uint32_t priority);
 		void AddWindowProcedureCallbackImpl(WindowProcedureCallback&& callback);
 
-		void OnPresentImpl();
+		void DX12OnPresentImpl();
+
 		LRESULT WndProcImpl(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 		static Renderer& GetInstance()
@@ -89,11 +134,33 @@ namespace YimMenu
 		}
 
 	private:
-		ID3D11Device* m_Device;
-		ID3D11DeviceContext* m_DeviceContext;
-		IDXGISwapChain* m_SwapChain;
+		bool m_Resizing;
 
-		std::map<joaat_t, DXCallback> m_DXCallbacks;
+		// Shared
+		ImFontAtlas m_FontAtlas;
+
+		//DX12
+		std::vector<FrameContext> m_FrameContext;
+
+		DXGI_SWAP_CHAIN_DESC m_SwapChainDesc;
+		ComPtr<IDXGISwapChain1> m_GameSwapChain;
+		ComPtr<IDXGISwapChain3> m_SwapChain;
+		ComPtr<ID3D12Device> m_Device;
+		ComPtr<ID3D12CommandQueue> m_CommandQueue;
+		ComPtr<ID3D12CommandAllocator> m_CommandAllocator;
+		ComPtr<ID3D12GraphicsCommandList> m_CommandList;
+		ComPtr<ID3D12DescriptorHeap> m_BackbufferDescriptorHeap;
+		ComPtr<ID3D12DescriptorHeap> m_DescriptorHeap;
+
+		ComPtr<ID3D12Fence> m_Fence;
+		HANDLE m_FenceEvent;
+		UINT64 m_FenceLastSignaledValue;
+		HANDLE m_SwapchainWaitableObject;
+		UINT64 m_FrameIndex;
+
+	private:
+		//Other
+		std::map<joaat_t, RendererCallBack> m_RendererCallBacks;
 		std::vector<WindowProcedureCallback> m_WindowProcedureCallbacks;
 	};
 }

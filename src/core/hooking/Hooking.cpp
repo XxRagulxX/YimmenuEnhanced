@@ -12,10 +12,9 @@ namespace YimMenu
 	{
 		BaseHook::Add<Window::WndProc>(new DetourHook("WndProc", Pointers.WndProc, Window::WndProc));
 
-		auto swapchain = new VMTHook<SwapChain::VMTSize>("SwapChain", *Pointers.SwapChain);
-		swapchain->Hook(SwapChain::VMTPresentIdx, SwapChain::Present);
-		swapchain->Hook(SwapChain::VMTResizeBuffersIdx, SwapChain::ResizeBuffers);
-		BaseHook::Add<SwapChain::Present>(swapchain);
+		auto swapchain_vft = *reinterpret_cast<void***>(*Pointers.SwapChain);
+		BaseHook::Add<SwapChain::Present>(new DetourHook("Present", swapchain_vft[SwapChain::VMTPresentIdx], SwapChain::Present));
+		BaseHook::Add<SwapChain::ResizeBuffers>(new DetourHook("ResizeBuffers", swapchain_vft[SwapChain::VMTResizeBuffersIdx], SwapChain::ResizeBuffers));
 	}
 
 	Hooking::~Hooking()

@@ -18,15 +18,20 @@
 #include <string_view>
 #include <thread>
 #include <vector>
+#include <stack>
+#include <unordered_set>
 
 #include <nlohmann/json.hpp>
 
 using namespace al;
 #include "core/logger/LogHelper.hpp"
 
+#undef Yield
+
 namespace YimMenu
 {
 	using namespace std::chrono_literals;
+	using namespace std::string_view_literals;
 
 	extern std::atomic<bool> g_Running;
 	extern HINSTANCE g_DllInstance;

@@ -1,5 +1,5 @@
 #pragma once
-#include <script/scrNativeHandler.hpp>
+#include "types/script/scrNativeHandler.hpp"
 
 namespace YimMenu
 {

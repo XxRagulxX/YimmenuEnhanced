@@ -1,3 +1,4 @@
+#if 0
 #include "Invoker.hpp"
 
 #include "Crossmap.hpp"
@@ -18,3 +19,4 @@ namespace YimMenu
 		m_AreHandlersCached = true;
 	}
 }
+#endif

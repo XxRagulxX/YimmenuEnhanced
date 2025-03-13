@@ -43,6 +43,7 @@ namespace YimMenu
 	template<typename T>
 	inline VMTHook<N>::VMTHook(const std::string_view name, T* vmtAddress) :
 	    BaseHook(name),
+	    m_Enabled(false),
 	    m_VMTAddress(reinterpret_cast<void***>(vmtAddress))
 	{
 		m_OriginalVMT = *m_VMTAddress;

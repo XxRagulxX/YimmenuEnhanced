@@ -10,9 +10,6 @@ namespace YimMenu
 		if (g_Running)
 			Renderer::WndProc(hwnd, umsg, wparam, lparam);
 
-		if (umsg == WM_KEYUP && wparam == VK_DELETE) // fallback to unload
-			g_Running = false;
-
 		return BaseHook::Get<Window::WndProc, DetourHook<WNDPROC>>()->Original()(hwnd, umsg, wparam, lparam);
 	}
 }

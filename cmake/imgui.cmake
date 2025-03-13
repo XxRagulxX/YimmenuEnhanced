@@ -5,8 +5,8 @@ message(STATUS "Setting up ${LIB_NAME}")
 
 FetchContent_Declare(
     ${LIB_NAME}
-    GIT_REPOSITORY https://github.com/Spyral-Org/imgui.git
-    GIT_TAG 44d98bfd6d12caee43bea49fda71c8313c3e57e7
+    GIT_REPOSITORY https://github.com/ocornut/imgui
+    GIT_TAG 6e30c4210181aebb6137f6c10fdfc572ea1202f2
     GIT_PROGRESS TRUE
 )
 
@@ -19,7 +19,7 @@ if(NOT imgui_POPULATED)
         "${imgui_SOURCE_DIR}/*.cpp"
         "${imgui_SOURCE_DIR}/*.h"
         "${imgui_SOURCE_DIR}/backends/imgui_impl_win32.*"
-        "${imgui_SOURCE_DIR}/backends/imgui_impl_dx11.*"
+        "${imgui_SOURCE_DIR}/backends/imgui_impl_dx12.*"
         "${imgui_SOURCE_DIR}/misc/cpp/imgui_stdlib.*"
     )
 

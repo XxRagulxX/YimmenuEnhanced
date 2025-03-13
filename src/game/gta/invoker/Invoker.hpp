@@ -1,3 +1,4 @@
+#if 0
 #pragma once
 #include "Crossmap.hpp"
 #include "game/pointers/Pointers.hpp"
@@ -79,3 +80,4 @@ namespace YimMenu
 		CustomCallContext m_CallContext{};
 	};
 }
+#endif
