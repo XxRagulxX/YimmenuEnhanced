@@ -100,6 +100,7 @@ static_assert(sizeof(Color3) == 3 * 8);
 
 // serialized bitbuffer data of rage::rlGamerHandle + some padding for last gen compatibility
 // TODO: is the above statement true in Enhanced?
+// seemingly yes
 struct GAMER_HANDLE
 {
 private:
@@ -107,4 +108,4 @@ private:
 };
 static_assert(sizeof(GAMER_HANDLE) == 13 * 8);
 
-#define NUM_CONTACTS 82
+#define NUM_CONTACTS 83
