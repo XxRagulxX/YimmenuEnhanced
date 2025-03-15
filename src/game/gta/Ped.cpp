@@ -118,9 +118,25 @@ namespace YimMenu
 #ifdef ENTITY_DEBUG
 		if (!IsPlayer())
 		{
-			LOG(WARNING) << __FUNCTION__ ": ped is not a player!";
+			LOG(WARNING) << __FUNCTION__ << ": ped is not a player!";
 		}
 #endif
 		return NETWORK::NETWORK_GET_PLAYER_INDEX_FROM_PED(GetHandle());
+	}
+
+	void Ped::SetInfiniteAmmo(bool infinite)
+	{
+		ENTITY_ASSERT_VALID();
+		ENTITY_ASSERT_CONTROL();
+
+		WEAPON::SET_PED_INFINITE_AMMO(GetHandle(), infinite, NULL);
+	}
+
+	void Ped::SetInfiniteClip(bool infinite)
+	{
+		ENTITY_ASSERT_VALID();
+		ENTITY_ASSERT_CONTROL();
+
+		WEAPON::SET_PED_INFINITE_AMMO_CLIP(GetHandle(), infinite); // is this networked?
 	}
 }

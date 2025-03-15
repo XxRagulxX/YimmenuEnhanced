@@ -25,6 +25,7 @@ namespace YimMenu::Submenus
 		auto toolsGroup    = std::make_shared<Group>("Tools");
 
 		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("godmode"_J));
+		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("invis"_J));
 
 		toolsGroup->AddItem(std::make_shared<CommandItem>("suicide"_J));
 

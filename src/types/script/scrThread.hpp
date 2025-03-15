@@ -48,6 +48,8 @@ namespace rage
 		char m_ErrorMessage[128];      // 0xD0 finally works now (size 124, 4 padding)
 		std::uint32_t m_ScriptHash;    // 0x150
 		char m_ScriptName[64];         // 0x154
+
+		static rage::scrThread* GetRunningThread();
 	};
 	static_assert(sizeof(scrThread) == 0x198);
 }

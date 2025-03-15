@@ -51,13 +51,10 @@ namespace YimMenu
 	{
 		if (m_Handle)
 		{
-			// TODO: does this work? is this UB?
-			[[assume((IsValid(), IsValid() && m_Handle != 0))]]; // https://en.cppreference.com/w/cpp/language/attributes/assume
 			return ENTITY::DOES_ENTITY_EXIST(m_Handle);
 		}
 		else if (m_Pointer)
 		{
-			[[assume((IsValid(), IsValid() && m_Pointer != nullptr))]];
 			return true; // TODO: potential use after free
 		}
 

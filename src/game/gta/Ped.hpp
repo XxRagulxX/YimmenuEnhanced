@@ -36,5 +36,9 @@ namespace YimMenu
 		// player
 		// We're returning a handle here and not a Player because we don't want to create a cyclic import dependency
 		int GetPlayer();
+
+		// weapons
+		void SetInfiniteAmmo(bool infinite);
+		void SetInfiniteClip(bool infinite);
 	};
 }

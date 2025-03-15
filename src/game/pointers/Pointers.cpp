@@ -28,7 +28,7 @@ namespace YimMenu
 
 		constexpr auto wndProcPtrn = Pattern<"3D 85 00 00 00 0F 87 2D 02 00 00">("WndProc");
 		scanner.Add(wndProcPtrn, [this](PointerCalculator ptr) {
-			WndProc = ptr.Sub(0x4F).As<WNDPROC>();
+			WndProc = ptr.Sub(0x4F).As<PVOID>();
 		});
 
 		constexpr auto hWndPtrn = Pattern<"E8 ? ? ? ? 84 C0 74 25 48 8B 0D">("HWND");
@@ -61,6 +61,26 @@ namespace YimMenu
 		scanner.Add(handlesAndPtrsPtrn, [this](PointerCalculator ptr) {
 			HandleToPtr = ptr.Add(0x21).Add(3).Rip().As<Functions::HandleToPtr>();
 			PtrToHandle = ptr.Sub(0xB).Add(3).Rip().As<Functions::PtrToHandle>();
+		});
+
+		constexpr auto pedFactoryPtrn = Pattern<"C7 40 30 03 00 00 00 48 8B 0D">("PedFactory");
+		scanner.Add(pedFactoryPtrn, [this](PointerCalculator ptr) {
+			PedFactory = ptr.Add(7).Add(3).Rip().As<CPedFactory**>();
+		});
+
+		constexpr auto getNetPlayerFromPidPtrn = Pattern<"83 FB 20 74 2A 89 D9">("GetNetPlayerFromPID");
+		scanner.Add(getNetPlayerFromPidPtrn, [this](PointerCalculator ptr) {
+			GetNetPlayerFromPid = ptr.Add(8).Rip().As<Functions::GetNetPlayerFromPid>();
+		});
+
+		constexpr auto isSessionStarted = Pattern<"0F B6 05 ? ? ? ? 0A 05 ? ? ? ? 75 2A">("IsSessionStarted");
+		scanner.Add(isSessionStarted, [this](PointerCalculator addr) {
+			IsSessionStarted = addr.Add(3).Rip().As<bool*>();
+		});
+
+		constexpr auto assignPhysicalIndexPtrn = Pattern<"41 8D 47 01 3C 20 0F 87 68 01 00 00">("AssignPhysicalIndex");
+		scanner.Add(assignPhysicalIndexPtrn, [this](PointerCalculator ptr) {
+			AssignPhysicalIndex = ptr.Sub(0x13).As<PVOID>();
 		});
 
 		if (!scanner.Scan())

@@ -1,6 +1,5 @@
 #include "core/commands/LoopedCommand.hpp"
 #include "game/backend/Self.hpp"
-#include "game/gta/Natives.hpp"
 
 namespace YimMenu::Features
 {
@@ -10,12 +9,14 @@ namespace YimMenu::Features
 
 		virtual void OnTick() override
 		{
-			WEAPON::SET_PED_INFINITE_AMMO_CLIP(Self::GetPed().GetHandle(), TRUE);
+			if (Self::GetPed())
+				Self::GetPed().SetInfiniteClip(true);
 		}
 
 		virtual void OnDisable() override
 		{
-			WEAPON::SET_PED_INFINITE_AMMO_CLIP(Self::GetPed().GetHandle(), FALSE);
+			if (Self::GetPed())
+				Self::GetPed().SetInfiniteClip(false);
 		}
 	};
 

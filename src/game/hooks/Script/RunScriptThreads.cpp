@@ -7,6 +7,7 @@ namespace YimMenu::Hooks
 {
 	bool Script::RunScriptThreads(int ops_to_execute)
 	{
+		auto res = BaseHook::Get<Script::RunScriptThreads, DetourHook<decltype(&RunScriptThreads)>>()->Original()(ops_to_execute); // let's see what happens if we run our stuff after the game code instead of before
 		if (g_Running)
 		{
 			auto thread = Scripts::FindScriptThread("freemode"_J);
@@ -21,6 +22,6 @@ namespace YimMenu::Hooks
 				});
 			}
 		}
-		return BaseHook::Get<Script::RunScriptThreads, DetourHook<decltype(&RunScriptThreads)>>()->Original()(ops_to_execute);
+		return res;
 	}
 }

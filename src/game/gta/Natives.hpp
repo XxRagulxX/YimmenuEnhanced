@@ -1,5 +1,5 @@
 #pragma once
-#include "invoker/invoker.hpp"
+#include "invoker/Invoker.hpp"
 #include "types/script/types.hpp"
 
 // clang-format off

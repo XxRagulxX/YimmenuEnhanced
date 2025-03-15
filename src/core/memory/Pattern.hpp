@@ -124,8 +124,9 @@ namespace YimMenu
 				continue;
 			}
 
-
-			m_Signature[pos++] = static_cast<std::uint8_t>(StrToHex(S.Get()[i]) * 0x10 + StrToHex(S.Get()[++i]));
+			int next = i + 1;
+			m_Signature[pos++] = static_cast<std::uint8_t>(StrToHex(S.Get()[i]) * 0x10 + StrToHex(S.Get()[next]));
+			i++;
 		}
 	}
 

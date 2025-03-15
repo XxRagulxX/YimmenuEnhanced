@@ -11,6 +11,8 @@ namespace rage
 	class scrThread;
 	class scrProgram;
 }
+class CPedFactory;
+class CNetGamePlayer;
 
 namespace YimMenu
 {
@@ -19,6 +21,7 @@ namespace YimMenu
 		using PopulateNatives  = void (*)(rage::scrProgram* program);
 		using HandleToPtr = void* (*)(int handle);
 		using PtrToHandle = int (*)(void* pointer);
+		using GetNetPlayerFromPid = CNetGamePlayer* (*)(int id);
 	}
 
 	struct PointerData
@@ -26,7 +29,7 @@ namespace YimMenu
 		IDXGISwapChain1** SwapChain;
 		ID3D12CommandQueue** CommandQueue;
 		HWND* Hwnd;
-		WNDPROC WndProc;
+		PVOID WndProc;
 		std::uint32_t* ScreenResX;
 		std::uint32_t* ScreenResY;
 		rage::atArray<rage::scrThread*>* ScriptThreads;
@@ -35,6 +38,10 @@ namespace YimMenu
 		PVOID RunScriptThreads;
 		Functions::HandleToPtr HandleToPtr;
 		Functions::PtrToHandle PtrToHandle;
+		CPedFactory** PedFactory;
+		Functions::GetNetPlayerFromPid GetNetPlayerFromPid;
+		bool* IsSessionStarted;
+		PVOID AssignPhysicalIndex;
 	};
 
 	struct Pointers : PointerData

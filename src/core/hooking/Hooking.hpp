@@ -30,6 +30,5 @@ namespace YimMenu
 			static Hooking i{};
 			return i;
 		}
-
 	};
 }

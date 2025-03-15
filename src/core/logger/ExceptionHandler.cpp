@@ -20,7 +20,7 @@ namespace YimMenu
 	{
 		LOG(INFO) << "ExceptionHandler initialized";
 		m_OldErrorMode = SetErrorMode(0);
-		m_Handler      = SetUnhandledExceptionFilter(&VectoredExceptionHandler);
+		m_Handler = reinterpret_cast<void*>(SetUnhandledExceptionFilter(&VectoredExceptionHandler));
 	}
 
 	ExceptionHandler::~ExceptionHandler()
