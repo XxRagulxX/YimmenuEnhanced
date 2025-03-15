@@ -31,7 +31,7 @@ namespace YimMenu
 		}
 		ImGui::EndChild();
 		
-		ImGui::Text("Terminus");
+		ImGui::Text("YimMenuV2");
 
 		pos.y -= 28;
 		ImGui::SetCursorPos(ImVec2(pos.x + 130, pos.y));

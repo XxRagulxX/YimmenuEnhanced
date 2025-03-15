@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <utility>
+#include "scrVector.hpp"
 
 namespace rage
 {
@@ -10,8 +11,8 @@ namespace rage
 	public:
 		constexpr void reset()
 		{
-			m_ArgCount  = 0;
-			m_DataCount = 0;
+			m_ArgCount = 0;
+			m_NumVectorRefs = 0;
 		}
 
 		template<typename T>
@@ -47,16 +48,26 @@ namespace rage
 			*reinterpret_cast<std::remove_cv_t<std::remove_reference_t<T>>*>(m_ReturnValue) = std::forward<T>(value);
 		}
 
-	protected:
-		void* m_ReturnValue;
-		std::uint32_t m_ArgCount;
-		void* m_Args;
-		std::int32_t m_DataCount;
-		std::uint32_t m_Data[48];
-	};
-	static_assert(sizeof(scrNativeCallContext) == 0xE0);
+		void FixVectors()
+		{
+			for (int i = 0; i < m_NumVectorRefs; i++)
+			{
+				*m_VectorRefTargets[i] = m_VectorRefSources[i];
+			}
+			m_NumVectorRefs = 0;
+		}
 
-	using scrNativeHash    = std::int64_t;
+	protected:
+		void* m_ReturnValue;                    // 0x00
+		std::uint32_t m_ArgCount;               // 0x08
+		void* m_Args;                           // 0x10
+		std::int32_t m_NumVectorRefs;           // 0x18
+		rage::scrVector* m_VectorRefTargets[4]; // 0x20
+		rage::fvector3 m_VectorRefSources[4];   // 0x40
+	};
+	static_assert(sizeof(scrNativeCallContext) == 0x80);
+
+	using scrNativeHash    = std::uint64_t;
 	using scrNativePair    = std::pair<scrNativeHash, scrNativeHash>;
 	using scrNativeHandler = void (*)(scrNativeCallContext*);
 }

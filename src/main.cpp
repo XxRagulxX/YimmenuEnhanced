@@ -9,6 +9,7 @@
 #include "core/hooking/Hooking.hpp"
 #include "core/memory/ModuleMgr.hpp"
 #include "core/renderer/Renderer.hpp"
+#include "game/backend/Self.hpp"
 #include "game/frontend/GUI.hpp"
 #include "game/pointers/Pointers.hpp"
 
@@ -38,10 +39,13 @@ namespace YimMenu
 		ScriptMgr::Init();
 		LOG(INFO) << "ScriptMgr initialized";
 
-		FiberPool::Init(5);
-		LOG(INFO) << "FiberPool initialized";
-
 		GUI::Init();
+
+		ScriptMgr::AddScript(std::make_unique<Script>(&Self::RunScript));
+		FiberPool::Init(5);
+		ScriptMgr::AddScript(std::make_unique<Script>(&Commands::RunScript));
+
+		Notifications::Show("YimMenuV2", "Loaded succesfully", NotificationType::Success);
 
 		while (g_Running)
 		{
@@ -49,14 +53,10 @@ namespace YimMenu
 			std::this_thread::yield();
 		}
 
-		ScriptMgr::AddScript(std::make_unique<Script>(&Commands::RunScript));
-
-		Notifications::Show("YimMenuV2", "Loaded succesfully", NotificationType::Success);
-
 	unload:
 		LOG(INFO) << "Unloading";
-		ScriptMgr::Destroy();
 		FiberPool::Destroy();
+		ScriptMgr::Destroy();
 		Hooking::Destroy();
 		Renderer::Destroy();
 		LogHelper::Destroy();

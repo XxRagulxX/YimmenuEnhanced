@@ -10,11 +10,13 @@ namespace YimMenu
 {
 	Hooking::Hooking()
 	{
-		BaseHook::Add<Window::WndProc>(new DetourHook("WndProc", Pointers.WndProc, Window::WndProc));
+		BaseHook::Add<Hooks::Window::WndProc>(new DetourHook("WndProc", Pointers.WndProc, Hooks::Window::WndProc));
 
 		auto swapchain_vft = *reinterpret_cast<void***>(*Pointers.SwapChain);
-		BaseHook::Add<SwapChain::Present>(new DetourHook("Present", swapchain_vft[SwapChain::VMTPresentIdx], SwapChain::Present));
-		BaseHook::Add<SwapChain::ResizeBuffers>(new DetourHook("ResizeBuffers", swapchain_vft[SwapChain::VMTResizeBuffersIdx], SwapChain::ResizeBuffers));
+		BaseHook::Add<Hooks::SwapChain::Present>(new DetourHook("Present", swapchain_vft[Hooks::SwapChain::VMTPresentIdx], Hooks::SwapChain::Present));
+		BaseHook::Add<Hooks::SwapChain::ResizeBuffers>(new DetourHook("ResizeBuffers", swapchain_vft[Hooks::SwapChain::VMTResizeBuffersIdx], Hooks::SwapChain::ResizeBuffers));
+
+		BaseHook::Add<Hooks::Script::RunScriptThreads>(new DetourHook("RunScriptThreads", Pointers.RunScriptThreads, Hooks::Script::RunScriptThreads));
 	}
 
 	Hooking::~Hooking()

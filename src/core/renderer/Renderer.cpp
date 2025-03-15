@@ -153,7 +153,6 @@ namespace YimMenu
 
 		const auto RTVDescriptorSize{m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)};
 		D3D12_CPU_DESCRIPTOR_HANDLE RTVHandle{m_BackbufferDescriptorHeap->GetCPUDescriptorHandleForHeapStart()};
-		LOG(INFO) << m_SwapChainDesc.BufferCount;
 		for (size_t i = 0; i < m_SwapChainDesc.BufferCount; ++i)
 		{
 			ComPtr<ID3D12Resource> BackBuffer{};
@@ -188,8 +187,6 @@ namespace YimMenu
 		}
 
 		LOG(INFO) << "Using DX12, clear shader cache if you're having issues.";
-		LOG(INFO) << "Waiting...";
-		// std::this_thread::sleep_for(5s); //Early injection could result in errors.
 		return InitDX12();
 	}
 

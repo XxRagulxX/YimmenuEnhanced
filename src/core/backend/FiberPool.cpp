@@ -42,7 +42,7 @@ namespace YimMenu
 
 	void FiberPool::ScriptEntry()
 	{
-		while (true)
+		while (g_Running)
 		{
 			FiberPool::GetInstance().Tick();
 			ScriptMgr::Yield();

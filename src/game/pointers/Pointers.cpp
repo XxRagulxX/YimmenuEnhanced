@@ -42,18 +42,26 @@ namespace YimMenu
 			ScreenResY = ptr.Add(0x1E).Add(4).Rip().As<std::uint32_t*>();
 		});
 
-#if 0
-		constexpr auto nativeHandlersPtrn = Pattern<"48 8D 0D ? ? ? ? 48 8B 14 FA E8 ? ? ? ? 48 85 C0 75 0A">("NativeHandlers");
-		scanner.Add(nativeHandlersPtrn, [this](PointerCalculator ptr) {
-			NativeRegistrationTable = ptr.Add(3).Rip().As<void*>();
-			GetNativeHandler        = ptr.Add(12).Rip().As<Functions::GetNativeHandler>();
+		constexpr auto scriptThreadsPtrn = Pattern<"48 8B 05 ? ? ? ? 48 89 34 F8 48 FF C7 48 39 FB 75 97">("ScriptThreads");
+		scanner.Add(scriptThreadsPtrn, [this](PointerCalculator ptr) {
+			ScriptThreads = ptr.Add(3).Rip().As<rage::atArray<rage::scrThread*>*>();
 		});
 
-		constexpr auto fixVectorsPtrn = Pattern<"83 79 18 00 48 8B D1 74 4A FF 4A 18 48 63 4A 18 48 8D 41 04 48 8B 4C CA">("FixVectors");
-		scanner.Add(fixVectorsPtrn, [this](PointerCalculator ptr) {
-			FixVectors = ptr.As<Functions::FixVectors>();
+		constexpr auto populateNativesPtrn = Pattern<"EB 2A 0F 1F 40 00 48 8B 54 17 10">("PopulateNatives");
+		scanner.Add(populateNativesPtrn, [this](PointerCalculator ptr) {
+			PopulateNatives = ptr.Sub(0x2A).As<Functions::PopulateNatives>();
 		});
-#endif
+
+		constexpr auto runScriptThreadsPtrn = Pattern<"BE 40 5D C6 00">("RunScriptThreads");
+		scanner.Add(runScriptThreadsPtrn, [this](PointerCalculator ptr) {
+			RunScriptThreads = ptr.Sub(0xA).As<PVOID>();
+		});
+
+		constexpr auto handlesAndPtrsPtrn = Pattern<"0F 1F 84 00 00 00 00 00 89 F8 0F 28 FE">("HandlesAndPtrs");
+		scanner.Add(handlesAndPtrsPtrn, [this](PointerCalculator ptr) {
+			HandleToPtr = ptr.Add(0x21).Add(3).Rip().As<Functions::HandleToPtr>();
+			PtrToHandle = ptr.Sub(0xB).Add(3).Rip().As<Functions::PtrToHandle>();
+		});
 
 		if (!scanner.Scan())
 		{

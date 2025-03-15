@@ -4,12 +4,21 @@
 #include <windows.h>
 #include "types/script/scrNativeHandler.hpp"
 
+namespace rage
+{
+	template<typename T>
+	class atArray;
+	class scrThread;
+	class scrProgram;
+}
+
 namespace YimMenu
 {
 	namespace Functions
 	{
-		using GetNativeHandler = rage::scrNativeHandler (*)(void* registration_table, rage::scrNativeHash hash);
-		using FixVectors       = void (*)(rage::scrNativeCallContext* call_ctx);
+		using PopulateNatives  = void (*)(rage::scrProgram* program);
+		using HandleToPtr = void* (*)(int handle);
+		using PtrToHandle = int (*)(void* pointer);
 	}
 
 	struct PointerData
@@ -20,10 +29,12 @@ namespace YimMenu
 		WNDPROC WndProc;
 		std::uint32_t* ScreenResX;
 		std::uint32_t* ScreenResY;
+		rage::atArray<rage::scrThread*>* ScriptThreads;
+		Functions::PopulateNatives PopulateNatives;
 		std::int64_t** ScriptGlobals;
-		void* NativeRegistrationTable;
-		Functions::GetNativeHandler GetNativeHandler;
-		Functions::FixVectors FixVectors;
+		PVOID RunScriptThreads;
+		Functions::HandleToPtr HandleToPtr;
+		Functions::PtrToHandle PtrToHandle;
 	};
 
 	struct Pointers : PointerData
