@@ -66,10 +66,10 @@ namespace YimMenu
 		if (!scanner.Scan())
 		{
 			LOG(FATAL) << "Some patterns could not be found, unloading.";
-
 			return false;
 		}
 
+		PatternCache::Update();
 		return true;
 	}
 }

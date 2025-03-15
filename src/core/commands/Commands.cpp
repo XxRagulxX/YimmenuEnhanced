@@ -1,6 +1,7 @@
 #include "Commands.hpp"
 #include "Command.hpp"
 #include "LoopedCommand.hpp"
+#include "core/backend/ScriptMgr.hpp"
 
 namespace YimMenu
 {
@@ -15,6 +16,7 @@ namespace YimMenu
 		while (g_Running)
 		{
 			Commands::RunLoopedCommands();
+			ScriptMgr::Yield();
 		}
 	}
 
