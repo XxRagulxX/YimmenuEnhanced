@@ -10,7 +10,7 @@ namespace YimMenu
 	{
 		for (uint8_t idx = 0; idx < 32u; idx++)
 		{
-			if (const auto& netPlayer = Pointers.GetNetPlayerFromPid(idx); netPlayer && netPlayer->GetGamerInfo() && netPlayer->IsPhysical())
+			if (const auto netPlayer = Pointers.GetNetPlayerFromPid(idx); netPlayer && netPlayer->IsPhysical())
 			{
 				OnPlayerJoin(netPlayer);
 			}

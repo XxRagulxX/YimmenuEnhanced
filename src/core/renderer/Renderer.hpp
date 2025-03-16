@@ -153,10 +153,10 @@ namespace YimMenu
 		ComPtr<ID3D12DescriptorHeap> m_DescriptorHeap;
 
 		ComPtr<ID3D12Fence> m_Fence;
-		HANDLE m_FenceEvent;
-		UINT64 m_FenceLastSignaledValue;
-		HANDLE m_SwapchainWaitableObject;
-		UINT64 m_FrameIndex;
+		HANDLE m_FenceEvent{};
+		UINT64 m_FenceLastSignaledValue{};
+		HANDLE m_SwapchainWaitableObject{};
+		UINT64 m_FrameIndex{};
 
 	private:
 		//Other

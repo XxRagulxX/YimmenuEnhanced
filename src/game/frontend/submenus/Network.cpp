@@ -10,7 +10,7 @@ namespace YimMenu::Submenus
 		auto session              = std::make_shared<Category>("Session");
 		auto toxicGroup           = std::make_shared<Group>("Toxic");
 
-		toxicGroup->AddItem(std::make_shared<CommandItem>("explodeall"_J, "Explode All"));
+		toxicGroup->AddItem(std::make_shared<CommandItem>("explodeall"_J));
 	
 		session->AddItem(toxicGroup);
 	
