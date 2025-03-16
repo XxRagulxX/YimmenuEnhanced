@@ -4,6 +4,7 @@
 #include "core/util/Joaat.hpp"
 #include "game/pointers/Pointers.hpp"
 #include "types/rage/tlsContext.hpp"
+#include "game/gta/Scripts.hpp"
 
 namespace YimMenu
 {
@@ -389,6 +390,21 @@ namespace YimMenu
 	{
 		ENTITY_ASSERT_VALID();
 		return INTERIOR::GET_INTERIOR_FROM_ENTITY(GetHandle()) != 0;
+	}
+
+	void Entity::Explode(ExplosionType explosion, float damage, bool is_visible, bool is_audible, float camera_shake)
+	{
+		ENTITY_ASSERT_VALID();
+		ENTITY_ASSERT_SCRIPT_CONTEXT();
+
+		if (!IsValid())
+			return;
+
+		auto pos = GetPosition();
+		Scripts::RunWithSpoofedThreadName("am_mp_orbital_cannon"_J, [&] {
+			// add_owned_explosion is more or less useless now
+			FIRE::ADD_EXPLOSION(pos.x, pos.y, pos.z, static_cast<int>(explosion), damage, is_audible, !is_visible, camera_shake, damage == 0.0f);
+		});
 	}
 
 	bool Entity::operator==(const Entity& other)

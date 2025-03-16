@@ -3,6 +3,11 @@
 
 class CNetworkPlayerMgr;
 class CNetGamePlayer;
+namespace rage
+{
+	class netConnectionManager;
+	class netEvent;
+}
 
 namespace YimMenu::Hooks
 {
@@ -10,7 +15,6 @@ namespace YimMenu::Hooks
 	{
 		constexpr auto VMTPresentIdx       = 8;
 		constexpr auto VMTResizeBuffersIdx = 13;
-		constexpr auto VMTSize             = 19;
 		extern HRESULT Present(IDXGISwapChain* that, UINT syncInterval, UINT flags);
 		extern HRESULT ResizeBuffers(IDXGISwapChain* that, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags);
 	}

@@ -1,10 +1,9 @@
 #include "Items.hpp"
-//#include "game/commands/PlayerCommand.hpp"
+#include "game/commands/PlayerCommand.hpp"
 #include "core/commands/Commands.hpp"
-//#include "game/backend/FiberPool.hpp"
-//#include "game/backend/Players.hpp"
+#include "core/backend/FiberPool.hpp"
+#include "game/backend/Players.hpp"
 
-#if 0
 namespace YimMenu
 {
 	PlayerCommandItem::PlayerCommandItem(joaat_t id, std::optional<std::string> label_override) :
@@ -31,8 +30,7 @@ namespace YimMenu
 
 		if (ImGui::IsItemHovered())
 		{
-			ImGui::SetTooltip(m_Command->GetDescription().data());
+			ImGui::SetTooltip("%s", m_Command->GetDescription().data());
 		}
 	}
 }
-#endif

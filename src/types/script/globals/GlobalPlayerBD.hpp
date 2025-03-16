@@ -686,5 +686,7 @@ static_assert(sizeof(GlobalPlayerBDEntry) == 467 * 8);
 struct GlobalPlayerBD
 {
 	SCR_ARRAY<GlobalPlayerBDEntry, 32> Entries;
+
+	static GlobalPlayerBD* Get();
 };
 static_assert(sizeof(GlobalPlayerBD) == 14945 * 8);

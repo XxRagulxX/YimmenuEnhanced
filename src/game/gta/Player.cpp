@@ -5,6 +5,8 @@
 #include "types/network/rlGamerInfo.hpp"
 #include "types/network/CNetGamePlayer.hpp"
 
+#include "types/script/globals/GPBD_FM.hpp"
+
 namespace YimMenu
 {
 	Player::Player(uint8_t id)
@@ -140,6 +142,39 @@ namespace YimMenu
 			return -1.f;
 
 		return NETWORK::NETWORK_GET_AVERAGE_PACKET_LOSS(GetId());
+	}
+
+	int Player::GetRank()
+	{
+		if (!IsValid())
+			return 0;
+
+		if (auto fm = GPBD_FM::Get())
+			return fm->Entries[GetId()].PlayerStats.Rank;
+
+		return 0;
+	}
+
+	int Player::GetRP()
+	{
+		if (!IsValid())
+			return 0;
+
+		if (auto fm = GPBD_FM::Get())
+			return fm->Entries[GetId()].PlayerStats.RP;
+
+		return 0;
+	}
+
+	int Player::GetMoney()
+	{
+		if (!IsValid())
+			return 0;
+
+		if (auto fm = GPBD_FM::Get())
+			return fm->Entries[GetId()].PlayerStats.Money;
+
+		return 0;
 	}
 
 	void Player::SetVisibleLocally(bool visible)

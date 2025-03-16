@@ -14,6 +14,8 @@
 	#define ENTITY_ASSERT_SCRIPT_CONTEXT()
 #endif
 
+enum class ExplosionType;
+
 namespace rage
 {
 	class netObject;
@@ -140,6 +142,9 @@ namespace YimMenu
 		void ResetAlpha();
 
 		bool HasInterior();
+
+		// explosions
+		void Explode(ExplosionType explosion, float damage = 1.0f, bool is_visible = true, bool is_audible = true, float camera_shake = 1.0f);
 
 		bool operator==(const Entity& other);
 		bool operator!=(const Entity& other)

@@ -691,5 +691,7 @@ static_assert(sizeof(GPBD_FM_Entry) == 892 * 8);
 struct GPBD_FM
 {
 	SCR_ARRAY<GPBD_FM_Entry, 32> Entries;
+
+	static GPBD_FM* Get();
 };
 static_assert(sizeof(GPBD_FM) == 28545 * 8);

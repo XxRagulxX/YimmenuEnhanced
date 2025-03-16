@@ -63,5 +63,7 @@ struct GSBD_FM
 	WEAPON_PICKUPS WeaponPickups;
 	BIKER_CONTRACTS_SERVER BikerContracts;
 	SCR_ARRAY<uint64_t, 32> DoubleActionCacheLocationRevealed;
+
+	static GSBD_FM* Get();
 };
 static_assert(sizeof(GSBD_FM) == 648 * 8);

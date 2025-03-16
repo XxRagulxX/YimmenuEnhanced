@@ -83,6 +83,11 @@ namespace YimMenu
 			AssignPhysicalIndex = ptr.Sub(0x13).As<PVOID>();
 		});
 
+		constexpr auto scriptGlobalsPtrn = Pattern<"48 8B 8E B8 00 00 00 48 8D 15 ? ? ? ? 49 89 D8">("ScriptGlobals");
+		scanner.Add(scriptGlobalsPtrn, [this](PointerCalculator ptr) {
+			ScriptGlobals = ptr.Add(7).Add(3).Rip().As<std::int64_t**>();
+		});
+
 		if (!scanner.Scan())
 		{
 			LOG(FATAL) << "Some patterns could not be found, unloading.";

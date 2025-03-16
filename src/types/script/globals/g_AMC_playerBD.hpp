@@ -12,5 +12,7 @@ static_assert(sizeof(g_AMC_playerBD_Entry) == 251 * 8); // -> 251 in b812g9
 struct g_AMC_playerBD
 {
 	SCR_ARRAY<g_AMC_playerBD_Entry, 32> Entries;
+
+	static g_AMC_playerBD* Get();
 };
 static_assert(sizeof(g_AMC_playerBD) == 8033 * 8);

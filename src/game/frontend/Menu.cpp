@@ -8,6 +8,7 @@
 #include "game/frontend/fonts/Fonts.hpp"
 #include "game/pointers/Pointers.hpp"
 #include "submenus/Self.hpp"
+#include "submenus/Network.hpp"
 #include "submenus/Players.hpp"
 
 namespace YimMenu
@@ -16,6 +17,7 @@ namespace YimMenu
 	{
 		// Arguably the only place this file should be edited at for more menus
 		UIManager::AddSubmenu(std::make_shared<Submenus::Self>());
+		UIManager::AddSubmenu(std::make_shared<Submenus::Network>());
 		UIManager::AddSubmenu(std::make_shared<Submenus::Players>());
 
 		Renderer::AddRendererCallBack(

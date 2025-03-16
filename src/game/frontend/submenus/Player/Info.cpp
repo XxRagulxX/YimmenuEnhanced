@@ -32,6 +32,9 @@ namespace YimMenu::Submenus
 		playerOptionsGroup->AddItem(std::make_shared<ImGuiItem>([] {
 			if (Players::GetSelected().IsValid())
 			{
+				ImGui::Text("Rank: %d (%d RP)", Players::GetSelected().GetRank(), Players::GetSelected().GetRank());
+				ImGui::Text("Money: %d", Players::GetSelected().GetMoney());
+
 				if (Players::GetSelected().GetPed())
 				{
 					auto health    = Players::GetSelected().GetPed().GetHealth();

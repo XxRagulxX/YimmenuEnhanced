@@ -36,6 +36,8 @@ namespace YimMenu
 			return *static_cast<std::add_pointer_t<std::remove_reference_t<T>>>(Get());
 		}
 
+        bool CanAccess() const;
+
     private:
         void* Get() const;
 

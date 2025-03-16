@@ -92,5 +92,7 @@ struct GSBD_BlockB
 	SCR_ARRAY<uint64_t, 32> CarMeetModShopSlotIndices;
 	SCR_ARRAY<uint64_t, 32> CarMeetModShopOccupiedGoons;
 	SCR_ARRAY<SCR_ARRAY<uint64_t, 3>, 32> CarMeetModShopOccupiedVehicleSlots;
+
+	static GSBD_BlockB* Get();
 };
 static_assert(sizeof(GSBD_BlockB) == 2156 * 8);

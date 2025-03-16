@@ -52,6 +52,10 @@ namespace YimMenu
 		float GetAverageLatency();
 		float GetAveragePacketLoss();
 
+		int GetRank();
+		int GetRP();
+		int GetMoney();
+
 #if 0
 		// backend/data store (should be refactored?)
 		PlayerData& GetData();

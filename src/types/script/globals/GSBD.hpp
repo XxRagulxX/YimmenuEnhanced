@@ -91,5 +91,7 @@ struct GSBD
 	NETWORK_INDEX IAATurretCameraVehicleId; // used by DDH act 1
 	uint64_t PAD_1399[97];
 	SCR_INT CayoPericoStrandedAnimalChoice;
+
+	static GSBD* Get();
 };
 static_assert(sizeof(GSBD) == 1498 * 8);

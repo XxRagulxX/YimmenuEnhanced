@@ -13,5 +13,7 @@ static_assert(sizeof(GPBD_KickingEntry) == 100 * 8);
 struct GPBD_Kicking
 {
 	SCR_ARRAY<GPBD_KickingEntry, 32> Entries;
+
+	static GPBD_Kicking* Get();
 };
 static_assert(sizeof(GPBD_Kicking) == 3201 * 8);
