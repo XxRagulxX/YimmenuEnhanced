@@ -88,41 +88,50 @@ namespace YimMenu
 		MarkStateDirty();
 	}
 
-	void HotkeySystem::Update()
+	void HotkeySystem::RunScriptImpl()
 	{
-		for (auto& [hash, link] : m_CommandHotkeys)
+		while (g_Running)
 		{
-			if (link.m_Chain.empty() || link.m_BeingModified)
-				continue;
-	
-			bool all_keys_pressed = true;
-	
-			for (auto modifier : link.m_Chain)
+			for (auto& [hash, link] : m_CommandHotkeys)
 			{
-				if (!(GetAsyncKeyState(modifier) & 0x8000))
+				if (link.m_Chain.empty() || link.m_BeingModified)
+					continue;
+
+				bool all_keys_pressed = true;
+
+				for (auto modifier : link.m_Chain)
 				{
-					all_keys_pressed = false;
-				}
-			}
-	
-			if (all_keys_pressed && std::chrono::system_clock::now() - m_LastHotkeyTriggerTime > 100ms)
-			{
-				auto command = Commands::GetCommand(hash);
-				if (command)
-				{
-					// TODO: this is the only way I can prevent chat from blocking the main loop while keeping everything else fast
-					if (hash != "chathelper"_J)
-						command->Call();
-					else
+					if (!(GetAsyncKeyState(modifier) & 0x8000))
 					{
-						FiberPool::Push([command] {
-							command->Call();
-						});
+						all_keys_pressed = false;
 					}
 				}
-				m_LastHotkeyTriggerTime = std::chrono::system_clock::now();
+
+				if (all_keys_pressed && std::chrono::system_clock::now() - m_LastHotkeyTriggerTime > 100ms)
+				{
+					auto command = Commands::GetCommand(hash);
+					if (command)
+					{
+						// TODO: this is the only way I can prevent chat from blocking the main loop while keeping everything else fast
+						if (hash != "chathelper"_J)
+							command->Call();
+						else
+						{
+							FiberPool::Push([command] {
+								command->Call();
+							});
+						}
+					}
+					m_LastHotkeyTriggerTime = std::chrono::system_clock::now();
+				}
 			}
+			ScriptMgr::Yield();
 		}
+	}
+
+	void HotkeySystem::RunScript()
+	{
+		g_HotkeySystem.RunScriptImpl();
 	}
 
 	void HotkeySystem::SaveStateImpl(nlohmann::json& state)

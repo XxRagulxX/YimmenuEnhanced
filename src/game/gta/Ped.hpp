@@ -40,5 +40,8 @@ namespace YimMenu
 		// weapons
 		void SetInfiniteAmmo(bool infinite);
 		void SetInfiniteClip(bool infinite);
+
+		// teleport
+		void TeleportTo(const rage::fvector3& pos); // similar to SetPosition, but handles vehicles correctly
 	};
 }

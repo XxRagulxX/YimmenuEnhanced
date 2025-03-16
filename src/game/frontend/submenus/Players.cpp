@@ -28,7 +28,7 @@ namespace YimMenu::Submenus
 		if (player.GetPed() && player.GetPed().IsInvincible())
 			tags.push_back({"GOD", ImGui::Colors::Crimson});
 
-		if (player.GetPed() && !player.GetPed().IsVisible())
+		if (player.GetPed() && !player.GetPed().IsVisible() && false) // doesn't really seem to work on GTA
 			tags.push_back({"INVIS", ImGui::Colors::MediumPurple});
 
 		return tags;

@@ -26,6 +26,7 @@ namespace YimMenu::Submenus
 
 		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("godmode"_J));
 		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("invis"_J));
+		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("otr"_J));
 
 		toolsGroup->AddItem(std::make_shared<CommandItem>("suicide"_J));
 
@@ -50,12 +51,16 @@ namespace YimMenu::Submenus
 
 		auto vehicle             = std::make_shared<Category>("Vehicle");
 		auto vehicleGlobalsGroup = std::make_shared<Group>("Globals");
+		auto vehicleMiscGroup = std::make_shared<Group>("Misc");
 
-		vehicleGlobalsGroup->AddItem(std::make_shared<BoolCommandItem>("vehiclegodmode"_J));
+		vehicleGlobalsGroup->AddItem(std::make_shared<BoolCommandItem>("vehiclegodmode"_J, "Godmode"));
+		vehicleGlobalsGroup->AddItem(std::make_shared<BoolCommandItem>("keepfixed"_J, "Keep Fixed"));
 		vehicleGlobalsGroup->AddItem(std::make_shared<CommandItem>("repairvehicle"_J));
-
 		
+		vehicleMiscGroup->AddItem(std::make_shared<BoolCommandItem>("speedometer"_J));
+
 		vehicle->AddItem(vehicleGlobalsGroup);
+		vehicle->AddItem(vehicleMiscGroup);
 		AddCategory(std::move(vehicle));
 	}
 }

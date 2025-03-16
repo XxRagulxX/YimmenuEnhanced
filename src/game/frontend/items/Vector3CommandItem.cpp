@@ -2,8 +2,9 @@
 #include "core/commands/Command.hpp"
 #include "core/commands/Commands.hpp"
 #include "core/commands/Vector3Command.hpp"
-//#include "game/backend/SavedLocations.hpp"
-//#include "game/backend/Self.hpp"
+#include "game/backend/SavedLocations.hpp"
+#include "game/backend/Self.hpp"
+#include "game/pointers/Pointers.hpp"
 
 namespace YimMenu
 {
@@ -26,7 +27,7 @@ namespace YimMenu
 		ImGui::SetNextItemWidth(180);
 		if (ImGui::InputFloat3("##coord_inp", &value.x, "%.1f"))
 			m_Command->SetState(value);
-#if 0
+
 		if (Self::GetPed())
 		{
 			ImGui::SameLine();
@@ -90,7 +91,7 @@ namespace YimMenu
 						if (ImGui::IsItemHovered() && l.name.length() > 27)
 						{
 							ImGui::BeginTooltip();
-							ImGui::Text(l.name.data());
+							ImGui::Text("%s", l.name.data());
 							ImGui::EndTooltip();
 						}
 					}
@@ -108,7 +109,6 @@ namespace YimMenu
 
 			ImGui::EndPopup();
 		}
-#endif
 
 		auto& label = m_LabelOverride.has_value() ? m_LabelOverride.value() : m_Command->GetLabel();
 		if (!label.empty())

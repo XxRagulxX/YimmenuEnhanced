@@ -57,4 +57,25 @@ namespace YimMenu
 			VEHICLE::SET_VEHICLE_DIRT_LEVEL(GetHandle(), 0);
 		}
 	}
+
+	int Vehicle::GetGear()
+	{
+		ENTITY_ASSERT_VALID();
+
+		return VEHICLE::_GET_VEHICLE_CURRENT_DRIVE_GEAR(GetHandle());
+	}
+
+	float Vehicle::GetRevRatio()
+	{
+		ENTITY_ASSERT_VALID();
+
+		return VEHICLE::_GET_VEHICLE_CURRENT_REV_RATIO(GetHandle());
+	}
+
+	float Vehicle::GetMaxSpeed()
+	{
+		ENTITY_ASSERT_VALID();
+
+		return VEHICLE::GET_VEHICLE_ESTIMATED_MAX_SPEED(GetHandle());
+	}
 }

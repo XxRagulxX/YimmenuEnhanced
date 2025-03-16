@@ -31,10 +31,12 @@ namespace YimMenu
 
 		ImGui::DestroyContext();
 
+	#if 0
 		// manually destroy the allocators we created for the rest of the frame contexts
 		for (size_t i = 1; i < m_SwapChainDesc.BufferCount; ++i)
 			if (m_FrameContext[i].CommandAllocator)
 				m_FrameContext[i].CommandAllocator->Release();
+	#endif	
 	}
 
 	bool Renderer::InitDX12()

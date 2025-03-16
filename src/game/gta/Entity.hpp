@@ -101,6 +101,9 @@ namespace YimMenu
 		void SetRotation(rage::fvector3 rotation, int order = 2);
 		rage::fvector3 GetVelocity();
 		void SetVelocity(rage::fvector3 velocity);
+		float GetHeading();
+		void SetHeading(float heading);
+		float GetSpeed();
 
 		// physical
 		void SetCollision(bool enabled);

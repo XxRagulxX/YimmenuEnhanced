@@ -51,7 +51,9 @@ namespace YimMenu
 	Vehicle Ped::GetVehicle()
 	{
 		ENTITY_ASSERT_VALID();
-		return Vehicle(PED::GET_VEHICLE_PED_IS_IN(GetHandle(), true));
+		if (!PED::IS_PED_IN_ANY_VEHICLE(GetHandle(), false))
+			return nullptr;
+		return Vehicle(PED::GET_VEHICLE_PED_IS_USING(GetHandle()));
 	}
 
 	bool Ped::GetRagdoll()
@@ -138,5 +140,16 @@ namespace YimMenu
 		ENTITY_ASSERT_CONTROL();
 
 		WEAPON::SET_PED_INFINITE_AMMO_CLIP(GetHandle(), infinite); // is this networked?
+	}
+
+	void Ped::TeleportTo(const rage::fvector3& pos)
+	{
+		ENTITY_ASSERT_VALID();
+		ENTITY_ASSERT_CONTROL();
+
+		if (auto veh = GetVehicle())
+			veh.SetPosition(pos);
+		else
+			SetPosition(pos);
 	}
 }

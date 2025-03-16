@@ -26,7 +26,8 @@ namespace YimMenu
 		std::string GetHotkeyLabel(int hotkey_modifiers);
 		void CreateHotkey(std::vector<int>& Hotkey);
 
-		void Update();
+		void RunScriptImpl();
+		static void RunScript();
 
 		virtual void SaveStateImpl(nlohmann::json& state) override;
 		virtual void LoadStateImpl(nlohmann::json& state) override;

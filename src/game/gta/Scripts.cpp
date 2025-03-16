@@ -5,6 +5,8 @@
 #include "types/script/GtaThread.hpp"
 #include "types/script/CGameScriptHandler.hpp"
 #include "types/script/CGameScriptId.hpp"
+#include "types/script/globals/GlobalPlayerBD.hpp"
+#include "game/backend/Self.hpp"
 
 namespace YimMenu::Scripts
 {
@@ -58,5 +60,21 @@ namespace YimMenu::Scripts
 			if (hash_4)
 				thread->m_ScriptHandler->GetId()->m_Hash = *hash_4;
 		}
+	}
+
+	bool SafeToModifyFreemodeBroadcastGlobals()
+	{
+		if (!*Pointers.IsSessionStarted)
+			return false;
+
+		if (!FindScriptThread("freemode"_J))
+			return false;
+
+		if (auto gpbd = GlobalPlayerBD::Get())
+		{
+			return gpbd->Entries[Self::GetPlayer().GetId()].FreemodeState == eFreemodeState::RUNNING;
+		}
+
+		return false;
 	}
 }

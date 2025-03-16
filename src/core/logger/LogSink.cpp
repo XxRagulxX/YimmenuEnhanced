@@ -18,7 +18,7 @@ namespace YimMenu
 
 	const char* LogSink::GetLevelStr(const eLogLevel level)
 	{
-		constexpr std::array<const char*, 4> levelStrings = {{{"DEBUG"}, {"INFO"}, {"WARN"}, {"ERROR"}}};
+		constexpr std::array<const char*, 4> levelStrings = {"DEBUG", "INFO", "WARN", "ERROR"};
 
 		return levelStrings[level];
 	}

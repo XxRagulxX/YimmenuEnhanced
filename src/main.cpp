@@ -43,6 +43,7 @@ namespace YimMenu
 
 		ScriptMgr::AddScript(std::make_unique<Script>(&Self::RunScript));
 		FiberPool::Init(5);
+		ScriptMgr::AddScript(std::make_unique<Script>(&HotkeySystem::RunScript));
 		ScriptMgr::AddScript(std::make_unique<Script>(&Commands::RunScript));
 
 		Notifications::Show("YimMenuV2", "Loaded succesfully", NotificationType::Success);

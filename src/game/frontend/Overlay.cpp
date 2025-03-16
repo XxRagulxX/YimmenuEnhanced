@@ -3,6 +3,7 @@
 #include "core/commands/BoolCommand.hpp"
 #include "game/pointers/Pointers.hpp"
 #include "game/gta/invoker/Invoker.hpp"
+#include "game/gta/Natives.hpp"
 
 namespace YimMenu::Features
 {
@@ -14,7 +15,6 @@ namespace YimMenu
 {
 	void Overlay::Draw()
 	{
-		#if 0
 		if (!Features::_OverlayEnabled.GetState() || !NativeInvoker::AreHandlersCached())
 			return;
 
@@ -31,6 +31,5 @@ namespace YimMenu
 		ImGui::PopFont();
 		ImGui::PopStyleColor();
 		ImGui::End();
-		#endif
 	}
 }

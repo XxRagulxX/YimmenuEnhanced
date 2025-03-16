@@ -155,6 +155,25 @@ namespace YimMenu
 		ENTITY::SET_ENTITY_VELOCITY(GetHandle(), vel.x, vel.y, vel.z);
 	}
 
+	float Entity::GetHeading()
+	{
+		ENTITY_ASSERT_VALID();
+		return ENTITY::GET_ENTITY_HEADING(GetHandle());
+	}
+
+	void Entity::SetHeading(float heading)
+	{
+		ENTITY_ASSERT_VALID();
+		ENTITY_ASSERT_CONTROL();
+		ENTITY::SET_ENTITY_HEADING(GetHandle(), heading);
+	}
+
+	float Entity::GetSpeed()
+	{
+		ENTITY_ASSERT_VALID();
+		return ENTITY::GET_ENTITY_SPEED(GetHandle());
+	}
+
 	void Entity::SetCollision(bool enabled)
 	{
 		ENTITY_ASSERT_VALID();
