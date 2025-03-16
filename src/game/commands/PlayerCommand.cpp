@@ -1,6 +1,7 @@
 #include "PlayerCommand.hpp"
 
 #include "game/backend/Players.hpp"
+#include "game/backend/Self.hpp"
 
 namespace YimMenu
 {
@@ -13,7 +14,8 @@ namespace YimMenu
 	void PlayerAllCommand::OnCall()
 	{
 		for (auto& p : Players::GetPlayers())
-			m_PlayerCommand->Call(p.second);
+			if (p.second.IsValid() && (!Self::GetPlayer().IsValid() || p.second.GetId() != Self::GetPlayer().GetId()))
+				m_PlayerCommand->Call(p.second);
 	}
 
 	PlayerCommand::PlayerCommand(std::string name, std::string label, std::string description, int num_args, bool all_version) :

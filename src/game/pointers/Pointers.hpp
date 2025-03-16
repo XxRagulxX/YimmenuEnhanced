@@ -13,6 +13,7 @@ namespace rage
 }
 class CPedFactory;
 class CNetGamePlayer;
+class CEntity;
 
 namespace YimMenu
 {
@@ -22,6 +23,7 @@ namespace YimMenu
 		using HandleToPtr = void* (*)(int handle);
 		using PtrToHandle = int (*)(void* pointer);
 		using GetNetPlayerFromPid = CNetGamePlayer* (*)(int id);
+		using TriggerWeaponDamageEvent = void (*)(CEntity* source, CEntity* target, rage::fvector3* position, int hit_component, bool override_default_damage, int weapon_type, float override_damage, int tire_index, int suspension_index, int flags, uint32_t action_result_hash, int16_t action_result_id, int action_unk, bool hit_weapon, bool hit_weapon_ammo_attachment, bool silenced, bool unk, rage::fvector3* impact_direction);
 	}
 
 	struct PointerData
@@ -42,6 +44,7 @@ namespace YimMenu
 		Functions::GetNetPlayerFromPid GetNetPlayerFromPid;
 		bool* IsSessionStarted;
 		PVOID AssignPhysicalIndex;
+		Functions::TriggerWeaponDamageEvent TriggerWeaponDamageEvent;
 	};
 
 	struct Pointers : PointerData

@@ -107,11 +107,13 @@ namespace YimMenu
 		void SetFrozen(bool enabled);
 		void Delete();
 
+		bool HasControl();
+
 #if 0
 		// networking
 		bool IsNetworked();
 		rage::netObject* GetNetworkObject();
-		bool HasControl();
+		
 		int GetOwner(); // index because we want to avoid cyclic imports
 		std::uint16_t GetNetworkObjectId();
 		/// <summary>

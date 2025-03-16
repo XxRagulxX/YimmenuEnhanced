@@ -32,7 +32,7 @@ namespace YimMenu::Submenus
 		playerOptionsGroup->AddItem(std::make_shared<ImGuiItem>([] {
 			if (Players::GetSelected().IsValid())
 			{
-				ImGui::Text("Rank: %d (%d RP)", Players::GetSelected().GetRank(), Players::GetSelected().GetRank());
+				ImGui::Text("Rank: %d (%d RP)", Players::GetSelected().GetRank(), Players::GetSelected().GetRP());
 				ImGui::Text("Money: %d", Players::GetSelected().GetMoney());
 
 				if (Players::GetSelected().GetPed())
@@ -79,15 +79,15 @@ namespace YimMenu::Submenus
 				if (ImGui::Button("View SC Profile"))
 					FiberPool::Push([] {
 						uint64_t handle[13];
-						NETWORK::NETWORK_HANDLE_FROM_PLAYER(Players::GetSelected().GetId(), (Any*)&handle, sizeof(handle));
-						NETWORK::NETWORK_SHOW_PROFILE_UI((Any*)&handle);
+						NETWORK::NETWORK_HANDLE_FROM_PLAYER(Players::GetSelected().GetId(), handle, sizeof(handle));
+						NETWORK::NETWORK_SHOW_PROFILE_UI(handle);
 					});
 				ImGui::SameLine();
 				if (ImGui::Button("Add Friend"))
 					FiberPool::Push([] {
 						uint64_t handle[13];
-						NETWORK::NETWORK_HANDLE_FROM_PLAYER(Players::GetSelected().GetId(), (Any*)&handle, sizeof(handle));
-						NETWORK::NETWORK_ADD_FRIEND((Any*)&handle, "");
+						NETWORK::NETWORK_HANDLE_FROM_PLAYER(Players::GetSelected().GetId(), handle, sizeof(handle));
+						NETWORK::NETWORK_ADD_FRIEND(handle, "");
 					});
 
 				if (ImGui::Button("More Info"))

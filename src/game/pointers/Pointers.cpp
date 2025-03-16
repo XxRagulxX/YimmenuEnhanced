@@ -57,10 +57,10 @@ namespace YimMenu
 			RunScriptThreads = ptr.Sub(0xA).As<PVOID>();
 		});
 
-		constexpr auto handlesAndPtrsPtrn = Pattern<"0F 1F 84 00 00 00 00 00 89 F8 0F 28 FE">("HandlesAndPtrs");
+		constexpr auto handlesAndPtrsPtrn = Pattern<"0F 1F 84 00 00 00 00 00 89 F8 0F 28 FE 41">("HandlesAndPtrs");
 		scanner.Add(handlesAndPtrsPtrn, [this](PointerCalculator ptr) {
-			HandleToPtr = ptr.Add(0x21).Add(3).Rip().As<Functions::HandleToPtr>();
-			PtrToHandle = ptr.Sub(0xB).Add(3).Rip().As<Functions::PtrToHandle>();
+			HandleToPtr = ptr.Add(0x21).Add(1).Rip().As<Functions::HandleToPtr>();
+			PtrToHandle = ptr.Sub(0xB).Add(1).Rip().As<Functions::PtrToHandle>();
 		});
 
 		constexpr auto pedFactoryPtrn = Pattern<"C7 40 30 03 00 00 00 48 8B 0D">("PedFactory");
@@ -86,6 +86,11 @@ namespace YimMenu
 		constexpr auto scriptGlobalsPtrn = Pattern<"48 8B 8E B8 00 00 00 48 8D 15 ? ? ? ? 49 89 D8">("ScriptGlobals");
 		scanner.Add(scriptGlobalsPtrn, [this](PointerCalculator ptr) {
 			ScriptGlobals = ptr.Add(7).Add(3).Rip().As<std::int64_t**>();
+		});
+
+		constexpr auto sendNetworkDamagePtrn = Pattern<"0F B6 41 28 04 FE 3C 03 0F 87 EA">("SendNetworkDamage");
+		scanner.Add(sendNetworkDamagePtrn, [this](PointerCalculator ptr) {
+			TriggerWeaponDamageEvent = ptr.Sub(0x51).As<Functions::TriggerWeaponDamageEvent>();
 		});
 
 		if (!scanner.Scan())

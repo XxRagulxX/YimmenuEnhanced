@@ -1,18 +1,17 @@
 #include "game/commands/PlayerCommand.hpp"
-#include "types/fx/ExplosionType.hpp"
 
 namespace YimMenu::Features
 {
-	class Explode : public PlayerCommand
+	class Kill : public PlayerCommand
 	{
 		using PlayerCommand::PlayerCommand;
 
 		virtual void OnCall(Player player) override
 		{
 			if (auto ped = player.GetPed())
-				ped.Explode(ExplosionType::ORBITAL_CANNON, 900.f);
+				ped.Kill();
 		}
 	};
 
-	static Explode _Explode{"explode", "Explode", "Blows the player up"};
+	static Kill _Kill{"kill", "Kill", "Kills the player"};
 }

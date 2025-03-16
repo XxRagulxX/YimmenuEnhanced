@@ -4,7 +4,6 @@
 
 #include <cstdint>
 
-#pragma pack(push, 1)
 namespace rage
 {
 	class scriptHandlerObject;

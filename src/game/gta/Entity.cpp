@@ -5,6 +5,7 @@
 #include "game/pointers/Pointers.hpp"
 #include "types/rage/tlsContext.hpp"
 #include "game/gta/Scripts.hpp"
+#include "types/ped/CPedFactory.hpp"
 
 namespace YimMenu
 {
@@ -211,14 +212,6 @@ namespace YimMenu
 		return GetPointer<CDynamicEntity*>()->m_NetObject;
 	}
 
-	bool Entity::HasControl()
-	{
-		if (!IsNetworked())
-			return true;
-
-		return !GetNetworkObject()->m_IsRemotelyControlled;
-	}
-
 	int Entity::GetOwner() 
 	{ 
 		if (!IsNetworked())
@@ -290,6 +283,11 @@ namespace YimMenu
 	}
 #endif
 
+	bool Entity::HasControl()
+	{
+		return NETWORK::NETWORK_HAS_CONTROL_OF_ENTITY(GetHandle());
+	}
+
 	bool Entity::IsInvincible()
 	{
 		// TODO this is bad!
@@ -314,23 +312,21 @@ namespace YimMenu
 	{
 		ENTITY_ASSERT_VALID();
 
-		if (/* HasControl() */ true)
+		if (HasControl())
 		{
 			ENTITY::SET_ENTITY_HEALTH(GetHandle(), 0, PLAYER::PLAYER_PED_ID(), 0);
 		}
 		else
 		{
-#if 0
-			auto ptr             = GetPointer<CDynamicEntity*>();
-			auto local           = reinterpret_cast<CDynamicEntity*>(Pointers.GetLocalPed());
-			auto pos             = GetPosition();
+			auto ptr = GetPointer<CEntity*>();
+			auto local = reinterpret_cast<CEntity*>((*Pointers.PedFactory)->m_LocalPed);
+			auto pos = GetPosition();
 			std::uint32_t weapon = "WEAPON_EXPLOSION"_J;
 
-			if (!ptr || !ptr->m_NetObject || !local || !local->m_NetObject)
+			if (!ptr || !local)
 				return;
 
-			Pointers.TriggerWeaponDamageEvent(local->m_NetObject, ptr->m_NetObject, nullptr, &pos, nullptr, nullptr, true, &weapon, 9999.9f, 9999.0f, -1, -1, 16, nullptr, false, false, true, false, false, -1, 0, 0, 0, 0, 0);
-#endif
+			Pointers.TriggerWeaponDamageEvent(local, ptr, &pos, 0, true, weapon, 9999.9f, 2, 0, (1<<4)|0x80000, 0, 0, 0, false, false, true, true, nullptr);
 		}
 	}
 
