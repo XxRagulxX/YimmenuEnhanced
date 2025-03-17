@@ -7,6 +7,7 @@ namespace rage
 {
 	class netConnectionManager;
 	class netEvent;
+	class scrProgram;
 }
 
 namespace YimMenu::Hooks
@@ -27,6 +28,7 @@ namespace YimMenu::Hooks
 	namespace Script
 	{
 		extern bool RunScriptThreads(int ops_to_execute);
+		extern void InitNativeTables(rage::scrProgram* program);
 	}
 
 	namespace Window

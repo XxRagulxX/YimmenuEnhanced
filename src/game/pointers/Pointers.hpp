@@ -19,7 +19,6 @@ namespace YimMenu
 {
 	namespace Functions
 	{
-		using PopulateNatives  = void (*)(rage::scrProgram* program);
 		using HandleToPtr = void* (*)(int handle);
 		using PtrToHandle = int (*)(void* pointer);
 		using GetNetPlayerFromPid = CNetGamePlayer* (*)(int id);
@@ -35,7 +34,7 @@ namespace YimMenu
 		std::uint32_t* ScreenResX;
 		std::uint32_t* ScreenResY;
 		rage::atArray<rage::scrThread*>* ScriptThreads;
-		Functions::PopulateNatives PopulateNatives;
+		PVOID InitNativeTables;
 		std::int64_t** ScriptGlobals;
 		PVOID RunScriptThreads;
 		Functions::HandleToPtr HandleToPtr;
@@ -45,6 +44,7 @@ namespace YimMenu
 		bool* IsSessionStarted;
 		PVOID AssignPhysicalIndex;
 		Functions::TriggerWeaponDamageEvent TriggerWeaponDamageEvent;
+		rage::scrProgram** ScriptPrograms;
 	};
 
 	struct Pointers : PointerData

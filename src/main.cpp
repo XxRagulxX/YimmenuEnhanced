@@ -10,6 +10,7 @@
 #include "core/memory/ModuleMgr.hpp"
 #include "core/renderer/Renderer.hpp"
 #include "game/backend/Self.hpp"
+#include "game/backend/NativeHooks.hpp"
 #include "game/frontend/GUI.hpp"
 #include "game/pointers/Pointers.hpp"
 
@@ -26,13 +27,13 @@ namespace YimMenu
 		Settings::Initialize(FileMgr::GetProjectFile("./settings.json"));
 
 		if (!ModuleMgr.LoadModules())
-			goto unload;
+			goto EARLY_UNLOAD;
 
 		if (!Pointers.Init())
-			goto unload;
+			goto EARLY_UNLOAD;
 
 		if (!Renderer::Init())
-			goto unload;
+			goto EARLY_UNLOAD;
 
 		Hooking::Init();
 
@@ -41,6 +42,7 @@ namespace YimMenu
 
 		GUI::Init();
 
+		ScriptMgr::AddScript(std::make_unique<Script>(&NativeHooks::RunScript)); // runs once
 		ScriptMgr::AddScript(std::make_unique<Script>(&Self::RunScript));
 		FiberPool::Init(5);
 		ScriptMgr::AddScript(std::make_unique<Script>(&HotkeySystem::RunScript));
@@ -54,11 +56,13 @@ namespace YimMenu
 			std::this_thread::yield();
 		}
 
-	unload:
 		LOG(INFO) << "Unloading";
+		NativeHooks::Destroy();
 		FiberPool::Destroy();
 		ScriptMgr::Destroy();
 		Hooking::Destroy();
+
+EARLY_UNLOAD:
 		Renderer::Destroy();
 		LogHelper::Destroy();
 

@@ -1,7 +1,8 @@
 #include "Invoker.hpp"
 
 #include "Crossmap.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "core/hooking/DetourHook.hpp"
+#include "game/hooks/Hooks.hpp"
 
 #include "types/script/scrProgram.hpp"
 
@@ -22,7 +23,7 @@ namespace YimMenu
 		auto program = reinterpret_cast<rage::scrProgram*>(calloc(1, sizeof(rage::scrProgram)));
 		program->m_NativeCount = m_Handlers.size();
 		program->m_NativeEntrypoints = m_Handlers.data();
-		Pointers.PopulateNatives(program);
+		BaseHook::Get<Hooks::Script::InitNativeTables, DetourHook<decltype(&Hooks::Script::InitNativeTables)>>()->Original()(program);
 		free(program);
 		m_AreHandlersCached = true;
 	}

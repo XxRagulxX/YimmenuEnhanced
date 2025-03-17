@@ -47,9 +47,9 @@ namespace YimMenu
 			ScriptThreads = ptr.Add(3).Rip().As<rage::atArray<rage::scrThread*>*>();
 		});
 
-		constexpr auto populateNativesPtrn = Pattern<"EB 2A 0F 1F 40 00 48 8B 54 17 10">("PopulateNatives");
+		constexpr auto populateNativesPtrn = Pattern<"EB 2A 0F 1F 40 00 48 8B 54 17 10">("InitNativeTables");
 		scanner.Add(populateNativesPtrn, [this](PointerCalculator ptr) {
-			PopulateNatives = ptr.Sub(0x2A).As<Functions::PopulateNatives>();
+			InitNativeTables = ptr.Sub(0x2A).As<PVOID>();
 		});
 
 		constexpr auto runScriptThreadsPtrn = Pattern<"BE 40 5D C6 00">("RunScriptThreads");
@@ -91,6 +91,11 @@ namespace YimMenu
 		constexpr auto sendNetworkDamagePtrn = Pattern<"0F B6 41 28 04 FE 3C 03 0F 87 EA">("SendNetworkDamage");
 		scanner.Add(sendNetworkDamagePtrn, [this](PointerCalculator ptr) {
 			TriggerWeaponDamageEvent = ptr.Sub(0x51).As<Functions::TriggerWeaponDamageEvent>();
+		});
+
+		constexpr auto scriptProgramsPtrn = Pattern<"48 C7 84 C8 D8 00 00 00 00 00 00 00">("ScriptPrograms");
+		scanner.Add(scriptProgramsPtrn, [this](PointerCalculator ptr) {
+			ScriptPrograms = ptr.Add(0x13).Add(3).Rip().Add(0xD8).As<rage::scrProgram**>();
 		});
 
 		if (!scanner.Scan())
