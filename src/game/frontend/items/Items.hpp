@@ -112,12 +112,13 @@ namespace YimMenu
 	class ConditionalItem : public UIItem
 	{
 	public:
-		explicit ConditionalItem(joaat_t bool_cmd_id, std::shared_ptr<UIItem> to_draw);
+		explicit ConditionalItem(joaat_t bool_cmd_id, std::shared_ptr<UIItem> to_draw, bool negate = false);
 		void Draw() override;
 
 	private:
 		BoolCommand* m_Condition;
 		std::shared_ptr<UIItem> m_Item;
+		bool m_Negate;
 	};
 
 	class ImGuiItem : public UIItem

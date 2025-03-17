@@ -52,9 +52,14 @@ namespace YimMenu
 		float GetAverageLatency();
 		float GetAveragePacketLoss();
 
+		// stats
 		int GetRank();
 		int GetRP();
 		int GetMoney();
+
+		// wanted
+		int GetWantedLevel();
+		void SetWantedLevel(int level); // only works for local player for now
 
 #if 0
 		// backend/data store (should be refactored?)

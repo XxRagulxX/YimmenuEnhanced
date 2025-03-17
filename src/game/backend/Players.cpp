@@ -3,7 +3,6 @@
 #include "types/network/CNetGamePlayer.hpp"
 #include "types/network/rlGamerInfo.hpp"
 
-
 namespace YimMenu
 {
 	Players::Players()

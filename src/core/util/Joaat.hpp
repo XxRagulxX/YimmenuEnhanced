@@ -26,21 +26,22 @@ namespace YimMenu
 		return hash;
 	}
 
-	inline consteval joaat_t operator""_J(const char* s, std::size_t n)
+};
+
+inline consteval YimMenu::joaat_t operator""_J(const char* s, std::size_t n)
+{
+	YimMenu::joaat_t result = 0;
+
+	for (std::size_t i = 0; i < n; i++)
 	{
-		joaat_t result = 0;
-
-		for (std::size_t i = 0; i < n; i++)
-		{
-			result += ToLower(s[i]);
-			result += (result << 10);
-			result ^= (result >> 6);
-		}
-
-		result += (result << 3);
-		result ^= (result >> 11);
-		result += (result << 15);
-
-		return result;
+		result += YimMenu::ToLower(s[i]);
+		result += (result << 10);
+		result ^= (result >> 6);
 	}
+
+	result += (result << 3);
+	result ^= (result >> 11);
+	result += (result << 15);
+
+	return result;
 }

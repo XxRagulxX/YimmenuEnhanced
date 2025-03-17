@@ -22,11 +22,23 @@ namespace YimMenu::Submenus
 		auto main          = std::make_shared<Category>("Main");
 		auto globalsGroup  = std::make_shared<Group>("Globals");
 		auto movementGroup = std::make_shared<Group>("Movement");
+		auto wantedGroup = std::make_shared<Group>("Wanted");
 		auto toolsGroup    = std::make_shared<Group>("Tools");
 
 		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("godmode"_J));
 		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("invis"_J));
 		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("otr"_J));
+		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("noragdoll"_J));
+
+		auto clearWanted = std::make_shared<Group>("", 1);
+		clearWanted->AddItem(std::make_shared<ConditionalItem>("neverwanted"_J, std::make_shared<CommandItem>("clearwanted"_J), true));
+		clearWanted->AddItem(std::make_shared<BoolCommandItem>("neverwanted"_J));
+		auto setWanted = std::make_shared<Group>("", 1);
+		setWanted->AddItem(std::make_shared<IntCommandItem>("wantedslider"_J, "Level"));
+		setWanted->AddItem(std::make_shared<ConditionalItem>("freezewanted"_J, std::make_shared<CommandItem>("setwanted"_J), true));
+		setWanted->AddItem(std::make_shared<BoolCommandItem>("freezewanted"_J));
+		wantedGroup->AddItem(std::make_shared<ConditionalItem>("freezewanted"_J, clearWanted, true));
+		wantedGroup->AddItem(std::make_shared<ConditionalItem>("neverwanted"_J, setWanted, true));
 
 		toolsGroup->AddItem(std::make_shared<CommandItem>("suicide"_J));
 
@@ -38,6 +50,7 @@ namespace YimMenu::Submenus
 		movementGroup->AddItem(std::make_shared<ConditionalItem>("freecam"_J, std::make_shared<FloatCommandItem>("freecamspeed"_J)));
 
 		main->AddItem(globalsGroup);
+		main->AddItem(wantedGroup);
 		main->AddItem(toolsGroup);
 		main->AddItem(movementGroup);
 		AddCategory(std::move(main));
@@ -47,6 +60,8 @@ namespace YimMenu::Submenus
 
 		weaponsGlobalsGroup->AddItem(std::make_shared<BoolCommandItem>("infiniteammo"_J));
 		weaponsGlobalsGroup->AddItem(std::make_shared<BoolCommandItem>("infiniteclip"_J));
+		weaponsGlobalsGroup->AddItem(std::make_shared<BoolCommandItem>("rapidfire"_J));
+		weaponsGlobalsGroup->AddItem(std::make_shared<CommandItem>("giveallweapons"_J));
 
 		weapons->AddItem(weaponsGlobalsGroup);
 		AddCategory(std::move(weapons));
@@ -57,6 +72,7 @@ namespace YimMenu::Submenus
 
 		vehicleGlobalsGroup->AddItem(std::make_shared<BoolCommandItem>("vehiclegodmode"_J, "Godmode"));
 		vehicleGlobalsGroup->AddItem(std::make_shared<BoolCommandItem>("keepfixed"_J, "Keep Fixed"));
+		vehicleGlobalsGroup->AddItem(std::make_shared<BoolCommandItem>("hornboost"_J));
 		vehicleGlobalsGroup->AddItem(std::make_shared<CommandItem>("repairvehicle"_J));
 		
 		vehicleMiscGroup->AddItem(std::make_shared<BoolCommandItem>("speedometer"_J));

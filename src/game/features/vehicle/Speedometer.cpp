@@ -72,6 +72,7 @@ namespace YimMenu::Features
 		virtual void OnDisable() override
 		{
 			GRAPHICS::SET_SCALEFORM_MOVIE_AS_NO_LONGER_NEEDED(&m_ScaleformHandle);
+			m_ScaleformHandle = 0;
 		}
 	};
 

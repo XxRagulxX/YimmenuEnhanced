@@ -152,4 +152,26 @@ namespace YimMenu
 		else
 			SetPosition(pos);
 	}
+
+	void Ped::GiveWeapon(std::uint32_t hash, bool equip)
+	{
+		ENTITY_ASSERT_VALID();
+		
+		WEAPON::GIVE_WEAPON_TO_PED(GetHandle(), hash, 9999, false, equip);
+	}
+
+	void Ped::RemoveWeapon(std::uint32_t hash)
+	{
+		ENTITY_ASSERT_VALID();
+		
+		WEAPON::REMOVE_WEAPON_FROM_PED(GetHandle(), hash);
+	}
+
+	std::uint32_t Ped::GetCurrentWeapon()
+	{
+		ENTITY_ASSERT_VALID();
+		std::uint32_t weapon;
+		WEAPON::GET_CURRENT_PED_WEAPON(GetHandle(), &weapon, 0);
+		return weapon;
+	}
 }

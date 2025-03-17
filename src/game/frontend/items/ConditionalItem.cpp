@@ -6,9 +6,10 @@
 
 namespace YimMenu
 {
-	ConditionalItem::ConditionalItem(joaat_t bool_cmd_id, std::shared_ptr<UIItem> to_draw) :
+	ConditionalItem::ConditionalItem(joaat_t bool_cmd_id, std::shared_ptr<UIItem> to_draw, bool negate) :
 	    m_Condition(Commands::GetCommand<BoolCommand>(bool_cmd_id)),
-	    m_Item(to_draw)
+	    m_Item(to_draw),
+	    m_Negate(negate)
 	{
 	}
 
@@ -19,7 +20,7 @@ namespace YimMenu
 			return;
 		}
 
-		if (m_Condition->GetState())
+		if (m_Condition->GetState() ^ m_Negate)
 			m_Item->Draw();
 	}
 }

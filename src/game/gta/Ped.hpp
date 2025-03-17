@@ -43,5 +43,10 @@ namespace YimMenu
 
 		// teleport
 		void TeleportTo(const rage::fvector3& pos); // similar to SetPosition, but handles vehicles correctly
+
+		// weapons
+		void GiveWeapon(std::uint32_t hash, bool equip = false);
+		void RemoveWeapon(std::uint32_t hash);
+		std::uint32_t GetCurrentWeapon();
 	};
 }

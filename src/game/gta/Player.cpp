@@ -177,6 +177,16 @@ namespace YimMenu
 		return 0;
 	}
 
+	int Player::GetWantedLevel()
+	{
+		return PLAYER::GET_PLAYER_WANTED_LEVEL(GetId());
+	}
+
+	void Player::SetWantedLevel(int level)
+	{
+		PLAYER::SET_PLAYER_WANTED_LEVEL_NOW(GetId(), level);
+	}
+
 	void Player::SetVisibleLocally(bool visible)
 	{
 		if (!IsValid())
