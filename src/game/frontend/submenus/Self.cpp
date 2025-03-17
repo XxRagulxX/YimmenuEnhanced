@@ -66,7 +66,7 @@ namespace YimMenu::Submenus
 		weapons->AddItem(weaponsGlobalsGroup);
 		AddCategory(std::move(weapons));
 
-		auto vehicle             = std::make_shared<Category>("Vehicle");
+		auto vehicle = std::make_shared<Category>("Vehicle");
 		auto vehicleGlobalsGroup = std::make_shared<Group>("Globals");
 		auto vehicleMiscGroup = std::make_shared<Group>("Misc");
 
