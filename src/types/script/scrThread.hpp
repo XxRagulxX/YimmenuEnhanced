@@ -26,7 +26,9 @@ namespace rage
 			float m_TimerA;                 // 0x20
 			float m_TimerB;                 // 0x24
 			float m_WaitTimer;              // 0x28
-			char m_Pad[0x84];               // 0x2C don't really need this fields after this
+			char m_padding1[0x2C];          // 0x2C
+			std::uint32_t m_StackSize;      // 0x58
+			char m_Pad[0x54];               // 0x2C don't really need this fields after this
 		};
 		static_assert(sizeof(Context) == 0xB0);
 

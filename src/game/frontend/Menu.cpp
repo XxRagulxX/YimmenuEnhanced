@@ -12,6 +12,7 @@
 #include "submenus/Network.hpp"
 #include "submenus/Players.hpp"
 #include "submenus/Settings.hpp"
+#include "submenus/Debug.hpp"
 
 namespace YimMenu
 {
@@ -23,6 +24,7 @@ namespace YimMenu
 		UIManager::AddSubmenu(std::make_shared<Submenus::Network>());
 		UIManager::AddSubmenu(std::make_shared<Submenus::Players>());
 		UIManager::AddSubmenu(std::make_shared<Submenus::Settings>());
+		UIManager::AddSubmenu(std::make_shared<Submenus::Debug>());
 
 		Renderer::AddRendererCallBack(
 		    [&] {

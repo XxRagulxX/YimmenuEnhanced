@@ -30,6 +30,8 @@ namespace YimMenu::Submenus
 
 		toolsGroup->AddItem(std::make_shared<CommandItem>("suicide"_J));
 
+		movementGroup->AddItem(std::make_shared<BoolCommandItem>("superrun"_J));
+		movementGroup->AddItem(std::make_shared<BoolCommandItem>("superjump"_J));
 		movementGroup->AddItem(std::make_shared<BoolCommandItem>("noclip"_J));
 		movementGroup->AddItem(std::make_shared<ConditionalItem>("noclip"_J, std::make_shared<FloatCommandItem>("noclipspeed"_J)));
 		movementGroup->AddItem(std::make_shared<BoolCommandItem>("freecam"_J));
