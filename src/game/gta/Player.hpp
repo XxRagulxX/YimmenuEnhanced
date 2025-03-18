@@ -35,7 +35,7 @@ namespace YimMenu
 
 		// object
 		bool IsValid() const;
-		int GetId();
+		int GetId() const;
 		const char* GetName();
 		CNetGamePlayer* GetHandle();
 		rage::rlGamerInfo* GetGamerInfo();

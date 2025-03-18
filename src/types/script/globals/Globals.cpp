@@ -6,6 +6,7 @@
 #include "GSBD.hpp"
 #include "GSBD_BlockB.hpp"
 #include "GSBD_FM.hpp"
+#include "GSBD_FM_Events.hpp"
 #include "GSBD_Kicking.hpp"
 #include "GSBD_PropertyInstances.hpp"
 #include "g_AMC_playerBD.hpp"
@@ -27,6 +28,7 @@ DEFINE_GLOBAL_ACCESSOR(GPBD_MissionName, 1873815);
 DEFINE_GLOBAL_ACCESSOR(GSBD, 2648917);
 DEFINE_GLOBAL_ACCESSOR(GSBD_BlockB, 2650415);
 DEFINE_GLOBAL_ACCESSOR(GSBD_FM, 1835557);
+DEFINE_GLOBAL_ACCESSOR(GSBD_FM_Events, 1917230);
 DEFINE_GLOBAL_ACCESSOR(GSBD_Kicking, 1877529);
 DEFINE_GLOBAL_ACCESSOR(GSBD_PropertyInstances, 1937699);
 DEFINE_GLOBAL_ACCESSOR(g_AMC_playerBD, 2699624);

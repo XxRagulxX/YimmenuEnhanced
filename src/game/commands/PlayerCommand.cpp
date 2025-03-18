@@ -13,9 +13,20 @@ namespace YimMenu
 
 	void PlayerAllCommand::OnCall()
 	{
+		std::vector<Player> validPlayers;
+		validPlayers.reserve(Players::GetPlayers().size() - 1);
 		for (auto& p : Players::GetPlayers())
+		{
 			if (p.second.IsValid() && (!Self::GetPlayer().IsValid() || p.second.GetId() != Self::GetPlayer().GetId()))
-				m_PlayerCommand->Call(p.second);
+				validPlayers.push_back(p.second);
+		}
+		m_PlayerCommand->Call(validPlayers);
+	}
+
+	void PlayerCommand::OnCall(const std::vector<Player>& players)
+	{
+		for (auto& p : players)
+			Call(p);
 	}
 
 	PlayerCommand::PlayerCommand(std::string name, std::string label, std::string description, int num_args, bool all_version) :
@@ -33,5 +44,10 @@ namespace YimMenu
 	void PlayerCommand::Call(Player target)
 	{
 		OnCall(target);
+	}
+
+	void PlayerCommand::Call(const std::vector<Player>& targets)
+	{
+		OnCall(targets);
 	}
 }

@@ -19,7 +19,7 @@ namespace YimMenu
 		return m_Handle && m_Handle->IsPhysical() && m_Handle->m_PlayerInfo;
 	}
 
-	int Player::GetId()
+	int Player::GetId() const
 	{
 		if (!IsValid())
 		{

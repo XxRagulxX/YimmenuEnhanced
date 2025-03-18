@@ -1,13 +1,7 @@
 #include "Self.hpp"
 
 #include "core/util/Joaat.hpp"
-#include "core/commands/BoolCommand.hpp"
-#include "core/commands/Commands.hpp"
-#include "core/commands/IntCommand.hpp"
 #include "game/frontend/items/Items.hpp"
-
-#include <map>
-
 
 namespace YimMenu::Features
 {

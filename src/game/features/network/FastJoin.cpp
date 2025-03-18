@@ -37,7 +37,7 @@ namespace YimMenu::Features
 			if (SCRIPT::GET_HASH_OF_THIS_SCRIPT_NAME() == "freemode"_J)
 			{
 				GSBD::Get()->FreemodeState = eFreemodeState::RUNNING;
-				GSBD::Get()->CayoPericoStrandedAnimalChoice = 0; // unbrick cayo just in case if the script host never responds
+				GSBD::Get()->CayoPericoStrandedAnimalChoice = 1; // unbrick cayo just in case if the script host never responds
 			}
 			return ctx->SetReturnValue(TRUE);
 		}

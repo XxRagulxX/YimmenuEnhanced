@@ -17,12 +17,14 @@ namespace YimMenu::Features
 			{
 				NETWORK::NETWORK_SET_IN_SPECTATOR_MODE(false, 0);
 				HUD::SET_MINIMAP_IN_SPECTATOR_MODE(false, 0);
-				if (selected)
-				{
-					NETWORK::NETWORK_SET_IN_SPECTATOR_MODE(true, selected.GetPed().GetHandle());
-					HUD::SET_MINIMAP_IN_SPECTATOR_MODE(true, selected.GetPed().GetHandle());
-				}
+				
 				m_SpectatingPlayer = selected;
+			}
+
+			if (m_SpectatingPlayer)
+			{
+				NETWORK::NETWORK_SET_IN_SPECTATOR_MODE(true, m_SpectatingPlayer.GetPed().GetHandle());
+				HUD::SET_MINIMAP_IN_SPECTATOR_MODE(true, m_SpectatingPlayer.GetPed().GetHandle());
 			}
 		}
 

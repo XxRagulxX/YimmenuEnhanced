@@ -12,7 +12,7 @@ namespace YimMenu
 	    m_Program(program),
 	    m_Hook(std::make_unique<VMTHook>("rage::scrProgram", program, 9))
 	{
-		m_Hook->Hook(6, ScrProgram_Dtor);
+		m_Hook->Hook(6, reinterpret_cast<void*>(&ScrProgram_Dtor));
 		m_Hook->Enable();
 		m_OrigHandlers = new rage::scrNativeHandler[program->m_NativeCount];
 		memcpy(m_OrigHandlers, program->m_NativeEntrypoints, program->m_NativeCount * sizeof(rage::scrNativeHandler));
@@ -36,7 +36,9 @@ namespace YimMenu
 	void NativeHooks::Program::ScrProgram_Dtor(rage::scrProgram* _this, bool free_mem)
 	{
 		NativeHooks::UnregisterProgram(_this);
-		(**reinterpret_cast<decltype(&NativeHooks::Program::ScrProgram_Dtor)**>(_this))(_this, free_mem);
+		auto vtable = *reinterpret_cast<void***>(_this);
+		auto destructor = *(vtable + 6);
+		reinterpret_cast<decltype(&NativeHooks::Program::ScrProgram_Dtor)>(destructor)(_this, free_mem);
 	}
 
 	NativeHooks::NativeHooks() :

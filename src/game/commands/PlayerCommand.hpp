@@ -21,9 +21,11 @@ namespace YimMenu
 
 	protected:
 		virtual void OnCall(Player) = 0;
+		virtual void OnCall(const std::vector<Player>&);
 
 	public:
 		PlayerCommand(std::string name, std::string label, std::string description, int num_args = 0, bool all_version = true);
-		void Call(Player target); // TODO
+		void Call(Player target);
+		void Call(const std::vector<Player>& targets); 
 	};
 }
