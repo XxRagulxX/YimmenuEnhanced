@@ -98,6 +98,37 @@ namespace YimMenu
 			ScriptPrograms = ptr.Add(0x13).Add(3).Rip().Add(0xD8).As<rage::scrProgram**>();
 		});
 
+		constexpr auto regionCodePtrn = Pattern<"4C 8D 05 ? ? ? ? 48 89 F1 48 89 FA E8 ? ? ? ? 84 C0 74 3D">("RegionCode");
+		scanner.Add(regionCodePtrn, [this](PointerCalculator ptr) {
+			RegionCode = ptr.Add(3).Rip().As<int*>();		
+		});
+
+		constexpr auto networkObjectMgrPtrn = Pattern<"41 83 7E FA 02 40 0F 9C C5 C1 E5 02">("NetworkObjectMgr&GetSyncTreeForType");
+		scanner.Add(networkObjectMgrPtrn, [this](PointerCalculator ptr) {
+			NetworkObjectMgr = ptr.Add(0xC).Add(3).Rip().As<CNetworkObjectMgr**>();
+			GetSyncTreeForType = ptr.Add(0x13).Add(1).Rip().As<Functions::GetSyncTreeForType>();
+		});
+
+		constexpr auto writeNodeDataPtrn = Pattern<"48 8B 89 A8 00 00 00 48 8B 01 48 8B 40 10 48 FF E0">("WriteNodeData");
+		scanner.Add(writeNodeDataPtrn, [this](PointerCalculator ptr) {
+			WriteNodeData = ptr.As<PVOID>();
+		});
+
+		constexpr auto shouldUseNodeCachePtrn = Pattern<"83 FA 20 74 1D 48 89 CE">("ShouldUseNodeCache");
+		scanner.Add(shouldUseNodeCachePtrn, [this](PointerCalculator ptr) {
+			ShouldUseNodeCache = ptr.Sub(5).As<PVOID>();
+		});
+
+		constexpr auto isNodeInScopePtrn = Pattern<"41 83 F9 02 74 22 48 8B 06">("IsNodeInScope");
+		scanner.Add(isNodeInScopePtrn, [this](PointerCalculator ptr) {
+			IsNodeInScope = ptr.Sub(0x26).As<PVOID>();
+		});
+
+		constexpr auto writeSyncTreePtrn = Pattern<"4D 89 CD 45 89 C6 41 89 D7 48 89 CF 8B 05 ? ? ? ? 65 48 8B 0C 25 58 00 00 00">("WriteSyncTree");
+		scanner.Add(writeSyncTreePtrn, [this](PointerCalculator ptr) {
+			WriteSyncTree = ptr.Sub(0x10).As<PVOID>();
+		});
+
 		if (!scanner.Scan())
 		{
 			LOG(FATAL) << "Some patterns could not be found, unloading.";

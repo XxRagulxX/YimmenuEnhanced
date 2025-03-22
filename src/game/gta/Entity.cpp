@@ -4,6 +4,8 @@
 #include "core/util/Joaat.hpp"
 #include "game/pointers/Pointers.hpp"
 #include "types/rage/tlsContext.hpp"
+#include "types/entity/CDynamicEntity.hpp"
+#include "types/network/netObject.hpp"
 #include "game/gta/Scripts.hpp"
 #include "types/ped/CPedFactory.hpp"
 
@@ -33,12 +35,10 @@ namespace YimMenu
 		if (!IsValid())
 			return;
 
-#if 0
 		if (!HasControl())
 		{
 			LOG(WARNING) << "HasControl() assertion failed for " << function_name;
 		}
-#endif
 	}
 
 	void Entity::AssertScriptContext(std::string_view function_name)
@@ -66,34 +66,29 @@ namespace YimMenu
 	bool Entity::IsPed()
 	{
 		ENTITY_ASSERT_VALID();
-#if 0
+
 		if (auto ptr = GetPointer<rage::fwEntity*>())
-			return ptr->m_EntityType == 4;
+			return ptr->IsPed();
 		return false;
-#endif
-		return ENTITY::IS_ENTITY_A_PED(GetHandle());
+
 	}
 
 	bool Entity::IsVehicle()
 	{
 		ENTITY_ASSERT_VALID();
-#if 0
+
 		if (auto ptr = GetPointer<rage::fwEntity*>())
-			return ptr->m_EntityType == 3;
+			return ptr->IsVehicle();
 		return false;
-#endif
-		return ENTITY::IS_ENTITY_A_VEHICLE(GetHandle());
 	}
 
 	bool Entity::IsObject()
 	{
 		ENTITY_ASSERT_VALID();
-#if 0
+
 		if (auto ptr = GetPointer<rage::fwEntity*>())
-			return ptr->m_EntityType == 5;
+			return ptr->IsObject();
 		return false;
-#endif
-		return ENTITY::IS_ENTITY_AN_OBJECT(GetHandle());
 	}
 
 	bool Entity::IsPlayer()
@@ -217,7 +212,6 @@ namespace YimMenu
 #endif
 	}
 
-#if 0
 	bool Entity::IsNetworked()
 	{
 		return GetNetworkObject() != nullptr;
@@ -248,16 +242,6 @@ namespace YimMenu
 		return GetNetworkObject()->m_ObjectId;
 	}
 
-	void Entity::ForceControl()
-	{
-		ENTITY_ASSERT_VALID();
-
-		if (!IsNetworked() || HasControl())
-			return;
-
-		(*Pointers.NetworkObjectMgr)->ChangeOwner(GetNetworkObject(), Pointers.NetworkPlayerMgr->m_LocalPlayer, 5, true);
-	}
-
 	void Entity::PreventMigration()
 	{
 		ENTITY_ASSERT_VALID();
@@ -274,8 +258,18 @@ namespace YimMenu
 			return;
 		}
 
-		NETWORK::PREVENT_NETWORK_ID_MIGRATION(NETWORK::PED_TO_NET(GetHandle()));
 		NETWORK::NETWORK_DISABLE_PROXIMITY_MIGRATION(NETWORK::PED_TO_NET(GetHandle()));
+	}
+
+#if 0
+	void Entity::ForceControl()
+	{
+		ENTITY_ASSERT_VALID();
+
+		if (!IsNetworked() || HasControl())
+			return;
+
+		(*Pointers.NetworkObjectMgr)->ChangeOwner(GetNetworkObject(), Pointers.NetworkPlayerMgr->m_LocalPlayer, 5, true);
 	}
 
 	void Entity::ForceSync(Player* for_player)

@@ -10,10 +10,12 @@ namespace rage
 	class atArray;
 	class scrThread;
 	class scrProgram;
+	class netSyncTree;
 }
 class CPedFactory;
 class CNetGamePlayer;
 class CEntity;
+class CNetworkObjectMgr;
 
 namespace YimMenu
 {
@@ -23,6 +25,7 @@ namespace YimMenu
 		using PtrToHandle = int (*)(void* pointer);
 		using GetNetPlayerFromPid = CNetGamePlayer* (*)(int id);
 		using TriggerWeaponDamageEvent = void (*)(CEntity* source, CEntity* target, rage::fvector3* position, int hit_component, bool override_default_damage, int weapon_type, float override_damage, int tire_index, int suspension_index, int flags, uint32_t action_result_hash, int16_t action_result_id, int action_unk, bool hit_weapon, bool hit_weapon_ammo_attachment, bool silenced, bool unk, rage::fvector3* impact_direction);
+		using GetSyncTreeForType = rage::netSyncTree* (*)(void* netObjMgr, uint16_t type);
 	}
 
 	struct PointerData
@@ -45,6 +48,13 @@ namespace YimMenu
 		PVOID AssignPhysicalIndex;
 		Functions::TriggerWeaponDamageEvent TriggerWeaponDamageEvent;
 		rage::scrProgram** ScriptPrograms;
+		int* RegionCode;
+		Functions::GetSyncTreeForType GetSyncTreeForType;
+		CNetworkObjectMgr** NetworkObjectMgr;
+		PVOID WriteNodeData;
+		PVOID ShouldUseNodeCache;
+		PVOID IsNodeInScope;
+		PVOID WriteSyncTree;
 	};
 
 	struct Pointers : PointerData

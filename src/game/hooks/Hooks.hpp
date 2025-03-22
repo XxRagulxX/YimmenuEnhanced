@@ -3,11 +3,14 @@
 
 class CNetworkPlayerMgr;
 class CNetGamePlayer;
+class CProjectBaseSyncDataNode;
 namespace rage
 {
 	class netConnectionManager;
 	class netEvent;
 	class scrProgram;
+	class netObject;
+	class datBitBuffer;
 }
 
 namespace YimMenu::Hooks
@@ -29,6 +32,14 @@ namespace YimMenu::Hooks
 	{
 		extern bool RunScriptThreads(int ops_to_execute);
 		extern void InitNativeTables(rage::scrProgram* program);
+	}
+
+	namespace Spoofing
+	{
+		extern void WriteNodeData(CProjectBaseSyncDataNode* node, rage::netObject* object, rage::datBitBuffer* buffer, void* logger, bool update);
+		extern bool ShouldUseNodeCache(void* node, int flags);
+		extern bool IsNodeInScope(void* node, void* a2, std::uint8_t playerId, int flags, unsigned int a5, int a6);
+		extern bool WriteSyncTree(void* tree, int type, int flags, rage::netObject* object, rage::datBitBuffer* buffer, int unk, void* a6, std::uint8_t player_id, void* a8);
 	}
 
 	namespace Window

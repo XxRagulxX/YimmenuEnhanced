@@ -110,20 +110,21 @@ namespace YimMenu
 		void SetFrozen(bool enabled);
 		void Delete();
 
-		bool HasControl();
-
-#if 0
 		// networking
 		bool IsNetworked();
+		bool HasControl();
 		rage::netObject* GetNetworkObject();
 		
 		int GetOwner(); // index because we want to avoid cyclic imports
 		std::uint16_t GetNetworkObjectId();
+
+		void PreventMigration();
+
+#if 0
 		/// <summary>
 		/// WARNING: This function is potentially unstable when used on vehicles and horses. Use RequestControl instead
 		/// </summary>
 		void ForceControl();
-		void PreventMigration();
 		/// <summary>
 		/// Forces creation of a networked entity for a specified player or the entire session
 		/// </summary>
