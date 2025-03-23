@@ -45,7 +45,8 @@ namespace YimMenu::Hooks
 			}
 			break;
 		}
-		default:
+		default: 
+			break;
 		}
 
 		BaseHook::Get<Network::ReceiveNetMessage, DetourHook<decltype(&Network::ReceiveNetMessage)>>()->Original()(a1, mgr, event);
