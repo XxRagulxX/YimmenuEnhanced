@@ -71,6 +71,17 @@ namespace YimMenu
 		// visibility
 		void SetVisibleLocally(bool visible);
 
+		// teleportation
+		
+		/// <summary>
+		/// Teleports remote players using the migration exploit. Returns immediately but takes several ticks to perform the teleport.
+		/// The local player is teleported instantly
+		/// </summary>
+		/// <param name="coords">The position to teleport to</param>
+		void TeleportTo(const rage::fvector3& coords);
+
+		
+
 		bool operator==(Player other);
 
 		inline operator bool()

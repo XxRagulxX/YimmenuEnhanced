@@ -1,6 +1,7 @@
 #include "Vehicle.hpp"
 #include "Natives.hpp"
 #include "core/backend/ScriptMgr.hpp"
+#include "game/pointers/Pointers.hpp"
 
 namespace YimMenu
 {
@@ -29,7 +30,9 @@ namespace YimMenu
 			}
 		}
 
+		*Pointers.SpectatePatch = 0xEB;
 		auto veh = Vehicle(VEHICLE::CREATE_VEHICLE(model, coords.x, coords.y, coords.z, heading, true, false, false));
+		*Pointers.SpectatePatch = 0x74;
 
 		if (!veh)
 		{
@@ -39,7 +42,10 @@ namespace YimMenu
 			return nullptr;
 		}
 
+		DECORATOR::DECOR_SET_INT(veh.GetHandle(), "MPBitset", 0);
+		NETWORK::SET_NETWORK_ID_EXISTS_ON_ALL_MACHINES(NETWORK::VEH_TO_NET(veh.GetHandle()), true);
 		VEHICLE::SET_VEHICLE_ON_GROUND_PROPERLY(veh.GetHandle(), 0);
+		ENTITY::SET_ALLOW_MIGRATE_TO_SPECTATOR(veh.GetHandle(), true);
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
 
 		return veh;

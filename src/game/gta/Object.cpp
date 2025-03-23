@@ -1,6 +1,7 @@
 #include "Object.hpp"
 #include "Natives.hpp"
 #include "core/backend/ScriptMgr.hpp"
+#include "game/pointers/Pointers.hpp"
 
 namespace YimMenu
 {
@@ -29,7 +30,9 @@ namespace YimMenu
 			}
 		}
 
+		*Pointers.SpectatePatch = 0xEB;
 		auto obj = Object(OBJECT::CREATE_OBJECT(model, coords.x, coords.y, coords.z, true, false, true));
+		*Pointers.SpectatePatch = 0x74;
 
 		if (!obj)
 		{

@@ -1,6 +1,6 @@
 #include "StackTrace.hpp"
 
-#include <DbgHelp.h>
+#include <dbghelp.h>
 #include <winternl.h>
 
 namespace YimMenu

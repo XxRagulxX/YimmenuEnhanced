@@ -129,6 +129,36 @@ namespace YimMenu
 			WriteSyncTree = ptr.Sub(0x10).As<PVOID>();
 		});
 
+		constexpr auto migrateObjectPtrn = Pattern<"48 8B 96 D0 00 00 00 4C 89 F9 41 B8 03 00 00 00">("MigrateObject");
+		scanner.Add(migrateObjectPtrn, [this](PointerCalculator ptr) {
+			MigrateObject = ptr.Add(0x10).Add(1).Rip().As<Functions::MigrateObject>();
+		});
+
+		constexpr auto networkPlayerMgrPtrn = Pattern<"75 0E 48 8B 05 ? ? ? ? 48 8B 88 F0 00 00 00">("NetworkPlayerMgr");
+		scanner.Add(networkPlayerMgrPtrn, [this](PointerCalculator ptr) {
+			NetworkPlayerMgr = ptr.Add(2).Add(3).Rip().As<CNetworkPlayerMgr**>();
+		});
+
+		constexpr auto queuePacketPtrn = Pattern<"45 89 F1 E8 ? ? ? ? 84 C0 74 25">("QueuePacket");
+		scanner.Add(queuePacketPtrn, [this](PointerCalculator ptr) {
+			QueuePacket = ptr.Add(3).Add(1).Rip().As<Functions::QueuePacket>();
+		});
+
+		constexpr auto getNetObjectByIdPtrn = Pattern<"0F B7 4E 60 E8">("GetNetObjectById");
+		scanner.Add(getNetObjectByIdPtrn, [this](PointerCalculator ptr) {
+			GetNetObjectById = ptr.Add(4).Add(1).Rip().As<Functions::GetNetObjectById>();
+		});
+
+		constexpr auto requestControlPtrn = Pattern<"74 0A 48 89 F9 E8 ? ? ? ? 31 F6 89 F0 48 83 C4 20">("RequestControl");
+		scanner.Add(requestControlPtrn, [this](PointerCalculator ptr) {
+			RequestControl = ptr.Add(5).Add(1).Rip().As<Functions::RequestControl>();
+		});
+
+		constexpr auto spectatePatchPtrn = Pattern<"74 26 66 83 FF 0D 77 20 0F B7 C7">("SpectatePatch");
+		scanner.Add(spectatePatchPtrn, [this](PointerCalculator ptr) {
+			SpectatePatch = ptr.As<std::uint8_t*>();
+		});
+
 		if (!scanner.Scan())
 		{
 			LOG(FATAL) << "Some patterns could not be found, unloading.";

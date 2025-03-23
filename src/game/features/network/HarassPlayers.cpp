@@ -31,7 +31,7 @@ namespace YimMenu::Features
 						auto ped_game_state = reinterpret_cast<CPedGameStateDataNode*>(node);
 						if (auto player_ped = target.GetPed(); player_ped && player_ped.GetNetworkObject())
 						{
-						    ped_game_state->m_VehicleId = *reinterpret_cast<std::uint16_t*>(reinterpret_cast<__int64>(player_ped.GetNetworkObject()) + 0x3D8);
+						    ped_game_state->m_VehicleId = player_ped.GetVehicleObjectId();
 						    ped_game_state->m_VehicleSeat = 2;
 							ped_game_state->m_InVehicle = true;
 							ped_game_state->m_InSeat = true;

@@ -1,6 +1,6 @@
 #pragma once
 #include "CEntity.hpp"
-
+#include <cstddef>
 namespace rage
 {
 	class netObject;

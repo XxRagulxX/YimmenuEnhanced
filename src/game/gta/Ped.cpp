@@ -2,7 +2,7 @@
 
 #include "Natives.hpp"
 #include "core/backend/ScriptMgr.hpp"
-
+#include "game/pointers/Pointers.hpp"
 
 namespace YimMenu
 {
@@ -31,7 +31,9 @@ namespace YimMenu
 			}
 		}
 
+		*Pointers.SpectatePatch = 0xEB;
 		auto ped = Ped(PED::CREATE_PED(0, model, coords.x, coords.y, coords.z, heading, true, 0));
+		*Pointers.SpectatePatch = 0x74;
 
 		if (!ped)
 		{
@@ -54,6 +56,15 @@ namespace YimMenu
 		if (!PED::IS_PED_IN_ANY_VEHICLE(GetHandle(), false))
 			return nullptr;
 		return Vehicle(PED::GET_VEHICLE_PED_IS_USING(GetHandle()));
+	}
+
+	std::uint16_t Ped::GetVehicleObjectId()
+	{
+		ENTITY_ASSERT_VALID();
+		if (!IsNetworked())
+			return 0;
+
+		return *reinterpret_cast<std::uint16_t*>(reinterpret_cast<__int64>(GetNetworkObject()) + 0x3D8);
 	}
 
 	bool Ped::GetRagdoll()

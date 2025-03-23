@@ -10,6 +10,7 @@ namespace YimMenu::Submenus
 		auto session = std::make_shared<Category>("Session");
 		auto bountyGroup = std::make_shared<Group>("Bounty", 1);
 		auto toxicGroup = std::make_shared<Group>("Toxic");
+		auto teleportGroup = std::make_shared<Group>("Teleport");
 		auto trollGroup = std::make_shared<Group>("Troll");
 		auto enhancements = std::make_shared<Group>("Enhancements");
 
@@ -17,9 +18,16 @@ namespace YimMenu::Submenus
 		bountyGroup->AddItem(std::make_shared<BoolCommandItem>("anonymousbounty"_J, "Anonymous"));
 		bountyGroup->AddItem(std::make_shared<CommandItem>("setbountyall"_J, "Set Bounties"));
 
+		teleportGroup->AddItem(std::make_shared<CommandItem>("bringall"_J, "Bring All"));
+		auto customPlayerTp = std::make_shared<Group>("", 1);
+		customPlayerTp->AddItem(std::make_shared<Vector3CommandItem>("playertpcoord"_J, "##tpcoord"));
+		customPlayerTp->AddItem(std::make_shared<CommandItem>("tpplayertocoordall"_J, "Teleport Everyone"));
+		teleportGroup->AddItem(customPlayerTp);
+
 		trollGroup->AddItem(std::make_shared<CommandItem>("sendsextall"_J, "Send Sexts"));
 		trollGroup->AddItem(std::make_shared<BoolCommandItem>("harassplayers"_J));
 		trollGroup->AddItem(std::make_shared<BoolCommandItem>("spamkillfeed"_J));
+		trollGroup->AddItem(std::make_shared<CommandItem>("deletevehall"_J, "Delete Player Vehicles"));
 
 		toxicGroup->AddItem(std::make_shared<CommandItem>("killall"_J, "Kill All"));
 		toxicGroup->AddItem(std::make_shared<CommandItem>("killexploitall"_J, "Permadeath All"));
@@ -29,6 +37,7 @@ namespace YimMenu::Submenus
 
 		session->AddItem(bountyGroup);
 		session->AddItem(trollGroup);
+		session->AddItem(teleportGroup);
 		session->AddItem(toxicGroup);
 		session->AddItem(enhancements);
 

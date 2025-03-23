@@ -109,6 +109,8 @@ namespace YimMenu
 		void SetCollision(bool enabled);
 		void SetFrozen(bool enabled);
 		void Delete();
+		static void DeleteNetwork(std::uint16_t network_id, std::uint32_t ownership_token = -1, bool local = true, Player* for_player = nullptr);
+		static void DeleteNetwork(rage::netObject* object, bool local = true, Player* for_player = nullptr);
 
 		// networking
 		bool IsNetworked();
@@ -120,16 +122,22 @@ namespace YimMenu
 
 		void PreventMigration();
 
-#if 0
 		/// <summary>
-		/// WARNING: This function is potentially unstable when used on vehicles and horses. Use RequestControl instead
+		/// WARNING: This function is potentially unstable when used on vehicles. Use RequestControl instead.
+		/// Seems to cause crashes when spammed
 		/// </summary>
 		void ForceControl();
+
+		/// <summary>
+		/// Tries to request control of the entity
+		/// </summary>
+		/// <param name="timeout">In ticks. If zero, the function doesn't block</param>
+		/// <returns>True if we managed to grab control</returns>
+		bool RequestControl(int timeout = 100);
 		/// <summary>
 		/// Forces creation of a networked entity for a specified player or the entire session
 		/// </summary>
 		void ForceSync(Player* for_player = nullptr); // pointer because we want to avoid cyclic imports
-#endif
 
 		// health
 		bool IsInvincible();

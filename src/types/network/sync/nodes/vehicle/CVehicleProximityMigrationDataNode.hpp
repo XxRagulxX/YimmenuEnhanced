@@ -10,10 +10,10 @@ public:
 	int16_t m_Occupants[16];
 	char pad[16];
 	bool m_OverridePosition;
-	rage::fvector3 m_Position;
+	alignas(16) rage::fvector3 m_Position;
 	std::int32_t m_VelocityX;
 	std::int32_t m_VelocityY;
 	std::int32_t m_VelocityZ;
 	char pad3[352];
 }; //Size: 0x0180
-static_assert(sizeof(CVehicleProximityMigrationDataNode) == 0x288);
+static_assert(sizeof(CVehicleProximityMigrationDataNode) == 0x290);

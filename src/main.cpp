@@ -44,7 +44,7 @@ namespace YimMenu
 
 		ScriptMgr::AddScript(std::make_unique<Script>(&NativeHooks::RunScript)); // runs once
 		ScriptMgr::AddScript(std::make_unique<Script>(&Self::RunScript));
-		FiberPool::Init(5);
+		FiberPool::Init(16);
 		ScriptMgr::AddScript(std::make_unique<Script>(&HotkeySystem::RunScript));
 		ScriptMgr::AddScript(std::make_unique<Script>(&Commands::RunScript));
 

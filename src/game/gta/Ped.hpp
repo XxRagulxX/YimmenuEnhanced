@@ -14,6 +14,7 @@ namespace YimMenu
 
 		// info
 		Vehicle GetVehicle();
+		std::uint16_t GetVehicleObjectId(); // works even if the vehicle isn't cloned
 
 		// ragdoll
 		bool GetRagdoll();

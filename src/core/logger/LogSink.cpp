@@ -2,6 +2,8 @@
 
 #include "LogColor.hpp"
 
+#include <format>
+
 namespace YimMenu
 {
 	LogColor LogSink::GetColor(const eLogLevel level)

@@ -11,11 +11,14 @@ namespace rage
 	class scrThread;
 	class scrProgram;
 	class netSyncTree;
+	class netObject;
+	class netConnectionManager;
 }
 class CPedFactory;
 class CNetGamePlayer;
 class CEntity;
 class CNetworkObjectMgr;
+class CNetworkPlayerMgr;
 
 namespace YimMenu
 {
@@ -26,6 +29,10 @@ namespace YimMenu
 		using GetNetPlayerFromPid = CNetGamePlayer* (*)(int id);
 		using TriggerWeaponDamageEvent = void (*)(CEntity* source, CEntity* target, rage::fvector3* position, int hit_component, bool override_default_damage, int weapon_type, float override_damage, int tire_index, int suspension_index, int flags, uint32_t action_result_hash, int16_t action_result_id, int action_unk, bool hit_weapon, bool hit_weapon_ammo_attachment, bool silenced, bool unk, rage::fvector3* impact_direction);
 		using GetSyncTreeForType = rage::netSyncTree* (*)(void* netObjMgr, uint16_t type);
+		using MigrateObject = void(*)(CNetGamePlayer* player, rage::netObject* object, int type);
+		using QueuePacket = void(*)(rage::netConnectionManager* mgr, int msg_id, void* data, int size, int flags, std::uint16_t* out_seq_id);
+		using GetNetObjectById = rage::netObject* (*)(uint16_t id);
+		using RequestControl = void(*)(rage::netObject* object);
 	}
 
 	struct PointerData
@@ -55,6 +62,12 @@ namespace YimMenu
 		PVOID ShouldUseNodeCache;
 		PVOID IsNodeInScope;
 		PVOID WriteSyncTree;
+		Functions::MigrateObject MigrateObject;
+		CNetworkPlayerMgr** NetworkPlayerMgr;
+		Functions::QueuePacket QueuePacket;
+		Functions::GetNetObjectById GetNetObjectById;	
+		Functions::RequestControl RequestControl;
+		std::uint8_t* SpectatePatch; // used to patch the code that prevents you from spawning network objects when spectating
 	};
 
 	struct Pointers : PointerData

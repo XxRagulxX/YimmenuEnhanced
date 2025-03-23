@@ -16,6 +16,6 @@ namespace YimMenu::Math
 
 		float num = abs(cos(x));
 
-		return rage::fvector3{-sin(z) * num, cos(z) * num, sin(x)};
+		return rage::fvector3{static_cast<float>(-sin(z) * num), static_cast<float>(cos(z) * num), static_cast<float>(sin(x))};
 	}
 }

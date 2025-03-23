@@ -115,6 +115,13 @@ namespace YimMenu::Submenus
 		}));
 
 		menu->AddItem(playerOptionsGroup);
+		
+		teleportGroup->AddItem(std::make_shared<PlayerCommandItem>("tptoplayer"_J, "Teleport To"));
+		teleportGroup->AddItem(std::make_shared<PlayerCommandItem>("bring"_J));
+		auto customPlayerTp = std::make_shared<Group>("", 1);
+		customPlayerTp->AddItem(std::make_shared<Vector3CommandItem>("playertpcoord"_J, "##tpcoord"));
+		customPlayerTp->AddItem(std::make_shared<PlayerCommandItem>("tpplayertocoord"_J, "Teleport"));
+		teleportGroup->AddItem(customPlayerTp);
 		menu->AddItem(teleportGroup);
 
 		return menu;

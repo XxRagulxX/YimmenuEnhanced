@@ -2,12 +2,31 @@
 
 #include "Natives.hpp"
 #include "core/util/Joaat.hpp"
+#include "core/backend/ScriptMgr.hpp"
 #include "game/pointers/Pointers.hpp"
 #include "types/rage/tlsContext.hpp"
 #include "types/entity/CDynamicEntity.hpp"
 #include "types/network/netObject.hpp"
+#include "types/network/CNetworkPlayerMgr.hpp"
 #include "game/gta/Scripts.hpp"
 #include "types/ped/CPedFactory.hpp"
+#include "types/network/netObjectMgrBase.hpp"
+#include "game/backend/Self.hpp"
+#include "game/gta/Packet.hpp"
+
+namespace
+{
+	int GetNextTokenValue(int prev_token)
+	{
+		for (int i = 0; i < 0x1F; i++)
+		{
+			if ((i << 27) - (prev_token << 27) > 0)
+				return i;
+		}
+
+		return 0;
+	}
+}
 
 namespace YimMenu
 {
@@ -190,11 +209,10 @@ namespace YimMenu
 		if (!IsValid())
 			return;
 
-#if 0
 		if (IsNetworked())
 		{
 			auto net = GetPointer<CDynamicEntity*>()->m_NetObject;
-			Network::ForceRemoveNetworkEntity(net->m_ObjectId, net->m_OwnershipToken);
+			DeleteNetwork(net);
 		}
 		else
 		{
@@ -204,12 +222,58 @@ namespace YimMenu
 			auto hnd = GetHandle();
 			ENTITY::DELETE_ENTITY(&hnd);
 		}
-#else
-		if (!ENTITY::IS_ENTITY_A_MISSION_ENTITY(GetHandle()))
-			ENTITY::SET_ENTITY_AS_MISSION_ENTITY(GetHandle(), true, true);
-		auto hnd = GetHandle();
-		ENTITY::DELETE_ENTITY(&hnd);
-#endif
+	}
+
+	void Entity::DeleteNetwork(std::uint16_t network_id, std::uint32_t ownership_token, bool local, Player* for_player)
+	{
+		char buf[0x200]{};
+		rage::datBitBuffer remove_buf(buf, sizeof(buf));
+		int msgs_written = 0;
+
+		if (ownership_token == -1)
+		{
+			remove_buf.Write<std::uint16_t>(network_id, 13);
+			remove_buf.Write<int>(GetNextTokenValue(ownership_token), 5);
+			msgs_written++;
+		}
+		else
+		{
+			// try all tokens if we don't know it
+			for (int i = 0; i < 0x1F; i++)
+			{
+				remove_buf.Write<std::uint16_t>(network_id, 13);
+				remove_buf.Write<int>(i, 5);
+				msgs_written++;
+			}
+		}
+
+		Packet pack;
+		pack.WriteMessageHeader(rage::netMessage::Type::PackedReliables);
+		pack.GetBuffer().Write<int>(4, 4); // remove
+		pack.GetBuffer().Write(msgs_written, 5);
+		pack.GetBuffer().Write(remove_buf.m_BitsRead, 13);
+		pack.GetBuffer().WriteArray(buf, remove_buf.m_BitsRead);
+		
+		if (for_player)
+		{
+			if (for_player->IsValid())
+				pack.Send(for_player->GetMessageId());
+		}
+		else
+		{
+			for (int i = 0; i < 32; i++)
+				if (auto player = (*Pointers.NetworkPlayerMgr)->m_Players[i]; player && player->IsPhysical() && !player->IsLocal())
+					pack.Send(player->m_MessageId);
+		}
+
+		if (local)
+			if (auto object = Pointers.GetNetObjectById(network_id))
+				(*Pointers.NetworkObjectMgr)->UnregisterNetworkObject(object, 8, true, true);
+	}
+
+	void Entity::DeleteNetwork(rage::netObject* object, bool local, Player* for_player)
+	{
+		DeleteNetwork(object->m_ObjectId, object->m_OwnershipToken, local, for_player);
 	}
 
 	bool Entity::IsNetworked()
@@ -261,7 +325,6 @@ namespace YimMenu
 		NETWORK::NETWORK_DISABLE_PROXIMITY_MIGRATION(NETWORK::PED_TO_NET(GetHandle()));
 	}
 
-#if 0
 	void Entity::ForceControl()
 	{
 		ENTITY_ASSERT_VALID();
@@ -269,7 +332,31 @@ namespace YimMenu
 		if (!IsNetworked() || HasControl())
 			return;
 
-		(*Pointers.NetworkObjectMgr)->ChangeOwner(GetNetworkObject(), Pointers.NetworkPlayerMgr->m_LocalPlayer, 5, true);
+		(*Pointers.NetworkObjectMgr)->ChangeOwner(GetNetworkObject(), Self::GetPlayer().GetHandle(), 0);
+	}
+
+	bool Entity::RequestControl(int timeout)
+	{
+		ENTITY_ASSERT_VALID();
+		ENTITY_ASSERT_SCRIPT_CONTEXT();
+
+		if (!IsNetworked() || HasControl())
+			return true;
+
+		for (int i = 0; i < (timeout + 1); i++)
+		{
+			if (!IsValid() || !*Pointers.IsSessionStarted)
+				return false;
+
+			if (HasControl())
+				return true;
+
+			Pointers.RequestControl(GetNetworkObject());
+			if (timeout)
+				ScriptMgr::Yield();
+		}
+
+		return HasControl();
 	}
 
 	void Entity::ForceSync(Player* for_player)
@@ -285,16 +372,15 @@ namespace YimMenu
 		auto net = GetNetworkObject();
 		for (int i = 0; i < 32; i++)
 		{
-			if (Pointers.NetworkPlayerMgr->m_PlayerList[i]
-			    && Pointers.NetworkPlayerMgr->m_PlayerList[i] != Pointers.NetworkPlayerMgr->m_LocalPlayer
+			if ((*Pointers.NetworkPlayerMgr)->m_Players[i]
+			    && (*Pointers.NetworkPlayerMgr)->m_Players[i] != (*Pointers.NetworkPlayerMgr)->m_LocalPlayer
 			    && (!for_player || !for_player->IsValid() || for_player->GetId() == i))
 			{
 				rage::datBitBuffer buffer(data, sizeof(data));
-				(*Pointers.NetworkObjectMgr)->PackCloneCreate(net, Pointers.NetworkPlayerMgr->m_PlayerList[i], &buffer);
+				(*Pointers.NetworkObjectMgr)->PackCloneCreate(net, (*Pointers.NetworkPlayerMgr)->m_Players[i], &buffer);
 			}
 		}
 	}
-#endif
 
 	bool Entity::HasControl()
 	{

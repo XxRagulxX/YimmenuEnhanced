@@ -8,6 +8,7 @@ namespace YimMenu::Submenus
 
 		auto general = std::make_shared<Group>("General");
 		auto bounty = std::make_shared<Group>("Bounty", 1);
+		auto vehicle = std::make_shared<Group>("Vehicle");
 
 		general->AddItem(std::make_shared<PlayerCommandItem>("sendsext"_J));
 
@@ -15,8 +16,11 @@ namespace YimMenu::Submenus
 		bounty->AddItem(std::make_shared<BoolCommandItem>("anonymousbounty"_J, "Anonymous"));
 		bounty->AddItem(std::make_shared<PlayerCommandItem>("setbounty"_J));
 
+		vehicle->AddItem(std::make_shared<PlayerCommandItem>("deleteveh"_J));
+
 		menu->AddItem(general);
 		menu->AddItem(bounty);
+		menu->AddItem(vehicle);
 
 		return menu;
 	}
