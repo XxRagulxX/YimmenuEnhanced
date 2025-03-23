@@ -1,4 +1,5 @@
 #pragma once
+#include "netAddress.hpp"
 
 namespace rage
 {
@@ -29,4 +30,15 @@ namespace rage
 		uint32_t m_PeerId;                     // 0x0050
 	};
 	static_assert(sizeof(rage::netEvent) == 0x58);
+
+	// or rage::netConnection::InFrame
+	class netEventFrameReceived : public netEvent
+	{
+	public:
+		int m_SecurityId;           // 0x0058
+		rage::netAddress m_Address; // 0x0060
+		std::uint32_t m_Length;     // 0x0080
+		void* m_Data;               // 0x0088
+	};
+	static_assert(sizeof(netEventFrameReceived) == 0x90);
 }

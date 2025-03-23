@@ -425,10 +425,29 @@ namespace rage
 
 		void ReadArrayBytes(void* array, int bytes)
 		{
-			ReadArray(array, bytes);
+			ReadArray(array, bytes * 8);
 		}
 
-		// TODO: implement WriteString and ReadString
+		void WriteString(const char* string, int max_len)
+		{
+			int len = strnlen(string, max_len - 1) + 1;
+			bool extended = len > 127;
+
+			Write<bool>(extended, 1);
+			Write<int>(len, extended ? 15 : 7);
+			WriteArrayBytes(string, len);
+		}
+
+		void ReadString(char* string, int max_len)
+		{
+			auto extended = Read<bool>(1);
+			auto len = Read<int>(extended ? 15 : 7);
+			if (len <= max_len)
+			{
+				ReadArrayBytes(string, len);
+				string[len - 1] = 0;
+			}
+		}
 
 	public:
 		void* m_Data;               //0x0000

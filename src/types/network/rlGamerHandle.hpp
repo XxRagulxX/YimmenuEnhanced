@@ -4,6 +4,7 @@
 
 namespace rage
 {
+	class datBitBuffer;
 	// this appears to have been unchanged in E&E
 	enum rlPlatforms : uint8_t
 	{
@@ -28,6 +29,9 @@ namespace rage
 		    m_ProfileIndex(0)
 		{
 		}
+
+		void Serialize(rage::datBitBuffer& buffer) const;
+		void Deserialize(rage::datBitBuffer& buffer);
 	}; //Size: 0x0010
 	static_assert(sizeof(rlGamerHandle) == 0x10);
 }

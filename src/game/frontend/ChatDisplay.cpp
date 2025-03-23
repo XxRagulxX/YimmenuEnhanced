@@ -49,7 +49,7 @@ namespace YimMenu
 
 		for (auto& message : m_Messages)
 		{
-			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(ImGui::Colors::Blue));
+			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(message.m_Color));
 			ImGui::TextWrapped("%s:", message.m_Sender.data());
 			ImGui::PopStyleColor();
 			ImGui::SameLine();

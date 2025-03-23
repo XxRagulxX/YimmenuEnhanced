@@ -25,6 +25,8 @@ namespace YimMenu
 		}
 		
 		LOG(INFO) << "Registered " << m_CommandHotkeys.size() << " commands";
+		m_CommandHotkeys.at("chathelper"_J).m_Chain.clear(); // ensure chat is always bound
+		m_CommandHotkeys.at("chathelper"_J).m_Chain.push_back(0x54); 
 	}
 
 	bool HotkeySystem::ListenAndApply(int& Hotkey, std::vector<int> Blacklist)

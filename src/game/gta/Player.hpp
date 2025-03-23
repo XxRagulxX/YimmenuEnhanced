@@ -35,6 +35,7 @@ namespace YimMenu
 
 		// object
 		bool IsValid() const;
+		bool IsLocal() const;
 		int GetId() const;
 		const char* GetName();
 		CNetGamePlayer* GetHandle();

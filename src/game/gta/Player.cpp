@@ -24,6 +24,19 @@ namespace YimMenu
 		return m_Handle && m_Handle->IsPhysical() && m_Handle->m_PlayerInfo;
 	}
 
+	bool Player::IsLocal() const
+	{
+		if (!IsValid())
+		{
+			if (!*Pointers.IsSessionStarted)
+				return true;
+
+			return false;
+		}
+
+		return m_Handle->IsLocal();
+	}
+
 	int Player::GetId() const
 	{
 		if (!IsValid())

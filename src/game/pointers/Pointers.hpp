@@ -68,6 +68,7 @@ namespace YimMenu
 		Functions::GetNetObjectById GetNetObjectById;	
 		Functions::RequestControl RequestControl;
 		std::uint8_t* SpectatePatch; // used to patch the code that prevents you from spawning network objects when spectating
+		PVOID ReceiveNetMessage;
 	};
 
 	struct Pointers : PointerData

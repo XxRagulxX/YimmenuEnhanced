@@ -159,6 +159,11 @@ namespace YimMenu
 			SpectatePatch = ptr.As<std::uint8_t*>();
 		});
 
+		constexpr auto receiveNetMessagePtrn = Pattern<"48 81 C1 00 03 00 00 4C 89 E2">("ReceiveNetMessage");
+		scanner.Add(receiveNetMessagePtrn, [this](PointerCalculator ptr) {
+			ReceiveNetMessage = ptr.Add(0xD).Add(1).Rip().As<PVOID>();
+		});
+
 		if (!scanner.Scan())
 		{
 			LOG(FATAL) << "Some patterns could not be found, unloading.";
