@@ -34,11 +34,11 @@ Project maintainers have the right and responsibility to remove, edit, or reject
 
 ## Scope
 
-This Code of Conduct applies within all project spaces, including this repository and on the [Matrix server](https://matrix.to/#/#yimmenu:matrix.org).
+This Code of Conduct applies within all project spaces, including this repository and on the [Matrix server](https://matrix.to/#/#yimmenu:matrix.org). The code of conduct, however, does not apply to the actual menu codebase
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior should be reported in the Matrix room. If you violate this code of conduct, you will be banned, *even if you otherwise make decent contributions to the project*
+Instances of abusive, harassing, or otherwise unacceptable behavior should be reported in the Matrix room. All comments, issues, etc. violating this code of conduct will be swiftly removed, and the person blocked if they have no intention to contribute collegially to the project
 
 ## Why Have a Code of Conduct?
 
