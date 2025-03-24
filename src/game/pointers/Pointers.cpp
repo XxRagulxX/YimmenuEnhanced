@@ -164,9 +164,9 @@ namespace YimMenu
 			ReceiveNetMessage = ptr.Add(0xD).Add(1).Rip().As<PVOID>();
 		});
 
-		constexpr auto netEventMgrPtrn = Pattern<"4C 8B 05 ? ? ? ? 44 0F B7 CA">("NetEventMgr");
+		constexpr auto netEventMgrPtrn = Pattern<"81 BC 24 B0 00 00 00 FF 01 00 00">("ReceiveNetGameEvent");
 		scanner.Add(netEventMgrPtrn, [this](PointerCalculator ptr) {
-			NetEventMgr = ptr.Add(3).Rip().As<rage::netEventMgr**>();
+			ReceiveNetGameEvent = ptr.Sub(0x10).As<rage::netEventMgr**>();
 		});
 
 		constexpr auto sendEventAckPtrn = Pattern<"84 C0 75 ? 89 EE 49 8D AD">("SendEventAck");

@@ -72,7 +72,7 @@ namespace YimMenu
 		Functions::RequestControl RequestControl;
 		std::uint8_t* SpectatePatch; // used to patch the code that prevents you from spawning network objects when spectating
 		PVOID ReceiveNetMessage;
-		rage::netEventMgr** NetEventMgr;
+		PVOID ReceiveNetGameEvent;
 		Functions::EventAck EventAck;
 		Functions::SendEventAck SendEventAck;
 	};
