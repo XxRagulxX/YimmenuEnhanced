@@ -30,6 +30,7 @@ namespace YimMenu::Hooks
 
 			if (weapon_type == "WEAPON_TRANQUILIZER"_J)
 			{
+				LOG(INFO) << "blocked this thing from " << player.GetName();
 				//player.AddDetection();
 				return false;
 			}

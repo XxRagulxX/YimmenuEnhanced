@@ -31,7 +31,7 @@ namespace YimMenu::Hooks
 		case ScriptEventIndex::SendTextLabelSMS:
 		{
 			//player.AddDetection();
-			return true;
+			return false;
 		}
 		}
 
