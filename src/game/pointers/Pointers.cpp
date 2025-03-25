@@ -180,6 +180,12 @@ namespace YimMenu
 			SendEventAck = ptr.Add(0x13).Add(1).Rip().As<Functions::SendEventAck>();
 		});
 
+		constexpr auto queueDependencyPtrn = Pattern<"0F 29 46 50 48 8D 05">("QueueDependency&SigScanMemory");
+		scanner.Add(queueDependencyPtrn, [this](PointerCalculator ptr) {
+			QueueDependency = ptr.Add(0x71).Add(1).Rip().As<PVOID>();
+			SigScanMemory = ptr.Add(4).Add(3).Rip().As<PVOID>();
+		});
+
 		if (!scanner.Scan())
 		{
 			LOG(FATAL) << "Some patterns could not be found, unloading.";

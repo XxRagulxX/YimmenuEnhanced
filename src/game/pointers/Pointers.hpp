@@ -76,6 +76,8 @@ namespace YimMenu
 		rage::netEventMgr** NetEventMgr;
 		Functions::EventAck EventAck;
 		Functions::SendEventAck SendEventAck;
+		PVOID QueueDependency;
+		PVOID SigScanMemory;
 	};
 
 	struct Pointers : PointerData
