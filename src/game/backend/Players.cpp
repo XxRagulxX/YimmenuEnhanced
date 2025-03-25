@@ -1,6 +1,7 @@
 #include "Players.hpp"
 #include "game/pointers/Pointers.hpp"
 #include "types/network/CNetGamePlayer.hpp"
+#include "types/network/CNetworkPlayerMgr.hpp"
 #include "types/network/rlGamerInfo.hpp"
 
 namespace YimMenu
@@ -9,11 +10,19 @@ namespace YimMenu
 	{
 		for (uint8_t idx = 0; idx < 32u; idx++)
 		{
-			if (const auto netPlayer = Pointers.GetNetPlayerFromPid(idx); netPlayer && netPlayer->IsPhysical() && netPlayer->GetGamerInfo())
+			if (const auto netPlayer = Pointers.GetNetPlayerFromPid(idx);
+			    netPlayer && netPlayer->IsPhysical() && netPlayer == (*Pointers.NetworkPlayerMgr)->m_Players[idx])
 			{
 				OnPlayerJoin(netPlayer);
 			}
 		}
+	}
+
+	void Players::ShutdownImpl()
+	{
+		m_SelectedPlayer = nullptr; 
+		m_Players.clear();
+		m_PlayerDatas.clear();
 	}
 
 	void Players::OnPlayerJoinImpl(CNetGamePlayer* player)
@@ -26,6 +35,8 @@ namespace YimMenu
 
 	void Players::OnPlayerLeaveImpl(CNetGamePlayer* player)
 	{
+		if (m_SelectedPlayer == player)
+			m_SelectedPlayer = nullptr;
 		m_Players.erase(player->m_PlayerIndex);
 		m_PlayerDatas.erase(player->m_PlayerIndex);
 	}

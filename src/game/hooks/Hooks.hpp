@@ -31,6 +31,7 @@ namespace YimMenu::Hooks
 	namespace Info
 	{
 		extern void AssignPhysicalIndex(CNetworkPlayerMgr* mgr, CNetGamePlayer* player, std::uint8_t index);
+		extern void NetworkPlayerMgrShutdown(CNetworkPlayerMgr* mgr);
 	}
 
 	namespace Script

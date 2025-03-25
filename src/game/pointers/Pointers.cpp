@@ -83,6 +83,11 @@ namespace YimMenu
 			AssignPhysicalIndex = ptr.Sub(0x13).As<PVOID>();
 		});
 
+		constexpr auto networkPlayerManagerShutdownPtrn = Pattern<"84 C0 0F 84 88 00 00 00 4C 89 F9 E8">("NetworkPlayerMgrShutdown");
+		scanner.Add(networkPlayerManagerShutdownPtrn, [this](PointerCalculator ptr) {
+			NetworkPlayerMgrShutdown = ptr.Sub(0x1B).As<PVOID>();
+		});
+
 		constexpr auto scriptGlobalsPtrn = Pattern<"48 8B 8E B8 00 00 00 48 8D 15 ? ? ? ? 49 89 D8">("ScriptGlobals");
 		scanner.Add(scriptGlobalsPtrn, [this](PointerCalculator ptr) {
 			ScriptGlobals = ptr.Add(7).Add(3).Rip().As<std::int64_t**>();

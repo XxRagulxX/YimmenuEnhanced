@@ -21,7 +21,7 @@ namespace YimMenu::Hooks
 				return false;
 			}
 
-			if (bounty->Target == Self::GetPed().GetHandle())
+			if (bounty->Target == Self::GetPlayer().GetId())
 			{
 				return false;
 			}

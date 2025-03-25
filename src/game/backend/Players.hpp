@@ -16,6 +16,11 @@ namespace YimMenu
 			GetInstance().InitImpl();
 		}
 
+		static void Shutdown()
+		{
+			GetInstance().ShutdownImpl();
+		}
+
 		static void OnPlayerJoin(CNetGamePlayer* player)
 		{
 			GetInstance().OnPlayerJoinImpl(player);
@@ -83,6 +88,7 @@ namespace YimMenu
 		}
 
 		void InitImpl();
+		void ShutdownImpl();
 
 		void OnPlayerJoinImpl(CNetGamePlayer* player);
 		void OnPlayerLeaveImpl(CNetGamePlayer* player);
