@@ -25,7 +25,7 @@ enum class WheelTypes
 	WHEEL_TYPE_TRACK
 };
 
-enum class VehicleWeapons
+enum class VehicleWeapons : std::uint32_t
 {
 	VEHICLE_WEAPON_AKULA_BARRAGE         = 0x880D14F2,
 	VEHICLE_WEAPON_AKULA_MINIGUN         = 0x19B95679,

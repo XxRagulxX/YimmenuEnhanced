@@ -7,6 +7,9 @@
 
 // TODO: serialization isn't stable
 
+#include "game/pointers/Pointers.hpp" // game import in core!
+#include "game/gta/Natives.hpp" // game import in core!
+
 namespace YimMenu
 {
 	HotkeySystem::HotkeySystem() : 
@@ -94,37 +97,40 @@ namespace YimMenu
 	{
 		while (g_Running)
 		{
-			for (auto& [hash, link] : m_CommandHotkeys)
+			if (GetForegroundWindow() == *Pointers.Hwnd && !HUD::IS_PAUSE_MENU_ACTIVE() && !HUD::IS_SOCIAL_CLUB_ACTIVE())
 			{
-				if (link.m_Chain.empty() || link.m_BeingModified)
-					continue;
-
-				bool all_keys_pressed = true;
-
-				for (auto modifier : link.m_Chain)
+				for (auto& [hash, link] : m_CommandHotkeys)
 				{
-					if (!(GetAsyncKeyState(modifier) & 0x8000))
-					{
-						all_keys_pressed = false;
-					}
-				}
+					if (link.m_Chain.empty() || link.m_BeingModified)
+						continue;
 
-				if (all_keys_pressed && std::chrono::system_clock::now() - m_LastHotkeyTriggerTime > 100ms)
-				{
-					auto command = Commands::GetCommand(hash);
-					if (command)
+					bool all_keys_pressed = true;
+
+					for (auto modifier : link.m_Chain)
 					{
-						// TODO: this is the only way I can prevent chat from blocking the main loop while keeping everything else fast
-						if (hash != "chathelper"_J)
-							command->Call();
-						else
+						if (!(GetAsyncKeyState(modifier) & 0x8000))
 						{
-							FiberPool::Push([command] {
-								command->Call();
-							});
+							all_keys_pressed = false;
 						}
 					}
-					m_LastHotkeyTriggerTime = std::chrono::system_clock::now();
+
+					if (all_keys_pressed && std::chrono::system_clock::now() - m_LastHotkeyTriggerTime > 100ms)
+					{
+						auto command = Commands::GetCommand(hash);
+						if (command)
+						{
+							// TODO: this is the only way I can prevent chat from blocking the main loop while keeping everything else fast
+							if (hash != "chathelper"_J)
+								command->Call();
+							else
+							{
+								FiberPool::Push([command] {
+									command->Call();
+								});
+							}
+						}
+						m_LastHotkeyTriggerTime = std::chrono::system_clock::now();
+					}
 				}
 			}
 			ScriptMgr::Yield();

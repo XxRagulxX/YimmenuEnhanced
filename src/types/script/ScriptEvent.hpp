@@ -48,7 +48,7 @@ enum class ScriptEventIndex
 	Spectate                 = 1840946429,  // SPEC_TCK1
 	Teleport                 = -1321657966, // Mission_Pass_Notify
 	TeleportToWarehouse      = -1253241415, // .f_4 == 50
-	TransactionError         = -830063381,  // NETWORK_RECEIVE_PLAYER_JOBSHARE_CASH
+	// TransactionError         = -830063381,  // NETWORK_RECEIVE_PLAYER_JOBSHARE_CASH
 	VehicleKick              = -503325966,  // PIM_RFMOC
 	MCTeleport    = 1103127469, // NETWORK::NETWORK_HASH_FROM_PLAYER_HANDLE(PLAYER::PLAYER_ID()) == (first one)
 	StartActivity = 1450115979, // (Var0.f_2, -1); first match
@@ -144,5 +144,12 @@ struct SCRIPT_EVENT_SEND_TEXT_LABEL_MESSAGE : public SCRIPT_EVENT
 	TEXT_LABEL_23 Label;
 };
 static_assert(sizeof(SCRIPT_EVENT_SEND_TEXT_LABEL_MESSAGE) == 9 * 8);
+
+struct SCRIPT_EVENT_KICK_FROM_CEO : public SCRIPT_EVENT
+{
+	REGISTER_SCRIPT_EVENT(SCRIPT_EVENT_KICK_FROM_CEO, CeoKick);
+};
+static_assert(sizeof(SCRIPT_EVENT_KICK_FROM_CEO) == 3 * 8);
+
 
 #undef REGISTER_SCRIPT_EVENT
