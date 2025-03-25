@@ -4,12 +4,15 @@
 #include "core/backend/ScriptMgr.hpp"
 #include "core/commands/BoolCommand.hpp"
 #include "game/gta/data/VehicleValues.hpp"
+#include "core/frontend/Notifications.hpp"
 
 namespace YimMenu::Features
 {
 	static StringCommand _VehicleModelname{"vehmodelname", "Vehicle model name", "The model name of the vehicle you wish to spawn."};
 	static BoolCommand _SpawnInVehicle{"spawninvehicle", "Spawn in vehicle", "Enter vehicle once it is spawned", false};
 	static BoolCommand _SpawnWithMaximumUpgrades{"spawnupgraded", "Spawn with maximum upgrades", "Spawn vehicle with maximum upgrades", false};
+	static BoolCommand _UseCustomLicensePlate{"usecustomlicenseplate", "Use custom license plate", "Use a custom license plate for the vehicle", false};
+	static StringCommand _CustomLicensePlate{"customlicenseplate", "Custom license plate", "The custom license plate for the vehicle"};
 
 	class SpawnVehicle : public Command {
 		using Command::Command;
@@ -17,35 +20,50 @@ namespace YimMenu::Features
 		virtual void OnCall() override
 		{
 			auto model = _VehicleModelname.GetString();
+			
+			if (!model.length())
+			{
+				Notifications::Show("Spawn Vehicle", "No model name provided.", NotificationType::Error);
+				return;
+			}
 
 			Hash modelHash = Joaat(model);
 
-			if (!modelHash)
-			{
-				LOG(WARNING) << "Couldn't spawn vehicle because no model name was specified.";
-				return;
-			}
+			assert(modelHash != 0);
 
 			if (STREAMING::IS_MODEL_IN_CDIMAGE(modelHash))
 			{
 				rage::fvector3 coords = Self::GetPed().GetPosition();
-				auto veh              = Vehicle::Create(modelHash, coords, Self::GetPed().GetHeading()).GetHandle();
+				auto veh              = Vehicle::Create(modelHash, coords, Self::GetPed().GetHeading());
+				auto vehHandle        = veh.GetHandle();
 
 				if (_SpawnInVehicle.GetState())
 				{
-					PED::SET_PED_INTO_VEHICLE(Self::GetPed().GetHandle(), veh, -1);
+					PED::SET_PED_INTO_VEHICLE(Self::GetPed().GetHandle(), vehHandle, -1);
 				}
 
 				if (_SpawnWithMaximumUpgrades.GetState())
 				{
-					VEHICLE::SET_VEHICLE_MOD_KIT(veh, 0);
-				
-					for (int t = (int)VehicleModType::MOD_SPOILERS; t < (int)VehicleModType::MOD_LIGHTBAR; t++) {
-						VEHICLE::SET_VEHICLE_MOD(veh, t, VEHICLE::GET_NUM_VEHICLE_MODS(veh, t) - 1, false);
-					}
-
-					VEHICLE::SET_VEHICLE_TYRES_CAN_BURST(veh, false);
+					veh.Upgrade();
 				}
+
+				if (_UseCustomLicensePlate.GetState())
+				{
+					std::string licensePlate = _CustomLicensePlate.GetString();
+
+					if (licensePlate.length() > 8)
+					{
+						Notifications::Show("Spawn Vehicle", "License plate must be 8 characters or less.", NotificationType::Error);
+					}
+					else if (licensePlate.length() > 0)
+					{
+						veh.SetPlateText(licensePlate);
+					}				
+				}
+			}
+			else
+			{
+				Notifications::Show("Spawn Vehicle", "Invalid model name provided.", NotificationType::Error);
 			}
 		}
 	};
