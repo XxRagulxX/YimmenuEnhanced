@@ -8,11 +8,9 @@ namespace rage
 {
 	class netConnectionManager;
 	class netEvent;
-	class netEventMgr;
 	class scrProgram;
 	class netObject;
 	class datBitBuffer;
-	class netGameEvent;
 }
 
 namespace YimMenu
@@ -52,8 +50,8 @@ namespace YimMenu::Hooks
 	namespace Network
 	{
 		extern void ReceiveNetMessage(void* a1, rage::netConnectionManager* mgr, rage::netEvent* event);
-		extern void ReceiveNetGameEvent(rage::netEventMgr* mgr, rage::netGameEvent* event, rage::datBitBuffer* buffer, CNetGamePlayer* src, CNetGamePlayer* dst, std::uint16_t seq_id, std::uint32_t a7, int a8);
-		extern bool HandleScriptedGameEvent(Player player, int64_t* args, uint32_t args_size); // this is not a real hooked func
+		extern void ReceiveEvent(YimMenu::Player& player, uint16_t event_id, uint32_t event_index, uint32_t event_handled_bitset, rage::datBitBuffer& buffer);
+		extern bool HandleScriptedGameEvent(YimMenu::Player& player, int64_t* args, uint32_t args_size);
 	}
 
 	namespace Window

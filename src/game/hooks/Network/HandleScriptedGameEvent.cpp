@@ -5,10 +5,9 @@
 
 namespace YimMenu::Hooks
 {
-	bool Network::HandleScriptedGameEvent(Player player, int64_t* args, uint32_t args_size)
+	bool Network::HandleScriptedGameEvent(YimMenu::Player& player, int64_t* args, uint32_t args_size)
 	{
 		SCRIPT_EVENT* script_event = reinterpret_cast<SCRIPT_EVENT*>(args);
-
 
 		switch (static_cast<ScriptEventIndex>(script_event->GetEventIndex()))
 		{
@@ -34,8 +33,6 @@ namespace YimMenu::Hooks
 			//player.AddDetection();
 			return true;
 		}
-		default:
-			break;
 		}
 
 		return true;
