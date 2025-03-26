@@ -202,6 +202,11 @@ namespace YimMenu
 			SigScanMemory = ptr.Add(4).Add(3).Rip().As<PVOID>();
 		});
 
+		constexpr auto scriptVMPtrn = Pattern<"49 63 41 1C">("ScriptVM");
+		scanner.Add(scriptVMPtrn, [this](PointerCalculator ptr) {
+			ScriptVM = ptr.Sub(0x24).As<PVOID>();
+		});
+
 		if (!scanner.Scan())
 		{
 			LOG(FATAL) << "Some patterns could not be found, unloading.";

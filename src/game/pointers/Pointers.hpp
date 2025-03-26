@@ -83,6 +83,7 @@ namespace YimMenu
 		Functions::SendEventAck SendEventAck;
 		PVOID QueueDependency;
 		PVOID SigScanMemory;
+		PVOID ScriptVM;
 	};
 
 	struct Pointers : PointerData

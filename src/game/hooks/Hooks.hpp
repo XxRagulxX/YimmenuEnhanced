@@ -43,6 +43,7 @@ namespace YimMenu::Hooks
 	{
 		extern bool RunScriptThreads(int ops_to_execute);
 		extern void InitNativeTables(rage::scrProgram* program);
+		extern int ScriptVM(uint64_t* stack, uint64_t** scr_globals, rage::scrProgram* program, void* ctx); // ctx = rage::scrThread::Context
 	}
 
 	namespace Spoofing
