@@ -11,6 +11,8 @@ namespace rage
 	class scrProgram;
 	class netObject;
 	class datBitBuffer;
+	class JsonSerializer;
+	class rlMetric;
 }
 
 namespace YimMenu
@@ -31,6 +33,7 @@ namespace YimMenu::Hooks
 	namespace Anticheat
 	{
 		extern void QueueDependency(__int64 a1);
+		extern bool PrepareMetricForSending(rage::JsonSerializer* ser, void* a2, void* a3, rage::rlMetric* metric);
 	}
 
 	namespace Info
