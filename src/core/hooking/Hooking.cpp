@@ -45,6 +45,7 @@ namespace YimMenu
 	void Hooking::Destroy()
 	{
 		GetInstance().DestroyImpl();
+		BytePatches::RestoreAll();
 	}
 
 	bool Hooking::InitImpl()
