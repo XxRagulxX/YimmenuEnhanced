@@ -228,3 +228,8 @@ void CUpdateFxnEvent::Deserialize(rage::datBitBuffer& buffer)
 	m_0x30 = buffer.Read<uint32_t>(32);
 	m_0x34 = buffer.Read<uint32_t>(32);
 }
+
+void CRagdollRequestEvent::Deserialize(rage::datBitBuffer& buffer)
+{
+	m_PedToRagdoll = buffer.Read<uint16_t>(13);
+}

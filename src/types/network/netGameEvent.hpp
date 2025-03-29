@@ -102,15 +102,15 @@ namespace rage
 			NETWORK_CHECK_CATALOG_CRC
 		};
 
-		virtual ~netGameEvent() = default;
+		virtual ~netGameEvent() {};
 
-		virtual const char* GetName()             = 0;
-		virtual bool IsInScope(netPlayer* player) = 0;
-		virtual bool TimeToResend(uint32_t time)  = 0;
-		virtual bool CanChangeScope()             = 0;
+		virtual const char* GetName() { return nullptr; };
+		virtual bool IsInScope(netPlayer* player) { return {}; };
+		virtual bool TimeToResend(uint32_t time)  { return {}; };
+		virtual bool CanChangeScope() { return {}; };
 		virtual void PrepareData(datBitBuffer* buffer, netPlayer* source_player, netPlayer* target_player) {};
 		virtual void HandleData(datBitBuffer* buffer, netPlayer* source_player, netPlayer* target_player) {};
-		virtual bool Decide(netPlayer* source_player, netPlayer* target_player) = 0;
+		virtual bool Decide(netPlayer* source_player, netPlayer* target_player) { return false; };
 		virtual void PrepareReply(datBitBuffer* buffer, netPlayer* reply_player) {};
 		virtual void HandleReply(datBitBuffer* buffer, netPlayer* souce_player) {};
 		virtual void PrepareExtraData(datBitBuffer* buffer, bool is_reply, netPlayer* player, netPlayer* player2) {};
@@ -123,12 +123,12 @@ namespace rage
 		virtual void unk_0x78() {};
 
 	public:
-		virtual bool operator==(netGameEvent const& other) = 0;
-		virtual bool operator!=(netGameEvent const& other) = 0;
+		virtual bool operator==(netGameEvent const& other) { return {}; };
+		virtual bool operator!=(netGameEvent const& other) { return {}; };
 
-		virtual bool MustPersist()               = 0;
-		virtual bool MustPersistWhenOutOfScope() = 0;
-		virtual bool HasTimedOut()               = 0;
+		virtual bool MustPersist() { return {}; };
+		virtual bool MustPersistWhenOutOfScope() { return {}; };
+		virtual bool HasTimedOut() { return {}; };
 
 	public:
 		Type m_Type;          // 0x08
@@ -148,7 +148,7 @@ namespace rage
 	static_assert(sizeof(rage::netGameEvent) == 0x30);
 }
 
-class CScriptedGameEvent // : public rage::netGameEvent
+class CScriptedGameEvent : public rage::netGameEvent
 {
 public:
 	bool Deserialize(rage::datBitBuffer& buffer);
@@ -159,7 +159,7 @@ public:
 	uint32_t m_ArgsSize;  // 0x224
 };
 
-class CNetworkIncrementStatEvent
+class CNetworkIncrementStatEvent : public rage::netGameEvent
 {
 public:
 	void Deserialize(rage::datBitBuffer& buffer);
@@ -168,7 +168,7 @@ public:
 	uint32_t m_Amount; // 0x34
 };
 
-class CDoorBreakEvent
+class CDoorBreakEvent : public rage::netGameEvent
 {
 public:
 	void Deserialize(rage::datBitBuffer& buffer);
@@ -177,7 +177,7 @@ public:
 	uint8_t m_DoorId;     // 0x32
 };
 
-class CPlaySoundEvent
+class CPlaySoundEvent : public rage::netGameEvent
 {
 public:
 	void Deserialize(rage::datBitBuffer& buffer);
@@ -192,7 +192,7 @@ public:
 	int m_0xA0;                // 0xA0
 };
 
-class CWeaponDamageEvent
+class CWeaponDamageEvent : public rage::netGameEvent
 {
 public:
 	void Deserialize(rage::datBitBuffer& buffer);
@@ -232,7 +232,7 @@ public:
 	uint8_t m_0x94;                 // 0x94
 };
 
-class CActivateVehicleSpecialAbilityEvent
+class CActivateVehicleSpecialAbilityEvent : public rage::netGameEvent
 {
 public:
 	void Deserialize(rage::datBitBuffer& buffer);
@@ -243,7 +243,7 @@ public:
 };
 
 enum class ExplosionType;
-class CExplosionEvent
+class CExplosionEvent : public rage::netGameEvent
 {
 public:
 	void Deserialize(rage::datBitBuffer& buffer);
@@ -333,11 +333,19 @@ public:
 	};
 };
 
-class CUpdateFxnEvent
+class CUpdateFxnEvent : public rage::netGameEvent
 {
 public:
 	void Deserialize(rage::datBitBuffer& buffer);
 
 	uint32_t m_0x30; // 0x30
 	uint32_t m_0x34; // 0x34
+};
+
+class CRagdollRequestEvent : public rage::netGameEvent
+{
+public:
+	void Deserialize(rage::datBitBuffer& buffer);
+
+	uint16_t m_PedToRagdoll; // 0x30
 };

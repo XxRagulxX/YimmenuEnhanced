@@ -274,21 +274,21 @@ namespace rage
 		return true;
 	}
 
-		inline bool IsReadBuffer()
+		inline bool IsReadBuffer() const
 		{
 			return m_FlagBits & 1;
 		}
 
-		inline bool IsSizeCalculator()
+		inline bool IsSizeCalculator() const
 		{
 			return m_FlagBits & 2;
 		}
 
-		void Seek(int bits, bool read)
+		void Seek(int bits)
 		{
 			m_BitsRead += bits;
 
-			if (read)
+			if (IsReadBuffer())
 			{
 				if (m_HighestBitsRead > m_CurBit)
 					m_CurBit = m_HighestBitsRead;
@@ -309,7 +309,7 @@ namespace rage
 				return false;
 
 			ReadBitsSingle(static_cast<uint8_t*>(m_Data), out, size, m_BitsRead + m_BitOffset);
-			Seek(size, true);
+			Seek(size);
 			return true;
 		}
 
@@ -323,7 +323,7 @@ namespace rage
 
 			if (!IsSizeCalculator())
 				WriteBitsSingle(static_cast<uint8_t*>(m_Data), val, size, m_BitsRead + m_BitOffset);
-			Seek(size, false);
+			Seek(size);
 			return true;
 		}
 
@@ -406,7 +406,7 @@ namespace rage
 			{
 				if (!IsSizeCalculator())
 					CopyBits(reinterpret_cast<void*>(reinterpret_cast<std::uint64_t>(m_Data) + (m_BitOffset >> 3)), array, bits, m_BitsRead + (m_BitOffset & 7), 0);
-				Seek(bits, false);
+				Seek(bits);
 			}
 		}
 
@@ -422,7 +422,7 @@ namespace rage
 			
 			if (!IsSizeCalculator())
 				CopyBits(array, reinterpret_cast<void*>(reinterpret_cast<std::uint64_t>(m_Data) + (m_BitOffset >> 3)), bits, 0, m_BitsRead + (m_BitOffset & 7));
-			Seek(bits, true);
+			Seek(bits);
 		}
 
 		void ReadArrayBytes(void* array, int bytes)
@@ -517,6 +517,11 @@ namespace rage
 			WriteSignedFloat(size, divisor, vec.x);
 			WriteSignedFloat(size, divisor, vec.y);
 			WriteSignedFloat(size, divisor, vec.z);
+		}
+
+		void AlignToByteBoundary()
+		{
+			Seek(((m_BitsRead + 7) >> 3) - m_BitsRead);
 		}
 
 	public:
