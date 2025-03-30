@@ -8,6 +8,7 @@ namespace YimMenu::Submenus
 
 		auto kicks = std::make_shared<Group>("Kicks");
 		kicks->AddItem(std::make_shared<PlayerCommandItem>("shkick"_J));
+		kicks->AddItem(std::make_shared<PlayerCommandItem>("endkick"_J));
 
 		menu->AddItem(kicks);
 
