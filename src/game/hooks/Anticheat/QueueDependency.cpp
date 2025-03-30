@@ -55,7 +55,6 @@ namespace YimMenu::Hooks
 		if (arx_score >= 2)
 		{
 			auto from_offset = *reinterpret_cast<std::uint64_t*>(_AddressOfReturnAddress()) - ModuleMgr.Get("GTA5_Enhanced.exe"_J)->Base();
-			LOGF(WARNING, "QueueDependency: Blocked a dependency with an Arxan score of {} from being queued at GTA5_Enhanced.exe+{:X}", arx_score, from_offset);
 			return;
 		}
 
