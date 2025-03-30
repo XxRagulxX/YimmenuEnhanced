@@ -16,6 +16,7 @@
 #include "game/backend/NativeHooks.hpp"
 #include "game/frontend/GUI.hpp"
 #include "game/pointers/Pointers.hpp"
+#include "game/features/recovery/GiveVehicleReward.hpp"
 
 namespace YimMenu
 {
@@ -55,6 +56,7 @@ namespace YimMenu
 		FiberPool::Init(16);
 		ScriptMgr::AddScript(std::make_unique<Script>(&HotkeySystem::RunScript));
 		ScriptMgr::AddScript(std::make_unique<Script>(&Commands::RunScript));
+		ScriptMgr::AddScript(std::make_unique<Script>(&GiveVehicleReward::RunScript));
 
 		Notifications::Show("YimMenuV2", "Loaded succesfully", NotificationType::Success);
 

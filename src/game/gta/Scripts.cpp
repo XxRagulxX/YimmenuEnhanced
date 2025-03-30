@@ -3,6 +3,7 @@
 #include "types/rage/atArray.hpp"
 #include "types/rage/tlsContext.hpp"
 #include "types/script/GtaThread.hpp"
+#include "types/script/scrProgram.hpp"
 #include "types/script/CGameScriptHandler.hpp"
 #include "types/script/CGameScriptHandlerNetComponent.hpp"
 #include "types/script/CGameScriptId.hpp"
@@ -10,6 +11,7 @@
 #include "game/gta/Packet.hpp"
 #include "game/backend/Players.hpp"
 #include "game/backend/Self.hpp"
+#include "core/memory/Pattern.hpp"
 
 namespace YimMenu::Scripts
 {
@@ -26,6 +28,16 @@ namespace YimMenu::Scripts
 		return nullptr;
 	}
 
+	rage::scrProgram* FindScriptProgram(joaat_t hash)
+	{
+		for (int i = 0; i < 176; i++)
+		{
+			if (Pointers.ScriptPrograms[i] && Pointers.ScriptPrograms[i]->m_NameHash == hash)
+				return Pointers.ScriptPrograms[i];
+		}
+
+		return nullptr;
+	}
 
 	void RunAsScript(rage::scrThread* thread, std::function<void()> callback)
 	{
@@ -81,6 +93,24 @@ namespace YimMenu::Scripts
 
 		return false;
 	}
+
+	std::optional<std::uint32_t> GetCodeLocationByPattern(rage::scrProgram* program, SimplePattern pattern)
+	{
+		uint32_t codeSize = program->m_CodeSize;
+		for (uint32_t i = 0; i < (codeSize - pattern.m_Bytes.size()); i++)
+		{
+			for (uint32_t j = 0; j < pattern.m_Bytes.size(); j++)
+				if (pattern.m_Bytes[j].has_value())
+					if (pattern.m_Bytes[j].value() != *program->GetCodeAddress(i + j))
+						goto incorrect;
+
+			return i;
+		incorrect:
+			continue;
+		}
+
+		return std::nullopt;
+  }
 
 	void ForceScriptHost(rage::scrThread* thread)
 	{
