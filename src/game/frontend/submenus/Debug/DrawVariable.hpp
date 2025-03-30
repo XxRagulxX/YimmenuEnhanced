@@ -80,7 +80,7 @@ namespace YimMenu
 		ImGui::InputScalar("Index", ImGuiDataType_U32, &var.base);
 		ImGui::SameLine();
 		ImGui::SetNextItemWidth(100.0f);
-		ImGui::Combo("##var_type", (int*)&var.type, "Int\0Float\0Bool\0Int64");
+		ImGui::Combo("##var_type", (int*)&var.type, "Int\0Float\0Bool\0Int64\0");
 
 		for (int i = 0; i < var.appendages.size(); i++)
 		{
