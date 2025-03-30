@@ -224,6 +224,12 @@ namespace YimMenu
 			BattlEyeStatusUpdatePatch = BytePatches::Add(ptr.Sub(0x26).As<std::uint8_t*>(), 0xC3);
 		});
 
+		constexpr auto writeNetArrayDataPtrn = Pattern<"0F 84 06 03 00 00 0F B6">("WriteNetArrayData");
+		scanner.Add(writeNetArrayDataPtrn, [this](PointerCalculator ptr) {
+			WriteNetArrayData = ptr.Sub(0x4E).As<PVOID>();
+			NetArrayMgr = ptr.Sub(0x32).Add(3).As<rage::netArrayMgr**>();
+		});
+
 		if (!scanner.Scan())
 		{
 			LOG(FATAL) << "Some patterns could not be found, unloading.";

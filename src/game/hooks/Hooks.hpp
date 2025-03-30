@@ -8,6 +8,7 @@ class CScriptedGameEvent;
 namespace rage
 {
 	class netConnectionManager;
+	class netArrayHandler;
 	class netEvent;
 	class scrProgram;
 	class netObject;
@@ -57,6 +58,7 @@ namespace YimMenu::Hooks
 		extern bool ShouldUseNodeCache(void* node, int flags);
 		extern bool IsNodeInScope(void* node, void* a2, std::uint8_t playerId, int flags, unsigned int a5, int a6);
 		extern bool WriteSyncTree(void* tree, int type, int flags, rage::netObject* object, rage::datBitBuffer* buffer, int unk, void* a6, std::uint8_t player_id, void* a8);
+		extern int WriteNetArrayData(rage::netArrayHandler* _this, CNetGamePlayer* target, rage::datBitBuffer* bit_buffer, uint16_t counter, uint32_t* elem_start, bool silent);
 	}
 
 	namespace Network

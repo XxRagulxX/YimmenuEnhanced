@@ -65,6 +65,7 @@ namespace YimMenu::Scripts
 		}
 	}
 
+	// we need this because modifying player broadcast data before they are registered causes the default values (when a new player joins) to be changed as well
 	bool SafeToModifyFreemodeBroadcastGlobals()
 	{
 		if (!*Pointers.IsSessionStarted)
