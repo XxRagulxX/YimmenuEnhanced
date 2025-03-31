@@ -33,8 +33,16 @@ namespace YimMenu
 		NativeHooks::AddHook("shop_controller"_J, NativeIndex::NET_GAMESERVER_BEGIN_SERVICE, &TransactionHook);
 
 		m_IsFSLLoaded = CheckForFSL();
+		m_BattlEyeRunning = NETWORK::_NETWORK_GET_GAME_RESTART_REASON() == 0 && !m_IsFSLLoaded;
 
-		LOG(INFO) << (m_IsFSLLoaded ? "FSL is loaded" : "FSL is NOT loaded");
+		const char* mode = "Vanilla";
+
+		if (m_BattlEyeRunning)
+			mode = "Legit BattlEye";
+		else if (m_IsFSLLoaded)
+			mode = "FSL";
+	
+		LOGF(VERBOSE, "Anticheat bypass mode: {}", mode);
 
 		if (!m_IsFSLLoaded)
 			Pointers.BattlEyeStatusUpdatePatch->Apply();

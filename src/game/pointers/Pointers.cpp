@@ -235,6 +235,11 @@ namespace YimMenu
 			NetArrayCachedDataPatch = BytePatches::Add(ptr.As<void*>(), std::vector<std::uint8_t>{0xE9, 0x65, 0xFE, 0xFF, 0xFF, 0x90});
 		});
 
+		constexpr auto statsMgrPtrn = Pattern<"89 6C 24 28 48 8D 0D ? ? ? ? 48 8D">("CStatsMgr");
+		scanner.Add(statsMgrPtrn, [this](PointerCalculator ptr) {
+			StatsMgr = ptr.Add(4).Add(3).Rip().As<CStatsMgr*>();
+		});
+
 		if (!scanner.Scan())
 		{
 			LOG(FATAL) << "Some patterns could not be found, unloading.";

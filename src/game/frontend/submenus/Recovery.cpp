@@ -1,6 +1,7 @@
 #include "Recovery.hpp"
 #include "game/frontend/items/Items.hpp"
 #include "game/features/recovery/GiveVehicleReward.hpp"
+#include "Recovery/StatEditor.hpp"
 
 namespace YimMenu::Submenus
 {
@@ -22,5 +23,6 @@ namespace YimMenu::Submenus
 
 		shopping->AddItem(vehiclesGroup);
 		AddCategory(std::move(shopping));
+		AddCategory(BuildStatEditorMenu());
 	}
 }

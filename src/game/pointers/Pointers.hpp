@@ -23,6 +23,7 @@ class CEntity;
 class CNetworkObjectMgr;
 class CNetworkPlayerMgr;
 class PoolEncryption;
+class CStatsMgr;
 
 namespace YimMenu
 {
@@ -95,6 +96,7 @@ namespace YimMenu
 		PVOID WriteNetArrayData;
 		BytePatch NetArrayCachedDataPatch;
 		rage::netArrayMgr** NetArrayMgr;
+		CStatsMgr* StatsMgr;
 	};
 
 	struct Pointers : PointerData
