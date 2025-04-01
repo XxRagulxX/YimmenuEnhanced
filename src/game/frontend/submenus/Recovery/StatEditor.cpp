@@ -123,7 +123,8 @@ namespace YimMenu::Submenus
 			if (ImGui::InputText("Name", stat_buf, sizeof(stat_buf)))
 			{
 				current_stat = Pointers.StatsMgr->GetStat(Joaat(stat_buf));
-				ReadStat(value, current_stat);
+				if (current_stat)
+					ReadStat(value, current_stat);
 			}
 
 			if (!current_stat)
