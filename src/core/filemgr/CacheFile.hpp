@@ -21,7 +21,7 @@ namespace YimMenu
 		cacheData m_Data;
 
 	public:
-		CacheFile() = default;
+		CacheFile() = delete;
 		CacheFile(File cacheFile);
 		CacheFile(File cacheFile, std::uint32_t cacheVersion);
 

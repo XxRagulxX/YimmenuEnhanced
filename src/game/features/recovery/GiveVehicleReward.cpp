@@ -31,7 +31,7 @@ namespace YimMenu
 					m_Thread->m_Context.m_State = rage::scrThread::State::KILLED;
 					m_StartedByUs               = false;
 				}
-				m_Thread          = nullptr;
+				m_Thread = nullptr;
 				m_ShouldRunScript = false;
 				continue;
 			}

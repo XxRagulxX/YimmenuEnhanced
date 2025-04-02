@@ -136,12 +136,13 @@ namespace YimMenu
 						return;
 					}
 
-					m_ScriptStarted = false;
-					m_Initialized   = true;
 					LOG(INFO) << "Saving " << m_Tunables.size() << " tunables to cache.";
+					Save();
+
+					m_ScriptStarted = false;
 					m_TunablesBackup.release();
 					m_JunkValues.clear();
-					Save();
+					m_Initialized = true;
 				}
 			}
 		}
