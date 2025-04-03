@@ -205,11 +205,11 @@ namespace YimMenu::Submenus
 			ImGui::BeginDisabled(!can_edit);
 			if (ImGui::Button("Write"))
 				FiberPool::Push([] {
-					WriteStat(Joaat(stat_buf), value, current_info.m_Data);
+					WriteStat(current_info.m_NameHash, value, current_info.m_Data);
 				});
 			if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
 				FiberPool::Push([] {
-					WriteStat(Joaat(stat_buf), value, current_info.m_Data);
+					WriteStat(current_info.m_NameHash, value, current_info.m_Data);
 				});
 			if (!can_edit && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
 				ImGui::SetTooltip("This stat should not be edited by the client. Right-click to force the write anyway");
