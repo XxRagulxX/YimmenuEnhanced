@@ -132,6 +132,8 @@ namespace YimMenu
 	rage::fvector3 Entity::GetPosition()
 	{
 		ENTITY_ASSERT_VALID();
+		if (!m_Handle && m_Pointer)
+			return *reinterpret_cast<rage::fvector3*>(&GetPointer<rage::fwEntity*>()->m_Transform.rows[3]);
 		return ENTITY::GET_ENTITY_COORDS(GetHandle(), false);
 	}
 

@@ -261,6 +261,21 @@ namespace YimMenu
 			GetActiveBasket = ptr.Sub(0x39).As<Functions::GetActiveBasket>();
 		});
 
+		constexpr auto pedPoolPtrn = Pattern<"80 79 4B 00 0F 84 F5 00 00 00 48 89 F1">("PedPool");
+		scanner.Add(pedPoolPtrn, [this](PointerCalculator ptr) {
+			PedPool = ptr.Add(0x18).Add(3).Rip().As<PoolEncryption*>();
+		});
+
+		constexpr auto vehiclePoolPtrn = Pattern<"48 83 78 18 0D">("VehiclePool");
+		scanner.Add(vehiclePoolPtrn, [this](PointerCalculator ptr) {
+			VehiclePool = ptr.Sub(0xA).Add(3).Rip().As<rage::fwVehiclePool***>();
+		});
+
+		constexpr auto objectPoolPtrn = Pattern<"48 8B 04 0A C3 0F B6 05">("ObjectPool");
+		scanner.Add(objectPoolPtrn, [this](PointerCalculator ptr) {
+			ObjectPool = ptr.Add(5).Add(3).Rip().As<PoolEncryption*>();
+		});
+
 		if (!scanner.Scan())
 		{
 			LOG(FATAL) << "Some patterns could not be found, unloading.";
