@@ -1,5 +1,4 @@
 #include "core/commands/Command.hpp"
-#include "game/backend/Self.hpp"
 #include "game/gta/Natives.hpp"
 
 namespace YimMenu::Features
@@ -14,5 +13,5 @@ namespace YimMenu::Features
 		}
 	};
 
-	static SkipCutscene _SkipCutscene{"SkipCutscene", "SKIP CUTSCENE", "Skip the Stpid Cutscene"};
+	static SkipCutscene _SkipCutscene{"skipcutscene", "Skip Cutscene", "Skips any currently playing cutscene"};
 }
