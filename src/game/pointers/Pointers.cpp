@@ -261,9 +261,39 @@ namespace YimMenu
 			GetActiveBasket = ptr.Sub(0x39).As<Functions::GetActiveBasket>();
 		});
 
-		constexpr auto HttpStartRequestPtrn = Pattern<"56 57 48 83 EC 28 48 89 CE 8B 81 ? ? ? ? FF C8 83 F8 04 0F 87">("HttpStartRequest");
-		scanner.Add(HttpStartRequestPtrn, [this](PointerCalculator ptr) {
+		constexpr auto pedPoolPtrn = Pattern<"80 79 4B 00 0F 84 F5 00 00 00 48 89 F1">("PedPool");
+		scanner.Add(pedPoolPtrn, [this](PointerCalculator ptr) {
+			PedPool = ptr.Add(0x18).Add(3).Rip().As<PoolEncryption*>();
+		});
+
+		constexpr auto vehiclePoolPtrn = Pattern<"48 83 78 18 0D">("VehiclePool");
+		scanner.Add(vehiclePoolPtrn, [this](PointerCalculator ptr) {
+			VehiclePool = ptr.Sub(0xA).Add(3).Rip().As<rage::fwVehiclePool***>();
+		});
+
+		constexpr auto objectPoolPtrn = Pattern<"48 8B 04 0A C3 0F B6 05">("ObjectPool");
+		scanner.Add(objectPoolPtrn, [this](PointerCalculator ptr) {
+			ObjectPool = ptr.Add(5).Add(3).Rip().As<PoolEncryption*>();
+		});
+
+		constexpr auto httpStartRequestPtrn = Pattern<"56 57 48 83 EC 28 48 89 CE 8B 81 ? ? ? ? FF C8 83 F8 04 0F 87">("HttpStartRequest");
+		scanner.Add(httpStartRequestPtrn, [this](PointerCalculator ptr) {
 			HttpStartRequest = ptr.As<PVOID>();
+		});
+
+		constexpr auto networkSessionPtrn = Pattern<"49 C7 86 F8 00 00 00 00 00 00 00 48 8B 05">("NetworkSession");
+		scanner.Add(networkSessionPtrn, [this](PointerCalculator ptr) {
+			NetworkSession = ptr.Add(0x17).Add(3).Rip().As<CNetworkSession**>();
+		});
+
+		constexpr auto joinSessionByInfoPtrn = Pattern<"B0 01 40 84 E9 0F 85 32 FD FF FF 48 89 F1">("JoinSessionByInfo");
+		scanner.Add(joinSessionByInfoPtrn, [this](PointerCalculator ptr) {
+			JoinSessionByInfo = ptr.Sub(0x7).Add(1).Rip().As<Functions::JoinSessionByInfo>();
+		});
+
+		constexpr auto getSessionByGamerHandle = Pattern<"48 C7 84 24 80 00 00 00 10 00 00 08">("GetSessionByGamerHandle");
+		scanner.Add(getSessionByGamerHandle, [this](PointerCalculator ptr) {
+			GetSessionByGamerHandle = ptr.Sub(0x4A).Add(1).Rip().As<Functions::GetSessionByGamerHandle>();
 		});
 
 		if (!scanner.Scan())
