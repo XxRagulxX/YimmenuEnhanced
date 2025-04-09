@@ -28,7 +28,7 @@ namespace YimMenu::Submenus
 			static std::uint64_t rockstar_id{};
 			static char name_buf[24]{};
 
-			ImGui::SetNextItemWidth(180.0f);
+			ImGui::SetNextItemWidth(150.0f);
 			ImGui::InputText("Username", name_buf, sizeof(name_buf));
 			ImGui::SameLine();
 			if (ImGui::Button("Join##username"))
