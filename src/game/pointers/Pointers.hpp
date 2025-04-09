@@ -131,6 +131,7 @@ namespace YimMenu
 		Functions::GetSessionByGamerHandle GetSessionByGamerHandle;
 		Functions::GetPresenceAttributes GetPresenceAttributes;
 		Functions::GetAvatars GetAvatars;
+		std::uint32_t* NetworkTime;
 	};
 
 	struct Pointers : PointerData
