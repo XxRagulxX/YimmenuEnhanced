@@ -270,6 +270,19 @@ namespace YimMenu
 		return res;
 	}
 
+	void SavedPlayers::AddPlayerDataImpl(std::uint64_t id, std::string_view username)
+	{
+		if (auto data = GetPlayerDataImpl(id))
+			return;
+
+		SavedPlayerData data;
+		data.m_Name = username;
+
+		m_SavedPlayers.emplace(id, data);
+
+		Save();
+	}
+
 	void SavedPlayers::UpdateRockstarIdImpl(std::uint64_t id, std::uint64_t new_id)
 	{
 		if (auto player = GetPlayerDataImpl(id))

@@ -352,6 +352,11 @@ namespace YimMenu
 			BytePatches::Add(ptr.As<void*>(), std::vector<std::uint8_t>{0xB0, 0x01})->Apply(); 
 		});
 
+		constexpr auto getAvatarsPtrn = Pattern<"89 4E 7C 48 8B CE E8 ? ? ? ? 84 C0">("GetAvatars");
+		scanner.Add(getAvatarsPtrn, [this](PointerCalculator ptr) {
+			GetAvatars = ptr.Add(6).Add(1).Rip().As<Functions::GetAvatars>();
+		});
+
 		if (!scanner.Scan())
 		{
 			LOG(WARNING) << "Some socialclub patterns could not be found";
