@@ -14,7 +14,8 @@ namespace YimMenu::Features
 		ScriptPatch m_MissionRequestPatch4{};
 		ScriptPatch m_PlayerCountWatchdogPatch1{};
 		ScriptPatch m_PlayerCountWatchdogPatch2{};
-		ScriptPatch m_HeistTeamsPatch{};
+		ScriptPatch m_HeistTeamsPatch1{};
+		ScriptPatch m_HeistTeamsPatch2{};
 		ScriptPatch m_ShouldFailMissionPatch1{}; // god I hate this function
 		std::vector<ScriptPatch> m_ShouldFailMissionPatches{};
 		ScriptPatch m_ShouldFailMissionPatch2{};
@@ -64,11 +65,17 @@ namespace YimMenu::Features
 			}
 			m_PlayerCountWatchdogPatch2->Enable();
 
-			if (!m_HeistTeamsPatch)
+			if (!m_HeistTeamsPatch1)
 			{
-				m_HeistTeamsPatch = ScriptPatches::AddPatch("fmmc_launcher"_J, "47 ? ? 5B 7B 00 38 04", 0, {0x2B, 0x2B, 0x00, 0x55});
+				m_HeistTeamsPatch1 = ScriptPatches::AddPatch("fmmc_launcher"_J, "47 ? ? 5B 7B 00 38 04", 0, {0x2B, 0x2B, 0x00, 0x55});
 			}
-			m_HeistTeamsPatch->Enable();
+			m_HeistTeamsPatch1->Enable();
+
+			if (!m_HeistTeamsPatch2)
+			{
+				m_HeistTeamsPatch2 = ScriptPatches::AddPatch("fmmc_launcher"_J, "2D 01 05 00 00 25 5D", 5, {0x72, 0x2E, 0x01, 0x01});
+			}
+			m_HeistTeamsPatch2->Enable();
 
 			if (!m_ShouldFailMissionPatch1)
 			{
@@ -136,9 +143,14 @@ namespace YimMenu::Features
 				m_PlayerCountWatchdogPatch2->Disable();
 			}
 
-			if (m_HeistTeamsPatch)
+			if (m_HeistTeamsPatch1)
 			{
-				m_HeistTeamsPatch->Disable();
+				m_HeistTeamsPatch1->Disable();
+			}
+
+			if (m_HeistTeamsPatch2)
+			{
+				m_HeistTeamsPatch2->Disable();
 			}
 
 			if (m_ShouldFailMissionPatch1)
