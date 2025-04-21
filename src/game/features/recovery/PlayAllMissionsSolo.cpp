@@ -24,7 +24,9 @@ namespace YimMenu::Features
 		ScriptPatch m_NotEnoughTeamsPatch{};
 		ScriptPatch m_IsTeamValidPatch{}; // TODO: probably has many unintended side effects
 		ScriptPatch m_EnsureMissionPassedPatch{};
-		ScriptPatch m_ProcessPhoneHackingPatch{}; 
+		ScriptPatch m_ProcessPhoneHackingPatch{};
+		ScriptPatch m_QuickRestartPatch1{};
+		ScriptPatch m_QuickRestartPatch2{}; 
 
 		virtual void OnEnable() override
 		{
@@ -137,6 +139,18 @@ namespace YimMenu::Features
 			{
 				m_ProcessPhoneHackingPatch = ScriptPatches::AddPatch("fm_mission_controller"_J, ScriptPointer("ProcessPhoneHackingPatch", "58 13 00 38 00 4F ? ? 48"), {0x2B, 0x00, 0x00}); 
 			}
+
+			if (!m_QuickRestartPatch1)
+			{
+				m_QuickRestartPatch1 = ScriptPatches::AddPatch("fm_mission_controller"_J, "2D 00 07 00 00 62 ? ? ? 56 04 00", 5, {0x72, 0x2E, 0x00, 0x01});
+			}
+			m_QuickRestartPatch1->Enable();
+
+			if (!m_QuickRestartPatch2)
+			{
+				m_QuickRestartPatch2 = ScriptPatches::AddPatch("fm_mission_controller"_J, "5A 47 00 5D ? ? ? 5D ? ? ? 75", 0, {0x2B, 0x00, 0x00});
+			}
+			m_QuickRestartPatch2->Enable();
 		}
 
 		virtual void OnTick() override
@@ -234,6 +248,16 @@ namespace YimMenu::Features
 			if (m_ProcessPhoneHackingPatch)
 			{
 				m_ProcessPhoneHackingPatch->Disable();
+			}
+
+			if (m_QuickRestartPatch1)
+			{
+				m_QuickRestartPatch1->Disable();
+			}
+
+			if (m_QuickRestartPatch2)
+			{
+				m_QuickRestartPatch2->Disable();
 			}
 		}
 	};
