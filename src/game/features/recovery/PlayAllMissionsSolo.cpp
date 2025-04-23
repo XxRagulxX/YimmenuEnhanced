@@ -142,13 +142,13 @@ namespace YimMenu::Features
 
 			if (!m_QuickRestartPatch1)
 			{
-				m_QuickRestartPatch1 = ScriptPatches::AddPatch("fm_mission_controller"_J, "2D 00 07 00 00 62 ? ? ? 56 04 00", 5, {0x72, 0x2E, 0x00, 0x01});
+				m_QuickRestartPatch1 = ScriptPatches::AddPatch("fm_mission_controller"_J, ScriptPointer("QuickRestartPatch1", "2D 00 07 00 00 62 ? ? ? 56 04 00").Add(5),  {0x72, 0x2E, 0x00, 0x01});
 			}
 			m_QuickRestartPatch1->Enable();
 
 			if (!m_QuickRestartPatch2)
 			{
-				m_QuickRestartPatch2 = ScriptPatches::AddPatch("fm_mission_controller"_J, "5A 47 00 5D ? ? ? 5D ? ? ? 75", 0, {0x2B, 0x00, 0x00});
+				m_QuickRestartPatch2 = ScriptPatches::AddPatch("fm_mission_controller"_J, ScriptPointer("QuickRestartPatch2", "5A 47 00 5D ? ? ? 5D ? ? ? 75"), {0x2B, 0x00, 0x00});
 			}
 			m_QuickRestartPatch2->Enable();
 		}
