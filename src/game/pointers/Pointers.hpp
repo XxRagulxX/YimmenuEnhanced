@@ -135,6 +135,8 @@ namespace YimMenu
 		std::uint32_t* GameTimer;
 		PVOID FormatIntCaller1;
 		PVOID FormatIntCaller2;
+		BytePatch ShouldNotTargetEntityPatch;
+		BytePatch GetAssistedAimTypePatch;
 	};
 
 	struct Pointers : PointerData
