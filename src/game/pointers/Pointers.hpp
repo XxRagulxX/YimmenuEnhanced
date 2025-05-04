@@ -137,6 +137,8 @@ namespace YimMenu
 		PVOID FormatIntCaller2;
 		BytePatch ShouldNotTargetEntityPatch;
 		BytePatch GetAssistedAimTypePatch;
+		BytePatch AllowPausingInSessionPatch;
+		PVOID OpenPauseMenu;
 	};
 
 	struct Pointers : PointerData
