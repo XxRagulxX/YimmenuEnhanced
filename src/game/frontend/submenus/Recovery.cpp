@@ -4,6 +4,7 @@
 #include "Recovery/StatEditor.hpp"
 #include "Recovery/Transactions.hpp"
 #include "Recovery/HeistModifier.hpp"
+#include "Recovery/Unlocks.hpp"	
 
 namespace YimMenu::Submenus
 {
@@ -36,6 +37,7 @@ namespace YimMenu::Submenus
 		AddCategory(std::move(missions));
 		AddCategory(BuildStatEditorMenu());
 		AddCategory(BuildTransactionsMenu());
+		AddCategory(BuildUnlockall());
 		AddCategory(BuildHeistModifierMenu());
 	}
 }
