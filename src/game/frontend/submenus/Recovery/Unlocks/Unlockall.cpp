@@ -7,8 +7,10 @@ namespace YimMenu::Submenus
 		auto tab = std::make_shared<TabItem>("Unlock Clothing");
 
 		Bunker->AddItem(std::make_shared<CommandItem>("unlockbunkerresearch"_J));
+		Areanawar->AddItem(std::make_shared<CommandItem>("unlockareanawarclothing"_J));
 
 		tab->AddItem(Bunker);
+		tab->AddItem(Areanawar);
 
 		return tab;
 	}

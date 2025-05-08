@@ -9,72 +9,161 @@
 
 namespace YimMenu::Features
 {
-	namespace ApartmentHeist
+	namespace Unlock Clothing
 	{
-		static IntCommand _ApartmentHeistCut1{"apartmentheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _ApartmentHeistCut2{"apartmentheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _ApartmentHeistCut3{"apartmentheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _ApartmentHeistCut4{"apartmentheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
+        class AreanaWar_Clothing : public Command
+        {
+            using Command::Command;
 
-		class SetCuts : public Command
-		{
-			using Command::Command;
-
-			virtual void OnCall() override
-			{
-				auto base1 = ScriptGlobal(1929794).At(1);
-				auto base2 = ScriptGlobal(1931762).At(3008);
-
-				*base1.At(1).As<int*>() = 100 - (_ApartmentHeistCut1.GetState() + _ApartmentHeistCut2.GetState() + _ApartmentHeistCut3.GetState() + _ApartmentHeistCut4.GetState());
-				*base1.At(2).As<int*>() = _ApartmentHeistCut2.GetState();
-				*base1.At(3).As<int*>() = _ApartmentHeistCut3.GetState();
-				*base1.At(4).As<int*>() = _ApartmentHeistCut4.GetState();
-
-				ScriptMgr::Yield(500ms);
-
-				*base2.At(1).As<int*>() = -1 * (*base1.At(1).As<int*>() + *base1.At(2).As<int*>() + *base1.At(3).As<int*>() + *base1.At(4).As<int*>() - 100);
-				*base2.At(2).As<int*>() = *base1.At(2).As<int*>();
-				*base2.At(3).As<int*>() = *base1.At(3).As<int*>();
-				*base2.At(4).As<int*>() = *base1.At(4).As<int*>();
-			}
-		};
-
-		class ForceReady : public Command
-		{
-			using Command::Command;
-
-			virtual void OnCall() override
-			{
-				if (auto gpbd = GlobalPlayerBD::Get(); gpbd && Scripts::SafeToModifyFreemodeBroadcastGlobals())
-				{
-					for (auto& player : Players::GetPlayers())
-					{
-						gpbd->Entries[player.second.GetId()].HeistCutSelectionStage = 6;
-					}
-				}
-			}
-		};
-
-		class Setup : public Command
-		{
-			using Command::Command;
-
-			virtual void OnCall() override
-			{
-				Stats::SetInt("MPX_HEIST_PLANNING_STAGE", -1);
-			}
-		};
-
-		class SkipHacking : public Command
-		{
-			using Command::Command;
-
-			virtual void OnCall() override
-			{
-				*ScriptLocal("fm_mission_controller"_J, 12216).At(24).As<int*>() = 7;
-				*ScriptLocal("fm_mission_controller"_J, 10213).As<int*>() = *ScriptLocal("fm_mission_controller"_J, 10213).As<int*>() | (1 << 9);
-			}
-		};
+            virtual void OnCall() override
+            {
+                const std::vector<int> Areanawar_ids = {
+                    25244, // Yellow/Blue Robot Bodysuit
+                    25245, // Blue/Red Hero Bodysuit
+                    25246, // Green/Purple Shapes Bodysuit
+                    25247, // Blue&Pink/Red&Green Contours Bodysuit
+                    25248, // Green/Purple Martian Bodysuit
+                    25249, // Blue/Red Reptile Bodysuit
+                    25250, // Blue/Pink Galaxy Bodysuit
+                    25000, // Red&Blue/Blue&Green Nebula Bodysuit
+                    25251, // All Space Creature Suits
+                    25252, // All Space Cyclops Suits
+                    25253, // All Space Horro Suits
+                    25254, // All Retro Suits
+                    25255, // All Astronaut Suits
+                    25256, // All Space Traveler Suits
+                    25257, // Pogo Space Monkey
+                    25258, // Republican Space Ranger
+                    25265, // Green/Yellow/White/Black Space Rangers Tee
+                    25266, // Green/Black Space Ranger Logo Tee
+                    25267, // Yellow/White Phases Tee
+                    25268, // Pink/Blue Rocket Splash Tee
+                    24977, // Pink/Black Spacesuit Alien Tee
+                    25269, // Pink/Blue/Purple Moons Tee
+                    25270, // Red/Green/Blue Isn't Free Tee 
+                    25271, // All Raider Tops
+                    25272, // All Leather Feather Tops
+                    25273, // All Mercenary Tops
+                    25274, // Benedict Light Beer Hoodie
+                    25275, // Taco Bomb Hoodie
+                    25276, // Cluckin'Bell Logo Bomb Hoodie
+                    25277, // Patriot Beer Hoodie
+                    25278, // Pisswasser Hoodie
+                    25279, // Burger Shot Hoodie
+                    25280, // Corn Dog Hoodie
+                    25281, // Donut Hoodie
+                    25282, // Lucky Plucker Hoodie
+                    25283, // Logger Light Hoodie
+                    25284, // Pizza Hoodie
+                    25285, // Fries Hoodie
+                    25286, // Mushrooms Hoodie
+                    25287, // Redwood Hoodie
+                    25288, // eCola Infectious Hoodie
+                    25289, // Cluckin'Bell Logo Hoodie
+                    25290, // Lemons Hoodie
+                    25291, // Tacos Hoodie
+                    25292, // Burger Shot Pattern Sweater
+                    25293, // Burger Shot Logo Sweater
+                    25294, // Burger Shot Sweater
+                    25295, // Green/White Sprunk Sweater
+                    25296, // Wigwam Sweater
+                    25297, // Taco Bomb Chili Sweater
+                    25298, // Green/Yellow Bomb Sweater
+                    25299, // Cluckin'Bell Logo Bomb Sweater
+                    25300, // Blue Cluckin'Bell Sweater
+                    25301, // Black Cluckin'Bell Sweater
+                    25302, // Infectious/Red eCola Sweater
+                    25303, // Orange/Red MeTV Sweater
+                    25304, // Magenta/Cyan Heat Sweater
+                    25305, // Degenatron Sweater
+                    25306, // Red/Black Pisswasser Sweater
+                    25307, // Bolt Burger Sweater
+                    25308, // Lucky Plucker Logo Bomb Sweater
+                    25309, // Lucky Plucker Sweater
+                    25310, // Dark Red/Red/Black/Blue Burger Shot Hockey Shirt
+                    25311, // Black/Blue Cluckin' Bell Hockey Shirt
+                    25312, // Wigwam Hockey Shirt
+                    25313, // Redwood Hockey Shirt
+                    25314, // Bean Machine Hockey Shirt
+                    25315, // Red eCola Hockey Shirt
+                    25316, // Black eCola Hockey Shirt
+                    25317, // Blue/Black Phat Chips Hockey Shirt
+                    25318, // Green/Dark Green Sprunk Hockey Shirt
+                    25319, // Sprunk Classic Hockey Shirt
+                    25320, // Burger Shot Black Tee
+                    25321, // Burger Shot Logo Tee
+                    25322, // Cluckin'Bell Logo Tee
+                    25323, // Cluckin'Bell Black Tee
+                    25324, // Cluckin'Bell Filled Logo Tee
+                    25325, // eCola Black Tee
+                    25326, // Lucky Plucker Tee
+                    25327, // Pisswasser Tee
+                    25328, // Sprunk Tee
+                    25329, // Taco Bomb Chili Tee
+                    25330, // Taco Bomb Black Tee
+                    25331, // Up-n-Atom Hamburgers Tee
+                    25332, // Up-n-Atom Tee
+                    25333, // Wigwam Tee
+                    25334, // Degenatron ROYGBIV Tee
+                    25335, // CNT Tee
+                    25336, // Qub3d Tee
+                    25337, // Righteous Slaughter Tee
+                    25338, // Space Monkey Full Tee
+                    25339, // Space Monkey Pixel Tee
+                    25340, // Space Monkey Enemy Tee
+                    25341, // Burger Shot Tee
+                    25342, // Heat Rises Tee
+                    25343, // Space Monkey Logo Tee
+                    25344, // Space Monkey Suit Tee
+                    25345, // Space Monkey Face Tee
+                    25346, // Space Monkey Mosaic Tee
+                    25347, // Bolt Burger Logo Tee
+                    24970, // Bolt Burger Hunger Tee
+                    25348, // Exsorbeo 720 Tee
+                    25349, // Heat Blue Logo Tee
+                    25350, // Heat Blue Ball Logo Tee
+                    25351, // Heat Blue Pop Art Logo Tee
+                    25352, // MeTV Blue 90s Tee
+                    25353, // MeTV Blue Safari Tee
+                    25354, // Burger Shot Target Tee
+                    25355, // eCola Infectious Tee
+                    25356, // Up-n-Atom White Tee
+                    25357, // Jock Cranley Patriot Tee
+                    25358, // CCC TV Tee
+                    25359, // Degenatron Logo Tee
+                    25360, // eCola White Tee
+                    25361, // eCola Pass It On Tee
+                    25362, // TW@ Tee
+                    25363, // All Chain Pants
+                    25364, // All Chain Shorts
+                    25365, // All Stitch Pants
+                    25366, // All Raider Pants // Raider Shoes+Pants
+                    25366, // All Raider Boots // Raider Shoes+Pants
+                    25367, // All Light Ups
+                    25368, // All Flaming Skull Boots
+                    25369, // All Skull Harness Boots
+                    25370, // All Plated Boots
+                    25371, // Burger Shot Fries/Burgers Cap
+                    25373, // Burger Shot Logo Cap
+                    25374, // Burger Shot Bullseye Cap
+                    25375, // Yellow/Blue Cluckin'Bell Cap
+                    25377, // Cluckin'Bell Logos Cap
+                    25378, // Pink/Purple/Black Hotdogs Cap
+                    25379, // Green/White/- Taco Bomb Cap
+                    25382, // Red/White Lucky Plucker Cap
+                    25383, // Lucky Plucker White/Red Pattern Cap
+                    25386, // Black/White Pisswasser Cap
+                    25390, // Taco Canvas Hat
+                    25391, // Burger Shot Canvas Hat
+                    25392, // Cluckin'Bell Canvas Hat
+                    25393, // Hotdogs Canvas Hat
+                };
+                for (int id : Areanawar_ids)
+                {
+                    Stats::SetPackedBool(id, TRUE); 
+                }
+            }
+        }
 
 		class BunkerResearch : public Command
 		{
@@ -142,41 +231,7 @@ namespace YimMenu::Features
 			}
 		};
 
-		class InstantFinish : public Command
-		{
-			using Command::Command;
-
-			virtual void OnCall() override
-			{
-				Scripts::ForceScriptHost(Scripts::FindScriptThread("fm_mission_controller"_J));
-				ScriptMgr::Yield(500ms);
-
-				*ScriptLocal("fm_mission_controller"_J, 20387).At(1725).At(1).As<int*>() = 80;
-				*ScriptLocal("fm_mission_controller"_J, 20387).As<int*>() = 12;
-				*ScriptLocal("fm_mission_controller"_J, 29006).At(1).As<int*>() = 99999;
-				*ScriptLocal("fm_mission_controller"_J, 32462).At(1).At(68).As<int*>() = 99999;
-
-				// TODO: find a way of getting current heist info so that InstantFinishPacific can be implemented here conditionally.
-			}
-		};
-
-		class InstantFinishPacific : public Command
-		{
-			using Command::Command;
-
-			virtual void OnCall() override
-			{
-				Scripts::ForceScriptHost(Scripts::FindScriptThread("fm_mission_controller"_J));
-				ScriptMgr::Yield(500ms);
-
-				*ScriptLocal("fm_mission_controller"_J, 20387).At(2686).As<int*>() = 1875000;
-				*ScriptLocal("fm_mission_controller"_J, 20387).At(1062).As<int*>() = 5;
-				*ScriptLocal("fm_mission_controller"_J, 20387).As<int*>() = 12;
-				*ScriptLocal("fm_mission_controller"_J, 29006).At(1).As<int*>() = 99999;
-				*ScriptLocal("fm_mission_controller"_J, 32462).At(1).At(68).As<int*>() = 99999;
-			}
-		};
-
-		static BunkerResearch _UnlockBunkerreSearch{"unlockbunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
+		static BunkerResearch _UnlockBunkerResearch{"unlockbunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
+        static AreanaWar _UnlockAreanaWarClothing{"unlockareanawarclothing", "Unlock Areana War Clothing", "Unlocks all Areana War Clothing"};
 	}
 }
