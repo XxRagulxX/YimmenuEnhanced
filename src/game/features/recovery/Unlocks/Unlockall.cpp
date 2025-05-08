@@ -11,6 +11,42 @@ namespace YimMenu::Features
 {
 	namespace Unlock Clothing
 	{
+        class Casino_Heist_Clothing : public Command
+        {
+            using Command::Command;
+
+            virtual void OnCall() override
+            {
+                const std::vector<int> CasinoHeist_ids = {
+                    28225, // Refuse Collectors
+                    28226, // Undertakers
+                    28227, // Valet Outfits
+                    28229, // Prision Guards
+                    28230, // FIB Suits
+                    28232, // Gruppe Sechs Gear
+                    28233, // Bugstars Uniforms
+                    28234, // Maintenance
+                    28235, // Yung Ancestors
+                    28236, // Firefighter Gear
+                    28237, // Orderly Armor
+                    28238, // Upscale Armor
+                    28239, // Evening Armor
+                    28240, // Reinforced: Padded Combat
+                    28241, // Reinforced: Bulk Combat
+                    28242, // Reinforced: Compact Combat
+                    28243, // Balaclava Crook
+                    28244, // Classic Crook
+                    28245, // High-end Crook
+                    28246, // Infiltration: Upgraded Tech
+                    28247, // Infiltration: Advanced Tech
+                    28248, // Infiltration: Modernized Tech
+                };
+                for (int id : CasinoHeist_ids)
+                {
+                    Stats::SetPackedBool(id, TRUE); 
+                }
+            }
+        }
         class AreanaWar_Clothing : public Command
         {
             using Command::Command;
@@ -232,6 +268,7 @@ namespace YimMenu::Features
 		};
 
 		static BunkerResearch _UnlockBunkerResearch{"unlockbunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
-        static AreanaWar _UnlockAreanaWarClothing{"unlockareanawarclothing", "Unlock Areana War Clothing", "Unlocks all Areana War Clothing"};
+        static AreanaWar_Clothing _UnlockAreanaWarClothing{"unlockareanawarclothing", "Unlock Areana War Clothing", "Unlocks all Areana War Clothing"};
+        static Casino_Heist_Clothing _UnlockCasinoHeistClothing{"unlockcasinoheistclothing", "Unlock Casino Clothing", "Unlocks Casino Heist Clothing"};
 	}
 }
