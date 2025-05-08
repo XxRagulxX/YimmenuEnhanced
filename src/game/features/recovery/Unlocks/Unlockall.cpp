@@ -11,6 +11,15 @@ namespace YimMenu::Features
 {
 	namespace Unlock Clothing
 	{
+        class Genderchange : public Command
+        {
+            using Command::Command;
+
+            virtual void OnCall() override
+            {
+                Stats::SetInt("ALLOW_GENDER_CHANGE", 1)
+            }
+        }
         class FreeORB : public Command
         {
             using Command::Command;
@@ -280,6 +289,7 @@ namespace YimMenu::Features
 		static BunkerResearch _UnlockBunkerResearch{"unlockbunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
         static AreanaWar_Clothing _UnlockAreanaWarClothing{"unlockareanawarclothing", "Unlock Areana War Clothing", "Unlocks all Areana War Clothing"};
         static Casino_Heist_Clothing _UnlockCasinoHeistClothing{"unlockcasinoheistclothing", "Unlock Casino Clothing", "Unlocks Casino Heist Clothing"};
-        static FreeORB _unlockOrbitalCannonfree{"unlockorbitalcannonfree", "Free Orbital Cannon", "Unlocks Orbital cannon for Free as GIFT from XMAS 2017"}
+        static FreeORB _unlockOrbitalCannonfree{"unlockorbitalcannonfree", "Free Orbital Cannon", "Unlocks Orbital cannon for Free as GIFT from XMAS 2017"};
+        static Genderchange _unlockgenderchange{"unlockgenderchange","Unlock Gender Change", "Allows to Change Gender"};
 	}
 }
