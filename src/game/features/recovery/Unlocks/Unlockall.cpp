@@ -11,6 +11,16 @@ namespace YimMenu::Features
 {
 	namespace Unlock Clothing
 	{
+        class FreeORB : public Command
+        {
+            using Command::Command;
+
+            virtual void OnCall() override
+            {
+                Stats::SetPackedBool(PACKED_MP_BOOL_AWARD_XMAS2017_CANNON_GIFT, TRUE);
+                Stats::SetPackedBool(PACKED_MP_BOOL_PURCHASE_XMAS2017_CANNON_GIFT, FALSE);
+            }
+        }
         class Casino_Heist_Clothing : public Command
         {
             using Command::Command;
@@ -270,5 +280,6 @@ namespace YimMenu::Features
 		static BunkerResearch _UnlockBunkerResearch{"unlockbunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
         static AreanaWar_Clothing _UnlockAreanaWarClothing{"unlockareanawarclothing", "Unlock Areana War Clothing", "Unlocks all Areana War Clothing"};
         static Casino_Heist_Clothing _UnlockCasinoHeistClothing{"unlockcasinoheistclothing", "Unlock Casino Clothing", "Unlocks Casino Heist Clothing"};
+        static FreeORB _unlockOrbitalCannonfree{"unlockorbitalcannonfree", "Free Orbital Cannon", "Unlocks Orbital cannon for Free as GIFT from XMAS 2017"}
 	}
 }
