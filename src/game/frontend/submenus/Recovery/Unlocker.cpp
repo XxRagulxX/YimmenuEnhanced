@@ -1,6 +1,7 @@
 #include "core/commands/Command.hpp"
 #include "game/gta/Natives.hpp"
 #include "game/gta/Stats.hpp"
+#include "core/util/Joaat.hpp"
 
 namespace YimMenu::Features
 {
@@ -267,9 +268,549 @@ namespace YimMenu::Features
 			Stats::SetInt("ALLOW_GENDER_CHANGE", 1);
 		}
 	};
+	class CareerProgress_Rewards : public Command
+	{
+		using Command::Command;
+		virtual void OnCall() override
+		{
+			const std::vector<int> CareerProgress_ids = {
+			    // OSCAR GUZMAN FLIES AGAIN
+			    51280, // Complete Up and Running for Oscar Guzman Flies Again
+			    51285, // Complete Oscar Guzman Flies Again
+			    51278, // Complete an Oscar Guzman Flies Again mission without dying
+			    51279, // Complete Oscar Guzman Flies Again in under 60 minutes
+
+			    // THE CLUCKIN' BELL FARM RAID
+			    28272, // Steal the setup funds for The Cluckin' Bell Farm Raid
+			    28287, // Complete The Cluckin' Bell Farm Raid
+			    28286, // Complete a Cluckin' Bell Farm Raid mission without dying
+			    28285, // Complete Scene of the Crime without being spotted
+			    28282, // Complete The Cluckin' Bell Farm Raid in less than 45 minutes as a leader
+			    41566, // Complete a Project Overthrow mission without dying
+			    41706, // Complete a Project Overthrow mission on Hard difficulty
+
+			    // SAN ANDREAS MERCENARIES
+			    41566, // Complete a Project Overthrow mission without dying
+			    41706, // Complete a Project Overthrow mission on Hard difficulty
+
+			    // OPERATION PAPER TRAIL
+			    41707, // Complete an Operation Paper Trail mission on Hard difficulty
+
+				// A SUPERYACHT LIFE
+			    41379, // Complete a Superyacht Life mission without dying
+			    41708, // Complete a Superyacht Life mission on Hard difficulty
+
+				// GERALD'S LAST PLAY
+			    41410, // Complete a Last Play mission without dying
+			    41709, // Complete a Last Play mission on Hard difficulty
+
+				// PREMIUM DELUXE REPO WORK
+			    41435, // Complete a Repo Work mission without dying
+			    41705, // Complete a Repo Work mission on Hard difficulty
+
+				// MADRAZO DISPATCH SERVICES
+			    41506, // Complete a Dispatch Mission without dying
+			    41710, // Complete a Dispatch Mission on Hard difficulty
+
+				// LOWRIDERS
+			    41539, // Complete a Lowrider mission without dying
+			    41711, // Complete a Lowrider mission on Hard difficulty
+
+				// AGENTS OF SABOTAGE
+			    9539,  // Meet with Pavel
+			    9549,  // Complete the Priority File 2 weeks in a row
+			    9542,  // Complete all mission challenges for a File
+
+				// BOTTOM DOLLAR BOUNTIES
+			    9537, // Meet with Maude Eccles
+			    7639, // Secure or eliminate a bounty target
+
+				// THE CHOP SHOP
+			    42038, // Meet with Yusuf Amir
+			    42041, // Complete a Salvage Yard Robbery
+			    42044, // Sell a vehicle
+			    42045, // Salvage a vehicle
+			    42042, // Complete all Salvage Yard Robberies
+			    42046, // Complete all bonus challenges for a Salvage Yard Robbery
+
+				// LOS SANTOS DRUG WARS
+			    42037, // Set up an Acid Lab
+
+
+				// THE CONTRACT
+			    28257, // Set up the Agency
+			    41507, // Earn $5,000,000 from Security Contracts
+
+				// AFTER HOURS
+			    22067, // Set up a Nightclub
+			    15533, // Hire a second Resident DJ
+			    36868, // Source Goods for your Nightclub Basement
+			    36944, // Eject a troublemaker from your Nightclub
+			    41989, // Fill up your Nightclub safe
+
+				// SMUGGLER'S RUN
+				15966,  // Set up a Hangar
+			    41676, // Send a staff member to source Air-Freight Cargo
+			    32398, // Turn a Pegasus vehicle into a Personal Aircraft
+			    41987, // Fill your Hangar with Air-Freight Cargo
+			    36924, // Sell 50 crates of the same type of Air-Freight Cargo in one sale
+
+				// GUNRUNNING
+			    36870, // Deliver excess weapon parts to Ammu-Nation
+
+				// IMPORT / EXPORT
+			    41988, // Fill a Vehicle Warehouse with 40 stolen vehicles
+
+				// BIKERS
+			    36871, // Become President of a Motorcycle Club
+			    36872, // Hire a player to join your Motorcycle Club
+			    36873, // Deliver a customer bike
+			    42001, // Set up any Biker business
+			    36874, // Complete a Resupply mission for any Biker business
+
+				// FURTHER ADVENTURES IN FINANCE AND FELONY
+			    36888, // Become CEO of an Organization
+			    36889, // Hire a player to join your Organization
+			    36890, // Export Mixed Goods to the Docks
+			    36891, // Sell 111 crates of Cargo in one Sell mission
+
+				// LOS SANTOS TUNERS
+			    31737, // Visit and become a member of the LS Car Meet
+			    41870, // Take a vehicle into the LS Car Meet Test Track
+			    31753, // Set up an Auto Shop
+			    32397, // Complete a Prize Ride Challenge
+
+				// THE DIAMOND CASINO & RESORT
+			    27089, // Visit The Diamond Casino & Resort
+			    27090, // Purchase a Penthouse and visit Agatha Baker
+			    36916, // Recover the bonus item after completing Cashing Out
+			    41868, // Take out Avery's bodyguards without being spotted in Cashing Out
+
+				// THE CAYO PERICO HEIST
+			    30309, // Meet Miguel Madrazo inside The Music Locker
+			    30522, // Set up a Kosatka
+			    41677, // Complete The Cayo Perico Heist on Hard difficulty
+
+				// THE DIAMOND CASINO HEIST
+			    28270, // Set up an Arcade
+			    36842, // Scope the contents of the Casino Vault
+			    32399, // Play an arcade game
+			    42025, // Complete The Diamond Casino Heist in under 10 minutes on Hard difficulty
+			    42086, // Unlock 15 Platinum Awards for The Diamond Casino Heist
+
+
+				// THE DOOMSDAY HEIST
+			    18139, // Set up a Facility and meet Lester Crest
+			    36861, // Set up The Data Breaches
+			    41712, // Complete The Data Breaches as a leader
+			    36862, // Set up The Bogdan Problem
+			    41713, // Complete The Bogdan Problem as a leader
+			    36863, // Set up The Doomsday Scenario
+			    41714, // Complete The Doomsday Scenario as a leader
+			    41685, // Complete all 3 Acts using only pistols and vehicles
+			    41690, // Complete all 3 Acts using only pistols and vehicles
+			    41696, // Complete all 3 Acts using only pistols and vehicles
+
+				// ORIGINAL HEISTS
+			    36867, // Own a high-end or custom Apartment
+			    36933, // Set up The Fleeca Job
+			    41700, // Complete a Setup for The Fleeca Job as a leader
+			    41715, // Complete The Fleeca Job as a leader
+			    41716, // Complete Prison Break as a leader
+			    41717, // Complete The Humane Labs Raid as a leader
+			    41718, // Complete Series A Funding as a leader
+			    41719, // Complete The Pacific Standard Job as a leader
+			    36917, // Complete the Elite Challenge for each heist
+			    42000, // Complete the Criminal Mastermind challenge
+
+				// ARENA WAR
+			    25009, // Set up an Arena Workshop
+
+				// ADVERSARY MODE
+			    36840, // Participate in the Featured Series
+			    36921, // Win 5 Adversary Modes in a row
+
+				// SURVIVALS
+			    41672, // Survive 5 waves in Survival without dying
+			    41673, // Get 100 headshots in a game of Survival
+			    41332, // Complete 10 waves in Survival mode playing solo
+			    41331, // Reach wave 16 playing Endless Waves
+
+				// RACING
+			    42023, // Participate in any Race
+
+				// DEATHMATCHES
+			    36922, // Win 5 Deathmatches in a row
+
+				// VEHICLE ENTHUSIAST
+			    41864, // Own a Garage with at least 10 spaces
+			    42014, // Customize a vehicle in Los Santos Customs
+			    41865, // Own a Pegasus vehicle
+			    41863, // Test drive or purchase a vehicle from Premium Deluxe Motorsport or Luxury Autos
+			    41840, // Upgrade a vehicle to its custom variant at Benny's Original Motor Works
+			    41839, // Upgrade a vehicle with HSW Performance Upgrades at Hao's Special Works inside the LS Car Meet
+			    41841, // Upgrade a vehicle into an Arena Contender at an Arena Workshop
+			    41838, // Customize a vehicle with Imani tech at an Agency
+			    41866, // Own 100 vehicles including 1 Special Vehicle
+
+				// WEAPONS EXPERT
+			    36934, // Own 5 different weapons
+			    36935, // Equip Body Armor
+			    36936, // Add an attachment to a weapon
+			    36937, // Customize your weapon loadout at a Gun Locker
+			    36938, // Customize a weapon at a Weapon Workshop
+			    36920, // Request and collect a Merryweather Ammo Drop
+			    36941, // Own 50 weapons
+			    36942, // Visit the Gun Van every day for 10 days
+			};
+
+			// Set individual bools
+			for (int id : CareerProgress_ids)
+			{
+				Stats::SetPackedBool(id, TRUE);
+			}
+
+			// set individual ints
+			Stats::SetInt("MPX_PROG_HUB_MFH_EARNINGS", 5000000); // Earn $5,000,000 from Oscar Guzman Flies Again
+			Stats::SetInt("MP0_PROG_HUB_CBR_EARNINGS", 5000000); // Earn $5,000,000 from The Cluckin' Bell Farm Raid
+			Stats::SetInt("MP0_SUM23_AVOP_PROGRESS", 4095);   // Complete a Project Overthrow mission for Charlie Reed
+			Stats::SetInt("MP0_ULP_MISSION_PROGRESS", 16383); // Complete an Operation Paper Trail mission for Agent ULP
+			Stats::SetInt("MP0_YACHT_MISSION_FLOW", 65520);   // Complete a Superyacht Life mission for Brendan Darcy
+			Stats::SetInt("MP0_HACKER_DEN_OWNED", 1);         // Acquire the Garment Factory
+			Stats::SetInt("MP0_HACKER24_GEN_BS", 8160);  // Complete all the Files
+			Stats::SetInt("MP0_PROG_HUB_DEN24_SAFEEARNINGS", 100000); // Earn $100,000 in additional Garment Factory earnings
+			Stats::SetInt("MP0_BAIL_OFFICE_OWNED", 1);   // Set up a Bail Office
+			Stats::SetInt("MP0_PROG_HUB_BOUNTY_EARNINGS", 5000000); // Earn $5,000,000 from securing or eliminating bounty targets
+			Stats::SetInt("MP0_PROG_HUB_BOUNTIES_ALIVE_BS", 31); // Secure all bounty targets alive
+			Stats::SetInt("MP0_BAIL_PROPERTY_EARNINGS", 1000000); // Earn $1,000,000 in additional income from your Bail Office Agents
+			Stats::SetInt("MP0_SALVAGE_YARD_OWNED", 1); // Set up a Salvage Yard
+			Stats::SetInt("MP0_PROG_HUB_SALV23_EARN_SALV", 2500000); // Earn $250,000 from salvaging vehicles
+			Stats::SetInt("MP0_PROG_HUB_SALV23_EARN_PERF", 5); // Sell 5 vehicles in perfect condition from Salvage Yard Robberies
+			Stats::SetInt("MP0_PROG_HUB_SALV23_EARN_SELL", 10000000); // Earn $10,000,000 from selling stolen vehicles
+			Stats::SetInt("MP0_XM22_MISSIONS_SA", 131071);            // Complete all missions for The First Dose
+
+			Stats::SetInt("MP0_LFETIME_BIKER_BUY_COMPLET6", 100); // Complete 10 Source Supplies missions for the Acid Lab
+			Stats::SetInt("MP0_XM22_MISSIONS_SA", 1984);          // Complete all missions for The Last Dose
+			Stats::SetInt("MP0_XM22_MISSIONS_SA", 4063232);       // Complete all missions for The Last Dose
+			Stats::SetInt("MP0_XM22_FLOW", 32505856);             // Complete all Fooligan Jobs
+			Stats::SetInt("MP0_LIFETIME_BKR_SELL_EARNINGS6", 10000000); // Earn $1,000,000 selling Acid
+			Stats::SetInt("MP0_XM22_FLOW", 0);                          // Unlock all custom acid names
+			Stats::SetInt("MP0_LFETIME_BIKER_BUY_COMPLET6", 10);        // Unlock all custom acid names
+			Stats::SetInt("MP0_LFETIME_BIKER_SELL_COMPLET6", 10);       // Unlock all custom acid names
+			Stats::SetInt("MP0_XM22_MISSIONS_SA", 5);                   // Unlock all custom acid names
+			Stats::SetInt("MP0_XM22_MISSIONS_SA", 10);                  // Unlock all custom acid names
+			Stats::SetInt("MP0_XM22_MISSIONS_SA", 26);                  // Unlock all custom acid names
+			Stats::SetInt("MP0_LIFETIME_BKR_SELL_EARNINGS6", 1000000);  // Unlock all custom acid names
+			Stats::SetInt("MP0_PROG_HUB_LSDW_FJ_NO_DEATHS", 25);        // Complete 25 Fooligan Jobs without dying
+			Stats::SetInt("MP0_PROG_HUB_DAX_CLONE_KILLS", 100); // Take out 100 hostile versions of yourself in The Last Dose - Checking In
+
+			Stats::SetInt("MP0_FIXER_COUNT", 100);                 // Complete a Security Contract
+			Stats::SetInt("MP0_FIXER_GENERAL_BS", 0);              // Meet the VIP
+			Stats::SetInt("MP0_AWD_COLD_CALLER", 10);              // Complete 10 Payphone Hits
+			Stats::SetInt("MP0_FIXER_GENERAL_BS", 2);              // Complete the VIP Contract
+			Stats::SetInt("MP0_PROG_HUB_FXER_PAY_HIT_BONUS", 100); // Complete 25 Payphone Hits with the Assassination Bonus
+			Stats::SetInt("MP0_PROG_HUB_FIXER_SEC_CON_SPEC", 100); // Complete 100 Security Contracts on Specialist or Specialist+ difficulty
+			Stats::SetInt("MP0_FIXER_EARNINGS", 5000000); // Earn $5,000,000 from Security Contracts
+			Stats::SetInt("MP0_AWD_SHORTFRANK_1", TRUE); // Complete all Short Trips playing as Franklin and Lamar
+			Stats::SetInt("MP0_AWD_SHORTFRANK_2", TRUE);  // Complete all Short Trips playing as Franklin and Lamar
+			Stats::SetInt("MP0_AWD_SHORTFRANK_3", TRUE); // Complete all Short Trips playing as Franklin and Lamar
+
+			Stats::SetInt("MP0_NIGHTCLUB_JOBS_DONE", 25); // Complete a Club Management mission
+			Stats::SetInt("MP0_PROG_HUB_DANCE_DUR", 5);   // Dance for 5 minutes inside a Nightclub
+			Stats::SetInt("MP0_NIGHTCLUB_VIP_APPEAR", 25);        // Have 25 celebrity appearances at your Nightclub
+			Stats::SetInt("MP0_PROG_HUB_NCLUB_POP_MAX_TME", 600); // Keep your Nightclub popularity at 100% for 10 hours
+			Stats::SetInt("MP0_HUB_EARNINGS", 50000000);          // Earn a total of $50,000,000 or more
+
+			Stats::SetInt("MP0_LFETIME_HANGAR_BUY_COMPLET", 100); // Complete a Source Cargo mission
+			Stats::SetInt("MP0_LFETIME_HANGAR_SEL_COMPLET", 1); // Complete an Air-Freight Cargo Sell mission
+			Stats::SetInt("MP0_PROG_HUB_SMUGGLER_CRATES", 1000); // Sell 1,000 crates of Air-Freight Cargo
+			Stats::SetInt("MP0_LFETIME_HANGAR_EARNINGS", 50000000); // Earn $50,000,000 selling Air-Freight Cargo
+
+			Stats::SetInt("MP0_WVM_FLOW_BITSET_MISSIONS0", 1);   // Complete a Mobile Operation
+			Stats::SetInt("MP0_LIFETIME_BKR_SEL_COMPLETBC5", 1); // Complete a Sell mission
+			Stats::SetInt("MP0_LFETIME_BIKER_SELL_COMPLET5", 1); // Complete a Sell mission
+			Stats::SetInt("MP0_SR_WEAPON_BIT_SET", 262142); // Complete all Challenges for 1 weapon at the Bunker Shooting Range
+			Stats::SetInt("MP0_LFETIME_BIKER_BUY_COMPLET5", 25); // Complete 25 Resupply missions
+			Stats::SetInt("MP0_LIFETIME_BKR_SELL_EARNINGS5", 25000000); // Earn $25,000,000 selling Weapons
+
+			Stats::SetInt("MP0_OWNED_IE_WAREHOUSE", 1);           // Own a Vehicle Warehouse
+			Stats::SetInt("MP0_LFETIME_IE_EXPORT_COMPLETED", 25); // Complete a Vehicle Cargo mission
+			Stats::SetInt("MP0_PROG_HUB_VEH_CARGO_SELL_PER", 50); // Sell 1 vehicle in perfect condition
+			Stats::SetInt("MP0_PROG_HUB_VEH_CARGO_SPECIAL", 5);   // Sell 5 vehicles to Specialist Dealers
+			Stats::SetInt("MP0_LFETIME_IE_MISSION_EARNINGS", 25000000); // Earn $25,000,000 selling Vehicle Cargo
+
+			Stats::SetInt("MP0_LIFETIME_BKR_SELL_COMPLETBC", 1); // Sell Product from all Biker businesses
+			Stats::SetInt("MP0_LIFETIME_BKR_SEL_COMPLETBC1", 1); // Sell Product from all Biker businesses
+			Stats::SetInt("MP0_LIFETIME_BKR_SEL_COMPLETBC2", 1); // Sell Product from all Biker businesses
+			Stats::SetInt("MP0_LIFETIME_BKR_SEL_COMPLETBC3", 1); // Sell Product from all Biker businesses
+			Stats::SetInt("MP0_LIFETIME_BKR_SEL_COMPLETBC4", 1); // Sell Product from all Biker businesses
+			Stats::SetInt("MP0_BAR_RESUPPLY_CR", 10);            // Resupply the Clubhouse bar 10 times
+			Stats::SetInt("MP0_LIFETIME_BKR_SELL_EARNINGS0", 25000000); // Earn $25,000,000 selling Product
+			Stats::SetInt("MP0_PROG_HUB_BIK_CUST_DEL_CASH", 2500000);   // Earn $2,500,000 delivering customer bikes
+			Stats::SetInt("MP0_PROG_HUB_CLBH_BAR_EARNINGS", 500000);    // Earn $500,000 from your Clubhouse bar
+			Stats::SetInt("MP0_PROG_HUB_BIK_CONTRACT_COUNT", 50);       // Complete 50 Clubhouse Contracts
+
+			Stats::SetInt("MP0_WARHOUSESLOT0", 1);         // Own a Special Cargo Warehouse
+			Stats::SetInt("MP0_LIFETIME_BUY_COMPLETE", 1); // Source Cargo for your Warehouse
+			Stats::SetInt("MP0_PROG_HUB_FAIFAF_CRATES_COL", 250);    // Source 250 crates of Cargo
+			Stats::SetInt("MP0_LIFETIME_CONTRA_EARNINGS", 50000000); // Earn $50,000,000 selling Cargo
+
+			Stats::SetInt("MP0_CAR_CLUB_MEMBERSHIP", 1); // Visit and become a member of the LS Car Meet
+			Stats::SetInt("MP0_TUNER_COMP_BS", 255);    // Complete any Robbery Contract
+			Stats::SetInt("MP0_AWD_AUTO_SHOP", 10);     // Service and deliver 10 customer vehicles
+			Stats::SetInt("MP0_AWD_CAR_CLUB_MEM", 100); // Reach LS Car Meet reputation level 10
+			Stats::SetInt("MP0_AWD_GROUNDWORK", 1); // Deliver all 10 Exotic Exports vehicles in a day
+			Stats::SetInt("MP0_TUNER_COUNT", 25);       // Complete 25 Robbery Contracts
+			Stats::SetInt("MP0_PROG_HUB_TUNER_CUS_DEL_CASH", 5000000); // Earn $5,000,000 delivering customer vehicles
+
+			Stats::SetInt("MP0_VCM_FLOW_PROGRESS", 6);  // Complete Loose Cheng
+			Stats::SetInt("MP0_VCM_FLOW_PROGRESS", 12); // Complete Loose Cheng
+			Stats::SetInt("MP0_VCM_FLOW_PROGRESS", 12); // Complete Loose Cheng
+			Stats::SetInt("MP0_VCM_FLOW_PROGRESS", 11); // Complete Cashing Out
+			Stats::SetInt("MP0_VCM_FLOW_PROGRESS", 17); // Complete Cashing Out
+			Stats::SetInt("MP0_AWD_ODD_JOBS", 100);     // Complete Casino Work for Agatha Baker
+			Stats::SetInt("MP0_H4_MISSIONS", 0);         // Find where the Madrazo files are being held
+			Stats::SetInt("MP0_H4_PROGRESS", 1);         // Complete The Cayo Perico Heist as a leader
+			Stats::SetInt("MP0_H4_H4_DJ_MISSIONS", 127); // Help Tom Connors or English Dave with a DJ request
+			Stats::SetInt("MP0_TREASURE_HUNTER", 10);    // Find 10 treasure chests on Cayo Perico
+			Stats::SetInt("MP0_PROG_HUB_CAYO_PRP_NO_DEATHS", 25); // Complete 25 prep work missions without dying
+			Stats::SetInt("MP0_H4_PROGRESS", 4032);      // Steal 5 variations of the primary target
+			Stats::SetInt("MP0_CR_SUBMARINE", 1);        // Complete The Cayo Perico Heist using all approaches
+			Stats::SetInt("MP0_CR_STRATEGIC_BOMBER", 1); // Complete The Cayo Perico Heist using all approaches
+			Stats::SetInt("MP0_CR_SMUGGLER_PLANE", 1);   // Complete The Cayo Perico Heist using all approaches
+			Stats::SetInt("MP0_CR_STEALTH_HELI", 1);     // Complete The Cayo Perico Heist using all approaches
+			Stats::SetInt("MP0_CR_PATROL_BOAT", 1);      // Complete The Cayo Perico Heist using all approaches
+			Stats::SetInt("MP0_CR_SMUGGLER_BOAT", 1);    // Complete The Cayo Perico Heist using all approaches
+			Stats::SetInt("MP0_PROG_HUB_CAYO_H_EARNINGS", 50000000); // Steal $50,000,000 in primary and secondary targets
+
+			Stats::SetInt("MP0_CAS_HEIST_FLOW", 1); // Meet Lester Crest at Mirror Park
+			Stats::SetInt("MP0_CAS_HEIST_FLOW", 10);  // Complete The Diamond Casino Heist as a leader
+			Stats::SetInt("MP0_AWD_PREPARATION", 25); // Complete 25 prep missions
+			Stats::SetInt("MP0_CAS_HEIST_FLOW", 14336); // Complete The Diamond Casino Heist using all approaches
+			Stats::SetInt("MP0_PROG_HUB_CASINO_H_EARNINGS", 50000000); // Steal $50,000,000 from the vault
+			Stats::SetInt("MP0_AWD_DAICASHCRAB", 100000);              // Steal $100,000 from the Daily Vault
+			Stats::SetInt("MP0_GANGOPS_FLOW_BITSET_MISS0", 7); // Complete any Setup for The Data Breaches
+			Stats::SetInt("MP0_PROG_HUB_DOOM_PRP_NO_DEATHS", 14); // Complete 14 prep missions without dying
+			Stats::SetInt("MP0_PROG_HUB_DOOMSDAY_ACTS", 15);      // Complete 15 Acts as a leader
+			Stats::SetInt("MP0_PROG_HUB_HEIST_EARNINGS", 50000000); // Earn $50,000,000 across all heists
+
+			Stats::SetInt("MP0_ARENAWARS_AP_TIER", 50); // Reach Sponsorship Tier 25
+			Stats::SetInt("MP0_PROG_HUB_ADV_WINS", 50); // Win 5 Adversary Modes
+			Stats::SetInt("MP0_PROG_HUB_SURVIVALS_PLAYED", 1); // Play a Survival mode
+			Stats::SetInt("MP0_PROG_HUB_SURV_WAVES", 50);    // Clear 50 waves in Survival
+			Stats::SetInt("MP0_AWD_FMHORDWAVESSURVIVE", 10); // Survive 10 waves in Survival without dying
+			Stats::SetInt("MP0_PROG_HUB_SURV_WAVES", 250); // Clear 250 waves in Survival
+
+			Stats::SetInt("MP0_RACES_WON", 50);                         // Win 5 Races against another player
+			Stats::SetInt("MP0_PROG_HUB_T_TRIAL_PAR_TIME", 67108863);   // Beat the par time in 25 Time Trials
+			Stats::SetInt("MP0_PROG_HUB_T_TRL_PAR_TIME_RC", 67108863);  // Beat the par time in 25 Time Trials
+			Stats::SetInt("MP0_PROG_HUB_T_TRL_PAR_TIME_HSW", 67108863); // Beat the par time in 25 Time Trials
+			Stats::SetInt("MP0_PROG_HUB_T_TRL_PAR_TIME_BKE", 67108863); // Beat the par time in 25 Time Trials
+			Stats::SetInt("MP0_PROG_HUB_FST_LPS_RSTAR_RAC", 50); // Achieve the fastest lap 50 times on any Rockstar-created Race
+
+			Stats::SetInt("MP0_DM_END", 1);                       // Participate in any Deathmatch
+			Stats::SetInt("MP0_PROG_HUB_DM_TDM_PLAYS", 1);        // Participate in a Team Deathmatch
+			Stats::SetInt("MP0_AWD_FM_DM_WINS", 50);              // Win 5 Deathmatches
+			Stats::SetInt("MP0_PROG_HUB_DM_COMMUNITY_PLAYS", 10); // Play 10 Deathmatches in the Community Series
+			Stats::SetInt("MP0_PROG_HUB_DTHM_KILL_5_WO_DIE", 25); // Kill 5 players without dying 25 times during Deathmatches
+
+			Stats::SetInt("MP0_HUB_VEH_ENTH_OWNED_VEHS", 99); // Own 100 vehicles including 1 Special Vehicle
+			Stats::SetInt("MP0_VEHICLES_CUSTOMISED", 50);     // Customize 50 vehicles
+
+			Stats::SetInt("MP0_PROG_HUB_10_CHAL_ANSR", 10); // Win 10 Challenges against another player in the Ammu-Nation Shooting Range
+
+		    // set Individual packed ints
+		    Stats::SetPackedInt(28272, 1); // Steal setup funds
+			Stats::SetPackedInt(24903, 25); // Complete 25 Files
+			Stats::SetPackedInt(24904, 2);  // Complete 2 Files without losing a life
+			Stats::SetPackedInt(24905, 9); //  Unlock 9 platinum awards for Agents of Sabotage
+			Stats::SetPackedInt(7669, 5); // Secure or eliminate 5 Standard bounty targets
+			Stats::SetPackedInt(7672, 2); // Secure or eliminate 2 Most Wanted bounty targets
+			Stats::SetPackedInt(7670, 10); //  Secure or eliminate 10 bounty targets without losing a life
+			Stats::SetPackedInt(7674, 3); //  Secure or eliminate a Most Wanted bounty target 3 days in a row
+			Stats::SetPackedInt(7671, 25); //  Secure or eliminate 25 bounty targets
+			Stats::SetPackedInt(26809, 10); //  Unlock 10 platinum awards for Bottom Dollar Bounties
+			Stats::SetPackedInt(51052, 10); // Unlock 10 Platinum Awards for The Chop Shop
+			Stats::SetPackedInt(41241, 5);  // Unlock all custom acid names
+			Stats::SetPackedInt(42084, 24); // Unlock all Platinum Awards for Los Santos Drug Wars
+			Stats::SetPackedInt(42085, 10); // Unlock 10 Platinum Awards for The Contract
+			Stats::SetPackedInt(42089, 8);  // Unlock 8 Platinum Awards for After Hours
+			Stats::SetPackedInt(9359, 25);  // Complete a research project
+			Stats::SetPackedInt(30226, 10); // Unlock 10 Platinum Awards for Los Santos Tuners
+			Stats::SetPackedInt(42093, 11); // Unlock 11 Platinum Awards for The Diamond Casino & Resort
+			Stats::SetPackedInt(42094, 15); // Unlock 15 Platinum Awards for The Cayo Perico Heist
+			Stats::SetPackedInt(42087, 10); // Unlock 10 Platinum Awards for The Doomsday Heist
+			Stats::SetPackedInt(42100, 5);  // Complete all heists with the same crew
+			Stats::SetPackedInt(42090, 15); // Unlock 15 Platinum Awards for heists
+			Stats::SetPackedInt(22063, 20); // Reach skill level 5
+			Stats::SetPackedInt(42088, 15); // Unlock 15 Platinum Awards for Arena Wars
+			Stats::SetPackedInt(42000, 20); // Earn skill level 20 in Arena Wars
+			Stats::SetPackedInt(41246, 20); // Win 20 Races in the Community Series
+			Stats::SetPackedInt(42092, 5);  // Earn 5 gold medals in the Flight School challenges
+			Stats::SetPackedInt(42091, 10); // Unlock 10 Platinum Awards for Vehicles
+			Stats::SetPackedInt(41242, 8);  // Own 1 of each weapon type
+
+			// Set ranged bools
+			auto setRange = [](int start, int end) {
+				for (int i = start; i <= end; ++i)
+				{
+					Stats::SetPackedBool(i, TRUE); 
+				}
+			};
+
+			// Oscar Guzman
+			setRange(51286, 51291); // Complete an Oscar Guzman Flies Again mission on Hard
+			setRange(51292, 51297); // Complete all Oscar Guzman Flies Again missions on Hard without using snacks or armor
+
+			// Cluckin' Bell
+			setRange(28283, 28284); // Complete Scene of the Crime using both approaches
+			setRange(28273, 28281); // Complete Scene of the Crime using all available setup equipment
+
+			// San Andreas Mercenaries
+			setRange(41567, 41572); // Complete all Project Overthrow missions on Hard difficulty
+			setRange(41573, 41578); // Complete all Project Overthrow missions on Hard difficulty without using snacks or armor
+			setRange(41579, 41584); // Complete all Project Overthrow missions taking less than 50% damage
+			setRange(41585, 41590); // Complete all Project Overthrow missions with over 80% accuracy
+
+			// Operation Paper Trail
+			setRange(41333, 41338); // Complete an Operation Paper Trail mission without dying
+			setRange(41339, 41344); // Complete all Operation Paper Trail missions on Hard difficulty
+			setRange(41345, 41350); // Complete all Operation Paper Trail missions on Hard difficulty without using snacks or armor
+			setRange(41351, 41356); // Complete all Operation Paper Trail missions taking less than 50% damage
+			setRange(41357, 41362); // Complete all Operation Paper Trail missions with over 80% accuracy
+
+			// A SUPERYACHT LIFE
+			setRange(41380, 41385); // Complete all Superyacht Life missions on Hard difficulty
+			setRange(41386, 41391); // Complete all Superyacht Life missions on Hard difficulty without using snacks or armor
+			setRange(41392, 41397); // Complete all Superyacht Life missions taking less than 50% damage
+			setRange(41398, 41403); // Complete all Superyacht Life missions with over 80% accuracy
+
+			// GERALD'S LAST PLAY
+			setRange(41404, 41409); // Complete a Last Play mission for Gerald
+			setRange(41411, 41416); // Complete all Last Play missions on Hard difficulty
+			setRange(41417, 41422); // Complete all Last Play missions on Hard difficulty without using snacks or armor
+			setRange(41423, 41428); // Complete all Last Play missions taking less than 50% damage
+			setRange(41429, 41434); // Complete all Last Play missions with over 80% accuracy
+
+			// PREMIUM DELUXE REPO WORK
+			setRange(41436, 41443); // Complete a Repo Work mission for Simeon Yetarian
+			setRange(41444, 41451); // Complete all Repo Work missions on Hard difficulty
+			setRange(41452, 41459); // Complete all Repo Work missions on Hard difficulty without using snacks or armor
+			setRange(41460, 41467); // Complete all Repo Work missions taking less than 50% damage
+			setRange(41468, 41475); // Complete all Repo Work missions with over 80% accuracy
+
+			// MADRAZO DISPATCH SERVICES
+			setRange(41476, 41481); // Complete a Dispatch Mission for Martin Madrazo
+			setRange(41482, 41487); // Complete all Dispatch Missions on Hard difficulty
+			setRange(41488, 41493); // Complete all Dispatch Missions on Hard difficulty without using snacks or armor
+			setRange(41494, 41499); // Complete all Dispatch Missions taking less than 50% damage
+			setRange(41500, 41505); // Complete all Dispatch Missions with over 80% accuracy
+
+			// LOWRIDERS
+			setRange(42015, 42022); // Complete a Lowrider mission for Lamar
+			setRange(41507, 41514); // Complete all Lowrider missions on Hard difficulty
+			setRange(41515, 41522); // Complete all Lowrider missions on Hard difficulty without using snacks or armor
+			setRange(41523, 41530); // Complete all Lowrider missions taking less than 50% damage
+			setRange(41531, 41538); // Complete all Lowrider missions with over 80% accuracy
+
+			// AGENTS OF SABOTAGE
+			setRange(9543, 9546); // Complete all mission challenges for all Files
+
+			// THE CHOP SHOP
+			setRange(22082, 22083); // Hire a second Resident DJ
+
+			// LOS SANTOS DRUG WARS
+			setRange(41660, 41670); // Complete all missions in The First Dose and The Last Dose without dying
+
+			// AFTER HOURS
+			setRange(22067, 22067);       // Complete 25 Club Management missions
+			setRange(36868, 36944);       // Source Goods and eject a troublemaker from your Nightclub
+			setRange(41989, 41989);       // Fill up your Nightclub safe
+			setRange(42089, 42089);       // Unlock 8 Platinum Awards for After Hours
+			setRange(50000000, 50000000); // Earn $50,000,000 or more
+
+			// SMUGGLER'S RUN
+			setRange(36925, 36932); // Sell all types of Air-Freight Cargo
+
+			// GUNRUNNING
+			setRange(42002, 42013); // Upgrade 5 weapons to Mk II
+			setRange(36831, 36838); // Complete all Mobile Operations on Hard difficulty in under 10 minutes
+
+			// IMPORT / EXPORT
+			setRange(42029, 42036); // Complete a Special Vehicle Work
+			setRange(41874, 41883); // Source all vehicles for one Collector
+			setRange(41540, 41547); // Complete all Special Vehicle Works on Hard difficulty
+
+			// BIKERS
+			setRange(36875, 36887); // Complete a Clubhouse Contract
+
+			// FURTHER ADVENTURES IN FINANCE AND FELONY
+			setRange(36892, 36915); // Complete a VIP Work
+			setRange(7559, 7553);   // Source all types of Cargo
+			setRange(36860, 36865); // Source all types of Special Items
+
+			// THE DIAMOND CASINO & RESORT
+			setRange(36844, 36859); // Complete 13 different Casino Work missions
+			setRange(41548, 41553); // Complete all Casino Story Missions on Hard difficulty
+			setRange(41560, 41565); // Complete all Casino Story Missions on Hard difficulty while taking less than 50% damage
+			setRange(41554, 41559); // Complete all Casino Story Missions on Hard difficulty using only pistols
+			setRange(41678, 41681); // Steal all variations of loot from the vault on Hard difficulty, without being spotted
+
+			// THE DOOMSDAY HEIST
+			setRange(41697, 41699); // Complete the Elite Challenges for all 3 Acts
+			setRange(41701, 41704); // Complete the Elite Challenge for each heist
+
+			// ARENA WAR
+			setRange(41647, 41655); // Win an Arena Mode
+
+			// ADVERSARY MODE
+			setRange(41594, 41646); // Participate in any Adversary Mode
+			setRange(41656, 41646); // Participate in 25 different Adversary Modes
+			setRange(51339, 41646); // Participate in 25 different Adversary Modes
+
+			// RACING
+			setRange(41363, 42151); // Win a Race in 5 different race types
+
+			//DEATHMATCHES
+			setRange(41842, 41862); // Own a vehicle in each of the 15 different vehicle classes
+
+		}
+	};
+
+ 
+    class Awards_Unlock : public Command
+		{
+		using Command::Command;
+
+		virtual void OnCall() override
+		{
+			const std::vector<std::string> awardsToUnlock = {"AWD_INTELGATHER", "AWD_COMPOUNDINFILT", "AWD_LOOT_FINDER", "AWD_MAX_DISRUPT", "AWD_THE_ISLAND_HEIST", "AWD_GOING_ALONE", "AWD_TEAM_WORK", "AWD_MIXING_UP", "AWD_PRO_THIEF", "AWD_CAT_BURGLAR", "AWD_ONE_OF_THEM", "AWD_GOLDEN_GUN", "AWD_ELITE_THIEF", "AWD_PROFESSIONAL", "AWD_HELPING_OUT", "AWD_COURIER", "AWD_PARTY_VIBES", "AWD_HELPING_HAND"};
+
+		    for (const auto& statKey : awardsToUnlock)
+			{
+				std::string fullKey = "MP0_" + statKey;
+				Stats::SetBool(fullKey.c_str(), true);
+			}
+
+			// Island Heist Awards
+			/*Stats::SetInt("AWD_LOSTANDFOUND", 45);*/
+			std::cout << "Set AWD_SUNSET to 60\n";
+			Stats::SetInt("MP0_AWD_SUNSET", 60);
+			Stats::SetInt("MP0_AWD_TREASURE_HUNTER", 60);
+			Stats::SetInt("MP0_AWD_WRECK_DIVING", 1000000);
+			Stats::SetInt("MP0_AWD_KEINEMUSIK", 60);
+			Stats::SetInt("MP0_AWD_PALMS_TRAX", 60);
+			Stats::SetInt("MP0_AWD_MOODYMANN", 60);
+			Stats::SetInt("MP0_AWD_FILL_YOUR_BAGS", 20000000);
+			Stats::SetInt("MP0_AWD_WELL_PREPARED", 50);
+		}
+	};
+
 
 	static BunkerResearch _BunkerResearch{"bunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
 	static AreanaWar_Clothing _UnlockAreanaWarClothing{"unlockareanawarclothing", "Unlock Areana War Clothing", "Unlocks all Areana War Clothing"};
 	static Casino_Heist_Clothing _UnlockCasinoHeistClothing{"unlockcasinoheistclothing", "Unlock Casino Clothing", "Unlocks Casino Heist Clothing"};
 	static Genderchange _unlockgenderchange{"unlockgenderchange", "Unlock Gender Change", "Allows to Change Gender"};
+	static CareerProgress_Rewards _CareerProgress_Rewards{"careerprogressreawards", "Unlock Career Progress", "Unlocks all Career Progress Stats"};
+	static Awards_Unlock _Awards_Unlock{"awardsunlock", "Unlock Awards", "Unlocks all Awards"};
 }
