@@ -995,6 +995,21 @@ namespace YimMenu::Features
 				Stats::SetInt("MP0_AWD_FACES_OF_DEATH", 30);
 		    }
 	    };
+		class los_santos_summer_special_awards_unlock : public Command
+	    {
+		    using Command::Command;
+
+		    virtual void OnCall() override
+		    {
+				Stats::SetBool("MP0_AWD_KINGOFQUB3D", true);
+				Stats::SetBool("MP0_AWD_QUBISM", true);
+				Stats::SetBool("MP0_AWD_QUIBITS", true);
+				Stats::SetBool("MP0_AWD_GODOFQUB3D", true);
+				Stats::SetBool("MP0_AWD_GOFOR11TH", true);
+				Stats::SetBool("MP0_AWD_ELEVENELEVEN", true);
+		    }
+	    };
+
 
 
 	static BunkerResearch _BunkerResearch{"bunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
@@ -1005,8 +1020,9 @@ namespace YimMenu::Features
 	static cayo_awards_unlock _cayo_awards_unlock{"cayoawardsunlock", "Unlock Cayo Perico Awards", "Unlocks all Awards"};
 	static agent_sabotage_awards_unlock _agent_sabotage_awards_unlock{"agentsabotageawardsunlock", "Unlock Agent Sabotage Awards", "Unlocks all Agent of Sabotage Awards"};
 	static bottom_dollar_bounties_awards_unlock _bottom_dollar_bounties_awards_unlock{"bottomdollarbountiesawardsunlock", "Unlock Bottom Dollar Bounties Awards", "Unlocks all Bottom Dollar Bounties Awards"};
-	static the_chop_shop_awards_unlock  _the_chop_shop_awards_unlock{"thechopshopawardsunlock", "Unlock Chop Shop Awards", "Unlocks all the Chop Shop Awards"}
-	static los_santos_drug_wars_awards_unlock  _los_santos_drug_wars_awards_unlock{"lossantosdrugwarsunlock", "Unlock Los Drug Wars Awards", "Unlocks all the Los Santos Drug wars Awards"}
-	static the_contract_awards_unlock  _the_contract_awards_unlock{"thecontractawardsunlock", "Unlock The Contract Awards", "Unlocks all the Contract Awards"}
-	static los_santos_tuners_awards_unlock  _los_santos_tuners_awards_unlock{"lossantostunersawardsunlock", "Unlock Los Santos Tuners Awards", "Unlocks all the Los Santos Tuners Awards"}
+	static the_chop_shop_awards_unlock  _the_chop_shop_awards_unlock{"thechopshopawardsunlock", "Unlock Chop Shop Awards", "Unlocks all the Chop Shop Awards"};
+	static los_santos_drug_wars_awards_unlock  _los_santos_drug_wars_awards_unlock{"lossantosdrugwarsunlock", "Unlock Los Drug Wars Awards", "Unlocks all the Los Santos Drug wars Awards"};
+	static the_contract_awards_unlock  _the_contract_awards_unlock{"thecontractawardsunlock", "Unlock The Contract Awards", "Unlocks all the Contract Awards"};
+	static los_santos_tuners_awards_unlock  _los_santos_tuners_awards_unlock{"lossantostunersawardsunlock", "Unlock Los Santos Tuners Awards", "Unlocks all the Los Santos Tuners Awards"};
+	static los_santos_summer_special_awards_unlock  _los_santos_summer_special_awards_unlock{"lossantossummerspecialawardsunlock", "Unlock Los Santos Summer Special Awards", "Unlocks all Los Santos Summer Special Awards"};
 }
