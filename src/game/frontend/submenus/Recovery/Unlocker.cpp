@@ -857,8 +857,8 @@ namespace YimMenu::Features
 			    // Bottom Dollar Bounties Heist Awards
 			    Stats::SetInt("MP0_AWD_BOUNTIES", 50); 
 			    Stats::SetInt("MP0_AWD_STANBOUNTIES", 50);
-			    Stats::SetInt("MP0_AWD_BOUNTEARNS", 50); 
-			    /*Stats::SetInt("MP0_AWD_BAILOFFICSTAFF", 25000);*/  //Need to Check
+			    Stats::SetInt("MP0_AWD_BOUNTEARNS", 5000000); 
+			    Stats::SetInt("MP0_AWD_BAILOFFICSTAFF", 1000000);
 			    Stats::SetInt("MP0_AWD_DISPATCHWORK", 50);
 			    Stats::SetInt("MP0_AWD_PIZZATHIS", 50);
 			    Stats::SetInt("MP0_AWD_ASSONBONUSOBJ", 20);
@@ -960,6 +960,41 @@ namespace YimMenu::Features
 				Stats::SetInt("MP0_AWD_PRODUCER", 60);
 		    }
 	    };
+		class los_santos_tuners_awards_unlock : public Command
+	    {
+		    using Command::Command;
+
+		    virtual void OnCall() override
+		    {
+				Stats::SetBool("MP0_AWD_CAR_CLUB", true);
+				Stats::SetBool("MP0_AWD_PRO_CAR_EXPORT", true);
+				Stats::SetBool("MP0_AWD_UNION_DEPOSITORY", true);
+				Stats::SetBool("MP0_AWD_MILITARY_CONVOY", true);
+				Stats::SetBool("MP0_AWD_FLEECA_BANK", true);
+				Stats::SetBool("MP0_AWD_FREIGHT_TRAIN", true);
+				Stats::SetBool("MP0_AWD_BOLINGBROKE_ASS", true);
+				Stats::SetBool("MP0_AWD_IAA_RAID", true);
+				Stats::SetBool("MP0_AWD_METH_JOB", true);
+				Stats::SetBool("MP0_AWD_BUNKER_RAID", true);
+				Stats::SetBool("MP0_AWD_STRAIGHT_TO_VIDEO", true);
+				Stats::SetBool("MP0_AWD_MONKEY_C_MONKEY_DO", true);
+				Stats::SetBool("MP0_AWD_TRAINED_TO_KILL", true);
+				Stats::SetBool("MP0_AWD_DIRECTOR", true);
+
+
+                //Los Santos Tuners Awards
+				Stats::SetInt("MP0_AWD_CAR_CLUB_MEM", 100);
+				Stats::SetInt("MP0_AWD_SPRINTRACER", 50);
+				Stats::SetInt("MP0_AWD_STREETRACER", 50);
+				Stats::SetInt("MP0_AWD_PURSUITRACER", 50);
+				Stats::SetInt("MP0_AWD_TEST_CAR", 240);
+				Stats::SetInt("MP0_AWD_AUTO_SHOP", 50);
+				Stats::SetInt("MP0_AWD_CAR_EXPORT", 100);
+				Stats::SetInt("MP0_AWD_GROUNDWORK", 40);
+				Stats::SetInt("MP0_AWD_ROBBERY_CONTRACT", 100);
+				Stats::SetInt("MP0_AWD_FACES_OF_DEATH", 30);
+		    }
+	    };
 
 
 	static BunkerResearch _BunkerResearch{"bunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
@@ -973,4 +1008,5 @@ namespace YimMenu::Features
 	static the_chop_shop_awards_unlock  _the_chop_shop_awards_unlock{"thechopshopawardsunlock", "Unlock Chop Shop Awards", "Unlocks all the Chop Shop Awards"}
 	static los_santos_drug_wars_awards_unlock  _los_santos_drug_wars_awards_unlock{"lossantosdrugwarsunlock", "Unlock Los Drug Wars Awards", "Unlocks all the Los Santos Drug wars Awards"}
 	static the_contract_awards_unlock  _the_contract_awards_unlock{"thecontractawardsunlock", "Unlock The Contract Awards", "Unlocks all the Contract Awards"}
+	static los_santos_tuners_awards_unlock  _los_santos_tuners_awards_unlock{"lossantostunersawardsunlock", "Unlock Los Santos Tuners Awards", "Unlocks all the Los Santos Tuners Awards"}
 }
