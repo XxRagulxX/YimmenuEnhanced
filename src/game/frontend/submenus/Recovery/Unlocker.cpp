@@ -99,13 +99,13 @@ namespace YimMenu::Features
 			    25268, // Pink/Blue Rocket Splash Tee
 			    24977, // Pink/Black Spacesuit Alien Tee
 			    25269, // Pink/Blue/Purple Moons Tee
-			    25270, // Red/Green/Blue Isn't Free Tee
+			    25270, // Red/Green/Blue Isn"t Free Tee
 			    25271, // All Raider Tops
 			    25272, // All Leather Feather Tops
 			    25273, // All Mercenary Tops
 			    25274, // Benedict Light Beer Hoodie
 			    25275, // Taco Bomb Hoodie
-			    25276, // Cluckin'Bell Logo Bomb Hoodie
+			    25276, // Cluckin"Bell Logo Bomb Hoodie
 			    25277, // Patriot Beer Hoodie
 			    25278, // Pisswasser Hoodie
 			    25279, // Burger Shot Hoodie
@@ -118,7 +118,7 @@ namespace YimMenu::Features
 			    25286, // Mushrooms Hoodie
 			    25287, // Redwood Hoodie
 			    25288, // eCola Infectious Hoodie
-			    25289, // Cluckin'Bell Logo Hoodie
+			    25289, // Cluckin"Bell Logo Hoodie
 			    25290, // Lemons Hoodie
 			    25291, // Tacos Hoodie
 			    25292, // Burger Shot Pattern Sweater
@@ -128,9 +128,9 @@ namespace YimMenu::Features
 			    25296, // Wigwam Sweater
 			    25297, // Taco Bomb Chili Sweater
 			    25298, // Green/Yellow Bomb Sweater
-			    25299, // Cluckin'Bell Logo Bomb Sweater
-			    25300, // Blue Cluckin'Bell Sweater
-			    25301, // Black Cluckin'Bell Sweater
+			    25299, // Cluckin"Bell Logo Bomb Sweater
+			    25300, // Blue Cluckin"Bell Sweater
+			    25301, // Black Cluckin"Bell Sweater
 			    25302, // Infectious/Red eCola Sweater
 			    25303, // Orange/Red MeTV Sweater
 			    25304, // Magenta/Cyan Heat Sweater
@@ -140,7 +140,7 @@ namespace YimMenu::Features
 			    25308, // Lucky Plucker Logo Bomb Sweater
 			    25309, // Lucky Plucker Sweater
 			    25310, // Dark Red/Red/Black/Blue Burger Shot Hockey Shirt
-			    25311, // Black/Blue Cluckin' Bell Hockey Shirt
+			    25311, // Black/Blue Cluckin" Bell Hockey Shirt
 			    25312, // Wigwam Hockey Shirt
 			    25313, // Redwood Hockey Shirt
 			    25314, // Bean Machine Hockey Shirt
@@ -151,9 +151,9 @@ namespace YimMenu::Features
 			    25319, // Sprunk Classic Hockey Shirt
 			    25320, // Burger Shot Black Tee
 			    25321, // Burger Shot Logo Tee
-			    25322, // Cluckin'Bell Logo Tee
-			    25323, // Cluckin'Bell Black Tee
-			    25324, // Cluckin'Bell Filled Logo Tee
+			    25322, // Cluckin"Bell Logo Tee
+			    25323, // Cluckin"Bell Black Tee
+			    25324, // Cluckin"Bell Filled Logo Tee
 			    25325, // eCola Black Tee
 			    25326, // Lucky Plucker Tee
 			    25327, // Pisswasser Tee
@@ -205,8 +205,8 @@ namespace YimMenu::Features
 			    25371, // Burger Shot Fries/Burgers Cap
 			    25373, // Burger Shot Logo Cap
 			    25374, // Burger Shot Bullseye Cap
-			    25375, // Yellow/Blue Cluckin'Bell Cap
-			    25377, // Cluckin'Bell Logos Cap
+			    25375, // Yellow/Blue Cluckin"Bell Cap
+			    25377, // Cluckin"Bell Logos Cap
 			    25378, // Pink/Purple/Black Hotdogs Cap
 			    25379, // Green/White/- Taco Bomb Cap
 			    25382, // Red/White Lucky Plucker Cap
@@ -214,7 +214,7 @@ namespace YimMenu::Features
 			    25386, // Black/White Pisswasser Cap
 			    25390, // Taco Canvas Hat
 			    25391, // Burger Shot Canvas Hat
-			    25392, // Cluckin'Bell Canvas Hat
+			    25392, // Cluckin"Bell Canvas Hat
 			    25393, // Hotdogs Canvas Hat
 			};
 			for (int id : Areanawar_ids)
@@ -280,12 +280,12 @@ namespace YimMenu::Features
 			    51278, // Complete an Oscar Guzman Flies Again mission without dying
 			    51279, // Complete Oscar Guzman Flies Again in under 60 minutes
 
-			    // THE CLUCKIN' BELL FARM RAID
-			    28272, // Steal the setup funds for The Cluckin' Bell Farm Raid
-			    28287, // Complete The Cluckin' Bell Farm Raid
-			    28286, // Complete a Cluckin' Bell Farm Raid mission without dying
+			    // THE CLUCKIN" BELL FARM RAID
+			    28272, // Steal the setup funds for The Cluckin" Bell Farm Raid
+			    28287, // Complete The Cluckin" Bell Farm Raid
+			    28286, // Complete a Cluckin" Bell Farm Raid mission without dying
 			    28285, // Complete Scene of the Crime without being spotted
-			    28282, // Complete The Cluckin' Bell Farm Raid in less than 45 minutes as a leader
+			    28282, // Complete The Cluckin" Bell Farm Raid in less than 45 minutes as a leader
 			    41566, // Complete a Project Overthrow mission without dying
 			    41706, // Complete a Project Overthrow mission on Hard difficulty
 
@@ -300,7 +300,7 @@ namespace YimMenu::Features
 			    41379, // Complete a Superyacht Life mission without dying
 			    41708, // Complete a Superyacht Life mission on Hard difficulty
 
-				// GERALD'S LAST PLAY
+				// GERALD"S LAST PLAY
 			    41410, // Complete a Last Play mission without dying
 			    41709, // Complete a Last Play mission on Hard difficulty
 
@@ -348,7 +348,7 @@ namespace YimMenu::Features
 			    36944, // Eject a troublemaker from your Nightclub
 			    41989, // Fill up your Nightclub safe
 
-				// SMUGGLER'S RUN
+				// SMUGGLER"S RUN
 				15966,  // Set up a Hangar
 			    41676, // Send a staff member to source Air-Freight Cargo
 			    32398, // Turn a Pegasus vehicle into a Personal Aircraft
@@ -384,7 +384,7 @@ namespace YimMenu::Features
 			    27089, // Visit The Diamond Casino & Resort
 			    27090, // Purchase a Penthouse and visit Agatha Baker
 			    36916, // Recover the bonus item after completing Cashing Out
-			    41868, // Take out Avery's bodyguards without being spotted in Cashing Out
+			    41868, // Take out Avery"s bodyguards without being spotted in Cashing Out
 
 				// THE CAYO PERICO HEIST
 			    30309, // Meet Miguel Madrazo inside The Music Locker
@@ -447,8 +447,8 @@ namespace YimMenu::Features
 			    42014, // Customize a vehicle in Los Santos Customs
 			    41865, // Own a Pegasus vehicle
 			    41863, // Test drive or purchase a vehicle from Premium Deluxe Motorsport or Luxury Autos
-			    41840, // Upgrade a vehicle to its custom variant at Benny's Original Motor Works
-			    41839, // Upgrade a vehicle with HSW Performance Upgrades at Hao's Special Works inside the LS Car Meet
+			    41840, // Upgrade a vehicle to its custom variant at Benny"s Original Motor Works
+			    41839, // Upgrade a vehicle with HSW Performance Upgrades at Hao"s Special Works inside the LS Car Meet
 			    41841, // Upgrade a vehicle into an Arena Contender at an Arena Workshop
 			    41838, // Customize a vehicle with Imani tech at an Agency
 			    41866, // Own 100 vehicles including 1 Special Vehicle
@@ -472,7 +472,7 @@ namespace YimMenu::Features
 
 			// set individual ints
 			Stats::SetInt("MP0_PROG_HUB_MFH_EARNINGS", 5000000); // Earn $5,000,000 from Oscar Guzman Flies Again
-			Stats::SetInt("MP0_PROG_HUB_CBR_EARNINGS", 5000000); // Earn $5,000,000 from The Cluckin' Bell Farm Raid
+			Stats::SetInt("MP0_PROG_HUB_CBR_EARNINGS", 5000000); // Earn $5,000,000 from The Cluckin" Bell Farm Raid
 			Stats::SetInt("MP0_SUM23_AVOP_PROGRESS", 4095);   // Complete a Project Overthrow mission for Charlie Reed
 			Stats::SetInt("MP0_ULP_MISSION_PROGRESS", 16383); // Complete an Operation Paper Trail mission for Agent ULP
 			Stats::SetInt("MP0_YACHT_MISSION_FLOW", 65520);   // Complete a Superyacht Life mission for Brendan Darcy
@@ -662,7 +662,7 @@ namespace YimMenu::Features
 			setRange(51286, 51291); // Complete an Oscar Guzman Flies Again mission on Hard
 			setRange(51292, 51297); // Complete all Oscar Guzman Flies Again missions on Hard without using snacks or armor
 
-			// Cluckin' Bell
+			// Cluckin" Bell
 			setRange(28283, 28284); // Complete Scene of the Crime using both approaches
 			setRange(28273, 28281); // Complete Scene of the Crime using all available setup equipment
 
@@ -685,7 +685,7 @@ namespace YimMenu::Features
 			setRange(41392, 41397); // Complete all Superyacht Life missions taking less than 50% damage
 			setRange(41398, 41403); // Complete all Superyacht Life missions with over 80% accuracy
 
-			// GERALD'S LAST PLAY
+			// GERALD"S LAST PLAY
 			setRange(41404, 41409); // Complete a Last Play mission for Gerald
 			setRange(41411, 41416); // Complete all Last Play missions on Hard difficulty
 			setRange(41417, 41422); // Complete all Last Play missions on Hard difficulty without using snacks or armor
@@ -729,7 +729,7 @@ namespace YimMenu::Features
 			setRange(42089, 42089);       // Unlock 8 Platinum Awards for After Hours
 			setRange(50000000, 50000000); // Earn $50,000,000 or more
 
-			// SMUGGLER'S RUN
+			// SMUGGLER"S RUN
 			setRange(36925, 36932); // Sell all types of Air-Freight Cargo
 
 			// GUNRUNNING
@@ -1015,51 +1015,51 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				Stats::SetBool('MP0_AWD_KINGOFQUB3D', true);
-				Stats::SetBool('MP0_AWD_QUBISM', true);
-				Stats::SetBool('MP0_AWD_QUIBITS', true);
-				Stats::SetBool('MP0_AWD_GODOFQUB3D', true);
-				Stats::SetBool('MP0_AWD_GOFOR11TH', true);
-				Stats::SetBool('MP0_AWD_ELEVENELEVEN', true);
-				Stats::SetBool('MP0_AWD_SCOPEOUT', true);
-				Stats::SetBool('MP0_AWD_CREWEDUP', true);
-				Stats::SetBool('MP0_AWD_MOVINGON', true);
-				Stats::SetBool('MP0_AWD_PROMOCAMP', true);
-				Stats::SetBool('MP0_AWD_GUNMAN', true);
-				Stats::SetBool('MP0_AWD_SMASHNGRAB', true);
-				Stats::SetBool('MP0_AWD_INPLAINSI', true);
-				Stats::SetBool('MP0_AWD_UNDETECTED', true);
-				Stats::SetBool('MP0_AWD_ALLROUND', true);
-				Stats::SetBool('MP0_AWD_ELITETHEIF', true);
-				Stats::SetBool('MP0_AWD_PRO', true);
-				Stats::SetBool('MP0_AWD_SUPPORTACT', true);
-				Stats::SetBool('MP0_AWD_SHAFTED', true);
-				Stats::SetBool('MP0_AWD_COLLECTOR', true);
-				Stats::SetBool('MP0_AWD_DEADEYE', true);
-				Stats::SetBool('MP0_AWD_PISTOLSATDAWN', true);
-				Stats::SetBool('MP0_AWD_TRAFFICAVOI', true);
-				Stats::SetBool('MP0_AWD_CANTCATCHBRA', true);
-				Stats::SetBool('MP0_AWD_WIZHARD', true);
-				Stats::SetBool('MP0_AWD_APEESCAPE', true);
-				Stats::SetBool('MP0_AWD_MONKEYKIND', true);
-				Stats::SetBool('MP0_AWD_AQUAAPE', true);
-				Stats::SetBool('MP0_AWD_KEEPFAITH', true);
-				Stats::SetBool('MP0_AWD_TRUELOVE',true);
-				Stats::SetBool('MP0_AWD_NEMESIS',true);
-				Stats::SetBool('MP0_AWD_FRIENDZONED',true);
+				Stats::SetBool("MP0_AWD_KINGOFQUB3D", true);
+				Stats::SetBool("MP0_AWD_QUBISM", true);
+				Stats::SetBool("MP0_AWD_QUIBITS", true);
+				Stats::SetBool("MP0_AWD_GODOFQUB3D", true);
+				Stats::SetBool("MP0_AWD_GOFOR11TH", true);
+				Stats::SetBool("MP0_AWD_ELEVENELEVEN", true);
+				Stats::SetBool("MP0_AWD_SCOPEOUT", true);
+				Stats::SetBool("MP0_AWD_CREWEDUP", true);
+				Stats::SetBool("MP0_AWD_MOVINGON", true);
+				Stats::SetBool("MP0_AWD_PROMOCAMP", true);
+				Stats::SetBool("MP0_AWD_GUNMAN", true);
+				Stats::SetBool("MP0_AWD_SMASHNGRAB", true);
+				Stats::SetBool("MP0_AWD_INPLAINSI", true);
+				Stats::SetBool("MP0_AWD_UNDETECTED", true);
+				Stats::SetBool("MP0_AWD_ALLROUND", true);
+				Stats::SetBool("MP0_AWD_ELITETHEIF", true);
+				Stats::SetBool("MP0_AWD_PRO", true);
+				Stats::SetBool("MP0_AWD_SUPPORTACT", true);
+				Stats::SetBool("MP0_AWD_SHAFTED", true);
+				Stats::SetBool("MP0_AWD_COLLECTOR", true);
+				Stats::SetBool("MP0_AWD_DEADEYE", true);
+				Stats::SetBool("MP0_AWD_PISTOLSATDAWN", true);
+				Stats::SetBool("MP0_AWD_TRAFFICAVOI", true);
+				Stats::SetBool("MP0_AWD_CANTCATCHBRA", true);
+				Stats::SetBool("MP0_AWD_WIZHARD", true);
+				Stats::SetBool("MP0_AWD_APEESCAPE", true);
+				Stats::SetBool("MP0_AWD_MONKEYKIND", true);
+				Stats::SetBool("MP0_AWD_AQUAAPE", true);
+				Stats::SetBool("MP0_AWD_KEEPFAITH", true);
+				Stats::SetBool("MP0_AWD_TRUELOVE",true);
+				Stats::SetBool("MP0_AWD_NEMESIS",true);
+				Stats::SetBool("MP0_AWD_FRIENDZONED",true);
 
 
-				// Casino Heist Awards
-				Stats::SetInt('MP0_AWD_ASTROCHIMP', 3000000);
-				Stats::SetInt('MP0_AWD_MASTERFUL', 40000);
-				Stats::SetInt('MP0_AWD_PREPARATION', 40);
-				Stats::SetInt('MP0_AWD_ASLEEPONJOB', 20);
-				Stats::SetInt('MP0_AWD_DAICASHCRAB', 100000);
-				Stats::SetInt('MP0_AWD_BIGBRO', 40);
-				Stats::SetInt('MP0_AWD_SHARPSHOOTER', 40);
-				Stats::SetInt('MP0_AWD_RACECHAMP', 40);
-				Stats::SetInt('MP0_AWD_BATSWORD', 1000000);
-				Stats::SetInt('MP0_AWD_COINPURSE', 950000);
+		//		// Casino Heist Awards
+				Stats::SetInt("MP0_AWD_ASTROCHIMP", 3000000);
+				Stats::SetInt("MP0_AWD_MASTERFUL", 40000);
+				Stats::SetInt("MP0_AWD_PREPARATION", 40);
+				Stats::SetInt("MP0_AWD_ASLEEPONJOB", 20);
+				Stats::SetInt("MP0_AWD_DAICASHCRAB", 100000);
+				Stats::SetInt("MP0_AWD_BIGBRO", 40);
+				Stats::SetInt("MP0_AWD_SHARPSHOOTER", 40);
+				Stats::SetInt("MP0_AWD_RACECHAMP", 40);
+				Stats::SetInt("MP0_AWD_BATSWORD", 1000000);
+				Stats::SetInt("MP0_AWD_COINPURSE", 950000);
 
 				for (int i = 0; i < 10; i++) {
 					Stats::SetInt(("MP0_IAP_INITIALS_" + std::to_string(i)).c_str(), 50);
@@ -1096,7 +1096,7 @@ namespace YimMenu::Features
 				Stats::SetInt("MP0_SCGW_SCORE_8",50);
 				Stats::SetInt("MP0_SCGW_SCORE_9",50);
 
-				// Stats::SetInt(("MP0_SCGW_INITIALS_" + std::to_string(i)).c_str(), X);
+				/*Stats::SetInt(("MP0_SCGW_INITIALS_" + std::to_string(i)).c_str(), X);*/
 
 			}
 		};
