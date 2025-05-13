@@ -931,6 +931,35 @@ namespace YimMenu::Features
 
 		    }
 	    };
+		class the_contract_awards_unlock : public Command
+	    {
+		    using Command::Command;
+
+		    virtual void OnCall() override
+		    {
+				Stats::SetBool("MP0_AWD_TEEING_OFF", true);
+				Stats::SetBool("MP0_AWD_PARTY_NIGHT", true);
+				Stats::SetBool("MP0_AWD_BILLIONAIRE_GAMES", true);
+				Stats::SetBool("MP0_AWD_HOOD_PASS", true);
+				Stats::SetBool("MP0_AWD_STUDIO_TOUR", true);
+				Stats::SetBool("MP0_AWD_DONT_MESS_DRE", true);
+				Stats::SetBool("MP0_AWD_BACKUP", true);
+				Stats::SetBool("MP0_AWD_SHORTFRANK_1", true);
+				Stats::SetBool("MP0_AWD_SHORTFRANK_2", true);
+				Stats::SetBool("MP0_AWD_SHORTFRANK_3", true);
+				Stats::SetBool("MP0_AWD_CONTR_KILLER", true);
+				Stats::SetBool("MP0_AWD_DOGS_BEST_FRIEND", true);
+				Stats::SetBool("MP0_AWD_MUSIC_STUDIO", true);
+				Stats::SetBool("MP0_AWD_SHORTLAMAR_1", true);
+				Stats::SetBool("MP0_AWD_SHORTLAMAR_2", true);
+				Stats::SetBool("MP0_AWD_SHORTLAMAR_3", true);
+
+                //The Contract Awards
+				Stats::SetInt("MP0_AWD_CONTRACTOR", 50);
+				Stats::SetInt("MP0_AWD_COLD_CALLER", 50);
+				Stats::SetInt("MP0_AWD_PRODUCER", 60);
+		    }
+	    };
 
 
 	static BunkerResearch _BunkerResearch{"bunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
@@ -943,4 +972,5 @@ namespace YimMenu::Features
 	static bottom_dollar_bounties_awards_unlock _bottom_dollar_bounties_awards_unlock{"bottomdollarbountiesawardsunlock", "Unlock Bottom Dollar Bounties Awards", "Unlocks all Bottom Dollar Bounties Awards"};
 	static the_chop_shop_awards_unlock  _the_chop_shop_awards_unlock{"thechopshopawardsunlock", "Unlock Chop Shop Awards", "Unlocks all the Chop Shop Awards"}
 	static los_santos_drug_wars_awards_unlock  _los_santos_drug_wars_awards_unlock{"lossantosdrugwarsunlock", "Unlock Los Drug Wars Awards", "Unlocks all the Los Santos Drug wars Awards"}
+	static the_contract_awards_unlock  _the_contract_awards_unlock{"thecontractawardsunlock", "Unlock The Contract Awards", "Unlocks all the Contract Awards"}
 }
