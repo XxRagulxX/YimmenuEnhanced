@@ -44,7 +44,8 @@ namespace YimMenu::Submenus
 		misc->AddItem(std::make_shared<CommandItem>("careerprogressreawards"_J));
 		awards->AddItem(std::make_shared<CommandItem>("agentsabotageawardsunlock"_J));
 		awards->AddItem(std::make_shared<CommandItem>("bottomdollarbountiesawardsunlock"_J));
-		awards->AAdItem(std::makes_shared<CommandItem>("the_chop_shop_awards_unlock"))
+		awards->AddItem(std::makes_shared<CommandItem>("the_chop_shop_awards_unlock"))
+		awards->AddItem(std::makes_shared<CommandItem>("lossantosdrugwarsunlock"))
 		shopping->AddItem(vehiclesGroup);
 		missions->AddItem(generalGroup);
 		unlocker->AddItem(awards);

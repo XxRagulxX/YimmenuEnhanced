@@ -889,11 +889,46 @@ namespace YimMenu::Features
 				Stats::SetBool("MP0_AWD_GETAWAY_VEHICLES", true);
 
                 // The Chop Shop Heist Awards
-				Stats::SetInt("MP0_AWD_VEHICLE_ROBBERIES", X);
-				Stats::SetInt("MP0_AWD_PREP_WORK", X);
-				Stats::SetInt("MP0_AWD_CAR_DEALER", X); 
-				Stats::SetInt("MP0_AWD_SECOND_HAND_PARTS", X); 
-				Stats::SetInt("MP0_AWD_TOW_TRUCK_SERVICE", X); 
+				Stats::SetInt("MP0_AWD_VEHICLE_ROBBERIES", 50);
+				Stats::SetInt("MP0_AWD_PREP_WORK", 50);
+				Stats::SetInt("MP0_AWD_CAR_DEALER", 5000000); 
+				Stats::SetInt("MP0_AWD_SECOND_HAND_PARTS", 5000000); 
+				Stats::SetInt("MP0_AWD_TOW_TRUCK_SERVICE", 50); 
+		    }
+	    };
+		class los_santos_drug_wars_awards_unlock : public Command
+	    {
+		    using Command::Command;
+
+		    virtual void OnCall() override
+		    {
+				Stats::SetBool("MP0_AWD_ACELIQUOR", true);
+				Stats::SetBool("MP0_AWD_TRUCKAMBUSH", true);
+				Stats::SetBool("MP0_AWD_LOSTCAMPREV", true);
+				Stats::SetBool("MP0_AWD_ACIDTRIP", true);
+				Stats::SetBool("MP0_AWD_HIPPYRIVALS", true);
+				Stats::SetBool("MP0_AWD_TRAINCRASH", true);
+				Stats::SetBool("MP0_AWD_BACKUPB", true);
+				Stats::SetBool("MP0_AWD_GETSTARTED", true);
+				Stats::SetBool("MP0_AWD_CHEMREACTION", true);
+				Stats::SetBool("MP0_AWD_WAREHODEFEND", true);
+				Stats::SetBool("MP0_AWD_ATTACKINVEST", true);
+				Stats::SetBool("MP0_AWD_RESCUECOOK", true);
+				Stats::SetBool("MP0_AWD_DRUGTRIPREHAB", true);
+				Stats::SetBool("MP0_AWD_CARGOPLANE", true);
+				Stats::SetBool("MP0_AWD_BACKUPB2", true);
+				Stats::SetBool("MP0_AWD_TAXISTAR", true);
+
+                //Los Santos Drug Wars Awards
+				Stats::SetInt("MP0_AWD_RUNRABBITRUN", 5);
+				Stats::SetInt("MP0_AWD_CALLME", 50);
+				Stats::SetInt("MP0_AWD_CHEMCOMPOUNDS", 50);
+				Stats::SetInt("MP0_AWD_STASHHORAID", 50);
+				Stats::SetInt("MP0_AWD_DEADDROP", 50);
+				Stats::SetInt("MP0_AWD_GOODSAMARITAN", 5);
+				Stats::SetInt("MP0_AWD_OWNWORSTENEMY", 60);
+				Stats::SetInt("MP0_AWD_TAXIDRIVER", 50);
+
 		    }
 	    };
 
@@ -907,4 +942,5 @@ namespace YimMenu::Features
 	static agent_sabotage_awards_unlock _agent_sabotage_awards_unlock{"agentsabotageawardsunlock", "Unlock Agent Sabotage Awards", "Unlocks all Agent of Sabotage Awards"};
 	static bottom_dollar_bounties_awards_unlock _bottom_dollar_bounties_awards_unlock{"bottomdollarbountiesawardsunlock", "Unlock Bottom Dollar Bounties Awards", "Unlocks all Bottom Dollar Bounties Awards"};
 	static the_chop_shop_awards_unlock  _the_chop_shop_awards_unlock{"thechopshopawardsunlock", "Unlock Chop Shop Awards", "Unlocks all the Chop Shop Awards"}
+	static los_santos_drug_wars_awards_unlock  _los_santos_drug_wars_awards_unlock{"lossantosdrugwarsunlock", "Unlock Los Drug Wars Awards", "Unlocks all the Los Santos Drug wars Awards"}
 }
