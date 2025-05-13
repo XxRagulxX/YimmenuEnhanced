@@ -471,7 +471,7 @@ namespace YimMenu::Features
 			}
 
 			// set individual ints
-			Stats::SetInt("MPX_PROG_HUB_MFH_EARNINGS", 5000000); // Earn $5,000,000 from Oscar Guzman Flies Again
+			Stats::SetInt("MP0_PROG_HUB_MFH_EARNINGS", 5000000); // Earn $5,000,000 from Oscar Guzman Flies Again
 			Stats::SetInt("MP0_PROG_HUB_CBR_EARNINGS", 5000000); // Earn $5,000,000 from The Cluckin' Bell Farm Raid
 			Stats::SetInt("MP0_SUM23_AVOP_PROGRESS", 4095);   // Complete a Project Overthrow mission for Charlie Reed
 			Stats::SetInt("MP0_ULP_MISSION_PROGRESS", 16383); // Complete an Operation Paper Trail mission for Agent ULP
@@ -866,6 +866,36 @@ namespace YimMenu::Features
 			    Stats::SetInt("MP0_AWD_FROSTBITE", 15); 
 		    }
 	    };
+		class the_chop_shop_awards_unlock : public Command
+	    {
+		    using Command::Command;
+
+		    virtual void OnCall() override
+		    {
+				Stats::SetBool("MP0_AWD_MAZE_BANK_ROBBERY", true);
+				Stats::SetBool("MP0_AWD_CARGO_SHIP_ROBBERY", true);
+				Stats::SetBool("MP0_AWD_DIAMOND_CASINO_ROBBERY", true);
+				Stats::SetBool("MP0_AWD_MISSION_ROW_ROBBERY", true);
+				Stats::SetBool("MP0_AWD_SUBMARINE_ROBBERY", true);
+				Stats::SetBool("MP0_AWD_PERFECT_RUN", true);
+				Stats::SetBool("MP0_AWD_EXTRA_MILE", true);
+				Stats::SetBool("MP0_AWD_BOLINGBROKE", true);
+				Stats::SetBool("MP0_AWD_GETTING_SET_UP", true);
+				Stats::SetBool("MP0_AWD_CHICKEN_FACTORY_RAID", true);
+				Stats::SetBool("MP0_AWD_HELPING_HAND2", true);
+				Stats::SetBool("MP0_AWD_SURPRISE_ATTACK", true);
+				Stats::SetBool("MP0_AWD_ALL_OUT_RAID", true);
+				Stats::SetBool("MP0_AWD_WEAPON_ARSENAL", true);
+				Stats::SetBool("MP0_AWD_GETAWAY_VEHICLES", true);
+
+                // The Chop Shop Heist Awards
+				Stats::SetInt("MP0_AWD_VEHICLE_ROBBERIES", X);
+				Stats::SetInt("MP0_AWD_PREP_WORK", X);
+				Stats::SetInt("MP0_AWD_CAR_DEALER", X); 
+				Stats::SetInt("MP0_AWD_SECOND_HAND_PARTS", X); 
+				Stats::SetInt("MP0_AWD_TOW_TRUCK_SERVICE", X); 
+		    }
+	    };
 
 
 	static BunkerResearch _BunkerResearch{"bunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
@@ -876,4 +906,5 @@ namespace YimMenu::Features
 	static cayo_awards_unlock _cayo_awards_unlock{"cayoawardsunlock", "Unlock Cayo Perico Awards", "Unlocks all Awards"};
 	static agent_sabotage_awards_unlock _agent_sabotage_awards_unlock{"agentsabotageawardsunlock", "Unlock Agent Sabotage Awards", "Unlocks all Agent of Sabotage Awards"};
 	static bottom_dollar_bounties_awards_unlock _bottom_dollar_bounties_awards_unlock{"bottomdollarbountiesawardsunlock", "Unlock Bottom Dollar Bounties Awards", "Unlocks all Bottom Dollar Bounties Awards"};
+	static the_chop_shop_awards_unlock  _the_chop_shop_awards_unlock{"thechopshopawardsunlock", "Unlock Chop Shop Awards", "Unlocks all the Chop Shop Awards"}
 }
