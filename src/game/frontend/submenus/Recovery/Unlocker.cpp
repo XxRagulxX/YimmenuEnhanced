@@ -1009,6 +1009,98 @@ namespace YimMenu::Features
 				Stats::SetBool("MP0_AWD_ELEVENELEVEN", true);
 		    }
 	    };
+		class casino_heist_awards_unlock : public Command
+		{
+			using Command::Command;
+
+			virtual void OnCall() override
+			{
+				Stats::SetBool('MP0_AWD_KINGOFQUB3D', true);
+				Stats::SetBool('MP0_AWD_QUBISM', true);
+				Stats::SetBool('MP0_AWD_QUIBITS', true);
+				Stats::SetBool('MP0_AWD_GODOFQUB3D', true);
+				Stats::SetBool('MP0_AWD_GOFOR11TH', true);
+				Stats::SetBool('MP0_AWD_ELEVENELEVEN', true);
+				Stats::SetBool('MP0_AWD_SCOPEOUT', true);
+				Stats::SetBool('MP0_AWD_CREWEDUP', true);
+				Stats::SetBool('MP0_AWD_MOVINGON', true);
+				Stats::SetBool('MP0_AWD_PROMOCAMP', true);
+				Stats::SetBool('MP0_AWD_GUNMAN', true);
+				Stats::SetBool('MP0_AWD_SMASHNGRAB', true);
+				Stats::SetBool('MP0_AWD_INPLAINSI', true);
+				Stats::SetBool('MP0_AWD_UNDETECTED', true);
+				Stats::SetBool('MP0_AWD_ALLROUND', true);
+				Stats::SetBool('MP0_AWD_ELITETHEIF', true);
+				Stats::SetBool('MP0_AWD_PRO', true);
+				Stats::SetBool('MP0_AWD_SUPPORTACT', true);
+				Stats::SetBool('MP0_AWD_SHAFTED', true);
+				Stats::SetBool('MP0_AWD_COLLECTOR', true);
+				Stats::SetBool('MP0_AWD_DEADEYE', true);
+				Stats::SetBool('MP0_AWD_PISTOLSATDAWN', true);
+				Stats::SetBool('MP0_AWD_TRAFFICAVOI', true);
+				Stats::SetBool('MP0_AWD_CANTCATCHBRA', true);
+				Stats::SetBool('MP0_AWD_WIZHARD', true);
+				Stats::SetBool('MP0_AWD_APEESCAPE', true);
+				Stats::SetBool('MP0_AWD_MONKEYKIND', true);
+				Stats::SetBool('MP0_AWD_AQUAAPE', true);
+				Stats::SetBool('MP0_AWD_KEEPFAITH', true);
+				Stats::SetBool('MP0_AWD_TRUELOVE',true);
+				Stats::SetBool('MP0_AWD_NEMESIS',true);
+				Stats::SetBool('MP0_AWD_FRIENDZONED',true);
+
+
+				// Casino Heist Awards
+				Stats::SetInt('MP0_AWD_ASTROCHIMP', 3000000);
+				Stats::SetInt('MP0_AWD_MASTERFUL', 40000);
+				Stats::SetInt('MP0_AWD_PREPARATION', 40);
+				Stats::SetInt('MP0_AWD_ASLEEPONJOB', 20);
+				Stats::SetInt('MP0_AWD_DAICASHCRAB', 100000);
+				Stats::SetInt('MP0_AWD_BIGBRO', 40);
+				Stats::SetInt('MP0_AWD_SHARPSHOOTER', 40);
+				Stats::SetInt('MP0_AWD_RACECHAMP', 40);
+				Stats::SetInt('MP0_AWD_BATSWORD', 1000000);
+				Stats::SetInt('MP0_AWD_COINPURSE', 950000);
+
+				for (int i = 0; i < 10; i++) {
+					Stats::SetInt(("MP0_IAP_INITIALS_" + std::to_string(i)).c_str(), 50);
+					
+					Stats::SetInt(("MP0_DG_DEFENDER_INITIALS_" + std::to_string(i)).c_str(),69644);
+					Stats::SetInt(("MP0_DG_DEFENDER_SCORE_"+ std::to_string(i)).c_str(),50);
+					Stats::SetInt(("MP0_DG_MONKEY_INITIALS_"+std::to_string(i)).c_str(),69644);
+					Stats::SetInt(("DG_MONKEY_SCORE_"+std::to_string(i)).c_str(),50);
+					Stats::SetInt(("DG_PENETRATOR_INITIALS_"+std::to_string(i)).c_str(),69644);
+					Stats::SetInt(("DG_PENETRATOR_SCORE_"+std::to_string(i)).c_str(),50);
+					Stats::SetInt(("GGSM_INITIALS_"+std::to_string(i)).c_str(),69644);
+					Stats::SetInt(("GGSM_SCORE_"+std::to_string(i)).c_str(),50);
+					Stats::SetInt(("TWR_INITIALS_"+std::to_string(i)).c_str(),69644);
+					Stats::SetInt(("TWR_SCORE_"+std::to_string(i)).c_str(),50);
+				}
+
+				Stats::SetInt("MP0_IAP_SCORE_0", 69644);
+				Stats::SetInt("MP0_IAP_SCORE_1", 50333);
+				Stats::SetInt("MP0_IAP_SCORE_2", 63512);
+				Stats::SetInt("MP0_IAP_SCORE_3", 46136);
+				Stats::SetInt("MP0_IAP_SCORE_4", 21638);
+				Stats::SetInt("MP0_IAP_SCORE_5", 2133);
+				Stats::SetInt("MP0_IAP_SCORE_6", 1215);
+				Stats::SetInt("MP0_IAP_SCORE_7", 2444);
+				Stats::SetInt("MP0_IAP_SCORE_8", 38023);
+				Stats::SetInt("MP0_IAP_SCORE_9", 2233);
+				Stats::SetInt("MP0_SCGW_SCORE_1",50);
+				Stats::SetInt("MP0_SCGW_SCORE_2",50);
+				Stats::SetInt("MP0_SCGW_SCORE_3",50);
+				Stats::SetInt("MP0_SCGW_SCORE_4",50);
+				Stats::SetInt("MP0_SCGW_SCORE_5",50);
+				Stats::SetInt("MP0_SCGW_SCORE_6",50);
+				Stats::SetInt("MP0_SCGW_SCORE_7",50);
+				Stats::SetInt("MP0_SCGW_SCORE_8",50);
+				Stats::SetInt("MP0_SCGW_SCORE_9",50);
+
+				// Stats::SetInt(("MP0_SCGW_INITIALS_" + std::to_string(i)).c_str(), X);
+
+			}
+		};
+
 
 
 
