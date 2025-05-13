@@ -43,6 +43,7 @@ namespace YimMenu::Submenus
 		misc->AddItem(std::make_shared<CommandItem>("unlockgenderchange"_J));
 		misc->AddItem(std::make_shared<CommandItem>("careerprogressreawards"_J));
 		awards->AddItem(std::make_shared<CommandItem>("agentsabotageawardsunlock"_J));
+		awards->AddItem(std::make_shared<CommandItem>("bottomdollarbountiesawardsunlock"_J));
 		shopping->AddItem(vehiclesGroup);
 		missions->AddItem(generalGroup);
 		unlocker->AddItem(awards);

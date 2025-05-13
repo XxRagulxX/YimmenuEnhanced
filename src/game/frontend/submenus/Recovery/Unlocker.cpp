@@ -837,6 +837,35 @@ namespace YimMenu::Features
 
 		    }
 	    };
+	    class bottom_dollar_bounties_awards_unlock : public Command
+	    {
+		    using Command::Command;
+
+		    virtual void OnCall() override
+		    {
+			    Stats::SetBool("MP0_AWD_HIVALBOUNT1", true);
+			    Stats::SetBool("MP0_AWD_HIVALBOUNT2", true);
+			    Stats::SetBool("MP0_AWD_HIVALBOUNT3", true);
+			    Stats::SetBool("MP0_AWD_HIVALBOUNT4", true);
+			    Stats::SetBool("MP0_AWD_HIVALBOUNT5", true);
+			    Stats::SetBool("MP0_AWD_HIVALBOUNT6", true);
+			    Stats::SetBool("MP0_AWD_ASSONATTACKSWIN", true);
+			    Stats::SetBool("MP0_AWD_ASSONDEFENDWIN", true);
+			    Stats::SetBool("MP0_AWD_DISEASECONTROL", true);
+
+
+			    // Bottom Dollar Bounties Heist Awards
+			    Stats::SetInt("MP0_AWD_BOUNTIES", 50); 
+			    Stats::SetInt("MP0_AWD_STANBOUNTIES", 50);
+			    Stats::SetInt("MP0_AWD_BOUNTEARNS", 50); 
+			    /*Stats::SetInt("MP0_AWD_BAILOFFICSTAFF", 25000);*/  //Need to Check
+			    Stats::SetInt("MP0_AWD_DISPATCHWORK", 50);
+			    Stats::SetInt("MP0_AWD_PIZZATHIS", 50);
+			    Stats::SetInt("MP0_AWD_ASSONBONUSOBJ", 20);
+			    Stats::SetInt("MP0_AWD_ASSONHARDDRIVE", 50);
+			    Stats::SetInt("MP0_AWD_FROSTBITE", 15); 
+		    }
+	    };
 
 
 	static BunkerResearch _BunkerResearch{"bunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
@@ -846,4 +875,5 @@ namespace YimMenu::Features
 	static CareerProgress_Rewards _CareerProgress_Rewards{"careerprogressreawards", "Unlock Career Progress", "Unlocks all Career Progress Stats"};
 	static cayo_awards_unlock _cayo_awards_unlock{"cayoawardsunlock", "Unlock Cayo Perico Awards", "Unlocks all Awards"};
 	static agent_sabotage_awards_unlock _agent_sabotage_awards_unlock{"agentsabotageawardsunlock", "Unlock Agent Sabotage Awards", "Unlocks all Agent of Sabotage Awards"};
+	static bottom_dollar_bounties_awards_unlock _bottom_dollar_bounties_awards_unlock{"bottomdollarbountiesawardsunlock", "Unlock Bottom Dollar Bounties Awards", "Unlocks all Bottom Dollar Bounties Awards"};
 }
