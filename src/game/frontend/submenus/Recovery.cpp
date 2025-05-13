@@ -17,6 +17,7 @@ namespace YimMenu::Submenus
 		auto unlocker = std::make_shared<Category>("Unlocks");
 		auto bunker = std::make_shared<Group>("Bunker Research");
 		auto casino = std::make_shared<Group>("Casino Heist");
+		auto awards  = std::make_shared<Group>("Heist Awards");
 		auto arenawar = std::make_shared<Group>("Arena War");
 		auto misc = std::make_shared<Group>("Misc");
 
@@ -38,11 +39,13 @@ namespace YimMenu::Submenus
 		bunker->AddItem(std::make_shared<CommandItem>("bunkerresearch"_J));
 		casino->AddItem(std::make_shared<CommandItem>("unlockcasinoheistclothing"_J));
 		arenawar->AddItem(std::make_shared<CommandItem>("unlockareanawarclothing"_J));
+		awards->AddItem(std::make_shared<CommandItem>("cayoawardsunlock"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockgenderchange"_J));
 		misc->AddItem(std::make_shared<CommandItem>("careerprogressreawards"_J));
-		misc->AddItem(std::make_shared<CommandItem>("awardsunlock"_J));
+		awards->AddItem(std::make_shared<CommandItem>("agentsabotageawardsunlock"_J));
 		shopping->AddItem(vehiclesGroup);
 		missions->AddItem(generalGroup);
+		unlocker->AddItem(awards);
 		unlocker->AddItem(bunker);
 		unlocker->AddItem(casino);
 		unlocker->AddItem(arenawar);

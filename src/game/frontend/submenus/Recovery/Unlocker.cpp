@@ -778,7 +778,7 @@ namespace YimMenu::Features
 	};
 
  
-    class Awards_Unlock : public Command
+    class cayo_awards_unlock : public Command
 		{
 		using Command::Command;
 
@@ -805,6 +805,38 @@ namespace YimMenu::Features
 			Stats::SetInt("MP0_AWD_WELL_PREPARED", 50);
 		}
 	};
+	    class agent_sabotage_awards_unlock : public Command
+	    {
+		    using Command::Command;
+
+		    virtual void OnCall() override
+		    {
+			    Stats::SetBool("MP0_AWD_FINEART", true);
+			    Stats::SetBool("MP0_AWD_BRUTEFORCE", true);
+			    Stats::SetBool("MP0_AWD_PROJECTBREAK", true);
+			    Stats::SetBool("MP0_AWD_BLACKBOXFILE", true);
+			    Stats::SetBool("MP0_AWD_BONUSPOINTS", true);
+			    Stats::SetBool("MP0_AWD_UPRUNNING", true);
+			    Stats::SetBool("MP0_AWD_MOGUL", true);
+			    Stats::SetBool("MP0_AWD_INTEL", true);
+			    Stats::SetBool("MP0_AWD_IRONMULE", true);
+			    Stats::SetBool("MP0_AWD_AMMUNITION", true);
+			    Stats::SetBool("MP0_AWD_DIRDELIVERY", true);
+			    Stats::SetBool("MP0_AWD_TITANJOB", true);
+			    Stats::SetBool("MP0_AWD_PERMANENTCON", true);
+
+
+			    // Agents of Sabotage Heist Awards
+			    Stats::SetInt("MP0_AWD_DARNELLBROSINC", 50);
+			    Stats::SetInt("MP0_AWD_GET_READY", 50);
+			    Stats::SetInt("MP0_AWD_CASHINHAND", 5000000);
+			    Stats::SetInt("MP0_AWD_BROTHERLYLOVE", 50000);
+			    Stats::SetInt("MP0_AWD_NOTOUTDPT", 5);  
+			    Stats::SetInt("MP0_AWD_FULSTOCKED", 8);
+			    Stats::SetInt("MP0_AWD_ARMSINARMS", 50);
+
+		    }
+	    };
 
 
 	static BunkerResearch _BunkerResearch{"bunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
@@ -812,5 +844,6 @@ namespace YimMenu::Features
 	static Casino_Heist_Clothing _UnlockCasinoHeistClothing{"unlockcasinoheistclothing", "Unlock Casino Clothing", "Unlocks Casino Heist Clothing"};
 	static Genderchange _unlockgenderchange{"unlockgenderchange", "Unlock Gender Change", "Allows to Change Gender"};
 	static CareerProgress_Rewards _CareerProgress_Rewards{"careerprogressreawards", "Unlock Career Progress", "Unlocks all Career Progress Stats"};
-	static Awards_Unlock _Awards_Unlock{"awardsunlock", "Unlock Awards", "Unlocks all Awards"};
+	static cayo_awards_unlock _cayo_awards_unlock{"cayoawardsunlock", "Unlock Cayo Perico Awards", "Unlocks all Awards"};
+	static agent_sabotage_awards_unlock _agent_sabotage_awards_unlock{"agentsabotageawardsunlock", "Unlock Agent Sabotage Awards", "Unlocks all Agent of Sabotage Awards"};
 }
