@@ -13,6 +13,7 @@
 #include "GlobalPlayerBD.hpp"
 #include "g_AMC_playerBD.hpp"
 #include "game/gta/ScriptGlobal.hpp"
+#include "SC_MEMBERSHIP_DATA.hpp"
 
 #define DEFINE_GLOBAL_ACCESSOR(str, global)       \
 	str* str::Get()                               \
@@ -37,3 +38,4 @@ DEFINE_GLOBAL_ACCESSOR(GSBD_Kicking, 1877529);
 DEFINE_GLOBAL_ACCESSOR(GSBD_PropertyInstances, 1937699);
 DEFINE_GLOBAL_ACCESSOR(g_AMC_playerBD, 2699624);
 DEFINE_GLOBAL_ACCESSOR(GSBD_RandomEvents, 1882524);
+DEFINE_GLOBAL_ACCESSOR(SC_MEMBERSHIP_DATA, 1963593);

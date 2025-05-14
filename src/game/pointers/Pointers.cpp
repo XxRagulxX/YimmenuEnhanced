@@ -352,6 +352,11 @@ namespace YimMenu
 		scanner.Add(openPauseMenuPtrn, [this](PointerCalculator ptr) {
 			OpenPauseMenu = ptr.Add(1).Rip().As<PVOID>();
 		});
+		constexpr auto BypassGTAPlusPtrn = Pattern<"E8 ? ? ? ? 84 C0 74 17 89 F1">("BypassGTAPlus");
+		scanner.Add(BypassGTAPlusPtrn, [this](PointerCalculator ptr) {
+			BypassGTAPlus = ptr.Add(1).Rip().Add(7).Rip().As<int*>();
+		});
+		//let *BypassGTAPlus = 0;
 
 		if (!scanner.Scan())
 		{

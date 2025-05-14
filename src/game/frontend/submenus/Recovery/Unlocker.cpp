@@ -2,6 +2,9 @@
 #include "game/gta/Natives.hpp"
 #include "game/gta/Stats.hpp"
 #include "core/util/Joaat.hpp"
+#include "game/backend/Tunables.hpp"
+#include "src/types/script/globals/SC_MEMBERSHIP_DATA.hpp"
+#include "core/commands/LoopedCommand.hpp"
 
 namespace YimMenu::Features
 {
@@ -1656,23 +1659,23 @@ namespace YimMenu::Features
 			    Stats::SetInt("AWD_TAXIDRIVER", 100);
 		    }
 	    };
-	    class unlock_vanilla_unicorn_award : public Command
+	    class SCMembershipBypass : public LoopedCommand
 	    {
-		    using Command::Command;
+		    using LoopedCommand::LoopedCommand;
 
-		    virtual void OnCall() override
+		    virtual void OnTick() override
 		    {
-			    Stats::SetInt("MP0_LAP_DANCED_BOUGHT", 0);
-			    Stats::SetInt("MP0_LAP_DANCED_BOUGHT", 5);
-			    Stats::SetInt("MP0_LAP_DANCED_BOUGHT", 10);
-			    Stats::SetInt("MP0_LAP_DANCED_BOUGHT", 15);
-			    Stats::SetInt("MP0_LAP_DANCED_BOUGHT", 20);
-			    Stats::SetInt("MP0_LAP_DANCED_BOUGHT", 25);
-			    Stats::SetInt("MP0_PROSTITUTES_FREQUENTED", 1000);
-			    Stats::SetPackedInt(104497, 1);
-			    Stats::SetPackedInt(152848, 2);
+			    if (auto scMembershipData = SC_MEMBERSHIP_DATA::Get())
+			    {
+				    *Tunables::GetTunable("GTAO_AUTO_REFRESH_FREQUENCY_IN_FRAMES"_J).As<int*>() = INT_MAX;
+				    scMembershipData->Flags.Set(eSCMembershipFlags::MEMBERSHIP_CHECKED);
+				    scMembershipData->Flags.Clear(eSCMembershipFlags::CHECK_MEMBERSHIP);
+				    scMembershipData->Flags.Set(eSCMembershipFlags::DISABLE_MEMBERSHIP_CHECK);
+				    scMembershipData->HasMembership = TRUE;
+			    }
 		    }
 	    };
+
 
 
 
@@ -1700,5 +1703,6 @@ namespace YimMenu::Features
 	static unlock_some_trade_price _unlock_some_trade_price{"unlocksometradeprice", "Unlock Some Trade Price", "Unlocks some Trade Prices"};
 	static unlock_shotaro _unlock_shotaro{"unlockshotaro", "Unlock Shotaro", "Unlocks the Shotaro"};
 	static unlock_taxi_livery _unlock_taxi_livery{"unclocktaxilivery", "Unlock Taxi Livery", "Unlocks the Taxi Livery"};
-	static unlock_vanilla_unicorn_award _unlock_vanilla_unicorn_award{"unlockvanillaunicornaward", "Unlock Vanilla Unicorn Award", "Unlocks the Vanilla Unicorn Award"};
+	/*static unlock_vanilla_unicorn_award _unlock_vanilla_unicorn_award{"unlockvanillaunicornaward", "Unlock Vanilla Unicorn Award", "Unlocks the Vanilla Unicorn Award"};*/
+	static SCMembershipBypass _SCMembershipBypass{"scmembership_bypass", "SC Membership Bypass", "Bypasses Social Club membership checks for tunables"};
 }

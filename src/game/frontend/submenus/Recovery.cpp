@@ -20,6 +20,7 @@ namespace YimMenu::Submenus
 		auto awards  = std::make_shared<Group>("Heist Awards");
 		auto arenawar = std::make_shared<Group>("Arena War");
 		auto misc = std::make_shared<Group>("Misc");
+		auto gtaplus  = std::make_shared<Group>("GTA+");
 
 		vehiclesGroup->AddItem(std::make_shared<BoolCommandItem>("dlcvehicles"_J));
 
@@ -59,7 +60,7 @@ namespace YimMenu::Submenus
 		awards->AddItem(std::make_shared<CommandItem>("unlocksometradeprice"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlockshotaro"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlockshotaro"_J));
-		awards->AddItem(std::make_shared<CommandItem>("unlockvanillaunicornaward"_J));
+		gtaplus->AddItem(std::make_shared<BoolCommandItem>("scmembership_bypass"_J));
 		shopping->AddItem(vehiclesGroup);
 		missions->AddItem(generalGroup);
 		unlocker->AddItem(awards);
@@ -67,6 +68,7 @@ namespace YimMenu::Submenus
 		unlocker->AddItem(casino);
 		unlocker->AddItem(arenawar);
 		unlocker->AddItem(misc);
+		unlocker->AddItem(gtaplus);
 		AddCategory(std::move(shopping));
 		AddCategory(std::move(missions));
 		AddCategory(std::move(unlocker));
