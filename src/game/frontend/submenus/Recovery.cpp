@@ -16,7 +16,7 @@ namespace YimMenu::Submenus
 		auto generalGroup = std::make_shared<Group>("General");
 		auto unlocker = std::make_shared<Category>("Unlocks");
 		auto bunker = std::make_shared<Group>("Bunker Research");
-		auto casino = std::make_shared<Group>("Casino Heist");
+		auto clothing = std::make_shared<Group>("Clothing");
 		auto awards  = std::make_shared<Group>("Heist Awards");
 		auto arenawar = std::make_shared<Group>("Arena War");
 		auto misc = std::make_shared<Group>("Misc");
@@ -38,8 +38,7 @@ namespace YimMenu::Submenus
 		generalGroup->AddItem(std::make_shared<CommandItem>("forcelaunchheist"_J));
 
 		bunker->AddItem(std::make_shared<CommandItem>("bunkerresearch"_J));
-		casino->AddItem(std::make_shared<CommandItem>("unlockcasinoheistclothing"_J));
-		arenawar->AddItem(std::make_shared<CommandItem>("unlockareanawarclothing"_J));
+		clothing->AddItem(std::make_shared<CommandItem>("unlockclothing"_J));
 		awards->AddItem(std::make_shared<CommandItem>("cayoawardsunlock"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockgenderchange"_J));
 		misc->AddItem(std::make_shared<CommandItem>("careerprogressreawards"_J));
@@ -50,22 +49,21 @@ namespace YimMenu::Submenus
 		awards->AddItem(std::make_shared<CommandItem>("thecontractawardsunlock"_J));
 		awards->AddItem(std::make_shared<CommandItem>("lossantostunersawardsunlock"_J));
 		awards->AddItem(std::make_shared<CommandItem>("lossantossummerspecialawardsunlock"_J));
-		awards->AddItem(std::make_shared<CommandItem>("casinoheistawardsunlock"_J));
+		casino->AddItem(std::make_shared<CommandItem>("casinoheistawardsunlock"_J));
 		awards->AddItem(std::make_shared<CommandItem>("nightclubawardsunlock"_J));
-		awards->AddItem(std::make_shared<CommandItem>("arenawarawardsunlock"_J));
+		arenawar->AddItem(std::make_shared<CommandItem>("arenawarawardsunlock"_J));
 		awards->AddItem(std::make_shared<CommandItem>("doomsdayawardsunlock"_J));
 		awards->AddItem(std::make_shared<CommandItem>("apartmentheistawardsunlock"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlockallcontacts"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlocksometattoos"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlocksometradeprice"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlockshotaro"_J));
-		awards->AddItem(std::make_shared<CommandItem>("unlockshotaro"_J));
 		gtaplus->AddItem(std::make_shared<BoolCommandItem>("scmembership_bypass"_J));
 		shopping->AddItem(vehiclesGroup);
 		missions->AddItem(generalGroup);
 		unlocker->AddItem(awards);
 		unlocker->AddItem(bunker);
-		unlocker->AddItem(casino);
+		unlocker->AddItem(clothing);
 		unlocker->AddItem(arenawar);
 		unlocker->AddItem(misc);
 		unlocker->AddItem(gtaplus);
