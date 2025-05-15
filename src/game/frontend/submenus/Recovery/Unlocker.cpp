@@ -578,7 +578,7 @@ namespace YimMenu::Features
 
 			Stats::SetInt("MP0_CAS_HEIST_FLOW", 1); // Meet Lester Crest at Mirror Park
 			Stats::SetInt("MP0_CAS_HEIST_FLOW", 10);  // Complete The Diamond Casino Heist as a leader
-			Stats::SetInt("MP0_AWD_PREPARATION", 25); // Complete 25 prep missions
+			// Stats::SetInt("MP0_AWD_PREPARATION", 25); // Complete 25 prep missions
 			Stats::SetInt("MP0_CAS_HEIST_FLOW", 14336); // Complete The Diamond Casino Heist using all approaches
 			Stats::SetInt("MP0_PROG_HUB_CASINO_H_EARNINGS", 50000000); // Steal $50,000,000 from the vault
 			Stats::SetInt("MP0_AWD_DAICASHCRAB", 100000);              // Steal $100,000 from the Daily Vault
@@ -770,7 +770,7 @@ namespace YimMenu::Features
 		}
 	};
 
-    class cayo_awards_unlock : public Command
+    class unlock_all_awards : public Command
 		{
 		using Command::Command;
 
@@ -997,494 +997,426 @@ namespace YimMenu::Features
 			Stats::SetBool("MP0_AWD_ELEVENELEVEN", true);
 
 			// Casino Heist Awards
+			Stats::SetBool("MP0_AWD_KINGOFQUB3D", true);
+			Stats::SetBool("MP0_AWD_QUBISM", true);
+			Stats::SetBool("MP0_AWD_QUIBITS", true);
+			Stats::SetBool("MP0_AWD_GODOFQUB3D", true);
+			Stats::SetBool("MP0_AWD_GOFOR11TH", true);
+			Stats::SetBool("MP0_AWD_ELEVENELEVEN", true);
+			Stats::SetBool("MP0_AWD_SCOPEOUT", true);
+			Stats::SetBool("MP0_AWD_CREWEDUP", true);
+			Stats::SetBool("MP0_AWD_MOVINGON", true);
+			Stats::SetBool("MP0_AWD_PROMOCAMP", true);
+			Stats::SetBool("MP0_AWD_GUNMAN", true);
+			Stats::SetBool("MP0_AWD_SMASHNGRAB", true);
+			Stats::SetBool("MP0_AWD_INPLAINSI", true);
+			Stats::SetBool("MP0_AWD_UNDETECTED", true);
+			Stats::SetBool("MP0_AWD_ALLROUND", true);
+			Stats::SetBool("MP0_AWD_ELITETHEIF", true);
+			Stats::SetBool("MP0_AWD_PRO", true);
+			Stats::SetBool("MP0_AWD_SUPPORTACT", true);
+			Stats::SetBool("MP0_AWD_SHAFTED", true);
+			Stats::SetBool("MP0_AWD_COLLECTOR", true);
+			Stats::SetBool("MP0_AWD_DEADEYE", true);
+			Stats::SetBool("MP0_AWD_PISTOLSATDAWN", true);
+			Stats::SetBool("MP0_AWD_TRAFFICAVOI", true);
+			Stats::SetBool("MP0_AWD_CANTCATCHBRA", true);
+			Stats::SetBool("MP0_AWD_WIZHARD", true);
+			Stats::SetBool("MP0_AWD_APEESCAPE", true);
+			Stats::SetBool("MP0_AWD_MONKEYKIND", true);
+			Stats::SetBool("MP0_AWD_AQUAAPE", true);
+			Stats::SetBool("MP0_AWD_KEEPFAITH", true);
+			Stats::SetBool("MP0_AWD_TRUELOVE", true);
+			Stats::SetBool("MP0_AWD_NEMESIS", true);
+			Stats::SetBool("MP0_AWD_FRIENDZONED", true);
+			Stats::SetInt("MP0_AWD_ASTROCHIMP", 3000000);
+			Stats::SetInt("MP0_AWD_MASTERFUL", 40000);
+			Stats::SetInt("MP0_AWD_PREPARATION", 40);
+			Stats::SetInt("MP0_AWD_ASLEEPONJOB", 20);
+			Stats::SetInt("MP0_AWD_DAICASHCRAB", 100000);
+			Stats::SetInt("MP0_AWD_BIGBRO", 40);
+			Stats::SetInt("MP0_AWD_SHARPSHOOTER", 40);
+			Stats::SetInt("MP0_AWD_RACECHAMP", 40);
+			Stats::SetInt("MP0_AWD_BATSWORD", 1000000);
+			Stats::SetInt("MP0_AWD_COINPURSE", 950000);
+			for (int i = 0; i < 10; i++){
+			Stats::SetInt(("MP0_IAP_INITIALS_" + std::to_string(i)).c_str(), 50);
+			Stats::SetInt(("MP0_DG_DEFENDER_INITIALS_" + std::to_string(i)).c_str(), 69644);
+			Stats::SetInt(("MP0_DG_DEFENDER_SCORE_" + std::to_string(i)).c_str(), 50);
+			Stats::SetInt(("MP0_DG_MONKEY_INITIALS_" + std::to_string(i)).c_str(), 69644);
+			Stats::SetInt(("MP0_DG_MONKEY_SCORE_" + std::to_string(i)).c_str(), 50);
+			Stats::SetInt(("MP0_DG_PENETRATOR_INITIALS_" + std::to_string(i)).c_str(), 69644);
+			Stats::SetInt(("MP0_DG_PENETRATOR_SCORE_" + std::to_string(i)).c_str(), 50);
+			Stats::SetInt(("MP0_GGSM_INITIALS_" + std::to_string(i)).c_str(), 69644);
+			Stats::SetInt(("MP0_GGSM_SCORE_" + std::to_string(i)).c_str(), 50);
+			Stats::SetInt(("MP0_TWR_INITIALS_" + std::to_string(i)).c_str(), 69644);
+			Stats::SetInt(("MP0_TWR_SCORE_" + std::to_string(i)).c_str(), 50);}
+			Stats::SetInt("MP0_IAP_SCORE_0", 69644);
+			Stats::SetInt("MP0_IAP_SCORE_1", 50333);
+			Stats::SetInt("MP0_IAP_SCORE_2", 63512);
+			Stats::SetInt("MP0_IAP_SCORE_3", 46136);
+			Stats::SetInt("MP0_IAP_SCORE_4", 21638);
+			Stats::SetInt("MP0_IAP_SCORE_5", 2133);
+			Stats::SetInt("MP0_IAP_SCORE_6", 1215);
+			Stats::SetInt("MP0_IAP_SCORE_7", 2444);
+			Stats::SetInt("MP0_IAP_SCORE_8", 38023);
+			Stats::SetInt("MP0_IAP_SCORE_9", 2233);
+			Stats::SetInt("MP0_SCGW_SCORE_1", 50);
+			Stats::SetInt("MP0_SCGW_SCORE_2", 50);
+			Stats::SetInt("MP0_SCGW_SCORE_3", 50);
+			Stats::SetInt("MP0_SCGW_SCORE_4", 50);
+			Stats::SetInt("MP0_SCGW_SCORE_5", 50);
+			Stats::SetInt("MP0_SCGW_SCORE_6", 50);
+			Stats::SetInt("MP0_SCGW_SCORE_7", 50);
+			Stats::SetInt("MP0_SCGW_SCORE_8", 50);
+			Stats::SetInt("MP0_SCGW_SCORE_9", 50);
+			/*Stats::SetInt(("MP0_SCGW_INITIALS_" + std::to_string(i)).c_str(), X);*/
+			Stats::SetInt("SCGW_NUM_WINS_GANG_0", 50);
+			Stats::SetInt("SCGW_NUM_WINS_GANG_1", 50);
+			Stats::SetInt("SCGW_NUM_WINS_GANG_2", 50);
+			Stats::SetInt("SCGW_NUM_WINS_GANG_3", 50);
+			Stats::SetInt("IAP_MAX_MOON_DIST", INT_MAX);
+			Stats::SetBool("SCGW_WON_NO_DEATHS", true);
+			Stats::SetBool("IAP_CHALLENGE_0", true);
+			Stats::SetBool("IAP_CHALLENGE_1", true);
+			Stats::SetBool("IAP_CHALLENGE_2", true);
+			Stats::SetBool("IAP_CHALLENGE_3", true);
+			Stats::SetBool("IAP_CHALLENGE_4", true);
+			Stats::SetBool("IAP_GOLD_TANK", true);
+			Stats::SetInt("CH_ARC_CAB_CLAW_TROPHY", -1);
+			Stats::SetInt("CH_ARC_CAB_LOVE_TROPHY", -1);
+			Stats::SetInt("CAS_HEIST_NOTS", -1);
+			Stats::SetInt("MP0_CAS_HEIST_NOTS", -1);
+			Stats::SetInt("MP0_CH_ARC_CAB_CLAW_TROPHY", -1);
+			Stats::SetInt("MP0_CH_ARC_CAB_LOVE_TROPHY", -1);
+			Stats::SetInt("MP0_SIGNAL_JAMMERS_COLLECTED", 50);
+			Stats::SetInt("MP0_AWD_ODD_JOBS", 52);
+			Stats::SetInt("MP0_H3_BOARD_DIALOGUE0", -1);
+			Stats::SetInt("MP0_H3_BOARD_DIALOGUE1", -1);
+			Stats::SetInt("MP0_H3_BOARD_DIALOGUE2", -1);
+			Stats::SetInt("MP0_H3_VEHICLESUSED", -1);
+			Stats::SetBool("MP0_AWD_FIRST_TIME1", true);
+			Stats::SetBool("MP0_AWD_FIRST_TIME2", true);
+			Stats::SetBool("MP0_AWD_FIRST_TIME3", true);
+			Stats::SetBool("MP0_AWD_FIRST_TIME4", true);
+			Stats::SetBool("MP0_AWD_FIRST_TIME5", true);
+			Stats::SetBool("MP0_AWD_FIRST_TIME6", true);
+			Stats::SetBool("MP0_AWD_ALL_IN_ORDER", true);
+			Stats::SetBool("MP0_AWD_SUPPORTING_ROLE", true);
+			Stats::SetBool("MP0_AWD_LEADER", true);
+			Stats::SetBool("MP0_AWD_ODD_JOBS", true);
+			Stats::SetBool("MP0_AWD_SURVIVALIST", true);
+			Stats::SetBool("MP0_AWD_SCOPEOUT", true);
+			Stats::SetBool("MP0_AWD_CREWEDUP", true);
+			Stats::SetBool("MP0_AWD_MOVINGON", true);
+			Stats::SetBool("MP0_AWD_PROMOCAMP", true);
+			Stats::SetBool("MP0_AWD_GUNMAN", true);
+			Stats::SetBool("MP0_AWD_SMASHNGRAB", true);
+			Stats::SetBool("MP0_AWD_INPLAINSI", true);
+			Stats::SetBool("MP0_AWD_UNDETECTED", true);
+			Stats::SetBool("MP0_AWD_ALLROUND", true);
+			Stats::SetBool("MP0_AWD_ELITETHEIF", true);
+			Stats::SetBool("MP0_AWD_PRO", true);
+			Stats::SetBool("MP0_AWD_SUPPORTACT", true);
+			Stats::SetBool("MP0_AWD_SHAFTED", true);
+			Stats::SetBool("MP0_AWD_COLLECTOR", true);
+			Stats::SetBool("MP0_AWD_DEADEYE", true);
+			Stats::SetBool("MP0_AWD_PISTOLSATDAWN", true);
+			Stats::SetBool("MP0_AWD_TRAFFICAVOI", true);
+			Stats::SetBool("MP0_AWD_CANTCATCHBRA", true);
+			Stats::SetBool("MP0_AWD_WIZHARD", true);
+			Stats::SetBool("MP0_AWD_APEESCAPE", true);
+			Stats::SetBool("MP0_AWD_MONKEYKIND", true);
+			Stats::SetBool("MP0_AWD_AQUAAPE", true);
+			Stats::SetBool("MP0_AWD_KEEPFAITH", true);
+			Stats::SetBool("MP0_AWD_TRUELOVE", true);
+			Stats::SetBool("MP0_AWD_NEMESIS", true);
+			Stats::SetBool("MP0_AWD_FRIENDZONED", true);
+			Stats::SetBool("MP0_VCM_FLOW_CS_RSC_SEEN", true);
+			Stats::SetBool("MP0_VCM_FLOW_CS_BWL_SEEN", true);
+			Stats::SetBool("MP0_VCM_FLOW_CS_MTG_SEEN", true);
+			Stats::SetBool("MP0_VCM_FLOW_CS_OIL_SEEN", true);
+			Stats::SetBool("MP0_VCM_FLOW_CS_DEF_SEEN", true);
+			Stats::SetBool("MP0_VCM_FLOW_CS_FIN_SEEN", true);
+			Stats::SetBool("MP0_CAS_VEHICLE_REWARD", false);
+			Stats::SetBool("MP0_HELP_FURIA", true);
+			Stats::SetBool("MP0_HELP_MINITAN", true);
+			Stats::SetBool("MP0_HELP_YOSEMITE2", true);
+			Stats::SetBool("MP0_HELP_ZHABA", true);
+			Stats::SetBool("MP0_HELP_IMORGEN", true);
+			Stats::SetBool("MP0_HELP_SULTAN2", true);
+			Stats::SetBool("MP0_HELP_VAGRANT", true);
+			Stats::SetBool("MP0_HELP_VSTR", true);
+			Stats::SetBool("MP0_HELP_STRYDER", true);
+			Stats::SetBool("MP0_HELP_SUGOI", true);
+			Stats::SetBool("MP0_HELP_KANJO", true);
+			Stats::SetBool("MP0_HELP_FORMULA", true);
+			Stats::SetBool("MP0_HELP_FORMULA2", true);
+			Stats::SetBool("MP0_HELP_JB7002", true);
 
+			// Nightclub Awards
+			Stats::SetInt("MP0_AWD_DANCE_TO_SOLOMUN", 120);
+			Stats::SetInt("MP0_AWD_DANCE_TO_TALEOFUS", 120);
+			Stats::SetInt("MP0_AWD_DANCE_TO_DIXON", 120);
+			Stats::SetInt("MP0_AWD_DANCE_TO_BLKMAD", 120);
+			Stats::SetInt("MP0_AWD_CLUB_DRUNK", 200);
+			Stats::SetInt("MP0_NIGHTCLUB_VIP_APPEAR", 700);
+			Stats::SetInt("MP0_NIGHTCLUB_JOBS_DONE", 700);
+			Stats::SetInt("MP0_NIGHTCLUB_EARNINGS", 20721002);
+			Stats::SetInt("MP0_HUB_SALES_COMPLETED", 1001);
+			Stats::SetInt("MP0_HUB_EARNINGS", 320721002);
+			Stats::SetInt("MP0_DANCE_COMBO_DURATION_MINS", 3600000);
+			Stats::SetInt("MP0_NIGHTCLUB_PLAYER_APPEAR", 9506);
+			Stats::SetInt("MP0_LIFETIME_HUB_GOODS_SOLD", 784672);
+			Stats::SetInt("MP0_LIFETIME_HUB_GOODS_MADE", 507822);
+			Stats::SetInt("MP0_DANCEPERFECTOWNCLUB", 120);
+			Stats::SetInt("MP0_NUMUNIQUEPLYSINCLUB", 120);
+			Stats::SetInt("MP0_DANCETODIFFDJS", 4);
+			Stats::SetInt("MP0_NIGHTCLUB_HOTSPOT_TIME_MS", 3600000);
+			Stats::SetInt("MP0_NIGHTCLUB_CONT_TOTAL", 20);
+			Stats::SetInt("MP0_NIGHTCLUB_CONT_MISSION", -1);
+			Stats::SetInt("MP0_CLUB_CONTRABAND_MISSION", 1000);
+			Stats::SetInt("MP0_HUB_CONTRABAND_MISSION", 1000);
+			Stats::SetBool("MP0_AWD_CLUB_HOTSPOT", true);
+			Stats::SetBool("MP0_AWD_CLUB_CLUBBER", true);
+			Stats::SetBool("MP0_AWD_CLUB_COORD", true);
 
+			// Arena War Awards
+			Stats::SetInt("MP0_ARN_BS_TRINKET_TICKERS", -1);
+			Stats::SetInt("MP0_ARN_BS_TRINKET_SAVED", -1);
+			Stats::SetInt("MP0_AWD_WATCH_YOUR_STEP", 50);
+			Stats::SetInt("MP0_AWD_TOWER_OFFENSE", 50);
+			Stats::SetInt("MP0_AWD_READY_FOR_WAR", 50);
+			Stats::SetInt("MP0_AWD_THROUGH_A_LENS", 50);
+			Stats::SetInt("MP0_AWD_SPINNER", 50);
+			Stats::SetInt("MP0_AWD_YOUMEANBOOBYTRAPS", 50);
+			Stats::SetInt("MP0_AWD_MASTER_BANDITO", 50);
+			Stats::SetInt("MP0_AWD_SITTING_DUCK", 50);
+			Stats::SetInt("MP0_AWD_CROWDPARTICIPATION", 50);
+			Stats::SetInt("MP0_AWD_KILL_OR_BE_KILLED", 50);
+			Stats::SetInt("MP0_AWD_MASSIVE_SHUNT", 50);
+			Stats::SetInt("MP0_AWD_YOURE_OUTTA_HERE", 200);
+			Stats::SetInt("MP0_AWD_WEVE_GOT_ONE", 50);
+			Stats::SetInt("MP0_AWD_ARENA_WAGEWORKER", 1000000);
+			Stats::SetInt("MP0_AWD_TIME_SERVED", 1000);
+			Stats::SetInt("MP0_AWD_TOP_SCORE", 55000);
+			Stats::SetInt("MP0_AWD_CAREER_WINNER", 1000);
+			Stats::SetInt("MP0_ARENAWARS_SP", 209);
+			Stats::SetInt("MP0_ARENAWARS_SKILL_LEVEL", 20);
+			Stats::SetInt("MP0_ARENAWARS_SP_LIFETIME", 209);
+			Stats::SetInt("MP0_ARENAWARS_AP_TIER", 1000);
+			Stats::SetInt("MP0_ARENAWARS_AP_LIFETIME", 47551850);
+			Stats::SetInt("MP0_ARENAWARS_CARRER_UNLK", 44);
+			Stats::SetInt("MP0_ARN_W_THEME_SCIFI", 1000);
+			Stats::SetInt("MP0_ARN_W_THEME_APOC", 1000);
+			Stats::SetInt("MP0_ARN_W_THEME_CONS", 1000);
+			Stats::SetInt("MP0_ARN_W_PASS_THE_BOMB", 1000);
+			Stats::SetInt("MP0_ARN_W_DETONATION", 1000);
+			Stats::SetInt("MP0_ARN_W_ARCADE_RACE", 1000);
+			Stats::SetInt("MP0_ARN_W_CTF", 1000);
+			Stats::SetInt("MP0_ARN_W_TAG_TEAM", 1000);
+			Stats::SetInt("MP0_ARN_W_DESTR_DERBY", 1000);
+			Stats::SetInt("MP0_ARN_W_CARNAGE", 1000);
+			Stats::SetInt("MP0_ARN_W_MONSTER_JAM", 1000);
+			Stats::SetInt("MP0_ARN_W_GAMES_MASTERS", 1000);
+			Stats::SetInt("MP0_ARN_L_PASS_THE_BOMB", 500);
+			Stats::SetInt("MP0_ARN_L_DETONATION", 500);
+			Stats::SetInt("MP0_ARN_L_ARCADE_RACE", 500);
+			Stats::SetInt("MP0_ARN_L_CTF", 500);
+			Stats::SetInt("MP0_ARN_L_TAG_TEAM", 500);
+			Stats::SetInt("MP0_ARN_L_DESTR_DERBY", 500);
+			Stats::SetInt("MP0_ARN_L_CARNAGE", 500);
+			Stats::SetInt("MP0_ARN_L_MONSTER_JAM", 500);
+			Stats::SetInt("MP0_ARN_L_GAMES_MASTERS", 500);
+			Stats::SetInt("MP0_NUMBER_OF_CHAMP_BOUGHT", 1000);
+			Stats::SetInt("MP0_ARN_SPECTATOR_KILLS", 1000);
+			Stats::SetInt("MP0_ARN_LIFETIME_KILLS", 1000);
+			Stats::SetInt("MP0_ARN_LIFETIME_DEATHS", 500);
+			Stats::SetInt("MP0_ARENAWARS_CARRER_WINS", 1000);
+			Stats::SetInt("MP0_ARENAWARS_CARRER_WINT", 1000);
+			Stats::SetInt("MP0_ARENAWARS_MATCHES_PLYD", 1000);
+			Stats::SetInt("MP0_ARENAWARS_MATCHES_PLYDT", 1000);
+			Stats::SetInt("MP0_ARN_SPEC_BOX_TIME_MS", 86400000);
+			Stats::SetInt("MP0_ARN_SPECTATOR_DRONE", 1000);
+			Stats::SetInt("MP0_ARN_SPECTATOR_CAMS", 1000);
+			Stats::SetInt("MP0_ARN_SMOKE", 1000);
+			Stats::SetInt("MP0_ARN_DRINK", 1000);
+			Stats::SetInt("MP0_ARN_VEH_MONSTER", 31000);
+			Stats::SetInt("MP0_ARN_VEH_MONSTER", 41000);
+			Stats::SetInt("MP0_ARN_VEH_MONSTER", 51000);
+			Stats::SetInt("MP0_ARN_VEH_CERBERUS", 1000);
+			Stats::SetInt("MP0_ARN_VEH_CERBERUS2", 1000);
+			Stats::SetInt("MP0_ARN_VEH_CERBERUS3", 1000);
+			Stats::SetInt("MP0_ARN_VEH_BRUISER", 1000);
+			Stats::SetInt("MP0_ARN_VEH_BRUISER2", 1000);
+			Stats::SetInt("MP0_ARN_VEH_BRUISER3", 1000);
+			Stats::SetInt("MP0_ARN_VEH_SLAMVAN4", 1000);
+			Stats::SetInt("MP0_ARN_VEH_SLAMVAN5", 1000);
+			Stats::SetInt("MP0_ARN_VEH_SLAMVAN6", 1000);
+			Stats::SetInt("MP0_ARN_VEH_BRUTUS", 1000);
+			Stats::SetInt("MP0_ARN_VEH_BRUTUS2", 1000);
+			Stats::SetInt("MP0_ARN_VEH_BRUTUS3", 1000);
+			Stats::SetInt("MP0_ARN_VEH_SCARAB", 1000);
+			Stats::SetInt("MP0_ARN_VEH_SCARAB2", 1000);
+			Stats::SetInt("MP0_ARN_VEH_SCARAB3", 1000);
+			Stats::SetInt("MP0_ARN_VEH_DOMINATOR4", 1000);
+			Stats::SetInt("MP0_ARN_VEH_DOMINATOR5", 1000);
+			Stats::SetInt("MP0_ARN_VEH_DOMINATOR6", 1000);
+			Stats::SetInt("MP0_ARN_VEH_IMPALER2", 1000);
+			Stats::SetInt("MP0_ARN_VEH_IMPALER3", 1000);
+			Stats::SetInt("MP0_ARN_VEH_IMPALER4", 1000);
+			Stats::SetInt("MP0_ARN_VEH_ISSI4", 1000);
+			Stats::SetInt("MP0_ARN_VEH_ISSI5", 1000);
+			Stats::SetInt("MP0_ARN_VEH_ISSI", 61000);
+			Stats::SetInt("MP0_ARN_VEH_IMPERATOR", 1000);
+			Stats::SetInt("MP0_ARN_VEH_IMPERATOR2", 1000);
+			Stats::SetInt("MP0_ARN_VEH_IMPERATOR3", 1000);
+			Stats::SetInt("MP0_ARN_VEH_ZR380", 1000);
+			Stats::SetInt("MP0_ARN_VEH_ZR3802", 1000);
+			Stats::SetInt("MP0_ARN_VEH_ZR3803", 1000);
+			Stats::SetInt("MP0_ARN_VEH_DEATHBIKE", 1000);
+			Stats::SetInt("MP0_ARN_VEH_DEATHBIKE2", 1000);
+			Stats::SetInt("MP0_ARN_VEH_DEATHBIKE3", 1000);
+			Stats::SetBool("MP0_AWD_BEGINNER", true);
+			Stats::SetBool("MP0_AWD_FIELD_FILLER", true);
+			Stats::SetBool("MP0_AWD_ARMCHAIR_RACER", true);
+			Stats::SetBool("MP0_AWD_LEARNER", true);
+			Stats::SetBool("MP0_AWD_SUNDAY_DRIVER", true);
+			Stats::SetBool("MP0_AWD_THE_ROOKIE", true);
+			Stats::SetBool("MP0_AWD_BUMP_AND_RUN", true);
+			Stats::SetBool("MP0_AWD_GEAR_HEAD", true);
+			Stats::SetBool("MP0_AWD_DOOR_SLAMMER", true);
+			Stats::SetBool("MP0_AWD_HOT_LAP", true);
+			Stats::SetBool("MP0_AWD_ARENA_AMATEUR", true);
+			Stats::SetBool("MP0_AWD_PAINT_TRADER", true);
+			Stats::SetBool("MP0_AWD_SHUNTER", true);
+			Stats::SetBool("MP0_AWD_JOCK", true);
+			Stats::SetBool("MP0_AWD_WARRIOR", true);
+			Stats::SetBool("MP0_AWD_T_BONE", true);
+			Stats::SetBool("MP0_AWD_MAYHEM", true);
+			Stats::SetBool("MP0_AWD_WRECKER", true);
+			Stats::SetBool("MP0_AWD_CRASH_COURSE", true);
+			Stats::SetBool("MP0_AWD_ARENA_LEGEND", true);
+			Stats::SetBool("MP0_AWD_PEGASUS", true);
+			Stats::SetBool("MP0_AWD_UNSTOPPABLE", true);
+			Stats::SetBool("MP0_AWD_CONTACT_SPORT", true);
 
+			// Doomsday Awards
+			Stats::SetInt("MP0_GANGOPS_FM_MISSION_PROG", -1);
+			Stats::SetInt("MP0_GANGOPS_FLOW_MISSION_PROG", -1);
+			Stats::SetInt("MP0_MPPLY_GANGOPS_ALLINORDER", 100);
+			Stats::SetInt("MP0_MPPLY_GANGOPS_LOYALTY", 100);
+			Stats::SetInt("MP0_MPPLY_GANGOPS_CRIMMASMD", 100);
+			Stats::SetInt("MP0_MPPLY_GANGOPS_LOYALTY2", 100);
+			Stats::SetInt("MP0_MPPLY_GANGOPS_LOYALTY3", 100);
+			Stats::SetInt("MP0_MPPLY_GANGOPS_CRIMMASMD2", 100);
+			Stats::SetInt("MP0_MPPLY_GANGOPS_CRIMMASMD3", 100);
+			Stats::SetInt("MP0_MPPLY_GANGOPS_SUPPORT", 100);
+			Stats::SetInt("MP0_CR_GANGOP_MORGUE", 10);
+			Stats::SetInt("MP0_CR_GANGOP_DELUXO", 10);
+			Stats::SetInt("MP0_CR_GANGOP_SERVERFARM", 10);
+			Stats::SetInt("MP0_CR_GANGOP_IAABASE_FIN", 10);
+			Stats::SetInt("MP0_CR_GANGOP_STEALOSPREY", 10);
+			Stats::SetInt("MP0_CR_GANGOP_FOUNDRY", 10);
+			Stats::SetInt("MP0_CR_GANGOP_RIOTVAN", 10);
+			Stats::SetInt("MP0_CR_GANGOP_SUBMARINECAR", 10);
+			Stats::SetInt("MP0_CR_GANGOP_SUBMARINE_FIN", 10);
+			Stats::SetInt("MP0_CR_GANGOP_PREDATOR", 10);
+			Stats::SetInt("MP0_CR_GANGOP_BMLAUNCHER", 10);
+			Stats::SetInt("MP0_CR_GANGOP_BCCUSTOM", 10);
+			Stats::SetInt("MP0_CR_GANGOP_STEALTHTANKS", 10);
+			Stats::SetInt("MP0_CR_GANGOP_SPYPLANE", 10);
+			Stats::SetInt("MP0_CR_GANGOP_FINALE", 10);
+			Stats::SetInt("MP0_CR_GANGOP_FINALE_P2", 10);
+			Stats::SetInt("MP0_CR_GANGOP_FINALE_P3", 10);
+			Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_IAA", true);
+			Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_SUBMARINE", true);
+			Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_MISSILE", true);
+			Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_ALLINORDER", true);
+			Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_LOYALTY", true);
+			Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_LOYALTY2", true);
+			Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_LOYALTY3", true);
+			Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_CRIMMASMD", true);
+			Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_CRIMMASMD2", true);
+			Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_CRIMMASMD3", true);
 
+			// Apartment Awards
+			Stats::SetInt("MP0_AWD_FINISH_HEISTS", 900);
+			Stats::SetInt("MP0_MPPLY_WIN_GOLD_MEDAL_HEISTS", 900);
+			Stats::SetInt("MP0_AWD_DO_HEIST_AS_MEMBER", 900);
+			Stats::SetInt("MP0_AWD_DO_HEIST_AS_THE_LEADER", 900);
+			Stats::SetInt("MP0_AWD_FINISH_HEIST_SETUP_JOB", 900);
+			Stats::SetInt("MP0_AWD_FINISH_HEIST", 900);
+			Stats::SetInt("MP0_HEIST_COMPLETION", 900);
+			Stats::SetInt("MP0_HEISTS_ORGANISED", 900);
+			Stats::SetInt("MP0_AWD_CONTROL_CROWDS", 900);
+			Stats::SetInt("MP0_AWD_WIN_GOLD_MEDAL_HEISTS", 900);
+			Stats::SetInt("MP0_AWD_COMPLETE_HEIST_NOT_DIE", 900);
+			Stats::SetInt("MP0_HEIST_START", 900);
+			Stats::SetInt("MP0_HEIST_END", 900);
+			Stats::SetInt("MP0_CUTSCENE_MID_PRISON", 900);
+			Stats::SetInt("MP0_CUTSCENE_MID_HUMANE", 900);
+			Stats::SetInt("MP0_CUTSCENE_MID_NARC", 900);
+			Stats::SetInt("MP0_CUTSCENE_MID_ORNATE", 900);
+			Stats::SetInt("MP0_CR_FLEECA_PREP_1", 5000);
+			Stats::SetInt("MP0_CR_FLEECA_PREP_2", 5000);
+			Stats::SetInt("MP0_CR_FLEECA_FINALE", 5000);
+			Stats::SetInt("MP0_CR_PRISON_PLANE", 5000);
+			Stats::SetInt("MP0_CR_PRISON_BUS", 5000);
+			Stats::SetInt("MP0_CR_PRISON_STATION", 5000);
+			Stats::SetInt("MP0_CR_PRISON_UNFINISHED_BIZ", 5000);
+			Stats::SetInt("MP0_CR_PRISON_FINALE", 5000);
+			Stats::SetInt("MP0_CR_HUMANE_KEY_CODES", 5000);
+			Stats::SetInt("MP0_CR_HUMANE_ARMORDILLOS", 5000);
+			Stats::SetInt("MP0_CR_HUMANE_EMP", 5000);
+			Stats::SetInt("MP0_CR_HUMANE_VALKYRIE", 5000);
+			Stats::SetInt("MP0_CR_HUMANE_FINALE", 5000);
+			Stats::SetInt("MP0_CR_NARC_COKE", 5000);
+			Stats::SetInt("MP0_CR_NARC_TRASH_TRUCK", 5000);
+			Stats::SetInt("MP0_CR_NARC_BIKERS", 5000);
+			Stats::SetInt("MP0_CR_NARC_WEED", 5000);
+			Stats::SetInt("MP0_CR_NARC_STEAL_METH", 5000);
+			Stats::SetInt("MP0_CR_NARC_FINALE", 5000);
+			Stats::SetInt("MP0_CR_PACIFIC_TRUCKS", 5000);
+			Stats::SetInt("MP0_CR_PACIFIC_WITSEC", 5000);
+			Stats::SetInt("MP0_CR_PACIFIC_HACK", 5000);
+			Stats::SetInt("MP0_CR_PACIFIC_BIKES", 5000);
+			Stats::SetInt("MP0_CR_PACIFIC_CONVOY", 5000);
+			Stats::SetInt("MP0_CR_PACIFIC_FINALE", 5000);
+			Stats::SetInt("MP0_MPPLY_HEIST_ACH_TRACKER", -1);
+			Stats::SetBool("MP0_MPPLY_AWD_COMPLET_HEIST_MEM", true);
+			Stats::SetBool("MP0_MPPLY_AWD_COMPLET_HEIST_1STPER", true);
+			Stats::SetBool("MP0_MPPLY_AWD_FLEECA_FIN", true);
+			Stats::SetBool("MP0_MPPLY_AWD_HST_ORDER", true);
+			Stats::SetBool("MP0_MPPLY_AWD_HST_SAME_TEAM", true);
+			Stats::SetBool("MP0_MPPLY_AWD_HST_ULT_CHAL", true);
+			Stats::SetBool("MP0_MPPLY_AWD_HUMANE_FIN", true);
+			Stats::SetBool("MP0_MPPLY_AWD_PACIFIC_FIN", true);
+			Stats::SetBool("MP0_MPPLY_AWD_PRISON_FIN", true);
+			Stats::SetBool("MP0_MPPLY_AWD_SERIESA_FIN", true);
+			Stats::SetBool("MP0_AWD_FINISH_HEIST_NO_DAMAGE", true);
+			Stats::SetBool("MP0_AWD_SPLIT_HEIST_TAKE_EVENLY", true);
+			Stats::SetBool("MP0_AWD_ALL_ROLES_HEIST", true);
+			Stats::SetBool("MP0_AWD_MATCHING_OUTFIT_HEIST", true);
+			Stats::SetBool("MP0_HEIST_PLANNING_DONE_PRINT", true);
+			Stats::SetBool("MP0_HEIST_PLANNING_DONE_HELP_0", true);
+			Stats::SetBool("MP0_HEIST_PLANNING_DONE_HELP_1", true);
+			Stats::SetBool("MP0_HEIST_PRE_PLAN_DONE_HELP_0", true);
+			Stats::SetBool("MP0_HEIST_CUTS_DONE_FINALE", true);
+			Stats::SetBool("MP0_HEIST_IS_TUTORIAL", false);
+			Stats::SetBool("MP0_HEIST_STRAND_INTRO_DONE", true);
+			Stats::SetBool("MP0_HEIST_CUTS_DONE_ORNATE", true);
+			Stats::SetBool("MP0_HEIST_CUTS_DONE_PRISON", true);
+			Stats::SetBool("MP0_HEIST_CUTS_DONE_BIOLAB", true);
+			Stats::SetBool("MP0_HEIST_CUTS_DONE_NARCOTIC", true);
+			Stats::SetBool("MP0_HEIST_CUTS_DONE_TUTORIAL", true);
+			Stats::SetBool("MP0_HEIST_AWARD_DONE_PREP", true);
+			Stats::SetBool("MP0_HEIST_AWARD_BOUGHT_IN", true);
 
+			//
 
-			
 		}
 	};
-		class casino_heist_awards_unlock : public Command
-		{
-			using Command::Command;
-
-			virtual void OnCall() override
-			{
-				Stats::SetBool("MP0_AWD_KINGOFQUB3D", true);
-				Stats::SetBool("MP0_AWD_QUBISM", true);
-				Stats::SetBool("MP0_AWD_QUIBITS", true);
-				Stats::SetBool("MP0_AWD_GODOFQUB3D", true);
-				Stats::SetBool("MP0_AWD_GOFOR11TH", true);
-				Stats::SetBool("MP0_AWD_ELEVENELEVEN", true);
-				Stats::SetBool("MP0_AWD_SCOPEOUT", true);
-				Stats::SetBool("MP0_AWD_CREWEDUP", true);
-				Stats::SetBool("MP0_AWD_MOVINGON", true);
-				Stats::SetBool("MP0_AWD_PROMOCAMP", true);
-				Stats::SetBool("MP0_AWD_GUNMAN", true);
-				Stats::SetBool("MP0_AWD_SMASHNGRAB", true);
-				Stats::SetBool("MP0_AWD_INPLAINSI", true);
-				Stats::SetBool("MP0_AWD_UNDETECTED", true);
-				Stats::SetBool("MP0_AWD_ALLROUND", true);
-				Stats::SetBool("MP0_AWD_ELITETHEIF", true);
-				Stats::SetBool("MP0_AWD_PRO", true);
-				Stats::SetBool("MP0_AWD_SUPPORTACT", true);
-				Stats::SetBool("MP0_AWD_SHAFTED", true);
-				Stats::SetBool("MP0_AWD_COLLECTOR", true);
-				Stats::SetBool("MP0_AWD_DEADEYE", true);
-				Stats::SetBool("MP0_AWD_PISTOLSATDAWN", true);
-				Stats::SetBool("MP0_AWD_TRAFFICAVOI", true);
-				Stats::SetBool("MP0_AWD_CANTCATCHBRA", true);
-				Stats::SetBool("MP0_AWD_WIZHARD", true);
-				Stats::SetBool("MP0_AWD_APEESCAPE", true);
-				Stats::SetBool("MP0_AWD_MONKEYKIND", true);
-				Stats::SetBool("MP0_AWD_AQUAAPE", true);
-				Stats::SetBool("MP0_AWD_KEEPFAITH", true);
-				Stats::SetBool("MP0_AWD_TRUELOVE",true);
-				Stats::SetBool("MP0_AWD_NEMESIS",true);
-				Stats::SetBool("MP0_AWD_FRIENDZONED",true);
-
-
-				// Casino Heist Awards
-				Stats::SetInt("MP0_AWD_ASTROCHIMP", 3000000);
-				Stats::SetInt("MP0_AWD_MASTERFUL", 40000);
-				Stats::SetInt("MP0_AWD_PREPARATION", 40);
-				Stats::SetInt("MP0_AWD_ASLEEPONJOB", 20);
-				Stats::SetInt("MP0_AWD_DAICASHCRAB", 100000);
-				Stats::SetInt("MP0_AWD_BIGBRO", 40);
-				Stats::SetInt("MP0_AWD_SHARPSHOOTER", 40);
-				Stats::SetInt("MP0_AWD_RACECHAMP", 40);
-				Stats::SetInt("MP0_AWD_BATSWORD", 1000000);
-				Stats::SetInt("MP0_AWD_COINPURSE", 950000);
-
-				for (int i = 0; i < 10; i++) {
-					Stats::SetInt(("MP0_IAP_INITIALS_" + std::to_string(i)).c_str(), 50);
-					
-					Stats::SetInt(("MP0_DG_DEFENDER_INITIALS_" + std::to_string(i)).c_str(),69644);
-					Stats::SetInt(("MP0_DG_DEFENDER_SCORE_"+ std::to_string(i)).c_str(),50);
-					Stats::SetInt(("MP0_DG_MONKEY_INITIALS_"+std::to_string(i)).c_str(),69644);
-					Stats::SetInt(("DG_MONKEY_SCORE_"+std::to_string(i)).c_str(),50);
-					Stats::SetInt(("DG_PENETRATOR_INITIALS_"+std::to_string(i)).c_str(),69644);
-					Stats::SetInt(("DG_PENETRATOR_SCORE_"+std::to_string(i)).c_str(),50);
-					Stats::SetInt(("GGSM_INITIALS_"+std::to_string(i)).c_str(),69644);
-					Stats::SetInt(("GGSM_SCORE_"+std::to_string(i)).c_str(),50);
-					Stats::SetInt(("TWR_INITIALS_"+std::to_string(i)).c_str(),69644);
-					Stats::SetInt(("TWR_SCORE_"+std::to_string(i)).c_str(),50);
-				}
-
-				Stats::SetInt("MP0_IAP_SCORE_0", 69644);
-				Stats::SetInt("MP0_IAP_SCORE_1", 50333);
-				Stats::SetInt("MP0_IAP_SCORE_2", 63512);
-				Stats::SetInt("MP0_IAP_SCORE_3", 46136);
-				Stats::SetInt("MP0_IAP_SCORE_4", 21638);
-				Stats::SetInt("MP0_IAP_SCORE_5", 2133);
-				Stats::SetInt("MP0_IAP_SCORE_6", 1215);
-				Stats::SetInt("MP0_IAP_SCORE_7", 2444);
-				Stats::SetInt("MP0_IAP_SCORE_8", 38023);
-				Stats::SetInt("MP0_IAP_SCORE_9", 2233);
-				Stats::SetInt("MP0_SCGW_SCORE_1",50);
-				Stats::SetInt("MP0_SCGW_SCORE_2",50);
-				Stats::SetInt("MP0_SCGW_SCORE_3",50);
-				Stats::SetInt("MP0_SCGW_SCORE_4",50);
-				Stats::SetInt("MP0_SCGW_SCORE_5",50);
-				Stats::SetInt("MP0_SCGW_SCORE_6",50);
-				Stats::SetInt("MP0_SCGW_SCORE_7",50);
-				Stats::SetInt("MP0_SCGW_SCORE_8",50);
-				Stats::SetInt("MP0_SCGW_SCORE_9",50);
-
-				/*Stats::SetInt(("MP0_SCGW_INITIALS_" + std::to_string(i)).c_str(), X);*/
-			    Stats::SetInt("SCGW_NUM_WINS_GANG_0", 50);
-			    Stats::SetInt("SCGW_NUM_WINS_GANG_1", 50);
-			    Stats::SetInt("SCGW_NUM_WINS_GANG_2", 50);
-			    Stats::SetInt("SCGW_NUM_WINS_GANG_3", 50);
-			    Stats::SetInt("IAP_MAX_MOON_DIST", INT_MAX);
-				
-				Stats::SetBool("SCGW_WON_NO_DEATHS", true);
-			    Stats::SetBool("IAP_CHALLENGE_0", true);
-			    Stats::SetBool("IAP_CHALLENGE_1", true);
-			    Stats::SetBool("IAP_CHALLENGE_2", true);
-			    Stats::SetBool("IAP_CHALLENGE_3", true);
-			    Stats::SetBool("IAP_CHALLENGE_4", true);
-			    Stats::SetBool("IAP_GOLD_TANK", true);
-
-				Stats::SetInt("CH_ARC_CAB_CLAW_TROPHY", -1);
-			    Stats::SetInt("CH_ARC_CAB_LOVE_TROPHY", -1);
-			    Stats::SetInt("CAS_HEIST_NOTS", -1);
-
-
-				// Integer stats
-			    Stats::SetInt("MP0_CAS_HEIST_NOTS", -1);
-			    Stats::SetInt("MP0_CH_ARC_CAB_CLAW_TROPHY", -1);
-			    Stats::SetInt("MP0_CH_ARC_CAB_LOVE_TROPHY", -1);
-			    Stats::SetInt("MP0_SIGNAL_JAMMERS_COLLECTED", 50);
-			    Stats::SetInt("MP0_AWD_ODD_JOBS", 52);
-			    Stats::SetInt("MP0_AWD_PREPARATION", 40);
-			    Stats::SetInt("MP0_AWD_ASLEEPONJOB", 20);
-			    Stats::SetInt("MP0_AWD_DAICASHCRAB", 100000);
-			    Stats::SetInt("MP0_AWD_BIGBRO", 40);
-			    Stats::SetInt("MP0_AWD_SHARPSHOOTER", 40);
-			    Stats::SetInt("MP0_AWD_RACECHAMP", 40);
-			    Stats::SetInt("MP0_AWD_BATSWORD", 1000000);
-			    Stats::SetInt("MP0_AWD_COINPURSE", 950000);
-			    Stats::SetInt("MP0_AWD_ASTROCHIMP", 3000000);
-			    Stats::SetInt("MP0_AWD_MASTERFUL", 40000);
-			    Stats::SetInt("MP0_H3_BOARD_DIALOGUE0", -1);
-			    Stats::SetInt("MP0_H3_BOARD_DIALOGUE1", -1);
-			    Stats::SetInt("MP0_H3_BOARD_DIALOGUE2", -1);
-			    Stats::SetInt("MP0_H3_VEHICLESUSED", -1);
-
-			    // Boolean stats
-			    Stats::SetBool("MP0_AWD_FIRST_TIME1", true);
-			    Stats::SetBool("MP0_AWD_FIRST_TIME2", true);
-			    Stats::SetBool("MP0_AWD_FIRST_TIME3", true);
-			    Stats::SetBool("MP0_AWD_FIRST_TIME4", true);
-			    Stats::SetBool("MP0_AWD_FIRST_TIME5", true);
-			    Stats::SetBool("MP0_AWD_FIRST_TIME6", true);
-			    Stats::SetBool("MP0_AWD_ALL_IN_ORDER", true);
-			    Stats::SetBool("MP0_AWD_SUPPORTING_ROLE", true);
-			    Stats::SetBool("MP0_AWD_LEADER", true);
-			    Stats::SetBool("MP0_AWD_ODD_JOBS", true);
-			    Stats::SetBool("MP0_AWD_SURVIVALIST", true);
-			    Stats::SetBool("MP0_AWD_SCOPEOUT", true);
-			    Stats::SetBool("MP0_AWD_CREWEDUP", true);
-			    Stats::SetBool("MP0_AWD_MOVINGON", true);
-			    Stats::SetBool("MP0_AWD_PROMOCAMP", true);
-			    Stats::SetBool("MP0_AWD_GUNMAN", true);
-			    Stats::SetBool("MP0_AWD_SMASHNGRAB", true);
-			    Stats::SetBool("MP0_AWD_INPLAINSI", true);
-			    Stats::SetBool("MP0_AWD_UNDETECTED", true);
-			    Stats::SetBool("MP0_AWD_ALLROUND", true);
-			    Stats::SetBool("MP0_AWD_ELITETHEIF", true);
-			    Stats::SetBool("MP0_AWD_PRO", true);
-			    Stats::SetBool("MP0_AWD_SUPPORTACT", true);
-			    Stats::SetBool("MP0_AWD_SHAFTED", true);
-			    Stats::SetBool("MP0_AWD_COLLECTOR", true);
-			    Stats::SetBool("MP0_AWD_DEADEYE", true);
-			    Stats::SetBool("MP0_AWD_PISTOLSATDAWN", true);
-			    Stats::SetBool("MP0_AWD_TRAFFICAVOI", true);
-			    Stats::SetBool("MP0_AWD_CANTCATCHBRA", true);
-			    Stats::SetBool("MP0_AWD_WIZHARD", true);
-			    Stats::SetBool("MP0_AWD_APEESCAPE", true);
-			    Stats::SetBool("MP0_AWD_MONKEYKIND", true);
-			    Stats::SetBool("MP0_AWD_AQUAAPE", true);
-			    Stats::SetBool("MP0_AWD_KEEPFAITH", true);
-			    Stats::SetBool("MP0_AWD_TRUELOVE", true);
-			    Stats::SetBool("MP0_AWD_NEMESIS", true);
-			    Stats::SetBool("MP0_AWD_FRIENDZONED", true);
-			    Stats::SetBool("MP0_VCM_FLOW_CS_RSC_SEEN", true);
-			    Stats::SetBool("MP0_VCM_FLOW_CS_BWL_SEEN", true);
-			    Stats::SetBool("MP0_VCM_FLOW_CS_MTG_SEEN", true);
-			    Stats::SetBool("MP0_VCM_FLOW_CS_OIL_SEEN", true);
-			    Stats::SetBool("MP0_VCM_FLOW_CS_DEF_SEEN", true);
-			    Stats::SetBool("MP0_VCM_FLOW_CS_FIN_SEEN", true);
-			    Stats::SetBool("MP0_CAS_VEHICLE_REWARD", false);
-			    Stats::SetBool("MP0_HELP_FURIA", true);
-			    Stats::SetBool("MP0_HELP_MINITAN", true);
-			    Stats::SetBool("MP0_HELP_YOSEMITE2", true);
-			    Stats::SetBool("MP0_HELP_ZHABA", true);
-			    Stats::SetBool("MP0_HELP_IMORGEN", true);
-			    Stats::SetBool("MP0_HELP_SULTAN2", true);
-			    Stats::SetBool("MP0_HELP_VAGRANT", true);
-			    Stats::SetBool("MP0_HELP_VSTR", true);
-			    Stats::SetBool("MP0_HELP_STRYDER", true);
-			    Stats::SetBool("MP0_HELP_SUGOI", true);
-			    Stats::SetBool("MP0_HELP_KANJO", true);
-			    Stats::SetBool("MP0_HELP_FORMULA", true);
-			    Stats::SetBool("MP0_HELP_FORMULA2", true);
-			    Stats::SetBool("MP0_HELP_JB7002", true);
-
-			}
-		};
-	    class nightclub_awards_unlock : public Command
-	    {
-		    using Command::Command;
-
-		    virtual void OnCall() override
-		    {
-			    Stats::SetInt("MP0_AWD_DANCE_TO_SOLOMUN", 120);
-			    Stats::SetInt("MP0_AWD_DANCE_TO_TALEOFUS", 120);
-			    Stats::SetInt("MP0_AWD_DANCE_TO_DIXON", 120);
-			    Stats::SetInt("MP0_AWD_DANCE_TO_BLKMAD", 120);
-			    Stats::SetInt("MP0_AWD_CLUB_DRUNK", 200);
-			    Stats::SetInt("MP0_NIGHTCLUB_VIP_APPEAR", 700);
-			    Stats::SetInt("MP0_NIGHTCLUB_JOBS_DONE", 700);
-			    Stats::SetInt("MP0_NIGHTCLUB_EARNINGS", 20721002);
-			    Stats::SetInt("MP0_HUB_SALES_COMPLETED", 1001);
-			    Stats::SetInt("MP0_HUB_EARNINGS", 320721002);
-			    Stats::SetInt("MP0_DANCE_COMBO_DURATION_MINS", 3600000);
-			    Stats::SetInt("MP0_NIGHTCLUB_PLAYER_APPEAR", 9506);
-			    Stats::SetInt("MP0_LIFETIME_HUB_GOODS_SOLD", 784672);
-			    Stats::SetInt("MP0_LIFETIME_HUB_GOODS_MADE", 507822);
-			    Stats::SetInt("MP0_DANCEPERFECTOWNCLUB", 120);
-			    Stats::SetInt("MP0_NUMUNIQUEPLYSINCLUB", 120);
-			    Stats::SetInt("MP0_DANCETODIFFDJS", 4);
-			    Stats::SetInt("MP0_NIGHTCLUB_HOTSPOT_TIME_MS", 3600000);
-			    Stats::SetInt("MP0_NIGHTCLUB_CONT_TOTAL", 20);
-			    Stats::SetInt("MP0_NIGHTCLUB_CONT_MISSION", -1);
-			    Stats::SetInt("MP0_CLUB_CONTRABAND_MISSION", 1000);
-			    Stats::SetInt("MP0_HUB_CONTRABAND_MISSION", 1000);
-			    Stats::SetBool("MP0_AWD_CLUB_HOTSPOT", true);
-			    Stats::SetBool("MP0_AWD_CLUB_CLUBBER", true);
-			    Stats::SetBool("MP0_AWD_CLUB_COORD", true);
-
-
-
-		    }
-	    };
-	    class arena_war_awards_unlock : public Command
-	    {
-		    using Command::Command;
-
-		    virtual void OnCall() override
-		    {
-			    Stats::SetInt("MP0_ARN_BS_TRINKET_TICKERS", -1);
-			    Stats::SetInt("MP0_ARN_BS_TRINKET_SAVED", -1);
-			    Stats::SetInt("MP0_AWD_WATCH_YOUR_STEP", 50);
-			    Stats::SetInt("MP0_AWD_TOWER_OFFENSE", 50);
-			    Stats::SetInt("MP0_AWD_READY_FOR_WAR", 50);
-			    Stats::SetInt("MP0_AWD_THROUGH_A_LENS", 50);
-			    Stats::SetInt("MP0_AWD_SPINNER", 50);
-			    Stats::SetInt("MP0_AWD_YOUMEANBOOBYTRAPS", 50);
-			    Stats::SetInt("MP0_AWD_MASTER_BANDITO", 50);
-			    Stats::SetInt("MP0_AWD_SITTING_DUCK", 50);
-			    Stats::SetInt("MP0_AWD_CROWDPARTICIPATION", 50);
-			    Stats::SetInt("MP0_AWD_KILL_OR_BE_KILLED", 50);
-			    Stats::SetInt("MP0_AWD_MASSIVE_SHUNT", 50);
-			    Stats::SetInt("MP0_AWD_YOURE_OUTTA_HERE", 200);
-			    Stats::SetInt("MP0_AWD_WEVE_GOT_ONE", 50);
-			    Stats::SetInt("MP0_AWD_ARENA_WAGEWORKER", 1000000);
-			    Stats::SetInt("MP0_AWD_TIME_SERVED", 1000);
-			    Stats::SetInt("MP0_AWD_TOP_SCORE", 55000);
-			    Stats::SetInt("MP0_AWD_CAREER_WINNER", 1000);
-			    Stats::SetInt("MP0_ARENAWARS_SP", 209);
-			    Stats::SetInt("MP0_ARENAWARS_SKILL_LEVEL", 20);
-			    Stats::SetInt("MP0_ARENAWARS_SP_LIFETIME", 209);
-			    Stats::SetInt("MP0_ARENAWARS_AP_TIER", 1000);
-			    Stats::SetInt("MP0_ARENAWARS_AP_LIFETIME", 47551850);
-			    Stats::SetInt("MP0_ARENAWARS_CARRER_UNLK", 44);
-			    Stats::SetInt("MP0_ARN_W_THEME_SCIFI", 1000);
-			    Stats::SetInt("MP0_ARN_W_THEME_APOC", 1000);
-			    Stats::SetInt("MP0_ARN_W_THEME_CONS", 1000);
-			    Stats::SetInt("MP0_ARN_W_PASS_THE_BOMB", 1000);
-			    Stats::SetInt("MP0_ARN_W_DETONATION", 1000);
-			    Stats::SetInt("MP0_ARN_W_ARCADE_RACE", 1000);
-			    Stats::SetInt("MP0_ARN_W_CTF", 1000);
-			    Stats::SetInt("MP0_ARN_W_TAG_TEAM", 1000);
-			    Stats::SetInt("MP0_ARN_W_DESTR_DERBY", 1000);
-			    Stats::SetInt("MP0_ARN_W_CARNAGE", 1000);
-			    Stats::SetInt("MP0_ARN_W_MONSTER_JAM", 1000);
-			    Stats::SetInt("MP0_ARN_W_GAMES_MASTERS", 1000);
-			    Stats::SetInt("MP0_ARN_L_PASS_THE_BOMB", 500);
-			    Stats::SetInt("MP0_ARN_L_DETONATION", 500);
-			    Stats::SetInt("MP0_ARN_L_ARCADE_RACE", 500);
-			    Stats::SetInt("MP0_ARN_L_CTF", 500);
-			    Stats::SetInt("MP0_ARN_L_TAG_TEAM", 500);
-			    Stats::SetInt("MP0_ARN_L_DESTR_DERBY", 500);
-			    Stats::SetInt("MP0_ARN_L_CARNAGE", 500);
-			    Stats::SetInt("MP0_ARN_L_MONSTER_JAM", 500);
-			    Stats::SetInt("MP0_ARN_L_GAMES_MASTERS", 500);
-			    Stats::SetInt("MP0_NUMBER_OF_CHAMP_BOUGHT", 1000);
-			    Stats::SetInt("MP0_ARN_SPECTATOR_KILLS", 1000);
-			    Stats::SetInt("MP0_ARN_LIFETIME_KILLS", 1000);
-			    Stats::SetInt("MP0_ARN_LIFETIME_DEATHS", 500);
-			    Stats::SetInt("MP0_ARENAWARS_CARRER_WINS", 1000);
-			    Stats::SetInt("MP0_ARENAWARS_CARRER_WINT", 1000);
-			    Stats::SetInt("MP0_ARENAWARS_MATCHES_PLYD", 1000);
-			    Stats::SetInt("MP0_ARENAWARS_MATCHES_PLYDT", 1000);
-			    Stats::SetInt("MP0_ARN_SPEC_BOX_TIME_MS", 86400000);
-			    Stats::SetInt("MP0_ARN_SPECTATOR_DRONE", 1000);
-			    Stats::SetInt("MP0_ARN_SPECTATOR_CAMS", 1000);
-			    Stats::SetInt("MP0_ARN_SMOKE", 1000);
-			    Stats::SetInt("MP0_ARN_DRINK", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_MONSTER", 31000);
-			    Stats::SetInt("MP0_ARN_VEH_MONSTER", 41000);
-			    Stats::SetInt("MP0_ARN_VEH_MONSTER", 51000); 
-			    Stats::SetInt("MP0_ARN_VEH_CERBERUS", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_CERBERUS2", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_CERBERUS3", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_BRUISER", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_BRUISER2", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_BRUISER3", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_SLAMVAN4", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_SLAMVAN5", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_SLAMVAN6", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_BRUTUS", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_BRUTUS2", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_BRUTUS3", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_SCARAB", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_SCARAB2", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_SCARAB3", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_DOMINATOR4", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_DOMINATOR5", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_DOMINATOR6", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_IMPALER2", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_IMPALER3", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_IMPALER4", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_ISSI4", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_ISSI5", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_ISSI", 61000);
-			    Stats::SetInt("MP0_ARN_VEH_IMPERATOR", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_IMPERATOR2", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_IMPERATOR3", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_ZR380", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_ZR3802", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_ZR3803", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_DEATHBIKE", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_DEATHBIKE2", 1000);
-			    Stats::SetInt("MP0_ARN_VEH_DEATHBIKE3", 1000);
-
-			    Stats::SetBool("MP0_AWD_BEGINNER", true);
-			    Stats::SetBool("MP0_AWD_FIELD_FILLER", true);
-			    Stats::SetBool("MP0_AWD_ARMCHAIR_RACER", true);
-			    Stats::SetBool("MP0_AWD_LEARNER", true);
-			    Stats::SetBool("MP0_AWD_SUNDAY_DRIVER", true);
-			    Stats::SetBool("MP0_AWD_THE_ROOKIE", true);
-			    Stats::SetBool("MP0_AWD_BUMP_AND_RUN", true);
-			    Stats::SetBool("MP0_AWD_GEAR_HEAD", true);
-			    Stats::SetBool("MP0_AWD_DOOR_SLAMMER", true);
-			    Stats::SetBool("MP0_AWD_HOT_LAP", true);
-			    Stats::SetBool("MP0_AWD_ARENA_AMATEUR", true);
-			    Stats::SetBool("MP0_AWD_PAINT_TRADER", true);
-			    Stats::SetBool("MP0_AWD_SHUNTER", true);
-			    Stats::SetBool("MP0_AWD_JOCK", true);
-			    Stats::SetBool("MP0_AWD_WARRIOR", true);
-			    Stats::SetBool("MP0_AWD_T_BONE", true);
-			    Stats::SetBool("MP0_AWD_MAYHEM", true);
-			    Stats::SetBool("MP0_AWD_WRECKER", true);
-			    Stats::SetBool("MP0_AWD_CRASH_COURSE", true);
-			    Stats::SetBool("MP0_AWD_ARENA_LEGEND", true);
-			    Stats::SetBool("MP0_AWD_PEGASUS", true);
-			    Stats::SetBool("MP0_AWD_UNSTOPPABLE", true);
-			    Stats::SetBool("MP0_AWD_CONTACT_SPORT", true);
-
-		    }
-	    };
-	    class doomsday_awards_unlock : public Command
-	    {
-		    using Command::Command;
-
-		    virtual void OnCall() override
-		    {
-			    Stats::SetInt("MP0_GANGOPS_FM_MISSION_PROG", -1);
-			    Stats::SetInt("MP0_GANGOPS_FLOW_MISSION_PROG", -1);
-			    Stats::SetInt("MP0_MPPLY_GANGOPS_ALLINORDER", 100);
-			    Stats::SetInt("MP0_MPPLY_GANGOPS_LOYALTY", 100);
-			    Stats::SetInt("MP0_MPPLY_GANGOPS_CRIMMASMD", 100);
-			    Stats::SetInt("MP0_MPPLY_GANGOPS_LOYALTY2", 100);
-			    Stats::SetInt("MP0_MPPLY_GANGOPS_LOYALTY3", 100);
-			    Stats::SetInt("MP0_MPPLY_GANGOPS_CRIMMASMD2", 100);
-			    Stats::SetInt("MP0_MPPLY_GANGOPS_CRIMMASMD3", 100);
-			    Stats::SetInt("MP0_MPPLY_GANGOPS_SUPPORT", 100);
-			    Stats::SetInt("MP0_CR_GANGOP_MORGUE", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_DELUXO", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_SERVERFARM", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_IAABASE_FIN", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_STEALOSPREY", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_FOUNDRY", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_RIOTVAN", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_SUBMARINECAR", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_SUBMARINE_FIN", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_PREDATOR", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_BMLAUNCHER", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_BCCUSTOM", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_STEALTHTANKS", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_SPYPLANE", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_FINALE", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_FINALE_P2", 10);
-			    Stats::SetInt("MP0_CR_GANGOP_FINALE_P3", 10);
-			    Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_IAA", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_SUBMARINE", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_MISSILE", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_ALLINORDER", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_LOYALTY", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_LOYALTY2", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_LOYALTY3", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_CRIMMASMD", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_CRIMMASMD2", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_GANGOPS_CRIMMASMD3", true);
-
-		    }
-	    };
-	    class apartment_heist_awards_unlock : public Command
-	    {
-		    using Command::Command;
-
-		    virtual void OnCall() override
-		    {
-			    Stats::SetInt("MP0_AWD_FINISH_HEISTS", 900);
-			    Stats::SetInt("MP0_MPPLY_WIN_GOLD_MEDAL_HEISTS", 900);
-			    Stats::SetInt("MP0_AWD_DO_HEIST_AS_MEMBER", 900);
-			    Stats::SetInt("MP0_AWD_DO_HEIST_AS_THE_LEADER", 900);
-			    Stats::SetInt("MP0_AWD_FINISH_HEIST_SETUP_JOB", 900);
-			    Stats::SetInt("MP0_AWD_FINISH_HEIST", 900);
-			    Stats::SetInt("MP0_HEIST_COMPLETION", 900);
-			    Stats::SetInt("MP0_HEISTS_ORGANISED", 900);
-			    Stats::SetInt("MP0_AWD_CONTROL_CROWDS", 900);
-			    Stats::SetInt("MP0_AWD_WIN_GOLD_MEDAL_HEISTS", 900);
-			    Stats::SetInt("MP0_AWD_COMPLETE_HEIST_NOT_DIE", 900);
-			    Stats::SetInt("MP0_HEIST_START", 900);
-			    Stats::SetInt("MP0_HEIST_END", 900);
-			    Stats::SetInt("MP0_CUTSCENE_MID_PRISON", 900);
-			    Stats::SetInt("MP0_CUTSCENE_MID_HUMANE", 900);
-			    Stats::SetInt("MP0_CUTSCENE_MID_NARC", 900);
-			    Stats::SetInt("MP0_CUTSCENE_MID_ORNATE", 900);
-			    Stats::SetInt("MP0_CR_FLEECA_PREP_1", 5000);
-			    Stats::SetInt("MP0_CR_FLEECA_PREP_2", 5000);
-			    Stats::SetInt("MP0_CR_FLEECA_FINALE", 5000);
-			    Stats::SetInt("MP0_CR_PRISON_PLANE", 5000);
-			    Stats::SetInt("MP0_CR_PRISON_BUS", 5000);
-			    Stats::SetInt("MP0_CR_PRISON_STATION", 5000);
-			    Stats::SetInt("MP0_CR_PRISON_UNFINISHED_BIZ", 5000);
-			    Stats::SetInt("MP0_CR_PRISON_FINALE", 5000);
-			    Stats::SetInt("MP0_CR_HUMANE_KEY_CODES", 5000);
-			    Stats::SetInt("MP0_CR_HUMANE_ARMORDILLOS", 5000);
-			    Stats::SetInt("MP0_CR_HUMANE_EMP", 5000);
-			    Stats::SetInt("MP0_CR_HUMANE_VALKYRIE", 5000);
-			    Stats::SetInt("MP0_CR_HUMANE_FINALE", 5000);
-			    Stats::SetInt("MP0_CR_NARC_COKE", 5000);
-			    Stats::SetInt("MP0_CR_NARC_TRASH_TRUCK", 5000);
-			    Stats::SetInt("MP0_CR_NARC_BIKERS", 5000);
-			    Stats::SetInt("MP0_CR_NARC_WEED", 5000);
-			    Stats::SetInt("MP0_CR_NARC_STEAL_METH", 5000);
-			    Stats::SetInt("MP0_CR_NARC_FINALE", 5000);
-			    Stats::SetInt("MP0_CR_PACIFIC_TRUCKS", 5000);
-			    Stats::SetInt("MP0_CR_PACIFIC_WITSEC", 5000);
-			    Stats::SetInt("MP0_CR_PACIFIC_HACK", 5000);
-			    Stats::SetInt("MP0_CR_PACIFIC_BIKES", 5000);
-			    Stats::SetInt("MP0_CR_PACIFIC_CONVOY", 5000);
-			    Stats::SetInt("MP0_CR_PACIFIC_FINALE", 5000);
-			    Stats::SetInt("MP0_MPPLY_HEIST_ACH_TRACKER", -1);
-			    Stats::SetBool("MP0_MPPLY_AWD_COMPLET_HEIST_MEM", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_COMPLET_HEIST_1STPER", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_FLEECA_FIN", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_HST_ORDER", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_HST_SAME_TEAM", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_HST_ULT_CHAL", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_HUMANE_FIN", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_PACIFIC_FIN", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_PRISON_FIN", true);
-			    Stats::SetBool("MP0_MPPLY_AWD_SERIESA_FIN", true);
-			    Stats::SetBool("MP0_AWD_FINISH_HEIST_NO_DAMAGE", true);
-			    Stats::SetBool("MP0_AWD_SPLIT_HEIST_TAKE_EVENLY", true);
-			    Stats::SetBool("MP0_AWD_ALL_ROLES_HEIST", true);
-			    Stats::SetBool("MP0_AWD_MATCHING_OUTFIT_HEIST", true);
-			    Stats::SetBool("MP0_HEIST_PLANNING_DONE_PRINT", true);
-			    Stats::SetBool("MP0_HEIST_PLANNING_DONE_HELP_0", true);
-			    Stats::SetBool("MP0_HEIST_PLANNING_DONE_HELP_1", true);
-			    Stats::SetBool("MP0_HEIST_PRE_PLAN_DONE_HELP_0", true);
-			    Stats::SetBool("MP0_HEIST_CUTS_DONE_FINALE", true);
-			    Stats::SetBool("MP0_HEIST_IS_TUTORIAL", false);
-			    Stats::SetBool("MP0_HEIST_STRAND_INTRO_DONE", true);
-			    Stats::SetBool("MP0_HEIST_CUTS_DONE_ORNATE", true);
-			    Stats::SetBool("MP0_HEIST_CUTS_DONE_PRISON", true);
-			    Stats::SetBool("MP0_HEIST_CUTS_DONE_BIOLAB", true);
-			    Stats::SetBool("MP0_HEIST_CUTS_DONE_NARCOTIC", true);
-			    Stats::SetBool("MP0_HEIST_CUTS_DONE_TUTORIAL", true);
-			    Stats::SetBool("MP0_HEIST_AWARD_DONE_PREP", true);
-			    Stats::SetBool("MP0_HEIST_AWARD_BOUGHT_IN", true);
-		    }
-	    };
 	    class unlock_all_contacts : public Command
 	    {
 		    using Command::Command;
@@ -1506,7 +1438,7 @@ namespace YimMenu::Features
 			    Stats::SetInt("MP0_FM_ACT_PH9", -1);
 		    }
 	    };
-	    class unlock_some_tattoos : public Command
+	    class unlock_all_tattoos : public Command
 	    {
 		    using Command::Command;
 
@@ -1662,7 +1594,7 @@ namespace YimMenu::Features
 
 		    virtual void OnCall() override
 		    {
-			    Stats::SetPackedBool(3609,true)
+			    Stats::SetPackedBool(3609,true);
 				Stats::SetPackedBool(31791, true);
 				Stats::SetPackedBool(31792, true);
 				Stats::SetPackedBool(31793, true);
@@ -1675,7 +1607,7 @@ namespace YimMenu::Features
 
 		    }
 	    };
-		class Fastrun_Reload_unlock : public Command
+		class fastrun_reload_unlock : public Command
 	    {
 		    using Command::Command;
 
@@ -1689,37 +1621,105 @@ namespace YimMenu::Features
 				Stats::SetInt("MP0_CHAR_ABILITY_3_UNLCK", -1);
 		    }
 	    };
+	    class set_some_random_stats : public Command
+	    {
+		    using Command::Command;
+
+		    virtual void OnCall() override
+		    {
+			    Stats::SetInt("MP0_AWD_MENTALSTATE_TO_NORMAL", 25);
+			    Stats::SetInt("MP0_AWD_TRADE_IN_YOUR_PROPERTY", 25);
+			    Stats::SetInt("MP0_AWD_100_KILLS_PISTOL", 100);
+			    Stats::SetInt("MP0_AWD_100_KILLS_SNIPER", 100);
+			    Stats::SetInt("MP0_AWD_50_KILLS_GRENADES", 50);
+			    Stats::SetInt("MP0_AWD_100_KILLS_SHOTGUN", 100);
+			    Stats::SetInt("MP0_AWD_100_KILLS_SMG", 100);
+			    Stats::SetInt("MP0_AWD_50_KILLS_ROCKETLAUNCH", 50);
+			    Stats::SetInt("MP0_AWD_25_KILLS_STICKYBOMBS", 50);
+			    Stats::SetInt("MP0_AWD_20_KILLS_MELEE", 20);
+			    Stats::SetInt("MP0_AWD_50_VEHICLES_BLOWNUP", 50);
+			    Stats::SetInt("MP0_AWD_ENEMYDRIVEBYKILLS", 10);
+			    Stats::SetInt("MP0_AWD_VEHICLES_JACKEDR", 100);
+			    Stats::SetInt("MP0_AWD_HOLD_UP_SHOPS", 19);
+			    Stats::SetInt("MP0_AWD_COPS_KILLED", 200);
+
+			    Stats::SetInt("MP0_PISTOL_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_CMBTPISTOL_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_APPISTOL_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_MICROSMG_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_SMG_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_ASLTRIFLE_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_CRBNRIFLE_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_ADVRIFLE_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_MG_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_CMBTMG_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_ASLTSMG_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_PUMP_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_ASLTSHTGN_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_SNIPERRFL_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_HVYSNIPER_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_GRNLAUNCH_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_RPG_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_MINIGUNS_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_SAWNOFF_ENEMY_KILLS", 600);
+			    Stats::SetInt("MP0_CHAR_FM_CARMOD_1_UNLCK", -1);
+			    Stats::SetInt("MP0_CHAR_FM_CARMOD_2_UNLCK", -1);
+			    Stats::SetInt("MP0_CHAR_FM_CARMOD_3_UNLCK", -1);
+			    Stats::SetInt("MP0_CHAR_FM_CARMOD_4_UNLCK", -1);
+			    Stats::SetInt("MP0_CHAR_FM_CARMOD_5_UNLCK", -1);
+			    Stats::SetInt("MP0_CHAR_FM_CARMOD_6_UNLCK", -1);
+			    Stats::SetInt("MP0_CHAR_FM_CARMOD_7_UNLCK", -1);
+			    Stats::SetInt("MP0_AWD_FMRALLYWONDRIVE", 1);
+			    Stats::SetInt("MP0_AWD_FMRALLYWONNAV", 1);
+			    Stats::SetInt("MP0_AWD_FMWINSEARACE", 1);
+			    Stats::SetInt("MP0_AWD_FMWINAIRRACE", 1);
+			    Stats::SetInt("MP0_NUMBER_TURBO_STARTS_IN_RACE", 50);
+			    Stats::SetInt("MP0_USJS_COMPLETED", 50);
+			    Stats::SetInt("MP0_RACES_WON", 50);
+			    Stats::SetInt("MPPLY_TOTAL_RACES_WON", 50); // Global stat, no MPx prefix
+			    Stats::SetInt("MP0_AWD_FM_RACES_FASTEST_LAP", 50);
+			    Stats::SetInt("MP0_NUMBER_SLIPSTREAMS_IN_RACE", 100);
+
+			    // Chrome Rims
+			    Stats::SetInt("MP0_AWD_WIN_CAPTURES", 50);
+			    Stats::SetInt("MP0_AWD_DROPOFF_CAP_PACKAGES", 100);
+			    Stats::SetInt("MP0_AWD_KILL_CARRIER_CAPTURE", 100);
+			    Stats::SetInt("MP0_AWD_NIGHTVISION_KILLS", 100);
+			    Stats::SetInt("MP0_AWD_WIN_LAST_TEAM_STANDINGS", 50);
+			    Stats::SetInt("MP0_AWD_ONLY_PLAYER_ALIVE_LTS", 50);
+
+			    // eCola and Sprunk plate types unlock
+			    Stats::SetInt("MPPLY_XMAS23_PLATES0", -1); // Global stat, no MPx prefix
+		    }
+	    };
+	    class unlock_achievements : public Command
+	    {
+		    using Command::Command;
+
+		    virtual void OnCall() override
+		    {
+			    for (int i = 0; i <= 77; i++)
+			    {
+				    PLAYER::GIVE_ACHIEVEMENT_TO_PLAYER(i);
+			    }
+		    }
+	    };
 		
-
-
-
-
-
-
-
 	static BunkerResearch _BunkerResearch{"bunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
 	static unlock_clothing _UnlockClothing{"unlockclothing", "Unlock Areana War Clothing", "Unlocks all Areana War Clothing"};
-	static Casino_Heist_Clothing _UnlockCasinoHeistClothing{"unlockcasinoheistclothing", "Unlock Casino Clothing", "Unlocks Casino Heist Clothing"};
 	static Genderchange _unlockgenderchange{"unlockgenderchange", "Unlock Gender Change", "Allows to Change Gender"};
 	static CareerProgress_Rewards _CareerProgress_Rewards{"careerprogressreawards", "Unlock Career Progress", "Unlocks all Career Progress Stats"};
-	static cayo_awards_unlock _cayo_awards_unlock{"cayoawardsunlock", "Unlock Cayo Perico Awards", "Unlocks all Awards"};
-	static agent_sabotage_awards_unlock _agent_sabotage_awards_unlock{"agentsabotageawardsunlock", "Unlock Agent Sabotage Awards", "Unlocks all Agent of Sabotage Awards"};
-	static bottom_dollar_bounties_awards_unlock _bottom_dollar_bounties_awards_unlock{"bottomdollarbountiesawardsunlock", "Unlock Bottom Dollar Bounties Awards", "Unlocks all Bottom Dollar Bounties Awards"};
-	static the_chop_shop_awards_unlock  _the_chop_shop_awards_unlock{"thechopshopawardsunlock", "Unlock Chop Shop Awards", "Unlocks all the Chop Shop Awards"};
-	static los_santos_drug_wars_awards_unlock  _los_santos_drug_wars_awards_unlock{"lossantosdrugwarsunlock", "Unlock Los Drug Wars Awards", "Unlocks all the Los Santos Drug wars Awards"};
-	static the_contract_awards_unlock  _the_contract_awards_unlock{"thecontractawardsunlock", "Unlock The Contract Awards", "Unlocks all the Contract Awards"};
-	static los_santos_tuners_awards_unlock  _los_santos_tuners_awards_unlock{"lossantostunersawardsunlock", "Unlock Los Santos Tuners Awards", "Unlocks all the Los Santos Tuners Awards"};
-	static los_santos_summer_special_awards_unlock  _los_santos_summer_special_awards_unlock{"lossantossummerspecialawardsunlock", "Unlock Los Santos Summer Special Awards", "Unlocks all Los Santos Summer Special Awards"};
-	static casino_heist_awards_unlock _casino_heist_awards_unlock{"casinoheistawardsunlock", "Unlock Casino Heist Awards", "Unlocks all Casino Heist Awards"};
-	static nightclub_awards_unlock _nightclub_awards_unlock{"nightclubawardsunlock", "Unlock Nightclub Awards", "Unlocks all Nightclub Awards"};
-	static arena_war_awards_unlock _arena_war_awards_unlock{"arenawarawardsunlock", "Unlock Arena War Awards", "Unlocks all Arena War Awards"};
-	static doomsday_awards_unlock _doomsday_awards_unlock{"doomsdayawardsunlock", "Unlock Doomsday Awards", "Unlocks all Doomsday Awards"};
-	static apartment_heist_awards_unlock _apartment_heist_awards_unlock{"apartmentheistawardsunlock", "Unlock Apartment Heist Awards", "Unlocks all Apartment Heist Awards"};
+	static unlock_all_awards _unlock_all_awards{"unlockallawards", "Unlock All Awards", "Unlocks all Awards"};
 	static unlock_all_contacts _unlock_all_contacts{"unlockallcontacts", "Unlock All Contacts", "Unlocks all Contacts"};
-	static unlock_some_tattoos _unlock_some_tattoos{"unlocksometattoos", "Unlock All Tattoos", "Unlocks All Tattoos"};
+	static unlock_all_tattoos _unlock_all_tattoos{"unlockalltattoos", "Unlock All Tattoos", "Unlocks All Tattoos"};
 	static unlock_some_trade_price _unlock_some_trade_price{"unlocksometradeprice", "Unlock Some Trade Price", "Unlocks some Trade Prices"};
 	static unlock_shotaro _unlock_shotaro{"unlockshotaro", "Unlock Shotaro", "Unlocks the Shotaro"};
 	static unlock_taxi_livery _unlock_taxi_livery{"unclocktaxilivery", "Unlock Taxi Livery", "Unlocks the Taxi Livery"};
 	/*static unlock_vanilla_unicorn_award _unlock_vanilla_unicorn_award{"unlockvanillaunicornaward", "Unlock Vanilla Unicorn Award", "Unlocks the Vanilla Unicorn Award"};*/
 	static SCMembershipBypass _SCMembershipBypass{"scmembership_bypass", "SC Membership Bypass", "Bypasses Social Club membership checks for tunables"};
+	static set_some_random_stats _set_some_random_stats{"setsomerandomstats", "Unlock Random Awards", "Unlocks all random awards"};
+	static unlock_achievements _unlock_achievements{"unlockachievements", "Unlock Achievements", "Unlocks all achievements"};
+	static unlock_removed_vehicle _unlock_removed_vehicle{"unlockremovedvehicle", "Unlock Removed Vehicle", "Unlocks removed Vehicle"};
+	static unlock_all_parachutes _unlock_all_parachutes{"unlockallparachutes", "Unlock All Parachutes", "Unlocks all Parachutes"};
+	static fastrun_reload_unlock _fastrun_reload_unlock{"fastrunreloadunlock", "Unlock Fast Run", "Unlocks Fast Run"};
 }
