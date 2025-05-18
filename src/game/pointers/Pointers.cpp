@@ -378,6 +378,7 @@ namespace YimMenu
 
 			if (IsSocialClubNeverGoingToLoad())
 			{
+				LOG(WARNING) << "Timed out checking for socialclub.dll";
 				return false;
 			}
 
