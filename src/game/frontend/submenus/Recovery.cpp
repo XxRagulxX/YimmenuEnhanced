@@ -21,6 +21,7 @@ namespace YimMenu::Submenus
 		auto tattoos = std::make_shared<Group>("Tattoos");
 		auto misc = std::make_shared<Group>("Misc");
 		auto gtaplus  = std::make_shared<Group>("GTA+");
+		auto business = std::make_shared<Group>("Business");
 
 		vehiclesGroup->AddItem(std::make_shared<BoolCommandItem>("dlcvehicles"_J));
 
@@ -53,6 +54,21 @@ namespace YimMenu::Submenus
 		misc->AddItem(std::make_shared<CommandItem>("unlocktaxilivery"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockallparachutes"_J));
 		misc->AddItem(std::make_shared<CommandItem>("fastrunreloadunlock"_J));
+		business->AddItem(std::make_shared<CommandItem>("singlemcvehiclesell"_J));
+		misc->AddItem(std::make_shared<CommandItem>("unlockdripfeedvehicle"_J));
+		misc->AddItem(std::make_shared<CommandItem>("unlockmercenariesmasks"_J));
+		misc->AddItem(std::make_shared<CommandItem>("unlockflightschool"_J));
+		misc->AddItem(std::make_shared<CommandItem>("unlocktradepricecopcars"_J));
+		misc->AddItem(std::make_shared<CommandItem>("unlockshocker"_J));
+		misc->AddItem(std::make_shared<CommandItem>("unlockhiddenliveries"_J));
+		misc->AddItem(std::make_shared<CommandItem>("unlockxmasplates"_J));
+		misc->AddItem(std::make_shared<CommandItem>("unlockrarecloths"_J));
+		misc->AddItem(std::make_shared<CommandItem>("unlockcollectablessignaljammers"_J));
+		misc->AddItem(std::make_shared<CommandItem>("unlockcollectablesldorganics"_J));
+		misc->AddItem(std::make_shared<CommandItem>("unlockcollectablesplayingcardsactionfigures"_J));
+		misc->AddItem(std::make_shared<CommandItem>("unlockcollectablessnowman"_J));
+		misc->AddItem(std::make_shared<CommandItem>("unlocklscm"_J));
+		business->AddItem(std::make_shared<CommandItem>("resupplybusiness"_J));
 		shopping->AddItem(vehiclesGroup);
 		missions->AddItem(generalGroup);
 		unlocker->AddItem(awards);
@@ -61,6 +77,7 @@ namespace YimMenu::Submenus
 		unlocker->AddItem(clothing);
 		unlocker->AddItem(misc);
 		unlocker->AddItem(gtaplus);
+		unlocker->AddItem(business);
 		AddCategory(std::move(shopping));
 		AddCategory(std::move(missions));
 		AddCategory(std::move(unlocker));

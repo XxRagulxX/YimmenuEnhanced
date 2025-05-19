@@ -3,8 +3,9 @@
 #include "game/gta/Stats.hpp"
 #include "core/util/Joaat.hpp"
 #include "game/backend/Tunables.hpp"
-#include "src/types/script/globals/SC_MEMBERSHIP_DATA.hpp"
+#include "types/script/globals/SC_MEMBERSHIP_DATA.hpp"
 #include "core/commands/LoopedCommand.hpp"
+#include "game/gta/ScriptLocal.hpp"
 
 namespace YimMenu::Features
 {
@@ -1542,6 +1543,7 @@ namespace YimMenu::Features
 		    virtual void OnCall() override
 		    {
 			    Stats::SetInt("AWD_TAXIDRIVER", 100);
+			    STATS::STAT_SET_MASKED_INT("MP0_DLC22022PSTAT_INT536"_J, 10, 16, 8, true);
 		    }
 	    };
 	    class SCMembershipBypass : public LoopedCommand
@@ -1704,6 +1706,263 @@ namespace YimMenu::Features
 			    }
 		    }
 	    };
+	    class single_mc_vehicle_sell : public Command
+	    {
+		    using Command::Command;
+
+		    virtual void OnCall() override
+		    {
+			    ScriptLocal("gb_biker_contraband_sell"_J, 704 + 17).As<int&>() = 0;	    
+		    }
+	    };
+	    class unlock_dripfeed_vehicle : public Command
+	    {
+		    using Command::Command;
+		    virtual void OnCall() override
+		    {
+			    auto base = ScriptGlobal(262145); // FMg base
+
+			    *ScriptGlobal(2707347).As<int*>() = 1; // BEDVg5 - Bypass
+
+			    int offsets[] = {
+			        35633, // Pipistrello
+			        35596, // Pipistrello (secondary)
+			        35640, // Dominator FX Interceptor
+			        35601, // Dominator FX Interceptor (secondary)
+			        35636, // Dominator FX
+			        35600, // Dominator FX (secondary)
+			        35631, // Impaler LX Cruiser
+			        35592, // Impaler LX Cruiser (secondary)
+			        35643, // Pizzaboy
+			        35602, // Pizzaboy (secondary)
+			        35637, // Vorschlaghammer
+			        35588, // Vorschlaghammer (secondary)
+			        35635, // Castigator
+			        35594, // Castigator (secondary)
+			        35634, // Polimpaler
+			        35607  // Polimpaler (secondary)
+			    };
+
+			    for (int offset : offsets)
+				    *base.At(offset).As<int*>() = 1;
+		    }
+	    };
+	    class unlock_mercenaries_masks : public Command
+	    {
+		    using Command::Command;
+		    virtual void OnCall() override
+		    {
+			    *ScriptGlobal(262145).At(23812).As<int*>() = 1; // Unlocks BASE5 T-Shirt
+			    auto base = ScriptGlobal(262145);
+			    for (int i = 34625; i <= 34643; ++i)
+			    {
+				    *base.At(i).As<int*>() = 1;
+			    }
+			    *ScriptGlobal(262145).At(12027).As<int*>() = 1;
+			    Stats::SetInt("MP0_PLAYER_HEADSHOTS", 500);
+			    Stats::SetPackedBool(51222, true); // Black Demon Goat Mask
+			    Stats::SetPackedBool(51223, true); // Red Demon Goat Mask
+			    Stats::SetPackedBool(51224, true); // Tan Demon Goat Mask
+			    Stats::SetPackedBool(51225, true); // Black Creepy Cat Mask
+			    Stats::SetPackedBool(51226, true); // Gray Creepy Cat Mask
+			    Stats::SetPackedBool(51227, true); // Brown Creepy Cat Mask
+			    Stats::SetPackedBool(51228, true); // Gray Hooded Skull Mask
+			    Stats::SetPackedBool(51229, true); // Red Hooded Skull Mask
+			    Stats::SetPackedBool(51230, true); // Blue Hooded Skull Mask
+			    Stats::SetPackedBool(51231, true); // Red Flaming Skull Mask
+			    Stats::SetPackedBool(51232, true); // Green Flaming Skull Mask
+			    Stats::SetPackedBool(51233, true); // Orange Flaming Skull Mask
+
+		    }
+	    };
+	    class unlock_flight_school : public Command
+	    {
+		    using Command::Command;
+		    virtual void OnCall() override
+		    {
+			    for (int i = 0; i < 10; ++i)
+			    {
+				    Stats::SetInt(("MPPLY_PILOT_SCHOOL_MEDAL_" + std::to_string(i)).c_str(), -1);
+				    Stats::SetInt(("MP0_PILOT_SCHOOL_MEDAL_" + std::to_string(i)).c_str(), -1);
+				    Stats::SetBool(("MP0_PILOT_ASPASSEDLESSON_" + std::to_string(i)).c_str(), true);
+			    }
+
+			    Stats::SetInt("MPPLY_NUM_CAPTURES_CREATED", 100);
+		    }
+	    }; 
+		class unlock_trade_price_cop_cars : public Command
+	    {
+		    using Command::Command;
+		    virtual void OnCall() override
+		    {
+			    Stats::SetInt("MP0_SALV23_GEN_BS", -1);
+			    Stats::SetInt("MP0_SALV23_INST_PROG", -1);
+			    Stats::SetInt("MP0_SALV23_SCOPE_BS", -1);
+			    Stats::SetInt("MP0_MOST_TIME_ON_3_PLUS_STARS", 300000);
+		    }
+	    };
+	    class unlock_shocker : public Command
+	    {
+		    using Command::Command;
+		    virtual void OnCall() override
+		    {
+			    Stats::SetPackedBool(51196, true);
+		    }
+	    };
+	    class unlock_hidden_liveries : public Command
+	    {
+		    using Command::Command;
+		    virtual void OnCall() override
+		    {
+			    for (int i = 0; i <= 20; ++i)
+			    {
+				    Stats::SetInt(("MPPLY_XMASLIVERIES" + std::to_string(i)).c_str(), -1);
+			    }
+			    Stats::SetPackedBool(36788, true); // Dildodude Camo | Micro SMG
+			    Stats::SetPackedBool(36787, true); // Dildodude Camo | Pump Shotgun
+			    Stats::SetPackedBool(41657, true); // Employee of the Month Finish | Micro SMG
+			    Stats::SetPackedBool(42069, true); // Santa's Helper Finish | Heavy Sniper
+			    Stats::SetPackedBool(36786, true); // Season's Greetings | Pistol Mk II
+			    Stats::SetPackedBool(42122, true); // Skull Santa Finish | Special Carbine
+			    Stats::SetPackedBool(42068, true); // Snowman Finish | Combat Pistol
+			    Stats::SetPackedBool(41658, true); // Suede Bucks Finish | Carbine Rifle
+			    Stats::SetPackedBool(41659, true); // Uncle T Finish | RPG
+		    }
+	    };
+	    class unlock_Xmas_plates : public Command
+	    {
+		    using Command::Command;
+		    virtual void OnCall() override
+		    {
+			    Stats::SetInt("MPPLY_XMAS23_PLATES0", -1);
+			    *ScriptGlobal(262145).At(33811).As<int*>() = 1;
+		    }
+	    };
+	    class unlock_rare_cloths : public Command
+	    {
+		    using Command::Command;
+		    virtual void OnCall() override
+		    {
+			    Stats::SetPackedBool(51217, true); // Gold Pisswasser Shorts
+			    Stats::SetPackedBool(51240, true); // Silver Gun Necklace
+			    Stats::SetPackedBool(51241, true); // Black Gun Necklace
+			    Stats::SetPackedBool(51242, true); // Gold Gun Necklace
+			    Stats::SetPackedBool(51243, true); // Rose Gun Necklace
+			    Stats::SetPackedBool(51244, true); // Bronze Gun Necklace
+			    Stats::SetPackedBool(51221, true); // Halloween Spooky Tee
+			    Stats::SetPackedBool(51216, true); // Pisswasser Good Time Tee
+			    Stats::SetPackedBool(51220, true); // Día de Muertos Tee
+			    Stats::SetPackedBool(51239, true); // Rockstar Red Logo Sweater
+			    Stats::SetPackedBool(51219, true); // Mid Autumn Festival Sundress (female)
+			    Stats::SetPackedBool(51218, true); // Mid Autumn Festival Shirt
+			    Stats::SetPackedBool(51245, true); // Black Yeti Fall Sweater
+			    Stats::SetPackedBool(51246, true); // White Yeti Fall Sweater
+			    Stats::SetPackedBool(51247, true); // Red Yeti Fall Sweater
+			    Stats::SetPackedBool(42287, true); // Pizza This... Caps & Outfit
+			    Stats::SetPackedBool(51215, true); // Brown Alpine Hat / Alpine Outfit
+			    Stats::SetPackedBool(42257, true); // The Street Artist
+			    Stats::SetPackedBool(42268, true); // Ghosts Exposed Outfit
+			    Stats::SetPackedBool(42286, true); // Ludendorff Survivor
+			    Stats::SetPackedBool(51237, true); // Tan Turkey
+			    Stats::SetPackedBool(51238, true); // Brown Turkey
+			    Stats::SetPackedBool(51234, true); // Orange Glow Skeleton Onesie
+			    Stats::SetPackedBool(51235, true); // Purple Glow Skeleton Onesie
+			    Stats::SetPackedBool(51236, true); // Green Glow Skeleton Onesie
+			    Stats::SetPackedBool(51258, true); // Pizza This... Tee
+
+			    Stats::SetPackedBool(32407, true); // Bottom Dollar Jacket
+			    Stats::SetPackedBool(32408, true); // The Bottom Dollar
+			    Stats::SetPackedBool(51250, true); // Cobalt Jackal Racing Pants
+			    Stats::SetPackedBool(51251, true); // Khaki 247 Chino Pants
+			    Stats::SetPackedBool(51248, true); // The Diamond Jackpot Tee
+			    Stats::SetPackedBool(51249, true); // Cobalt Jackal Racing Jersey
+			    Stats::SetPackedBool(51253, true); // Purple Güffy Cardigan
+			    Stats::SetPackedBool(51252, true); // Demon Biker Jacket
+			    Stats::SetPackedBool(51254, true); // SA Denim Biker Jacket
+			    Stats::SetPackedBool(51255, true); // Green 247 Shirt
+			    Stats::SetPackedBool(51256, true); // Barbed Wire Shirt  
+
+		    }
+	    };
+	    class unlock_collectables_signal_jammers: public Command
+	    {
+		    using Command::Command;
+		    virtual void OnCall() override
+		    {
+			    for (int i = 28099; i <= 28148; ++i)
+			    {
+				    Stats::SetPackedBool(i, TRUE);
+			    }
+
+		    }
+	    };
+	    class unlock_collectables_ld_organics : public Command
+	    {
+		    using Command::Command;
+		    virtual void OnCall() override
+		    {
+			    for (int i = 34262; i <= 34361; ++i)
+			    {
+				    Stats::SetPackedBool(i, TRUE);
+			    }
+
+		    }
+	    };
+	    class unlock_collectables_playing_cards_action_figures : public Command
+	    {
+		    using Command::Command;
+		    virtual void OnCall() override
+		    {
+			    for (int i = 26811; i <= 26964; ++i)
+				{
+				    Stats::SetPackedBool(i, TRUE);
+			    }
+		    }
+	    };
+	    class unlock_collectables_snowman : public Command
+	    {
+		    using Command::Command;
+		    virtual void OnCall() override
+		    {
+			    for (int i = 36630; i <= 36654; ++i)
+			    {
+				    Stats::SetPackedBool(i, TRUE);
+			    }
+		    }
+	    };
+	    class unlock_LSCM : public Command
+	    {
+		    using Command::Command;
+		    virtual void OnCall() override
+		    {
+			    for (int i = 262145 + 30958; i <= 262145 + 30987; ++i)
+			    {
+				    *ScriptGlobal(i).As<float*>() = 100000.f;
+			    }
+			    for (int i = 24980; i <= 24991; ++i)
+			    {
+				    Stats::SetPackedBool(i, true);
+			    }
+		    }
+	    };
+	    class Resupply_business : public Command
+	    {
+		    using Command::Command;
+		    virtual void OnCall() override
+		    {
+			    *ScriptGlobal(1667996 + 1 + 6).As<int*>() = 1; // Acid Lab
+			    *ScriptGlobal(1667996 + 1 + 5).As<int*>() = 1; // Bunker
+			    *ScriptGlobal(1667996 + 1 + 1).As<int*>() = 1; // Document Forge
+			    *ScriptGlobal(1667996 + 1 + 2).As<int*>() = 1; // Weed Farm
+			    *ScriptGlobal(1667996 + 1 + 3).As<int*>() = 1; // Meth Lab
+			    *ScriptGlobal(1667996 + 1 + 4).As<int*>() = 1; // Cocaine Lockup
+		    }
+	    };
+
+
+		
+
+
 		
 	static BunkerResearch _BunkerResearch{"bunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
 	static unlock_clothing _UnlockClothing{"unlockclothing", "Unlock Areana War Clothing", "Unlocks all Areana War Clothing"};
@@ -1714,7 +1973,7 @@ namespace YimMenu::Features
 	static unlock_all_tattoos _unlock_all_tattoos{"unlockalltattoos", "Unlock All Tattoos", "Unlocks All Tattoos"};
 	static unlock_some_trade_price _unlock_some_trade_price{"unlocksometradeprice", "Unlock Some Trade Price", "Unlocks some Trade Prices"};
 	static unlock_shotaro _unlock_shotaro{"unlockshotaro", "Unlock Shotaro", "Unlocks the Shotaro"};
-	static unlock_taxi_livery _unlock_taxi_livery{"unclocktaxilivery", "Unlock Taxi Livery", "Unlocks the Taxi Livery"};
+	static unlock_taxi_livery _unlock_taxi_livery{"unlocktaxilivery", "Unlock Taxi Livery", "Unlocks the Taxi Livery"};
 	/*static unlock_vanilla_unicorn_award _unlock_vanilla_unicorn_award{"unlockvanillaunicornaward", "Unlock Vanilla Unicorn Award", "Unlocks the Vanilla Unicorn Award"};*/
 	static SCMembershipBypass _SCMembershipBypass{"scmembership_bypass", "SC Membership Bypass", "Bypasses Social Club membership checks for tunables"};
 	static set_some_random_stats _set_some_random_stats{"setsomerandomstats", "Unlock Random Awards", "Unlocks all random awards"};
@@ -1722,4 +1981,20 @@ namespace YimMenu::Features
 	static unlock_removed_vehicle _unlock_removed_vehicle{"unlockremovedvehicle", "Unlock Removed Vehicle", "Unlocks removed Vehicle"};
 	static unlock_all_parachutes _unlock_all_parachutes{"unlockallparachutes", "Unlock All Parachutes", "Unlocks all Parachutes"};
 	static fastrun_reload_unlock _fastrun_reload_unlock{"fastrunreloadunlock", "Unlock Fast Run", "Unlocks Fast Run"};
+	static single_mc_vehicle_sell _single_mc_vehicle_sell{"singlemcvehiclesell", "Single MC Vehicle Sell", "Allows to sell only one MC Vehicle at a time"};
+	static unlock_dripfeed_vehicle _unlock_dripfeed_vehicle{"unlockdripfeedvehicle", "Unlock Dripfeed Vehicle", "Unlocks Dripfeed Vehicles"};
+	static unlock_mercenaries_masks _unlock_mercenaries_masks{"unlockmercenariesmasks", "Unlock Mercenaries Masks", "Unlocks Mercenaries Masks"};
+	static unlock_flight_school _unlock_flight_school{"unlockflightschool", "Unlock Flight School", "Unlocks Flight School"};
+	static unlock_trade_price_cop_cars _unlock_trade_price_cop_cars{"unlocktradepricecopcars", "Unlock Trade Price Cop Cars", "Unlocks Trade Price for Cop Cars"};
+	static unlock_shocker _unlock_shocker{"unlockshocker", "Unlock Shocker", "Unlocks Shocker"};
+	static unlock_hidden_liveries _unlock_hidden_liveries{"unlockhiddenliveries", "Unlock Hidden Liveries", "Unlocks Hidden Liveries"};
+	static unlock_Xmas_plates _unlock_Xmas_plates{"unlockxmasplates", "Unlock Xmas Plates", "Unlocks Xmas Plates"};
+	static unlock_rare_cloths _unlock_rare_cloths{"unlockrarecloths", "Unlock Rare Cloths", "Unlocks Rare Cloths"};
+	static unlock_collectables_signal_jammers _unlock_collectables_signal_jammers{"unlockcollectablessignaljammers", "Unlock Collectables Signal Jammers", "Unlocks Signal Jammers"};
+	static unlock_collectables_ld_organics _unlock_collectables_ld_organics{"unlockcollectablesldorganics", "Unlock Collectables LD Organics", "Unlocks LD Organics"};
+	static unlock_collectables_playing_cards_action_figures _unlock_collectables_playing_cards_action_figures{"unlockcollectablesplayingcardsactionfigures", "Unlock Collectables Playing Cards Action Figures", "Unlocks Playing Cards and Action Figures"};
+	static unlock_collectables_snowman _unlock_collectables_snowman{"unlockcollectablessnowman", "Unlock Collectables Snowman", "Unlocks Snowman"};
+	static unlock_LSCM _unlock_LSCM{"unlocklscm", "Unlock LSCM", "Unlocks LSCM"};
+	static Resupply_business _Resupply_business{"resupplybusiness", "Resupply Business", "Resupplies all Businesses"};
+
 }
