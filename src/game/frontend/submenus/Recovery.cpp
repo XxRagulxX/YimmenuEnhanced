@@ -12,25 +12,25 @@ namespace YimMenu::Submenus
 		auto missions = std::make_shared<Category>("Missions");
 		auto generalGroup = std::make_shared<Group>("General");
 		auto unlocker = std::make_shared<Category>("Unlocks");
-		auto bunker = std::make_shared<Group>("Bunker Research");
-		auto clothing = std::make_shared<Group>("Clothing");
-		auto awards  = std::make_shared<Group>("Heist Awards");
-		auto tattoos = std::make_shared<Group>("Tattoos & Masks");
+		auto awards       = std::make_shared<Group>("Heist Awards");
+		auto unlock_goodies = std::make_shared<Group>("Clothing, Tattoos & Masks");
+		auto vehicle        = std::make_shared<Group>("Vehicle");
 		auto misc = std::make_shared<Group>("Misc");
-		auto gtaplus  = std::make_shared<Group>("GTA+");
 		auto business = std::make_shared<Group>("Business");
-		auto vehicle = std::make_shared<Group>("Vehicle");
+		auto gtaplus  = std::make_shared<Group>("GTA+");
+		
+		
 
 		generalGroup->AddItem(std::make_shared<BoolCommandItem>("playallmissionssolo"_J));
 		generalGroup->AddItem(std::make_shared<CommandItem>("forcelaunchheist"_J));
 
-		bunker->AddItem(std::make_shared<CommandItem>("bunkerresearch"_J));
-		clothing->AddItem(std::make_shared<CommandItem>("unlockclothing"_J));
+		misc->AddItem(std::make_shared<CommandItem>("bunkerresearch"_J));
+		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockclothing"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlockallawards"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockgenderchange"_J));
 		awards->AddItem(std::make_shared<CommandItem>("careerprogressreawards"_J));
-		misc->AddItem(std::make_shared<CommandItem>("unlockallcontacts"_J));
-		tattoos->AddItem(std::make_shared<CommandItem>("unlockalltattoos"_J));
+		/*misc->AddItem(std::make_shared<CommandItem>("unlockallcontacts"_J));*/
+		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockalltattoos"_J));
 		vehicle->AddItem(std::make_shared<CommandItem>("unlocksometradeprice"_J));
 		gtaplus->AddItem(std::make_shared<BoolCommandItem>("scmembership_bypass"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlockachievements"_J));
@@ -39,18 +39,17 @@ namespace YimMenu::Submenus
 		misc->AddItem(std::make_shared<CommandItem>("unlockallparachutes"_J));
 		misc->AddItem(std::make_shared<CommandItem>("fastrunreloadunlock"_J));
 		business->AddItem(std::make_shared<CommandItem>("singlemcvehiclesell"_J));
-		tattoos->AddItem(std::make_shared<CommandItem>("unlockmasks"_J));
+		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockmasks"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockflightschool"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlocktradeprice"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockweapons"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlockcollectables"_J));
 		business->AddItem(std::make_shared<CommandItem>("resupplybusiness"_J));
 		business->AddItem(std::make_shared<BoolCommandItem>("supplycooldownbypass"_J));
+		misc->AddItem(std::make_shared<CommandItem>("wm29unlock"_J));
 		missions->AddItem(generalGroup);
 		unlocker->AddItem(awards);
-		unlocker->AddItem(bunker);
-		unlocker->AddItem(tattoos);
-		unlocker->AddItem(clothing);
+		unlocker->AddItem(unlock_goodies);
 		unlocker->AddItem(misc);
 		unlocker->AddItem(gtaplus);
 		unlocker->AddItem(business);
