@@ -689,6 +689,36 @@ namespace YimMenu::Features
 			Stats::SetPackedBool(36941, TRUE); // Own 50 weapons
 			Stats::SetPackedBool(36942, TRUE); // Visit the Gun Van every day for 10 days
 			Stats::SetInt("MP0_PROG_HUB_10_CHAL_ANSR", 10); // Win 10 Challenges against another player in the Ammu-Nation Shooting Range
+
+		    // set Individual packed ints
+		    Stats::SetPackedInt(28272, 1); // Steal setup funds
+			Stats::SetPackedInt(24903, 25); // Complete 25 Files
+			Stats::SetPackedInt(24904, 2);  // Complete 2 Files without losing a life
+			Stats::SetPackedInt(24905, 9); //  Unlock 9 platinum awards for Agents of Sabotage
+			Stats::SetPackedInt(7669, 5); // Secure or eliminate 5 Standard bounty targets
+			Stats::SetPackedInt(7672, 2); // Secure or eliminate 2 Most Wanted bounty targets
+			Stats::SetPackedInt(7670, 10); //  Secure or eliminate 10 bounty targets without losing a life
+			Stats::SetPackedInt(7674, 3); //  Secure or eliminate a Most Wanted bounty target 3 days in a row
+			Stats::SetPackedInt(7671, 25); //  Secure or eliminate 25 bounty targets
+			Stats::SetPackedInt(26809, 10); //  Unlock 10 platinum awards for Bottom Dollar Bounties
+			Stats::SetPackedInt(51052, 10); // Unlock 10 Platinum Awards for The Chop Shop
+			Stats::SetPackedInt(41241, 5);  // Unlock all custom acid names
+			Stats::SetPackedInt(42084, 24); // Unlock all Platinum Awards for Los Santos Drug Wars
+			Stats::SetPackedInt(42085, 10); // Unlock 10 Platinum Awards for The Contract
+			Stats::SetPackedInt(42089, 8);  // Unlock 8 Platinum Awards for After Hours
+			Stats::SetPackedInt(9359, 25);  // Complete a research project
+			Stats::SetPackedInt(30226, 10); // Unlock 10 Platinum Awards for Los Santos Tuners
+			Stats::SetPackedInt(42093, 11); // Unlock 11 Platinum Awards for The Diamond Casino & Resort
+			Stats::SetPackedInt(42094, 15); // Unlock 15 Platinum Awards for The Cayo Perico Heist
+			Stats::SetPackedInt(42087, 10); // Unlock 10 Platinum Awards for The Doomsday Heist
+			Stats::SetPackedInt(42100, 5);  // Complete all heists with the same crew
+			Stats::SetPackedInt(42090, 15); // Unlock 15 Platinum Awards for heists
+			Stats::SetPackedInt(22063, 20); // Reach skill level 5
+			Stats::SetPackedInt(42088, 15); // Unlock 15 Platinum Awards for Arena Wars
+			Stats::SetPackedInt(42000, 20); // Earn skill level 20 in Arena Wars
+			Stats::SetPackedInt(41246, 20); // Win 20 Races in the Community Series
+			Stats::SetPackedInt(42092, 5);  // Earn 5 gold medals in the Flight School challenges
+			Stats::SetPackedInt(42091, 10); // Unlock 10 Platinum Awards for Vehicles
 			Stats::SetPackedInt(41242, 8);  // Own 1 of each weapon type
 		}
 	};
@@ -1628,7 +1658,7 @@ namespace YimMenu::Features
 
 		    virtual void OnCall() override
 		    {
-			    ScriptLocal("gb_biker_contraband_sell"_J, 704 + 17).As<int&>() = 0;	    
+				*ScriptLocal("gb_biker_contraband_sell"_J, 704 + 17).As<int*>() = 0;
 		    }
 	    };
 	    class unlock_masks : public Command
@@ -1756,12 +1786,881 @@ namespace YimMenu::Features
 		    using Command::Command;
 		    virtual void OnCall() override
 		    {
-			    *ScriptGlobal(1667996 + 1 + 6).As<int*>() = 1; // Acid Lab
-			    *ScriptGlobal(1667996 + 1 + 5).As<int*>() = 1; // Bunker
-			    *ScriptGlobal(1667996 + 1 + 1).As<int*>() = 1; // Document Forge
-			    *ScriptGlobal(1667996 + 1 + 2).As<int*>() = 1; // Weed Farm
-			    *ScriptGlobal(1667996 + 1 + 3).As<int*>() = 1; // Meth Lab
-			    *ScriptGlobal(1667996 + 1 + 4).As<int*>() = 1; // Cocaine Lockup
+			    //*ScriptGlobal(1667996 + 1 + 6).As<int*>() = 1; // Acid Lab
+			    //*ScriptGlobal(1668003 + 1 + 5).As<int*>() = 1; // Bunker
+			    //*ScriptGlobal(1667996 + 1 + 1).As<int*>() = 1; // Document Forge
+			    //*ScriptGlobal(1667996 + 1 + 2).As<int*>() = 1; // Weed Farm
+			    //*ScriptGlobal(1667996 + 1 + 3).As<int*>() = 1; // Meth Lab
+			    //*ScriptGlobal(1667996 + 1 + 4).As<int*>() = 1; // Cocaine Lockup
+
+				Stats::SetPackedBool(30408, TRUE); // Blue Keinemusik Tee (Male)
+			    Stats::SetPackedBool(30409, TRUE); // Moodymann Tee (Male)
+			    Stats::SetPackedBool(30410, TRUE); // Palms Trax Tee (Male)
+
+			    Stats::SetPackedBool(30418, TRUE); // White Keinemusik Tee (Female)
+			    Stats::SetPackedBool(30419, TRUE); // Blue Keinemusik Tee (Female)
+			    Stats::SetPackedBool(30420, TRUE); // Moodymann Tee (Female)
+			    Stats::SetPackedBool(30421, TRUE); // Palms Trax Tee (Female)
+
+			    Stats::SetPackedBool(28452, TRUE); // Channel X Aged Tee (Male)
+			    Stats::SetPackedBool(28453, TRUE); // Rebel Radio Aged Tee (Male)
+			    Stats::SetPackedBool(28454, TRUE); // LSUR Aged Tee (Male)
+			    Stats::SetPackedBool(28455, TRUE); // Steel Horse Solid Logo Aged Tee (Male)
+			    Stats::SetPackedBool(28456, TRUE); // Black Western Logo Aged Tee (Male)
+			    Stats::SetPackedBool(28457, TRUE); // White Nagasaki Aged Tee (Male)
+			    Stats::SetPackedBool(28458, TRUE); // Black Principe Aged Tee (Male)
+			    Stats::SetPackedBool(28459, TRUE); // Albany Vintage Aged Tee (Male)
+			    Stats::SetPackedBool(28460, TRUE); // Benefactor Aged Tee (Male)
+			    Stats::SetPackedBool(28461, TRUE); // Bravado Aged Tee (Male)
+			    Stats::SetPackedBool(28462, TRUE); // Declasse Aged Tee (Male)
+			    Stats::SetPackedBool(28463, TRUE); // Dinka Aged Tee (Male)
+			    Stats::SetPackedBool(28464, TRUE); // Grotti Aged Tee (Male)
+			    Stats::SetPackedBool(28465, TRUE); // Lampadati Aged Tee (Male)
+			    Stats::SetPackedBool(28466, TRUE); // Ocelot Aged Tee (Male)
+			    Stats::SetPackedBool(28467, TRUE); // Overflod Aged Tee (Male)
+			    Stats::SetPackedBool(28468, TRUE); // Pegassi Aged Tee (Male)
+			    Stats::SetPackedBool(28469, TRUE); // Pfister Aged Tee (Male)
+			    Stats::SetPackedBool(28470, TRUE); // Vapid Aged Tee (Male)
+			    Stats::SetPackedBool(28471, TRUE); // Weeny Aged Tee (Male)
+			    Stats::SetPackedBool(28472, TRUE); // Toe Shoes Aged T-Shirt (Male)
+			    Stats::SetPackedBool(28473, TRUE); // Vanilla Unicorn Aged T-Shirt (Male)
+			    Stats::SetPackedBool(28474, TRUE); // Fake Vapid Aged T-Shirt (Male)
+			    Stats::SetPackedBool(28475, TRUE); // I Married My Dad Aged T-Shirt (Male)
+			    Stats::SetPackedBool(28476, TRUE); // White Rockstar Camo Aged Tee (Male)
+			    Stats::SetPackedBool(28477, TRUE); // Razor Aged T-Shirt (Male)
+			    Stats::SetPackedBool(28478, TRUE); // Noise Rockstar Logo Aged Tee (Male)
+			    Stats::SetPackedBool(30355, TRUE); // Noise Aged Tee (Male)
+			    Stats::SetPackedBool(30356, TRUE); // Emotion 98.3 Aged T-Shirt (Male)
+			    Stats::SetPackedBool(30357, TRUE); // KDST Aged T-Shirt (Male)
+			    Stats::SetPackedBool(30358, TRUE); // KJAH Radio Aged T-Shirt (Male)
+			    Stats::SetPackedBool(30359, TRUE); // Bounce FM Aged T-Shirt (Male)
+			    Stats::SetPackedBool(30360, TRUE); // K-Rose Aged T-Shirt (Male)
+			    Stats::SetPackedBool(30361, TRUE); // Blue The Diamond Resort LS Aged Tee (Male)
+
+			    Stats::SetPackedBool(28463, TRUE); // Channel X Aged Tee (Female)
+			    Stats::SetPackedBool(28464, TRUE); // Rebel Radio Aged Tee (Female)
+			    Stats::SetPackedBool(28465, TRUE); // LSUR Aged Tee (Female)
+			    Stats::SetPackedBool(28466, TRUE); // Steel Horse Solid Logo Aged Tee (Female)
+			    Stats::SetPackedBool(28467, TRUE); // Black Western Logo Aged Tee (Female)
+			    Stats::SetPackedBool(28468, TRUE); // White Nagasaki Aged Tee (Female)
+			    Stats::SetPackedBool(28469, TRUE); // Black Principe Aged Tee (Female)
+			    Stats::SetPackedBool(28470, TRUE); // Albany Vintage Aged Tee (Female)
+			    Stats::SetPackedBool(28471, TRUE); // Benefactor Aged Tee (Female)
+			    Stats::SetPackedBool(28472, TRUE); // Bravado Aged Tee (Female)
+			    Stats::SetPackedBool(28473, TRUE); // Declasse Aged Tee (Female)
+			    Stats::SetPackedBool(28474, TRUE); // Dinka Aged Tee (Female)
+			    Stats::SetPackedBool(28475, TRUE); // Grotti Aged Tee (Female)
+			    Stats::SetPackedBool(28476, TRUE); // Lampadati Aged Tee (Female)
+			    Stats::SetPackedBool(28477, TRUE); // Ocelot Aged Tee (Female)
+			    Stats::SetPackedBool(28478, TRUE); // Overflod Aged Tee (Female)
+			    Stats::SetPackedBool(30355, TRUE); // Pegassi Aged Tee (Female)
+			    Stats::SetPackedBool(30356, TRUE); // Pfister Aged Tee (Female)
+			    Stats::SetPackedBool(30357, TRUE); // Vapid Aged Tee (Female)
+			    Stats::SetPackedBool(30358, TRUE); // Weeny Aged Tee (Female)
+			    Stats::SetPackedBool(30359, TRUE); // Toe Shoes Aged T-Shirt (Female)
+			    Stats::SetPackedBool(30360, TRUE); // Vanilla Unicorn Aged T-Shirt (Female)
+			    Stats::SetPackedBool(30361, TRUE); // Fake Vapid Aged T-Shirt (Female)
+			    Stats::SetPackedBool(30362, TRUE); // I Married My Dad Aged T-Shirt (Female)
+			    Stats::SetPackedBool(30363, TRUE); // White Rockstar Camo Aged Tee (Female)
+			    Stats::SetPackedBool(30364, TRUE); // Razor Aged T-Shirt (Female)
+			    Stats::SetPackedBool(30365, TRUE); // Noise Rockstar Logo Aged Tee (Female)
+			    Stats::SetPackedBool(30366, TRUE); // Noise Aged Tee (Female)
+			    Stats::SetPackedBool(30367, TRUE); // Emotion 98.3 Aged T-Shirt (Female)
+			    Stats::SetPackedBool(30368, TRUE); // KDST Aged T-Shirt (Female)
+			    Stats::SetPackedBool(30369, TRUE); // KJAH Radio Aged T-Shirt (Female)
+			    Stats::SetPackedBool(30370, TRUE); // Bounce FM Aged T-Shirt (Female)
+			    Stats::SetPackedBool(30371, TRUE); // K-Rose Aged T-Shirt (Female)
+			    Stats::SetPackedBool(30372, TRUE); // Blue The Diamond Resort LS Aged Tee (Female)
+
+				Stats::SetPackedBool(15381, TRUE); // APC SAM Battery
+			    Stats::SetPackedBool(15382, TRUE); // Ballistic Equipment
+			    Stats::SetPackedBool(15428, TRUE); // Half-track 20mm Quad Autocannon
+			    Stats::SetPackedBool(15429, TRUE); // Weaponized Tampa Dual Remote Minigun
+			    Stats::SetPackedBool(15430, TRUE); // Weaponized Tampa Rear-Firing Mortar
+			    Stats::SetPackedBool(15431, TRUE); // Weaponized Tampa Front Missile Launchers
+			    Stats::SetPackedBool(15432, TRUE); // Dune FAV 40mm Grenade Launcher
+			    Stats::SetPackedBool(15433, TRUE); // Dune FAV 7.62mm Minigun
+			    Stats::SetPackedBool(15434, TRUE); // Insurgent Pick-Up Custom .50 Cal Minigun
+			    Stats::SetPackedBool(15435, TRUE); // Insurgent Pick-Up Custom Heavy Armor Plating
+			    Stats::SetPackedBool(15436, TRUE); // Technical Custom 7.62mm Minigun
+			    Stats::SetPackedBool(15437, TRUE); // Technical Custom Ram-bar
+			    Stats::SetPackedBool(15438, TRUE); // Technical Custom Brute-bar
+			    Stats::SetPackedBool(15439, TRUE); // Technical Custom Heavy Chassis Armor
+			    Stats::SetPackedBool(15447, TRUE); // Oppressor Missiles
+			    Stats::SetPackedBool(15448, TRUE); // Fractal Livery Set
+			    Stats::SetPackedBool(15449, TRUE); // Digital Livery Set
+			    Stats::SetPackedBool(15450, TRUE); // Geometric Livery Set
+			    Stats::SetPackedBool(15451, TRUE); // Nature Reserve Livery
+			    Stats::SetPackedBool(15452, TRUE); // Naval Battle Livery
+			    Stats::SetPackedBool(15453, TRUE); // Anti-Aircraft Trailer Dual 20mm Flak
+			    Stats::SetPackedBool(15454, TRUE); // Anti-Aircraft Trailer Homing Missile Battery
+			    Stats::SetPackedBool(15455, TRUE); // Mobile Operations Center Rear Turrets
+			    Stats::SetPackedBool(15456, TRUE); // Incendiary Rounds
+			    Stats::SetPackedBool(15457, TRUE); // Hollow Point Rounds
+			    Stats::SetPackedBool(15458, TRUE); // Armor Piercing Rounds
+			    Stats::SetPackedBool(15459, TRUE); // Full Metal Jacket Rounds
+			    Stats::SetPackedBool(15460, TRUE); // Explosive Rounds
+			    Stats::SetPackedBool(15461, TRUE); // Pistol Mk II Mounted Scope
+			    Stats::SetPackedBool(15462, TRUE); // Pistol Mk II Compensator
+			    Stats::SetPackedBool(15463, TRUE); // SMG Mk II Holographic Sight
+			    Stats::SetPackedBool(15464, TRUE); // SMG Mk II Heavy Barrel
+			    Stats::SetPackedBool(15465, TRUE); // Heavy Sniper Mk II Night Vision Scope
+			    Stats::SetPackedBool(15466, TRUE); // Heavy Sniper Mk II Thermal Scope
+			    Stats::SetPackedBool(15467, TRUE); // Heavy Sniper Mk II Heavy Barrel
+			    Stats::SetPackedBool(15468, TRUE); // Combat MG Mk II Holographic Sight
+			    Stats::SetPackedBool(15469, TRUE); // Combat MG Mk II Heavy Barrel
+			    Stats::SetPackedBool(15470, TRUE); // Assault Rifle Mk II Holographic Sight
+			    Stats::SetPackedBool(15471, TRUE); // Assault Rifle Mk II Heavy Barrel
+			    Stats::SetPackedBool(15472, TRUE); // Carbine Rifle Mk II Holographic Sight
+			    Stats::SetPackedBool(15473, TRUE); // Carbine Rifle Mk II Heavy Barrel
+			    Stats::SetPackedBool(15474, TRUE); // Proximity Mines
+			    Stats::SetPackedBool(15491, TRUE); // Weaponized Tampa Heavy Chassis Armor
+			    Stats::SetPackedBool(15492, TRUE); // Brushstroke Camo Mk II Weapon Livery
+			    Stats::SetPackedBool(15493, TRUE); // Skull Mk II Weapon Livery
+			    Stats::SetPackedBool(15494, TRUE); // Sessanta Nove Mk II Weapon Livery
+			    Stats::SetPackedBool(15495, TRUE); // Perseus Mk II Weapon Livery
+			    Stats::SetPackedBool(15496, TRUE); // Leopard Mk II Weapon Livery
+			    Stats::SetPackedBool(15497, TRUE); // Zebra Mk II Weapon Livery
+			    Stats::SetPackedBool(15498, TRUE); // Geometric Mk II Weapon Livery
+			    Stats::SetPackedBool(15499, TRUE); // Boom! Mk II Weapon Livery
+
+				Stats::SetPackedBool(15562, TRUE); // White Coil Tee
+			    Stats::SetPackedBool(15563, TRUE); // Red Coil Tee
+			    Stats::SetPackedBool(15564, TRUE); // Black Coil Tee
+			    Stats::SetPackedBool(15565, TRUE); // Black Ammu-Nation Tee
+			    Stats::SetPackedBool(15566, TRUE); // White Ammu-Nation Tee
+			    Stats::SetPackedBool(15567, TRUE); // Yellow Warstock Tee and Yellow Warstock Tee (Tucked)
+			    Stats::SetPackedBool(15568, TRUE); // Green Warstock Tee
+			    Stats::SetPackedBool(31755, TRUE); // Race and Chase Arcade Machine for the Auto Shop
+
+				Stats::SetPackedBool(26968, TRUE); // The Impotent Rage (Outfit & Haircut)
+			    Stats::SetPackedBool(26969, TRUE); // The High Roller (Outfit)
+
+			    Stats::SetPackedBool(27068, TRUE); // White Benny's T-Shirt
+
+			    Stats::SetPackedBool(27082, TRUE); // Death Defying T-Shirt
+			    Stats::SetPackedBool(27084, TRUE); // Showroom T-Shirt
+
+			    Stats::SetPackedBool(27087, TRUE); // Unicorn (Mask)
+			    Stats::SetPackedBool(27088, TRUE); // Gingerbread (Mask)
+
+			    Stats::SetPackedBool(27089, TRUE); // Casino Cutscene (0 / false = Re-watch)
+			    Stats::SetPackedBool(27090, TRUE); // Penthouse Cutscene (0 / false = Re-watch)
+
+			    Stats::SetPackedBool(27184, TRUE); // Invade and Persuade Enemies Tee
+			    Stats::SetPackedBool(27185, TRUE); // Invade and Persuade Oil Tee
+			    Stats::SetPackedBool(27186, TRUE); // Invade and Persuade Tour Tee
+			    Stats::SetPackedBool(27187, TRUE); // Invade and Persuade Green Tee
+			    Stats::SetPackedBool(27188, TRUE); // Invade and Persuade RON Tee
+
+			    Stats::SetPackedBool(27189, TRUE); // Street Crimes Hoods Tee
+			    Stats::SetPackedBool(27190, TRUE); // Street Crimes Punks Tee
+			    Stats::SetPackedBool(27191, TRUE); // Street Crimes Yokels Tee
+			    Stats::SetPackedBool(27192, TRUE); // Street Crimes Bikers Tee
+			    Stats::SetPackedBool(27193, TRUE); // Street Crimes Action Tee
+
+			    Stats::SetPackedBool(27184, TRUE); // Oil Barrels (Invade and Persuade II) (Arcade Trophy)
+			    Stats::SetPackedBool(27185, TRUE);
+			    Stats::SetPackedBool(27186, TRUE);
+			    Stats::SetPackedBool(27187, TRUE);
+			    Stats::SetPackedBool(27188, TRUE);
+
+			    Stats::SetPackedBool(27189, TRUE); // Spray Paint (Street Crimes: Gang Wars Edition) (Arcade Trophy)
+			    Stats::SetPackedBool(27190, TRUE);
+			    Stats::SetPackedBool(27191, TRUE);
+			    Stats::SetPackedBool(27192, TRUE);
+			    Stats::SetPackedBool(27193, TRUE);
+
+			    Stats::SetPackedBool(27247, TRUE); // Madam Nazar (Arcade Trophy)
+
+			    Stats::SetPackedBool(28155, TRUE); // Arcade Cutscene 1 (0 / false = Re-watch)
+			    Stats::SetPackedBool(28156, TRUE); // Arcade Cutscene 2 (0 / false = Re-watch)
+
+			    Stats::SetPackedBool(28171, TRUE); // Green Reindeer Lights Bodysuit
+			    Stats::SetPackedBool(28172, TRUE); // Ho-Ho-Ho Sweater
+			    Stats::SetPackedBool(28173, TRUE); // Traditional Festive Lights Bodysuit
+			    Stats::SetPackedBool(28174, TRUE); // Yellow Reindeer Lights Bodysuit
+			    Stats::SetPackedBool(28175, TRUE); // Neon Festive Lights Bodysuit
+
+				Stats::SetPackedBool(28176, TRUE); // Plushie Grindy Tee (incl. Arcade & Penthouse Decoration)
+			    Stats::SetPackedBool(28177, TRUE); // Plushie Saki Tee (incl. Arcade & Penthouse Decoration)
+			    Stats::SetPackedBool(28178, TRUE); // Plushie Humpy Tee (incl. Arcade & Penthouse Decoration)
+			    Stats::SetPackedBool(28179, TRUE); // Plushie Smoker Tee (incl. Arcade & Penthouse Decoration)
+			    Stats::SetPackedBool(28180, TRUE); // Plushie [removed]ie Tee (incl. Arcade & Penthouse Decoration)
+			    Stats::SetPackedBool(28181, TRUE); // Plushie Muffy Tee (incl. Arcade & Penthouse Decoration)
+			    Stats::SetPackedBool(28182, TRUE); // Plushie Wasabi Kitty Tee (incl. Arcade & Penthouse Decoration)
+			    Stats::SetPackedBool(28183, TRUE); // Plushie Princess Tee (incl. Arcade & Penthouse Decoration)
+			    Stats::SetPackedBool(28184, TRUE); // Plushie Master Tee (incl. Arcade & Penthouse Decoration)
+
+			    Stats::SetPackedBool(28185, TRUE); // Pixel Pete's Tee
+			    Stats::SetPackedBool(28186, TRUE); // Wonderama Tee
+			    Stats::SetPackedBool(28187, TRUE); // Warehouse Tee
+			    Stats::SetPackedBool(28188, TRUE); // Eight Bit Tee
+			    Stats::SetPackedBool(28189, TRUE); // Insert Coin Tee
+			    Stats::SetPackedBool(28190, TRUE); // Videogeddon Tee
+
+			    Stats::SetPackedBool(28191, TRUE); // Nazar Speaks Tee
+
+			    Stats::SetPackedBool(28197, TRUE); // Badlands Revenge II Gunshot Tee
+			    Stats::SetPackedBool(28198, TRUE); // Badlands Revenge II Eagle Tee
+			    Stats::SetPackedBool(28199, TRUE); // Badlands Revenge II Pixtro Tee
+			    Stats::SetPackedBool(28200, TRUE); // Badlands Revenge II Romance Tee, Bear Tee, Help Me Tee & Retro Tee
+
+			    Stats::SetPackedBool(28201, TRUE); // Race and Chase Decor Tee
+			    Stats::SetPackedBool(28202, TRUE); // Race and Chase Vehicles Tee
+			    Stats::SetPackedBool(28203, TRUE); // Race and Chase Finish Tee
+			    Stats::SetPackedBool(28204, TRUE); // Crotch Rockets Tee, Street Legal Tee & Get Truckin' Tee
+
+			    Stats::SetPackedBool(28205, TRUE); // Wizard's Ruin Loot Tee
+			    Stats::SetPackedBool(28206, TRUE); // The Wizard's Ruin Rescue Tee
+			    Stats::SetPackedBool(28207, TRUE); // The Wizard's Ruin Vow Tee
+			    Stats::SetPackedBool(28208, TRUE); // Thog Mighty Sword Tee, Thog Tee & Thog Bod Tee
+
+			    Stats::SetPackedBool(28209, TRUE); // Space Monkey 3 Tee
+			    Stats::SetPackedBool(28210, TRUE); // Space Monkey Space Crafts Tee
+			    Stats::SetPackedBool(28211, TRUE); // Space Monkey Pixel Tee
+			    Stats::SetPackedBool(28212, TRUE); // Space Monkey Boss Fights Tee, Radioactive Space Monkey Tee & Space Monkey Art Tee
+
+			    Stats::SetPackedBool(28213, TRUE); // Monkey's Paradise Tee
+
+			    Stats::SetPackedBool(28214, TRUE); // Retro Defender of the Faith Tee
+			    Stats::SetPackedBool(28215, TRUE); // Penetrator Tee
+			    Stats::SetPackedBool(28216, TRUE); // Defender of the Faith Tee
+
+			    Stats::SetPackedBool(28217, TRUE); // Love Professor His Tee & Love Professor Hers Tee
+			    Stats::SetPackedBool(28218, TRUE); // Love Professor Nemesis Tee
+			    Stats::SetPackedBool(28219, TRUE); // Love Professor Friendzoned Tee
+			    Stats::SetPackedBool(28220, TRUE); // Love Professor Secrets Tee & Love Professor Score Tee
+
+			    Stats::SetPackedBool(28221, TRUE); // Shiny Wasabi Kitty Claw Tee
+
+			    Stats::SetPackedBool(28222, TRUE); // Pixtro Tee, Akedo Tee & Arcade Trophy Tee
+
+			    Stats::SetPackedBool(28224, TRUE); // White Dog With Cone Tee, Yellow Dog With Cone Tee, Dog With Cone Slip-Ons & Dog With Cone Chain
+
+				Stats::SetPackedBool(28225, TRUE); // Refuse Collectors (Outfits)
+			    Stats::SetPackedBool(28226, TRUE); // Undertakers (Outfit)
+			    Stats::SetPackedBool(28227, TRUE); // Valet Outfits
+			    Stats::SetPackedBool(28229, TRUE); // Prison Guards (Outfits)
+			    Stats::SetPackedBool(28230, TRUE); // FIB Suits (Outfits)
+			    Stats::SetPackedBool(28232, TRUE); // Gruppe Sechs Gear (Outfits)
+			    Stats::SetPackedBool(28233, TRUE); // Bugstars Uniforms (Outfits)
+			    Stats::SetPackedBool(28234, TRUE); // Maintenance (Outfits)
+			    Stats::SetPackedBool(28235, TRUE); // Yung Ancestors (Outfits)
+			    Stats::SetPackedBool(28236, TRUE); // Firefighter Gear (Outfits)
+			    Stats::SetPackedBool(28237, TRUE); // Orderly Armor (Outfits)
+			    Stats::SetPackedBool(28238, TRUE); // Upscale Armor (Outfits)
+			    Stats::SetPackedBool(28239, TRUE); // Evening Armor (Outfits)
+			    Stats::SetPackedBool(28240, TRUE); // Reinforced: Padded Combat (Outfits)
+			    Stats::SetPackedBool(28241, TRUE); // Reinforced: Bulk Combat (Outfits)
+			    Stats::SetPackedBool(28242, TRUE); // Reinforced: Compact Combat (Outfits)
+			    Stats::SetPackedBool(28243, TRUE); // Balaclava Crook (Outfits)
+			    Stats::SetPackedBool(28244, TRUE); // Classic Crook (Outfits)
+			    Stats::SetPackedBool(28245, TRUE); // High-end Crook (Outfits)
+			    Stats::SetPackedBool(28246, TRUE); // Infiltration: Upgraded Tech (Outfits)
+			    Stats::SetPackedBool(28247, TRUE); // Infiltration: Advanced Tech (Outfits)
+			    Stats::SetPackedBool(28248, TRUE); // Infiltration: Modernized Tech (Outfits)
+			    Stats::SetPackedBool(28249, TRUE); // Degenatron Glitch Tee
+			    Stats::SetPackedBool(28254, TRUE); // Get Metal Tee
+			    Stats::SetPackedBool(28255, TRUE); // 11 11 Tee
+			    // For 28254-28255 (Axe of Fury Tee), use both indices:
+			    Stats::SetPackedBool(28254, TRUE); // Axe of Fury Tee (part 1)
+			    Stats::SetPackedBool(28255, TRUE); // Axe of Fury Tee (part 2)
+			    Stats::SetPackedBool(30254, TRUE); // King Of QUB3D Tee
+			    Stats::SetPackedBool(30255, TRUE); // Qubism Tee
+			    Stats::SetPackedBool(30256, TRUE); // God Of QUB3D Tee
+			    Stats::SetPackedBool(30257, TRUE); // QUB3D Boxart Tee
+			    Stats::SetPackedBool(30258, TRUE); // Qub3d Qub3s Tee
+			    Stats::SetPackedBool(31760, TRUE); // Faces of Death Tee
+			    Stats::SetPackedBool(31761, TRUE); // Straight to Video Tee
+			    Stats::SetPackedBool(31762, TRUE); // Monkey See Monkey Die Tee
+			    Stats::SetPackedBool(31763, TRUE); // Trained to Kill Tee
+			    Stats::SetPackedBool(31764, TRUE); // The Director Tee
+			    Stats::SetPackedBool(31783, TRUE); // Bearsy (Mask)
+
+				Stats::SetPackedBool(28393, TRUE); // Badlands Revenge II Retro Tee (Male)
+			    Stats::SetPackedBool(28394, TRUE); // Badlands Revenge II Pixtro Tee (Male)
+			    Stats::SetPackedBool(28395, TRUE); // Degenatron Glitch Tee (Male)
+			    Stats::SetPackedBool(28396, TRUE); // Degenatron Logo Tee (Male)
+			    Stats::SetPackedBool(28397, TRUE); // The Wizard's Ruin Rescue Tee (Male)
+			    Stats::SetPackedBool(28398, TRUE); // The Wizard's Ruin Vow Tee (Male)
+			    Stats::SetPackedBool(28399, TRUE); // Space Monkey Art Tee (Male)
+			    Stats::SetPackedBool(28400, TRUE); // Crotch Rockets Tee (Male)
+			    Stats::SetPackedBool(28401, TRUE); // Street Legal Tee (Male)
+			    Stats::SetPackedBool(28402, TRUE); // Get Truckin' Tee (Male)
+			    Stats::SetPackedBool(28403, TRUE); // Arcade Trophy Tee (Male)
+			    Stats::SetPackedBool(28404, TRUE); // Videogeddon Tee (Male)
+			    Stats::SetPackedBool(28405, TRUE); // Insert Coin Tee (Male)
+			    Stats::SetPackedBool(28406, TRUE); // Plushie Princess Tee (Male)
+			    Stats::SetPackedBool(28407, TRUE); // Plushie Wasabi Kitty Tee (Male)
+			    Stats::SetPackedBool(28408, TRUE); // Plushie Master Tee (Male)
+			    Stats::SetPackedBool(28409, TRUE); // Plushie Muffy Tee (Male)
+			    Stats::SetPackedBool(28410, TRUE); // Plushie Humpy Tee (Male)
+			    Stats::SetPackedBool(28411, TRUE); // Plushie Saki Tee (Male)
+			    Stats::SetPackedBool(28412, TRUE); // Plushie Grindy Tee (Male)
+			    Stats::SetPackedBool(28413, TRUE); // Plushie [removed]ie Tee (Male)
+			    Stats::SetPackedBool(28414, TRUE); // Plushie Smoker Tee (Male)
+			    Stats::SetPackedBool(28415, TRUE); // Shiny Wasabi Kitty Claw Tee (Male)
+			    Stats::SetPackedBool(28416, TRUE); // Nazar Speaks Tee (Male)
+			    Stats::SetPackedBool(28447, TRUE); // 11 11 Tee (Male)
+			    Stats::SetPackedBool(28448, TRUE); // King Of QUB3D Tee (Male)
+			    Stats::SetPackedBool(28449, TRUE); // Qubism Tee (Male)
+			    Stats::SetPackedBool(28450, TRUE); // God Of QUB3D Tee (Male)
+			    Stats::SetPackedBool(28451, TRUE); // QUB3D Boxart Tee (Male)
+			    Stats::SetPackedBool(30418, TRUE); // Faces of Death Tee (Male)
+			    Stats::SetPackedBool(30419, TRUE); // Straight to Video Tee (Male)
+			    Stats::SetPackedBool(30420, TRUE); // Monkey See Monkey Die Tee (Male)
+			    Stats::SetPackedBool(30421, TRUE); // Trained to Kill Tee (Male)
+			    Stats::SetPackedBool(30422, TRUE); // The Director Tee (Male)
+
+			    Stats::SetPackedBool(28404, TRUE); // Badlands Revenge II Retro Tee (Female)
+			    Stats::SetPackedBool(28405, TRUE); // Badlands Revenge II Pixtro Tee (Female)
+			    Stats::SetPackedBool(28406, TRUE); // Degenatron Glitch Tee (Female)
+			    Stats::SetPackedBool(28407, TRUE); // Degenatron Logo Tee (Female)
+			    Stats::SetPackedBool(28408, TRUE); // The Wizard's Ruin Rescue Tee (Female)
+			    Stats::SetPackedBool(28409, TRUE); // The Wizard's Ruin Vow Tee (Female)
+			    Stats::SetPackedBool(28410, TRUE); // Space Monkey Art Tee (Female)
+			    Stats::SetPackedBool(28411, TRUE); // Crotch Rockets Tee (Female)
+			    Stats::SetPackedBool(28412, TRUE); // Street Legal Tee (Female)
+			    Stats::SetPackedBool(28413, TRUE); // Get Truckin' Tee (Female)
+			    Stats::SetPackedBool(28414, TRUE); // Arcade Trophy Tee (Female)
+			    Stats::SetPackedBool(28415, TRUE); // Videogeddon Tee (Female)
+			    Stats::SetPackedBool(28416, TRUE); // Insert Coin Tee (Female)
+			    Stats::SetPackedBool(28417, TRUE); // Plushie Princess Tee (Female)
+			    Stats::SetPackedBool(28418, TRUE); // Plushie Wasabi Kitty Tee (Female)
+			    Stats::SetPackedBool(28419, TRUE); // Plushie Master Tee (Female)
+			    Stats::SetPackedBool(28420, TRUE); // Plushie Muffy Tee (Female)
+			    Stats::SetPackedBool(28421, TRUE); // Plushie Humpy Tee (Female)
+			    Stats::SetPackedBool(28422, TRUE); // Plushie Saki Tee (Female)
+			    Stats::SetPackedBool(28423, TRUE); // Plushie Grindy Tee (Female)
+			    Stats::SetPackedBool(28424, TRUE); // Plushie [removed]ie Tee (Female)
+			    Stats::SetPackedBool(28425, TRUE); // Plushie Smoker Tee (Female)
+			    Stats::SetPackedBool(28426, TRUE); // Shiny Wasabi Kitty Claw Tee (Female)
+			    Stats::SetPackedBool(28427, TRUE); // Nazar Speaks Tee (Female)
+			    Stats::SetPackedBool(28458, TRUE); // 11 11 Tee (Female)
+			    Stats::SetPackedBool(28459, TRUE); // King Of QUB3D Tee (Female)
+			    Stats::SetPackedBool(28460, TRUE); // Qubism Tee (Female)
+			    Stats::SetPackedBool(28461, TRUE); // God Of QUB3D Tee (Female)
+			    Stats::SetPackedBool(28462, TRUE); // QUB3D Boxart Tee (Female)
+			    Stats::SetPackedBool(30429, TRUE); // Faces of Death Tee (Female)
+			    Stats::SetPackedBool(30430, TRUE); // Straight to Video Tee (Female)
+			    Stats::SetPackedBool(30431, TRUE); // Monkey See Monkey Die Tee (Female)
+			    Stats::SetPackedBool(30432, TRUE); // Trained to Kill Tee (Female)
+			    Stats::SetPackedBool(30433, TRUE); // The Director Tee (Female)
+			    Stats::SetPackedBool(7475, TRUE);  // Meltdown T-Shirt
+			    Stats::SetPackedBool(25006, TRUE); // Kifflom Tee
+
+
+
+
+
+
+		    }
+	    };
+	    class SupplyCooldownBypass : public LoopedCommand
+	    {
+		    using LoopedCommand::LoopedCommand;
+
+		    virtual void OnTick() override
+		    {
+			    // Directly set delay to 0 (instant supplies)
+			    *ScriptGlobal(262145).At(18768).As<int*>() = 0; // BIKER_PURCHASE_SUPPLIES_DELAY
+			    *ScriptGlobal(262145).At(21278).As<int*>() = 0; // GR_PURCHASE_SUPPLIES_DELAY
+		    }
+
+		    virtual void OnDisable() override
+		    {
+			    // Restore to original value (600)
+			    *ScriptGlobal(262145).At(18768).As<int*>() = 600; // BIKER_PURCHASE_SUPPLIES_DELAY
+			    *ScriptGlobal(262145).At(21278).As<int*>() = 600; // GR_PURCHASE_SUPPLIES_DELAY
+		    }
+	    };
+
+		class unlock_LSCM : public Command
+	    {
+		    using Command::Command;
+		    virtual void OnCall() override
+		    {
+			    Stats::SetPackedBool(24970, TRUE); // BOLT BURGER HUNGER TEE
+			    Stats::SetPackedBool(24971, TRUE); // BRAVADO APOCALYPSE SASQUATCH LIVERY SET
+			    Stats::SetPackedBool(24977, TRUE); // SPACESUIT ALIEN T-SHIRT SET
+			    Stats::SetPackedBool(24979, TRUE); // WESTERN FUTURE SHOCK DEATHBIKE LIGHT ARMOR W/SHIELD
+
+			    Stats::SetPackedBool(25000, TRUE); // NEBULA BODYSUIT SET
+			    Stats::SetPackedBool(25018, TRUE); // BLACK AND WHITE BONES FESTIVE SWEATER
+			    Stats::SetPackedBool(25019, TRUE); // SLASHER FESTIVE SWEATER
+			    Stats::SetPackedBool(25020, TRUE); // BLACK AND RED BONES FESTIVE SWEATER
+			    Stats::SetPackedBool(25021, TRUE); // RED BONES FESTIVE SWEATER
+			    Stats::SetPackedBool(25022, TRUE); // BURGER SHOT FESTIVE SWEATER
+			    Stats::SetPackedBool(25023, TRUE); // RED BLEEDER FESTIVE SWEATER
+			    Stats::SetPackedBool(25024, TRUE); // BLUE BLEEDER FESTIVE SWEATER
+			    Stats::SetPackedBool(25025, TRUE); // BLUE CLUCKIN' FESTIVE SWEATER
+			    Stats::SetPackedBool(25026, TRUE); // GREEN CLUCKIN' FESTIVE SWEATER
+			    Stats::SetPackedBool(25027, TRUE); // BLUE SLAYING FESTIVE SWEATER
+			    Stats::SetPackedBool(25028, TRUE); // GREEN SLAYING FESTIVE SWEATER
+			    Stats::SetPackedBool(25029, TRUE); // HAIL SANTA FESTIVE SWEATER
+
+			    Stats::SetPackedBool(25111, TRUE); // DEATHBIKE REINFORCED ARMOR W/ SHIELD
+			    Stats::SetPackedBool(25112, TRUE); // DEATHBIKE HEAVY ARMOR W/ SHIELD
+			    Stats::SetPackedBool(25113, TRUE); // SASQUATCH LIVERY SET
+			    Stats::SetPackedBool(25114, TRUE); // SASQUATCH LIVERY SET
+			    Stats::SetPackedBool(25115, TRUE); // CERBERUS LIVERY SET
+			    Stats::SetPackedBool(25116, TRUE); // CERBERUS LIVERY SET
+			    Stats::SetPackedBool(25117, TRUE); // SASQUATCH LIGHT ARMOR
+			    Stats::SetPackedBool(25118, TRUE); // SASQUATCH REINFORCED ARMOR
+			    Stats::SetPackedBool(25119, TRUE); // SASQUATCH HEAVY ARMOR
+			    Stats::SetPackedBool(25120, TRUE); // CERBERUS LIVERY SET
+			    Stats::SetPackedBool(25121, TRUE); // BRUISER LIVERY SET
+			    Stats::SetPackedBool(25122, TRUE); // BRUISER LIVERY SET
+			    Stats::SetPackedBool(25123, TRUE); // BRUISER LIVERY SET
+			    Stats::SetPackedBool(25124, TRUE); // SLAMVAN LIVERY SET
+			    Stats::SetPackedBool(25125, TRUE); // CERBERUS BODY SPIKES
+			    Stats::SetPackedBool(25126, TRUE); // SLAMVAN LIVERY SET
+			    Stats::SetPackedBool(25127, TRUE); // CERBERUS LIGHT ARMOR
+			    Stats::SetPackedBool(25128, TRUE); // CERBERUS REINFORCED ARMOR
+			    Stats::SetPackedBool(25129, TRUE); // CERBERUS HEAVY ARMOR
+			    Stats::SetPackedBool(25130, TRUE); // SLAMVAN LIVERY SET
+			    Stats::SetPackedBool(25131, TRUE); // BRUTUS LIVERY SET
+			    Stats::SetPackedBool(25132, TRUE); // BRUTUS LIVERY SET
+			    Stats::SetPackedBool(25133, TRUE); // BRUTUS LIVERY SET
+			    Stats::SetPackedBool(25134, TRUE); // SCARAB LIVERY SET
+			    Stats::SetPackedBool(25135, TRUE); // NOTHING
+			    Stats::SetPackedBool(25136, TRUE); // BRUISER BODY SPIKES
+			    Stats::SetPackedBool(25137, TRUE); // SCARAB LIVERY SET
+			    Stats::SetPackedBool(25138, TRUE); // SCARAB LIVERY SET
+			    Stats::SetPackedBool(25139, TRUE); // BRUISER LIGHT ARMOR
+			    Stats::SetPackedBool(25140, TRUE); // BRUISER REINFORCED ARMOR
+			    Stats::SetPackedBool(25141, TRUE); // BRUSIER HEAVY ARMOR
+			    Stats::SetPackedBool(25142, TRUE); // DOMINATOR LIVERY SET
+			    Stats::SetPackedBool(25143, TRUE); // DOMINATOR LIVERY SET
+			    Stats::SetPackedBool(25144, TRUE); // DOMINATOR LIVERY SET
+			    Stats::SetPackedBool(25145, TRUE); // IMPALER LIVERY SET
+			    Stats::SetPackedBool(25146, TRUE); // IMPALER LIVERY SET
+			    Stats::SetPackedBool(25147, TRUE); // IMPALER LIVERY SET
+			    Stats::SetPackedBool(25148, TRUE); // SLAMVAN BODY SPIKES
+			    Stats::SetPackedBool(25149, TRUE); // IMPERAOR LIVERY SET
+			    Stats::SetPackedBool(25150, TRUE); // IMPERATOR LIVERY SET
+			    Stats::SetPackedBool(25151, TRUE); // SLAMVAN LIGHT ARMOR
+			    Stats::SetPackedBool(25152, TRUE); // SLAMVAN REINFORCED ARMOR
+			    Stats::SetPackedBool(25153, TRUE); // SLAMVAN HEAVY ARMOR
+			    Stats::SetPackedBool(25154, TRUE); // IMPERATOR LIVERY SET
+			    Stats::SetPackedBool(25155, TRUE); // ZR380 LIVERY SET
+			    Stats::SetPackedBool(25156, TRUE); // ZR380 LIVERY SET
+			    Stats::SetPackedBool(25157, TRUE); // ZR380 LIVERY SET
+			    Stats::SetPackedBool(25158, TRUE); // ISSI LIVERY SET
+			    Stats::SetPackedBool(25159, TRUE); // ISSI LIVERY SET
+			    Stats::SetPackedBool(25160, TRUE); // BRUTUS LIGHT ARMOR
+			    Stats::SetPackedBool(25161, TRUE); // BRUTUS REINFORCED ARMOR
+			    Stats::SetPackedBool(25162, TRUE); // BRUTUS HEAVY ARMOR
+			    Stats::SetPackedBool(25163, TRUE); // ISSI CLASSIC LIVERY SET
+			    Stats::SetPackedBool(25164, TRUE); // DEATHBIKE LIVERY SET
+			    Stats::SetPackedBool(25165, TRUE); // DEATHBIKE LIVERY SET
+			    Stats::SetPackedBool(25166, TRUE); // NOTHING
+			    Stats::SetPackedBool(25167, TRUE); // SASQUATCH HEAVY ARMORED FRONT
+			    Stats::SetPackedBool(25168, TRUE); // APOCALYPSE SCARAB BODY SPIKES
+			    Stats::SetPackedBool(25169, TRUE); // NIGHTMARE SCARAB BODY SPIKES
+			    Stats::SetPackedBool(25170, TRUE); // FUTURE SHOCK SCARAB BODY SPIKES
+			    Stats::SetPackedBool(25171, TRUE); // SASQUATCH HEAVY ARMORED HOOD
+			    Stats::SetPackedBool(25172, TRUE); // SASQUATCH MOHAWK EXHAUSTS
+			    Stats::SetPackedBool(25173, TRUE); // SCARAB LIGHT ARMOR
+			    Stats::SetPackedBool(25174, TRUE); // SCARAB REINFORCED ARMOR
+			    Stats::SetPackedBool(25175, TRUE); // SCARAB HEAVY ARMOR
+			    Stats::SetPackedBool(25176, TRUE); // SASQUATCH DUAL MOHAWK EXHAUSTS
+			    Stats::SetPackedBool(25177, TRUE); // SASQUATCH REAR SPEARS LEFT
+			    Stats::SetPackedBool(25178, TRUE); // OPTICS HEADSET MASK SET
+			    Stats::SetPackedBool(25179, TRUE); // DOMINATOR BODY SPIKES
+			    Stats::SetPackedBool(25180, TRUE); // NOTHING
+			    Stats::SetPackedBool(25181, TRUE); // SASQUATCH REAR SPEARS RIGHT
+			    Stats::SetPackedBool(25182, TRUE); // SASQUATCH SKULL CROSS
+			    Stats::SetPackedBool(25183, TRUE); // DOMINATOR LIGHT ARMOR
+			    Stats::SetPackedBool(25184, TRUE); // DOMINATOR REINFORCED ARMOR
+			    Stats::SetPackedBool(25185, TRUE); // DOMINATOR HEAVY ARMOR
+			    Stats::SetPackedBool(25186, TRUE); // SASQUATCH RAM SKULL CROSS
+			    Stats::SetPackedBool(25187, TRUE); // SASQUATCH BLONDE DOLL CROSS
+			    Stats::SetPackedBool(25188, TRUE); // IMPALER BOD SPIKES
+			    Stats::SetPackedBool(25189, TRUE); // SASQUATCH BRUNETTE DOLL CROSS
+			    Stats::SetPackedBool(25190, TRUE); // CERBERUS BASTIONED RAM-BAR
+			    Stats::SetPackedBool(25191, TRUE); // IMPALER LIGHT ARMOR
+			    Stats::SetPackedBool(25192, TRUE); // IMPALER REINFORCED ARMOR
+			    Stats::SetPackedBool(25193, TRUE); // IMPALER HEAVY ARMOR
+			    Stats::SetPackedBool(25194, TRUE); // CERBERUS BOLSTERED HOOD CAGE
+			    Stats::SetPackedBool(25195, TRUE); // CERBERUS REINFORCED RIOT HOOD
+			    Stats::SetPackedBool(25196, TRUE); // CERBERUS JUGGERNAUT HOOD
+			    Stats::SetPackedBool(25197, TRUE); // CERBERUS WAR SPEARHEAD
+			    Stats::SetPackedBool(25198, TRUE); // IMPERATOR BODY SPIKES
+			    Stats::SetPackedBool(25199, TRUE); // CERBERUS WAR SPEAR KIT
+
+			    Stats::SetPackedBool(25200, TRUE); // CERBERUS NADE SPEARHEADS
+			    Stats::SetPackedBool(25201, TRUE); // CERBERUS NADE SPEAR KIT
+			    Stats::SetPackedBool(25202, TRUE); // IMPERATOR LIGHT ARMOR
+			    Stats::SetPackedBool(25203, TRUE); // IMPERATOR REINFORCED ARMOR
+			    Stats::SetPackedBool(25204, TRUE); // IMPERATOR HEAVY ARMOR
+			    Stats::SetPackedBool(25205, TRUE); // NOTHING
+			    Stats::SetPackedBool(25206, TRUE); // BRUTUS SKULL SPEAR KIT
+			    Stats::SetPackedBool(25207, TRUE); // BRUTUS ARR SPEARHEADS
+			    Stats::SetPackedBool(25208, TRUE); // BRUTUS ARR SPEAR KIT
+			    Stats::SetPackedBool(25209, TRUE); // ZR380 BODY SPIKES
+			    Stats::SetPackedBool(25210, TRUE); // CERBERUS TRIDENTS
+			    Stats::SetPackedBool(25211, TRUE); // CERBERUS WASTELAND RITUAL
+
+			    Stats::SetPackedBool(25215, TRUE); // CERBERUS PANEL DETAIL
+			    Stats::SetPackedBool(25216, TRUE); // CERBERUS CRANE PIPES
+			    Stats::SetPackedBool(25217, TRUE); // ISSI CLASSIC BODY SPIKES
+			    Stats::SetPackedBool(25218, TRUE); // CERBERUS HEDGEHOG
+			    Stats::SetPackedBool(25219, TRUE); // CERBERUS HEDGEHOG MK2
+			    Stats::SetPackedBool(25220, TRUE); // BRUSER DIAMOND HEAVY ARMOR GRILLE
+			    Stats::SetPackedBool(25221, TRUE); // ISSI CLASSIC LIGHT ARMOR
+			    Stats::SetPackedBool(25222, TRUE); // ISSI CLASSIC REINFORCED ARMOR
+			    Stats::SetPackedBool(25223, TRUE); // ISSI CLASSIC HEAVY ARMOR
+			    Stats::SetPackedBool(25224, TRUE); // BRUISER TWIN OVAL EXHAUSTS
+			    Stats::SetPackedBool(25225, TRUE); // CLUCKIN' BELL MASK
+			    Stats::SetPackedBool(25226, TRUE); // BRUISER LONG TRIPLE REAR EXHAUSTS
+			    Stats::SetPackedBool(25227, TRUE); // BRUISER FRONT AND REAR TRIPLE EXHAUSTS
+			    Stats::SetPackedBool(25228, TRUE); // DEATHBIKE LIGHT ARMOR
+			    Stats::SetPackedBool(25229, TRUE); // DEATHBIKE REINFORCED ARMOR
+			    Stats::SetPackedBool(25230, TRUE); // DEATHBIKE HEAVY ARMOR
+			    Stats::SetPackedBool(25231, TRUE); // KINETIC MINES
+			    Stats::SetPackedBool(25232, TRUE); // BRUISER SKULL AND CROSS/PAINTED SKULL AND CROSS
+			    Stats::SetPackedBool(25233, TRUE); // SPIKE MINES
+			    Stats::SetPackedBool(25234, TRUE); // SLICK MINES
+			    Stats::SetPackedBool(25235, TRUE); // STICKY MINES
+			    Stats::SetPackedBool(25236, TRUE); // EMP MINES
+			    Stats::SetPackedBool(25237, TRUE); // RC BANDITO
+			    Stats::SetPackedBool(25238, TRUE); // NOTHING
+			    Stats::SetPackedBool(25239, TRUE); // NOTHING
+			    Stats::SetPackedBool(25240, TRUE); // NOTHING
+			    Stats::SetPackedBool(25241, TRUE); // NOTHING
+			    Stats::SetPackedBool(25242, TRUE); // NOTHING
+			    Stats::SetPackedBool(25243, TRUE); // NOTHING
+			    Stats::SetPackedBool(25244, TRUE); // ROBOT BODYSUIT SET
+			    Stats::SetPackedBool(25245, TRUE); // HERO BODYSUIT SET
+			    Stats::SetPackedBool(25246, TRUE); // SHAPES BODYSUIT SET
+			    Stats::SetPackedBool(25247, TRUE); // CONTOURS BODYSUIT SET
+			    Stats::SetPackedBool(25248, TRUE); // MARTIAN BODYSUIT SET
+			    Stats::SetPackedBool(25249, TRUE); // REPTILE BODYSUIT SET
+			    Stats::SetPackedBool(25250, TRUE); // GALAXY BODYSUIT SET
+			    Stats::SetPackedBool(25251, TRUE); // SPACE CREATURE OUTFIT SET
+			    Stats::SetPackedBool(25252, TRUE); // SPACE CYCLOPS OUTFIT SET
+			    Stats::SetPackedBool(25253, TRUE); // SPACE HORROR OUTFIT SET
+			    Stats::SetPackedBool(25254, TRUE); // RETRO SPACESUIT OUTFIT SET
+			    Stats::SetPackedBool(25255, TRUE); // ASTRONAUT OUTFIT SET
+			    Stats::SetPackedBool(25256, TRUE); // SPACE TRAVELER OUTFIT SET
+			    Stats::SetPackedBool(25257, TRUE); // POGO SPACE MONKEY OUTFIT
+			    Stats::SetPackedBool(25258, TRUE); // REPUBLICAN SPACE RANGER OUTFIT
+			    Stats::SetPackedBool(25259, TRUE); // DEATH BIRD MASK SET
+			    Stats::SetPackedBool(25260, TRUE); // STALKER MASK SET
+			    Stats::SetPackedBool(25261, TRUE); // RAIDER MASK SET
+			    Stats::SetPackedBool(25262, TRUE); // MARAUDER MASK SET
+			    Stats::SetPackedBool(25263, TRUE); // PACO THE TACO MASK
+			    Stats::SetPackedBool(25264, TRUE); // BURGER SHOT MASK
+			    Stats::SetPackedBool(25265, TRUE); // SPACE RANGER T-SHIRT SET
+			    Stats::SetPackedBool(25266, TRUE); // SPACE RANGER LOGO T-SHIRT SET
+			    Stats::SetPackedBool(25267, TRUE); // PHASES T-SHIRT SET
+			    Stats::SetPackedBool(25268, TRUE); // ROCKET SPLASH T-SHIRT SET
+			    Stats::SetPackedBool(25269, TRUE); // TWO MOONS T-SHIRT SET
+			    Stats::SetPackedBool(25270, TRUE); // FREEDOM ISNT FREE T-SHIRT SET
+			    Stats::SetPackedBool(25271, TRUE); // APOCALYPSE RAIDER TOP SET
+			    Stats::SetPackedBool(25272, TRUE); // APOCALYPSE LEATHER FEATHER TOP SET
+			    Stats::SetPackedBool(25273, TRUE); // AP MERCENARY VEST SET
+			    Stats::SetPackedBool(25274, TRUE); // BENEDICT LIGHT BEER HOODIE
+			    Stats::SetPackedBool(25275, TRUE); // TACO BOMB HOODIE
+			    Stats::SetPackedBool(25276, TRUE); // CLUCKIN' BELL LOGO BOMB HOODIE
+			    Stats::SetPackedBool(25277, TRUE); // PATRIOT BEER HOODIE
+			    Stats::SetPackedBool(25278, TRUE); // [removed]WASSER HOODIE
+			    Stats::SetPackedBool(25279, TRUE); // BURGER SHOT HOODIE
+			    Stats::SetPackedBool(25280, TRUE); // CORN DOG HOODIE
+			    Stats::SetPackedBool(25281, TRUE); // DONUT HOODIE
+			    Stats::SetPackedBool(25282, TRUE); // LUCKY PLUCKER HOODIE
+			    Stats::SetPackedBool(25283, TRUE); // LOGGER LIGHT HOODIE
+			    Stats::SetPackedBool(25284, TRUE); // PIZZA HOODIE
+			    Stats::SetPackedBool(25285, TRUE); // FRIES HOODIE
+			    Stats::SetPackedBool(25286, TRUE); // MUSHROOMS HOODIE
+			    Stats::SetPackedBool(25287, TRUE); // REDWOOD HOODIE
+			    Stats::SetPackedBool(25288, TRUE); // ECOLA INFECTIOUS HOODIE
+			    Stats::SetPackedBool(25289, TRUE); // CLUCKIN' BELL LOGO HOODIE
+			    Stats::SetPackedBool(25290, TRUE); // LEMONS HOODIE
+			    Stats::SetPackedBool(25291, TRUE); // TACOS HOODIE
+
+				Stats::SetPackedBool(25292, TRUE); // BURGER SHOT PATTERN SWEATER
+			    Stats::SetPackedBool(25293, TRUE); // BURGER SHOT LOGO SWEATER
+			    Stats::SetPackedBool(25294, TRUE); // BURGER SHOT SWEATER
+			    Stats::SetPackedBool(25295, TRUE); // SPRUNK SWEATER SET
+			    Stats::SetPackedBool(25296, TRUE); // WIGWAM SWEATER
+			    Stats::SetPackedBool(25297, TRUE); // TACO BOMB CHILLI SWEATER
+			    Stats::SetPackedBool(25298, TRUE); // TACO BOMB SWEATER SET
+			    Stats::SetPackedBool(25299, TRUE); // CLUCIN BELL LOGO BOMB SWEATER
+
+			    Stats::SetPackedBool(25300, TRUE); // BLUE CLUCKIN' BELL SWEATER
+			    Stats::SetPackedBool(25301, TRUE); // BLACK CLUCKIN BELL SWEATER
+			    Stats::SetPackedBool(25302, TRUE); // ECOLA SWEATER SET
+			    Stats::SetPackedBool(25303, TRUE); // METV SWEATER SET
+			    Stats::SetPackedBool(25304, TRUE); // HEAT SWEATER SET
+			    Stats::SetPackedBool(25305, TRUE); // DEGENATRON SWEATER
+			    Stats::SetPackedBool(25306, TRUE); // [removed]WASSER SWEATER SET
+			    Stats::SetPackedBool(25307, TRUE); // BOLT BURGER SWEATER
+			    Stats::SetPackedBool(25308, TRUE); // LUCKY PLUCKER LOGO BOMB SWEATER
+			    Stats::SetPackedBool(25309, TRUE); // LUCKY PLUCKER SWEATER
+			    Stats::SetPackedBool(25310, TRUE); // BURGER SHOT HOCKEY SHIRT SET
+			    Stats::SetPackedBool(25311, TRUE); // CLUCKIN BELL HOCKEY SHIRT SET
+			    Stats::SetPackedBool(25312, TRUE); // WIGWAM HOCKEY SHIRT
+			    Stats::SetPackedBool(25313, TRUE); // REDWOOD HOCKEY SHIRT
+			    Stats::SetPackedBool(25314, TRUE); // BEAN MACHINE HOCKEY SHIRT
+			    Stats::SetPackedBool(25315, TRUE); // RED ECOLA HOCKEY SHIRT
+			    Stats::SetPackedBool(25316, TRUE); // BLACK ECOLA HOCKEY SHIRT
+			    Stats::SetPackedBool(25317, TRUE); // PHAT CHIPS HOCKEY SHIRT SET
+			    Stats::SetPackedBool(25318, TRUE); // SPRUNK HOCKEY SHIRT SET
+			    Stats::SetPackedBool(25319, TRUE); // SPRUNK CLASSIC HOCKEY SHIRT
+			    Stats::SetPackedBool(25320, TRUE); // BURGER SHOT BLACK TEE
+			    Stats::SetPackedBool(25321, TRUE); // BURGER SHOT LOGO TEE
+			    Stats::SetPackedBool(25322, TRUE); // CLUCKIN' BELL LOGO TEE
+			    Stats::SetPackedBool(25323, TRUE); // CLUCKIN' BELL BLACK TEE
+			    Stats::SetPackedBool(25324, TRUE); // CLUCKIN' BELL FILLED LOGO TEE
+			    Stats::SetPackedBool(25325, TRUE); // ECOLA BLACK TEE
+			    Stats::SetPackedBool(25326, TRUE); // LUCKY PLUCKER TEE
+			    Stats::SetPackedBool(25327, TRUE); // [removed]WASSER TEE
+			    Stats::SetPackedBool(25328, TRUE); // SPRUNK TEE
+			    Stats::SetPackedBool(25329, TRUE); // TACO BOMB CHILLI TEE
+			    Stats::SetPackedBool(25330, TRUE); // TACO BOMB BLACK TEE
+			    Stats::SetPackedBool(25331, TRUE); // UP-N-ATOM HAMBURGERS TEE
+			    Stats::SetPackedBool(25332, TRUE); // UP-N-ATOM LOGO TEE
+			    Stats::SetPackedBool(25333, TRUE); // WIGWAM TEE
+			    Stats::SetPackedBool(25334, TRUE); // DEGENATRON ROYGBIV TEE
+			    Stats::SetPackedBool(25335, TRUE); // CNT TEE
+			    Stats::SetPackedBool(25336, TRUE); // QUB3D TEE
+			    Stats::SetPackedBool(25337, TRUE); // RIGHTEOUS SLAUGHTER TEE
+			    Stats::SetPackedBool(25338, TRUE); // SPACE MONKEY FULL TEE
+			    Stats::SetPackedBool(25339, TRUE); // SPACE MONKEY PIXEL TEE
+			    Stats::SetPackedBool(25340, TRUE); // SPACE MONKEY ENEMY TEE
+			    Stats::SetPackedBool(25341, TRUE); // BURGER SHOOT BLEEDER TEE
+			    Stats::SetPackedBool(25342, TRUE); // HEAT RISES TEE
+			    Stats::SetPackedBool(25343, TRUE); // SPACE MONKEY LOGO TEE
+			    Stats::SetPackedBool(25344, TRUE); // SPACE MONKEY SUIT TEE
+			    Stats::SetPackedBool(25345, TRUE); // SPACE MONKEY ACE TEE
+			    Stats::SetPackedBool(25346, TRUE); // SPACE MONKEY MOSIAC TEE
+			    Stats::SetPackedBool(25347, TRUE); // BOLT BURGER LOGO TEE
+			    Stats::SetPackedBool(25348, TRUE); // EXSORBEO 720 TEE
+			    Stats::SetPackedBool(25349, TRUE); // HEAT BALL LOGO T-SHIRT SET
+			    Stats::SetPackedBool(25350, TRUE); // HEAT LOGO T-SHIRT SET
+			    Stats::SetPackedBool(25351, TRUE); // HEAT POP ART LOGO SET
+			    Stats::SetPackedBool(25352, TRUE); // METV LOGO T-SHIRT SET
+			    Stats::SetPackedBool(25353, TRUE); // METV 90S T-SHIRT SET
+			    Stats::SetPackedBool(25354, TRUE); // BURGER SHOT TARGET TEE
+			    Stats::SetPackedBool(25355, TRUE); // ECOLA INFECTIOUS TEE
+			    Stats::SetPackedBool(25356, TRUE); // UP-N-ATOM WHITE TEE
+			    Stats::SetPackedBool(25357, TRUE); // JOCK CRANLEY PATRIOT TEE
+			    Stats::SetPackedBool(25358, TRUE); // CCC TV TEE
+			    Stats::SetPackedBool(25359, TRUE); // DEGENATRON LOGO TEE
+			    Stats::SetPackedBool(25360, TRUE); // ECOLA WHITE TEE
+			    Stats::SetPackedBool(25361, TRUE); // ECOLA PASS IT ON TEE
+			    Stats::SetPackedBool(25362, TRUE); // TW@ TEE
+			    Stats::SetPackedBool(25363, TRUE); // CHAIN PANTS SET
+			    Stats::SetPackedBool(25364, TRUE); // CHAIN SHORTS SET
+			    Stats::SetPackedBool(25365, TRUE); // LEATHER STITCH PANTS SET
+			    Stats::SetPackedBool(25366, TRUE); // RAIDER PANTS SET
+			    Stats::SetPackedBool(25367, TRUE); // LIGHT UPS SHOES SET
+			    Stats::SetPackedBool(25368, TRUE); // FLAMING SKULL BOOTS SET
+			    Stats::SetPackedBool(25369, TRUE); // SKULL HARNESS BOOTS SET
+			    Stats::SetPackedBool(25370, TRUE); // PLATED BOOTS SET
+			    Stats::SetPackedBool(25371, TRUE); // BURGER SHOT FOOD CAP SET
+			    Stats::SetPackedBool(25372, TRUE); // BRUSIER DOUBLE CROSS RAM SKULL/PAINTED RAM SKULL AND CROSS
+			    Stats::SetPackedBool(25373, TRUE); // BURGER SHOT LOGOS CAP
+			    Stats::SetPackedBool(25374, TRUE); // BURGER SHOT BULLESYE CAP
+			    Stats::SetPackedBool(25375, TRUE); // CLUCKIN BELL LOGOS CAP SET
+			    Stats::SetPackedBool(25376, TRUE); // BRUISER CROSS AND SKULL LARGE BLADE KIT/PAINTED CROSS AND SKULL LARGE BLADE KIT
+			    Stats::SetPackedBool(25377, TRUE); // CLUCKIN' BELL LOGOS CAP
+			    Stats::SetPackedBool(25378, TRUE); // HOTDOGS CAP SET
+			    Stats::SetPackedBool(25379, TRUE); // TACO BOMB CAP SET
+			    Stats::SetPackedBool(25380, TRUE); // BRUISER RAM SKULL NADE KIT
+			    Stats::SetPackedBool(25381, TRUE); // BRUISER RAM SKULL MEDIEVAL KIT/PAINTED SKULL MEDIEVAL KIT
+			    Stats::SetPackedBool(25382, TRUE); // LUCKY PLUCKER CAP SET
+			    Stats::SetPackedBool(25383, TRUE); // LUCKY PLUCKER LOGOS CAP SET
+			    Stats::SetPackedBool(25384, TRUE); // BRUSIER RAM SKULL MEDIEVAL MADNESS/PAINTED RAM SKULL MEDIEVAL MADNESS
+			    Stats::SetPackedBool(25385, TRUE); // BRUSIER BARRELS AND JUNK
+			    Stats::SetPackedBool(25386, TRUE); // [removed]WASSER CAP SET
+			    Stats::SetPackedBool(25387, TRUE); // BRUISER SKELETON CAGE
+			    Stats::SetPackedBool(25388, TRUE); // BRUISER LIGHT COVER SET
+			    Stats::SetPackedBool(25389, TRUE); // BRUISER SPARE TIRE
+			    Stats::SetPackedBool(25390, TRUE); // TACO BOMB HAT
+			    Stats::SetPackedBool(25391, TRUE); // BURGER SHOT CANVAS HAT
+			    Stats::SetPackedBool(25392, TRUE); // CLUCKIN' BELL CANVAS HAT
+			    Stats::SetPackedBool(25393, TRUE); // HOTDOG CANVAS HAT
+			    Stats::SetPackedBool(25394, TRUE); // SHUNT BOOST
+			    Stats::SetPackedBool(25395, TRUE); // BOOST 20% UPGRADE
+			    Stats::SetPackedBool(25396, TRUE); // BOOST 60% UPGRADE
+			    Stats::SetPackedBool(25397, TRUE); // BOOST 100% UPGRADE
+			    Stats::SetPackedBool(25398, TRUE); // JUMP 20% UPGRADE
+			    Stats::SetPackedBool(25399, TRUE); // JUMP 60% UPGRADE
+			    Stats::SetPackedBool(25400, TRUE); // JUMP 100% UPGRADE
+			    Stats::SetPackedBool(25401, TRUE); // NOTHING
+			    Stats::SetPackedBool(25402, TRUE); // NOTHING
+			    Stats::SetPackedBool(25403, TRUE); // NOTHING
+			    Stats::SetPackedBool(25404, TRUE); // NOTHING
+			    Stats::SetPackedBool(25405, TRUE); // NTHING
+			    Stats::SetPackedBool(25406, TRUE); // NOTHING
+			    Stats::SetPackedBool(25407, TRUE); // BRUISER CRATES
+			    Stats::SetPackedBool(25408, TRUE); // BRUISER LARGE BURGER
+			    Stats::SetPackedBool(25409, TRUE); // BRUISER LARGE DONUTS
+			    Stats::SetPackedBool(25410, TRUE); // BRUISER LARGE ECOLA CAN
+			    Stats::SetPackedBool(25411, TRUE); // SLAMVAN REAR BUMPER REINFORCED ARMOR
+			    Stats::SetPackedBool(25412, TRUE); // SLAMVAN REAR BUMPER HEAVY ARMOR
+			    Stats::SetPackedBool(25413, TRUE); // SLAMVAN BASIC SPEARS
+			    Stats::SetPackedBool(25414, TRUE); // SLAMVAN BATTLE CROSS
+			    Stats::SetPackedBool(25415, TRUE); // SLAMVAN WAR CROSS
+			    Stats::SetPackedBool(25416, TRUE); // SLAMVAN BATTLE SPEARS
+			    Stats::SetPackedBool(25417, TRUE); // SLAMVAN WAR SPEARS
+			    Stats::SetPackedBool(25418, TRUE); // SLAMVAN KNIFE SPEAR
+			    Stats::SetPackedBool(25419, TRUE); // SLAMVAN FORK N KNIFE
+			    Stats::SetPackedBool(25420, TRUE); // BRUTUS GASSED UP BAR
+			    Stats::SetPackedBool(25421, TRUE); // BRUTUS ROAD BLOCK
+			    Stats::SetPackedBool(25422, TRUE); // BRUTUS JUNK TRUNK
+			    Stats::SetPackedBool(25423, TRUE); // BRUTUS FIRE SPLITTERS
+			    Stats::SetPackedBool(25424, TRUE); // BRUTUS HELL CHAMBERS
+			    Stats::SetPackedBool(25425, TRUE); // BRUTUS HEAVY ARMORED ARCHES
+			    Stats::SetPackedBool(25426, TRUE); // BRUTUS TOOTHY SET
+			    Stats::SetPackedBool(25427, TRUE); // BRUTUS ARMORED SPARES
+			    Stats::SetPackedBool(25428, TRUE); // BRUTUS ARMORED SUPPLIES
+			    Stats::SetPackedBool(25429, TRUE); // BRUTUS ETERNALLY CHAINED
+			    Stats::SetPackedBool(25430, TRUE); // BRUTUS SPEARED
+			    Stats::SetPackedBool(25431, TRUE); // SCARAB FULL ARMOR
+			    Stats::SetPackedBool(25432, TRUE); // SCARAB SECONDARY FULL ARM
+			    Stats::SetPackedBool(25433, TRUE); // SCARAB CARBON FULL ARMOR
+			    Stats::SetPackedBool(25434, TRUE); // SCARAB AIR FILTRATION VENTS
+			    Stats::SetPackedBool(25435, TRUE); // SCARAB RUSTY FULL ARMOR
+			    Stats::SetPackedBool(25436, TRUE); // SCARAB REAR WAR POLES
+			    Stats::SetPackedBool(25437, TRUE); // SCARAB REAR SPEAR
+			    Stats::SetPackedBool(25438, TRUE); // SCARAB SKULL CROSS
+			    Stats::SetPackedBool(25439, TRUE); // SCARAB SKULL CROSS W/ WAR POLES
+			    Stats::SetPackedBool(25440, TRUE); // SCARAB SKULL CROSS W/ SPEARS
+			    Stats::SetPackedBool(25441, TRUE); // SCARAB LOAD'A WAR POLES
+			    Stats::SetPackedBool(25442, TRUE); // SCARAB LOAD'A SPEARS
+			    Stats::SetPackedBool(25443, TRUE); // SCARAB MEGA COVER SET
+			    Stats::SetPackedBool(25444, TRUE); // SCARAB ARMORED MEGA COVER SET
+			    Stats::SetPackedBool(25445, TRUE); // SCARAB CAGE
+			    Stats::SetPackedBool(25446, TRUE); // SCARAB PLATED CAGE
+			    Stats::SetPackedBool(25447, TRUE); // SCARAB LIVERY ARMOR
+			    Stats::SetPackedBool(25448, TRUE); // SCARAB PRIMARY FULL ARMOR
+			    Stats::SetPackedBool(25449, TRUE); // SCARAB LIVERY FULL ARMOR
+			    Stats::SetPackedBool(25450, TRUE); // SCARAB CARBON FULL ARMOR
+			    Stats::SetPackedBool(25451, TRUE); // SCARAB MATTE FULL AMOROR
+			    Stats::SetPackedBool(25452, TRUE); // SCARAB FUTURISTIC PANEL ARMOR
+			    Stats::SetPackedBool(25453, TRUE); // SCARAB PLATED LIVERY FULL ARMOR
+			    Stats::SetPackedBool(25454, TRUE); // DOMINATOR TRIPLE FRONT EXHAUSTS
+			    Stats::SetPackedBool(25455, TRUE); // DOMINATOR HORN EXHAUSTS
+			    Stats::SetPackedBool(25456, TRUE); // DOMINATOR TRIPLE REAR EXHAUSTS
+			    Stats::SetPackedBool(25457, TRUE); // DOMINATOR REAR POINTING WAR POLES
+			    Stats::SetPackedBool(25458, TRUE); // DOMINATOR FRONT FACING AXES
+			    Stats::SetPackedBool(25459, TRUE); // DOMINATOR FROT FACING SPEARS
+			    Stats::SetPackedBool(25460, TRUE); // DOMINATOR UNHOLY CROSS
+			    Stats::SetPackedBool(25461, TRUE); // DOMINATOR BRUTAL UNHOLY CROSS
+			    Stats::SetPackedBool(25462, TRUE); // DOMINATOR BUNCH OF WAR POLES
+			    Stats::SetPackedBool(25463, TRUE); // DOMINATOR FRONT POINTING WAR POLES
+			    Stats::SetPackedBool(25464, TRUE); // DOMINATOR SKULL HOOD
+			    Stats::SetPackedBool(25465, TRUE); // IMPALER GOT POLE?
+			    Stats::SetPackedBool(25466, TRUE); // IMPALER GET MEDIEVAL
+			    Stats::SetPackedBool(25467, TRUE); // IMPALER WASTELAND PEACOCK
+			    Stats::SetPackedBool(25468, TRUE); // IMPALER SHISH-KEBABBED
+			    Stats::SetPackedBool(25469, TRUE); // IMPALER IT'S A STICK UP
+			    Stats::SetPackedBool(25470, TRUE); // IMPALER THE DARK AGES
+			    Stats::SetPackedBool(25471, TRUE); // IMPALER DOLLY SPEARTON
+			    Stats::SetPackedBool(25472, TRUE); // IMPALER WAR POLES
+			    Stats::SetPackedBool(25473, TRUE); // IMPERATOR SKAKOTAN EXHAUST
+			    Stats::SetPackedBool(25474, TRUE); // IMPERATOR WHOLE LOTTA POLE
+			    Stats::SetPackedBool(25475, TRUE); // IMPERATOR GETTING MEDIEVAL
+			    Stats::SetPackedBool(25476, TRUE); // IMPERATOR IT'S A STICK UP
+			    Stats::SetPackedBool(25477, TRUE); // IMPERATOR BOOM ON A SPEAR
+			    Stats::SetPackedBool(25478, TRUE); // IMPERATOR VILLAGE JUSTICE
+			    Stats::SetPackedBool(25479, TRUE); // IMPERATOR WASTELAND PEACOCK
+			    Stats::SetPackedBool(25480, TRUE); // IMPERATOR SHISH-KEBABBED
+			    Stats::SetPackedBool(25481, TRUE); // IMPERATOR JUNK PIPES
+			    Stats::SetPackedBool(25482, TRUE); // IMPERATOR MEGA ZORST
+			    Stats::SetPackedBool(25483, TRUE); // IMPERATOR RIDE 'EM COWBOY
+			    Stats::SetPackedBool(25484, TRUE); // IMPERATOR CANNIBAL TOTEM
+			    Stats::SetPackedBool(25485, TRUE); // ZR380 SIDE EXHAUSTS
+			    Stats::SetPackedBool(25486, TRUE); // ZR380 SPIKE EXHAUSTS
+			    Stats::SetPackedBool(25487, TRUE); // ZR380 MISMATCH HOOD
+			    Stats::SetPackedBool(25488, TRUE); // ZR380 RAY GUN EXHAUSTS
+			    Stats::SetPackedBool(25489, TRUE); // ZR380 SPRINT CAR WING
+			    Stats::SetPackedBool(25490, TRUE); // ZR380 ARMOR PLATING MK3
+			    Stats::SetPackedBool(25491, TRUE); // ZR380 REAR PHANTOM COVER
+			    Stats::SetPackedBool(25492, TRUE); // ISSI CLASSIC HEAVY DUTY RAM BAR
+			    Stats::SetPackedBool(25493, TRUE); // ISSI CLASSIC SPEAR
+			    Stats::SetPackedBool(25494, TRUE); // ISSI CLASSIC LEFT WAR POLES
+			    Stats::SetPackedBool(25495, TRUE); // ISSI CLASSIC DOLLY SPEARTON
+			    Stats::SetPackedBool(25496, TRUE); // ISSI CLASSIC RIGHT WAR POLES
+			    Stats::SetPackedBool(25497, TRUE); // ISSI CLASSIC SKULL CROSS
+			    Stats::SetPackedBool(25498, TRUE); // ISSI CLASSIC DUAL SPARTON SET
+			    Stats::SetPackedBool(25499, TRUE); // ISSI CLASSIC DUAL WAR POLES
+
+			    Stats::SetPackedBool(25500, TRUE); // ISSI CLASSIC DOLLY SPEARTON W/ WAR POLE
+			    Stats::SetPackedBool(25501, TRUE); // ISSI CLASSIC SKULL CROSS W/ SPEAR
+			    Stats::SetPackedBool(25502, TRUE); // ISSI CLASSIC SKULL CROSS W/ WAR POLE
+			    Stats::SetPackedBool(25503, TRUE); // ISSI CLASSIC SKULL CROSS W/ DOLLY
+			    Stats::SetPackedBool(25504, TRUE); // ISSI CLASSIC LEFT SPEAR
+			    Stats::SetPackedBool(25505, TRUE); // ISSI CLASSIC RIGHT SPEAR
+			    Stats::SetPackedBool(25506, TRUE); // ISSI CLASSIC LEFT SKULL AXE
+			    Stats::SetPackedBool(25507, TRUE); // ISSI CLASSIC RIGHT AXE
+			    Stats::SetPackedBool(25508, TRUE); // ISSI CLASSIC DUAL SPEARS
+			    Stats::SetPackedBool(25509, TRUE); // ISSI CLASSIC SPEAR AND AXE
+			    Stats::SetPackedBool(25510, TRUE); // ISSI CLASSIC AXE AND SPEAR
+			    Stats::SetPackedBool(25511, TRUE); // ISSI CLASSIC DUAL AXES
+			    Stats::SetPackedBool(25512, TRUE); // KIFFLOM TEE
+
+				Stats::SetPackedBool(9440, TRUE);  // Vivisection Top
+			    Stats::SetPackedBool(9426, TRUE);  // Base5 Top
+			    Stats::SetPackedBool(9430, TRUE);  // Crocs Bar Top
+			    Stats::SetPackedBool(9428, TRUE);  // BOBO Top
+			    Stats::SetPackedBool(9434, TRUE);  // Homies Sharp Top
+			    Stats::SetPackedBool(9439, TRUE);  // Vinyl Countdown Top
+			    Stats::SetPackedBool(9427, TRUE);  // [removed]'n' Dog Food Top
+			    Stats::SetPackedBool(3593, TRUE);  // Statue of Happiness Top
+			    Stats::SetPackedBool(9438, TRUE);  // Victory Fist Top
+			    Stats::SetPackedBool(7473, TRUE);  // Manopause T-Shirt
+			    Stats::SetPackedBool(7471, TRUE);  // Golf T-Shirt
+			    Stats::SetPackedBool(7474, TRUE);  // Marlowe T-Shirt
+			    Stats::SetPackedBool(7479, TRUE);  // Toe Shoes T-Shirt
+			    Stats::SetPackedBool(7476, TRUE);  // Pacific Bluffs T-Shirt
+			    Stats::SetPackedBool(7480, TRUE);  // Crest T-Shirt
+			    Stats::SetPackedBool(7478, TRUE);  // Tennis T-Shirt
+			    Stats::SetPackedBool(7477, TRUE);  // Prolaps T-Shirt
+			    Stats::SetPackedBool(7469, TRUE);  // Drone T-Shirt
+			    Stats::SetPackedBool(7468, TRUE);  // Bahama Mamas
+			    Stats::SetPackedBool(7467, TRUE);  // Accountant T-Shirt
+			    Stats::SetPackedBool(7481, TRUE);  // Vanilla Unicorn T-Shirt
+			    Stats::SetPackedBool(7472, TRUE);  // Maisonette T-Shirt
+			    Stats::SetPackedBool(34505, TRUE); // Black LD Organics Tee
+			    Stats::SetPackedBool(34375, TRUE); // White LD Organics Tee
+			    Stats::SetPackedBool(36717, TRUE); // Yeti Year the Rabbit Tee
+			    Stats::SetPackedBool(9470, TRUE);  // Channel X Tee
+			    Stats::SetPackedBool(9437, TRUE);  // K-Rose Top
+			    Stats::SetPackedBool(9429, TRUE);  // Bounce FM Top
+			    Stats::SetPackedBool(9436, TRUE);  // KJAH Radio Top
+			    Stats::SetPackedBool(9435, TRUE);  // KDST Top
+			    Stats::SetPackedBool(9433, TRUE);  // Flash FM Top
+			    Stats::SetPackedBool(9431, TRUE);  // Emotion 98.3 Top
+			    Stats::SetPackedBool(9432, TRUE);  // Fever 105 Top
+			    Stats::SetPackedBool(9466, TRUE);  // Blonded LS 97.8 FM Tee
+			    Stats::SetPackedBool(9478, TRUE);  // WorldWide FM Tee
+			    Stats::SetPackedBool(9467, TRUE);  // West Coast Talk Radio Tee
+			    Stats::SetPackedBool(9471, TRUE);  // Vinewood Blvd Radio Tee
+			    Stats::SetPackedBool(9476, TRUE);  // The Lab Tee
+			    Stats::SetPackedBool(9480, TRUE);  // Blue Ark Tee
+			    Stats::SetPackedBool(9473, TRUE);  // Space 103.2 Tee
+			    Stats::SetPackedBool(9468, TRUE);  // Radio Mirror Park Tee
+			    Stats::SetPackedBool(9464, TRUE);  // Radio LS Tee
+			    Stats::SetPackedBool(9463, TRUE);  // Non-Stop-Pop FM Tee
+			    Stats::SetPackedBool(9462, TRUE);  // LS UR Tee
+			    Stats::SetPackedBool(9479, TRUE);  // Soulwax FM Tee
+			    Stats::SetPackedBool(9469, TRUE);  // Rebel Radio Tee
+			    Stats::SetPackedBool(9472, TRUE);  // FlyLo FM Tee
+			    Stats::SetPackedBool(9475, TRUE);  // East Los FM Tee
+			    Stats::SetPackedBool(9481, TRUE);  // Blaine County Radio Tee
+			    Stats::SetPackedBool(9474, TRUE);  // West Coast Classics Tee
+			    Stats::SetPackedBool(9477, TRUE);  // The Lowdown 91.1 Tee
+			    Stats::SetPackedBool(9465, TRUE);  // LS Rock Radio Tee
+
+
+
+
 		    }
 	    };
 
@@ -1794,5 +2693,5 @@ namespace YimMenu::Features
 	static unlock_collectables_snowman _unlock_collectables_snowman{"unlockcollectablessnowman", "Unlock Collectables Snowman", "Unlocks Snowman"};
 	static unlock_LSCM _unlock_LSCM{"unlocklscm", "Unlock LSCM", "Unlocks LSCM"};
 	static Resupply_business _Resupply_business{"resupplybusiness", "Resupply Business", "Resupplies all Businesses"};
-
+	static SupplyCooldownBypass _SupplyCooldownBypass{"supplycooldownbypass", "Supply Cooldown Bypass", "Bypasses Supply Cooldown"};
 }

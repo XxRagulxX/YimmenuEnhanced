@@ -69,6 +69,7 @@ namespace YimMenu::Submenus
 		misc->AddItem(std::make_shared<CommandItem>("unlockcollectablessnowman"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlocklscm"_J));
 		business->AddItem(std::make_shared<CommandItem>("resupplybusiness"_J));
+		business->AddItem(std::make_shared<BoolCommandItem>("supplycooldownbypass"_J));
 		shopping->AddItem(vehiclesGroup);
 		missions->AddItem(generalGroup);
 		unlocker->AddItem(awards);
