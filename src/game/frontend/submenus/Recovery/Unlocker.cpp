@@ -9,30 +9,6 @@
 
 namespace YimMenu::Features
 {
-	void BuyWeapon(YimMenu::joaat_t weaponHash)
-	{
-		// End any existing basket to avoid conflicts
-		if (NETSHOPPING::NET_GAMESERVER_BASKET_IS_ACTIVE())
-		{
-			NETSHOPPING::NET_GAMESERVER_BASKET_END();
-		}
-
-		int transactionId = 0;
-		if (!NETSHOPPING::NET_GAMESERVER_BASKET_START(&transactionId, Joaat("CATEGORY_WEAPON"), Joaat("NET_SHOP_ACTION_SPEND"), 4))
-			return;
-
-		// Leak 32 bytes as in Lua — do NOT free this memory or you'll crash.
-		std::uint64_t* basketItem = new std::uint64_t[4];
-
-		basketItem[0] = weaponHash;
-		basketItem[1] = 0;
-		basketItem[2] = NETSHOPPING::NET_GAMESERVER_GET_PRICE(weaponHash, Joaat("CATEGORY_WEAPON"), 1);
-		basketItem[3] = 1;
-
-		NETSHOPPING::NET_GAMESERVER_BASKET_ADD_ITEM(basketItem, 1);
-		NETSHOPPING::NET_GAMESERVER_CHECKOUT_START(transactionId);
-	}
-
 	class BunkerResearch : public Command
 	{
 		using Command::Command;
@@ -1146,15 +1122,118 @@ namespace YimMenu::Features
 			Stats::SetPackedBool(32275, TRUE); // Circoloco Tee
 			Stats::SetPackedBool(34382, TRUE); // Pacific Standard Sweater
 			Stats::SetPackedBool(28231, TRUE); // BLACK SCUBA OUTFIT
-
-
-
-
-
-
-
-
-
+			Stats::SetPackedBool(34394, TRUE); // Bigness Hand-drawn Dome
+			Stats::SetPackedBool(34395, TRUE); // Grimy Stitched
+			Stats::SetPackedBool(34396, TRUE); // Pale Stitched
+			Stats::SetPackedBool(34397, TRUE); // Gray Cracked Puppet
+			Stats::SetPackedBool(34398, TRUE); // Blushed Cracked Puppet
+			Stats::SetPackedBool(34399, TRUE); // Green Emissive Lady Liberty
+			Stats::SetPackedBool(34401, TRUE); // Gold Beat Off Earphones
+			Stats::SetPackedBool(34402, TRUE); // White Spiked Gauntlet
+			Stats::SetPackedBool(34403, TRUE); // Manor Geo Hoodie
+			Stats::SetPackedBool(34404, TRUE); // Pumpkin Hoodie
+			Stats::SetPackedBool(34405, TRUE); // LS Smoking Jacket
+			Stats::SetPackedBool(34406, TRUE); // Hand-Drawn Biker Bomber
+			Stats::SetPackedBool(34407, TRUE); // Have You Seen Me? Sweater
+			Stats::SetPackedBool(34408, TRUE); // Still Slipping Tie-dye Tee
+			Stats::SetPackedBool(34409, TRUE); // Manor Geo Track Pants
+			Stats::SetPackedBool(34410, TRUE); // Apricot Perseus Track Pants
+			Stats::SetPackedBool(36703, TRUE); // Dark Blue Vinyl
+			Stats::SetPackedBool(36704, TRUE); // Dark Blue Vinyl Cut
+			Stats::SetPackedBool(36717, TRUE); // Yeti Year of the Rabbit Tee
+			Stats::SetPackedBool(36718, TRUE); // Gray Yeti Combat Shirt
+			Stats::SetPackedBool(36737, TRUE); // Broker Checkerboard Tee
+			Stats::SetPackedBool(36738, TRUE); // Yeti Ape Tee
+			Stats::SetPackedBool(36751, TRUE); // Gray Yeti Battle Pants
+			Stats::SetPackedBool(36752, TRUE); // Broker Checkerboard Cargos
+			Stats::SetPackedBool(36759, TRUE); // Noh Painted Rabbit
+			Stats::SetPackedBool(36763, TRUE); // Red Manor Round Brow Shades
+			Stats::SetPackedBool(36768, TRUE); // The Red-nosed
+			Stats::SetPackedBool(36769, TRUE); // The Nutcracker
+			Stats::SetPackedBool(36782, TRUE); // Zebra Dome
+			Stats::SetPackedBool(36783, TRUE); // Purple Snakeskin Spiked
+			Stats::SetPackedBool(36784, TRUE); // Manor Surano Jacket
+			Stats::SetPackedBool(41885, TRUE); // PRB Shorts
+			Stats::SetPackedBool(41886, TRUE); // Bleedin' Tasty Shorts
+			Stats::SetPackedBool(41887, TRUE); // Cluckin' Bell Cuffed Sweats
+			Stats::SetPackedBool(41888, TRUE); // Santo Capra x Manor Chinos
+			Stats::SetPackedBool(41889, TRUE); // Hinterland Shorts
+			Stats::SetPackedBool(41890, TRUE); // Monochrome Striped Suit
+			Stats::SetPackedBool(41891, TRUE); // Skeleton Bodysuit
+			Stats::SetPackedBool(41892, TRUE); // Gray Camo Yeti Suit
+			Stats::SetPackedBool(41893, TRUE); // Festive Flannel Suit
+			Stats::SetPackedBool(41895, TRUE); // The Fist Fury (Female)
+			Stats::SetPackedBool(41896, TRUE); // Love Fist Shortsleeve
+			Stats::SetPackedBool(41903, TRUE); // Republican Space Rangers Tee
+			Stats::SetPackedBool(41904, TRUE); // You Own Los Santos Hoodie
+			Stats::SetPackedBool(41905, TRUE); // PRB Hoodie
+			Stats::SetPackedBool(41906, TRUE); // Cluckin' Bell Hoodie
+			Stats::SetPackedBool(41907, TRUE); // Bleedin' Tasty Hoodie
+			Stats::SetPackedBool(41908, TRUE); // Rockstar Warp Hoodie
+			Stats::SetPackedBool(41909, TRUE); // Santo Capra x Manor Chore
+			Stats::SetPackedBool(41910, TRUE); // Rockstar Gothic Sweater
+			Stats::SetPackedBool(41911, TRUE); // Rockstar Red Logo Sweater
+			Stats::SetPackedBool(41912, TRUE); // Rockstar Atomic Logo Sweater
+			Stats::SetPackedBool(41913, TRUE); // Rockstar Festive Boom Sweater
+			Stats::SetPackedBool(42062, TRUE); // The Zoophilist
+			Stats::SetPackedBool(42191, TRUE); // Cinco de Mayo Tee
+			Stats::SetPackedBool(42193, TRUE); // Black Lunar New Year Shirt
+			Stats::SetPackedBool(42194, TRUE); // Red Lunar New Year Shirt
+			Stats::SetPackedBool(42195, TRUE); // Black Lunar New Year Pants
+			Stats::SetPackedBool(42196, TRUE); // Red Lunar New Year Pants
+			Stats::SetPackedBool(42197, TRUE); // New Year's Jacket
+			Stats::SetPackedBool(42198, TRUE); // New Year's Pants
+			Stats::SetPackedBool(42199, TRUE); // Western MC Jacket
+			Stats::SetPackedBool(42200, TRUE); // Western MC Pants
+			Stats::SetPackedBool(42201, TRUE); // Heartbreakers Jacket
+			Stats::SetPackedBool(42203, TRUE); // St. Patrick's Day Jacket
+			Stats::SetPackedBool(42204, TRUE); // St. Patrick's Day Pants
+			Stats::SetPackedBool(42205, TRUE); // Graffiti Jean Jacket
+			Stats::SetPackedBool(42206, TRUE); // Graffiti Jeans
+			Stats::SetPackedBool(42207, TRUE); // Fooligan Vest
+			Stats::SetPackedBool(42208, TRUE); // Fooligan Tee
+			Stats::SetPackedBool(42209, TRUE); // Coil Cyclone Tee
+			Stats::SetPackedBool(42213, TRUE); // Vespucci Beach Tee
+			Stats::SetPackedBool(42214, TRUE); // Vespucci Beach Flip-Flops
+			Stats::SetPackedBool(42215, TRUE); // Independence Day Jacket
+			Stats::SetPackedBool(42216, TRUE); // Independence Day Pants
+			Stats::SetPackedBool(51248, TRUE); // The Diamond Jackpot Tee
+			Stats::SetPackedBool(51249, TRUE); // Cobalt Jackal Racing Jersey
+			Stats::SetPackedBool(51250, TRUE); // Cobalt Jackal Racing Pants
+			Stats::SetPackedBool(51251, TRUE); // Khaki 247 Chino Pants
+			Stats::SetPackedBool(51252, TRUE); // Demon Biker Jacket
+			Stats::SetPackedBool(51253, TRUE); // Purple Guffy Cardigan
+			Stats::SetPackedBool(51254, TRUE); // SA Denim Biker Jacket
+			Stats::SetPackedBool(51255, TRUE); // Green 247 Shirt
+			Stats::SetPackedBool(51256, TRUE); // Barbed Wire Shirt
+			Stats::SetPackedBool(51257, TRUE); // Ride or Die Gaiter
+			Stats::SetPackedBool(54615, TRUE); // Winter Park Ranger w/ Tie
+			Stats::SetPackedBool(54616, TRUE); // Winter Park Ranger
+			Stats::SetPackedBool(54617, TRUE); // Summer Park Ranger w/ Tie
+			Stats::SetPackedBool(54618, TRUE); // Summer Park Ranger
+			Stats::SetPackedBool(54619, TRUE); // Los Santos Tattoo Tee
+			Stats::SetPackedBool(54620, TRUE); // Los Santos Tattoo Jeans
+			Stats::SetPackedBool(54621, TRUE); // LS Panic Varsity Jacket
+			Stats::SetPackedBool(54623, TRUE); // Honkers Tie-Dye Hoodie
+			Stats::SetPackedBool(54625, TRUE); // Blue Two-Tone Denim Jacket
+			Stats::SetPackedBool(54626, TRUE); // Worn Blue Denim Jeans
+			Stats::SetPackedBool(54627, TRUE); // Blue Two-Tone Denim Dress
+			Stats::SetPackedBool(54629, TRUE); // LD Organics 420 Hockey Jersey
+			Stats::SetPackedBool(42211, TRUE); // Black LS Customs Tee
+			Stats::SetPackedBool(54631, TRUE); // Strapz Patterned Sweatshirt
+			Stats::SetPackedBool(54632, TRUE); // Strapz Patterned Jeans
+			Stats::SetPackedBool(54633, TRUE); // Bigness Sketches Shirt
+			Stats::SetPackedBool(54634, TRUE); // Bigness Sketches Jeans
+			Stats::SetPackedBool(7525, true);  // Red Swirl Smoking Jacket
+			Stats::SetPackedBool(18125, true); // Yellow Wireframe Bodysuit
+			Stats::SetPackedBool(30565, true); // Broker Prolaps Basketball Top
+			Stats::SetPackedBool(30567, true); // Gussét Frog Tee
+			Stats::SetPackedBool(30583, true); // Broker Prolaps Basketball Shorts
+			Stats::SetPackedBool(41894, true); // Hinterland Work T-Shirt
+			Stats::SetPackedBool(41897, true); // Love Fist Tee
+			Stats::SetPackedBool(41898, true); // San Andreas Federal Reserve Tee
+			Stats::SetPackedBool(41902, true); // PRB Tee
+			Stats::SetPackedBool(34389, TRUE); // Mummy
 
 
 		}
@@ -2986,30 +3065,6 @@ namespace YimMenu::Features
 				*ScriptLocal("gb_biker_contraband_sell"_J, 704 + 17).As<int*>() = 0;
 		    }
 	    };
-	    class wm29_unlock : public Command
-	    {
-		    using Command::Command;
-
-		    virtual void OnCall() override
-		    {
-			    int value = Stats::GetInt("MP0_CHAR_WEAP_FM_PURCHASE3");
-
-			    // If the highest bit (0x80000000) is not set
-			    if ((value & 0x80000000) == 0)
-			    {
-				    if (NETSHOPPING::NET_GAMESERVER_USE_SERVER_TRANSACTIONS())
-				    {
-					    // Replace with your actual function to buy the weapon
-					    BuyWeapon("WP_WT_PISTOLXM3_t0_v0"_J);
-				    }
-				    else
-				    {
-					    Stats::SetInt("MP0_CHAR_WEAP_FM_PURCHASE3", value | 0x80000000);
-				    }
-			    }
-		    }
-	    };
-
 	    class unlock_masks : public Command
 	    {
 		    using Command::Command;
@@ -3149,6 +3204,34 @@ namespace YimMenu::Features
 			    Stats::SetPackedBool(36777, TRUE); // Gold New Year Glasses
 			    Stats::SetPackedBool(36778, TRUE); // Silver New Year Glasses
 			    Stats::SetPackedBool(36779, TRUE); // Rainbow New Year Glasses
+			    Stats::SetPackedBool(34390, TRUE); // Manor Geo Cap
+			    Stats::SetPackedBool(34391, TRUE); // Apricot Perseus Cap
+			    Stats::SetPackedBool(34392, TRUE); // Still Slipping Tie-dye Cap
+			    Stats::SetPackedBool(34393, TRUE); // Lemon Festive Beer Hat
+			    Stats::SetPackedBool(34730, TRUE); // Green Festive Beer Hat
+			    Stats::SetPackedBool(34731, TRUE); // Red Snowflake Beer Hat
+			    Stats::SetPackedBool(34732, TRUE); // Blue Snowflake Beer Hat
+			    Stats::SetPackedBool(34733, TRUE); // Red Holly Beer Hat
+			    Stats::SetPackedBool(34734, TRUE); // Pisswasser Festive Beer Hat
+			    Stats::SetPackedBool(34735, TRUE); // Blarneys Festive Beer Hat
+			    Stats::SetPackedBool(34736, TRUE); // Red Reindeer Beer Hat
+			    Stats::SetPackedBool(34737, TRUE); // Borfmas Beer Hat
+			    Stats::SetPackedBool(54628, TRUE); // Blue Two-Tone Denim Cowboy Hat
+			    Stats::SetPackedBool(54624, TRUE); // Honkers Tie-Dye Hat
+			    Stats::SetPackedBool(30613, true); // Blue & Yellow Glow Shades
+			    Stats::SetPackedBool(30616, true); // Blue Glow Necklace
+			    Stats::SetPackedBool(30631, true); // Session Glow Necklace
+			    Stats::SetPackedBool(30645, true); // Red Tint Oversize Shades
+			    Stats::SetPackedBool(30652, true); // Yellow Checked Round Shades
+			    Stats::SetPackedBool(34445, true); // Pink Floral Tech Demon
+			    Stats::SetPackedBool(42192, TRUE); // Cinco de Mayo Mask
+			    Stats::SetPackedBool(42202, TRUE); // Heartbreakers Cap
+			    Stats::SetPackedBool(42210, TRUE); // Black Los Stantos Cap
+			    Stats::SetPackedBool(30593, true); // Red Bangles
+			    Stats::SetPackedBool(42212, TRUE); // Black LS Customs Cap, Gaiter
+			    Stats::SetPackedBool(54622, TRUE); // LS Panic Varsity Cap
+			    Stats::SetPackedBool(54630, TRUE); // LD Organics 420 Cap
+
 		    }
 	    };
 	    class unlock_flight_school : public Command
@@ -3321,139 +3404,6 @@ namespace YimMenu::Features
 
 		    }
 	    };
-	    class unlock_gtaplus_stuff : public Command
-	    {
-		    using Command::Command;
-		    virtual void OnCall() override
-		    {
-			    // Unlock All Clothing Items
-			    Stats::SetPackedBool(34389, TRUE); // Mummy
-			    Stats::SetPackedBool(34390, TRUE); // Manor Geo Cap
-			    Stats::SetPackedBool(34391, TRUE); // Apricot Perseus Cap
-			    Stats::SetPackedBool(34392, TRUE); // Still Slipping Tie-dye Cap
-			    Stats::SetPackedBool(34393, TRUE); // Lemon Festive Beer Hat
-			    Stats::SetPackedBool(34394, TRUE); // Bigness Hand-drawn Dome
-			    Stats::SetPackedBool(34395, TRUE); // Grimy Stitched
-			    Stats::SetPackedBool(34396, TRUE); // Pale Stitched
-			    Stats::SetPackedBool(34397, TRUE); // Gray Cracked Puppet
-			    Stats::SetPackedBool(34398, TRUE); // Blushed Cracked Puppet
-			    Stats::SetPackedBool(34399, TRUE); // Green Emissive Lady Liberty
-			    Stats::SetPackedBool(34401, TRUE); // Gold Beat Off Earphones
-			    Stats::SetPackedBool(34402, TRUE); // White Spiked Gauntlet
-			    Stats::SetPackedBool(34403, TRUE); // Manor Geo Hoodie
-			    Stats::SetPackedBool(34404, TRUE); // Pumpkin Hoodie
-			    Stats::SetPackedBool(34405, TRUE); // LS Smoking Jacket
-			    Stats::SetPackedBool(34406, TRUE); // Hand-Drawn Biker Bomber
-			    Stats::SetPackedBool(34407, TRUE); // Have You Seen Me? Sweater
-			    Stats::SetPackedBool(34408, TRUE); // Still Slipping Tie-dye Tee
-			    Stats::SetPackedBool(34409, TRUE); // Manor Geo Track Pants
-			    Stats::SetPackedBool(34410, TRUE); // Apricot Perseus Track Pants
-			    Stats::SetPackedBool(34730, TRUE); // Green Festive Beer Hat
-			    Stats::SetPackedBool(34731, TRUE); // Red Snowflake Beer Hat
-			    Stats::SetPackedBool(34732, TRUE); // Blue Snowflake Beer Hat
-			    Stats::SetPackedBool(34733, TRUE); // Red Holly Beer Hat
-			    Stats::SetPackedBool(34734, TRUE); // Pisswasser Festive Beer Hat
-			    Stats::SetPackedBool(34735, TRUE); // Blarneys Festive Beer Hat
-			    Stats::SetPackedBool(34736, TRUE); // Red Reindeer Beer Hat
-			    Stats::SetPackedBool(34737, TRUE); // Borfmas Beer Hat
-			    Stats::SetPackedBool(36703, TRUE); // Dark Blue Vinyl
-			    Stats::SetPackedBool(36704, TRUE); // Dark Blue Vinyl Cut
-			    Stats::SetPackedBool(36717, TRUE); // Yeti Year of the Rabbit Tee
-			    Stats::SetPackedBool(36718, TRUE); // Gray Yeti Combat Shirt
-			    Stats::SetPackedBool(36737, TRUE); // Broker Checkerboard Tee
-			    Stats::SetPackedBool(36738, TRUE); // Yeti Ape Tee
-			    Stats::SetPackedBool(36751, TRUE); // Gray Yeti Battle Pants
-			    Stats::SetPackedBool(36752, TRUE); // Broker Checkerboard Cargos
-			    Stats::SetPackedBool(36759, TRUE); // Noh Painted Rabbit
-			    Stats::SetPackedBool(36763, TRUE); // Red Manor Round Brow Shades
-			    Stats::SetPackedBool(36768, TRUE); // The Red-nosed
-			    Stats::SetPackedBool(36769, TRUE); // The Nutcracker
-			    Stats::SetPackedBool(36782, TRUE); // Zebra Dome
-			    Stats::SetPackedBool(36783, TRUE); // Purple Snakeskin Spiked
-			    Stats::SetPackedBool(36784, TRUE); // Manor Surano Jacket
-			    Stats::SetPackedBool(41885, TRUE); // PRB Shorts
-			    Stats::SetPackedBool(41886, TRUE); // Bleedin' Tasty Shorts
-			    Stats::SetPackedBool(41887, TRUE); // Cluckin' Bell Cuffed Sweats
-			    Stats::SetPackedBool(41888, TRUE); // Santo Capra x Manor Chinos
-			    Stats::SetPackedBool(41889, TRUE); // Hinterland Shorts
-			    Stats::SetPackedBool(41890, TRUE); // Monochrome Striped Suit
-			    Stats::SetPackedBool(41891, TRUE); // Skeleton Bodysuit
-			    Stats::SetPackedBool(41892, TRUE); // Gray Camo Yeti Suit
-			    Stats::SetPackedBool(41893, TRUE); // Festive Flannel Suit
-			    Stats::SetPackedBool(41895, TRUE); // The Fist Fury (Female)
-			    Stats::SetPackedBool(41896, TRUE); // Love Fist Shortsleeve
-			    Stats::SetPackedBool(41903, TRUE); // Republican Space Rangers Tee
-			    Stats::SetPackedBool(41904, TRUE); // You Own Los Santos Hoodie
-			    Stats::SetPackedBool(41905, TRUE); // PRB Hoodie
-			    Stats::SetPackedBool(41906, TRUE); // Cluckin' Bell Hoodie
-			    Stats::SetPackedBool(41907, TRUE); // Bleedin' Tasty Hoodie
-			    Stats::SetPackedBool(41908, TRUE); // Rockstar Warp Hoodie
-			    Stats::SetPackedBool(41909, TRUE); // Santo Capra x Manor Chore
-			    Stats::SetPackedBool(41910, TRUE); // Rockstar Gothic Sweater
-			    Stats::SetPackedBool(41911, TRUE); // Rockstar Red Logo Sweater
-			    Stats::SetPackedBool(41912, TRUE); // Rockstar Atomic Logo Sweater
-			    Stats::SetPackedBool(41913, TRUE); // Rockstar Festive Boom Sweater
-			    Stats::SetPackedBool(42062, TRUE); // The Zoophilist
-			    Stats::SetPackedBool(42191, TRUE); // Cinco de Mayo Tee
-			    Stats::SetPackedBool(42192, TRUE); // Cinco de Mayo Mask
-			    Stats::SetPackedBool(42193, TRUE); // Black Lunar New Year Shirt
-			    Stats::SetPackedBool(42194, TRUE); // Red Lunar New Year Shirt
-			    Stats::SetPackedBool(42195, TRUE); // Black Lunar New Year Pants
-			    Stats::SetPackedBool(42196, TRUE); // Red Lunar New Year Pants
-			    Stats::SetPackedBool(42197, TRUE); // New Year's Jacket
-			    Stats::SetPackedBool(42198, TRUE); // New Year's Pants
-			    Stats::SetPackedBool(42199, TRUE); // Western MC Jacket
-			    Stats::SetPackedBool(42200, TRUE); // Western MC Pants
-			    Stats::SetPackedBool(42201, TRUE); // Heartbreakers Jacket
-			    Stats::SetPackedBool(42202, TRUE); // Heartbreakers Cap
-			    Stats::SetPackedBool(42203, TRUE); // St. Patrick's Day Jacket
-			    Stats::SetPackedBool(42204, TRUE); // St. Patrick's Day Pants
-			    Stats::SetPackedBool(42205, TRUE); // Graffiti Jean Jacket
-			    Stats::SetPackedBool(42206, TRUE); // Graffiti Jeans
-			    Stats::SetPackedBool(42207, TRUE); // Fooligan Vest
-			    Stats::SetPackedBool(42208, TRUE); // Fooligan Tee
-			    Stats::SetPackedBool(42209, TRUE); // Coil Cyclone Tee
-			    Stats::SetPackedBool(42210, TRUE); // Black Los Stantos Cap
-			    Stats::SetPackedBool(42211, TRUE); // Black LS Customs Tee
-			    Stats::SetPackedBool(42212, TRUE); // Black LS Customs Cap, Gaiter
-			    Stats::SetPackedBool(42213, TRUE); // Vespucci Beach Tee
-			    Stats::SetPackedBool(42214, TRUE); // Vespucci Beach Flip-Flops
-			    Stats::SetPackedBool(42215, TRUE); // Independence Day Jacket
-			    Stats::SetPackedBool(42216, TRUE); // Independence Day Pants
-			    Stats::SetPackedBool(51248, TRUE); // The Diamond Jackpot Tee
-			    Stats::SetPackedBool(51249, TRUE); // Cobalt Jackal Racing Jersey
-			    Stats::SetPackedBool(51250, TRUE); // Cobalt Jackal Racing Pants
-			    Stats::SetPackedBool(51251, TRUE); // Khaki 247 Chino Pants
-			    Stats::SetPackedBool(51252, TRUE); // Demon Biker Jacket
-			    Stats::SetPackedBool(51253, TRUE); // Purple Guffy Cardigan
-			    Stats::SetPackedBool(51254, TRUE); // SA Denim Biker Jacket
-			    Stats::SetPackedBool(51255, TRUE); // Green 247 Shirt
-			    Stats::SetPackedBool(51256, TRUE); // Barbed Wire Shirt
-			    Stats::SetPackedBool(51257, TRUE); // Ride or Die Gaiter
-			    Stats::SetPackedBool(54615, TRUE); // Winter Park Ranger w/ Tie
-			    Stats::SetPackedBool(54616, TRUE); // Winter Park Ranger
-			    Stats::SetPackedBool(54617, TRUE); // Summer Park Ranger w/ Tie
-			    Stats::SetPackedBool(54618, TRUE); // Summer Park Ranger
-			    Stats::SetPackedBool(54619, TRUE); // Los Santos Tattoo Tee
-			    Stats::SetPackedBool(54620, TRUE); // Los Santos Tattoo Jeans
-			    Stats::SetPackedBool(54621, TRUE); // LS Panic Varsity Jacket
-			    Stats::SetPackedBool(54622, TRUE); // LS Panic Varsity Cap
-			    Stats::SetPackedBool(54623, TRUE); // Honkers Tie-Dye Hoodie
-			    Stats::SetPackedBool(54624, TRUE); // Honkers Tie-Dye Hat
-			    Stats::SetPackedBool(54625, TRUE); // Blue Two-Tone Denim Jacket
-			    Stats::SetPackedBool(54626, TRUE); // Worn Blue Denim Jeans
-			    Stats::SetPackedBool(54627, TRUE); // Blue Two-Tone Denim Dress
-			    Stats::SetPackedBool(54628, TRUE); // Blue Two-Tone Denim Cowboy Hat
-			    Stats::SetPackedBool(54629, TRUE); // LD Organics 420 Hockey Jersey
-			    Stats::SetPackedBool(54630, TRUE); // LD Organics 420 Cap
-			    Stats::SetPackedBool(54631, TRUE); // Strapz Patterned Sweatshirt
-			    Stats::SetPackedBool(54632, TRUE); // Strapz Patterned Jeans
-			    Stats::SetPackedBool(54633, TRUE); // Bigness Sketches Shirt
-			    Stats::SetPackedBool(54634, TRUE); // Bigness Sketches Jeans
-
-		    }
-	    };
-
 	    class SupplyCooldownBypass : public LoopedCommand
 	    {
 		    using LoopedCommand::LoopedCommand;
@@ -3494,5 +3444,4 @@ namespace YimMenu::Features
 	static unlock_collectables _unlock_collectables{"unlockcollectables", "Unlock Collectables", "Unlocks Some Collectables"};
 	static Resupply_business _Resupply_business{"resupplybusiness", "Resupply Business", "Resupplies all Businesses"};
 	static SupplyCooldownBypass _SupplyCooldownBypass{"supplycooldownbypass", "Supply Cooldown Bypass", "Bypasses Supply Cooldown"};
-	static wm29_unlock _wm29_unlock{"wm29unlock", "Unlock WM29", "Unlocks WM29 Pistol"};
 }
