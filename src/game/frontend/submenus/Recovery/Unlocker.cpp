@@ -1224,15 +1224,15 @@ namespace YimMenu::Features
 			Stats::SetPackedBool(54632, TRUE); // Strapz Patterned Jeans
 			Stats::SetPackedBool(54633, TRUE); // Bigness Sketches Shirt
 			Stats::SetPackedBool(54634, TRUE); // Bigness Sketches Jeans
-			Stats::SetPackedBool(7525, true);  // Red Swirl Smoking Jacket
-			Stats::SetPackedBool(18125, true); // Yellow Wireframe Bodysuit
-			Stats::SetPackedBool(30565, true); // Broker Prolaps Basketball Top
-			Stats::SetPackedBool(30567, true); // Gussét Frog Tee
-			Stats::SetPackedBool(30583, true); // Broker Prolaps Basketball Shorts
-			Stats::SetPackedBool(41894, true); // Hinterland Work T-Shirt
-			Stats::SetPackedBool(41897, true); // Love Fist Tee
-			Stats::SetPackedBool(41898, true); // San Andreas Federal Reserve Tee
-			Stats::SetPackedBool(41902, true); // PRB Tee
+			Stats::SetPackedBool(7525, TRUE);  // Red Swirl Smoking Jacket
+			Stats::SetPackedBool(18125, TRUE); // Yellow Wireframe Bodysuit
+			Stats::SetPackedBool(30565, TRUE); // Broker Prolaps Basketball Top
+			Stats::SetPackedBool(30567, TRUE); // Gussét Frog Tee
+			Stats::SetPackedBool(30583, TRUE); // Broker Prolaps Basketball Shorts
+			Stats::SetPackedBool(41894, TRUE); // Hinterland Work T-Shirt
+			Stats::SetPackedBool(41897, TRUE); // Love Fist Tee
+			Stats::SetPackedBool(41898, TRUE); // San Andreas Federal Reserve Tee
+			Stats::SetPackedBool(41902, TRUE); // PRB Tee
 			Stats::SetPackedBool(34389, TRUE); // Mummy
 			Stats::SetPackedBool(54635, TRUE); // Winter Highway Patrol w/ Tie
 			Stats::SetPackedBool(54572, TRUE); // Winter Highway Patrol
