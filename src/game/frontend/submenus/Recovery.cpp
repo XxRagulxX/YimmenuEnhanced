@@ -41,7 +41,6 @@ namespace YimMenu::Submenus
 		business->AddItem(std::make_shared<CommandItem>("singlemcvehiclesell"_J));
 		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockmasks"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockflightschool"_J));
-		misc->AddItem(std::make_shared<CommandItem>("unlockgtaplusstuff"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlocktradeprice"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockweapons"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlockcollectables"_J));
