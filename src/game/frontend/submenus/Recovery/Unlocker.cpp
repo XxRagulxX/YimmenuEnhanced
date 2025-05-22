@@ -1234,8 +1234,51 @@ namespace YimMenu::Features
 			Stats::SetPackedBool(41898, true); // San Andreas Federal Reserve Tee
 			Stats::SetPackedBool(41902, true); // PRB Tee
 			Stats::SetPackedBool(34389, TRUE); // Mummy
-
-
+			Stats::SetPackedBool(54635, TRUE); // Winter Highway Patrol w/ Tie
+			Stats::SetPackedBool(54572, TRUE); // Winter Highway Patrol
+			Stats::SetPackedBool(54573, TRUE); // Summer Highway Patrol w/ Tie
+			Stats::SetPackedBool(54574, TRUE); // Summer Highway Patrol
+			Stats::SetPackedBool(54575, TRUE); // NOOSE Outfit
+			Stats::SetPackedBool(54576, TRUE); // Winter LSPD Officer w/ Tie
+			Stats::SetPackedBool(54577, TRUE); // Winter LSPD Officer
+			Stats::SetPackedBool(54578, TRUE); // Summer LSPD Officer w/ Tie
+			Stats::SetPackedBool(54579, TRUE); // Summer LSPD Officer
+			Stats::SetPackedBool(54580, TRUE); // Gold 420 Pendant
+			Stats::SetPackedBool(54581, TRUE); // Silver 420 Pendant
+			Stats::SetPackedBool(54582, TRUE); // Rose Gold 420 Pendant
+			Stats::SetPackedBool(54583, TRUE); // Snake Soul Pendant
+			Stats::SetPackedBool(54584, TRUE); // Snake King Pendant
+			Stats::SetPackedBool(54585, TRUE); // Gold Reindeer Pendant
+			Stats::SetPackedBool(54586, TRUE); // Silver Reindeer Pendant
+			Stats::SetPackedBool(54587, TRUE); // Red Snake Soul Forwards Cap
+			Stats::SetPackedBool(54588, TRUE); // Gray Snake King Forwards Cap
+			Stats::SetPackedBool(54589, TRUE); // Festive Penguin Onesie
+			Stats::SetPackedBool(54590, TRUE); // Festive Reindeer Onesie
+			Stats::SetPackedBool(54591, TRUE); // Festive Cluckin' Bell Onesie
+			Stats::SetPackedBool(54592, TRUE); // White Ho Ho Ho Onesie
+			Stats::SetPackedBool(54593, TRUE); // Gold Ho Ho Ho Onesie
+			Stats::SetPackedBool(54594, TRUE); // Green 420 Festival Outfit
+			Stats::SetPackedBool(54595, TRUE); // Multicolor 420 Festival Outfit
+			Stats::SetPackedBool(54596, TRUE); // Green 420 Festival Hat
+			Stats::SetPackedBool(54597, TRUE); // Multicolor 420 Festival Hat
+			Stats::SetPackedBool(54598, TRUE); // Bald Eagle Outfit
+			Stats::SetPackedBool(54599, TRUE); // Champagne Pop Fitted
+			Stats::SetPackedBool(54600, TRUE); // Gold Star Fitted
+			Stats::SetPackedBool(54601, TRUE); // Champagne Pop Pants
+			Stats::SetPackedBool(54602, TRUE); // Gold Star Pants
+			Stats::SetPackedBool(54603, TRUE); // Krampus Sweater
+			Stats::SetPackedBool(54604, TRUE); // Red Serpent Leather Jacket
+			Stats::SetPackedBool(54605, TRUE); // Gong Xi Fa Cai Forwards Cap
+			Stats::SetPackedBool(54606, TRUE); // Heartbreaker Robe
+			Stats::SetPackedBool(54607, TRUE); // Heartbreaker Boxer Shorts (Male only)
+			Stats::SetPackedBool(54610, TRUE); // Carnival Feather Shirt (Male only)
+			Stats::SetPackedBool(54611, TRUE); // Carnival Feather Shorts (Male only)
+			Stats::SetPackedBool(54608, TRUE); // Heartbreaker Bustier (Female only)
+			Stats::SetPackedBool(54609, TRUE); // Carnival Feather Dress (Female only)
+			Stats::SetPackedBool(54612, TRUE); // Blarneys Stout Tee
+			Stats::SetPackedBool(54613, TRUE); // Güffy Drug Rug Hoodie
+			Stats::SetPackedBool(54614, TRUE); // Yeti Earth Day Hoodie
+			Stats::SetPackedBool(54651, TRUE); // Black Snake Yogarishima Outfit
 		}
 	};
 	class CareerProgress_Rewards : public Command
@@ -1654,11 +1697,10 @@ namespace YimMenu::Features
 			setRange(28273, 28281); // Complete Scene of the Crime using all available setup equipment
 		}
 	};
-
     class unlock_all_awards : public Command
-		{
+	{
 		using Command::Command;
-
+		
 		virtual void OnCall() override
 		{
 			// Apartment Awards
@@ -2377,112 +2419,112 @@ namespace YimMenu::Features
 			Stats::SetInt("MP0_PLAYER_HEADSHOTS", 500);
 		}
 	};
-	    class unlock_all_contacts : public Command
-	    {
-		    using Command::Command;
+	// class unlock_all_contacts : public Command
+	// {
+	// 	using Command::Command;
 
-		    virtual void OnCall() override
-		    {
-			    Stats::SetInt("MP0_FM_ACT_PHN", -1);
-			    Stats::SetInt("MP0_FM_VEH_TX1", -1);
-			    Stats::SetInt("MP0_FM_CUT_DONE", -1);
-			    Stats::SetInt("MP0_FM_CUT_DONE_2", -1);
-			    Stats::SetInt("MP0_FM_ACT_PH2", -1);
-			    Stats::SetInt("MP0_FM_ACT_PH3", -1);
-			    Stats::SetInt("MP0_FM_ACT_PH4", -1);
-			    Stats::SetInt("MP0_FM_ACT_PH5", -1);
-			    Stats::SetInt("MP0_FM_ACT_PH6", -1);
-			    Stats::SetInt("MP0_FM_ACT_PH7", -1);
-			    Stats::SetInt("MP0_FM_ACT_PH8", -1);
-			    Stats::SetInt("MP0_FM_ACT_PH9", -1);
-		    }
-	    };
-	    class unlock_all_tattoos : public Command
-	    {
-		    using Command::Command;
+	// 	virtual void OnCall() override
+	// 	{
+	// 	    Stats::SetInt("MP0_FM_ACT_PHN", -1);
+	// 	    Stats::SetInt("MP0_FM_VEH_TX1", -1);
+	// 	    Stats::SetInt("MP0_FM_CUT_DONE", -1);
+	// 	    Stats::SetInt("MP0_FM_CUT_DONE_2", -1);
+	// 	    Stats::SetInt("MP0_FM_ACT_PH2", -1);
+	// 	    Stats::SetInt("MP0_FM_ACT_PH3", -1);
+	// 	    Stats::SetInt("MP0_FM_ACT_PH4", -1);
+	// 	    Stats::SetInt("MP0_FM_ACT_PH5", -1);
+	// 	    Stats::SetInt("MP0_FM_ACT_PH6", -1);
+	// 	    Stats::SetInt("MP0_FM_ACT_PH7", -1);
+	// 	    Stats::SetInt("MP0_FM_ACT_PH8", -1);
+	// 	    Stats::SetInt("MP0_FM_ACT_PH9", -1);
+	// 	}
+	// };
+	class unlock_all_tattoos : public Command
+	{
+		using Command::Command;
 
-		    virtual void OnCall() override
-		    {
-			    Stats::SetInt("MP0_AWD_CAR_BOMBS_ENEMY_KILLS", 25); // Trust No One
-			    Stats::SetInt("MP0_AWD_HOLD_UP_SHOPS", 20); // Clown, Clown and Gun, Clown Dual Wield & Clown Dual Wield Dollar
-			    Stats::SetInt("MP0_AWD_FMBBETWIN", 50000);            // Hustler
-			    Stats::SetInt("MP0_AWD_100_HEADSHOTS", 500);          // Skull
-			    Stats::SetInt("MP0_AWD_FM_DM_WINS", 50);              // Burning Heart
-			    Stats::SetInt("MP0_AWD_RACES_WON", 50);               // Racing Brunette
-			    Stats::SetInt("MP0_AWD_FMREVENGEKILLSDM", 50);        // Dragon and Dagger
-			    Stats::SetInt("MP0_AWD_FM_DM_TOTALKILLS", 500);       // Melting Skull
-			    Stats::SetInt("MP0_LAP_DANCED_BOUGHT", 25);           // Hottie
-			    Stats::SetInt("MP0_AWD_FM_TDM_MVP", 50);              // Grim Reaper
-			    Stats::SetInt("MP0_AWD_FMKILLBOUNTY", 25);            // Skull and Sword
-			    Stats::SetInt("MP0_SNIPERRFL_ENEMY_KILLS", 100);      // Broken Skull
-			    Stats::SetBool("MP0_AWD_FMWINEVERYGAMEMODE", true);   // Angel
-			    Stats::SetBool("MP0_AWD_FMMOSTKILLSSURVIVE", true);   // The Wages of Sin
-			    Stats::SetBool("MP0_AWD_FMRACEWORLDRECHOLDER", true); // Racing Blonde
-			    Stats::SetBool("MP0_AWD_FMATTGANGHQ", true);          // Grim Reaper Smoking Gun
-			    Stats::SetBool("MP0_AWD_FMKILL3ANDWINGTARACE", true); // Ride or Die
-			    Stats::SetBool("MP0_AWD_FMKILLSTREAKSDM", true);      // Flaming Skull
-			    Stats::SetInt("MP0_KILLS_PLAYERS", 250);          // Blank Scroll
-			    Stats::SetInt("MP0_KILLS_PLAYERS", 500);          // Embellished Scroll
-			    Stats::SetInt("MP0_KILLS_PLAYERS", 1000);         // Seven Deadly Sins
-			    Stats::SetBool("MP0_AWD_FMFULLYMODDEDCAR", true); // Los Santos Customs
-				Stats::SetInt("MP0_TATTOO_FM_CURRENT_32", -1);
-			    Stats::SetPackedBool(15887, TRUE); // Lucky 7s Tattoo - Male
-			    Stats::SetPackedBool(15894, TRUE); // The Royals Tattoo - Male
-			    Stats::SetPackedBool(15898, TRUE); // Lucky 7s Tattoo - Female
-			    Stats::SetPackedBool(15905, TRUE); // The Royals Tattoo - Female
-			    Stats::SetPackedBool(15737, TRUE); //Alien Tatto - Male
-			    Stats::SetPackedBool(15748, TRUE); //Alien Tatto - Female
-				for (int i = 0; i <= 53; i++) {
-					std::string statName = "MP0_TATTOO_FM_UNLOCKS_" + std::to_string(i);
-					Stats::SetInt(statName.c_str(), -1);
-				}
-				
-		    }
-	    };
-	    class unlock_some_trade_price : public Command    //(Not Working!!)
-	    {
-		    using Command::Command;
+		virtual void OnCall() override
+		{
+		    Stats::SetInt("MP0_AWD_CAR_BOMBS_ENEMY_KILLS", 25); // Trust No One
+		    Stats::SetInt("MP0_AWD_HOLD_UP_SHOPS", 20); // Clown, Clown and Gun, Clown Dual Wield & Clown Dual Wield Dollar
+		    Stats::SetInt("MP0_AWD_FMBBETWIN", 50000); // Hustler
+		    Stats::SetInt("MP0_AWD_100_HEADSHOTS", 500);// Skull
+		    Stats::SetInt("MP0_AWD_FM_DM_WINS", 50);// Burning Heart
+		    Stats::SetInt("MP0_AWD_RACES_WON", 50); // Racing Brunette
+		    Stats::SetInt("MP0_AWD_FMREVENGEKILLSDM", 50);// Dragon and Dagger
+		    Stats::SetInt("MP0_AWD_FM_DM_TOTALKILLS", 500);// Melting Skull
+		    Stats::SetInt("MP0_LAP_DANCED_BOUGHT", 25);// Hottie
+		    Stats::SetInt("MP0_AWD_FM_TDM_MVP", 50);// Grim Reaper
+		    Stats::SetInt("MP0_AWD_FMKILLBOUNTY", 25);// Skull and Sword
+		    Stats::SetInt("MP0_SNIPERRFL_ENEMY_KILLS", 100);// Broken Skull
+		    Stats::SetBool("MP0_AWD_FMWINEVERYGAMEMODE", true);// Angel
+		    Stats::SetBool("MP0_AWD_FMMOSTKILLSSURVIVE", true);// The Wages of Sin
+		    Stats::SetBool("MP0_AWD_FMRACEWORLDRECHOLDER", true);// Racing Blonde
+		    Stats::SetBool("MP0_AWD_FMATTGANGHQ", true);// Grim Reaper Smoking Gun
+		    Stats::SetBool("MP0_AWD_FMKILL3ANDWINGTARACE", true); // Ride or Die
+		    Stats::SetBool("MP0_AWD_FMKILLSTREAKSDM", true); // Flaming Skull
+		    Stats::SetInt("MP0_KILLS_PLAYERS", 250);// Blank Scroll
+		    Stats::SetInt("MP0_KILLS_PLAYERS", 500);// Embellished Scroll
+		    Stats::SetInt("MP0_KILLS_PLAYERS", 1000);// Seven Deadly Sins
+		    Stats::SetBool("MP0_AWD_FMFULLYMODDEDCAR", true); // Los Santos Customs
+			Stats::SetInt("MP0_TATTOO_FM_CURRENT_32", -1);
+		    Stats::SetPackedBool(15887, TRUE); // Lucky 7s Tattoo - Male
+		    Stats::SetPackedBool(15894, TRUE); // The Royals Tattoo - Male
+		    Stats::SetPackedBool(15898, TRUE); // Lucky 7s Tattoo - Female
+		    Stats::SetPackedBool(15905, TRUE); // The Royals Tattoo - Female
+		    Stats::SetPackedBool(15737, TRUE); //Alien Tatto - Male
+		    Stats::SetPackedBool(15748, TRUE); //Alien Tatto - Female
+			for (int i = 0; i <= 53; i++) {
+				std::string statName = "MP0_TATTOO_FM_UNLOCKS_" + std::to_string(i);
+				Stats::SetInt(statName.c_str(), -1);
+			}
+			
+	    }
+	};
+	    // class unlock_some_trade_price : public Command    //(Not Working!!)
+	    // {
+		//     using Command::Command;
 
-		    virtual void OnCall() override
-		    {
-			    Stats::SetInt("MP0_GANGOPS_FLOW_BITSET_MISS0", -1);
-			    Stats::SetInt("MP0_LFETIME_HANGAR_BUY_UNDETAK", 42);
-			    Stats::SetInt("MP0_LFETIME_HANGAR_BUY_COMPLET", 42);
-			    Stats::SetInt("MP0_AT_FLOW_IMPEXP_NUM", 32);
-			    Stats::SetInt("MP0_AT_FLOW_VEHICLE_BS", -1);
-			    Stats::SetInt("MP0_WVM_FLOW_VEHICLE_BS", -1);
-			    Stats::SetInt("MP0_H3_BOARD_DIALOGUE0", -1);
-			    Stats::SetInt("MP0_H3_BOARD_DIALOGUE1", -1);
-			    Stats::SetInt("MP0_H3_BOARD_DIALOGUE2", -1);
-			    Stats::SetInt("MP0_H3_VEHICLESUSED", -1);
-			    Stats::SetInt("MP0_WAM_FLOW_VEHICLE_BS", -1);
-			    Stats::SetBool("MP0_HELP_VETO", true);
-			    Stats::SetBool("MP0_HELP_VETO2", true);
-			    Stats::SetBool("MP0_HELP_ITALIRSX", true);
-			    Stats::SetBool("MP0_HELP_BRIOSO2", true);
-			    Stats::SetBool("MP0_HELP_MANCHEZ2", true);
-			    Stats::SetBool("MP0_HELP_SLAMTRUCK", true);
-			    Stats::SetBool("MP0_HELP_VETIR", true);
-			    Stats::SetBool("MP0_HELP_SQUADDIE", true);
-			    Stats::SetBool("MP0_HELP_DINGY5", true);
-			    Stats::SetBool("MP0_HELP_VERUS", true);
-			    Stats::SetBool("MP0_HELP_WEEVIL", true);
-			    Stats::SetBool("MP0_HELP_VEHUNTUNER", true);
-			    Stats::SetBool("MP0_FIXER_VEH_HELP", true);
-			    Stats::SetBool("MP0_HELP_DOMINATOR7", true);
-			    Stats::SetBool("MP0_HELP_JESTER4", true);
-			    Stats::SetBool("MP0_HELP_FUTO2", true);
-			    Stats::SetBool("MP0_HELP_DOMINATOR8", true);
-			    Stats::SetBool("MP0_HELP_PREVION", true);
-			    Stats::SetBool("MP0_HELP_GROWLER", true);
-			    Stats::SetBool("MP0_HELP_COMET6", true);
-			    Stats::SetBool("MP0_HELP_VECTRE", true);
-			    Stats::SetBool("MP0_HELP_SULTAN3", true);
-			    Stats::SetBool("MP0_HELP_CYPHER", true);
+		//     virtual void OnCall() override
+		//     {
+		// 	    Stats::SetInt("MP0_GANGOPS_FLOW_BITSET_MISS0", -1);
+		// 	    Stats::SetInt("MP0_LFETIME_HANGAR_BUY_UNDETAK", 42);
+		// 	    Stats::SetInt("MP0_LFETIME_HANGAR_BUY_COMPLET", 42);
+		// 	    Stats::SetInt("MP0_AT_FLOW_IMPEXP_NUM", 32);
+		// 	    Stats::SetInt("MP0_AT_FLOW_VEHICLE_BS", -1);
+		// 	    Stats::SetInt("MP0_WVM_FLOW_VEHICLE_BS", -1);
+		// 	    Stats::SetInt("MP0_H3_BOARD_DIALOGUE0", -1);
+		// 	    Stats::SetInt("MP0_H3_BOARD_DIALOGUE1", -1);
+		// 	    Stats::SetInt("MP0_H3_BOARD_DIALOGUE2", -1);
+		// 	    Stats::SetInt("MP0_H3_VEHICLESUSED", -1);
+		// 	    Stats::SetInt("MP0_WAM_FLOW_VEHICLE_BS", -1);
+		// 	    Stats::SetBool("MP0_HELP_VETO", true);
+		// 	    Stats::SetBool("MP0_HELP_VETO2", true);
+		// 	    Stats::SetBool("MP0_HELP_ITALIRSX", true);
+		// 	    Stats::SetBool("MP0_HELP_BRIOSO2", true);
+		// 	    Stats::SetBool("MP0_HELP_MANCHEZ2", true);
+		// 	    Stats::SetBool("MP0_HELP_SLAMTRUCK", true);
+		// 	    Stats::SetBool("MP0_HELP_VETIR", true);
+		// 	    Stats::SetBool("MP0_HELP_SQUADDIE", true);
+		// 	    Stats::SetBool("MP0_HELP_DINGY5", true);
+		// 	    Stats::SetBool("MP0_HELP_VERUS", true);
+		// 	    Stats::SetBool("MP0_HELP_WEEVIL", true);
+		// 	    Stats::SetBool("MP0_HELP_VEHUNTUNER", true);
+		// 	    Stats::SetBool("MP0_FIXER_VEH_HELP", true);
+		// 	    Stats::SetBool("MP0_HELP_DOMINATOR7", true);
+		// 	    Stats::SetBool("MP0_HELP_JESTER4", true);
+		// 	    Stats::SetBool("MP0_HELP_FUTO2", true);
+		// 	    Stats::SetBool("MP0_HELP_DOMINATOR8", true);
+		// 	    Stats::SetBool("MP0_HELP_PREVION", true);
+		// 	    Stats::SetBool("MP0_HELP_GROWLER", true);
+		// 	    Stats::SetBool("MP0_HELP_COMET6", true);
+		// 	    Stats::SetBool("MP0_HELP_VECTRE", true);
+		// 	    Stats::SetBool("MP0_HELP_SULTAN3", true);
+		// 	    Stats::SetBool("MP0_HELP_CYPHER", true);
 
-		    }
-	    };
-	    class unlock_vehicle_gun_mods : public Command //bodyarmor&livery
+		//     }
+	    // };
+	    class unlock_vehicle_gun_mods : public Command 
 	    {
 		    using Command::Command;
 
@@ -2974,8 +3016,7 @@ namespace YimMenu::Features
 				Stats::SetPackedBool(34379, TRUE);
 			    Stats::SetPackedBool(31791, TRUE); // Sprunk Chute Bag
 			    Stats::SetPackedBool(31792, TRUE); // eCola Chute Bag
-			    Stats::SetPackedBool(31793, TRUE); // Halloween Chute Bag  
-
+			    Stats::SetPackedBool(31793, TRUE); // Halloween Chute Bag
 
 		    }
 	    };
@@ -3014,15 +3055,15 @@ namespace YimMenu::Features
 			    }
 		    }
 	    };
-	    class single_mc_vehicle_sell : public Command          //(Not Working)
-	    {
-		    using Command::Command;
+	    // class single_mc_vehicle_sell : public Command          //(Not Working)
+	    // {
+		//     using Command::Command;
 
-		    virtual void OnCall() override
-		    {
-				*ScriptLocal("gb_biker_contraband_sell"_J, 704 + 17).As<int*>() = 0;
-		    }
-	    };
+		//     virtual void OnCall() override
+		//     {
+		// 		*ScriptLocal("gb_biker_contraband_sell"_J, 704 + 17).As<int*>() = 0;
+		//     }
+	    // };
 	    class unlock_masks : public Command
 	    {
 		    using Command::Command;
@@ -3176,16 +3217,16 @@ namespace YimMenu::Features
 			    Stats::SetPackedBool(34737, TRUE); // Borfmas Beer Hat
 			    Stats::SetPackedBool(54628, TRUE); // Blue Two-Tone Denim Cowboy Hat
 			    Stats::SetPackedBool(54624, TRUE); // Honkers Tie-Dye Hat
-			    Stats::SetPackedBool(30613, true); // Blue & Yellow Glow Shades
-			    Stats::SetPackedBool(30616, true); // Blue Glow Necklace
-			    Stats::SetPackedBool(30631, true); // Session Glow Necklace
-			    Stats::SetPackedBool(30645, true); // Red Tint Oversize Shades
-			    Stats::SetPackedBool(30652, true); // Yellow Checked Round Shades
-			    Stats::SetPackedBool(34445, true); // Pink Floral Tech Demon
+			    Stats::SetPackedBool(30613, TRUE); // Blue & Yellow Glow Shades
+			    Stats::SetPackedBool(30616, TRUE); // Blue Glow Necklace
+			    Stats::SetPackedBool(30631, TRUE); // Session Glow Necklace
+			    Stats::SetPackedBool(30645, TRUE); // Red Tint Oversize Shades
+			    Stats::SetPackedBool(30652, TRUE); // Yellow Checked Round Shades
+			    Stats::SetPackedBool(34445, TRUE); // Pink Floral Tech Demon
 			    Stats::SetPackedBool(42192, TRUE); // Cinco de Mayo Mask
 			    Stats::SetPackedBool(42202, TRUE); // Heartbreakers Cap
 			    Stats::SetPackedBool(42210, TRUE); // Black Los Stantos Cap
-			    Stats::SetPackedBool(30593, true); // Red Bangles
+			    Stats::SetPackedBool(30593, TRUE); // Red Bangles
 			    Stats::SetPackedBool(42212, TRUE); // Black LS Customs Cap, Gaiter
 			    Stats::SetPackedBool(54622, TRUE); // LS Panic Varsity Cap
 			    Stats::SetPackedBool(54630, TRUE); // LD Organics 420 Cap
@@ -3206,26 +3247,26 @@ namespace YimMenu::Features
 			    Stats::SetInt("MPPLY_NUM_CAPTURES_CREATED", 100);
 		    }
 	    }; 
-		class unlock_tradeprice : public Command
-	    {
-		    using Command::Command;
-		    virtual void OnCall() override
-		    {
-			    Stats::SetInt("MP0_SALV23_GEN_BS", -1);
-			    Stats::SetInt("MP0_SALV23_INST_PROG", -1);
-			    Stats::SetInt("MP0_SALV23_SCOPE_BS", -1);
-			    Stats::SetInt("MP0_MOST_TIME_ON_3_PLUS_STARS", 300000);
-				Stats::SetPackedBool(32366, TRUE);  // Declasse Draugur (Trade Price)
+		// class unlock_tradeprice : public Command
+	    // {
+		//     using Command::Command;
+		//     virtual void OnCall() override
+		//     {
+		// 	    Stats::SetInt("MP0_SALV23_GEN_BS", -1);
+		// 	    Stats::SetInt("MP0_SALV23_INST_PROG", -1);
+		// 	    Stats::SetInt("MP0_SALV23_SCOPE_BS", -1);
+		// 	    Stats::SetInt("MP0_MOST_TIME_ON_3_PLUS_STARS", 300000);
+		// 		Stats::SetPackedBool(32366, TRUE);  // Declasse Draugur (Trade Price)
 
-		    }
-	    };
+		//     }
+	    // };
 	    class UnlockWeapons : public Command
 	    {
 		    using Command::Command;
 
 		    virtual void OnCall() override
 		    {
-			    *ScriptGlobal(262145).At(34094).At(1).As<int*>() = "weapon_railgunxm3"_J;
+			    *ScriptGlobal(262145).At(34094).At(1).As<int*>() = "weapon_railgunxm3"_J; //RailGun
 			    //Stats::SetPackedBool(51196, TRUE);
 			    //Stats::SetPackedBool(7408, TRUE);  // Knife
 			    //Stats::SetPackedBool(7409, TRUE);  // Nightstick
@@ -3329,7 +3370,7 @@ namespace YimMenu::Features
 		    using Command::Command;
 		    virtual void OnCall() override
 		    {
-			    for (int i = 28099; i <= 28148; ++i) //
+			    for (int i = 28099; i <= 28148; ++i) //Signal Jammers
 			    {
 				    Stats::SetPackedBool(i, TRUE);
 			    }
@@ -3348,34 +3389,32 @@ namespace YimMenu::Features
 
 		    }
 	    };
-	    class Resupply_business : public Command
-	    {
-		    using Command::Command;
-		    virtual void OnCall() override
-		    {
-			    //*ScriptGlobal(1667996 + 1 + 6).As<int*>() = 1; // Acid Lab
-			    //*ScriptGlobal(1668003 + 1 + 5).As<int*>() = 1; // Bunker
-			    //*ScriptGlobal(1667996 + 1 + 1).As<int*>() = 1; // Document Forge
-			    //*ScriptGlobal(1667996 + 1 + 2).As<int*>() = 1; // Weed Farm
-			    //*ScriptGlobal(1667996 + 1 + 3).As<int*>() = 1; // Meth Lab
-			    //*ScriptGlobal(1667996 + 1 + 4).As<int*>() = 1; // Cocaine Lockup
+	    // class Resupply_business : public Command
+	    // {
+		//     using Command::Command;
+		//     virtual void OnCall() override
+		//     {
+		// 	    //*ScriptGlobal(1667996 + 1 + 6).As<int*>() = 1; // Acid Lab
+		// 	    //*ScriptGlobal(1668003 + 1 + 5).As<int*>() = 1; // Bunker
+		// 	    //*ScriptGlobal(1667996 + 1 + 1).As<int*>() = 1; // Document Forge
+		// 	    //*ScriptGlobal(1667996 + 1 + 2).As<int*>() = 1; // Weed Farm
+		// 	    //*ScriptGlobal(1667996 + 1 + 3).As<int*>() = 1; // Meth Lab
+		// 	    //*ScriptGlobal(1667996 + 1 + 4).As<int*>() = 1; // Cocaine Lockup
 
-		    }
-	    };
+		//     }
+	    // };
 	    class SupplyCooldownBypass : public LoopedCommand
 	    {
 		    using LoopedCommand::LoopedCommand;
 
 		    virtual void OnTick() override
 		    {
-			    // Directly set delay to 0 (instant supplies)
 			    *ScriptGlobal(262145).At(18768).As<int*>() = 0; // BIKER_PURCHASE_SUPPLIES_DELAY
 			    *ScriptGlobal(262145).At(21278).As<int*>() = 0; // GR_PURCHASE_SUPPLIES_DELAY
 		    }
 
 		    virtual void OnDisable() override
 		    {
-			    // Restore to original value (600)
 			    *ScriptGlobal(262145).At(18768).As<int*>() = 600; // BIKER_PURCHASE_SUPPLIES_DELAY
 			    *ScriptGlobal(262145).At(21278).As<int*>() = 600; // GR_PURCHASE_SUPPLIES_DELAY
 		    }
