@@ -6,9 +6,28 @@
 #include "types/script/globals/SC_MEMBERSHIP_DATA.hpp"
 #include "core/commands/LoopedCommand.hpp"
 #include "game/gta/ScriptLocal.hpp"
+#include "core/backend/ScriptMgr.hpp"
 
 namespace YimMenu::Features
 {
+	// Notification function
+	inline static void Notify(const std::string& message, const char* icon = "CHAR_DEFAULT", int color = 140)
+    {
+            if (!NETWORK::NETWORK_IS_SESSION_STARTED())
+                return;
+
+            GRAPHICS::REQUEST_STREAMED_TEXTURE_DICT(icon, true);
+
+            while (!GRAPHICS::HAS_STREAMED_TEXTURE_DICT_LOADED(icon))
+				ScriptMgr::Yield(); 
+
+            HUD::BEGIN_TEXT_COMMAND_THEFEED_POST("STRING");
+            HUD::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(message.c_str());
+            HUD::THEFEED_SET_BACKGROUND_COLOR_FOR_NEXT_POST(color);
+            HUD::END_TEXT_COMMAND_THEFEED_POST_MESSAGETEXT(icon, icon, true, 1, "Heist Control", "~c~Notification");
+            HUD::END_TEXT_COMMAND_THEFEED_POST_TICKER(true, false);
+    }
+
 	class BunkerResearch : public Command
 	{
 		using Command::Command;
@@ -2419,26 +2438,6 @@ namespace YimMenu::Features
 			Stats::SetInt("MP0_PLAYER_HEADSHOTS", 500);
 		}
 	};
-	// class unlock_all_contacts : public Command
-	// {
-	// 	using Command::Command;
-
-	// 	virtual void OnCall() override
-	// 	{
-	// 	    Stats::SetInt("MP0_FM_ACT_PHN", -1);
-	// 	    Stats::SetInt("MP0_FM_VEH_TX1", -1);
-	// 	    Stats::SetInt("MP0_FM_CUT_DONE", -1);
-	// 	    Stats::SetInt("MP0_FM_CUT_DONE_2", -1);
-	// 	    Stats::SetInt("MP0_FM_ACT_PH2", -1);
-	// 	    Stats::SetInt("MP0_FM_ACT_PH3", -1);
-	// 	    Stats::SetInt("MP0_FM_ACT_PH4", -1);
-	// 	    Stats::SetInt("MP0_FM_ACT_PH5", -1);
-	// 	    Stats::SetInt("MP0_FM_ACT_PH6", -1);
-	// 	    Stats::SetInt("MP0_FM_ACT_PH7", -1);
-	// 	    Stats::SetInt("MP0_FM_ACT_PH8", -1);
-	// 	    Stats::SetInt("MP0_FM_ACT_PH9", -1);
-	// 	}
-	// };
 	class unlock_all_tattoos : public Command
 	{
 		using Command::Command;
@@ -2481,55 +2480,12 @@ namespace YimMenu::Features
 			
 	    }
 	};
-	    // class unlock_some_trade_price : public Command    //(Not Working!!)
-	    // {
-		//     using Command::Command;
+	class unlock_vehicle_gun_mods : public Command
+		{
+		   using Command::Command;
 
-		//     virtual void OnCall() override
-		//     {
-		// 	    Stats::SetInt("MP0_GANGOPS_FLOW_BITSET_MISS0", -1);
-		// 	    Stats::SetInt("MP0_LFETIME_HANGAR_BUY_UNDETAK", 42);
-		// 	    Stats::SetInt("MP0_LFETIME_HANGAR_BUY_COMPLET", 42);
-		// 	    Stats::SetInt("MP0_AT_FLOW_IMPEXP_NUM", 32);
-		// 	    Stats::SetInt("MP0_AT_FLOW_VEHICLE_BS", -1);
-		// 	    Stats::SetInt("MP0_WVM_FLOW_VEHICLE_BS", -1);
-		// 	    Stats::SetInt("MP0_H3_BOARD_DIALOGUE0", -1);
-		// 	    Stats::SetInt("MP0_H3_BOARD_DIALOGUE1", -1);
-		// 	    Stats::SetInt("MP0_H3_BOARD_DIALOGUE2", -1);
-		// 	    Stats::SetInt("MP0_H3_VEHICLESUSED", -1);
-		// 	    Stats::SetInt("MP0_WAM_FLOW_VEHICLE_BS", -1);
-		// 	    Stats::SetBool("MP0_HELP_VETO", true);
-		// 	    Stats::SetBool("MP0_HELP_VETO2", true);
-		// 	    Stats::SetBool("MP0_HELP_ITALIRSX", true);
-		// 	    Stats::SetBool("MP0_HELP_BRIOSO2", true);
-		// 	    Stats::SetBool("MP0_HELP_MANCHEZ2", true);
-		// 	    Stats::SetBool("MP0_HELP_SLAMTRUCK", true);
-		// 	    Stats::SetBool("MP0_HELP_VETIR", true);
-		// 	    Stats::SetBool("MP0_HELP_SQUADDIE", true);
-		// 	    Stats::SetBool("MP0_HELP_DINGY5", true);
-		// 	    Stats::SetBool("MP0_HELP_VERUS", true);
-		// 	    Stats::SetBool("MP0_HELP_WEEVIL", true);
-		// 	    Stats::SetBool("MP0_HELP_VEHUNTUNER", true);
-		// 	    Stats::SetBool("MP0_FIXER_VEH_HELP", true);
-		// 	    Stats::SetBool("MP0_HELP_DOMINATOR7", true);
-		// 	    Stats::SetBool("MP0_HELP_JESTER4", true);
-		// 	    Stats::SetBool("MP0_HELP_FUTO2", true);
-		// 	    Stats::SetBool("MP0_HELP_DOMINATOR8", true);
-		// 	    Stats::SetBool("MP0_HELP_PREVION", true);
-		// 	    Stats::SetBool("MP0_HELP_GROWLER", true);
-		// 	    Stats::SetBool("MP0_HELP_COMET6", true);
-		// 	    Stats::SetBool("MP0_HELP_VECTRE", true);
-		// 	    Stats::SetBool("MP0_HELP_SULTAN3", true);
-		// 	    Stats::SetBool("MP0_HELP_CYPHER", true);
-
-		//     }
-	    // };
-	    class unlock_vehicle_gun_mods : public Command 
-	    {
-		    using Command::Command;
-
-		    virtual void OnCall() override
-		    {
+		   virtual void OnCall() override
+		   {
 			    Stats::SetInt("AWD_TAXIDRIVER", 100);
 			    STATS::STAT_SET_MASKED_INT("MP0_DLC22022PSTAT_INT536"_J, 10, 16, 8, true);
 				// Chrome Rims
@@ -3055,15 +3011,19 @@ namespace YimMenu::Features
 			    }
 		    }
 	    };
-	    // class single_mc_vehicle_sell : public Command          //(Not Working)
-	    // {
-		//     using Command::Command;
+	    class single_mc_vehicle_sell : public LoopedCommand     
+	    {
+		     using LoopedCommand::LoopedCommand;
 
-		//     virtual void OnCall() override
-		//     {
-		// 		*ScriptLocal("gb_biker_contraband_sell"_J, 704 + 17).As<int*>() = 0;
-		//     }
-	    // };
+		     virtual void OnTick() override
+		     {
+				*ScriptLocal("gb_biker_contraband_sell"_J, 727 + 17).As<int*>() = 0;
+		     }
+		     virtual void OnDisable() override
+		     {
+				 // None
+		     }
+	    };
 	    class unlock_masks : public Command
 	    {
 		    using Command::Command;
@@ -3247,19 +3207,6 @@ namespace YimMenu::Features
 			    Stats::SetInt("MPPLY_NUM_CAPTURES_CREATED", 100);
 		    }
 	    }; 
-		// class unlock_tradeprice : public Command
-	    // {
-		//     using Command::Command;
-		//     virtual void OnCall() override
-		//     {
-		// 	    Stats::SetInt("MP0_SALV23_GEN_BS", -1);
-		// 	    Stats::SetInt("MP0_SALV23_INST_PROG", -1);
-		// 	    Stats::SetInt("MP0_SALV23_SCOPE_BS", -1);
-		// 	    Stats::SetInt("MP0_MOST_TIME_ON_3_PLUS_STARS", 300000);
-		// 		Stats::SetPackedBool(32366, TRUE);  // Declasse Draugur (Trade Price)
-
-		//     }
-	    // };
 	    class UnlockWeapons : public Command
 	    {
 		    using Command::Command;
@@ -3267,102 +3214,6 @@ namespace YimMenu::Features
 		    virtual void OnCall() override
 		    {
 			    *ScriptGlobal(262145).At(34094).At(1).As<int*>() = "weapon_railgunxm3"_J; //RailGun
-			    //Stats::SetPackedBool(51196, TRUE);
-			    //Stats::SetPackedBool(7408, TRUE);  // Knife
-			    //Stats::SetPackedBool(7409, TRUE);  // Nightstick
-			    //Stats::SetPackedBool(7410, TRUE);  // Hammer
-			    //Stats::SetPackedBool(7418, TRUE);  // Bottle
-			    //Stats::SetPackedBool(7422, TRUE);  // Antique Cavalry Dagger
-			    //Stats::SetPackedBool(7435, TRUE);  // Knuckle Duster
-			    //Stats::SetPackedBool(7437, TRUE);  // Hatchet
-			    //Stats::SetPackedBool(7440, TRUE);  // Machete
-			    //Stats::SetPackedBool(7442, TRUE);  // Flashlight
-			    //Stats::SetPackedBool(7444, TRUE);  // Switchblade
-			    //Stats::SetPackedBool(7448, TRUE);  // Golf Club
-			    //Stats::SetPackedBool(7449, TRUE);  // Baseball Bat
-			    //Stats::SetPackedBool(7466, TRUE);  // Crowbar
-			    //Stats::SetPackedBool(7622, TRUE);  // Battle Axe
-			    //Stats::SetPackedBool(7626, TRUE);  // Pool Cue
-			    //Stats::SetPackedBool(7627, TRUE);  // Pipe Wrench
-			    //Stats::SetPackedBool(15548, TRUE); // Stone Hatchet
-			    //Stats::SetPackedBool(36671, TRUE); // Candy Cane
-			    //Stats::SetPackedBool(7387, TRUE);  // Pistol
-			    //Stats::SetPackedBool(7388, TRUE);  // Combat Pistol
-			    //Stats::SetPackedBool(7389, TRUE);  // AP Pistol
-			    //Stats::SetPackedBool(7411, TRUE);  // Pistol .50
-			    //Stats::SetPackedBool(7420, TRUE);  // Heavy Pistol
-			    //Stats::SetPackedBool(7421, TRUE);  // SNS Pistol
-			    //Stats::SetPackedBool(7423, TRUE);  // Vintage Pistol
-			    //Stats::SetPackedBool(7425, TRUE);  // Flare Gun
-			    //Stats::SetPackedBool(7436, TRUE);  // Marksman Pistol
-			    //Stats::SetPackedBool(7443, TRUE);  // Heavy Revolver
-			    //Stats::SetPackedBool(15441, TRUE); // Pistol Mk II
-			    //Stats::SetPackedBool(15995, TRUE); // Double-Action Revolver
-			    //Stats::SetPackedBool(18103, TRUE); // Heavy Revolver Mk II
-			    //Stats::SetPackedBool(18104, TRUE); // SNS Pistol Mk II
-			    //Stats::SetPackedBool(25241, TRUE); // Up-n-Atomizer
-			    //Stats::SetPackedBool(25518, TRUE); // Ceramic Pistol
-			    //Stats::SetPackedBool(25519, TRUE); // Navy Revolver
-			    //Stats::SetPackedBool(28261, TRUE); // Stun Gun
-			    //Stats::SetPackedBool(30322, TRUE); // Perico Pistol
-			    //Stats::SetPackedBool(36670, TRUE); // WM 29 Pistol
-			    //Stats::SetPackedBool(7390, TRUE);  // SMG
-			    //Stats::SetPackedBool(7394, TRUE);  // MG
-			    //Stats::SetPackedBool(7395, TRUE);  // Combat MG
-			    //Stats::SetPackedBool(7412, TRUE);  // Assault SMG
-			    //Stats::SetPackedBool(7424, TRUE);  // Gusenberg Sweeper
-			    //Stats::SetPackedBool(7434, TRUE);  // Combat PDW
-			    //Stats::SetPackedBool(7441, TRUE);  // Machine Pistol
-			    //Stats::SetPackedBool(7445, TRUE);  // Micro SMG
-			    //Stats::SetPackedBool(7624, TRUE);  // Mini SMG
-			    //Stats::SetPackedBool(15442, TRUE); // SMG Mk II
-			    //Stats::SetPackedBool(15444, TRUE); // Combat MG Mk II
-			    //Stats::SetPackedBool(25242, TRUE); // Unholy Hellbringer
-			    //Stats::SetPackedBool(7391, TRUE);  // Assault Rifle
-			    //Stats::SetPackedBool(7392, TRUE);  // Carbine Rifle
-			    //Stats::SetPackedBool(7393, TRUE);  // Advanced Rifle
-			    //Stats::SetPackedBool(7413, TRUE);  // Heavy Rifle
-			    //Stats::SetPackedBool(7417, TRUE);  // Special Carbine
-			    //Stats::SetPackedBool(7419, TRUE);  // Bullpup Rifle
-			    //Stats::SetPackedBool(7438, TRUE);  // Compact Rifle
-			    //Stats::SetPackedBool(15445, TRUE); // Assault Rifle Mk II
-			    //Stats::SetPackedBool(15446, TRUE); // Carbine Rifle Mk II
-			    //Stats::SetPackedBool(18100, TRUE); // Bullpup Rifle Mk II
-			    //Stats::SetPackedBool(18105, TRUE); // Special Carbine Mk II
-			    //Stats::SetPackedBool(30321, TRUE); // Military Rifle
-			    //Stats::SetPackedBool(34376, TRUE); // Service Carbine
-			    //Stats::SetPackedBool(7396, TRUE);  // Pump Shotgun
-			    //Stats::SetPackedBool(7397, TRUE);  // Sawed-Off Shotgun
-			    //Stats::SetPackedBool(7398, TRUE);  // Assault Shotgun
-			    //Stats::SetPackedBool(7414, TRUE);  // Bullpup Shotgun
-			    //Stats::SetPackedBool(7427, TRUE);  // Musket
-			    //Stats::SetPackedBool(7429, TRUE);  // Heavy Shotgun
-			    //Stats::SetPackedBool(7439, TRUE);  // Double Barrel Shotgun
-			    //Stats::SetPackedBool(7621, TRUE);  // Sweeper Shotgun
-			    //Stats::SetPackedBool(18102, TRUE); // Pump Shotgun Mk II
-			    //Stats::SetPackedBool(30632, TRUE); // Combat Shotgun
-			    //Stats::SetPackedBool(7399, TRUE);  // Sniper Rifle
-			    //Stats::SetPackedBool(7430, TRUE);  // Marksman Rifle
-			    //Stats::SetPackedBool(7446, TRUE);  // Heavy Sniper
-			    //Stats::SetPackedBool(15443, TRUE); // Heavy Sniper Mk II
-			    //Stats::SetPackedBool(18101, TRUE); // Marksman Rifle Mk II
-			    //Stats::SetPackedBool(34377, TRUE); // Precision Rifle
-			    //Stats::SetPackedBool(7400, TRUE);  // Grenade Launcher
-			    //Stats::SetPackedBool(7401, TRUE);  // RPG
-			    //Stats::SetPackedBool(7402, TRUE);  // Minigun
-			    //Stats::SetPackedBool(7426, TRUE);  // Firework Launcher
-			    //Stats::SetPackedBool(7431, TRUE);  // Homing Launcher
-			    //Stats::SetPackedBool(7623, TRUE);  // Compact Grenade Launcher
-			    //Stats::SetPackedBool(25243, TRUE); // Widowmaker
-			    //Stats::SetPackedBool(28259, TRUE); // Compact EMP Launcher
-			    //Stats::SetPackedBool(36672, TRUE); // Railgun
-			    //Stats::SetPackedBool(7403, TRUE);  // Grenade
-			    //Stats::SetPackedBool(7404, TRUE);  // Tear Gas
-			    //Stats::SetPackedBool(7405, TRUE);  // Sticky Bomb
-			    //Stats::SetPackedBool(7406, TRUE);  // Molotov
-			    //Stats::SetPackedBool(7432, TRUE);  // Proximity Mine
-			    //Stats::SetPackedBool(7447, TRUE);  // Jerry Can
-			    //Stats::SetPackedBool(7625, TRUE);  // Pipe Bomb
 		    }
 	    };
 	    class unlock_collectables: public Command
@@ -3389,20 +3240,34 @@ namespace YimMenu::Features
 
 		    }
 	    };
-	    // class Resupply_business : public Command
-	    // {
-		//     using Command::Command;
-		//     virtual void OnCall() override
-		//     {
-		// 	    //*ScriptGlobal(1667996 + 1 + 6).As<int*>() = 1; // Acid Lab
-		// 	    //*ScriptGlobal(1668003 + 1 + 5).As<int*>() = 1; // Bunker
-		// 	    //*ScriptGlobal(1667996 + 1 + 1).As<int*>() = 1; // Document Forge
-		// 	    //*ScriptGlobal(1667996 + 1 + 2).As<int*>() = 1; // Weed Farm
-		// 	    //*ScriptGlobal(1667996 + 1 + 3).As<int*>() = 1; // Meth Lab
-		// 	    //*ScriptGlobal(1667996 + 1 + 4).As<int*>() = 1; // Cocaine Lockup
+	     class Resupply_business : public Command
+	     {
+		     using Command::Command;
+		     virtual void OnCall() override
+		     {
+			     *ScriptGlobal(1668002).At(1).At(6).As<int*>() = 1; // Acid Lab
+			     *ScriptGlobal(1668002).At(1).At(5).As<int*>() = 1; // Cash
+			     *ScriptGlobal(1668002).At(1).At(1).As<int*>() = 1; // Document Forge
+			     *ScriptGlobal(1668002).At(1).At(2).As<int*>() = 1; // Weed Farm
+			     *ScriptGlobal(1668002).At(1).At(3).As<int*>() = 1; // Meth Lab
+			     *ScriptGlobal(1668002).At(1).At(4).As<int*>() = 1; // Cocaine Lockup
+			      Notify("Business Resupplied -- Successfully", "CHAR_SOCIAL_CLUB", 140);
 
-		//     }
-	    // };
+		     }
+	     };
+	     class mcbusinessmaxsellprice : public Command
+	     {
+		     using Command::Command;
+		     virtual void OnCall() override
+		     {
+			     *ScriptGlobal(262145).At(17328).As<int*>() = 6000; // Acid Lab
+			     *ScriptGlobal(262145).At(17324).As<int*>() = 30000;    // Cash
+			     *ScriptGlobal(262145).At(17323).As<int*>() = 20000;    // Document Forge
+			     *ScriptGlobal(262145).At(17327).As<int*>() = 15000; // Weed Farm
+			     *ScriptGlobal(262145).At(17326).As<int*>() = 60000;    // Meth Lab
+			     *ScriptGlobal(262145).At(17325).As<int*>() = 100000; // Cocaine Lockup
+		     }
+	     };
 	    class SupplyCooldownBypass : public LoopedCommand
 	    {
 		    using LoopedCommand::LoopedCommand;
@@ -3425,7 +3290,6 @@ namespace YimMenu::Features
 	static Genderchange _unlockgenderchange{"unlockgenderchange", "Unlock Gender Change", "Allows to Change Gender"};
 	static CareerProgress_Rewards _CareerProgress_Rewards{"careerprogressreawards", "Unlock Career Progress", "Unlocks all Career Progress Stats"};
 	static unlock_all_awards _unlock_all_awards{"unlockallawards", "Unlock Awards", "Unlocks all Awards"};
-	/*static unlock_all_contacts _unlock_all_contacts{"unlockallcontacts", "Unlock All Contacts", "Unlocks all Contacts"};*/
 	static unlock_all_tattoos _unlock_all_tattoos{"unlockalltattoos", "Unlock Tattoos", "Unlocks Some Tattoos"};
 	static unlock_vehicle_gun_mods _unlock_vehicle_gun_mods{"unlockvehiclegunmods", "Unlock Mods", "Unlocks Mods for Vehicle and Guns"};
 	static SCMembershipBypass _SCMembershipBypass{"scmembership_bypass", "GTA +", "Get GTA+ for Free"};
@@ -3436,9 +3300,9 @@ namespace YimMenu::Features
 	static single_mc_vehicle_sell _single_mc_vehicle_sell{"singlemcvehiclesell", "Single MC Vehicle Sell", "Allows to sell only one MC Vehicle at a time"};
 	static unlock_masks _unlock_masks{"unlockmasks", "Unlock Masks", "Unlocks Some Masks"};
 	static unlock_flight_school _unlock_flight_school{"unlockflightschool", "Unlock Flight School", "Unlocks Flight School"};
-	static unlock_tradeprice _unlock_tradeprice{"unlocktradeprice", "Unlock Trade Price", "Unlocks Trade Price for Few Items"};
 	static UnlockWeapons _unlock_weapons{"unlockweapons", "Unlock Weapons", "Unlocks Some Weapons"};
 	static unlock_collectables _unlock_collectables{"unlockcollectables", "Unlock Collectables", "Unlocks Some Collectables"};
 	static Resupply_business _Resupply_business{"resupplybusiness", "Resupply Business", "Resupplies all Businesses"};
 	static SupplyCooldownBypass _SupplyCooldownBypass{"supplycooldownbypass", "Supply Cooldown Bypass", "Bypasses Supply Cooldown"};
+	static mcbusinessmaxsellprice _mcbusinessmaxsellprice{"mcbusinessmaxsellprice", "MC Business Max Sell Price", "Sets Max Sell Price for MC Businesses"};
 }

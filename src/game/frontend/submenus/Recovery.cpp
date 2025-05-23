@@ -29,24 +29,21 @@ namespace YimMenu::Submenus
 		awards->AddItem(std::make_shared<CommandItem>("unlockallawards"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockgenderchange"_J));
 		awards->AddItem(std::make_shared<CommandItem>("careerprogressreawards"_J));
-		/*misc->AddItem(std::make_shared<CommandItem>("unlockallcontacts"_J));*/
 		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockalltattoos"_J));
-		vehicle->AddItem(std::make_shared<CommandItem>("unlocksometradeprice"_J));
 		gtaplus->AddItem(std::make_shared<BoolCommandItem>("scmembership_bypass"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlockachievements"_J));
 		vehicle->AddItem(std::make_shared<CommandItem>("unlockvehicle"_J));
 		vehicle->AddItem(std::make_shared<CommandItem>("unlockvehiclegunmods"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockallparachutes"_J));
 		misc->AddItem(std::make_shared<CommandItem>("fastrunreloadunlock"_J));
-		business->AddItem(std::make_shared<CommandItem>("singlemcvehiclesell"_J));
+		business->AddItem(std::make_shared<BoolCommandItem>("singlemcvehiclesell"_J));
 		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockmasks"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockflightschool"_J));
-		misc->AddItem(std::make_shared<CommandItem>("unlocktradeprice"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockweapons"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlockcollectables"_J));
 		business->AddItem(std::make_shared<CommandItem>("resupplybusiness"_J));
 		business->AddItem(std::make_shared<BoolCommandItem>("supplycooldownbypass"_J));
-		misc->AddItem(std::make_shared<CommandItem>("wm29unlock"_J));
+		business->AddItem(std::make_shared<CommandItem>("mcbusinessmaxsellprice"_J));
 		missions->AddItem(generalGroup);
 		unlocker->AddItem(awards);
 		unlocker->AddItem(unlock_goodies);
