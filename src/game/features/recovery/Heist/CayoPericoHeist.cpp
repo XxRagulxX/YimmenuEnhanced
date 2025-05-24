@@ -73,6 +73,58 @@ namespace YimMenu::Features
 		};
 		static ListCommand _CayoPericoHeistWeapon{"cayopericoheistweapon", "Weapon", "Weapon category", cayoPericoHeistWeapon, 1};
 
+		class AutomatedPreset : public Command
+		{
+			using Command::Command;
+
+			virtual void OnCall() override
+			{
+				Stats::SetInt("MPX_H4CNF_BOLTCUT", -1);
+				Stats::SetInt("MPX_H4CNF_UNIFORM", -1);
+				Stats::SetInt("MPX_H4CNF_GRAPPEL", -1);
+				Stats::SetInt("MPX_H4_MISSIONS", -1);
+				Stats::SetInt("MPX_H4CNF_WEAPONS", 1);
+				Stats::SetInt("MPX_H4CNF_TROJAN", 5);
+				Stats::SetInt("MPX_H4_PLAYTHROUGH_STATUS", 100);
+				Stats::SetInt("MPX_H4CNF_TARGET", 5);
+				Stats::SetInt("MPX_H4LOOT_CASH_I", 5551206);
+				Stats::SetInt("MPX_H4LOOT_CASH_I_SCOPED", 5551206);
+				Stats::SetInt("MPX_H4LOOT_CASH_C", 0);
+				Stats::SetInt("MPX_H4LOOT_CASH_C_SCOPED", 0);
+				Stats::SetInt("MPX_H4LOOT_COKE_I", 4884838);
+				Stats::SetInt("MPX_H4LOOT_COKE_I_SCOPED", 4884838);
+				Stats::SetInt("MPX_H4LOOT_COKE_C", 0);
+				Stats::SetInt("MPX_H4LOOT_COKE_C_SCOPED", 0);
+				Stats::SetInt("MPX_H4LOOT_GOLD_I", 0);
+				Stats::SetInt("MPX_H4LOOT_GOLD_I_SCOPED", 0);
+				Stats::SetInt("MPX_H4LOOT_GOLD_C", 192);
+				Stats::SetInt("MPX_H4LOOT_GOLD_C_SCOPED", 192);
+				Stats::SetInt("MPX_H4LOOT_WEED_I", 0);
+				Stats::SetInt("MPX_H4LOOT_WEED_I_SCOPED", 0);
+				Stats::SetInt("MPX_H4LOOT_WEED_C", 0);
+				Stats::SetInt("MPX_H4LOOT_WEED_C_SCOPED", 0);
+				Stats::SetInt("MPX_H4LOOT_PAINT", 120);
+				Stats::SetInt("MPX_H4LOOT_PAINT_SCOPED", 120);
+				Stats::SetInt("MPX_H4LOOT_CASH_V", 224431);
+				Stats::SetInt("MPX_H4LOOT_COKE_V", 353863);
+				Stats::SetInt("MPX_H4LOOT_GOLD_V", 471817);
+				Stats::SetInt("MPX_H4LOOT_PAINT_V", 353863);
+				Stats::SetInt("MPX_H4LOOT_WEED_V", 0);
+				Stats::SetInt("MPX_H4_PROGRESS", 131055);
+				Stats::SetInt("MPX_H4CNF_BS_GEN", -1);
+				Stats::SetInt("MPX_H4CNF_BS_ENTR", -1);
+				Stats::SetInt("MPX_H4CNF_BS_ABIL", -1);
+				Stats::SetInt("MPX_H4CNF_WEP_DISRP", 3);
+				Stats::SetInt("MPX_H4CNF_ARM_DISRP", 3);
+				Stats::SetInt("MPX_H4CNF_HEL_DISRP", 3);
+				Stats::SetInt("MPX_H4CNF_APPROACH", -1);
+
+				ScriptMgr::Yield(500ms);
+
+				*ScriptLocal("heist_island_planning"_J, 1566).As<int*>() = 2;
+			}
+		};
+
 		class Setup : public Command
 		{
 			using Command::Command;
@@ -157,6 +209,15 @@ namespace YimMenu::Features
 			virtual void OnCall() override
 			{
 				*ScriptLocal("fm_mission_controller_2020"_J, 56033).At(1518).At(53).As<int*>() = _CayoPericoHeistSecondaryTakeValue.GetState();
+			}
+		};
+		class SkipHacking : public Command
+		{
+			using Command::Command;
+
+			virtual void OnCall() override
+			{
+				*ScriptLocal("fm_mission_controller_2020"_J, 25388).As<int*>() = 5;
 			}
 		};
 

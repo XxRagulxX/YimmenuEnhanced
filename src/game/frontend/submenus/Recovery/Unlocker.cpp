@@ -1636,12 +1636,9 @@ namespace YimMenu::Features
 			Stats::SetInt("MP0_XM22_MISSIONS_SA", 4063232);// Complete all missions for The Last Dose
 			Stats::SetInt("MP0_XM22_FLOW", 32505856); // Complete all Fooligan Jobs
 			Stats::SetInt("MP0_LIFETIME_BKR_SELL_EARNINGS6", 10000000); // Earn $1,000,000 selling Acid
-			Stats::SetInt("MP0_LFETIME_BIKER_BUY_COMPLET6", 10); // Unlock all custom acid names
-			Stats::SetInt("MP0_LFETIME_BIKER_SELL_COMPLET6", 10); // Unlock all custom acid names
 			Stats::SetInt("MP0_XM22_MISSIONS_SA", 5); // Unlock all custom acid names
 			Stats::SetInt("MP0_XM22_MISSIONS_SA", 10); // Unlock all custom acid names
 			Stats::SetInt("MP0_XM22_MISSIONS_SA", 26); // Unlock all custom acid names
-			Stats::SetInt("MP0_LIFETIME_BKR_SELL_EARNINGS6", 1000000); // Unlock all custom acid names
 			Stats::SetInt("MP0_PROG_HUB_LSDW_FJ_NO_DEATHS", 25); // Complete 25 Fooligan Jobs without dying
 			Stats::SetInt("MP0_PROG_HUB_DAX_CLONE_KILLS", 100); // Take out 100 hostile versions of yourself in The Last Dose - Checking In
 			setRange(41660, 41670); // Complete all missions in The First Dose and The Last Dose without dying
@@ -3011,18 +3008,15 @@ namespace YimMenu::Features
 			    }
 		    }
 	    };
-	    class single_mc_vehicle_sell : public LoopedCommand     
+	    class single_mc_vehicle_sell : public Command
 	    {
-		     using LoopedCommand::LoopedCommand;
+		    using Command::Command;
 
-		     virtual void OnTick() override
-		     {
-				*ScriptLocal("gb_biker_contraband_sell"_J, 727 + 17).As<int*>() = 0;
-		     }
-		     virtual void OnDisable() override
-		     {
-				 // None
-		     }
+		    virtual void OnCall() override
+		    {
+			    *ScriptLocal("gb_biker_contraband_sell"_J).At(727).At(17).As<int*>() = 0;
+			    Notify("Easysell Mission Enabled -- Successfully", "CHAR_SOCIAL_CLUB", 140);
+		    }
 	    };
 	    class unlock_masks : public Command
 	    {
