@@ -3189,25 +3189,6 @@ namespace YimMenu::Features
 			    }
 		    }
 	    };
-	    class single_mc_vehicle_sell : public Command
-	    {
-		    using Command::Command;
-
-		    virtual void OnCall() override
-		    {
-			    int* value = ScriptLocal("gb_biker_contraband_sell"_J).At(727).At(17).As<int*>();
-
-			    if (value && static_cast<bool>(*value)) // If true
-			    {
-				    *value = 0; // Set to false
-				    Notify("Easysell Mission Disabled", "CHAR_SOCIAL_CLUB", 140);
-			    }
-			    else
-			    {
-				    Notify("Easysell was already disabled or not active", "CHAR_SOCIAL_CLUB", 140);
-			    }
-		    }
-	    };
 	    class unlock_masks : public Command
 	    {
 		    using Command::Command;
@@ -3481,7 +3462,6 @@ namespace YimMenu::Features
 	static unlock_vehicles _unlock_vehicles{"unlockvehicle", "Unlock Vehicle", "Unlocks Some Vehicles"};
 	static unlock_all_parachutes _unlock_all_parachutes{"unlockallparachutes", "Unlock All Parachutes", "Unlocks all Parachutes"};
 	static fastrun_reload_unlock _fastrun_reload_unlock{"fastrunreloadunlock", "Unlock Fast Run", "Unlocks Fast Run"};
-	static single_mc_vehicle_sell _single_mc_vehicle_sell{"singlemcvehiclesell", "Single MC Vehicle Sell", "Allows to sell only one MC Vehicle at a time"};
 	static unlock_masks _unlock_masks{"unlockmasks", "Unlock Masks", "Unlocks Some Masks"};
 	static unlock_flight_school _unlock_flight_school{"unlockflightschool", "Unlock Flight School", "Unlocks Flight School"};
 	static UnlockWeapons _unlock_weapons{"unlockweapons", "Unlock Weapons", "Unlocks Some Weapons"};
