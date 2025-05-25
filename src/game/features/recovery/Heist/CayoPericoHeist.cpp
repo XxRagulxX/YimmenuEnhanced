@@ -220,17 +220,6 @@ namespace YimMenu::Features
 				*ScriptLocal("fm_mission_controller_2020"_J, 25388).As<int*>() = 5;
 			}
 		};
-
-		class SkipHacking : public Command
-		{
-			using Command::Command;
-
-			virtual void OnCall() override
-			{
-				*ScriptLocal("fm_mission_controller_2020"_J, 25388).As<int*>() = 5;
-			}
-		};
-
 		class CutSewer : public Command
 		{
 			using Command::Command;

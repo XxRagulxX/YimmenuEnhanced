@@ -1298,6 +1298,187 @@ namespace YimMenu::Features
 			Stats::SetPackedBool(54613, TRUE); // Güffy Drug Rug Hoodie
 			Stats::SetPackedBool(54614, TRUE); // Yeti Earth Day Hoodie
 			Stats::SetPackedBool(54651, TRUE); // Black Snake Yogarishima Outfit
+			Stats::SetPackedBool(110, TRUE);
+			Stats::SetPackedBool(111, TRUE);
+			Stats::SetPackedBool(112, TRUE);
+			Stats::SetPackedBool(113, TRUE);
+			Stats::SetPackedBool(3608, TRUE);
+			Stats::SetPackedBool(3616, TRUE);
+			Stats::SetPackedBool(3750, TRUE);
+			Stats::SetPackedBool(3765, TRUE);
+			Stats::SetPackedBool(3766, TRUE);
+			Stats::SetPackedBool(3767, TRUE);
+			Stats::SetPackedBool(3768, TRUE);
+			Stats::SetPackedBool(3769, TRUE);
+			Stats::SetPackedBool(3770, TRUE);
+			Stats::SetPackedBool(3771, TRUE);
+			Stats::SetPackedBool(3772, TRUE);
+			Stats::SetPackedBool(3773, TRUE);
+			Stats::SetPackedBool(3774, TRUE);
+			Stats::SetPackedBool(3775, TRUE);
+			Stats::SetPackedBool(3776, TRUE);
+			Stats::SetPackedBool(3777, TRUE);
+			Stats::SetPackedBool(3778, TRUE);
+			Stats::SetPackedBool(3779, TRUE);
+			Stats::SetPackedBool(4333, TRUE);
+			Stats::SetPackedBool(4334, TRUE);
+			Stats::SetPackedBool(4335, TRUE);
+			Stats::SetPackedBool(6082, TRUE);
+			Stats::SetPackedBool(6091, TRUE);
+			Stats::SetPackedBool(6083, TRUE);
+			Stats::SetPackedBool(6092, TRUE);
+			Stats::SetPackedBool(7482, TRUE);
+			Stats::SetPackedBool(7483, TRUE);
+			Stats::SetPackedBool(7484, TRUE);
+			Stats::SetPackedBool(7485, TRUE);
+			Stats::SetPackedBool(7486, TRUE);
+			Stats::SetPackedBool(7487, TRUE);
+			Stats::SetPackedBool(7488, TRUE);
+			Stats::SetPackedBool(7489, TRUE);
+			Stats::SetPackedBool(7490, TRUE);
+			Stats::SetPackedBool(7491, TRUE);
+			Stats::SetPackedBool(7492, TRUE);
+			Stats::SetPackedBool(7493, TRUE);
+			Stats::SetPackedBool(7494, TRUE);
+			Stats::SetPackedBool(7495, TRUE);
+			Stats::SetPackedBool(7515, TRUE);
+			Stats::SetPackedBool(7516, TRUE);
+			Stats::SetPackedBool(7517, TRUE);
+			Stats::SetPackedBool(7518, TRUE);
+			Stats::SetPackedBool(7519, TRUE);
+			Stats::SetPackedBool(7520, TRUE);
+			Stats::SetPackedBool(7521, TRUE);
+			Stats::SetPackedBool(7522, TRUE);
+			Stats::SetPackedBool(7523, TRUE);
+			Stats::SetPackedBool(7524, TRUE);
+			Stats::SetPackedBool(7526, TRUE);
+			Stats::SetPackedBool(7527, TRUE);
+			Stats::SetPackedBool(7528, TRUE);
+			Stats::SetPackedBool(7551, TRUE);
+			Stats::SetPackedBool(9384, TRUE);
+			Stats::SetPackedBool(9385, TRUE);
+			Stats::SetPackedBool(9443, TRUE);
+			Stats::SetPackedBool(18134, TRUE);
+			Stats::SetPackedBool(18135, TRUE);
+			Stats::SetPackedBool(18136, TRUE);
+			Stats::SetPackedBool(18137, TRUE);
+			Stats::SetPackedBool(22150, TRUE);
+			Stats::SetPackedBool(22152, TRUE);
+			Stats::SetPackedBool(22159, TRUE);
+			Stats::SetPackedBool(22162, TRUE);
+			Stats::SetPackedBool(22166, TRUE);
+			Stats::SetPackedBool(22170, TRUE);
+			Stats::SetPackedBool(22172, TRUE);
+			Stats::SetPackedBool(22174, TRUE);
+			Stats::SetPackedBool(25018, TRUE);
+			Stats::SetPackedBool(25019, TRUE);
+			Stats::SetPackedBool(25020, TRUE);
+			Stats::SetPackedBool(25021, TRUE);
+			Stats::SetPackedBool(25005, TRUE);
+			Stats::SetPackedBool(30240, TRUE);
+			Stats::SetPackedBool(30259, TRUE);
+			Stats::SetPackedBool(31736, TRUE);
+			Stats::SetPackedBool(30524, TRUE);
+			Stats::SetPackedBool(30525, TRUE);
+			Stats::SetPackedBool(30526, TRUE);
+			Stats::SetPackedBool(30527, TRUE);
+			Stats::SetPackedBool(30528, TRUE);
+			Stats::SetPackedBool(30529, TRUE);
+			Stats::SetPackedBool(30530, TRUE);
+			Stats::SetPackedBool(30531, TRUE);
+			Stats::SetPackedBool(30532, TRUE);
+			Stats::SetPackedBool(30533, TRUE);
+			Stats::SetPackedBool(30534, TRUE);
+			Stats::SetPackedBool(30535, TRUE);
+			Stats::SetPackedBool(30536, TRUE);
+			Stats::SetPackedBool(30537, TRUE);
+			Stats::SetPackedBool(30538, TRUE);
+			Stats::SetPackedBool(30539, TRUE);
+			Stats::SetPackedBool(30540, TRUE);
+			Stats::SetPackedBool(30541, TRUE);
+			Stats::SetPackedBool(30542, TRUE);
+			Stats::SetPackedBool(30543, TRUE);
+			Stats::SetPackedBool(30544, TRUE);
+			Stats::SetPackedBool(30545, TRUE);
+			Stats::SetPackedBool(30546, TRUE);
+			Stats::SetPackedBool(30547, TRUE);
+			Stats::SetPackedBool(30548, TRUE);
+			Stats::SetPackedBool(30549, TRUE);
+			Stats::SetPackedBool(30550, TRUE);
+			Stats::SetPackedBool(30551, TRUE);
+			Stats::SetPackedBool(30552, TRUE);
+			Stats::SetPackedBool(30553, TRUE);
+			Stats::SetPackedBool(30554, TRUE);
+			Stats::SetPackedBool(30555, TRUE);
+			Stats::SetPackedBool(30556, TRUE);
+			Stats::SetPackedBool(30557, TRUE);
+			Stats::SetPackedBool(30634, TRUE);
+			Stats::SetPackedBool(30635, TRUE);
+			Stats::SetPackedBool(30636, TRUE);
+			Stats::SetPackedBool(30637, TRUE);
+			Stats::SetPackedBool(32307, TRUE);
+			Stats::SetPackedBool(32308, TRUE);
+			Stats::SetPackedBool(32316, TRUE);
+			Stats::SetPackedBool(34372, TRUE);
+			Stats::SetPackedBool(34380, TRUE);
+			Stats::SetPackedBool(34506, TRUE);
+			Stats::SetPackedBool(34507, TRUE);
+			Stats::SetPackedBool(34508, TRUE);
+			Stats::SetPackedBool(34509, TRUE);
+			Stats::SetPackedBool(34510, TRUE);
+			Stats::SetPackedBool(36774, TRUE);
+			Stats::SetPackedBool(36775, TRUE);
+			Stats::SetPackedBool(36776, TRUE);
+			Stats::SetPackedBool(36809, TRUE);
+			Stats::SetPackedBool(3483, TRUE);
+			Stats::SetPackedBool(3484, TRUE);
+			Stats::SetPackedBool(3485, TRUE);
+			Stats::SetPackedBool(3486, TRUE);
+			Stats::SetPackedBool(3487, TRUE);
+			Stats::SetPackedBool(3488, TRUE);
+			Stats::SetPackedBool(3489, TRUE);
+			Stats::SetPackedBool(3490, TRUE);
+			Stats::SetPackedBool(3491, TRUE);
+			Stats::SetPackedBool(3492, TRUE);
+			Stats::SetPackedBool(3496, TRUE);
+			Stats::SetPackedBool(3497, TRUE);
+			Stats::SetPackedBool(3498, TRUE);
+			Stats::SetPackedBool(3499, TRUE);
+			Stats::SetPackedBool(3500, TRUE);
+			Stats::SetPackedBool(3501, TRUE);
+			Stats::SetPackedBool(3502, TRUE);
+			Stats::SetPackedBool(3503, TRUE);
+			Stats::SetPackedBool(3504, TRUE);
+			Stats::SetPackedBool(3505, TRUE);
+			Stats::SetPackedBool(6097, TRUE);
+			Stats::SetPackedBool(6106, TRUE);
+			Stats::SetPackedBool(6169, TRUE);
+			Stats::SetPackedBool(6181, TRUE);
+			Stats::SetPackedBool(6303, TRUE);
+			Stats::SetPackedBool(6316, TRUE);
+			Stats::SetPackedBool(6304, TRUE);
+			Stats::SetPackedBool(6317, TRUE);
+			Stats::SetPackedBool(15708, TRUE);
+			Stats::SetPackedBool(15710, TRUE);
+			Stats::SetPackedBool(15717, TRUE);
+			Stats::SetPackedBool(15720, TRUE);
+			Stats::SetPackedBool(15724, TRUE);
+			Stats::SetPackedBool(15728, TRUE);
+			Stats::SetPackedBool(15730, TRUE);
+			Stats::SetPackedBool(15732, TRUE);
+			Stats::SetPackedBool(15719, TRUE);
+			Stats::SetPackedBool(15721, TRUE);
+			Stats::SetPackedBool(15728, TRUE);
+			Stats::SetPackedBool(15731, TRUE);
+			Stats::SetPackedBool(15735, TRUE);
+			Stats::SetPackedBool(15739, TRUE);
+			Stats::SetPackedBool(15741, TRUE);
+			Stats::SetPackedBool(15743, TRUE);
+			Stats::SetPackedBool(30407, TRUE);
+			Stats::SetPackedBool(22050, TRUE);
+			Stats::SetPackedBool(22051, TRUE);
+			Stats::SetPackedBool(22058, TRUE);
+			Stats::SetPackedBool(22063, TRUE);
 		}
 	};
 	class CareerProgress_Rewards : public Command
@@ -3014,8 +3195,17 @@ namespace YimMenu::Features
 
 		    virtual void OnCall() override
 		    {
-			    *ScriptLocal("gb_biker_contraband_sell"_J).At(727).At(17).As<int*>() = 0;
-			    Notify("Easysell Mission Enabled -- Successfully", "CHAR_SOCIAL_CLUB", 140);
+			    int* value = ScriptLocal("gb_biker_contraband_sell"_J).At(727).At(17).As<int*>();
+
+			    if (value && static_cast<bool>(*value)) // If true
+			    {
+				    *value = 0; // Set to false
+				    Notify("Easysell Mission Disabled", "CHAR_SOCIAL_CLUB", 140);
+			    }
+			    else
+			    {
+				    Notify("Easysell was already disabled or not active", "CHAR_SOCIAL_CLUB", 140);
+			    }
 		    }
 	    };
 	    class unlock_masks : public Command
