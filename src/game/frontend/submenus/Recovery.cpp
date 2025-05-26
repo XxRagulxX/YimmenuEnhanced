@@ -43,6 +43,7 @@ namespace YimMenu::Submenus
 		business->AddItem(std::make_shared<CommandItem>("resupplybusiness"_J));
 		business->AddItem(std::make_shared<BoolCommandItem>("supplycooldownbypass"_J));
 		business->AddItem(std::make_shared<CommandItem>("mcbusinessmaxsellprice"_J));
+		misc->AddItem(std::make_shared<CommandItem>("nightclubpopularity"_J));
 		missions->AddItem(generalGroup);
 		unlocker->AddItem(awards);
 		unlocker->AddItem(unlock_goodies);

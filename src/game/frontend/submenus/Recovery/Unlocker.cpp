@@ -3371,7 +3371,15 @@ namespace YimMenu::Features
 			    }
 			    Stats::SetInt("MPPLY_NUM_CAPTURES_CREATED", 100);
 		    }
-	    }; 
+	    };
+		class Nightclubpopularity : public Command
+		{
+			using Command::Command;
+			virtual void OnCall() override
+			{
+			    Stats::SetInt("CLUB_POPULARITY", 1000); // Nightclub Popularity
+			}
+	    };
 	    class UnlockWeapons : public Command
 	    {
 		    using Command::Command;
@@ -3469,4 +3477,5 @@ namespace YimMenu::Features
 	static Resupply_business _Resupply_business{"resupplybusiness", "Resupply Business", "Resupplies all Businesses"};
 	static SupplyCooldownBypass _SupplyCooldownBypass{"supplycooldownbypass", "Supply Cooldown Bypass", "Bypasses Supply Cooldown"};
 	static mcbusinessmaxsellprice _mcbusinessmaxsellprice{"mcbusinessmaxsellprice", "MC Business Max Sell Price", "Sets Max Sell Price for MC Businesses"};
+	static Nightclubpopularity _mightclubpopularity{"nightclubpopularity", "Nightclub Popularity", "Sets Nightclub Popularity to 1000"};
 }
