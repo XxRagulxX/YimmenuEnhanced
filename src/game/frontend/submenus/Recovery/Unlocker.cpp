@@ -3477,5 +3477,5 @@ namespace YimMenu::Features
 	static Resupply_business _Resupply_business{"resupplybusiness", "Resupply Business", "Resupplies all Businesses"};
 	static SupplyCooldownBypass _SupplyCooldownBypass{"supplycooldownbypass", "Supply Cooldown Bypass", "Bypasses Supply Cooldown"};
 	static mcbusinessmaxsellprice _mcbusinessmaxsellprice{"mcbusinessmaxsellprice", "MC Business Max Sell Price", "Sets Max Sell Price for MC Businesses"};
-	static Nightclubpopularity _mightclubpopularity{"nightclubpopularity", "Nightclub Popularity", "Sets Nightclub Popularity to 1000"};
+	static Nightclubpopularity _nightclubpopularity{"nightclubpopularity", "Nightclub Popularity", "Sets Nightclub Popularity to 1000"};
 }
