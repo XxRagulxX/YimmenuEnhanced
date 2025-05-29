@@ -8,6 +8,7 @@
 #include "game/gta/ScriptLocal.hpp"
 #include "core/backend/ScriptMgr.hpp"
 #include "game/backend/Tunables.hpp"
+#include "game/backend/DeleteObjectsByHash.hpp"
 
 namespace YimMenu::Features
 {
@@ -227,6 +228,8 @@ namespace YimMenu::Features
 			virtual void OnCall() override
 			{
 				*ScriptLocal("fm_mission_controller_2020"_J, 30212).As<int*>() = 6;
+				Hash drainagePipeHash = "prop_chem_grill_bit"_J;
+				YimMenu::DeleteObjectsByHash(drainagePipeHash);
 			}
 		};
 
