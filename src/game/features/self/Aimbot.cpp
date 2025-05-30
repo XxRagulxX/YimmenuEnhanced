@@ -1,26 +1,50 @@
 #include "core/commands/BoolCommand.hpp"
+#include "core/commands/LoopedCommand.hpp"
+#include "game/backend/Self.hpp"
+#include "game/gta/Natives.hpp"
+#include "game/gta/Pools.hpp"
 #include "game/pointers/Pointers.hpp"
+
+#include <set>
 
 namespace YimMenu::Features
 {
-	class Aimbot : public BoolCommand
+	class Aimbot : public LoopedCommand
 	{
-		using BoolCommand::BoolCommand;
+		using LoopedCommand::LoopedCommand;
+
+		std::set<int> killed_peds;
 
 		virtual void OnEnable() override
 		{
 			Pointers.ShouldNotTargetEntityPatch->Apply();
 			Pointers.GetAssistedAimTypePatch->Apply();
+			killed_peds.clear();
+		}
+
+		virtual void OnTick() override
+		{
+			for (Ped ped : Pools::GetPeds())
+			{
+				int handle = ped.GetHandle();
+				if (!killed_peds.contains(handle) && !ped.IsPlayer() && ped.IsDead()
+				    && ENTITY::HAS_ENTITY_BEEN_DAMAGED_BY_ENTITY(handle, Self::GetPed().GetHandle(), false))
+				{
+					killed_peds.insert(handle);
+					PAD::DISABLE_CONTROL_ACTION(0, 25, true);
+				}
+			}
 		}
 
 		virtual void OnDisable() override
 		{
 			Pointers.ShouldNotTargetEntityPatch->Restore();
 			Pointers.GetAssistedAimTypePatch->Restore();
+			killed_peds.clear();
 		}
 	};
 
-	class AimbotAimForHead : BoolCommand
+	class AimbotAimForHead : public BoolCommand
 	{
 		using BoolCommand::BoolCommand;
 
@@ -35,7 +59,7 @@ namespace YimMenu::Features
 		}
 	};
 
-	class AimbotTargetDrivers : BoolCommand
+	class AimbotTargetDrivers : public BoolCommand
 	{
 		using BoolCommand::BoolCommand;
 
