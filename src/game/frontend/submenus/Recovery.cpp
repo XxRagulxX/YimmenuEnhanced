@@ -23,9 +23,6 @@ namespace YimMenu::Submenus
 		auto gtaplus  = std::make_shared<Group>("GTA+");
 		
 		
-
-		auto casinoGroup  = std::make_shared<Group>("CasinoRigSlotMachines");
-		auto generalGroup  = std::make_shared<Group>("General");
 		auto businessGroup = std::make_shared<Group>("General");
 		auto casinoGroup   = std::make_shared<Group>("CasinoRigSlotMachines");
 
