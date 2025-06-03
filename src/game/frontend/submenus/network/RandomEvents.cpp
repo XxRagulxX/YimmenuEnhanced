@@ -96,8 +96,10 @@ namespace YimMenu::Submenus
 		else
 		{
 			// Phantom Car's cooldown is actually 2147483647ms if STANDARDTARGETTINGTIME is not enabled
-			setCooldown     = *Tunables::GetTunable(randomEventCooldowns[event]).As<int*>();
-			setAvailability = *Tunables::GetTunable(randomEventAvailabilities[event]).As<int*>();
+			if (auto tunable = Tunables::GetTunable(randomEventCooldowns[event]))
+				setCooldown = *tunable->As<int*>();
+			if (auto tunable = Tunables::GetTunable(randomEventAvailabilities[event]))
+				setAvailability = *tunable->As<int*>();
 		}
 	}
 
@@ -213,7 +215,8 @@ namespace YimMenu::Submenus
 			}
 
 			int numActiveEvents = GetNumLocallyActiveEvents();
-			int maxActiveEvents = *Tunables::GetTunable("FMREMAXACTIVATEDEVENTS"_J).As<int*>();
+			static Tunable maxEventsTune{"FMREMAXACTIVATEDEVENTS"_J};
+			int maxActiveEvents = maxEventsTune.IsReady() ? maxEventsTune.Get<int>() : 0;
 			if (numActiveEvents >= maxActiveEvents)
 				ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Active Events: %d/%d", numActiveEvents, maxActiveEvents);
 			else

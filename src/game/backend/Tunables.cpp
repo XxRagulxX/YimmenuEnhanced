@@ -195,4 +195,15 @@ namespace YimMenu
 
 		LOG(INFO) << "Loaded " << m_Tunables.size() << " tunables from cache.";
 	}
+
+	bool Tunable::IsReady()
+	{
+		if (m_Global)
+			return true;
+
+		m_Global = Tunables::GetTunable(m_Hash);
+
+		if (m_Global)
+			return true;
+	}
 }
