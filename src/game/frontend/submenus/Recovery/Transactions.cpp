@@ -288,7 +288,7 @@ namespace YimMenu::Submenus
 
 	static int GetItemPrice(rage::netCatalogBaseItem* item)
 	{
-		if (item->m_MembershipPrice != -1 || !HasGTAPlusMembership())
+		if (item->m_MembershipPrice == -1 || !HasGTAPlusMembership())
 			return item->m_Price;
 		else
 			return item->m_MembershipPrice;
