@@ -147,6 +147,7 @@ namespace YimMenu
 		int* BypassGTAPlus;
 		CStatsMpCharacterMappingData* StatsMpCharacterMappingData;
 		int* HasGTAPlus;
+		PVOID BattlEyeServerProcessPlayerJoin;
 	};
 
 	struct Pointers : PointerData
