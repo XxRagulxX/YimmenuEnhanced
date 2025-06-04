@@ -20,7 +20,6 @@ namespace YimMenu::Submenus
 		auto vehicle        = std::make_shared<Group>("Vehicle");
 		auto misc = std::make_shared<Group>("Misc");
 		auto business = std::make_shared<Group>("Business");
-		auto gtaplus  = std::make_shared<Group>("GTA+");
 		
 		
 		auto businessGroup = std::make_shared<Group>("General");
@@ -43,7 +42,6 @@ namespace YimMenu::Submenus
 		misc->AddItem(std::make_shared<CommandItem>("unlockgenderchange"_J));
 		awards->AddItem(std::make_shared<CommandItem>("careerprogressreawards"_J));
 		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockalltattoos"_J));
-		gtaplus->AddItem(std::make_shared<BoolCommandItem>("scmembership_bypass"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlockachievements"_J));
 		vehicle->AddItem(std::make_shared<CommandItem>("unlockvehicle"_J));
 		vehicle->AddItem(std::make_shared<CommandItem>("unlockvehiclegunmods"_J));
@@ -61,7 +59,6 @@ namespace YimMenu::Submenus
 		unlocker->AddItem(awards);
 		unlocker->AddItem(unlock_goodies);
 		unlocker->AddItem(misc);
-		unlocker->AddItem(gtaplus);
 		unlocker->AddItem(business);
 		unlocker->AddItem(vehicle);
 		businesses->AddItem(businessGroup);

@@ -347,11 +347,6 @@ namespace YimMenu
 		scanner.Add(allowPausingInSessionPatchPtrn, [this](PointerCalculator ptr) {
 			AllowPausingInSessionPatch = BytePatches::Add(ptr.Sub(0x1E).As<std::uint8_t*>(), 0xEB);
 		});
-		constexpr auto BypassGTAPlusPtrn = Pattern<"E8 ? ? ? ? 84 C0 74 17 89 F1">("BypassGTAPlus");
-		scanner.Add(BypassGTAPlusPtrn, [this](PointerCalculator ptr) {
-			BypassGTAPlus = ptr.Add(1).Rip().Add(7).Rip().As<int*>();
-		});
-		//let *BypassGTAPlus = 0;
 
 		constexpr auto getPoolTypePtrn = Pattern<"BA CE 94 A6 ED E8">("GetPoolType");
 		scanner.Add(getPoolTypePtrn, [this](PointerCalculator ptr) {

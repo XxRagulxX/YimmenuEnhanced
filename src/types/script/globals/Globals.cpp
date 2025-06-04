@@ -16,7 +16,6 @@
 #include "g_SavedMPGlobals.hpp"
 #include "FreemodeGeneral.hpp"
 #include "game/gta/ScriptGlobal.hpp"
-#include "SC_MEMBERSHIP_DATA.hpp"
 
 #define DEFINE_GLOBAL_ACCESSOR(str, global)       \
 	str* str::Get()                               \
@@ -44,4 +43,3 @@ DEFINE_GLOBAL_ACCESSOR(GSBD_RandomEvents, 1882524);
 DEFINE_GLOBAL_ACCESSOR(MPSV, 1586543);
 DEFINE_GLOBAL_ACCESSOR(g_SavedMPGlobals, 2359296);
 DEFINE_GLOBAL_ACCESSOR(FreemodeGeneral, 2739945);
-DEFINE_GLOBAL_ACCESSOR(SC_MEMBERSHIP_DATA, 1963593);

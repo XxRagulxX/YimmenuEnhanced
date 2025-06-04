@@ -3,7 +3,6 @@
 #include "game/gta/Stats.hpp"
 #include "core/util/Joaat.hpp"
 #include "game/backend/Tunables.hpp"
-#include "types/script/globals/SC_MEMBERSHIP_DATA.hpp"
 #include "core/commands/LoopedCommand.hpp"
 #include "game/gta/ScriptLocal.hpp"
 #include "core/backend/ScriptMgr.hpp"
@@ -3006,22 +3005,6 @@ namespace YimMenu::Features
 			    Stats::SetPackedBool(32013, TRUE); // Dominator GTT - 70s Street Machine (Livery)
 		    }
 	    };
-	    class SCMembershipBypass : public LoopedCommand
-	    {
-		    using LoopedCommand::LoopedCommand;
-
-		    virtual void OnTick() override
-		    {
-			    if (auto scMembershipData = SC_MEMBERSHIP_DATA::Get())
-			    {
-				    *Tunables::GetTunable("GTAO_AUTO_REFRESH_FREQUENCY_IN_FRAMES"_J).As<int*>() = INT_MAX;
-				    scMembershipData->Flags.Set(eSCMembershipFlags::MEMBERSHIP_CHECKED);
-				    scMembershipData->Flags.Clear(eSCMembershipFlags::CHECK_MEMBERSHIP);
-				    scMembershipData->Flags.Set(eSCMembershipFlags::DISABLE_MEMBERSHIP_CHECK);
-				    scMembershipData->HasMembership = TRUE;
-			    }
-		    }
-	    };
 		class unlock_vehicles : public Command         //(Not Working!!)
 	    {
 		    using Command::Command;
@@ -3465,7 +3448,6 @@ namespace YimMenu::Features
 	static unlock_all_awards _unlock_all_awards{"unlockallawards", "Unlock Awards", "Unlocks all Awards"};
 	static unlock_all_tattoos _unlock_all_tattoos{"unlockalltattoos", "Unlock Tattoos", "Unlocks Some Tattoos"};
 	static unlock_vehicle_gun_mods _unlock_vehicle_gun_mods{"unlockvehiclegunmods", "Unlock Mods", "Unlocks Mods for Vehicle and Guns"};
-	static SCMembershipBypass _SCMembershipBypass{"scmembership_bypass", "GTA +", "Get GTA+ for Free"};
 	static unlock_achievements _unlock_achievements{"unlockachievements", "Unlock Achievements", "Unlocks all achievements"};
 	static unlock_vehicles _unlock_vehicles{"unlockvehicle", "Unlock Vehicle", "Unlocks Some Vehicles"};
 	static unlock_all_parachutes _unlock_all_parachutes{"unlockallparachutes", "Unlock All Parachutes", "Unlocks all Parachutes"};

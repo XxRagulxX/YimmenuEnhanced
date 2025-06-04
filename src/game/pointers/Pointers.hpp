@@ -144,7 +144,6 @@ namespace YimMenu
 		PVOID GetPoolType;
 		BytePatch SetJoinRequestPoolTypePatch;
 		BytePatch HandleJoinRequestIgnorePoolPatch;
-		int* BypassGTAPlus;
 		CStatsMpCharacterMappingData* StatsMpCharacterMappingData;
 		int* HasGTAPlus;
 		PVOID BattlEyeServerProcessPlayerJoin;
