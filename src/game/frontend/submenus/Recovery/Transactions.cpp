@@ -311,7 +311,7 @@ namespace YimMenu::Submenus
 		return hash == "CATEGORY_PRICE_MODIFIER"_J || hash == "CATEGORY_PRICE_OVERRIDE"_J;
 	}
 
-	bool ShouldSwapItemParams(std::uint32_t hash) // Position - 0x3815F (229727)
+	bool ShouldSwapItemParams(std::uint32_t hash)
 	{
 		switch (hash)
 		{
