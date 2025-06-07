@@ -384,6 +384,11 @@ namespace YimMenu
 			AssistedAimShouldReleaseEntity = ptr.Sub(0xF).As<PVOID>();
 		});
 
+		constexpr auto assistedAimFindNewTargetPtrn = Pattern<"0F 84 C9 00 00 00 48 89 CE 48 89 F9">("AssistedAimFindNewTarget");
+		scanner.Add(assistedAimFindNewTargetPtrn, [this](PointerCalculator ptr) {
+			AssistedAimFindNewTarget = ptr.Sub(0x33).As<Functions::AssistedAimFindNewTarget>();
+		});
+
 		if (!scanner.Scan())
 		{
 			LOG(FATAL) << "Some patterns could not be found, unloading.";
