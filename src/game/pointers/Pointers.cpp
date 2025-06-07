@@ -379,6 +379,11 @@ namespace YimMenu
 			BattlEyeServerProcessPlayerJoin = ptr.Sub(0x72).As<PVOID>();
 		});
 
+		constexpr auto assistedAimShouldReleaseEntityPtrn = Pattern<"80 7F 28 04 75 6A">("AssistedAimShouldReleaseEntity");
+		scanner.Add(assistedAimShouldReleaseEntityPtrn, [this](PointerCalculator ptr) {
+			AssistedAimShouldReleaseEntity = ptr.Sub(0xF).As<PVOID>();
+		});
+
 		if (!scanner.Scan())
 		{
 			LOG(FATAL) << "Some patterns could not be found, unloading.";
