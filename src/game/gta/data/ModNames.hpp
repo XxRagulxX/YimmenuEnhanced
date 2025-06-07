@@ -1,7 +1,7 @@
 #pragma once
 #include "VehicleValues.hpp"
 
-inline const std::map<int, std::string> lscPlateStyles = {
+inline const std::map<int, const char*> lscPlateStyles = {
     {(int)PlateTextIndexs::PLATE_BLUEONWHITE1, "Blue on White 1"},
     {(int)PlateTextIndexs::PLATE_YELLOWONBLACK, "Yellow on Black"},
     {(int)PlateTextIndexs::PLATE_YELLOWONBLUE, "Yellow on Blue"},
@@ -17,7 +17,7 @@ inline const std::map<int, std::string> lscPlateStyles = {
     {(int)PlateTextIndexs::PLATE_SPRUNK, "Sprunk"},
 };
 
-inline const std::map<int, std::string> lscWheelStyles = {
+inline const std::map<int, const char*> lscWheelStyles = {
     {(int)WheelTypes::WHEEL_TYPE_SPORT, "Sport"},
     {(int)WheelTypes::WHEEL_TYPE_MUSCLE, "Muscle"},
     {(int)WheelTypes::WHEEL_TYPE_LOWRIDER, "Lowrider"},
@@ -33,7 +33,7 @@ inline const std::map<int, std::string> lscWheelStyles = {
     {(int)WheelTypes::WHEEL_TYPE_TRACK, "Track"},
 };
 
-inline const std::map<int, std::string> lscWindowTintTypes = {
+inline const std::map<int, const char*> lscWindowTintTypes = {
     {(int)WindowTints::WINDOWTINT_NONE, "None"},
     {(int)WindowTints::WINDOWTINT_BLACK, "Black"},
     {(int)WindowTints::WINDOWTINT_DARKSMOKE, "Dark"},
@@ -43,7 +43,7 @@ inline const std::map<int, std::string> lscWindowTintTypes = {
     {(int)WindowTints::WINDOWTINT_GREEN, "Green"},
 };
 
-inline const std::map<int, std::string> lscClassicColors = {
+inline const std::map<int, const char*> lscClassicColors = {
     {(int)VehicleColorsClassic::COLOR_CLASSIC_BLACK, "Black"},
     {(int)VehicleColorsClassic::COLOR_CLASSIC_CARBON_BLACK, "Carbon Black"},
     {(int)VehicleColorsClassic::COLOR_CLASSIC_GRAPHITE, "Graphite"},
@@ -133,7 +133,7 @@ inline const std::map<int, std::string> lscClassicColors = {
     {(int)VehicleColorsClassic::COLOR_CLASSIC_SECRET_GOLD, "Secret Gold"},
 };
 
-inline const std::map<int, std::string> lscMatteColors = {
+inline const std::map<int, const char*> lscMatteColors = {
     {(int)VehicleColorsMatte::COLOR_MATTE_BLACK, "Black"},
     {(int)VehicleColorsMatte::COLOR_MATTE_GRAY, "Gray"},
     {(int)VehicleColorsMatte::COLOR_MATTE_LIGHT_GRAY, "Light Gray"},
@@ -157,7 +157,7 @@ inline const std::map<int, std::string> lscMatteColors = {
     {(int)VehicleColorsMatte::COLOR_MATTE_BROWN, "Brown"},
 };
 
-inline const std::map<int, std::string> lscChameleonColors = {
+inline const std::map<int, const char*> lscChameleonColors = {
 	{(int)VehicleColorsChameleon::ANOD_RED        , "Anodized Red"},
 	{(int)VehicleColorsChameleon::ANOD_WINE       , "Anodized Wine"},
 	{(int)VehicleColorsChameleon::ANOD_PURPLE     , "Anodized Purple"},
@@ -222,7 +222,7 @@ inline const std::map<int, std::string> lscChameleonColors = {
 	{(int)VehicleColorsChameleon::WHITE_HOLO      , "White Holographic"},
 };
 
-inline const std::map<int, std::string> lscMetalColors = {
+inline const std::map<int, const char*> lscMetalColors = {
     {(int)VehicleColorsMetals::COLOR_METALS_BRUSHED_STEEL, "Brushed Steel"},
     {(int)VehicleColorsMetals::COLOR_METALS_BRUSHED_BLACK_STEEL, "Brushed Black Steel"},
     {(int)VehicleColorsMetals::COLOR_METALS_BRUSHED_ALUMINUM, "Brushed Aluminium"},
@@ -230,7 +230,7 @@ inline const std::map<int, std::string> lscMetalColors = {
     {(int)VehicleColorsMetals::COLOR_METALS_BRUSHED_GOLD, "Brushed Gold"},
 };
 
-inline const std::map<int, std::string> lscUtilColors = {
+inline const std::map<int, const char*> lscUtilColors = {
     {(int)VehicleColorsUtil::COLOR_UTIL_BLACK, "Black"},
     {(int)VehicleColorsUtil::COLOR_UTIL_BLACK_POLY, "Black Poly"},
     {(int)VehicleColorsUtil::COLOR_UTIL_DARK_SILVER, "Dark Silver"},
@@ -255,7 +255,7 @@ inline const std::map<int, std::string> lscUtilColors = {
     {(int)VehicleColorsUtil::COLOR_UTIL_OFF_WHITE, "Off White"},
 };
 
-inline const std::map<int, std::string> lscWornColors = {
+inline const std::map<int, const char*> lscWornColors = {
     {(int)VehicleColorsWorn::COLOR_WORN_BLACK, "Black"},
     {(int)VehicleColorsWorn::COLOR_WORN_GRAPHITE, "Graphite"},
     {(int)VehicleColorsWorn::COLOR_WORN_SILVER_GREY, "Silver Grey"},
@@ -284,7 +284,7 @@ inline const std::map<int, std::string> lscWornColors = {
     {(int)VehicleColorsWorn::COLOR_WORN_OLIVE_ARMY_GREEN, "Olive Army Green"},
 };
 
-inline const std::map<int, std::string> lscHeadlightColors = {
+inline const std::map<int, const char*> lscHeadlightColors = {
     {(int)HeadlightColors::XENON_DEFAULT, "Default"},
     {(int)HeadlightColors::XENON_WHITE, "White"},
     {(int)HeadlightColors::XENON_BLUE, "Blue"},
@@ -301,7 +301,7 @@ inline const std::map<int, std::string> lscHeadlightColors = {
     {(int)HeadlightColors::XENON_BLACKLIGHT, "Blacklight"},
 };
 
-inline const std::map<int, std::string> lscMissingHorns = {
+inline const std::map<int, const char*> lscMissingHorns = {
     {(int)VehicleModHorns::HORN_XMAS_BACKGROUND, "Festival Loop 1 Bg"},
     {(int)VehicleModHorns::HORN_XMAS2_BACKGROUND, "Festival Loop 2 Bg"},
     {(int)VehicleModHorns::HORN_XMAS3_BACKGROUND, "Festival Loop 3 Bg"},
@@ -313,7 +313,7 @@ inline const std::map<int, std::string> lscMissingHorns = {
     {(int)VehicleModHorns::HORN_HIGH_SHORT, "High (Short)"},
 };
 
-inline const std::map<std::string, std::vector<int>> lscTireSmokeRgb = {
+inline const std::map<const char*, std::vector<int>> lscTireSmokeRgb = {
     {"White", {TIRESMOKE_COLOR_WHITE}},
     {"Black", {TIRESMOKE_COLOR_BLACK}},
     {"Blue", {TIRESMOKE_COLOR_BLUE}},
@@ -327,7 +327,7 @@ inline const std::map<std::string, std::vector<int>> lscTireSmokeRgb = {
     {"Patriot", {TIRESMOKE_COLOR_PATRIOT}},
 };
 
-inline const std::map<std::string, std::vector<int>> lscNeonRgb = {
+inline const std::map<const char*, std::vector<int>> lscNeonRgb = {
     {"White", {NEON_COLOR_WHITE}},
     {"Blue", {NEON_COLOR_BLUE}},
     {"Electro Blue", {NEON_COLOR_ELECTRICBLUE}},

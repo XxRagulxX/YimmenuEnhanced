@@ -1,22 +1,22 @@
-#include "PersistCarService.hpp"
+#include "SavedVehicles.hpp"
 
 #include "core/backend/FiberPool.hpp"
 #include "core/backend/ScriptMgr.hpp"
 #include "core/frontend/Notifications.hpp"
-#include "core/util/VehicleHelper.hpp"
+#include "game/gta/VehicleModel.hpp"
 #include "game/backend/Self.hpp"
 #include "game/gta/Natives.hpp"
 #include "game/gta/Vehicle.hpp"
 #include "game/gta/data/VehicleValues.hpp"
 
-namespace YimMenu::Features
+namespace YimMenu
 {
-	Folder PersistCarService::CheckFolder(std::string folderName)
+	Folder SavedVehicles::CheckFolder(std::string folderName)
 	{
 		return FileMgr::GetProjectFolder("./saved_json_vehicles/" + folderName);
 	}
 
-	void PersistCarService::RefreshList(std::string folderName, std::vector<std::string>& folders, std::vector<std::string>& files)
+	void SavedVehicles::RefreshList(std::string folderName, std::vector<std::string>& folders, std::vector<std::string>& files)
 	{
 		FiberPool::Push([folderName, &folders, &files] {
 			folders.clear();
@@ -35,7 +35,7 @@ namespace YimMenu::Features
 		});
 	}
 
-	nlohmann::json PersistCarService::GetJson(Vehicle veh)
+	nlohmann::json SavedVehicles::GetJson(Vehicle veh)
 	{
 		nlohmann::json vehicle_json;
 		int primary_color, secondary_color;
@@ -43,7 +43,7 @@ namespace YimMenu::Features
 		auto vehicle      = veh.GetHandle();
 		Hash vehicle_hash = veh.GetModel();
 		std::map<int, int> vehicle_extras;
-		auto is_bennys = VehicleHelper::IsBennys(vehicle);
+		auto is_bennys = VehicleModel::IsBennys(vehicle);
 
 		for (int slot = (int)VehicleModType::MOD_SPOILERS; slot <= (int)VehicleModType::MOD_LIGHTBAR; slot++)
 			if (VEHICLE::GET_NUM_VEHICLE_MODS(vehicle, slot) > 0)
@@ -130,14 +130,14 @@ namespace YimMenu::Features
 		return vehicle_json;
 	}
 
-	void PersistCarService::Save(std::string folderName, std::string fileName)
+	void SavedVehicles::Save(std::string folderName, std::string fileName)
 	{
 		FiberPool::Push([folderName, fileName] {
 			if (auto veh = Self::GetVehicle(); veh && veh.IsValid())
 			{
-				const auto file = PersistCarService::CheckFolder(folderName).GetFile(fileName);
+				const auto file = SavedVehicles::CheckFolder(folderName).GetFile(fileName);
 				std::ofstream file_stream(file.Path(), std::ios::out | std::ios::trunc);
-				file_stream << PersistCarService::GetJson(veh).dump(4);
+				file_stream << SavedVehicles::GetJson(veh).dump(4);
 				file_stream.close();
 			}
 			else
@@ -145,7 +145,7 @@ namespace YimMenu::Features
 		});
 	}
 
-	void PersistCarService::Load(std::string folderName, std::string fileName)
+	void SavedVehicles::Load(std::string folderName, std::string fileName)
 	{
 		if (!fileName.empty())
 			FiberPool::Push([folderName, fileName] {
@@ -179,7 +179,7 @@ namespace YimMenu::Features
 			Notifications::Show("Persist Car", "Select a file first", NotificationType::Warning);
 	}
 
-	bool PersistCarService::SpawnFromJson(nlohmann::json vehicle_json)
+	bool SavedVehicles::SpawnFromJson(nlohmann::json vehicle_json)
 	{
 		const Hash vehicle_hash = vehicle_json[vehicle_model_hash_key];
 		auto veh = Vehicle::Create(vehicle_hash, Self::GetPed().GetPosition(), Self::GetPed().GetHeading());

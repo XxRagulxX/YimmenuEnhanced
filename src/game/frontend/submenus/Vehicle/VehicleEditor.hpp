@@ -3,5 +3,5 @@
 
 namespace YimMenu::Submenus
 {
-	std::shared_ptr<Category> VehicleEditorCategory();
+	std::shared_ptr<Category> BuildVehicleEditorMenu();
 }

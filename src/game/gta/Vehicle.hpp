@@ -32,6 +32,6 @@ namespace YimMenu
 		bool IsBoostActive();
 		void SetBoostCharge(int percentage = 100);
 
-		std::string GetVehicleFullname();
+		std::string GetFullName();
 	};
 }

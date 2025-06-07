@@ -1,16 +1,16 @@
-#include "VehicleEditorCategory.hpp"
+#include "VehicleEditor.hpp"
 
 #include "core/backend/FiberPool.hpp"
 #include "core/backend/ScriptMgr.hpp"
-#include "core/util/VehicleHelper.hpp"
+#include "game/gta/VehicleModel.hpp"
 #include "game/backend/Self.hpp"
 #include "game/gta/Natives.hpp"
 #include "game/gta/data/VehicleValues.hpp"
-#include "game/gta/data/lscTypes.hpp"
+#include "game/gta/data/ModNames.hpp"
 
 namespace YimMenu::Submenus
 {
-	std::shared_ptr<Category> VehicleEditorCategory()
+	std::shared_ptr<Category> BuildVehicleEditorMenu()
 	{
 		static int currentVeh      = 0;
 		static std::string vehName = "";
@@ -46,9 +46,9 @@ namespace YimMenu::Submenus
 					ScriptMgr::Yield();
 				}
 
-				vehName    = Self::GetVehicle().GetVehicleFullname();
+				vehName    = Self::GetVehicle().GetFullName();
 				owned_mods = Self::GetVehicle().GetOwnedMods();
-				isBennys  = VehicleHelper::IsBennys(currentVeh);
+				isBennys  = VehicleModel::IsBennys(currentVeh);
 
 				VEHICLE::SET_VEHICLE_MOD_KIT(currentVeh, 0);
 
@@ -75,7 +75,7 @@ namespace YimMenu::Submenus
 					{
 						int owner_mod = owned_mods[slot];
 
-						std::string slot_name = VehicleHelper::GetModSlotName(model, currentVeh, slot);
+						std::string slot_name = VehicleModel::GetModSlotName(model, currentVeh, slot);
 						if (slot_name.empty())
 							continue;
 
@@ -86,12 +86,12 @@ namespace YimMenu::Submenus
 
 						for (int mod = -1; mod < count; mod++)
 						{
-							if (VehicleHelper::CheckModBlacklist(model, slot, mod))
+							if (VehicleModel::CheckModBlacklist(model, slot, mod))
 								continue;
 
 							bool is_repeated = false;
 
-							std::string mod_name = VehicleHelper::GetModeName(model, currentVeh, slot, mod, count);
+							std::string mod_name = VehicleModel::GetModName(model, currentVeh, slot, mod, count);
 
 							if (mod_name.empty() || mod_name == "NULL")
 								continue;
@@ -173,7 +173,7 @@ namespace YimMenu::Submenus
 
 			ImGui::BeginGroup();
 			{
-				ImGui::Text(vehName.c_str());
+				ImGui::Text("%s", vehName.c_str());
 				ImGui::SameLine();
 				if (ImGui::Button("Refresh Current Vehicle"))
 					FiberPool::Push([] {
@@ -557,7 +557,7 @@ namespace YimMenu::Submenus
 									auto& name = it.first;
 									auto& rgb  = it.second;
 
-									if (ImGui::Selectable(name.c_str(), false))
+									if (ImGui::Selectable(name, false))
 									{
 										FiberPool::Push([&rgb] {
 											VEHICLE::SET_VEHICLE_TYRE_SMOKE_COLOR(currentVeh, rgb[0], rgb[1], rgb[2]);
@@ -581,7 +581,7 @@ namespace YimMenu::Submenus
 									auto& name = it.first;
 									auto& rgb  = it.second;
 
-									if (ImGui::Selectable(name.c_str(), false))
+									if (ImGui::Selectable(name, false))
 									{
 										FiberPool::Push([&rgb] {
 											VEHICLE::SET_VEHICLE_NEON_COLOUR(currentVeh, rgb[0], rgb[1], rgb[2]);
@@ -664,7 +664,7 @@ namespace YimMenu::Submenus
 							{
 								for (const auto& [color, name] : lscClassicColors)
 								{
-									if (ImGui::Selectable(name.c_str(), selected_color == color))
+									if (ImGui::Selectable(name, selected_color == color))
 									{
 										selected_color = color;
 										if (color_to_change == 0)
@@ -682,7 +682,7 @@ namespace YimMenu::Submenus
 							{
 								for (const auto& [color, name] : lscMatteColors)
 								{
-									if (ImGui::Selectable(name.c_str(), selected_color == color))
+									if (ImGui::Selectable(name, selected_color == color))
 									{
 										selected_color = color;
 										if (color_to_change == 0)
@@ -700,7 +700,7 @@ namespace YimMenu::Submenus
 							{
 								for (const auto& [color, name] : lscMetalColors)
 								{
-									if (ImGui::Selectable(name.c_str(), selected_color == color))
+									if (ImGui::Selectable(name, selected_color == color))
 									{
 										selected_color = color;
 										if (color_to_change == 0)
@@ -718,7 +718,7 @@ namespace YimMenu::Submenus
 							{
 								for (const auto& [color, name] : lscUtilColors)
 								{
-									if (ImGui::Selectable(name.c_str(), selected_color == color))
+									if (ImGui::Selectable(name, selected_color == color))
 									{
 										selected_color = color;
 										if (color_to_change == 0)
@@ -736,7 +736,7 @@ namespace YimMenu::Submenus
 							{
 								for (const auto& [color, name] : lscWornColors)
 								{
-									if (ImGui::Selectable(name.c_str(), selected_color == color))
+									if (ImGui::Selectable(name, selected_color == color))
 									{
 										selected_color = color;
 										if (color_to_change == 0)
@@ -754,7 +754,7 @@ namespace YimMenu::Submenus
 							{
 								for (const auto& [color, name] : lscChameleonColors)
 								{
-									if (ImGui::Selectable(name.c_str(), selected_color == color))
+									if (ImGui::Selectable(name, selected_color == color))
 									{
 										selected_color = color;
 										if (color_to_change == 0)
@@ -772,7 +772,7 @@ namespace YimMenu::Submenus
 							{
 								for (const auto& [color, name] : lscClassicColors)
 								{
-									if (ImGui::Selectable(name.c_str(), selected_color == color))
+									if (ImGui::Selectable(name, selected_color == color))
 									{
 										selected_color                                             = color;
 										owned_mods[(int)CustomVehicleModType::MOD_PEARLESCENT_COL] = color;
@@ -798,7 +798,7 @@ namespace YimMenu::Submenus
 
 								for (const auto& [color, name] : lscClassicColors)
 								{
-									if (ImGui::Selectable(name.c_str(), selected_color == color))
+									if (ImGui::Selectable(name, selected_color == color))
 									{
 										selected_color                                       = color;
 										owned_mods[(int)CustomVehicleModType::MOD_WHEEL_COL] = color;
@@ -810,7 +810,7 @@ namespace YimMenu::Submenus
 
 								for (const auto& [color, name] : lscChameleonColors)
 								{
-									if (ImGui::Selectable(name.c_str(), selected_color == color))
+									if (ImGui::Selectable(name, selected_color == color))
 									{
 										selected_color                                       = color;
 										owned_mods[(int)CustomVehicleModType::MOD_WHEEL_COL] = color;
@@ -826,7 +826,7 @@ namespace YimMenu::Submenus
 							{
 								for (const auto& [color, name] : lscClassicColors)
 								{
-									if (ImGui::Selectable(name.c_str(), selected_color == color))
+									if (ImGui::Selectable(name, selected_color == color))
 									{
 										selected_color                                          = color;
 										owned_mods[(int)CustomVehicleModType::MOD_INTERIOR_COL] = color;
@@ -841,7 +841,7 @@ namespace YimMenu::Submenus
 							{
 								for (const auto& [color, name] : lscClassicColors)
 								{
-									if (ImGui::Selectable(name.c_str(), selected_color == color))
+									if (ImGui::Selectable(name, selected_color == color))
 									{
 										selected_color                                           = color;
 										owned_mods[(int)CustomVehicleModType::MOD_DASHBOARD_COL] = color;
@@ -856,7 +856,7 @@ namespace YimMenu::Submenus
 							{
 								for (const auto& [color, name] : lscHeadlightColors)
 								{
-									if (ImGui::Selectable(name.c_str(), selected_color == color))
+									if (ImGui::Selectable(name, selected_color == color))
 									{
 										selected_color                                       = color;
 										owned_mods[(int)CustomVehicleModType::MOD_XENON_COL] = color;

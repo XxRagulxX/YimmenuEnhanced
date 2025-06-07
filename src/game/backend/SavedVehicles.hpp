@@ -2,9 +2,9 @@
 #include "core/filemgr/FileMgr.hpp"
 #include "game/gta/Vehicle.hpp"
 
-namespace YimMenu::Features
+namespace YimMenu
 {
-	class PersistCarService
+	class SavedVehicles
 	{
 	public:
 		static constexpr auto vehicle_model_hash_key = "vehicle_model_hash";

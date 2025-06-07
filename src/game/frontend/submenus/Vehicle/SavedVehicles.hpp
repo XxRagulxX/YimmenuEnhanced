@@ -3,5 +3,5 @@
 
 namespace YimMenu::Submenus
 {
-	std::shared_ptr<Category> PersistCarCategory();
+	std::shared_ptr<Category> BuildSavedVehiclesMenu();
 }

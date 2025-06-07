@@ -1,57 +1,56 @@
-
-#include "PersistCarCategory.hpp"
+#include "SavedVehicles.hpp"
 
 #include "core/backend/FiberPool.hpp"
 #include "core/frontend/Notifications.hpp"
-#include "core/util/strings.hpp"
+#include "core/util/Strings.hpp"
 #include "game/backend/Self.hpp"
-#include "game/features/vehicle/PersistCarService/PersistCarService.hpp"
+#include "game/backend/SavedVehicles.hpp"
 #include "game/gta/Vehicle.hpp"
 #include "misc/cpp/imgui_stdlib.h"
 
 namespace YimMenu::Submenus
 {
-	std::shared_ptr<Category> PersistCarCategory()
+	std::shared_ptr<Category> BuildSavedVehiclesMenu()
 	{
 		static std::string folder{}, file{};
 		static std::vector<std::string> folders{}, files{};
 		static char vehicle_file_name_input[64]{};
 		static char save_folder[50]{};
 
-		auto persistCar = std::make_shared<Category>("Persist Car");
+		auto persistCar = std::make_shared<Category>("Saved Vehicles");
 
 		persistCar->AddItem(std::make_unique<ImGuiItem>([] {
 			static auto drawSaveVehicleButton = [](const char* folderToSaveIn) {
 				if (!Self::GetVehicle() || !Self::GetVehicle().IsValid())
 					return;
 
-				if (ImGui::Button("Save Veh"))
+				if (ImGui::Button("Save"))
 				{
 					std::string yo = vehicle_file_name_input;
 					ZeroMemory(vehicle_file_name_input, sizeof(vehicle_file_name_input));
 
-					if (!trimString(yo).size())
+					if (!TrimString(yo).size())
 					{
-						Notifications::Show("Persist Car", "Filename empty!", NotificationType::Warning);
+						Notifications::Show("Saved Vehicles", "Filename empty!", NotificationType::Warning);
 						return;
 					}
 
-					replace_string(yo, ".", ""); // so that .. does not throw error by custom file system when it sees say bob..json
+					ReplaceString(yo, ".", ""); // so that .. does not throw error by custom file system when it sees say bob..json
 					yo += ".json";
 
-					Features::PersistCarService::Save(folderToSaveIn, yo);
-					Features::PersistCarService::RefreshList(folder, folders, files);
+					SavedVehicles::Save(folderToSaveIn, yo);
+					SavedVehicles::RefreshList(folder, folders, files);
 				}
 				ImGui::SameLine();
 				if (ImGui::Button("Populate Name"))
 					FiberPool::Push([] {
-						std::string name = Self::GetVehicle().GetVehicleFullname();
+						std::string name = Self::GetVehicle().GetFullName();
 						strcpy(vehicle_file_name_input, name.c_str());
 					});
 			};
 
 			if (ImGui::Button("Refresh List"))
-				Features::PersistCarService::RefreshList(folder, folders, files);
+				SavedVehicles::RefreshList(folder, folders, files);
 
 			ImGui::SetNextItemWidth(300.f);
 			auto folder_display = folder.empty() ? "Root" : folder.c_str();
@@ -60,14 +59,14 @@ namespace YimMenu::Submenus
 				if (ImGui::Selectable("Root", folder == ""))
 				{
 					folder.clear();
-					Features::PersistCarService::RefreshList(folder, folders, files);
+					SavedVehicles::RefreshList(folder, folders, files);
 				}
 
 				for (std::string folder_name : folders)
 					if (ImGui::Selectable(folder_name.c_str(), folder == folder_name))
 					{
 						folder = folder_name;
-						Features::PersistCarService::RefreshList(folder, folders, files);
+						SavedVehicles::RefreshList(folder, folders, files);
 					}
 
 				ImGui::EndCombo();
@@ -106,13 +105,13 @@ namespace YimMenu::Submenus
 			ImGui::SameLine();
 			ImGui::BeginGroup();
 			{
-				ImGui::Text("Vehicle File Name");
+				ImGui::Text("File Name");
 				ImGui::SetNextItemWidth(250);
 				ImGui::InputText("##vehiclefilename", vehicle_file_name_input, IM_ARRAYSIZE(vehicle_file_name_input));
 
 				if (folder.empty())
 				{
-					ImGui::Text("Vehicle Folder Name");
+					ImGui::Text("Folder Name");
 					ImGui::SetNextItemWidth(250);
 					ImGui::InputText("##foldername", save_folder, IM_ARRAYSIZE(save_folder));
 					drawSaveVehicleButton(save_folder);
@@ -130,7 +129,7 @@ namespace YimMenu::Submenus
 				ImGui::Spacing();
 				if (ImGui::Button("Yes"))
 				{
-					Features::PersistCarService::Load(folder, file);
+					SavedVehicles::Load(folder, file);
 					open_modal = false;
 					ImGui::CloseCurrentPopup();
 				}

@@ -3,7 +3,7 @@
 #include "core/backend/ScriptMgr.hpp"
 #include "game/pointers/Pointers.hpp"
 #include "game/gta/data/VehicleValues.hpp"
-#include "game/gta/data/vehicles.hpp"
+#include "game/gta/data/Vehicles.hpp"
 
 namespace YimMenu
 {
@@ -147,7 +147,7 @@ namespace YimMenu
 		VEHICLE::SET_ROCKET_BOOST_FILL(GetHandle(), percentage);
 	}
 
-	std::string Vehicle::GetVehicleFullname()
+	std::string Vehicle::GetFullName()
 	{
 		auto model          = ENTITY::GET_ENTITY_MODEL(GetHandle());
 		std::string gxt     = VEHICLE::GET_DISPLAY_NAME_FROM_VEHICLE_MODEL(model);
