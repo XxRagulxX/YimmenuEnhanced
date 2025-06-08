@@ -30,6 +30,7 @@ namespace rage
 	class rlQueryAccountsResult;
 	class rlGetAvatarsContext;
 	class rlGetAvatarsPlayerList;
+	struct gameSkeleton;
 }
 class CPedFactory;
 class CNetGamePlayer;
@@ -150,6 +151,8 @@ namespace YimMenu
 		PVOID BattlEyeServerProcessPlayerJoin;
 		PVOID AssistedAimShouldReleaseEntity;
 		Functions::AssistedAimFindNewTarget AssistedAimFindNewTarget;
+		rage::gameSkeleton* GameSkeleton;
+		PVOID Nullsub;
 	};
 
 	struct Pointers : PointerData
