@@ -9,7 +9,6 @@ namespace YimMenu::Submenus
 		auto main          = std::make_shared<Category>("Main");
 		auto spawnersGroup = std::make_shared<Category>("Spawners");
 		auto iplsGroup     = std::make_shared<Category>("IPLs");
-		auto computersGroup      = std::make_shared<Category>("Computer");
 
 		auto killPeds = std::make_shared<Group>("Kill", 1);
 		killPeds->AddItem(std::make_shared<CommandItem>("killallpeds"_J));
@@ -71,17 +70,8 @@ namespace YimMenu::Submenus
 		iplsGroup->AddItem(std::make_shared<CommandItem>("unloadipl"_J));
 		iplsGroup->AddItem(std::make_shared<CommandItem>("ipltp"_J));
 
-		computersGroup->AddItem(std::make_shared<CommandItem>("openmct"_J));
-		computersGroup->AddItem(std::make_shared<CommandItem>("openterrorbyte"_J));
-		computersGroup->AddItem(std::make_shared<CommandItem>("openavengeroperations"_J));
-		computersGroup->AddItem(std::make_shared<CommandItem>("opencontracts"_J));
-		computersGroup->AddItem(std::make_shared<CommandItem>("opennightclub"_J));
-		computersGroup->AddItem(std::make_shared<CommandItem>("openbunker"_J));
-		computersGroup->AddItem(std::make_shared<CommandItem>("openhangar"_J));
-
 		AddCategory(std::move(main));
 		AddCategory(std::move(spawnersGroup));
 		AddCategory(std::move(iplsGroup));
-		AddCategory(std::move(computersGroup));
 	}
 };

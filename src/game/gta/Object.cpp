@@ -8,53 +8,36 @@
 namespace YimMenu
 {
 	static std::unordered_set<joaat_t> cameraHashes = {
-	    Joaat("p_cctv_s"),
-	    Joaat("prop_cctv_cam_01a"),
-	    Joaat("prop_cctv_cam_01b"),
-	    Joaat("prop_cctv_cam_02a"),
-	    Joaat("prop_cctv_cam_03a"),
-	    Joaat("prop_cctv_cam_04a"),
-	    Joaat("prop_cctv_cam_04b"),
-	    Joaat("prop_cctv_cam_04c"),
-	    Joaat("prop_cctv_cam_05a"),
-	    Joaat("prop_cctv_cam_06a"),
-	    Joaat("prop_cctv_cam_07a"),
-	    Joaat("prop_cs_cctv"),
-	    Joaat("hei_prop_bank_cctv_01"),
-	    Joaat("hei_prop_bank_cctv_02"),
-	    Joaat("ch_prop_ch_cctv_cam_02a"),
-	    Joaat("xm_prop_x17_server_farm_cctv_01"),
+	    "p_cctv_s"_J,
+	    "prop_cctv_cam_01a"_J,
+	    "prop_cctv_cam_01b"_J,
+	    "prop_cctv_cam_02a"_J,
+	    "prop_cctv_cam_03a"_J,
+	    "prop_cctv_cam_04a"_J,
+	    "prop_cctv_cam_04b"_J,
+	    "prop_cctv_cam_04c"_J,
+	    "prop_cctv_cam_05a"_J,
+	    "prop_cctv_cam_06a"_J,
+	    "prop_cctv_cam_07a"_J,
+	    "prop_cctv_pole_01a"_J,
+	    "prop_cctv_pole_02"_J,
+	    "prop_cctv_pole_03"_J,
+	    "prop_cctv_pole_04"_J,
+	    "prop_cctv_cam_07a"_J,
+	    "prop_cs_cctv"_J,
+	    "hei_prop_bank_cctv_01"_J,
+	    "hei_prop_bank_cctv_02"_J,
+	    "ch_prop_ch_cctv_cam_02a"_J,
+	    "xm_prop_x17_server_farm_cctv_01"_J,
 	};
 
-	static std::unordered_set<int> cameraHashesInt = {
-	    -1007354661,
-	    -1842407088,
-	    289451089,
-	    548760764,
-	    -354221800,
-	    -1159421424,
-	    1449155105,
-	    -1095296451,
-	    1919058329,
-	    -1884701657,
-	    -173206916,
-	    168901740,
-	    -1340405475,
-	    1927491455,
-	    299608302,
-	    -6978462,
-		2135655372,
-		-1233322078,
-		-247409812,
-	};
-
-	static std::unordered_set<int> cacheHashes = {
-		528555233,
-		-1620734287,
-		138777325,
-		765087784,
-		188023466,
-		-413608921,
+	static std::unordered_set<joaat_t> cacheHashes = {
+	    "prop_drug_package"_J,
+	    "prop_mp_drug_pack_blue"_J,
+	    "prop_mp_drug_pack_red"_J,
+	    "prop_mp_drug_package"_J,
+	    "tr_prop_tr_sand_01a"_J,
+	    "h4_prop_h4_chest_01a"_J,
 	};
 
 	Object Object::Create(uint32_t model, rage::fvector3 coords)
@@ -91,7 +74,7 @@ namespace YimMenu
 		if (!obj)
 		{
 #ifdef ENTITY_DEBUG
-			LOGF(WARNING, "CREATE_PED failed when creating a ped with model {:X}", model);
+			LOGF(WARNING, "CREATE_OBJECT failed when creating an object with model {:X}", model);
 #endif
 			return nullptr;
 		}
@@ -101,19 +84,18 @@ namespace YimMenu
 		return obj;
 	}
 
-	bool Object::IsCamera(int objectHash)
+	bool Object::IsCamera()
 	{
-		return cameraHashes.contains(objectHash)
-		    || cameraHashesInt.contains(objectHash);
+		return cameraHashes.contains(GetModel());
 	}
 
-	bool Object::IsCache(int objectHash)
+	bool Object::IsCache()
 	{
-		return cacheHashes.contains(objectHash);
+		return cacheHashes.contains(GetModel());
 	}
 
-	bool Object::IsSignalJammer(int objectHash)
+	bool Object::IsSignalJammer()
 	{
-		return objectHash == -305186631;
+		return GetModel() == -305186631;
 	}
 }
