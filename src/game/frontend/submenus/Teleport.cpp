@@ -179,6 +179,7 @@
 		// miscGroup->AddItem(std::make_shared<CommandItem>("tptotraintrack"_J));
 		// miscGroup->AddItem(std::make_shared<CommandItem>("tptomoonshineshack"_J));
 		// miscGroup->AddItem(std::make_shared<CommandItem>("tptonazar"_J));
+		miscGroup->AddItem(std::make_shared<CommandItem>("tptoobjective"_J));
 
 		main->AddItem(miscGroup);
 
