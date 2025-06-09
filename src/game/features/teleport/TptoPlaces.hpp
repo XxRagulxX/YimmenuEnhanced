@@ -14,8 +14,8 @@ namespace YimMenu::Features
 		float heading;
 	};
 
-	using SubPlaceMap = std::map<std::string, std::vector<TeleportPlace>>; // e.g., Storage -> [north, south, west]
-	using CategoryMap = std::map<std::string, SubPlaceMap>;                // e.g., CayoPerico -> Storage -> ...
+	using SubPlaceMap = std::map<std::string, std::vector<TeleportPlace>>;
+	using CategoryMap = std::map<std::string, SubPlaceMap>;
 
 	CategoryMap GetAllTeleportLocations();
 
