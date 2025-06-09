@@ -13,11 +13,6 @@
 	{
 		return rage::fvector3(t.x, t.y, t.z).GetDistance(Self::GetPed().GetPosition());
 	}
-	struct TeleportUIState
-	{
-		std::string selectedCategory;
-		std::string selectedSubcategory;
-	};
 
 	void RenderCustomTeleport()
 	{
@@ -192,12 +187,9 @@
 			RenderCustomTeleport();
 		}));
 
-		
-		static YimMenu::Features::TeleportUIState teleportUIState;
-
 		auto placesCategory = std::make_shared<Category>("Places");
 		placesCategory->AddItem(std::make_shared<ImGuiItem>([]() {
-			YimMenu::Features::RenderPredefinedPlacesTeleport(teleportUIState);
+			YimMenu::Features::RenderPredefinedPlacesTeleport();
 		}));
 
 		AddCategory(std::move(placesCategory));
