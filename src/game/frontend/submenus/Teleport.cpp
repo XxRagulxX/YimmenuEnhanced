@@ -4,9 +4,10 @@
 #include "core/backend/FiberPool.hpp"
 #include "game/backend/SavedLocations.hpp"
 #include "game/backend/Self.hpp"
+#include "game/features/teleport/TptoPlaces.hpp"
 #include "game/frontend/items/Items.hpp"
 
-namespace YimMenu::Submenus
+    namespace YimMenu::Submenus
 {
 	static float GetDistanceFromLocation(const SavedLocation& t)
 	{
@@ -186,7 +187,12 @@ namespace YimMenu::Submenus
 			RenderCustomTeleport();
 		}));
 
+		auto placesCategory = std::make_shared<Category>("Places");
+		placesCategory->AddItem(std::make_shared<ImGuiItem>([] {
+			YimMenu::Features::RenderPredefinedPlacesTeleport();
+		}));
 
+		AddCategory(std::move(placesCategory));
 		AddCategory(std::move(main));
 		AddCategory(std::move(customteleport));
 	}
