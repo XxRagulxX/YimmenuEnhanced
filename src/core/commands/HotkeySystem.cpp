@@ -80,17 +80,15 @@ namespace YimMenu
 		};
 
 		int pressed_key = 0;
-		ListenAndApply(pressed_key, chain);
-
-		if (pressed_key > 1)
+		if (ListenAndApply(pressed_key, chain))
 		{
+			MarkStateDirty();
+
 			if (is_key_unique(pressed_key, chain))
 			{
 				chain.push_back(pressed_key);
 			}
 		}
-
-		MarkStateDirty();
 	}
 
 	void HotkeySystem::RunScriptImpl()
