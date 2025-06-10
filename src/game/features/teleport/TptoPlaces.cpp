@@ -74,6 +74,14 @@ namespace YimMenu::Features
 
 			return arcade;
 		}
+		// Get your Kosatka (submarine) location
+		std::optional<TeleportPlace> GetYourKosatka()
+		{
+			auto kosatka = GetPropertyByBlip(760, "Kosatka");
+			if (kosatka)
+			kosatka->heading = 175.0f; // override heading
+		    return kosatka;
+		}
 
 		// Facility specific function
 		std::optional<TeleportPlace> GetYourFacility()
@@ -91,7 +99,11 @@ namespace YimMenu::Features
 						property = GetYourArcade();
 					else if (propertyType == "Facility")
 						property = GetYourFacility();
-
+					else if (propertyType == "Kosatka")
+					{
+						ImGui::Text("Your Kosatka:");
+						TeleportHelpers::RenderPropertyTeleportOptions("Kosatka", {{"Heist Board", {1561.2369f, 385.8831f, -49.689915f}, 175.0f}});
+					}
 					if (property.has_value())
 						TeleportEntityTo(*property);
 					else
@@ -192,6 +204,8 @@ namespace YimMenu::Features
 		    {"Property",
 		        {
 		            {"Arcade", {yourArcade.has_value() ? std::vector<TeleportPlace>{*yourArcade} : std::vector<TeleportPlace>{}}},
+					{"Facility", {yourFacility.has_value() ? std::vector<TeleportPlace>{*yourFacility} : std::vector<TeleportPlace>{}}},
+					{"Kosatka", {yourKosatka.has_value() ? std::vector<TeleportPlace>{*yourKosatka} : std::vector<TeleportPlace>{}}},
 		        }},
 		};
 	}
