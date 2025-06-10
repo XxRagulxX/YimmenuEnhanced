@@ -81,6 +81,7 @@ namespace YimMenu::Submenus
 		enhancements->AddItem(std::make_shared<BoolCommandItem>("forcescripthost"_J));
 		enhancements->AddItem(std::make_shared<BoolCommandItem>("pausegame"_J));
 		enhancements->AddItem(std::make_shared<BoolCommandItem>("nocalls"_J));
+		enhancements->AddItem(std::make_shared<BoolCommandItem>("disablelandingpagebail"_J));
 	
 		session->AddItem(joinGroup);
 		session->AddItem(bountyGroup);

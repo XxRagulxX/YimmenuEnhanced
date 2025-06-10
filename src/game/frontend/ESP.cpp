@@ -63,7 +63,7 @@ namespace YimMenu::Features
 	ColorCommand _SkeletonColorPeds("skeletoncolorpeds", "Ped Skeleton Color", "Changes the color of the skeleton ESP for peds", ImVec4{1.0f, 1.0f, 1.0f, 1.0f});
 
 	// Random Events
-	BoolCommand _ESPDrawRandomEvents("esprandomevents", "Random Events ESP", "Should the ESP draw Random Events?"); // TODO: do we need this?
+	BoolCommand _ESPDrawRandomEvents("esprandomevents", "Random Events ESP", "Should the ESP draw random events?"); // TODO: do we need this?
 
 	// Objects
 	BoolCommand _ESPDrawObjects("espdrawobjects", "Draw Special Objects", "Should the ESP draw special objects?");
@@ -256,7 +256,7 @@ namespace YimMenu
 			float formattedDistance = (distance < 1000.0f) ? distance : (distance / 1000.0f);
 			std::string unit        = (distance < 1000.0f) ? "m" : "km";
 			std::string text        = std::format("{}\n{:.2f}{} {}", randomEventNames[event], formattedDistance, unit, (state == eRandomEventState::AVAILABLE ? timeLeft : ""));
-			ImColor color           = (state == eRandomEventState::ACTIVE) ? Green : White;
+			ImColor color           = (state == eRandomEventState::ACTIVE) ? Blue : White;
 
 			drawList->AddText({worldToScreen(coords).x, worldToScreen(coords).y}, color, text.c_str());
 		}
