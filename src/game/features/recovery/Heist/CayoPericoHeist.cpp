@@ -268,13 +268,13 @@ namespace YimMenu::Features
 		};
 		class InfinitePlasmaCutterHeat : public LoopedCommand
 		{
-			using LoopedCommand:: LoopedCommand;
+			using LoopedCommand::LoopedCommand;
 
 			virtual void OnTick() override
 			{
-				*ScriptLocal("fm_mission_controller_2020"_J, 31451).At(4).As<float*>(0)
+				*ScriptLocal("fm_mission_controller_2020"_J, 31451).At(4).As<float*>() = 0;
 			}
-		}
+		};
 
 		class InstantFinish : public Command
 		{
@@ -298,7 +298,7 @@ namespace YimMenu::Features
 		static SkipHacking _CayoPericoHeistSkipHacking{"cayopericoheistskiphacking", "Skip Hacking", "Skips hacking process"};
 		static CutSewer _CayoPericoHeistCutSewer{"cayopericoheistcutsewer", "Cut Sewer", "Cuts the sewer"};
 		static CutGlass _CayoPericoHeistCutGlass{"cayopericoheistcutglass", "Cut Glass", "Cuts the glass"};
-		static InfinitePlasmaCutterHeat _InfinitePlasmaCutterHeat{"infiniteplasmacutterheat", "Infinite Plasma Cutter Heat", "Infinite Plasam Cutter Heat"}
+		static InfinitePlasmaCutterHeat _InfinitePlasmaCutterHeat{"infiniteplasmacutterheat", "Infinite Plasma Cutter Heat", "Infinite Plasam Cutter Heat"};
 		static TakePrimaryTarget _CayoPericoHeistTakePrimaryTarget{"cayopericoheisttakeprimarytarget", "Take Primary Target", "Takes primary target"};
 		static InstantFinish _CayoPericoHeistInstantFinish{"cayopericoheistinstantfinish", "Instant Finish", "Instantly passes the heist"};
 	}

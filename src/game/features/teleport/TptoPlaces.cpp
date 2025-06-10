@@ -100,10 +100,7 @@ namespace YimMenu::Features
 					else if (propertyType == "Facility")
 						property = GetYourFacility();
 					else if (propertyType == "Kosatka")
-					{
-						ImGui::Text("Your Kosatka:");
-						TeleportHelpers::RenderPropertyTeleportOptions("Kosatka", {{"Heist Board", {1561.2369f, 385.8831f, -49.689915f}, 175.0f}});
-					}
+						property = GetYourKosatka();
 					if (property.has_value())
 						TeleportEntityTo(*property);
 					else
@@ -137,6 +134,7 @@ namespace YimMenu::Features
 	{
 		auto yourArcade   = TeleportHelpers::GetYourArcade();
 		auto yourFacility = TeleportHelpers::GetYourFacility();
+		auto yourKosatka  = TeleportHelpers::GetYourKosatka();
 
 		return {
 		    {"CayoPerico",
@@ -263,6 +261,11 @@ namespace YimMenu::Features
 				{
 					ImGui::Text("Your Owned Facility:");
 					TeleportHelpers::RenderPropertyTeleportOptions("Facility", {{"Heist Screen", {350.69284f, 4872.308f, -60.794243f}, -50.0f}, {"Heist Board", {515.528f, 4835.353f, -62.587f}, 0.0f}, {"Prisoner Cell", {512.888f, 4833.033f, -68.989f}, 0.0f}});
+				}
+				else if (selectedSubcategory == "Kosatka")
+				{
+					ImGui::Text("Your Owned Kosatka:");
+					TeleportHelpers::RenderPropertyTeleportOptions("Kosatka", {{"Heist Board", {1561.2369f, 385.8831f, -49.689915f}, 175.0f}});
 				}
 			}
 			else

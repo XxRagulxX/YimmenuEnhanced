@@ -36,7 +36,6 @@ namespace YimMenu::Features
 				}
 			}
 
-			Notifications::Show("Teleporting to Objective", "No objective found.", NotificationType::Error, 5000);
 		}
 	};
 
