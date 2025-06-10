@@ -27,7 +27,6 @@ namespace YimMenu
 			m_CommandHotkeys.insert(std::make_pair(hash, link));
 		}
 		
-		LOG(INFO) << "Registered " << m_CommandHotkeys.size() << " commands";
 		m_CommandHotkeys.at("chathelper"_J).m_Chain.clear(); // ensure chat is always bound
 		m_CommandHotkeys.at("chathelper"_J).m_Chain.push_back(0x54); 
 	}
