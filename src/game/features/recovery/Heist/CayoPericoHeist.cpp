@@ -123,7 +123,16 @@ namespace YimMenu::Features
 
 				ScriptMgr::Yield(500ms);
 
-				*ScriptLocal("heist_island_planning"_J, 1566).As<int*>() = 2;
+				auto scriptLocal = ScriptLocal("heist_island_planning"_J, 1566).As<int*>();
+				if (scriptLocal && scriptLocal != nullptr)
+				{
+					*scriptLocal = 2;
+				}
+				else
+				{
+					// Log error or handle gracefully
+					return;
+				}
 			}
 		};
 

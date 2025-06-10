@@ -39,6 +39,7 @@ namespace YimMenu::Submenus
 		misc->AddItem(std::make_shared<CommandItem>("cayopericoheistcutglass"_J));
 		misc->AddItem(std::make_shared<CommandItem>("cayopericoheisttakeprimarytarget"_J));
 		misc->AddItem(std::make_shared<CommandItem>("cayopericoheistinstantfinish"_J));
+		misc->AddItem(std::make_shared<BoolCommandItem>("infiniteplasmacutterheat"_J));
 
 		tab->AddItem(cuts);
 		tab->AddItem(setups);
