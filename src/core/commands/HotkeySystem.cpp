@@ -72,8 +72,8 @@ namespace YimMenu
 	void HotkeySystem::CreateHotkey(std::vector<int>& chain)
 	{
 		static auto is_key_unique = [this](int Key, std::vector<int> List) -> bool {
-			for (auto& Key_ : List)
-				if (GetHotkeyLabel(Key_) == GetHotkeyLabel(Key))
+			for (auto& _key : List)
+				if (_key == Key)
 					return false;
 
 			return true;
