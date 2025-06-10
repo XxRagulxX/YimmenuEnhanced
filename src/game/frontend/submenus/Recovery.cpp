@@ -2,7 +2,6 @@
 #include "Recovery/HeistModifier.hpp"
 #include "Recovery/StatEditor.hpp"
 #include "Recovery/Transactions.hpp"
-#include "Recovery/DailyActivities.hpp"
 #include "game/frontend/items/Items.hpp"
 
 namespace YimMenu::Submenus
@@ -72,6 +71,5 @@ namespace YimMenu::Submenus
 		AddCategory(BuildStatEditorMenu());
 		AddCategory(BuildTransactionsMenu());
 		AddCategory(BuildHeistModifierMenu());
-		AddCategory(BuildDailyActivitiesMenu());
 	}
 }

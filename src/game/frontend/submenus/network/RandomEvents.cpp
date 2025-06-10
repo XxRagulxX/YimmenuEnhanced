@@ -113,20 +113,18 @@ namespace YimMenu::Submenus
 
 	static void KillActiveEvent()
 	{
-		if (auto eventThread = Scripts::FindScriptThread(randomEventScripts[static_cast<int>(selectedEvent)]))
+		if (auto eventThread = Scripts::FindScriptThread(randomEventScripts[(int)selectedEvent]))
 		{
 			if (auto NetComponent = reinterpret_cast<GtaThread*>(eventThread)->m_NetComponent)
 			{
 				if (NetComponent->IsLocalPlayerHost())
 				{
-					std::string ptrName = "SetFMContentScriptServerState" + std::to_string(selectedEvent);
-					ScriptFunction setFMContentScriptServerState(randomEventScripts[static_cast<int>(selectedEvent)], ScriptPointer(ptrName, "5D ? ? ? 55 2E 00 5D").Add(1).Rip());
+					ScriptFunction setFMContentScriptServerState(randomEventScripts[(int)selectedEvent], ScriptPointer("SetFMContentScriptServerState", "5D ? ? ? 55 2E 00 5D").Add(1).Rip());
 					setFMContentScriptServerState.Call<void>(3);
 				}
 				else
 				{
-					std::string ptrName = "SetFMContentScriptClientState" + std::to_string(selectedEvent);
-					ScriptFunction setFMContentScriptClientState(randomEventScripts[static_cast<int>(selectedEvent)], ScriptPointer(ptrName, "5D ? ? ? 55 08 00 74").Add(1).Rip());
+					ScriptFunction setFMContentScriptClientState(randomEventScripts[(int)selectedEvent], ScriptPointer("SetFMContentScriptClientState", "5D ? ? ? 55 08 00 74").Add(1).Rip());
 					setFMContentScriptClientState.Call<void>(3);
 				}
 			}
@@ -151,7 +149,8 @@ namespace YimMenu::Submenus
 		for (auto& patch : sendUpdateRECoordsTSECooldownPatches)
 			patch->Enable();
 
-		auto menu = std::make_shared<Category>("Random Events");
+		auto menu     = std::make_shared<Category>("Random Events");
+		auto settings = std::make_shared<Group>("Settings");
 
 		menu->AddItem(std::make_unique<ImGuiItem>([] {
 			GPBDFM2          = GPBD_FM_2::Get();
@@ -270,7 +269,8 @@ namespace YimMenu::Submenus
 				FiberPool::Push([] {
 					if (GSBDRandomEvents->EventData[selectedEvent].State >= eRandomEventState::AVAILABLE)
 					{
-						if (auto coords = GSBDRandomEvents->EventData[selectedEvent].TriggerPosition)
+						auto coords = GSBDRandomEvents->EventData[selectedEvent].TriggerPosition;
+						if (coords != Vector3(0.f, 0.f, 0.f))
 						{
 							Self::GetPed().TeleportTo(coords);
 						}
@@ -288,7 +288,7 @@ namespace YimMenu::Submenus
 
 			if (GSBDRandomEvents->EventData[selectedEvent].State == eRandomEventState::ACTIVE)
 			{
-				if (auto eventThread = Scripts::FindScriptThread(randomEventScripts[static_cast<int>(selectedEvent)]))
+				if (auto eventThread = Scripts::FindScriptThread(randomEventScripts[(int)selectedEvent]))
 				{
 					if (auto netComponent = reinterpret_cast<GtaThread*>(eventThread)->m_NetComponent)
 					{
@@ -347,6 +347,9 @@ namespace YimMenu::Submenus
 			ImGui::Checkbox("Apply in Minutes", &applyInMinutes);
 		}));
 
+		settings->AddItem(std::make_shared<BoolCommandItem>("esprandomevents"_J));
+
+		menu->AddItem(std::move(settings));
 		return menu;
 	}
 }
