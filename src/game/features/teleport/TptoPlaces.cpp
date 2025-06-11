@@ -2,6 +2,7 @@
 
 #include "core/backend/FiberPool.hpp"
 #include "core/frontend/Notifications.hpp"
+#include "core/backend/ScriptMgr.hpp"
 #include "game/backend/Self.hpp"
 #include "game/gta/Natives.hpp"
 
@@ -29,12 +30,29 @@ namespace YimMenu::Features
 		// Enhanced teleport with safety checks and ground detection
 		void TeleportEntityTo(const TeleportPlace& place)
 		{
-			// Validate coordinates are within game world bounds
-			if (place.position.x < -4000.0f || place.position.x > 4000.0f || place.position.y < -4000.0f
-			    || place.position.y > 4000.0f || place.position.z < -200.0f || place.position.z > 2000.0f)
+			// Allow main map and Cayo Perico (x: 4800-5400, y: -6300 to -5000)
+			bool isCayoPerico = (place.position.x > 4800.0f && place.position.x < 5400.0f) && (place.position.y > -6300.0f && place.position.y < -5000.0f);
+
+			// Expanded bounds for Cayo Perico and future-proofing
+			if (!isCayoPerico && (place.position.x < -9000.0f || place.position.x > 9000.0f || place.position.y < -9000.0f || place.position.y > 9000.0f || place.position.z < -200.0f || place.position.z > 2000.0f))
 			{
 				Notifications::Show("Teleport", "Invalid coordinates detected", NotificationType::Warning, 3000);
 				return;
+			}
+
+			// Ensure Cayo Perico map is loaded if needed
+			if (isCayoPerico)
+			{
+				static const std::vector<const char*> cayoIpls = {
+				    "h4_islandx",
+				    "h4_islandx_sea_mines",
+				    "h4_islandx_terrain_props",
+				    "h4_islandx_mansion",
+				    "h4_islandx_props",
+				    "h4_islandx_sluice_gate"};
+				for (auto& ipl : cayoIpls)
+					STREAMING::REQUEST_IPL(ipl);
+				STREAMING::LOAD_ALL_OBJECTS_NOW();
 			}
 
 			Entity entity = Self::GetPed();
@@ -47,34 +65,29 @@ namespace YimMenu::Features
 				return;
 			}
 
-			// Store original position for potential rollback
-			auto originalPos     = entity.GetPosition();
+			// Store original position for rollback
+			auto originalPos = entity.GetPosition();
 			auto originalHeading = entity.GetHeading();
 
 			try
 			{
-				// Enhanced positioning with ground detection for outdoor locations
-				Vector3 targetPos = {place.position.x, place.position.y, place.position.z};
+				Vector3 targetPos = place.position;
 
-				// For outdoor locations, get proper ground height
-				if (place.position.z < 100.0f) // Likely ground level
+				// Ground detection for outdoor locations
+				if (targetPos.z < 100.0f)
 				{
 					float groundZ;
-					if (MISC::GET_GROUND_Z_FOR_3D_COORD(place.position.x, place.position.y, place.position.z + 50.0f, &groundZ, FALSE, FALSE))
-					{
-						targetPos.z = groundZ + 1.0f; // Slightly above ground
-					}
+					if (MISC::GET_GROUND_Z_FOR_3D_COORD(targetPos.x, targetPos.y, targetPos.z + 50.0f, &groundZ, FALSE, FALSE))
+						targetPos.z = groundZ + 1.0f;
 				}
 
-				// Smooth teleportation
+				// Request collision and load area
+				STREAMING::REQUEST_COLLISION_AT_COORD(targetPos.x, targetPos.y, targetPos.z);
+				ScriptMgr::Yield(isCayoPerico ? 500ms : 100ms);
+
+				// Teleport
 				entity.SetPosition(targetPos);
 				entity.SetHeading(place.heading);
-
-				// Ensure entity is properly loaded at new location
-				STREAMING::REQUEST_COLLISION_AT_COORD(targetPos.x, targetPos.y, targetPos.z);
-
-				// Brief pause to ensure proper loading
-				Sleep(100);
 
 				Notifications::Show("Teleport", std::format("Teleported to {}", place.name), NotificationType::Success, 3000);
 			}
@@ -319,21 +332,95 @@ namespace YimMenu::Features
 			                }},
 			        }},
 			    {"Casino Heist",
-			        {{"Inside",
-			             {
-			                 TeleportHelpers::MakePlace("Waste Disposal", 2542.052f, -214.3084f, -58.722965f, 0.0f),
-			                 TeleportHelpers::MakePlace("Staff Lobby", 2547.9192f, -273.16754f, -58.723003f, 0.0f),
-			                 TeleportHelpers::MakePlace("Mantrap Door", 2465.4746f, -279.2276f, -70.694145f, 0.0f),
-			                 TeleportHelpers::MakePlace("Inside The Vault", 2515.1252f, -238.91661f, -70.73713f, 0.0f),
-			                 TeleportHelpers::MakePlace("Outside The Vault", 2497.5098f, -238.50768f, -70.7388f, 0.0f),
-			                 TeleportHelpers::MakePlace("Daily Cash Storage", 2520.8645f, -286.30685f, -58.723007f, 0.0f),
-			             }},
+			        {
+						{"Inside",
+						    {
+					            TeleportHelpers::MakePlace("Waste Disposal", 2542.052f, -214.3084f, -58.722965f, 0.0f),
+			                    TeleportHelpers::MakePlace("Staff Lobby", 2547.9192f, -273.16754f, -58.723003f, 0.0f),
+			                    TeleportHelpers::MakePlace("Mantrap Door", 2465.4746f, -279.2276f, -70.694145f, 0.0f),
+			                    TeleportHelpers::MakePlace("Inside The Vault", 2515.1252f, -238.91661f, -70.73713f, 0.0f),
+			                    TeleportHelpers::MakePlace("Outside The Vault", 2497.5098f, -238.50768f, -70.7388f, 0.0f),
+			                    TeleportHelpers::MakePlace("Daily Cash Storage", 2520.8645f, -286.30685f, -58.723007f, 0.0f),
+			                }},
 			            {"Outside",
 			                {
 			                    TeleportHelpers::MakePlace("Main Gate", 917.24634f, 48.989567f, 80.89892f, 0.0f),
 			                    TeleportHelpers::MakePlace("Staff Lobby", 965.14856f, -9.05023f, 80.63045f, 0.0f),
 			                    TeleportHelpers::MakePlace("Waste Disposal", 997.5346f, 84.51491f, 80.990555f, 0.0f),
-			                }}}},
+			                    TeleportHelpers::MakePlace("The Music Locker", 988.54395f, 80.86057f, 80.9906f, 0.0f),
+				                TeleportHelpers::MakePlace("Casino Stand", 922.816223f, 47.206078f, 81.106331f, 0.0f),
+			                }}
+			        }},
+			    {"Stores",
+			        {
+						{"Ammu-Nations",
+						    {
+					            TeleportHelpers::MakePlace("Ammu-Nation 1 (Grapeseed)", 1697.98f, 3753.20f, 34.70f, 0.0f),
+			                    TeleportHelpers::MakePlace("Ammu-Nation 2 (Paleto Bay)", 245.27f, -45.81f, 69.93f, 0.0f),
+			                    TeleportHelpers::MakePlace("Ammu-Nation 3 (Mission Row)", 844.12f, -1025.57f, 28.18f, 0.0f),
+			                    TeleportHelpers::MakePlace("Ammu-Nation 4 (Fort Zancudo)", -325.89f, 6077.02f, 31.44f, 0.0f),
+			                    TeleportHelpers::MakePlace("Ammu-Nation 5 (Vespucci Beach)", -664.22f, -943.36f, 21.82f, 0.0f),
+			                    TeleportHelpers::MakePlace("Ammu-Nation with Range 1 (La Mesa)", 811.87f, -2149.10f, 29.62f, 0.0f),
+			                    TeleportHelpers::MakePlace("Ammu-Nation with Range 2 (Strawberry)", 17.68f, -1114.29f, 29.80f, 0.0f)
+			                }},
+			            {"Tattoo Parlors",
+			                {
+					            TeleportHelpers::MakePlace("Tattoo Parlor 1 (Vespucci)", 321.61f, 179.42f, 103.59f, 0.0f),
+			                    TeleportHelpers::MakePlace("Tattoo Parlor 2 (Sandy Shores)", 1861.69f, 3750.08f, 33.03f, 0.0f),
+			                    TeleportHelpers::MakePlace("Tattoo Parlor 3 (Chumash)", -290.16f, 6199.09f, 31.49f, 0.0f),
+			                    TeleportHelpers::MakePlace("Alamo Tattoo Studio", -1153.95f, -1425.02f, 4.95f, 0.0f)
+			                }},
+			            {"Barber Shops",
+			                {
+					            TeleportHelpers::MakePlace("Barber Shop 1 (Rockford Hills)", -821.99f, -187.18f, 37.57f, 0.0f),
+			                    TeleportHelpers::MakePlace("Barber Shop 2 (Davis)", 133.57f, -1710.92f, 29.29f, 0.0f),
+			                    TeleportHelpers::MakePlace("Barber Shop 3 (La Puerta)", -1287.08f, -1116.56f, 6.99f, 0.0f)
+			                }},
+			            {"Binco",
+			                {
+			                     TeleportHelpers::MakePlace("Binco 1 (Textile City)", 419.53f, -807.58f, 29.49f, 0.0f),
+			                     TeleportHelpers::MakePlace("Binco 2 (Vespucci Canals)", -818.62f, -1077.53f, 11.34f, 0.0f)
+			                }},
+							
+			            {"Discount Stores",
+			                {
+					             TeleportHelpers::MakePlace("Discount 1 (Strawberry)", 80.67f, -1391.67f, 29.38f, 0.0f),
+			                     TeleportHelpers::MakePlace("Discount 2 (Grapeseed)", 1687.88f, 4820.55f, 42.06f, 0.0f)
+			                }},
+			            {"Ponsonbys",
+			                {
+					             TeleportHelpers::MakePlace("Ponsonbys 1 (Rockford Hills)", -715.36f, -155.77f, 37.42f, 0.0f),
+			                     TeleportHelpers::MakePlace("Ponsonbys 2 (Downtown)", -158.22f, -304.97f, 39.73f, 0.0f)
+                            }}
+                    }},
+			    {"Special Locations",
+			        {
+						{"Alamo Tattoo Studio",
+						    {
+								TeleportHelpers::MakePlace("Main Entrance", -1153.95f, -1425.02f, 4.95f, 0.0f),
+			                    TeleportHelpers::MakePlace("Back Alley", -1156.14f, -1419.10f, 4.82f, 90.0f)
+                            }},
+			            {"Gun Van Locations",
+			                {
+								TeleportHelpers::MakePlace("Gun Van 1 (Sandy Shores)", 1697.98f, 3753.20f, 34.70f, 0.0f),
+			                    TeleportHelpers::MakePlace("Gun Van 2 (Vespucci Beach)", -664.22f, -943.36f, 21.82f, 180.0f)
+                            }}
+                    }},
+				{"Vehicle Customization",
+				    {
+						{"Los Santos Customs",
+				            {
+								TeleportHelpers::MakePlace("LSC La Mesa", -1147.202759f, -1992.451782f, 12.653099f, 0.0f),
+				                TeleportHelpers::MakePlace("LSC Burton", 724.479248f, -1089.010254f, 21.648642f, 0.0f),
+				                TeleportHelpers::MakePlace("LSC Rockford Hills", -354.587860f, -135.499176f, 38.479984f, 0.0f),
+				                TeleportHelpers::MakePlace("LSC Harmony", 1174.730347f, 2644.499023f, 37.240135f, 0.0f)
+                            }},
+				        {"Special Garages",
+				            {
+								TeleportHelpers::MakePlace("Beeker's Garage (Paleto Bay)", 113.240173f, 6624.191406f, 31.264368f, 0.0f),
+				                TeleportHelpers::MakePlace("Arena Workshop", -370.091f, -1862.77f, 20.5285f, 0.0f)
+                            }}
+                    }},            
 			    {"Property",
 			        {
 			            {"Arcade", {}},

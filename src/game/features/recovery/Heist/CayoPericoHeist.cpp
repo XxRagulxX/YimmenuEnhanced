@@ -281,7 +281,13 @@ namespace YimMenu::Features
 
 			virtual void OnTick() override
 			{
-				*ScriptLocal("fm_mission_controller_2020"_J, 31451).At(4).As<float*>() = 0;
+				// Use hashed script name with _J
+				auto plasmaHeat = ScriptLocal("fm_mission_controller_2020"_J, 31451).At(4).As<float*>();
+
+				if (plasmaHeat)
+				{
+					*plasmaHeat = 0.0f;
+				}
 			}
 		};
 
