@@ -242,6 +242,6 @@ namespace YimMenu
 	        {{"lr_cs6_08_grave_open"}},
 	        {{"lr_cs6_08_grave_closed"}},
 	        {},
-	    }
-	};
+
+	    }};
 };
