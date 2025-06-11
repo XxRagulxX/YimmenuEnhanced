@@ -20,7 +20,6 @@ jobs:
           find src \( -name "*.hpp" -o -name "*.h" -o -name "*.cpp" \) -exec clang-format-21 --Werror --dry-run --verbose {} +
 
   ci:
-    needs: lint
     runs-on: [ self-hosted, Windows ]
     name: CI
     steps:
