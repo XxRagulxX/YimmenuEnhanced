@@ -14,7 +14,6 @@ namespace YimMenu::Submenus
 		auto casino = std::make_shared<Category>("Casino");
 
 		auto generalGroup = std::make_shared<Group>("General");
-		auto generalGroup = std::make_shared<Group>("General");
 		auto unlocker = std::make_shared<Category>("Unlocks");
 		auto awards       = std::make_shared<Group>("Heist Awards");
 		auto unlock_goodies = std::make_shared<Group>("Clothing, Tattoos & Masks");
