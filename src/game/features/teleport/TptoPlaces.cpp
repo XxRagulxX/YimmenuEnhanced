@@ -30,31 +30,6 @@ namespace YimMenu::Features
 		// Enhanced teleport with safety checks and ground detection
 		void TeleportEntityTo(const TeleportPlace& place)
 		{
-			// Allow main map and Cayo Perico (x: 4800-5400, y: -6300 to -5000)
-			bool isCayoPerico = (place.position.x > 4800.0f && place.position.x < 5400.0f) && (place.position.y > -6300.0f && place.position.y < -5000.0f);
-
-			// Expanded bounds for Cayo Perico and future-proofing
-			if (!isCayoPerico && (place.position.x < -9000.0f || place.position.x > 9000.0f || place.position.y < -9000.0f || place.position.y > 9000.0f || place.position.z < -200.0f || place.position.z > 2000.0f))
-			{
-				Notifications::Show("Teleport", "Invalid coordinates detected", NotificationType::Warning, 3000);
-				return;
-			}
-
-			// Ensure Cayo Perico map is loaded if needed
-			if (isCayoPerico)
-			{
-				static const std::vector<const char*> cayoIpls = {
-				    "h4_islandx",
-				    "h4_islandx_sea_mines",
-				    "h4_islandx_terrain_props",
-				    "h4_islandx_mansion",
-				    "h4_islandx_props",
-				    "h4_islandx_sluice_gate"};
-				for (auto& ipl : cayoIpls)
-					STREAMING::REQUEST_IPL(ipl);
-				STREAMING::LOAD_ALL_OBJECTS_NOW();
-			}
-
 			Entity entity = Self::GetPed();
 			if (auto vehicle = Self::GetVehicle())
 				entity = vehicle;
@@ -65,39 +40,10 @@ namespace YimMenu::Features
 				return;
 			}
 
-			// Store original position for rollback
-			auto originalPos = entity.GetPosition();
-			auto originalHeading = entity.GetHeading();
+			entity.SetPosition(place.position);
+			entity.SetHeading(place.heading);
 
-			try
-			{
-				Vector3 targetPos = place.position;
-
-				// Ground detection for outdoor locations
-				if (targetPos.z < 100.0f)
-				{
-					float groundZ;
-					if (MISC::GET_GROUND_Z_FOR_3D_COORD(targetPos.x, targetPos.y, targetPos.z + 50.0f, &groundZ, FALSE, FALSE))
-						targetPos.z = groundZ + 1.0f;
-				}
-
-				// Request collision and load area
-				STREAMING::REQUEST_COLLISION_AT_COORD(targetPos.x, targetPos.y, targetPos.z);
-				ScriptMgr::Yield(isCayoPerico ? 500ms : 100ms);
-
-				// Teleport
-				entity.SetPosition(targetPos);
-				entity.SetHeading(place.heading);
-
-				Notifications::Show("Teleport", std::format("Teleported to {}", place.name), NotificationType::Success, 3000);
-			}
-			catch (...)
-			{
-				// Rollback on failure
-				entity.SetPosition(originalPos);
-				entity.SetHeading(originalHeading);
-				Notifications::Show("Teleport", "Teleport failed, position restored", NotificationType::Error, 3000);
-			}
+			Notifications::Show("Teleport", std::format("Teleported to {}", place.name), NotificationType::Success, 3000);
 		}
 
 		// Enhanced property detection with caching
