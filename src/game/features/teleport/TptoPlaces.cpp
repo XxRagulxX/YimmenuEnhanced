@@ -456,7 +456,7 @@ namespace YimMenu::Features
 				else if (selectedSubcategory == "Kosatka")
 				{
 					ImGui::TextColored(ImVec4(0.5f, 1.0f, 0.5f, 1.0f), "Kosatka Teleportation");
-					TeleportHelpers::RenderPropertyTeleportOptions("Kosatka", {{"Heist Board", {1561.2369f, 385.8831f, -49.689915f}, 175.0f}});
+					/*TeleportHelpers::RenderPropertyTeleportOptions("Kosatka", {{"Heist Board", {1561.2369f, 385.8831f, -49.689915f}, 175.0f}});*/
 				}
 			}
 			else
