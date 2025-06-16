@@ -3,7 +3,10 @@
 #include "game/backend/AnticheatBypass.hpp"
 #include "game/pointers/Pointers.hpp"
 #include "game/gta/Natives.hpp"
+#include "core/frontend/Notifications.hpp"
 #include "types/stats/CStatsMgr.hpp"
+#include <shlobj.h> // For CSIDL constants
+#include <Windows.h>
 
 namespace YimMenu::Submenus
 {
@@ -235,12 +238,124 @@ namespace YimMenu::Submenus
 			return ImGui::InputScalar("Value##packed", ImGuiDataType_U8, &value.m_AsInt);
 	}
 
+	static std::string GetStatsFilePath()
+	{
+		char appdata[MAX_PATH];
+		if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, appdata)))
+		{
+			std::string path = appdata;
+			path += "\\YimMenuV2";
+			// Ensure directory exists
+			CreateDirectoryA(path.c_str(), NULL);
+			path += "\\stats.txt";
+			return path;
+		}
+		return ""; // fallback, should not happen
+	}
+
+	static void ProcessStatLines(const std::vector<std::string>& lines)
+	{
+		if (lines.empty())
+		{
+			Notifications::Show("Error", "No data to process");
+			return;
+		}
+
+		int success_count = 0;
+		int error_count = 0;
+
+		for (size_t i = 0; i + 1 < lines.size(); i += 2)
+		{
+			try
+			{
+				const auto& stat_name = lines[i];
+				const auto& stat_value = lines[i + 1];
+
+				auto info = GetStatInfo(stat_name.c_str());
+				if (!info.IsValid())
+				{
+					error_count++;
+					continue;
+				}
+
+				StatValue value{};
+				std::istringstream value_stream(stat_value);
+
+				switch (info.m_Data->GetType())
+				{
+				case sStatData::Type::_BOOL:
+					value_stream >> value.m_AsBool;
+					break;
+				case sStatData::Type::FLOAT:
+					value_stream >> value.m_AsFloat;
+					break;
+				case sStatData::Type::INT:
+				case sStatData::Type::UINT32:
+				case sStatData::Type::UINT16:
+				case sStatData::Type::UINT8:
+					value_stream >> value.m_AsInt;
+					break;
+				case sStatData::Type::STRING:
+					strncpy(value.m_AsString, stat_value.c_str(), sizeof(value.m_AsString));
+					break;
+				default:
+					error_count++;
+					continue;
+				}
+
+				WriteStat(info.m_NameHash, value, info.m_Data);
+				success_count++;
+			}
+			catch (...)
+			{
+				error_count++;
+			}
+		}
+
+		Notifications::Show("Import Complete",
+		    std::format("Success: {} | Failed: {}", success_count, error_count));
+	}
+
+	static void ImportStatsFromFile()
+	{
+		std::string stats_path = GetStatsFilePath();
+		std::ifstream file(stats_path);
+
+		if (!file.is_open())
+		{
+			Notifications::Show("Error", "stats.txt not found in DLL folder");
+			return;
+		}
+
+		std::vector<std::string> lines;
+		std::string line;
+
+		while (std::getline(file, line))
+		{
+			line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
+			if (!line.empty())
+				lines.push_back(line);
+		}
+
+		ProcessStatLines(lines);
+	}
+
 	std::shared_ptr<Category> BuildStatEditorMenu()
 	{
 		auto menu = std::make_shared<Category>("Stat Editor");
 		auto normal = std::make_shared<Group>("Regular");
 		auto packed = std::make_shared<Group>("Packed");
 		auto packed_range = std::make_shared<Group>("Packed Range");
+		auto import_group = std::make_shared<Group>("Import Tools");
+
+		import_group->AddItem(std::make_unique<ImGuiItem>([] {
+			if (ImGui::Button("Import From TXT"))
+			{
+				FiberPool::Push([] {
+					ImportStatsFromFile();
+				});
+			}
+		}));
 
 		normal->AddItem(std::make_unique<ImGuiItem>([] {
 			if (!NativeInvoker::AreHandlersCached())
@@ -336,6 +451,7 @@ namespace YimMenu::Submenus
 				});
 		}));
 
+		menu->AddItem(std::move(import_group));
 		menu->AddItem(std::move(normal));
 		menu->AddItem(std::move(packed));
 		menu->AddItem(std::move(packed_range));
