@@ -23,6 +23,7 @@ namespace YimMenu::Submenus
 		auto joinSession = std::make_shared<Group>("", 1);
 		joinSession->AddItem(std::make_shared<ListCommandItem>("joinsessiontype"_J, "Session Type"));
 		joinSession->AddItem(std::make_shared<CommandItem>("joinsession"_J, "Join##session"));
+		joinSession->AddItem(std::make_shared<CommandItem>("quittosp"_J, "Quit to Story Mode"));
 
 		joinGroup->AddItem(joinSession);
 		joinGroup->AddItem(std::make_shared<ImGuiItem>([] {
