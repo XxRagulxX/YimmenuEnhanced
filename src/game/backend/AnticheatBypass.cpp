@@ -52,6 +52,7 @@ namespace YimMenu
 						continue;
 					patched = true;
 
+					// TODO: this is integrity checked now
 					reinterpret_cast<rage::gameSkeletonUpdateElement*>(group_child_node)->m_Function = reinterpret_cast<void (*)()>(Pointers.Nullsub);
 				}
 				break;
@@ -76,9 +77,26 @@ namespace YimMenu
 		}
 	}
 
+	void AnticheatBypass::RunOnStartupImpl()
+	{
+		bool loaded_late = false;
+
+		if (!*Pointers.AnticheatInitializedHash)
+		{
+			*Pointers.AnticheatInitializedHash = new rage::Obf32; // this doesn't get freed so we don't have to use the game allocator
+			(*Pointers.AnticheatInitializedHash)->setData(0x124EA49D);
+		}
+		else
+		{
+			(*Pointers.AnticheatInitializedHash)->setData(0x124EA49D);
+			loaded_late = true;
+		}
+	}
+
 	void AnticheatBypass::RunScriptImpl()
 	{
 		DefuseSigscanner();
+		
 		NativeHooks::AddHook("shop_controller"_J, NativeIndex::NET_GAMESERVER_BEGIN_SERVICE, &TransactionHook);
 
 		m_IsFSLLoaded = CheckForFSL();
