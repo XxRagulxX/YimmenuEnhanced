@@ -360,7 +360,7 @@ namespace YimMenu
 			SetJoinRequestPoolTypePatch = BytePatches::Add(ptr.Sub(5).As<std::uint8_t*>(), std::to_array<std::uint8_t>({0xB8, 0x00, 0x00, 0x00, 0x00}));
 		});
 
-		constexpr auto handleJoinRequestIgnorePoolPatchPtrn = Pattern<"41 83 FF 05 ? 30 43">("HandleJoinRequestIgnorePoolPatch");
+		constexpr auto handleJoinRequestIgnorePoolPatchPtrn = Pattern<"83 FD 05 ? ? ? 00 00 00 48 8B">("HandleJoinRequestIgnorePoolPatch");
 		scanner.Add(handleJoinRequestIgnorePoolPatchPtrn, [this](PointerCalculator ptr) {
 			HandleJoinRequestIgnorePoolPatch = BytePatches::Add(ptr.Add(4).As<std::uint8_t*>(), 0xEB);
 		});
@@ -395,7 +395,7 @@ namespace YimMenu
 			GameSkeleton = ptr.Add(0x9).Add(3).Rip().As<rage::gameSkeleton*>();
 		});
 
-		constexpr auto SetExplosiveAmmoOnlinePatchPtrn = Pattern<"48 83 EC 28 80 3D ? ? ? ? 00 0F 85 ? ? ? ? E9 ? ? ? ? 48 8B 45 28">("SetExplosiveAmmoOnlinePatch");
+		constexpr auto SetExplosiveAmmoOnlinePatchPtrn = Pattern<"48 83 EC 28 80 3D ? ? ? ? 00 0F 85 ? ? ? ? E9 ? ? ? ? 56 57 53 48 81 EC B0 00 00 00">("SetExplosiveAmmoOnlinePatch");
 		scanner.Add(SetExplosiveAmmoOnlinePatchPtrn, [this](PointerCalculator ptr) {
 			BytePatches::Add(ptr.Add(0xB).As<std::uint16_t*>(), 0x04EB)->Apply();
 		});
