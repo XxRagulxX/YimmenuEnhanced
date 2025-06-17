@@ -189,6 +189,7 @@ namespace YimMenu::Submenus
 		weaponsAimbotGroup->AddItem(std::make_shared<BoolCommandItem>("aimbot"_J));
 		weaponsAimbotGroup->AddItem(std::make_shared<ConditionalItem>("aimbot"_J, std::make_shared<BoolCommandItem>("aimbotaimforhead"_J)));
 		weaponsAimbotGroup->AddItem(std::make_shared<ConditionalItem>("aimbot"_J, std::make_shared<BoolCommandItem>("aimbottargetdrivers"_J)));
+		weaponsAimbotGroup->AddItem(std::make_shared<ConditionalItem>("aimbot"_J, std::make_shared<BoolCommandItem>("aimbotreleasedeadped"_J)));
 
 		weapons->AddItem(weaponsGlobalsGroup);
 		weapons->AddItem(weaponsToolsGroup);
