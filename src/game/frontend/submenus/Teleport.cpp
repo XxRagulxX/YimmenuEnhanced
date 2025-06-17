@@ -167,7 +167,8 @@
 	}
 
 	Teleport::Teleport() :
-	    Submenu::Submenu("Teleport")
+		#define ICON_FA_TELEPORT "\xef\x8f\x85"
+	    Submenu::Submenu("Teleport", ICON_FA_TELEPORT)
 	{
 		auto main = std::make_shared<Category>("Main");
 		auto miscGroup = std::make_shared<Group>("Misc");
