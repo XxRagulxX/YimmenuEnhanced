@@ -33,6 +33,21 @@ namespace YimMenu
 		return NativeInvoker::GetNativeHandler(NativeIndex::NET_GAMESERVER_BEGIN_SERVICE)(ctx);
 	}
 
+	static void NopGameSkeletonElement(rage::gameSkeletonUpdateElement* element)
+	{
+		// TODO: small memory leak
+		// Hey rockstar if you keep up with this I'll make you integrity check everything until you can't anymore, please grow a brain and realize that this is futile
+		// and kills performance if you're the host
+		auto vtable = *reinterpret_cast<void***>(element);
+		if (vtable[1] == Pointers.Nullsub)
+			return; // already nopped
+
+		auto new_vtable = new void*[3];
+		memcpy(new_vtable, vtable, sizeof(void*) * 3);
+		new_vtable[1] = Pointers.Nullsub;
+		*reinterpret_cast<void***>(element) = new_vtable;
+	}
+
 	static void DefuseSigscanner()
 	{
 		bool patched = false;
@@ -52,8 +67,7 @@ namespace YimMenu
 						continue;
 					patched = true;
 
-					// TODO: this is integrity checked now
-					reinterpret_cast<rage::gameSkeletonUpdateElement*>(group_child_node)->m_Function = reinterpret_cast<void (*)()>(Pointers.Nullsub);
+					NopGameSkeletonElement(reinterpret_cast<rage::gameSkeletonUpdateElement*>(group_child_node));
 				}
 				break;
 			}
@@ -63,7 +77,8 @@ namespace YimMenu
 		{
 			if (i.m_Hash != 0xA0F39FB6 && i.m_Hash != "TamperActions"_J)
 				continue;
-			i.m_InitFunc = Pointers.Nullsub;
+			// this is integrity checked and runs before we patch it, so it isn't very useful anymore
+			//i.m_InitFunc = Pointers.Nullsub;
 			i.m_ShutdownFunc = Pointers.Nullsub;
 		}
 
