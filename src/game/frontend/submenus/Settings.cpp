@@ -24,7 +24,7 @@ namespace YimMenu::Submenus
 			for (auto& [hash, command] : Commands::GetCommands())
 			{
 				if (auto it = g_HotkeySystem.m_CommandHotkeys.find(hash); it != g_HotkeySystem.m_CommandHotkeys.end())
-					sortedCommands.emplace(command->GetLabel(), it->second);
+					sortedCommands.emplace(command->GetLabel(), &it->second);
 			}
 			return true;
 		}();
