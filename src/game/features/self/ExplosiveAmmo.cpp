@@ -8,7 +8,7 @@
 
 namespace YimMenu::Features
 {
-	static constexpr std::pair<int, const char*> ExplosionTypeArray[] = {
+	static const std::vector<std::pair<int, const char*>> g_ExplosionTypeArray = {
 	    {static_cast<int>(ExplosionType::DONTCARE), "Don't Care"},
 	    {static_cast<int>(ExplosionType::GRENADE), "Grenade"},
 	    {static_cast<int>(ExplosionType::GRENADELAUNCHER), "Grenade Launcher"},
@@ -100,8 +100,7 @@ namespace YimMenu::Features
 	    "selectedexplosion",
 	    "Explosion Type",
 	    "Select an explosion type",
-	    std::begin(ExplosionTypeArray),
-	    std::end(ExplosionTypeArray),
+	    g_ExplosionTypeArray,
 	    static_cast<int>(ExplosionType::BULLET)};
 
 	static FloatCommand _ExplosionDamageScale{
