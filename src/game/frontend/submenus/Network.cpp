@@ -78,7 +78,7 @@ namespace YimMenu::Submenus
 
 		enhancements->AddItem(std::make_shared<BoolCommandItem>("fastjoin"_J));
 		enhancements->AddItem(std::make_shared<BoolCommandItem>("disabledeathbarriers"_J));
-		enhancements->AddItem(std::make_shared<BoolCommandItem>("despawnbypass"_J)); // move this somewhere else?
+		enhancements->AddItem(std::make_shared<BoolCommandItem>("despawnbypass"_J));
 		enhancements->AddItem(std::make_shared<BoolCommandItem>("bypasscasinogeoblock"_J));
 		enhancements->AddItem(std::make_shared<BoolCommandItem>("forcescripthost"_J));
 		enhancements->AddItem(std::make_shared<BoolCommandItem>("pausegame"_J));
