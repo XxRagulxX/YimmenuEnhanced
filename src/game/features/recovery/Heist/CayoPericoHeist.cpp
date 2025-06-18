@@ -26,7 +26,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				auto base = ScriptGlobal(1973698).At(831).At(56);
+				auto base = ScriptGlobal(1975799).At(831).At(56);
 
 				*base.At(1).As<int*>() = _CayoPericoHeistCut1.GetState();
 				*base.At(2).As<int*>() = _CayoPericoHeistCut2.GetState();
@@ -41,7 +41,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				auto base = ScriptGlobal(1974810);
+				auto base = ScriptGlobal(1976911);
 
 				*base.At(0, 27).At(8).At(0).As<int*>() = 1;
 				*base.At(1, 27).At(8).At(1).As<int*>() = 1;
@@ -50,26 +50,13 @@ namespace YimMenu::Features
 			}
 		};
 
-		static std::vector<std::pair<int, const char*>> cayoPericoHeistDifficulty = {
-		    {126823, "Normal"},
-		    {131055, "Hard"}};
+		static std::vector<std::pair<int, const char*>> cayoPericoHeistDifficulty = {{126823, "Normal"}, {131055, "Hard"}};
 		static ListCommand _CayoPericoHeistDifficulty{"cayopericoheistdifficulty", "Difficulty", "Heist difficulty", cayoPericoHeistDifficulty, 126823};
 
-		static std::vector<std::pair<int, const char*>> cayoPericoHeistPrimaryTarget = {
-		    {5, "Panther Statue"},
-		    {3, "Pink Diamond"},
-		    {4, "Madrazo Files"},
-		    {2, "Bearer Bonds"},
-		    {1, "Ruby Necklace"},
-		    {0, "Sinsimito Tequila"}};
+		static std::vector<std::pair<int, const char*>> cayoPericoHeistPrimaryTarget = {{5, "Panther Statue"}, {3, "Pink Diamond"}, {4, "Madrazo Files"}, {2, "Bearer Bonds"}, {1, "Ruby Necklace"}, {0, "Sinsimito Tequila"}};
 		static ListCommand _CayoPericoHeistPrimaryTarget{"cayopericoheistprimarytarget", "Primary Target", "Primary target", cayoPericoHeistPrimaryTarget, 5};
 
-		static std::vector<std::pair<int, const char*>> cayoPericoHeistWeapon = {
-		    {1, "Aggressor"},
-		    {2, "Conspirator"},
-		    {3, "Crack Shot"},
-		    {4, "Saboteur"},
-		    {5, "Marksman"}};
+		static std::vector<std::pair<int, const char*>> cayoPericoHeistWeapon = {{1, "Aggressor"}, {2, "Conspirator"}, {3, "Crack Shot"}, {4, "Saboteur"}, {5, "Marksman"}};
 		static ListCommand _CayoPericoHeistWeapon{"cayopericoheistweapon", "Weapon", "Weapon category", cayoPericoHeistWeapon, 1};
 
 		class Setup : public Command
@@ -200,7 +187,8 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				*ScriptLocal("fm_mission_controller_2020"_J, 56033).At(1518).At(53).As<int*>() = _CayoPericoHeistSecondaryTakeValue.GetState();
+				*ScriptLocal("fm_mission_controller_2020"_J, 58222).At(1357).At(53).As<int*>() =
+				    _CayoPericoHeistSecondaryTakeValue.GetState();
 			}
 		};
 		class SkipHacking : public Command
@@ -209,7 +197,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				*ScriptLocal("fm_mission_controller_2020"_J, 25388).As<int*>() = 5;
+				*ScriptLocal("fm_mission_controller_2020"_J, 25460).As<int*>() = 5;
 			}
 		};
 		class CutSewer : public Command
@@ -218,7 +206,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				*ScriptLocal("fm_mission_controller_2020"_J, 30212).As<int*>() = 6;
+				*ScriptLocal("fm_mission_controller_2020"_J, 30285).As<int*>() = 6;
 				Hash drainagePipeHash = "prop_chem_grill_bit"_J;
 				YimMenu::DeleteObjectsByHash(drainagePipeHash);
 			}
@@ -230,7 +218,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				*ScriptLocal("fm_mission_controller_2020"_J, 31451).At(3).As<float*>() = 100.0f;
+				*ScriptLocal("fm_mission_controller_2020"_J, 31525).At(3).As<float*>() = 100.0f;
 			}
 		};
 
@@ -257,13 +245,11 @@ namespace YimMenu::Features
 				case 1:
 				case 3:
 				case 5:
-					*ScriptLocal("fm_mission_controller_2020"_J, 31450).As<int*>() = 5;
-					*ScriptLocal("fm_mission_controller_2020"_J, 31451).As<int*>() = 3;
+					*ScriptLocal("fm_mission_controller_2020"_J, 31524).As<int*>() = 5;
+					*ScriptLocal("fm_mission_controller_2020"_J, 31525).As<int*>() = 3;
 					break;
 				case 2:
-				case 4:
-					*ScriptLocal("fm_mission_controller_2020"_J, 31426).As<int*>() = 7;
-					break;
+				case 4: *ScriptLocal("fm_mission_controller_2020"_J, 31499).As<int*>() = 7; break;
 				default: break;
 				}
 
@@ -298,7 +284,7 @@ namespace YimMenu::Features
 				ScriptMgr::Yield(500ms);
 
 				*ScriptLocal("fm_mission_controller_2020"_J, 52581).As<int*>() = 9;
-				*ScriptLocal("fm_mission_controller_2020"_J, 52581).At(1776).At(1).As<int*>() = 50;
+				*ScriptLocal("fm_mission_controller_2020"_J, 54763).At(1776).At(1).As<int*>() = 50;
 			}
 		};
 
