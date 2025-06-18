@@ -417,7 +417,7 @@ namespace YimMenu
 		while (!sc)
 		{
 			LOG(WARNING) << "Waiting for socialclub.dll";
-			std::this_thread::sleep_for(1s);
+			std::this_thread::sleep_for(5s);
 
 			if (IsSocialClubNeverGoingToLoad())
 			{
