@@ -151,6 +151,11 @@ namespace YimMenu
 			GetInstance().ResizeImpl(scale);
 		}
 
+		static void SetFontsUpdated()
+		{
+			GetInstance().m_FontsUpdated = true;
+		}
+
 	private:
 		static void DX12NewFrame();
 		static void DX12EndFrame();
@@ -205,6 +210,8 @@ namespace YimMenu
 		UINT64 m_FenceLastSignaledValue{};
 		HANDLE m_SwapchainWaitableObject{};
 		UINT64 m_FrameIndex{};
+
+		bool m_FontsUpdated;
 
 	private:
 		//Other
