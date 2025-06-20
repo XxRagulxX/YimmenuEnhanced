@@ -411,6 +411,11 @@ namespace YimMenu
 			GetAnticheatInitializedHash2 = ptr.Add(0x9).Rip().As<PVOID>();
 		});
 
+		constexpr auto abilityBarPatchPtrn = Pattern<"75 39 48 85 F6 74 1A 48 89 F1 E8">("AbilityBarPatch");
+		scanner.Add(abilityBarPatchPtrn, [this](PointerCalculator ptr) {
+			AbilityBarPatch = BytePatches::Add(ptr.As<std::uint16_t*>(), 0x9090);
+		});
+
 		if (!scanner.Scan())
 		{
 			LOG(FATAL) << "Some patterns could not be found, unloading.";
