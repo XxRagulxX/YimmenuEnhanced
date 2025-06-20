@@ -40,3 +40,10 @@ body:
       options:
         - label: I confirm that issue isn't a duplicate.
           required: true
+  - type: checkboxes
+    attributes:
+      label: "!!!READ THIS!!! Recovery features"
+      description: Requesting recovery features is temporarily banned. Bug reports on existing recovery features are still allowed
+      options:
+        - label: I confirm that I'm not requesting a recovery feature
+          required: true
