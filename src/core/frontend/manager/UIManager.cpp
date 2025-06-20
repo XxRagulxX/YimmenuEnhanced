@@ -1,8 +1,24 @@
 #include "UIManager.hpp"
 #include "game/pointers/Pointers.hpp"
 #include "game/frontend/Menu.hpp"
-#include "game/frontend/submenus/Settings/StyleSelector.hpp"
 #include "core/commands/ListCommand.hpp"
+
+namespace YimMenu::Features
+{
+	static const std::vector<std::pair<int, const char*>> g_StyleOptions = {
+		{0, "Classic"},
+		{1, "Modern"},
+		{2, "ModernV"},
+	};
+
+	// Expose as global reference so other code can use it
+	static ListCommand _StyleSelector{
+		"styleselector",
+		"UI Style",
+		"Choose the UI style",
+		g_StyleOptions,
+		0};
+}
 
 namespace YimMenu
 {
@@ -21,7 +37,7 @@ namespace YimMenu
 
 	void UIManager::DrawImpl()
 	{
-		int selectedIndex = g_StyleSelector.GetState();
+		int selectedIndex = Features::_StyleSelector.GetState();
 
 		// Render the selected theme based on the index, append when adding new themes
 		switch (static_cast<UITheme>(selectedIndex))
