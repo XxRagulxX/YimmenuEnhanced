@@ -19,7 +19,6 @@ namespace YimMenu::Submenus
 		auto unlocker = std::make_shared<Category>("Unlocks");
 		auto awards       = std::make_shared<Group>("Heist Awards");
 		auto unlock_goodies = std::make_shared<Group>("Clothing, Tattoos & Masks");
-		auto vehicle        = std::make_shared<Group>("Vehicle");
 		auto misc = std::make_shared<Group>("Misc");
 		auto business = std::make_shared<Group>("Business");
 		
@@ -32,17 +31,19 @@ namespace YimMenu::Submenus
 
 		generalGroup->AddItem(std::make_shared<BoolCommandItem>("playallmissionssolo"_J));
 		generalGroup->AddItem(std::make_shared<CommandItem>("forcelaunchheist"_J));
-		generalGroup->AddItem(std::make_shared<BoolCommandItem>("unlockgtaplus"_J));
+		misc->AddItem(std::make_shared<BoolCommandItem>("unlockgtaplus"_J));
 		generalGroup->AddItem(std::make_shared<BoolCommandItem>("overriderpmultiplier"_J));
 		generalGroup->AddItem(std::make_shared<ConditionalItem>("overriderpmultiplier"_J, std::make_shared<FloatCommandItem>("rpmultiplierinput"_J)));
 
 		generalGroup->AddItem(std::make_shared<BoolCommandItem>("freechangeappearance"_J));
-		generalGroup->AddItem(std::make_shared<BoolCommandItem>("nochangeappearancecooldown"_J));
-		generalGroup->AddItem(std::make_shared<BoolCommandItem>("allowgenderchange"_J));
+		misc->AddItem(std::make_shared<BoolCommandItem>("nochangeappearancecooldown"_J));
+		misc->AddItem(std::make_shared<BoolCommandItem>("allowgenderchange"_J));
 
 
 		businessGroup->AddItem(std::make_shared<ListCommandItem>("businesssafe"_J));
 		businessGroup->AddItem(std::make_shared<CommandItem>("claimsafeearnings"_J));
+		businessGroup->AddItem(std::make_shared<BoolCommandItem>("removeresupplycooldown"))
+		businessGroup->AddItem(std::make_shared<CommandItem>("ResupplyBusiness"))
 
 		casinoSlots->AddItem(std::make_shared<BoolCommandItem>("casinomanipulaterigslotmachines"_J));
 		
@@ -51,27 +52,26 @@ namespace YimMenu::Submenus
 		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockclothing"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlockallawards"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockgenderchange"_J));
-		awards->AddItem(std::make_shared<CommandItem>("careerprogressreawards"_J));
+		// awards->AddItem(std::make_shared<CommandItem>("careerprogressreawards"_J));
 		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockalltattoos"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlockachievements"_J));
-		vehicle->AddItem(std::make_shared<CommandItem>("unlockvehicle"_J));
-		vehicle->AddItem(std::make_shared<CommandItem>("unlockvehiclegunmods"_J));
+		// vehicle->AddItem(std::make_shared<CommandItem>("unlockvehicle"_J));
+		misc->AddItem(std::make_shared<CommandItem>("unlockspecialitems"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockallparachutes"_J));
 		misc->AddItem(std::make_shared<CommandItem>("fastrunreloadunlock"_J));
 		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockmasks"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockflightschool"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockweapons"_J));
 		awards->AddItem(std::make_shared<CommandItem>("unlockcollectables"_J));
-		business->AddItem(std::make_shared<CommandItem>("resupplybusiness"_J));
-		business->AddItem(std::make_shared<BoolCommandItem>("supplycooldownbypass"_J));
-		business->AddItem(std::make_shared<CommandItem>("mcbusinessmaxsellprice"_J));
+		// business->AddItem(std::make_shared<CommandItem>("resupplybusiness"_J));
+		// business->AddItem(std::make_shared<BoolCommandItem>("supplycooldownbypass"_J));
+		// business->AddItem(std::make_shared<CommandItem>("mcbusinessmaxsellprice"_J));
 		misc->AddItem(std::make_shared<CommandItem>("nightclubpopularity"_J));
 		missions->AddItem(generalGroup);
 		unlocker->AddItem(awards);
 		unlocker->AddItem(unlock_goodies);
 		unlocker->AddItem(misc);
-		unlocker->AddItem(business);
-		unlocker->AddItem(vehicle);
+		// unlocker->AddItem(business);
 		businesses->AddItem(businessGroup);
 		casino->AddItem(casinoSlots);
 
