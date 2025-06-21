@@ -1,4 +1,4 @@
-#include "core/commands/BoolCommand.hpp"
+//#include "core/commands/BoolCommand.hpp"
 #include "game/gta/Stats.hpp"
 #include "game/gta/Natives.hpp"
 #include "game/gta/ScriptLocal.hpp"
@@ -7,7 +7,7 @@
 
 namespace YimMenu::Features
 {
-	class Bunker_Research : public Command
+	class BunkerResearch : public Command
 	{
 		using Command::Command;
 
@@ -67,7 +67,7 @@ namespace YimMenu::Features
 		}
 	};
 
-    class Unlock_Clothing : public Command
+    class UnlockClothing : public Command
 	{
 		using Command::Command;
 
@@ -1461,7 +1461,7 @@ namespace YimMenu::Features
 			Stats::SetPackedBool(22063, TRUE);
 		}
 	};
-    class Unlock_All_Awards : public Command
+    class UnlockAllAwards : public Command
 	{
 		using Command::Command;
 		
@@ -2330,7 +2330,7 @@ namespace YimMenu::Features
 
 		}
 	};
-    class Unlock_All_Tattoos : public Command
+    class UnlockAllTattoos : public Command
 	{
 		using Command::Command;
 
@@ -2372,7 +2372,7 @@ namespace YimMenu::Features
 			
 	    }
 	};
-    	class Unlock_Special_Items : public Command
+    	class UnlockSpecialItems : public Command
 		{
 		   using Command::Command;
 
@@ -2720,7 +2720,7 @@ namespace YimMenu::Features
 			    Stats::SetPackedBool(32013, TRUE); // Dominator GTT - 70s Street Machine (Livery)
 		    }
 	    };
-        class Unlock_All_Parachutes : public Command
+        class UnlockAllParachutes : public Command
 	    {
 		    using Command::Command;
 
@@ -2741,7 +2741,7 @@ namespace YimMenu::Features
 
 		    }
 	    };
-        class FastRun_Reload_Unlock : public Command
+        class FastRunReloadUnlock : public Command
 	    {
 		    using Command::Command;
 
@@ -2755,7 +2755,7 @@ namespace YimMenu::Features
 				Stats::SetInt("MPX_CHAR_ABILITY_3_UNLCK", -1);
 		    }
 	    };
-        class Unlock_Achievements : public Command
+        class UnlockAchievements : public Command
 	    {
 		    using Command::Command;
 
@@ -2767,7 +2767,7 @@ namespace YimMenu::Features
 			    }
 		    }
 	    };
-        class Unlock_Masks : public Command
+        class UnlockMasks : public Command
 	    {
 		    using Command::Command;
 		    virtual void OnCall() override
@@ -2936,7 +2936,7 @@ namespace YimMenu::Features
 
 		    }
 	    };
-        class Unlock_Flight_School : public Command
+        class UnlockFlightSchool : public Command
 	    {
 		    using Command::Command;
 		    virtual void OnCall() override
@@ -2950,7 +2950,7 @@ namespace YimMenu::Features
 			    Stats::SetInt("MPPLY_NUM_CAPTURES_CREATED", 100);
 		    }
 	    };
-        class NightClub_Popularity : public Command
+        class NightClubPopularity : public Command
 		{
 			using Command::Command;
 			virtual void OnCall() override
@@ -2958,7 +2958,7 @@ namespace YimMenu::Features
 			    Stats::SetInt("MPX_CLUB_POPULARITY", 1000); // Nightclub Popularity
 			}
 	    };
-        class Unlock_Collectables: public Command
+        class UnlockCollectables: public Command
 	    {
 		    using Command::Command;
 		    virtual void OnCall() override
@@ -2983,7 +2983,7 @@ namespace YimMenu::Features
 		    }
 	    };
 
-        class Supply_Cooldown_Bypass : public LoopedCommand
+        class SupplyCooldownBypass : public LoopedCommand
 	    {
 		    using LoopedCommand::LoopedCommand;
 
@@ -2999,7 +2999,7 @@ namespace YimMenu::Features
 			    *ScriptGlobal(262145).At(21278).As<int*>() = 600; // GR_PURCHASE_SUPPLIES_DELAY
 		    }
 	    };
-        class Resupply_Business : public Command
+        class ResupplyBusiness : public Command
 	     {
 		     using Command::Command;
 		     virtual void OnCall() override
@@ -3015,19 +3015,19 @@ namespace YimMenu::Features
 
 
     
-    static Bunker_Research _Bunker_Research{"bunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
-	static Unlock_Clothing _UnlockClothing{"unlockclothing", "Unlock Clothing", "Unlocks some Clothing"};
-	static Unlock_All_Awards _Unlock_All_Awards{"unlockallawards", "Unlock Awards", "Unlocks all Awards"};
-	static Unlock_All_Tattoos _Unlock_All_Tattoos{"unlockalltattoos", "Unlock Tattoos", "Unlocks Some Tattoos"};
-	static Unlock_Special_Items _Unlock_Special_Items{"unlockspecialitems", "Unlock Special Items", "Unlocks Special items like livery, Vech mods and Guns"};
-	static Unlock_Achievements _Unlock_Achievements{"unlockachievements", "Unlock SC Achievements", "Unlocks all Social Club Achievements"};
-	static Unlock_All_Parachutes _Unlock_All_Parachutes{"unlockallparachutes", "Unlock All Parachutes", "Unlocks all Parachutes"};
-	static FastRun_Reload_Unlock _FastRun_Reload_Unlock{"fastrunreloadunlock", "Unlock Fast Run", "Unlocks Fast Run"};
-	static Unlock_Masks _Unlock_Masks{"unlockmasks", "Unlock Masks", "Unlocks Some Masks"};
-	static Unlock_Flight_School _Unlock_Flight_School{"unlockflightschool", "Unlock Flight School", "Unlocks Flight School"};
-	static Unlock_Collectables _Unlock_Collectables{"unlockcollectables", "Unlock Collectables", "Unlocks Some Collectables"};
-	static NightClub_Popularity _NightClub_Popularity{"nightclubpopularity", "Max Nightclub Popularity", "Sets Nightclub Popularity to 1000"};
-    static Supply_Cooldown_Bypass _Supply_Cooldown_Bypass{"removeresupplycooldown", "Remove ReSupply Cooldown", "Removes Resupply Cooldown"};
-    static Resupply_Business _resupply_business {"resupplybusiness", "Resupply Business", "Resupply all Business"};
+    static BunkerResearch _BunkerResearch{"bunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
+	static UnlockClothing _UnlockClothing{"unlockclothing", "Unlock Clothing", "Unlocks some Clothing"};
+	static UnlockAllAwards _UnlockAllAwards{"unlockallawards", "Unlock Awards", "Unlocks all Awards"};
+	static UnlockAllTattoos _UnlockAllTattoos{"unlockalltattoos", "Unlock Tattoos", "Unlocks Some Tattoos"};
+	static UnlockSpecialItems _UnlockSpecialItems{"unlockspecialitems", "Unlock Special Items", "Unlocks Special items like livery, Vech mods and Guns"};
+	static UnlockAchievements _UnlockAchievements{"unlockachievements", "Unlock SC Achievements", "Unlocks all Social Club Achievements"};
+	static UnlockAllParachutes _UnlockAllParachutes{"unlockallparachutes", "Unlock All Parachutes", "Unlocks all Parachutes"};
+	static FastRunReloadUnlock _FastRunReloadUnlock{"fastrunreloadunlock", "Unlock Fast Run", "Unlocks Fast Run"};
+	static UnlockMasks _UnlockMasks{"unlockmasks", "Unlock Masks", "Unlocks Some Masks"};
+	static UnlockFlightSchool _UnlockFlightSchool{"unlockflightschool", "Unlock Flight School", "Unlocks Flight School"};
+	static UnlockCollectables _UnlockCollectables{"unlockcollectables", "Unlock Collectables", "Unlocks Some Collectables"};
+	static NightClubPopularity _NightClubPopularity{"nightclubpopularity", "Max Nightclub Popularity", "Sets Nightclub Popularity to 1000"};
+    static SupplyCooldownBypass _SupplyCooldownBypass{"removeresupplycooldown", "Remove ReSupply Cooldown", "Removes Resupply Cooldown"};
+    static ResupplyBusiness _resupplybusiness {"resupplybusiness", "Resupply Business", "Resupply all Business"};
     
 }
