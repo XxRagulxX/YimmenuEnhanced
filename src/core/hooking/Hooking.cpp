@@ -41,6 +41,11 @@ namespace YimMenu
 
 		BaseHook::Add<Hooks::Network::GetPoolType>(new DetourHook("GetPoolType", Pointers.GetPoolType, Hooks::Network::GetPoolType));
 
+		BaseHook::Add<Hooks::Matchmaking::MatchmakingAdvertise>(new DetourHook("MatchmakingAdvertise", Pointers.MatchmakingAdvertise, Hooks::Matchmaking::MatchmakingAdvertise));
+		BaseHook::Add<Hooks::Matchmaking::MatchmakingSessionDetailSendResponse>(new DetourHook("MatchmakingSessionDetailSendResponse", Pointers.MatchmakingSessionDetailSendResponse, Hooks::Matchmaking::MatchmakingSessionDetailSendResponse));
+		BaseHook::Add<Hooks::Matchmaking::MatchmakingUnadvertise>(new DetourHook("MatchmakingUnadvertise", Pointers.MatchmakingUnadvertise, Hooks::Matchmaking::MatchmakingUnadvertise));
+		BaseHook::Add<Hooks::Matchmaking::MatchmakingUpdate>(new DetourHook("MatchmakingUpdate", Pointers.MatchmakingUpdate, Hooks::Matchmaking::MatchmakingUpdate));
+
 		BaseHook::Add<Hooks::Misc::AssistedAimShouldReleaseEntity>(new DetourHook("AssistedAimShouldReleaseEntity", Pointers.AssistedAimShouldReleaseEntity, Hooks::Misc::AssistedAimShouldReleaseEntity));
 	}
 

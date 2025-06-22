@@ -425,6 +425,26 @@ namespace YimMenu
 			AbilityBarPatch = BytePatches::Add(ptr.As<std::uint16_t*>(), 0x9090);
 		});
 
+		static constexpr auto doMatchmakingAdvertisePtrn = Pattern<"C7 47 30 01 00 00 00 E9 92">("MatchmakingAdvertise");
+		scanner.Add(doMatchmakingAdvertisePtrn, [this](PointerCalculator addr) {
+			MatchmakingAdvertise = addr.Sub(0xC).Rip().As<PVOID>();
+		});
+
+		static constexpr auto doMatchmakingUpdatePtrn = Pattern<"C7 47 30 02 00 00 00 EB 7A">("MatchmakingUpdate");
+		scanner.Add(doMatchmakingUpdatePtrn, [this](PointerCalculator addr) {
+			MatchmakingUpdate = addr.Sub(0x8).Rip().As<PVOID>();
+		});
+
+		static constexpr auto doMatchmakingUnadvertisePtrn = Pattern<"C7 86 C8 01 00 00 04 00 00 00">("MatchmakingUnadvertise");
+		scanner.Add(doMatchmakingUnadvertisePtrn, [this](PointerCalculator addr) {
+			MatchmakingUnadvertise = addr.Sub(0xC).Rip().As<PVOID>();
+		});
+
+		static constexpr auto matchmakingSessionDetailSendResponsePtrn = Pattern<"48 B8 01 00 00 00 0D 00 00 00">("SessionDetailSendResponse");
+		scanner.Add(matchmakingSessionDetailSendResponsePtrn, [this](PointerCalculator addr) {
+			MatchmakingSessionDetailSendResponse = addr.Add(0x2F).Rip().As<PVOID>();
+		});
+
 		if (!scanner.Scan())
 		{
 			LOG(FATAL) << "Some patterns could not be found, unloading.";
