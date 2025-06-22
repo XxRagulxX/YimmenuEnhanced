@@ -218,6 +218,8 @@ namespace YimMenu::Features
 			{
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_2020"_J))
 					*ScriptLocal(thread, 30285).As<int*>() = 6;
+				    Hash drainagePipeHash = "prop_chem_grill_bit"_J;
+					YimMenu::DeleteObjectsByHash(drainagePipeHash);
 			}
 		};
 
@@ -281,13 +283,8 @@ namespace YimMenu::Features
 
 			virtual void OnTick() override
 			{
-				// Use hashed script name with _J
-				auto plasmaHeat = ScriptLocal("fm_mission_controller_2020"_J, 31451).At(4).As<float*>();
-
-				if (plasmaHeat)
-				{
-					*plasmaHeat = 0.0f;
-				}
+				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_2020"_J))
+				     *ScriptLocal(thread, 31451).At(4).As<float*>() = 0.0f;
 			}
 		};
 
