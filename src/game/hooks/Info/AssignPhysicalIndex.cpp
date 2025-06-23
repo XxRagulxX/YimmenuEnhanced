@@ -28,13 +28,16 @@ namespace YimMenu::Hooks
 				LOGF(WARNING, "Player {} changed their player index from {} to {}", player->GetName(), player->m_PlayerIndex, index);
 			BaseHook::Get<Info::AssignPhysicalIndex, DetourHook<decltype(&Info::AssignPhysicalIndex)>>()->Original()(mgr, player, index);
 			Players::OnPlayerJoin(player);
-			std::string name = player->GetName();
-			FiberPool::Push([name] {
-				HUD::SET_TEXT_OUTLINE();
-				HUD::BEGIN_TEXT_COMMAND_THEFEED_POST("STRING");
-				HUD::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(std::format("<C>{}</C> joined.", name).data());
-				HUD::END_TEXT_COMMAND_THEFEED_POST_TICKER(false, false);
-			});
+			if (Features::_NotifyOnPlayerJoin.GetState() && !player->IsLocal())
+			{
+				std::string name = player->GetName();
+				FiberPool::Push([name] {
+					HUD::SET_TEXT_OUTLINE();
+					HUD::BEGIN_TEXT_COMMAND_THEFEED_POST("STRING");
+					HUD::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(std::format("<C>{}</C> joined.", name).data());
+					HUD::END_TEXT_COMMAND_THEFEED_POST_TICKER(false, false);
+				});
+			}
 		}
 		else
 		{

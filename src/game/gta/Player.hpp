@@ -83,6 +83,8 @@ namespace YimMenu
 
 		int GetMaxArmour();
 
+		int GetGroup();
+
 		bool operator==(Player other);
 
 		inline operator bool()
