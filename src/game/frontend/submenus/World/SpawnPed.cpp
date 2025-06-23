@@ -21,6 +21,8 @@ namespace YimMenu::Submenus
 		static bool spawnAsCop;
 		static bool giveAllWeapons;
 		static bool spawnAsProstitute;
+		static bool randomizeOutfit;
+		static bool blipPed;
 		static std::vector<Ped> spawnedPeds;
 
 		menu->AddItem(std::make_unique<ImGuiItem>([] {
@@ -53,6 +55,8 @@ namespace YimMenu::Submenus
 								handle.SetCombatAttribute(PedCombatAttribute::AlwaysFight, true);
 								handle.SetCombatAttribute(PedCombatAttribute::DisableAllRandomsFlee, true);
 								handle.SetCombatAttribute(PedCombatAttribute::DisableFleeFromCombat, true);
+								handle.SetCombatAttribute(PedCombatAttribute::AlwaysFlee, false);
+								handle.SetCombatAttribute(PedCombatAttribute::FleesFromInvincibleOpponents, false);
 								handle.SetCombatAttribute(PedCombatAttribute::CanUseVehicles, true);
 								handle.SetCombatAttribute(PedCombatAttribute::CanLeaveVehicle, true);
 
@@ -71,7 +75,6 @@ namespace YimMenu::Submenus
 									handle.SetCombatAttribute(PedCombatAttribute::PerfectAccuracy, true);
 									handle.SetCombatAttribute(PedCombatAttribute::UseVehicleAttack, true);
 									handle.SetCombatAttribute(PedCombatAttribute::CanDoDrivebys, true);
-									handle.SetCombatAttribute(PedCombatAttribute::FleesFromInvincibleOpponents, false);
 									handle.SetCombatAttribute(PedCombatAttribute::CanThrowSmokeGrenade, true);
 									handle.SetCombatAttribute(PedCombatAttribute::CanSeeUnderwaterPeds, true);
 									
@@ -91,6 +94,14 @@ namespace YimMenu::Submenus
 								{
 									for (auto hash : g_WeaponHashes)
 										handle.GiveWeapon(hash);
+								}
+
+								if (randomizeOutfit)
+									handle.RandomizeOutfit();
+
+								if (blipPed)
+								{
+									HUD::SET_BLIP_COLOUR(HUD::ADD_BLIP_FOR_ENTITY(handle.GetHandle()), 3);
 								}
 
 								if (spawnAsProstitute)
@@ -123,6 +134,8 @@ namespace YimMenu::Submenus
 			ImGui::Checkbox("Spawn As Cop", &spawnAsCop);
 			ImGui::Checkbox("Give All Weapons", &giveAllWeapons);
 			ImGui::Checkbox("Spawn As Prostitute", &spawnAsProstitute);
+			ImGui::Checkbox("Randomize Outfit", &randomizeOutfit);
+			ImGui::Checkbox("Blip Ped", &blipPed);
 			if (ImGui::Button("Remove All"))
 			{
 				FiberPool::Push([] {

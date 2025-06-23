@@ -3,10 +3,7 @@
 #include "game/backend/AnticheatBypass.hpp"
 #include "game/pointers/Pointers.hpp"
 #include "game/gta/Natives.hpp"
-#include "core/frontend/Notifications.hpp"
 #include "types/stats/CStatsMgr.hpp"
-#include <shlobj.h> // For CSIDL constants
-#include <Windows.h>
 
 namespace YimMenu::Submenus
 {
@@ -43,15 +40,31 @@ namespace YimMenu::Submenus
 		char m_AsString[12];
 	};
 
-	static StatInfo GetStatInfo(const char* name_str)
+	// https://stackoverflow.com/questions/66897068/can-trim-of-a-string-be-done-inplace-with-c20-ranges
+	static std::string_view TrimString(std::string_view string)
+	{
+		return std::string_view{
+		    std::ranges::find_if_not(
+		        string,
+		        [](auto c) {
+			        return std::isspace(c);
+		        }),
+		    std::ranges::find_if_not(
+		        string | std::views::reverse,
+		        [](auto c) {
+			        return std::isspace(c);
+		        }).base()};
+	}
+
+	static StatInfo GetStatInfo(std::string_view name_str)
 	{
 		StatInfo name{};
-		auto len = strlen(name_str);
+		auto len = name_str.length();
 
 		// not sure why people do this
 		if (len > 1 && name_str[0] == '$')
 		{
-			name_str++;
+			name_str = std::string_view{name_str.begin()++, name_str.end()};
 			len--;
 			name.m_Normalized = true;
 		}
@@ -129,7 +142,7 @@ namespace YimMenu::Submenus
 		{
 		case sStatData::Type::_BOOL:
 			STATS::STAT_SET_BOOL(hash, value.m_AsBool, true);
-			break;
+			return;
 		case sStatData::Type::FLOAT:
 			STATS::STAT_SET_FLOAT(hash, value.m_AsFloat, true);
 			return;
@@ -148,6 +161,64 @@ namespace YimMenu::Submenus
 			return;
 		case sStatData::Type::STRING:
 			STATS::STAT_SET_STRING(hash, value.m_AsString, true);
+			return;
+		default:
+			return; // data type not supported
+		}
+	}
+
+	// TODO: don't call std::string_view::data()
+	static void WriteStatWithStringValue(std::uint32_t hash, std::string_view value, sStatData* data)
+	{
+		switch (data->GetType())
+		{
+		case sStatData::Type::_BOOL:
+		{
+			bool _bool = false;
+			std::string as_string(value);
+			std::transform(as_string.begin(), as_string.end(), as_string.begin(), [](char c) {
+				return tolower(c);
+			});
+
+			if (as_string == "true" || as_string == "1")
+			{
+				_bool = true;
+			}
+
+			STATS::STAT_SET_BOOL(hash, _bool, true);
+			return;
+		}
+		case sStatData::Type::FLOAT:
+		{
+			auto _float = std::strtof(value.data(), nullptr);
+			STATS::STAT_SET_FLOAT(hash, _float, true);
+			return;
+		}
+		case sStatData::Type::INT:
+		case sStatData::Type::UINT32:
+		case sStatData::Type::UINT16:
+		case sStatData::Type::UINT8:
+		{
+			auto _int = std::strtol(value.data(), nullptr, 10);
+			STATS::STAT_SET_INT(hash, _int, true);
+			return;
+		}
+		case sStatData::Type::INT64:
+		{
+			auto int64_ = std::strtoll(value.data(), nullptr, 10);
+			data->SetInt64(int64_); // TODO this isn't a good idea! natives can't set this
+			return;
+		}
+		case sStatData::Type::UINT64:
+		{
+			auto uint64_ = std::strtoull(value.data(), nullptr, 10);
+
+			STATS::STAT_SET_MASKED_INT(hash, (std::uint32_t)uint64_, 0, 32, true);
+			STATS::STAT_SET_MASKED_INT(hash, (std::uint32_t)(uint64_ >> 32), 32, 32, true);
+			return;
+		}
+		case sStatData::Type::STRING:
+			STATS::STAT_SET_STRING(hash, value.data(), true);
 			return;
 		default:
 			return; // data type not supported
@@ -238,124 +309,13 @@ namespace YimMenu::Submenus
 			return ImGui::InputScalar("Value##packed", ImGuiDataType_U8, &value.m_AsInt);
 	}
 
-	static std::string GetStatsFilePath()
-	{
-		char appdata[MAX_PATH];
-		if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_APPDATA, NULL, 0, appdata)))
-		{
-			std::string path = appdata;
-			path += "\\YimMenuV2";
-			// Ensure directory exists
-			CreateDirectoryA(path.c_str(), NULL);
-			path += "\\stats.txt";
-			return path;
-		}
-		return ""; // fallback, should not happen
-	}
-
-	static void ProcessStatLines(const std::vector<std::string>& lines)
-	{
-		if (lines.empty())
-		{
-			Notifications::Show("Error", "No data to process");
-			return;
-		}
-
-		int success_count = 0;
-		int error_count = 0;
-
-		for (size_t i = 0; i + 1 < lines.size(); i += 2)
-		{
-			try
-			{
-				const auto& stat_name = lines[i];
-				const auto& stat_value = lines[i + 1];
-
-				auto info = GetStatInfo(stat_name.c_str());
-				if (!info.IsValid())
-				{
-					error_count++;
-					continue;
-				}
-
-				StatValue value{};
-				std::istringstream value_stream(stat_value);
-
-				switch (info.m_Data->GetType())
-				{
-				case sStatData::Type::_BOOL:
-					value_stream >> value.m_AsBool;
-					break;
-				case sStatData::Type::FLOAT:
-					value_stream >> value.m_AsFloat;
-					break;
-				case sStatData::Type::INT:
-				case sStatData::Type::UINT32:
-				case sStatData::Type::UINT16:
-				case sStatData::Type::UINT8:
-					value_stream >> value.m_AsInt;
-					break;
-				case sStatData::Type::STRING:
-					strncpy(value.m_AsString, stat_value.c_str(), sizeof(value.m_AsString));
-					break;
-				default:
-					error_count++;
-					continue;
-				}
-
-				WriteStat(info.m_NameHash, value, info.m_Data);
-				success_count++;
-			}
-			catch (...)
-			{
-				error_count++;
-			}
-		}
-
-		Notifications::Show("Import Complete",
-		    std::format("Success: {} | Failed: {}", success_count, error_count));
-	}
-
-	static void ImportStatsFromFile()
-	{
-		std::string stats_path = GetStatsFilePath();
-		std::ifstream file(stats_path);
-
-		if (!file.is_open())
-		{
-			Notifications::Show("Error", "stats.txt not found in DLL folder");
-			return;
-		}
-
-		std::vector<std::string> lines;
-		std::string line;
-
-		while (std::getline(file, line))
-		{
-			line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
-			if (!line.empty())
-				lines.push_back(line);
-		}
-
-		ProcessStatLines(lines);
-	}
-
 	std::shared_ptr<Category> BuildStatEditorMenu()
 	{
 		auto menu = std::make_shared<Category>("Stat Editor");
 		auto normal = std::make_shared<Group>("Regular");
 		auto packed = std::make_shared<Group>("Packed");
 		auto packed_range = std::make_shared<Group>("Packed Range");
-		auto import_group = std::make_shared<Group>("Import Tools");
-
-		import_group->AddItem(std::make_unique<ImGuiItem>([] {
-			if (ImGui::Button("Import From TXT"))
-			{
-				FiberPool::Push([] {
-					ImportStatsFromFile();
-				});
-			}
-		}));
+		auto from_clipboard = std::make_shared<Group>("From Clipboard");
 
 		normal->AddItem(std::make_unique<ImGuiItem>([] {
 			if (!NativeInvoker::AreHandlersCached())
@@ -451,10 +411,41 @@ namespace YimMenu::Submenus
 				});
 		}));
 
-		menu->AddItem(std::move(import_group));
+		from_clipboard->AddItem(std::make_unique<ImGuiItem>([] {
+			if (!NativeInvoker::AreHandlersCached())
+				return ImGui::TextDisabled("Natives not cached yet");
+
+			if (ImGui::Button("Load from Clipboard"))
+			{
+				auto clip_text = std::string(ImGui::GetClipboardText());
+				FiberPool::Push([clip_text] {
+					for (auto line : clip_text | std::ranges::views::split('\n'))
+					{
+						auto components = TrimString(std::string_view{line.begin(), line.end()}) | std::ranges::views::split('=') | std::ranges::to<std::vector<std::string>>();
+
+						if (components.size() != 2)
+						{
+							LOGF(WARNING, "Load From Clipboard: line \"{}\" is malformed", line);
+							continue;
+						}
+
+						auto info = GetStatInfo(TrimString(components[0]));
+						if (!info.IsValid())
+						{
+							LOGF(WARNING, "Load From Clipboard: cannot find stat {}", components[0]);
+							continue;
+						}
+
+						WriteStatWithStringValue(info.m_NameHash, TrimString(components[1]), info.m_Data);
+					}
+				});
+			}
+		}));
+
 		menu->AddItem(std::move(normal));
 		menu->AddItem(std::move(packed));
 		menu->AddItem(std::move(packed_range));
+		menu->AddItem(std::move(from_clipboard));
 		return menu;
 	}
 }
