@@ -111,7 +111,7 @@ namespace YimMenu::Submenus
 
 									if (!*Pointers.IsSessionStarted)
 									{
-										PED_INDEX ped = handle.GetHandle();
+										int ped = handle.GetHandle();
 										Scripts::StartScript("pb_prostitute"_J, eStackSizes::FRIEND, &ped, 1);
 									}
 								}
