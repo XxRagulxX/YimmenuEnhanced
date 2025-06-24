@@ -8,6 +8,7 @@
 #include "types/ped/PedCombatAttribute.hpp"
 #include "game/gta/data/Weapons.hpp"
 #include "game/gta/Scripts.hpp"
+#include "game/backend/NativeHooks.hpp"
 
 namespace YimMenu::Submenus
 {
@@ -48,9 +49,13 @@ namespace YimMenu::Submenus
 						ImGui::PushID(name);
 						if (ImGui::Selectable(name))
 						{
-							FiberPool::Push([name] {
+							auto set_player = ImGui::GetIO().KeyCtrl;
+							FiberPool::Push([name, set_player] {
 								auto hash = Joaat(name);
 								auto handle = Ped::Create(hash, Self::GetPed().GetPosition(), Self::GetPed().GetHeading());
+
+								if (!handle)
+									return;
 
 								handle.SetCombatAttribute(PedCombatAttribute::AlwaysFight, true);
 								handle.SetCombatAttribute(PedCombatAttribute::DisableAllRandomsFlee, true);
@@ -66,7 +71,7 @@ namespace YimMenu::Submenus
 								if (spawnDead)
 									handle.Kill();
 
-								if (spawnAsBodyguard)
+								if (spawnAsBodyguard && !set_player)
 								{
 									handle.SetCombatAttribute(PedCombatAttribute::CanCharge, true);
 									handle.SetCombatAttribute(PedCombatAttribute::CanCommandeerVehicles, true);
@@ -116,7 +121,41 @@ namespace YimMenu::Submenus
 									}
 								}
 
-								spawnedPeds.push_back(handle);
+								if (set_player)
+								{
+									static auto hooked = []()
+									{
+										NativeHooks::AddHook("freemode"_J, NativeIndex::GET_ENTITY_MODEL, [](rage::scrNativeCallContext* ctx) {
+											auto model = ENTITY::GET_ENTITY_MODEL(ctx->GetArg<int>(0));
+
+											if (ctx->GetArg<int>(0) == Self::GetPed().GetHandle() && (model != "mp_m_freemode_01"_J && model != "mp_f_freemode_01"_J))
+											{
+												return ctx->SetReturnValue("mp_m_freemode_01"_J);
+											}
+
+											return ctx->SetReturnValue(model);
+										});
+										for (auto script : {"main"_J, "respawn_controller"_J, "pi_menu"_J})
+										{
+											NativeHooks::AddHook(script, NativeIndex::GET_ENTITY_MODEL, [](rage::scrNativeCallContext* ctx) {
+												auto model = ENTITY::GET_ENTITY_MODEL(ctx->GetArg<int>(0));
+
+												if (ctx->GetArg<int>(0) == Self::GetPed().GetHandle() && (model != "player_zero"_J && model != "player_one"_J && model != "player_two"_J))
+												{
+													return ctx->SetReturnValue("player_zero"_J);
+												}
+
+												return ctx->SetReturnValue(model);
+											}); 
+										}
+										return true;
+									}();
+									Self::GetPlayer().SetPed(handle);
+								}
+								else
+								{
+									spawnedPeds.push_back(handle);
+								}
 							});
 						}
 						ImGui::PopID();
@@ -128,6 +167,7 @@ namespace YimMenu::Submenus
 
 			ImGui::SameLine();
 			ImGui::BeginGroup();
+			ImGui::BulletText("Ctrl+Click to set player model");
 			ImGui::Checkbox("Invincible", &invincible);
 			ImGui::Checkbox("Spawn Dead", &spawnDead);
 			ImGui::Checkbox("Spawn As Bodyguard", &spawnAsBodyguard);

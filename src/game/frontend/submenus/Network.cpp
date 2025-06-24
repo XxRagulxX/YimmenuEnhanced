@@ -19,6 +19,7 @@ namespace YimMenu::Submenus
 		auto toxicGroup = std::make_shared<Group>("Toxic");
 		auto teleportGroup = std::make_shared<Group>("Teleport");
 		auto trollGroup = std::make_shared<Group>("Troll");
+		auto miscGroup = std::make_shared<Group>("Misc");
 		auto enhancements = std::make_shared<Group>("Enhancements");
 
 		auto joinSession = std::make_shared<Group>("", 1);
@@ -84,6 +85,8 @@ namespace YimMenu::Submenus
 		toxicGroup->AddItem(std::make_shared<CommandItem>("explodeall"_J, "Explode All"));
 		toxicGroup->AddItem(std::make_shared<CommandItem>("ceokickall"_J, "CEO Kick All"));
 
+		miscGroup->AddItem(std::make_shared<BoolCommandItem>("forcethunder"_J));
+
 		enhancements->AddItem(std::make_shared<BoolCommandItem>("notifyonplayerjoin"_J));
 		enhancements->AddItem(std::make_shared<BoolCommandItem>("fastjoin"_J));
 		enhancements->AddItem(std::make_shared<BoolCommandItem>("disabledeathbarriers"_J));
@@ -98,6 +101,7 @@ namespace YimMenu::Submenus
 		session->AddItem(trollGroup);
 		session->AddItem(teleportGroup);
 		session->AddItem(toxicGroup);
+		session->AddItem(miscGroup);
 		session->AddItem(enhancements);
 
 		auto spoofing = std::make_shared<Category>("Spoofing");

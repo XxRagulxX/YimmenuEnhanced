@@ -64,7 +64,9 @@ namespace YimMenu::Submenus
 		// not sure why people do this
 		if (len > 1 && name_str[0] == '$')
 		{
-			name_str = std::string_view{name_str.begin()++, name_str.end()};
+			auto it = name_str.begin();
+			std::advance(it, 1);
+			name_str = std::string_view{it, name_str.end()};
 			len--;
 			name.m_Normalized = true;
 		}
@@ -340,7 +342,7 @@ namespace YimMenu::Submenus
 				ImGui::Text("Normalized name to: %s", current_info.m_Name.data());
 			}
 
-			bool can_edit = !current_info.m_Data->IsServerAuthoritative() || AnticheatBypass::IsFSLProvidingLocalSaves(); // TODO: a lot of false positives and negatives with this one
+			bool can_edit = !current_info.m_Data->IsControlledByNetshop();
 
 			RenderStatEditor(value, current_info.m_Data);
 
