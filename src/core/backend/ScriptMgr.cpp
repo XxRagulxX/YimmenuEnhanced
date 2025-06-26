@@ -68,7 +68,6 @@ namespace YimMenu
 
 	void ScriptMgr::YieldImpl(std::optional<std::chrono::high_resolution_clock::duration> time)
 	{
-		// TODO: this wouldn't work!!! fix ASAP!
 		if (auto script = LuaManager::GetRunningCoroutine())
 			LuaScript::GetScript(script).Yield(script, time ? std::chrono::duration_cast<std::chrono::milliseconds>(*time).count() : 0);
 		else if (auto script = static_cast<Script*>(GetFiberData()))
