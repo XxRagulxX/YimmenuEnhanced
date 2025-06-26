@@ -95,10 +95,16 @@ namespace YimMenu
 							continue;
 
 						for (auto& script : m_LoadedScripts)
+						{
 							if (std::filesystem::equivalent(script->GetPath(), entry.path().string()))
-								continue;
+							{
+								// continue;
+								goto next;
+							}
+						}
 
 						AddUnloadedScript(entry.path().filename().string(), entry.path().string());
+						next:
 					}
 					m_LastRefreshedUnloadedScripts = std::chrono::system_clock::now();
 				}
@@ -143,5 +149,22 @@ namespace YimMenu
 		std::lock_guard lock(m_LoadMutex);
 		for (auto& script : m_UnloadedScripts)
 			callback(script);
+	}
+
+	bool LuaManager::DispatchEventImpl(std::uint32_t event, const LuaScript::DispatchEventCallback& add_arguments_cb, bool handle_result)
+	{
+		auto result = true;
+
+		for (auto& script : m_LoadedScripts)
+		{
+			if (script->IsValid())
+			{
+				result = (bool)(((int)result) & ((int)script->DispatchEvent(event, add_arguments_cb, handle_result)));
+				if (!result && handle_result)
+					return false;
+			}
+		}
+
+		return result;
 	}
 }

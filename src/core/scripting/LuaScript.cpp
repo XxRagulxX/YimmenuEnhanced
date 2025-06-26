@@ -119,8 +119,9 @@ namespace YimMenu
 		lua_setfield(m_State, LUA_REGISTRYINDEX, "context");
 
 		LuaManager::LoadLibraries(m_State);
-
-		if (luaL_loadfilex(m_State, file_name.data(), "t") != LUA_OK) // don't load binary chunks
+		
+		auto result = luaL_loadfilex(m_State, file_name.data(), "t");
+		if (result != LUA_OK) // don't load binary chunks
 		{
 			auto error = lua_tostring(m_State, -1);
 			LOGF(FATAL, "{}: {}", m_ModuleName, error);
@@ -262,6 +263,46 @@ namespace YimMenu
 		
 		std::ranges::move(m_QueuedScriptCallbacks, std::back_inserter(m_ScriptCallbacks));
 		m_QueuedScriptCallbacks.clear();
+	}
+
+	void LuaScript::AddEventHandler(std::uint32_t event, int handler)
+	{
+		if (auto it = m_EventHandlers.find(event); it != m_EventHandlers.end())
+			it->second.push_back(handler);
+		else
+			m_EventHandlers.emplace(event, std::vector{handler});
+	}
+
+	bool LuaScript::DispatchEvent(std::uint32_t event, const DispatchEventCallback& add_arguments_cb, bool handle_result)
+	{
+		bool result = true;
+
+		if (auto it = m_EventHandlers.find(event); it != m_EventHandlers.end())
+		{
+			for (auto& handler : it->second)
+			{
+				lua_rawgeti(m_State, LUA_REGISTRYINDEX, handler);
+				auto num_args = add_arguments_cb(m_State);
+
+				if (CallFunction(num_args, 1))
+				{
+					if (!lua_isnoneornil(m_State, -1))
+					{
+						if (lua_toboolean(m_State, -1) == false)
+						{
+							result = false;
+						}
+					}
+
+					lua_pop(m_State, 1);
+				}
+				
+				if (!result && handle_result)
+					return false;
+			}
+		}
+
+		return result;
 	}
 	
 	void LuaScript::ScriptCallback::SetTimeToResume(int millis)

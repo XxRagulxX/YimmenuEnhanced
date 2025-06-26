@@ -59,7 +59,7 @@ namespace YimMenu::Submenus
 				ImGui::Text("%s", selectedScript->GetName().data());
 
 				bool paused = selectedScript->GetLoadState() == LuaScript::LoadState::PAUSED;
-				if (ImGui::Button(paused ? "Pause" : "Resume"))
+				if (ImGui::Button(paused ? "Resume" : "Pause"))
 				{
 					if (paused)
 						selectedScript->Resume();
