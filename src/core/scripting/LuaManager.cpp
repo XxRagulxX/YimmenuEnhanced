@@ -104,7 +104,8 @@ namespace YimMenu
 						}
 
 						AddUnloadedScript(entry.path().filename().string(), entry.path().string());
-						next:
+					next:
+						continue;
 					}
 					m_LastRefreshedUnloadedScripts = std::chrono::system_clock::now();
 				}
