@@ -48,7 +48,8 @@ namespace YimMenu
 				while (!m_ScriptsToLoad.empty())
 				{
 					std::erase_if(m_UnloadedScripts, [this](auto& script) {
-						return std::filesystem::equivalent(m_ScriptsToLoad.front(), script.m_Path);
+						std::error_code ec;
+						return std::filesystem::equivalent(m_ScriptsToLoad.front(), script.m_Path, ec);
 					});
 					m_LoadedScripts.push_back(std::make_shared<LuaScript>(m_ScriptsToLoad.front()));
 					m_ScriptsToLoad.pop();
@@ -96,7 +97,8 @@ namespace YimMenu
 
 						for (auto& script : m_LoadedScripts)
 						{
-							if (std::filesystem::equivalent(script->GetPath(), entry.path().string()))
+							std::error_code ec;
+							if (std::filesystem::equivalent(script->GetPath(), entry.path().string(), ec))
 							{
 								// continue;
 								goto next;
