@@ -1,5 +1,6 @@
 #include "core/scripting/LuaLibrary.hpp"
 #include "core/scripting/LuaScript.hpp"
+#include "core/scripting/LuaUtils.hpp"
 #include "core/util/Joaat.hpp"
 
 namespace YimMenu::Lua
@@ -65,19 +66,10 @@ namespace YimMenu::Lua
 		virtual void Register(lua_State* state) override
 		{
 			lua_newtable(state);
-
-			lua_pushcfunction(state, RunInCallback);
-			lua_setfield(state, -2, "run_in_callback");
-
-			lua_pushcfunction(state, Yield);
-			lua_setfield(state, -2, "yield");
-
-			lua_pushcfunction(state, IsInsideCallback);
-			lua_setfield(state, -2, "is_inside_callback");
-
-			lua_pushcfunction(state, RegisterEventHandler);
-			lua_setfield(state, -2, "register_event_handler");
-
+			SetFunction(state, RunInCallback, "run_in_callback");
+			SetFunction(state, Yield, "yield");
+			SetFunction(state, IsInsideCallback, "is_inside_callback");
+			SetFunction(state, RegisterEventHandler, "register_event_handler");
 			lua_setglobal(state, "script");
 		}
 	};
