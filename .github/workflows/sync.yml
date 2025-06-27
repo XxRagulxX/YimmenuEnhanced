@@ -55,8 +55,7 @@ jobs:
         id: newcommits
         run: |
           last_commit="${{ steps.last.outputs.last_commit }}"
-          # Change 'main' to the correct branch if needed
-          NEW_COMMITS=$(git rev-list upstream/main ^$last_commit --reverse)
+          NEW_COMMITS=$(git rev-list upstream/enhanced ^$last_commit --reverse)
           echo "commits=$NEW_COMMITS" >> $GITHUB_OUTPUT
 
       - name: Cherry-pick and create PR for each new commit
