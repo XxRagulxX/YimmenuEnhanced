@@ -130,6 +130,9 @@ namespace YimMenu
 		Functions::GetCatalogItem GetCatalogItem;
 		void** TransactionMgr;
 		Functions::GetActiveBasket GetActiveBasket;
+		PoolEncryption* PedPool;
+		PoolEncryption* ObjectPool;
+		rage::fwVehiclePool*** VehiclePool;
 		PVOID HttpStartRequest;
 		CNetworkSession** NetworkSession;
 		Functions::JoinSessionByInfo JoinSessionByInfo;
