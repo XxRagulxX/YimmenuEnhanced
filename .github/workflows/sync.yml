@@ -34,7 +34,7 @@ jobs:
       - name: Ensure .last-cherry-picked exists
         run: |
           if [ ! -f .last-cherry-picked ]; then
-            echo "0000000000000000000000000000000000000000" > .last-cherry-picked
+            echo "d0816571ead6f07cec08b9e89670458b9c650555" > .last-cherry-picked
             git add .last-cherry-picked
             git commit -m "Initialize .last-cherry-picked"
             git push
