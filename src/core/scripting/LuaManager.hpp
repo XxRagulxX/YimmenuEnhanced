@@ -8,10 +8,6 @@ namespace YimMenu
 	class LuaManager
 	{
 	public:
-		enum class ScriptPermission
-		{
-		};
-
 		struct UnloadedScript
 		{
 			std::string m_Name;
