@@ -54,12 +54,12 @@ namespace YimMenu::Lua
 
 		static int RegisterEventHandler(lua_State* state)
 		{
-			auto event_name = luaL_checkstring(state, 1);
+			auto event_name = GetHashArgument(state, 1);
 			luaL_checktype(state, 2, LUA_TFUNCTION);      
 			lua_pushvalue(state, 2);                    
 			int handler = luaL_ref(state, LUA_REGISTRYINDEX); 
 
-			LuaScript::GetScript(state).AddEventHandler(Joaat(event_name), handler);
+			LuaScript::GetScript(state).AddEventHandler(event_name, handler);
 			return 0;
 		}
 

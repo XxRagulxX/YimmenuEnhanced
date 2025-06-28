@@ -11,7 +11,7 @@ namespace YimMenu::Lua
 
 		static int Joaat(lua_State* state)
 		{
-			const char* string = luaL_checkstring(state, 1);
+			const char* string = CheckStringSafe(state, 1);
 			lua_pushinteger(state, (int)YimMenu::Joaat(string));
 			return 1;
 		}

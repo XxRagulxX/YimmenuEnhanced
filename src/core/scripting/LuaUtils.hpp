@@ -1,4 +1,5 @@
 #include "lua.hpp"
+#include "core/util/Joaat.hpp"
 #undef GetObject // another dumb Windows.h definition
 
 namespace YimMenu::Lua
@@ -6,7 +7,7 @@ namespace YimMenu::Lua
 	template<typename T>
 	class Metatable
 	{
-		static int m_Index;
+		inline static int m_Index;
 
 	public:
 		static inline void Register(lua_State* state)
@@ -100,5 +101,27 @@ namespace YimMenu::Lua
 		lua_rawgeti(state, LUA_REGISTRYINDEX, Metatable<T>::Get());
 		lua_setmetatable(state, -2);
 		return reinterpret_cast<T*>(data);
+	}
+
+	inline std::uint32_t GetHashArgument(lua_State* state, int index)
+	{
+		if (lua_type(state, index) == LUA_TSTRING)
+			return Joaat(lua_tostring(state, index));
+		else
+			return luaL_checkinteger(state, index);
+	}
+
+	// luaL_checkstring automatically converts ints into strings, which we don't want
+	inline const char* CheckStringSafe(lua_State* state, int index)
+	{
+		luaL_checktype(state, index, LUA_TSTRING);
+		return lua_tostring(state, index);
+	}
+
+	// lua doesn't even offer a check function for bools
+	inline bool CheckBooleanSafe(lua_State* state, int index)
+	{
+		luaL_checktype(state, index, LUA_TBOOLEAN);
+		return lua_toboolean(state, index);
 	}
 }
