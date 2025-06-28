@@ -138,7 +138,7 @@ namespace YimMenu::Lua
 
 			if (!txn || !txn->m_Running)
 			{
-				lua_pushboolean(state, true);
+				lua_pushboolean(state, false);
 				return 1;
 			}
 
