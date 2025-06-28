@@ -2,13 +2,15 @@
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Hourly at minute 0
+    - cron: '0 * * * *'  # Every hour
   workflow_dispatch:
 
 env:
-  ACTIONS_STEP_DEBUG: true  # Enable detailed step debugging
+  ACTIONS_STEP_DEBUG: true
   UPSTREAM_REPO: "https://github.com/YimMenu/YimMenuV2.git"
-  TARGET_BRANCH: "enhanced"
+  UPSTREAM_BRANCH: "enhanced"
+  BASE_BRANCH: "dev"
+  ORIGIN_REPO: "${{ github.repository }}"
 
 jobs:
   cherry-pick-new-commits:
@@ -37,6 +39,7 @@ jobs:
         run: |
           git config --global user.name "${{ secrets.GIT_USER_NAME }}"
           git config --global user.email "${{ secrets.GIT_USER_EMAIL }}"
+          git config --global init.defaultBranch ${{ env.BASE_BRANCH }}
 
       - name: 📍 Initialize Commit Tracker
         run: |
@@ -44,8 +47,13 @@ jobs:
             echo "d0816571ead6f07cec08b9e89670458b9c650555" > .last-cherry-picked
             git add .last-cherry-picked
             git commit -m "🔖 Initialize commit tracker"
-            git push
+            git push origin ${{ env.BASE_BRANCH }}
           fi
+
+      - name: 🔄 Sync Base Branch
+        run: |
+          git checkout ${{ env.BASE_BRANCH }}
+          git pull --rebase origin ${{ env.BASE_BRANCH }}
 
       - name: 🔍 Get Last Processed Commit
         id: last_commit
@@ -57,21 +65,20 @@ jobs:
       - name: 🔄 Fetch Upstream Changes
         run: |
           git remote add upstream ${{ env.UPSTREAM_REPO }} || true
-          git fetch --verbose upstream ${{ env.TARGET_BRANCH }}
+          git fetch upstream ${{ env.UPSTREAM_BRANCH }} --force
 
       - name: 🔎 Find New Commits
         id: new_commits
         run: |
           last_commit="${{ steps.last_commit.outputs.last_commit }}"
           echo "🔍 Searching commits after: $last_commit"
-          
-          # Get new non-merge commits in chronological order
-          NEW_COMMITS=$(git rev-list $last_commit..upstream/${{ env.TARGET_BRANCH }} --reverse --no-merges)
-          
-          # Debug output
+          NEW_COMMITS=$(git rev-list $last_commit..upstream/${{ env.UPSTREAM_BRANCH }} --reverse --no-merges)
+          if [ -z "$NEW_COMMITS" ]; then
+            echo "ℹ️ No new commits found"
+            exit 0
+          fi
           echo "ℹ️ Found commits:"
           git --no-pager show -s --format="%h %s" $NEW_COMMITS || true
-          
           DELIM_COMMIT_LIST=$(echo "$NEW_COMMITS" | paste -sd "," -)
           echo "commits=$DELIM_COMMIT_LIST" >> $GITHUB_OUTPUT
 
@@ -80,40 +87,35 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PAT }}
         run: |
-          set -ex  # Enable debug mode and exit on error
+          set -ex
           IFS=',' read -ra COMMITS <<< "${{ steps.new_commits.outputs.commits }}"
-          
           for commit in "${COMMITS[@]}"; do
             branch_name="cherry-pick/${commit:0:8}"
-            
             echo "🚀 Processing commit: $commit"
             echo "🌿 Creating branch: $branch_name"
+            git checkout ${{ env.BASE_BRANCH }}
+            git pull origin ${{ env.BASE_BRANCH }}
             git checkout -b "$branch_name"
-            
-            # Cherry-pick with explicit commit metadata
             git cherry-pick -x -S --strategy=recursive -Xignore-space-change "$commit"
-            
-            # Update tracker and sign
             echo "$commit" > .last-cherry-picked
             git add .last-cherry-picked
             git commit --amend --no-edit -S
-            
-            # Push and create PR
-            git push --force origin "$branch_name"
+            git push -u origin "$branch_name"
             gh pr create \
+              --repo ${{ env.ORIGIN_REPO }} \
               --title "🍒 Cherry-pick $commit" \
               --body "Automated cherry-pick from YimMenuV2\n\n**Source Commit:** $commit" \
-              --base main \
+              --base ${{ env.BASE_BRANCH }} \
               --head "$branch_name"
-            
-            # Cleanup
-            git checkout main
+            git checkout ${{ env.BASE_BRANCH }}
             git branch -D "$branch_name"
           done
 
       - name: 🔄 Update Commit Tracker
         if: steps.new_commits.outputs.commits != ''
         run: |
+          git checkout ${{ env.BASE_BRANCH }}
+          git pull origin ${{ env.BASE_BRANCH }}
           git add .last-cherry-picked
           git commit -m "🔖 Update last cherry-picked commit"
-          git push
+          git push origin ${{ env.BASE_BRANCH }}
