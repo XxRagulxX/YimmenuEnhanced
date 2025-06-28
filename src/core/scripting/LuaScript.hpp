@@ -43,6 +43,7 @@ namespace YimMenu
 		bool m_RunningScriptCallbacks = false;
 		ScriptCallback* m_CurrentlyExecutingCallback = nullptr;
 		std::unordered_map<std::uint32_t, std::vector<int>> m_EventHandlers;
+		bool m_NativesLoaded = false; // TODO: move this to a LuaResource
 
 		// Calls the function at the top of stack. If this returns false the stack would have nothing on it
 		bool CallFunction(int n_args, int n_results, lua_State* override_state = nullptr);
@@ -133,5 +134,19 @@ namespace YimMenu
 
 		void AddEventHandler(std::uint32_t event, int handler);
 		bool DispatchEvent(std::uint32_t event, const DispatchEventCallback& add_arguments_cb, bool handle_result = false);
+
+		// ------- TODO: move these into a resource
+
+		bool AreNativesLoaded() const
+		{
+			return m_NativesLoaded;
+		}
+
+		void SetNativesLoaded()
+		{
+			m_NativesLoaded = true;
+		}
+
+		// --------------
 	};
 }
