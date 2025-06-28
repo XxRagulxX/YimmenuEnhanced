@@ -1,24 +1,31 @@
-name: Auto Cherry-Pick YimMenuV2
+﻿name: Auto Cherry-Pick YimMenuV2
 
 on:
   schedule:
-    - cron: '0 * * * *' # Every hour
+    - cron: '0 * * * *'  # Hourly at minute 0
   workflow_dispatch:
+
+env:
+  ACTIONS_STEP_DEBUG: true  # Enable detailed step debugging
+  UPSTREAM_REPO: "https://github.com/YimMenu/YimMenuV2.git"
+  TARGET_BRANCH: "enhanced"
 
 jobs:
   cherry-pick-new-commits:
+    name: Auto Cherry-Pick
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
 
     steps:
-      - name: Checkout your repository
+      - name: 🛠️ Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: true
 
-      - name: Set up GPG for commit signing
+      - name: 🔐 Configure GPG Signing
         uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
@@ -26,66 +33,87 @@ jobs:
           git_user_signingkey: true
           git_commit_gpgsign: true
 
-      - name: Configure Git user
+      - name: 👤 Configure Git Identity
         run: |
           git config --global user.name "${{ secrets.GIT_USER_NAME }}"
           git config --global user.email "${{ secrets.GIT_USER_EMAIL }}"
 
-      - name: Ensure .last-cherry-picked exists
+      - name: 📍 Initialize Commit Tracker
         run: |
           if [ ! -f .last-cherry-picked ]; then
             echo "d0816571ead6f07cec08b9e89670458b9c650555" > .last-cherry-picked
             git add .last-cherry-picked
-            git commit -m "Initialize .last-cherry-picked"
+            git commit -m "🔖 Initialize commit tracker"
             git push
           fi
 
-      - name: Get last cherry-picked commit
-        id: last
+      - name: 🔍 Get Last Processed Commit
+        id: last_commit
         run: |
           LAST_COMMIT=$(cat .last-cherry-picked)
           echo "last_commit=$LAST_COMMIT" >> $GITHUB_OUTPUT
+          echo "ℹ️ Last processed commit: $LAST_COMMIT"
 
-      - name: Fetch upstream commits
+      - name: 🔄 Fetch Upstream Changes
         run: |
-          git remote add upstream https://github.com/YimMenu/YimMenuV2.git || true
-          git fetch upstream
+          git remote add upstream ${{ env.UPSTREAM_REPO }} || true
+          git fetch --verbose upstream ${{ env.TARGET_BRANCH }}
 
-      - name: Find new commits to cherry-pick
-        id: newcommits
+      - name: 🔎 Find New Commits
+        id: new_commits
         run: |
-          last_commit="${{ steps.last.outputs.last_commit }}"
-          NEW_COMMITS=$(git rev-list upstream/enhanced ^$last_commit --reverse)
-          echo "commits=$NEW_COMMITS" >> $GITHUB_OUTPUT
+          last_commit="${{ steps.last_commit.outputs.last_commit }}"
+          echo "🔍 Searching commits after: $last_commit"
+          
+          # Get new non-merge commits in chronological order
+          NEW_COMMITS=$(git rev-list $last_commit..upstream/${{ env.TARGET_BRANCH }} --reverse --no-merges)
+          
+          # Debug output
+          echo "ℹ️ Found commits:"
+          git --no-pager show -s --format="%h %s" $NEW_COMMITS || true
+          
+          DELIM_COMMIT_LIST=$(echo "$NEW_COMMITS" | paste -sd "," -)
+          echo "commits=$DELIM_COMMIT_LIST" >> $GITHUB_OUTPUT
 
-      - name: Cherry-pick and create PR for each new commit
-        if: steps.newcommits.outputs.commits != ''
+      - name: 🍒 Process New Commits
+        if: steps.new_commits.outputs.commits != ''
         env:
           GH_TOKEN: ${{ secrets.PAT }}
         run: |
-          set -e
-          for commit in ${{ steps.newcommits.outputs.commits }}
-          do
-            branch="cherry-pick-${commit:0:8}"
-            git checkout -b $branch
-            git cherry-pick -x -S $commit
-            # Update the .last-cherry-picked file
+          set -ex  # Enable debug mode and exit on error
+          IFS=',' read -ra COMMITS <<< "${{ steps.new_commits.outputs.commits }}"
+          
+          for commit in "${COMMITS[@]}"; do
+            branch_name="cherry-pick/${commit:0:8}"
+            
+            echo "🚀 Processing commit: $commit"
+            echo "🌿 Creating branch: $branch_name"
+            git checkout -b "$branch_name"
+            
+            # Cherry-pick with explicit commit metadata
+            git cherry-pick -x -S --strategy=recursive -Xignore-space-change "$commit"
+            
+            # Update tracker and sign
             echo "$commit" > .last-cherry-picked
             git add .last-cherry-picked
             git commit --amend --no-edit -S
-            git push origin $branch
+            
+            # Push and create PR
+            git push --force origin "$branch_name"
             gh pr create \
-              --title "Cherry-pick $commit from YimMenuV2" \
-              --body "Automated cherry-pick of $commit from YimMenuV2. Please review." \
+              --title "🍒 Cherry-pick $commit" \
+              --body "Automated cherry-pick from YimMenuV2\n\n**Source Commit:** $commit" \
               --base main \
-              --head $branch
+              --head "$branch_name"
+            
+            # Cleanup
             git checkout main
-            git branch -D $branch
+            git branch -D "$branch_name"
           done
 
-      - name: Push updated .last-cherry-picked to main
-        if: steps.newcommits.outputs.commits != ''
+      - name: 🔄 Update Commit Tracker
+        if: steps.new_commits.outputs.commits != ''
         run: |
           git add .last-cherry-picked
-          git commit -m "Update last cherry-picked commit"
+          git commit -m "🔖 Update last cherry-picked commit"
           git push
