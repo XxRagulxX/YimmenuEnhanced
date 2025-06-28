@@ -26,6 +26,11 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
+      - name: 👤 Configure Git Identity
+        run: |
+          git config --global user.name "${{ secrets.GIT_USER_NAME }}"
+          git config --global user.email "${{ secrets.GIT_USER_EMAIL }}"
+
       - name: 🔄 Sync Base Branch
         run: |
           git checkout ${{ env.BASE_BRANCH }}
