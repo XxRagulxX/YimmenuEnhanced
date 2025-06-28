@@ -41,8 +41,10 @@ jobs:
           if [ ! -f .last-cherry-picked ]; then
             echo "d0816571ead6f07cec08b9e89670458b9c650555" > .last-cherry-picked
             git add .last-cherry-picked
-            git commit -m "🔖 Initialize commit tracker"
-            git push origin ${{ env.BASE_BRANCH }}
+            if ! git diff --cached --quiet; then
+              git commit -m "🔖 Initialize commit tracker"
+              git push origin ${{ env.BASE_BRANCH }}
+            fi
           fi
 
       - name: 🔍 Get Last Processed Commit
@@ -92,16 +94,26 @@ jobs:
             else
               echo "⚠️ Cherry-pick failed for $commit (conflict likely). Pushing branch for manual resolution."
               git add .
-              git commit -m "🚧 WIP: Conflict during cherry-pick of $commit" || true
+              if ! git diff --cached --quiet; then
+                git commit -m "🚧 WIP: Conflict during cherry-pick of $commit" || true
+              fi
             fi
             echo "$commit" > .last-cherry-picked
             git add .last-cherry-picked
-            git commit --amend --no-edit || true
+            if ! git diff --cached --quiet; then
+              git commit --amend --no-edit || true
+            fi
             git push -u origin "$branch_name"
+            # Get the original commit message for the PR title
+            commit_msg=$(git log -1 --pretty=%s $commit)
             gh pr create \
               --repo ${{ env.ORIGIN_REPO }} \
-              --title "🍒 Cherry-pick $commit" \
-              --body "Automated cherry-pick from YimMenuV2\n\n**Source Commit:** $commit\n\n_If there are conflicts, please resolve them manually in this PR._" \
+              --title "$commit_msg" \
+              --body "Automated cherry-pick from YimMenuV2
+
+            **Source Commit:** $commit
+
+            _If there are conflicts, please resolve them manually in this PR._" \
               --base ${{ env.BASE_BRANCH }} \
               --head "$branch_name"
             git checkout ${{ env.BASE_BRANCH }}
@@ -114,5 +126,7 @@ jobs:
           git checkout ${{ env.BASE_BRANCH }}
           git pull origin ${{ env.BASE_BRANCH }}
           git add .last-cherry-picked
-          git commit -m "🔖 Update last cherry-picked commit"
-          git push origin ${{ env.BASE_BRANCH }}
+          if ! git diff --cached --quiet; then
+            git commit -m "🔖 Update last cherry-picked commit"
+            git push origin ${{ env.BASE_BRANCH }}
+          fi
