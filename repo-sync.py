@@ -32,11 +32,19 @@ def fetch_upstream():
     run_git(["fetch", UPSTREAM_REMOTE])
 
 def get_new_commits(last_commit):
+    """
+    Get new commits from upstream/enhanced since last_commit,
+    following the first-parent path (linear history).
+    """
     if last_commit:
         rev_range = f"{last_commit}..{UPSTREAM_REMOTE}/{UPSTREAM_BRANCH}"
+        log = run_git([
+            "rev-list", "--reverse", "--ancestry-path", "--first-parent", rev_range
+        ])
     else:
-        rev_range = f"{UPSTREAM_REMOTE}/{UPSTREAM_BRANCH}"
-    log = run_git(["log", "--reverse", "--format=%H", rev_range])
+        log = run_git([
+            "rev-list", "--reverse", "--first-parent", f"{UPSTREAM_REMOTE}/{UPSTREAM_BRANCH}"
+        ])
     commits = log.splitlines()
     return commits
 
@@ -53,10 +61,9 @@ def main():
 
     print(f"Found {len(new_commits)} new commits to process.")
     skipped_count = 0
-    
+
     for commit in new_commits:
         commit_msg = get_commit_message(commit)
-        
         # Skip commits with the specific merge message
         if SKIP_MESSAGE in commit_msg:
             print(f"Skipping merge commit: {commit}")
@@ -71,7 +78,7 @@ def main():
         except subprocess.CalledProcessError:
             print(f"Conflict or error during cherry-pick of {commit}. Resolve manually, then re-run the script.")
             sys.exit(1)
-    
+
     print(f"\nSummary:")
     print(f"- Processed {len(new_commits)} commits")
     print(f"- Cherry-picked {len(new_commits) - skipped_count} commits")
