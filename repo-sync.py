@@ -15,7 +15,9 @@ def run_git(args, capture_output=True):
         text=True,
         check=True
     )
-    return result.stdout.strip()
+    if capture_output:
+        return result.stdout.strip()
+    return None
 
 def get_last_commit():
     if os.path.exists(LASTCOMMIT_FILE):
