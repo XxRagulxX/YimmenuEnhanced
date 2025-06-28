@@ -78,6 +78,8 @@ jobs:
             echo "🚀 Processing commit: $commit"
             git checkout ${{ env.BASE_BRANCH }}
             git pull origin ${{ env.BASE_BRANCH }}
+            # Delete the remote branch if it exists to avoid non-fast-forward errors
+            git push origin --delete "$branch_name" || true
             git checkout -b "$branch_name"
             # Try cherry-pick, but if it fails, stop and keep the conflicted state
             if git cherry-pick -x "$commit"; then
