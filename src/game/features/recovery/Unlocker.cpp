@@ -2141,12 +2141,32 @@ namespace YimMenu::Features
 		     using Command::Command;
 		     virtual void OnCall() override
 		     {
-			     *ScriptGlobal(1668002).At(1).At(6).As<int*>() = 1; // Acid Lab
-			     *ScriptGlobal(1668002).At(1).At(5).As<int*>() = 1; // Cash
-			     *ScriptGlobal(1668002).At(1).At(1).As<int*>() = 1; // Document Forge
-			     *ScriptGlobal(1668002).At(1).At(2).As<int*>() = 1; // Weed Farm
-			     *ScriptGlobal(1668002).At(1).At(3).As<int*>() = 1; // Meth Lab
-			     *ScriptGlobal(1668002).At(1).At(4).As<int*>() = 1; // Cocaine Lockup
+			     *ScriptGlobal(1668007).At(1).At(6).As<int*>() = 1; // Acid Lab
+			     *ScriptGlobal(1668007).At(1).At(5).As<int*>() = 1; // Cash
+			     *ScriptGlobal(1668007).At(1).At(1).As<int*>() = 1; // Document Forge
+			     *ScriptGlobal(1668007).At(1).At(2).As<int*>() = 1; // Weed Farm
+			     *ScriptGlobal(1668007).At(1).At(3).As<int*>() = 1; // Meth Lab
+			     *ScriptGlobal(1668007).At(1).At(4).As<int*>() = 1; // Cocaine Lockup
+		     }
+	    };
+	    class EnforceEasiestMission : public LoopedCommand
+	    {
+		     using LoopedCommand::LoopedCommand;
+
+		     virtual void OnTick() override
+		     {
+			     // Find the script thread by hash (joaat of "gb_biker_contraband_sell")
+			     if (auto thread = Scripts::FindScriptThread("gb_biker_contraband_sell"_J))
+			     {
+				     // Access local variable at index 744 (727+17)
+				     auto missionType = ScriptLocal(thread, 746).As<int*>();
+
+				     // Check if value exists and isn't already 0
+				     if (missionType && *missionType != 0)
+				     {
+					     *missionType = 0; // Set to easiest mission type
+				     }
+			     }
 		     }
 	    };
 
@@ -2166,6 +2186,7 @@ namespace YimMenu::Features
 	static NightClubPopularity _NightClubPopularity{"nightclubpopularity", "Max Nightclub Popularity", "Sets Nightclub Popularity to 1000"};
     static SupplyCooldownBypass _SupplyCooldownBypass{"removeresupplycooldown", "Remove ReSupply Cooldown", "Removes Resupply Cooldown"};
     static ResupplyBusiness _resupplybusiness {"resupplybusiness", "Resupply Business", "Resupply all Business"};
+	static EnforceEasiestMission _EnforceEasiestMission{"enforceeasiestmission", "Enforce Easiest Mission", "Enforces the easiest mission type for Biker Sell Missions"};
 	//static NewUnlockAllGameCloths _NewUnlockAllGameCloths{"newunlockallgamecloths", "New Unlock All Game Cloths", "Unlocks all Game Cloths"};
 	//static NewUnlockAllGameCloths2 _NewUnlockAllGameCloths2{"newunlockallgamecloths2", "New Unlock All Game Cloths 2", "Unlocks all Game Cloths 2"};
     
