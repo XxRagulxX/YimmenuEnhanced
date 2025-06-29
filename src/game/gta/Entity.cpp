@@ -45,7 +45,7 @@ namespace YimMenu
 	{
 		if (!IsValid())
 		{
-			LOG(WARNING) << "IsValid() assertion failed for " << function_name;
+			LOG(WARNING) << "IsRunning() assertion failed for " << function_name;
 		}
 	}
 
