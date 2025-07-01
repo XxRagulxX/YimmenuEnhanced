@@ -146,10 +146,10 @@ namespace YimMenu::Lua
 	}
 
 	// luaL_checkstring automatically converts ints into strings, which we don't want
-	inline const char* CheckStringSafe(lua_State* state, int index)
+	inline const char* CheckStringSafe(lua_State* state, int index, size_t* size = nullptr)
 	{
 		luaL_checktype(state, index, LUA_TSTRING);
-		return lua_tostring(state, index);
+		return lua_tolstring(state, index, size);
 	}
 
 	// lua doesn't even offer a check function for bools

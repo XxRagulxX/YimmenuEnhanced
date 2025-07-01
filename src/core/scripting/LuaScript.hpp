@@ -1,6 +1,8 @@
 #pragma once
 #include "lua.hpp"
 #include "LuaResource.hpp"
+#include "LuaConfig.hpp"
+#include "LuaUserInterface.hpp"
 
 namespace YimMenu
 {
@@ -45,6 +47,8 @@ namespace YimMenu
 		ScriptCallback* m_CurrentlyExecutingCallback = nullptr;
 		std::unordered_map<std::uint32_t, std::vector<int>> m_EventHandlers;
 		std::vector<std::vector<std::shared_ptr<LuaResource>>> m_Resources; // yes, it's a shared pointer stored in a vector of resources stored in a vector of resource types TODO: can we just use raw pointers or even store the resource directly in that array?
+		LuaConfig m_Config;
+		LuaUserInterface m_Interface;
 
 		// Calls the function at the top of stack. If this returns false the stack would have nothing on it
 		bool CallFunction(int n_args, int n_results, lua_State* override_state = nullptr);
@@ -110,8 +114,7 @@ namespace YimMenu
 		// we're guaranteed to have a LuaScript for each lua_State, so we can return it as a reference
 		static LuaScript& GetScript(lua_State* state);
 
-
-		void AddScriptCallback(int coro_handle);
+		void AddScriptCallback(int func_handle);
 
 		// must be called from a coroutine
 		void Yield(lua_State* state, int millis = 0, bool from_code = true);
@@ -130,5 +133,10 @@ namespace YimMenu
 		void AddResource(std::shared_ptr<LuaResource>&& resource, int idx);
 		int GetNumResourcesOfType(int type);
 		std::vector<std::shared_ptr<LuaResource>>& GetAllResourcesOfType(int idx);
+
+		LuaUserInterface& GetUserInterface()
+		{
+			return m_Interface;
+		}
 	};
 }

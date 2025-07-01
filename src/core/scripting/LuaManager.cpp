@@ -2,6 +2,8 @@
 #include "core/filemgr/FileMgr.hpp"
 #include "core/backend/ScriptMgr.hpp"
 #include "core/frontend/Notifications.hpp"
+#include "types/script/scrThread.hpp"
+#include "core/util/Joaat.hpp"
 
 namespace YimMenu
 {
@@ -129,10 +131,14 @@ namespace YimMenu
 				}
 			}
 
-			// 4) run tick coroutines
-			for (auto& script : m_LoadedScripts)
-				if (script->IsRunning())
-					script->Tick();
+			// don't run stuff while we're starting up
+			if (rage::scrThread::GetRunningThread()->m_ScriptHash != "startup"_J)
+			{
+				// 4) run tick coroutines
+				for (auto& script : m_LoadedScripts)
+					if (script->IsRunning())
+						script->Tick();
+			}
 
 			ScriptMgr::Yield();
 		}

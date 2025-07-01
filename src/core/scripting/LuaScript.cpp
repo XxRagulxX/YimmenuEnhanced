@@ -145,7 +145,8 @@ namespace YimMenu
 
 	LuaScript::LuaScript(std::string_view file_name) :
 	    m_FileName(file_name),
-	    m_ModuleName(std::filesystem::path(file_name).filename().string())
+	    m_ModuleName(std::filesystem::path(file_name).filename().string()),
+	    m_Config(std::filesystem::path(file_name).stem().string())
 	{
 		m_Resources.resize(LuaManager::GetNumResourceTypes());
 		m_State = luaL_newstate();
@@ -219,8 +220,16 @@ namespace YimMenu
 		return *script;
 	}
 
-	void LuaScript::AddScriptCallback(int coro_handle)
+	void LuaScript::AddScriptCallback(int func_handle)
 	{
+		lua_rawgeti(m_State, LUA_REGISTRYINDEX, func_handle);
+
+		lua_State* coro_state = lua_newthread(m_State);
+		lua_pushvalue(m_State, 1); // xmove can only move from top of stack, so we have to push the function again even if it's already in the stack
+		lua_xmove(m_State, coro_state, 1);
+
+		auto coro_handle = luaL_ref(m_State, LUA_REGISTRYINDEX);
+
 		ScriptCallback callback;
 		callback.m_Coroutine = coro_handle;
 		callback.m_LastYieldFromCode = false;
