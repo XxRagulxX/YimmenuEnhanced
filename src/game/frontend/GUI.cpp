@@ -9,7 +9,6 @@
 #include "game/frontend/ChatDisplay.hpp"
 #include "game/gta/Natives.hpp"
 #include "types/pad/ControllerInputs.hpp"
-#include "core/frontend/manager/styles/Themes.hpp"
 
 namespace YimMenu
 {
@@ -17,7 +16,7 @@ namespace YimMenu
 	    m_IsOpen(false)
 	{
 		Menu::SetupFonts();
-		SetupStyle();
+		Menu::SetupStyle();
 		Menu::Init();
 
 		Renderer::AddWindowProcedureCallback([this](HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
