@@ -98,7 +98,7 @@ namespace YimMenu
 	template<typename R>
 	inline R Module::GetExport(const std::string_view name) const
 	{
-		auto result = GetExportImpl<R, typeof(name)>(name);
+		auto result = GetExportImpl<R, decltype(name)>(name);
 		if (result)
 			return result;
 
@@ -109,7 +109,7 @@ namespace YimMenu
 	template<typename R>
 	inline R Module::GetExport(const int ordinal) const
 	{
-		auto result = GetExportImpl<R, typeof(ordinal)>(ordinal);
+		auto result = GetExportImpl<R, decltype(ordinal)>(ordinal);
 		if (result)
 			return result;
 
@@ -119,12 +119,13 @@ namespace YimMenu
 
 	inline bool Module::IsExported(const std::string_view symbolName) const
 	{
-		return GetExportImpl<void*, typeof(symbolName)>(symbolName) != nullptr;
+
+		return GetExportImpl<void*, decltype(symbolName)>(symbolName) != nullptr;
 	}
 
 	inline bool Module::IsExported(const int ordinal) const
 	{
-		return GetExportImpl<void*, typeof(ordinal)>(ordinal) != nullptr;
+		return GetExportImpl<void*, decltype(ordinal)>(ordinal) != nullptr;
 	}
 
 	template<typename R, Symbol T>
