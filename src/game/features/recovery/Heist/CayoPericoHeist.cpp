@@ -307,6 +307,34 @@ namespace YimMenu::Features
 			}
 		};
 
+		class Removethefencingfeeandpavelcut : public LoopedCommand
+		{
+			using LoopedCommand::LoopedCommand;
+
+			virtual void OnTick() override
+			{
+				static Tunable fencingFeeTunable{902085532};
+				static Tunable pavelCutTunable{static_cast<uint32_t>(-1135949374)};
+
+				if (fencingFeeTunable.IsReady())
+					fencingFeeTunable.Set(0.0f);
+				if (pavelCutTunable.IsReady())
+					pavelCutTunable.Set(0.0f);
+			}
+
+			virtual void OnDisable() override
+			{
+				static Tunable fencingFeeTunable{902085532};
+				static Tunable pavelCutTunable{static_cast<uint32_t>(-1135949374)};
+
+				if (fencingFeeTunable.IsReady())
+					fencingFeeTunable.Set(0.1f);
+				if (pavelCutTunable.IsReady())
+					pavelCutTunable.Set(0.05f);
+			}
+		};
+
+
 		static SetCuts _CayoPericoHeistSetCuts{"cayopericoheistsetcuts", "Set Cuts", "Sets heist cut"};
 		static ForceReady _CayoPericoHeistForceReady{"cayopericoheistforceready", "Force Ready", "Forces all players to be ready"};
 		static Setup _CayoPericoHeistSetup{"cayopericoheistsetup", "Setup", "Sets up cayo perico heist"};
@@ -318,5 +346,6 @@ namespace YimMenu::Features
 		static InfinitePlasmaCutterHeat _InfinitePlasmaCutterHeat{"infiniteplasmacutterheat", "Infinite Plasma Cutter Heat", "Infinite Plasam Cutter Heat"};
 		static TakePrimaryTarget _CayoPericoHeistTakePrimaryTarget{"cayopericoheisttakeprimarytarget", "Take Primary Target", "Takes primary target"};
 		static InstantFinish _CayoPericoHeistInstantFinish{"cayopericoheistinstantfinish", "Instant Finish", "Instantly passes the heist"};
+		static Removethefencingfeeandpavelcut _CayoPericoHeistRemoveFencingFeeAndPavelCut{"cayopericoheistremovefencingfeeandpavelcut", "Remove Fencing Fee and Pavel Cut", "Removes fencing fee and pavel cut"};
 	}
 }
