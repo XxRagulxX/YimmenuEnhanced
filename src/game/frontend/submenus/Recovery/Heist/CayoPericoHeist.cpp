@@ -24,14 +24,8 @@ namespace YimMenu::Submenus
 		setups->AddItem(std::make_shared<CommandItem>("cayopericoheistsetup"_J));
 
 		loots->AddItem(std::make_shared<IntCommandItem>("cayopericoheistprimarytargetvalue"_J));
-		loots->AddItem(std::make_shared<ImGuiItem>([] {
-			ImGui::SameLine();
-		}));
-		loots->AddItem(std::make_shared<CommandItem>("cayopericoheistsetprimarytargetvalue"_J, "Set##primarytargetvalue"));
 		loots->AddItem(std::make_shared<IntCommandItem>("cayopericoheistsecondarytakevalue"_J));
-		loots->AddItem(std::make_shared<ImGuiItem>([] {
-			ImGui::SameLine();
-		}));
+		loots->AddItem(std::make_shared<CommandItem>("cayopericoheistsetprimarytargetvalue"_J, "Set##primarytargetvalue"));
 		loots->AddItem(std::make_shared<CommandItem>("cayopericoheistsetsecondarytakevalue"_J, "Set##secondarytakevalue"));
 
 		misc->AddItem(std::make_shared<CommandItem>("cayopericoheistskiphacking"_J));
