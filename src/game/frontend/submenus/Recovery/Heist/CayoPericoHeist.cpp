@@ -9,7 +9,7 @@ namespace YimMenu::Submenus
 		auto cuts = std::make_shared<Group>("Heist Cuts", 2);
 		auto setups = std::make_shared<Group>("Heist Setups");
 		auto loots = std::make_shared<Group>("Loots");
-		auto misc = std::make_shared<Group>("Misc", 1);
+		auto misc = std::make_shared<Group>("Misc", 3);
 
 		cuts->AddItem(std::make_shared<IntCommandItem>("cayopericoheistcut1"_J));
 		cuts->AddItem(std::make_shared<IntCommandItem>("cayopericoheistcut3"_J));
@@ -41,6 +41,8 @@ namespace YimMenu::Submenus
 		misc->AddItem(std::make_shared<CommandItem>("cayopericoheistinstantfinish"_J));
 		misc->AddItem(std::make_shared<BoolCommandItem>("infiniteplasmacutterheat"_J));
 		misc->AddItem(std::make_shared<BoolCommandItem>("cayopericoheistremovefencingfeeandpavelcut"_J));
+		misc->AddItem(std::make_shared<CommandItem>("removecayopericocameras"_J));
+		misc->AddItem(std::make_shared<BoolCommandItem>("autocollecttargets"_J));
 
 		tab->AddItem(cuts);
 		tab->AddItem(setups);

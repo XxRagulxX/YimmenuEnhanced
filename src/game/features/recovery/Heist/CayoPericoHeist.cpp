@@ -334,6 +334,71 @@ namespace YimMenu::Features
 			}
 		};
 
+		class AutoCollectTargets : public LoopedCommand
+		{
+			using LoopedCommand::LoopedCommand;
+
+			virtual void OnTick() override
+			{
+				// Check if the pause menu is active
+				if (HUD::IS_PAUSE_MENU_ACTIVE())
+					return;
+
+				// Optionally, check if the in-game internet is open (pseudo-code, adjust as needed)
+				// if (IsAppInternetActive())
+				//     return;
+
+				// Simulate left mouse button click
+				INPUT input = {0};
+				input.type = INPUT_MOUSE;
+				input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
+				SendInput(1, &input, sizeof(INPUT));
+
+				ZeroMemory(&input, sizeof(INPUT));
+				input.type = INPUT_MOUSE;
+				input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
+				SendInput(1, &input, sizeof(INPUT));
+
+				ScriptMgr::Yield(50ms); // Delay for 50ms, or use std::this_thread::sleep_for if util::yield is unavailable
+			}
+
+			virtual void OnDisable() override
+			{
+				// No cleanup needed for mouse clicks, but you can add logic here if required
+			}
+		};
+
+
+		class RemoveCayoPericoCameras : public Command
+		{
+			using Command::Command;
+
+			static const inline std::vector<Hash> CayoPericoCameraHashes = {
+			    ("prop_cctv_cam_01a"_J),
+			    ("prop_cctv_cam_01b"_J),
+			    ("prop_cctv_cam_02a"_J),
+			    ("prop_cctv_cam_03a"_J),
+			    ("prop_cctv_cam_04a"_J),
+			    ("prop_cctv_cam_04c"_J),
+			    ("prop_cctv_cam_05a"_J),
+			    ("prop_cctv_cam_06a"_J),
+			    ("prop_cctv_cam_07a"_J),
+			    ("prop_cs_cctv"_J),
+			    ("p_cctv_s"_J),
+			    ("hei_prop_bank_cctv_01"_J),
+			    ("hei_prop_bank_cctv_02"_J),
+			    ("ch_prop_ch_cctv_cam_02a"_J),
+			    ("xm_prop_x17_server_farm_cctv_01"_J),
+			};
+
+			virtual void OnCall() override
+			{
+				for (auto cam_hash : CayoPericoCameraHashes)
+				{
+					YimMenu::DeleteObjectsByHash(cam_hash);
+				}
+			}
+		};
 
 		static SetCuts _CayoPericoHeistSetCuts{"cayopericoheistsetcuts", "Set Cuts", "Sets heist cut"};
 		static ForceReady _CayoPericoHeistForceReady{"cayopericoheistforceready", "Force Ready", "Forces all players to be ready"};
@@ -343,9 +408,11 @@ namespace YimMenu::Features
 		static SkipHacking _CayoPericoHeistSkipHacking{"cayopericoheistskiphacking", "Skip Hacking", "Skips hacking process"};
 		static CutSewer _CayoPericoHeistCutSewer{"cayopericoheistcutsewer", "Cut Sewer", "Cuts the sewer"};
 		static CutGlass _CayoPericoHeistCutGlass{"cayopericoheistcutglass", "Cut Glass", "Cuts the glass"};
-		static InfinitePlasmaCutterHeat _InfinitePlasmaCutterHeat{"infiniteplasmacutterheat", "Infinite Plasma Cutter Heat", "Infinite Plasam Cutter Heat"};
+		static InfinitePlasmaCutterHeat _InfinitePlasmaCutterHeat{"infiniteplasmacutterheat", "Infinite Plasma", "Infinite Plasma Cutter Heat"};
 		static TakePrimaryTarget _CayoPericoHeistTakePrimaryTarget{"cayopericoheisttakeprimarytarget", "Take Primary Target", "Takes primary target"};
 		static InstantFinish _CayoPericoHeistInstantFinish{"cayopericoheistinstantfinish", "Instant Finish", "Instantly passes the heist"};
-		static Removethefencingfeeandpavelcut _CayoPericoHeistRemoveFencingFeeAndPavelCut{"cayopericoheistremovefencingfeeandpavelcut", "Remove Fencing Fee and Pavel Cut", "Removes fencing fee and pavel cut"};
+		static Removethefencingfeeandpavelcut _CayoPericoHeistRemoveFencingFeeAndPavelCut{"cayopericoheistremovefencingfeeandpavelcut", "Remove Fee&Cut", "Removes fencing fee and pavel cut"};
+		static RemoveCayoPericoCameras _RemoveCayoPericoCameras{"removecayopericocameras", "Remove Cams", "Removes all cameras"};
+		static AutoCollectTargets _AutoCollectTargets{"autocollecttargets", "Auto Collect", "Automatically collects targets"};
 	}
 }

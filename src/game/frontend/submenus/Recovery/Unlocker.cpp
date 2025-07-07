@@ -14,8 +14,6 @@ namespace YimMenu::Submenus
 		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockclothing"_J));
 		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockalltattoos"_J));
 		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockmasks"_J));
-		//unlock_goodies->AddItem(std::make_shared<CommandItem>("newunlockallgamecloths"_J));
-		//unlock_goodies->AddItem(std::make_shared<CommandItem>("newunlockallgamecloths2"_J));
 
 
 		awards->AddItem(std::make_shared<CommandItem>("unlockallawards"_J));
