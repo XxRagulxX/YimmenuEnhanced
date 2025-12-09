@@ -437,19 +437,20 @@ namespace YimMenu
 		return nullptr;
 	}
 
-	void PersonalVehicles::UpdateImpl()
-	{
-		const auto now = std::chrono::high_resolution_clock::now();
-		if (std::chrono::duration_cast<std::chrono::seconds>(now - m_LastUpdate) < 10s)
-			return;
+    void PersonalVehicles::UpdateImpl()
+    {
+		const auto now = std::chrono::steady_clock::now();
 
-		m_LastUpdate = std::chrono::high_resolution_clock::now();
+        if (std::chrono::duration_cast<std::chrono::seconds>(now - m_LastUpdate) < 10s)
+		    return;
 
-		FiberPool::Push([] {
+        m_LastUpdate = std::chrono::steady_clock::now();
+
+        FiberPool::Push([] {
 			RegisterVehicles();
-			RegisterGarages();
+            RegisterGarages();
 		});
-	}
+    }
 
 	void PersonalVehicles::RegisterVehiclesImpl()
 	{
