@@ -27,7 +27,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				auto base = ScriptGlobal(1973230).At(1497).At(736).At(92);
+				auto base = ScriptGlobal(1973231).At(1497).At(736).At(92);
 
 				*base.At(0, 1).As<int*>() = _DiamondCasinoHeistCut1.GetState();
 				*base.At(1, 1).As<int*>() = _DiamondCasinoHeistCut2.GetState();
@@ -42,7 +42,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				auto base = ScriptGlobal(1977593);
+				auto base = ScriptGlobal(1977594);
 
 				for (int i = 0; i <= 3; i++)
 				{
