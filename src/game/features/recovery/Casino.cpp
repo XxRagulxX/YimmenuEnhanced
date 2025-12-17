@@ -15,8 +15,9 @@ namespace YimMenu::Features
 	{
 		using LoopedCommand::LoopedCommand;
 
-		int slots_random_results_table = 1374;
+		int slots_random_results_table = 1350;
 		std::set<int> slots_blacklist = {9, 21, 22, 87, 152};
+		int spin_state_var = 1668;
 
 		virtual void OnTick() override
 		{
@@ -29,6 +30,8 @@ namespace YimMenu::Features
 				{
 					Scripts::ForceScriptHost(Scripts::FindScriptThread("casino_slots"_J));
 				}
+				int* spin_state = ScriptLocal("casino_slots"_J, spin_state_var).As<int*>();
+
 
 				bool needs_run = false;
 				for (int slots_iter = 3; slots_iter <= 196; ++slots_iter)
@@ -41,7 +44,7 @@ namespace YimMenu::Features
 						}
 					}
 				}
-				if (needs_run)
+				if (needs_run && *spin_state >= 8 && *spin_state <= 15)
 				{
 					for (int slots_iter = 3; slots_iter <= 196; ++slots_iter)
 					{
