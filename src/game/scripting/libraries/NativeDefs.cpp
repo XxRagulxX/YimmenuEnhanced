@@ -1,4 +1,3 @@
-#pragma once
 #include "NativeDefs.hpp"
 
 const char* g_LuaNativeDefs[] = 
