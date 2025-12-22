@@ -2126,14 +2126,14 @@ namespace YimMenu::Features
 
 		    virtual void OnTick() override
 		    {
-			    *ScriptGlobal(262145).At(18768).As<int*>() = 0; // BIKER_PURCHASE_SUPPLIES_DELAY
-			    *ScriptGlobal(262145).At(21278).As<int*>() = 0; // GR_PURCHASE_SUPPLIES_DELAY
+			    *ScriptGlobal(262145).At(18857).As<int*>() = 0; // BIKER_PURCHASE_SUPPLIES_DELAY
+			    *ScriptGlobal(262145).At(21367).As<int*>() = 0; // GR_PURCHASE_SUPPLIES_DELAY
 		    }
 
 		    virtual void OnDisable() override
 		    {
-			    *ScriptGlobal(262145).At(18768).As<int*>() = 600; // BIKER_PURCHASE_SUPPLIES_DELAY
-			    *ScriptGlobal(262145).At(21278).As<int*>() = 600; // GR_PURCHASE_SUPPLIES_DELAY
+			    *ScriptGlobal(262145).At(18857).As<int*>() = 600; // BIKER_PURCHASE_SUPPLIES_DELAY
+			    *ScriptGlobal(262145).At(21367).As<int*>() = 600; // GR_PURCHASE_SUPPLIES_DELAY
 		    }
 	    };
         class ResupplyBusiness : public Command
@@ -2141,34 +2141,42 @@ namespace YimMenu::Features
 		     using Command::Command;
 		     virtual void OnCall() override
 		     {
-			     *ScriptGlobal(1668007).At(1).At(6).As<int*>() = 1; // Acid Lab
-			     *ScriptGlobal(1668007).At(1).At(5).As<int*>() = 1; // Cash
-			     *ScriptGlobal(1668007).At(1).At(1).As<int*>() = 1; // Document Forge
-			     *ScriptGlobal(1668007).At(1).At(2).As<int*>() = 1; // Weed Farm
-			     *ScriptGlobal(1668007).At(1).At(3).As<int*>() = 1; // Meth Lab
-			     *ScriptGlobal(1668007).At(1).At(4).As<int*>() = 1; // Cocaine Lockup
+			     *ScriptGlobal(1673814).At(1).At(6).As<int*>() = 1; // Acid Lab
+			     *ScriptGlobal(1673814).At(1).At(5).As<int*>() = 1; // Cash
+			     *ScriptGlobal(1673814).At(1).At(1).As<int*>() = 1; // Document Forge
+			     *ScriptGlobal(1673814).At(1).At(2).As<int*>() = 1; // Weed Farm
+			     *ScriptGlobal(1673814).At(1).At(3).As<int*>() = 1; // Meth Lab
+			     *ScriptGlobal(1673814).At(1).At(4).As<int*>() = 1; // Cocaine Lockup
 		     }
 	    };
 	    class EnforceEasiestMission : public LoopedCommand
-	    {
-		     using LoopedCommand::LoopedCommand;
+		{
+			using LoopedCommand::LoopedCommand;
 
-		     virtual void OnTick() override
-		     {
-			     // Find the script thread by hash (joaat of "gb_biker_contraband_sell")
-			     if (auto thread = Scripts::FindScriptThread("gb_biker_contraband_sell"_J))
-			     {
-				     // Access local variable at index 744 (727+17)
-				     auto missionType = ScriptLocal(thread, 746).As<int*>();
+			virtual void OnTick() override
+			{
+				// Find the MC sell mission script
+                auto thread = Scripts::FindScriptThread("gb_biker_contraband_sell"_J);
+				if (!thread)
+				    return;
 
-				     // Check if value exists and isn't already 0
-				     if (missionType && *missionType != 0)
-				     {
-					     *missionType = 0; // Set to easiest mission type
-				     }
-			     }
-		     }
-	    };
+               // Enhanced GTA V:
+			   // epctLocal_731.f_17 -> mission / vehicle selector
+               constexpr int kMissionTypeLocal = 731 + 17; // = 748
+
+               auto missionType = ScriptLocal(thread, kMissionTypeLocal).As<int*>();
+               if (!missionType)
+			       return;
+
+               // Force "1 Big Truck" (mission type 0)
+               if (*missionType != 0)
+			   {
+				*missionType = 0;
+			   
+               }
+            }
+        };
+
 
 
 
