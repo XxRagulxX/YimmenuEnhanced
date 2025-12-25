@@ -21,7 +21,6 @@ namespace YimMenu::Submenus
 		awards->AddItem(std::make_shared<CommandItem>("unlockcollectables"_J));
 
 		misc->AddItem(std::make_shared<CommandItem>("bunkerresearch"_J));
-		misc->AddItem(std::make_shared<BoolCommandItem>("enforceeasiestmission"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockspecialitems"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockallparachutes"_J));
 		misc->AddItem(std::make_shared<CommandItem>("fastrunreloadunlock"_J));
