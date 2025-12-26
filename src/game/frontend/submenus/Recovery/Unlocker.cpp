@@ -25,7 +25,6 @@ namespace YimMenu::Submenus
 		misc->AddItem(std::make_shared<CommandItem>("unlockallparachutes"_J));
 		misc->AddItem(std::make_shared<CommandItem>("fastrunreloadunlock"_J));
 		misc->AddItem(std::make_shared<CommandItem>("unlockflightschool"_J));
-		misc->AddItem(std::make_shared<CommandItem>("nightclubpopularity"_J));
 
 		unlocker->AddItem(std::move(awards));
 		unlocker->AddItem(std::move(unlock_goodies));

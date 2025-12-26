@@ -33,9 +33,15 @@ namespace YimMenu::Submenus
 
 		businessGroup->AddItem(std::make_shared<ListCommandItem>("businesssafe"_J));
 		businessGroup->AddItem(std::make_shared<CommandItem>("claimsafeearnings"_J));
-		businessGroup->AddItem(std::make_shared<BoolCommandItem>("removeresupplycooldown"_J));
 		businessGroup->AddItem(std::make_shared<CommandItem>("resupplybusiness"_J));
+		businessGroup->AddItem(std::make_shared<CommandItem>("hangerresupply"_J));
+		businessGroup->AddItem(std::make_shared<CommandItem>("warehouseresupply"_J));
+		businessGroup->AddItem(std::make_shared<CommandItem>("nightclubpopularity"_J));
+		businessGroup->AddItem(std::make_shared<CommandItem>("salvageyardpopularity"_J));
+		businessGroup->AddItem(std::make_shared<CommandItem>("moneyfrontheatremove"_J));
+		businessGroup->AddItem(std::make_shared<BoolCommandItem>("removeresupplycooldown"_J));
 		businessGroup->AddItem(std::make_shared<BoolCommandItem>("enforceeasiestmission"_J));
+
 
 		casinoSlots->AddItem(std::make_shared<BoolCommandItem>("casinomanipulaterigslotmachines"_J));
 
