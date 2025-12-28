@@ -25,6 +25,8 @@ namespace YimMenu::Features
 		virtual void OnDisable() override
 		{
 			*Pointers.HasGTAPlus = m_OldGTAPlus;
+			*ScriptGlobal(1970058).As<bool*>() = false;
+			*ScriptGlobal(1970058).At(3).As<int*>() = 2;
 		}
 	};
 
