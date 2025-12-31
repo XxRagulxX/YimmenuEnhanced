@@ -8,7 +8,7 @@ namespace YimMenu::Submenus
 
 		auto cuts = std::make_shared<Group>("Heist Cuts", 2);
 		auto setups = std::make_shared<Group>("Heist Setups");
-		auto loots = std::make_shared<Group>("Loots" 2);
+		auto loots = std::make_shared<Group>("Loots", 2);
 		auto misc = std::make_shared<Group>("Misc", 3);
 
 		cuts->AddItem(std::make_shared<IntCommandItem>("cayopericoheistcut1"_J));

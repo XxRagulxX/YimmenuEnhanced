@@ -169,7 +169,7 @@ namespace YimMenu::Features
 				int missionIndex = _CasinoStoryMission.GetState();
 
 				Stats::SetInt("VCM_STORY_PROGRESS", missionIndex - 1);
-				Stats::SetInt("VCM_FLOW_PROGRESS", 1311695);
+				Stats::SetInt("VCM_FLOW_PROGRESS", 790527);
 
 				Notifications::Show("Casino Story", "Mission Setup Completed ");
 			}
@@ -264,7 +264,7 @@ namespace YimMenu::Features
 			}
 		};
 
-		class CluckinBellFarmRaidSetup : public Command
+		class CluckinBellFarmRaidSetup : public Command  //working
 		{
 			using Command::Command;
 
@@ -272,7 +272,7 @@ namespace YimMenu::Features
 			{
 				int index = _CluckinBellFarmRaidMission.GetState();
 
-				Stats::SetInt("SALV23_CFR_COOLDOWN", -1);
+				// Stats::SetInt("SALV23_CFR_COOLDOWN", -1);
 
 				switch (index)
 				{
