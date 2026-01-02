@@ -274,6 +274,17 @@ namespace YimMenu::Features
 			}
 		};
 
+		class CluckinBellFarmRaidRemoveCooldown : public Command
+		{
+			using Command::Command;
+
+			virtual void OnCall() override
+			{
+				Stats::SetInt("MPX_SALV23_CFR_COOLDOWN", -1);
+			}
+		};
+
+
 		class TunersCompletePreps : public Command
 		{
 			using Command::Command;
@@ -413,6 +424,7 @@ namespace YimMenu::Features
 		static DrugWarsSetup _DrugWarsSetup{"drugwarsmissionsetup", "DWSetup", "Start selected Los Santos Drug Wars mission"};
 		static SAMercenariesSetup _SAMercenariesSetup{"samerccmissionsetup", "SMSetup", "Start selected San Andreas Mercenaries mission"};
 		static CluckinBellFarmRaidSetup _CluckinBellFarmRaidSetup{"cluckinbellfarmraidsetup", "CBSetup", "Start selected Cluckin' Bell Farm Raid mission"};
+		static CluckinBellFarmRaidRemoveCooldown _ClukinBellFarmRaidCooldown{"clukinbellfarmraidcooldown", "CBRemove Cooldown", "Removes cooldown for CluckinBell FarmRaid"};
 		static TunersCompletePreps _TunersCompletePreps{"tunerscompletepreps", "TSetup Preps", "Complete all LS Tuners robbery preps"};
 		static TunersResetPreps _TunersResetPreps{"tunersresetpreps", "TReset Preps", "Reset LS Tuners robbery preps"};
 		static TunersResetContracts _TunersResetContracts{"tunersresetcontracts", "TReset Contracts", "Reset LS Tuners robbery contracts"};

@@ -40,6 +40,7 @@ namespace YimMenu::Submenus
 
         cluckinbell->AddItem(std::make_shared<ListCommandItem>("cluckinbellfarmraidmission"_J));
         cluckinbell->AddItem(std::make_shared<CommandItem>("cluckinbellfarmraidsetup"_J));
+        cluckinbell->AddItem(std::make_shared<CommandItem>("clukinbellfarmraidcooldown"_J));
 
         tuners->AddItem(std::make_shared<ListCommandItem>("tunersrobbery"_J));
         tuners->AddItem(std::make_shared<CommandItem>("tunerscompletepreps"_J));
