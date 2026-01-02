@@ -47,17 +47,8 @@ namespace YimMenu::Submenus
         tuners->AddItem(std::make_shared<CommandItem>("tunersresetcontracts"_J));
         tuners->AddItem(std::make_shared<CommandItem>("tunersrobberysetup"_J));
 
-        contract->AddItem(std::make_shared<ListCommandItem>("contractnightlife"_J));
-        contract->AddItem(std::make_shared<CommandItem>("contractnightlifesetup"_J));
-
-        contract->AddItem(std::make_shared<ListCommandItem>("contractsociety"_J));
-        contract->AddItem(std::make_shared<CommandItem>("contracthighsocietysetup"_J));
-
-        contract->AddItem(std::make_shared<ListCommandItem>("contractcentral"_J));
-        contract->AddItem(std::make_shared<CommandItem>("contractsouthcentralsetup"_J));
-
-        contract->AddItem(std::make_shared<ListCommandItem>("contractrecord"_J));
-        contract->AddItem(std::make_shared<CommandItem>("contractrecordsetup"_J));
+        contract->AddItem(std::make_shared<ListCommandItem>("contractmissions"_J));
+        contract->AddItem(std::make_shared<CommandItem>("contractmissionssetup"_J));
 
         chopshop->AddItem(std::make_shared<ListCommandItem>("chopshoprobbery"_J));
         chopshop->AddItem(std::make_shared<CommandItem>("chopshoprobberysetup"_J));

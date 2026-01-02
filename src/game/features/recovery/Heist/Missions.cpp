@@ -104,34 +104,21 @@ namespace YimMenu::Features
 
 		static ListCommand _TunersRobbery{"tunersrobbery", "The Los Santos Tuners Robbery", "Select LS Tuners robbery", TunersRobberies, 1};
 
-		static std::vector<std::pair<int, const char*>> ContractNightlifeLeak = {
+		static std::vector<std::pair<int, const char*>> ContractMissions = {
+		    {0, "None"},
 		    {1, "The Nightclub"},
 		    {2, "The Marina"},
-		    {3, "NightLife Leak"}};
+		    {3, "NightLife Leak"},
+		    {4, "The Country Club"},
+		    {5, "Guest List"},
+		    {6, "High Society"},
+		    {7, "Davis"},
+		    {8, "The Ballas"},
+		    {9, "South Central"},
+		    {10, "Studio Time"},
+			{11, "Don't Fuck with Dre"}};
 
-		static ListCommand _ContractNightlifeLeak{"contractnightlife", "NightLife Leak", "Select NightLife Leak mission", ContractNightlifeLeak, 1};
-
-		static std::vector<std::pair<int, const char*>> ContractHighSocietyLeak = {
-		    {1, "The Country Club"},
-		    {2, "Guest List"},
-		    {3, "High Society"}};
-
-		static ListCommand _ContractHighSocietyLeak{"contractsociety", "High Society Leak", "Select High Society Leak mission", ContractHighSocietyLeak, 1};
-
-		static std::vector<std::pair<int, const char*>> ContractSouthCentralLeak = {
-		    {1, "Davis"},
-		    {2, "The Ballas"},
-		    {3, "Agency Studio"},
-		    {4, "Don't Fuck with Dre"}};
-
-		static ListCommand _ContractSouthCentralLeak{"contractcentral", "South Central Leak", "Select South Central Leak mission", ContractSouthCentralLeak, 1};
-
-		static std::vector<std::pair<int, const char*>> ContractRecordAStudios = {
-		    {1, "Seed Capital"},
-		    {2, "Fire It Up"},
-		    {3, "OG Kush"}};
-
-		static ListCommand _ContractRecordAStudios{"contractrecord", "Record A Studios", "Select Short Trip mission", ContractRecordAStudios, 1};
+		static ListCommand _ContractMissions{"contractmissions", "Contract Missions", "Select Contract Mission", ContractMissions, 0};
 
 		static std::vector<std::pair<int, const char*>> ChopShopRobberies = {
 		    {1, "The Cargo Ship Robbery"},
@@ -151,10 +138,9 @@ namespace YimMenu::Features
 			{
 				int mission = _LowriderMission.GetState();
 
-				Stats::SetInt("LOW_FLOW_CURRENT_PROG", mission);
-				Stats::SetInt("LOW_FLOW_CURRENT_CALL", mission);
-				Stats::SetInt("LOWRIDER_FLOW_COMPLETE", 0);
-
+				Stats::SetInt("MPX_LOW_FLOW_CURRENT_PROG", mission);
+				Stats::SetInt("MPX_LOW_FLOW_CURRENT_CALL", mission);
+				Stats::SetInt("MPX_LOWRIDER_FLOW_COMPLETE", 0);
 
 				Notifications::Show("Lowrider", "Mission Setup Completed");
 			}
@@ -168,8 +154,8 @@ namespace YimMenu::Features
 			{
 				int missionIndex = _CasinoStoryMission.GetState();
 
-				Stats::SetInt("VCM_STORY_PROGRESS", missionIndex - 1);
-				Stats::SetInt("VCM_FLOW_PROGRESS", 790527);
+				Stats::SetInt("MPX_VCM_FLOW_PROGRESS", 1312735);
+				Stats::SetInt("MPX_VCM_STORY_PROGRESS", missionIndex - 1);
 
 				Notifications::Show("Casino Story", "Mission Setup Completed ");
 			}
@@ -183,8 +169,8 @@ namespace YimMenu::Features
 			{
 				int missionIndex = _SuperyachtMission.GetState();
 
-				Stats::SetInt("YACHT_MISSION_PROG", missionIndex - 1);
-				Stats::SetInt("YACHT_MISSION_FLOW", 21845);
+				Stats::SetInt("MPX_YACHT_MISSION_PROG", missionIndex - 1);
+				Stats::SetInt("MPX_YACHT_MISSION_FLOW", 21845);
 
 				Notifications::Show("A Superyacht Life", "Mission Setup Completed");
 			}
@@ -198,8 +184,7 @@ namespace YimMenu::Features
 			{
 				int missionIndex = _OperationPaperTrailMission.GetState();
 
-				Stats::SetInt("ULP_MISSION_CURRENT", missionIndex - 1);
-				Stats::SetInt("ULP_MISSION_PROGRESS", 127);
+				Stats::SetInt("MPX_ULP_MISSION_CURRENT", missionIndex - 1);
 
 				Notifications::Show("Operation Paper Trail", "Mission Setup Completed");
 			}
@@ -213,21 +198,21 @@ namespace YimMenu::Features
 			{
 				int index = _DrugWarsMission.GetState();
 
-				Stats::SetInt("XM22_CURRENT", index - 1);
+				Stats::SetInt("MPX_XM22_CURRENT", index - 1);
 
 				switch (index)
 				{
-				case 1: Stats::SetInt("XM22_MISSIONS", 0); break;
-				case 2: Stats::SetInt("XM22_MISSIONS", 2); break;
-				case 3: Stats::SetInt("XM22_MISSIONS", 3); break;
-				case 4: Stats::SetInt("XM22_MISSIONS", 7); break;
-				case 5: Stats::SetInt("XM22_MISSIONS", 15); break;
-				case 6: Stats::SetInt("XM22_MISSIONS", 31); break;
-				case 7: Stats::SetInt("XM22_MISSIONS", 4194367); break;
-				case 8: Stats::SetInt("XM22_MISSIONS", 4194431); break;
-				case 9: Stats::SetInt("XM22_MISSIONS", 4194559); break;
-				case 10: Stats::SetInt("XM22_MISSIONS", 4194815); break;
-				case 11: Stats::SetInt("XM22_MISSIONS", 4195327); break;
+				case 1: Stats::SetInt("MPX_XM22_MISSIONS", 0); break;
+				case 2: Stats::SetInt("MPX_XM22_MISSIONS", 2); break;
+				case 3: Stats::SetInt("MPX_XM22_MISSIONS", 3); break;
+				case 4: Stats::SetInt("MPX_XM22_MISSIONS", 7); break;
+				case 5: Stats::SetInt("MPX_XM22_MISSIONS", 15); break;
+				case 6: Stats::SetInt("MPX_XM22_MISSIONS", 31); break;
+				case 7: Stats::SetInt("MPX_XM22_MISSIONS", 4194367); break;
+				case 8: Stats::SetInt("MPX_XM22_MISSIONS", 4194431); break;
+				case 9: Stats::SetInt("MPX_XM22_MISSIONS", 4194559); break;
+				case 10: Stats::SetInt("MPX_XM22_MISSIONS", 4194815); break;
+				case 11: Stats::SetInt("MPX_XM22_MISSIONS", 4195327); break;
 				default: break;
 				}
 
@@ -244,19 +229,19 @@ namespace YimMenu::Features
 				int index = _SAMercenariesMission.GetState();
 
 				if (index != 7)
-					Stats::SetInt("SUM23_AVOP_CURRENT", index - 1);
+					Stats::SetInt("MPX_SUM23_AVOP_CURRENT", index - 1);
 				else
-					Stats::SetInt("SUM23_AVOP_CURRENT", 0);
+					Stats::SetInt("MPX_SUM23_AVOP_CURRENT", 0);
 
 				switch (index)
 				{
-				case 1: Stats::SetInt("SUM23_AVOP_PROGRESS", 0); break;
-				case 2: Stats::SetInt("SUM23_AVOP_PROGRESS", 1); break;
-				case 3: Stats::SetInt("SUM23_AVOP_PROGRESS", 3); break;
-				case 4: Stats::SetInt("SUM23_AVOP_PROGRESS", 7); break;
-				case 5: Stats::SetInt("SUM23_AVOP_PROGRESS", 15); break;
-				case 6: Stats::SetInt("SUM23_AVOP_PROGRESS", 31); break;
-				case 7: Stats::SetInt("SUM23_AVOP_PROGRESS", 20543); break;
+				case 1: Stats::SetInt("MPX_SUM23_AVOP_PROGRESS", 0); break;
+				case 2: Stats::SetInt("MPX_SUM23_AVOP_PROGRESS", 1); break;
+				case 3: Stats::SetInt("MPX_SUM23_AVOP_PROGRESS", 3); break;
+				case 4: Stats::SetInt("MPX_SUM23_AVOP_PROGRESS", 7); break;
+				case 5: Stats::SetInt("MPX_SUM23_AVOP_PROGRESS", 15); break;
+				case 6: Stats::SetInt("MPX_SUM23_AVOP_PROGRESS", 31); break;
+				case 7: Stats::SetInt("MPX_SUM23_AVOP_PROGRESS", 20543); break;
 				default: break;
 				}
 
@@ -264,7 +249,7 @@ namespace YimMenu::Features
 			}
 		};
 
-		class CluckinBellFarmRaidSetup : public Command  //working
+		class CluckinBellFarmRaidSetup : public Command
 		{
 			using Command::Command;
 
@@ -276,16 +261,16 @@ namespace YimMenu::Features
 
 				switch (index)
 				{
-				case 1: Stats::SetInt("SALV23_INST_PROG", 0); break;
-				case 2: Stats::SetInt("SALV23_INST_PROG", 1); break;
-				case 3: Stats::SetInt("SALV23_INST_PROG", 3); break;
-				case 4: Stats::SetInt("SALV23_INST_PROG", 7); break;
-				case 5: Stats::SetInt("SALV23_INST_PROG", 15); break;
-				case 6: Stats::SetInt("SALV23_INST_PROG", 31); break;
+				case 1: Stats::SetInt("MPX_SALV23_INST_PROG", 0); break;
+				case 2: Stats::SetInt("MPX_SALV23_INST_PROG", 1); break;
+				case 3: Stats::SetInt("MPX_SALV23_INST_PROG", 3); break;
+				case 4: Stats::SetInt("MPX_SALV23_INST_PROG", 7); break;
+				case 5: Stats::SetInt("MPX_SALV23_INST_PROG", 15); break;
+				case 6: Stats::SetInt("MPX_SALV23_INST_PROG", 31); break;
 				default: break;
 				}
 
-				Notifications::Show("Cluckin' Bell Farm Raid","Mission Setup Completed");
+				Notifications::Show("Cluckin' Bell Farm Raid", "Mission Setup Completed");
 			}
 		};
 
@@ -295,7 +280,10 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				Stats::SetInt("TUNER_GEN_BS", -1);
+				Stats::SetInt("MPX_TUNER_GEN_BS", -1);
+
+				if (auto thread = Scripts::FindScriptThread("tuner_planning"_J))
+					*ScriptLocal(thread, 408).As<int*>() = 2;
 			}
 		};
 
@@ -305,7 +293,10 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				Stats::SetInt("TUNER_GEN_BS", 12467);
+				Stats::SetInt("MPX_TUNER_GEN_BS", 12467);
+
+				if (auto thread = Scripts::FindScriptThread("tuner_planning"_J))
+					*ScriptLocal(thread, 408).As<int*>() = 2;
 			}
 		};
 
@@ -315,7 +306,8 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				Stats::SetInt("TUNER_GEN_BS", 8371);
+				if (auto thread = Scripts::FindScriptThread("tuner_planning"_J))
+					*ScriptLocal(thread, 408).As<int*>() = 2;
 			}
 		};
 
@@ -323,94 +315,67 @@ namespace YimMenu::Features
 		{
 			using Command::Command;
 
-			virtual void OnCall() override
+			void OnCall() override
 			{
 				int index = _TunersRobbery.GetState();
+				int robbery = index - 1;
 
-				if (index != 2)
-					Stats::SetInt("TUNER_GEN_BS", 12543);
+				Stats::SetInt("MPX_TUNER_CURRENT", robbery);
+
+				if (robbery == 1)
+					Stats::SetInt("MPX_TUNER_GEN_BS", 4351);
 				else
-					Stats::SetInt("TUNER_GEN_BS", 4351);
+					Stats::SetInt("MPX_TUNER_GEN_BS", 12543);
 
-				Stats::SetInt("TUNER_CURRENT", index - 1);
-				Stats::SetInt("TUNER_CURRENT", -1);
+				if (auto thread = Scripts::FindScriptThread("tuner_planning"_J))
+					*ScriptLocal(thread, 408).As<int*>() = 2;
 
-				Notifications::Show("LS Tuners Robbery", "Robbery Setup Completed");
+				Notifications::Show("LS Tuners Robbery", "Preps Applied & Completed");
 			}
 		};
 
-		class ContractNightlifeSetup : public Command
+		class ContractMissionsSetup : public Command
 		{
 			using Command::Command;
 
 			void OnCall() override
 			{
-				int index = _ContractNightlifeLeak.GetState();
+				int index = _ContractMissions.GetState();
 
-				if (index != 3)
-					Stats::SetInt("FIXER_STORY_BS", index + 2);
-				else
-					Stats::SetInt("FIXER_STORY_BS", 12);
-
-				Stats::SetInt("FIXER_GENERAL_BS", -1);
-				Stats::SetInt("FIXER_COMPLETED_BS", -1);
-				Stats::SetInt("FIXER_STORY_COOLDOWN", -1);
-			}
-		};
-
-		class ContractHighSocietySetup : public Command
-		{
-			using Command::Command;
-
-			void OnCall() override
-			{
-				int index = _ContractHighSocietyLeak.GetState();
-
+				int contract = -1;
 				switch (index)
 				{
-				case 1: Stats::SetInt("FIXER_STORY_BS", 28); break;
-				case 2: Stats::SetInt("FIXER_STORY_BS", 60); break;
-				case 3: Stats::SetInt("FIXER_STORY_BS", 124); break;
+				case 0: contract = 3; break;     // None
+				case 1: contract = 4; break;     // Nightclub
+				case 2: contract = 12; break;    // Marina
+				case 3: contract = 28; break;    // Nightlife Leak
+				case 4: contract = 60; break;    // Country Club
+				case 5: contract = 123; break;   // Guest List
+				case 6: contract = 254; break;   // High Society Leak
+				case 7: contract = 508; break;   // Davis
+				case 8: contract = 1020; break;  // Ballas
+				case 9: contract = 2044; break;  // South Central Leak
+				case 10: contract = 2045; break; // Studio Time
+				case 11: contract = 4095; break; // Don't F*** With Dre
+				default: return;
 				}
 
-				Stats::SetInt("FIXER_GENERAL_BS", -1);
-				Stats::SetInt("FIXER_COMPLETED_BS", -1);
-				Stats::SetInt("FIXER_STORY_STRAND", -1);
-				Stats::SetInt("FIXER_STORY_COOLDOWN", -1);
-			}
-		};
+				Stats::SetInt("MPX_FIXER_STORY_BS", contract);
 
-		class ContractSouthCentralSetup : public Command
-		{
-			using Command::Command;
+				if (contract < 18)
+					Stats::SetInt("MPX_FIXER_STORY_STRAND", 0);
+				else if (contract < 128)
+					Stats::SetInt("MPX_FIXER_STORY_STRAND", 1);
+				else if (contract < 2044)
+					Stats::SetInt("MPX_FIXER_STORY_STRAND", 2);
+				else
+					Stats::SetInt("MPX_FIXER_STORY_STRAND", -1);
 
-			void OnCall() override
-			{
-				int index = _ContractSouthCentralLeak.GetState();
+				Stats::SetInt("MPX_FIXER_GENERAL_BS", -1);
+				Stats::SetInt("MPX_FIXER_COMPLETED_BS", -1);
+				Stats::SetInt("MPX_FIXER_STORY_COOLDOWN", -1);
 
-				switch (index)
-				{
-				case 1: Stats::SetInt("FIXER_STORY_BS", 252); break;
-				case 2: Stats::SetInt("FIXER_STORY_BS", 508); break;
-				case 3: Stats::SetInt("FIXER_STORY_BS", 2044); break;
-				case 4: Stats::SetInt("FIXER_STORY_BS", 4092); break;
-				}
-
-				Stats::SetInt("FIXER_GENERAL_BS", -1);
-				Stats::SetInt("FIXER_COMPLETED_BS", -1);
-				Stats::SetInt("FIXER_STORY_STRAND", -1);
-				Stats::SetInt("FIXER_STORY_COOLDOWN", -1);
-			}
-		};
-
-		class ContractRecordAStudiosSetup : public Command
-		{
-			using Command::Command;
-
-			void OnCall() override
-			{
-				Stats::SetInt("FIXER_SHORT_TRIPS", _ContractRecordAStudios.GetState());
-				Stats::SetInt("FIXER_GENERAL_BS", -259160457);
+				Notifications::Show("Agency Contract", "Preps Applied & Completed");
 			}
 		};
 
@@ -422,17 +387,21 @@ namespace YimMenu::Features
 			{
 				int index = _ChopShopRobbery.GetState();
 
-				Stats::SetInt("SALV23_VEH_ROB", index - 1);
-				Stats::SetInt("MOST_TIME_ON_3_PLUS_STARS", 300000);
-				Stats::SetInt("SALV23_PLAN_DIALOGUE", 4131109);
-				Stats::SetInt("SALV23_FM_PROG", 126);
-				Stats::SetInt("SALV23_GEN_BS", -10241);
-				Stats::SetInt("SALV23_DISRUPT", 3);
-				Stats::SetInt("SALV23_VEH_MODS", 0);
-				Stats::SetInt("SALV23_SCOPE_BS", -1);
-				Stats::SetBool("SALV23_CAN_KEEP", true);
+				Stats::SetInt("MPX_SALV23_VEH_ROB", index - 1);
+				Stats::SetInt("MPX_MOST_TIME_ON_3_PLUS_STARS", 300000);
+				Stats::SetInt("MPX_SALV23_PLAN_DIALOGUE", 4131109);
+				Stats::SetInt("MPX_SALV23_FM_PROG", -1);
+				Stats::SetInt("MPX_SALV23_GEN_BS", -1);
+				Stats::SetInt("MPX_SALV23_DISRUPT", 3);
+				Stats::SetInt("MPX_SALV23_VEH_MODS", 0);
+				Stats::SetInt("MPX_SALV23_SCOPE_BS", -1);
+				Stats::SetInt("MPX_SALV23_INST_PROG", -1);
+				Stats::SetBool("MPX_SALV23_CAN_KEEP", true);
 
-				Notifications::Show("The Chop Shop Robbery","Mission Setup Completed");
+				if (auto thread = Scripts::FindScriptThread("vehrob_planning"_J))
+					*ScriptLocal(thread, 537).As<int*>() = 2;
+
+				Notifications::Show("The Chop Shop Robbery", "Mission Setup Completed");
 			}
 		};
 
@@ -448,11 +417,8 @@ namespace YimMenu::Features
 		static TunersResetPreps _TunersResetPreps{"tunersresetpreps", "TReset Preps", "Reset LS Tuners robbery preps"};
 		static TunersResetContracts _TunersResetContracts{"tunersresetcontracts", "TReset Contracts", "Reset LS Tuners robbery contracts"};
 		static TunersRobberySetup _TunersRobberySetup{"tunersrobberysetup", "TSetup", "Start selected LS Tuners robbery"};
-		static ContractNightlifeSetup _ContractNightlifeSetup{"contractnightlifesetup", "CSetup Night", "Start selected NightLife Leak mission"};
-		static ContractHighSocietySetup _ContractHighSocietySetup{"contracthighsocietysetup", "CSetup High", "Start selected High Society Leak mission"};
-		static ContractSouthCentralSetup _ContractSouthCentralSetup{"contractsouthcentralsetup", "CSetup South", "Start selected South Central Leak mission"};
-		static ContractRecordAStudiosSetup _ContractRecordAStudiosSetup{"contractrecordsetup", "CSetup Studio", "Start selected Record A Studios mission"};
-        static ChopShopRobberySetup _ChopShopRobberySetup{"chopshoprobberysetup","CSRSetup","Start selected Chop Shop robbery"};
+		static ContractMissionsSetup _ContractmissionsSetup{"contractmissionssetup", "Contract Setup", "Start selected NightLife Leak mission"};
+		static ChopShopRobberySetup _ChopShopRobberySetup{"chopshoprobberysetup", "CSRSetup", "Start selected Chop Shop robbery"};
 
 	}
 }
