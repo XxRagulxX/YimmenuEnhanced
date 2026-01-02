@@ -50,6 +50,7 @@ namespace YimMenu::Submenus
 
         contract->AddItem(std::make_shared<ListCommandItem>("contractmissions"_J));
         contract->AddItem(std::make_shared<CommandItem>("contractmissionssetup"_J));
+        contract->AddItem(std::make_shared<CommandItem>("contractremovecooldown"_J));
 
         chopshop->AddItem(std::make_shared<ListCommandItem>("chopshoprobbery"_J));
         chopshop->AddItem(std::make_shared<CommandItem>("chopshoprobberysetup"_J));

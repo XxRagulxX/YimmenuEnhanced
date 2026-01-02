@@ -257,8 +257,6 @@ namespace YimMenu::Features
 			{
 				int index = _CluckinBellFarmRaidMission.GetState();
 
-				// Stats::SetInt("SALV23_CFR_COOLDOWN", -1);
-
 				switch (index)
 				{
 				case 1: Stats::SetInt("MPX_SALV23_INST_PROG", 0); break;
@@ -281,6 +279,8 @@ namespace YimMenu::Features
 			virtual void OnCall() override
 			{
 				Stats::SetInt("MPX_SALV23_CFR_COOLDOWN", -1);
+
+				Notifications::Show("Cluckin' Bell Farm Raid CoolDown", "CoolDown Removed");
 			}
 		};
 
@@ -384,11 +384,22 @@ namespace YimMenu::Features
 
 				Stats::SetInt("MPX_FIXER_GENERAL_BS", -1);
 				Stats::SetInt("MPX_FIXER_COMPLETED_BS", -1);
-				Stats::SetInt("MPX_FIXER_STORY_COOLDOWN", -1);
 
 				Notifications::Show("Agency Contract", "Preps Applied & Completed");
 			}
 		};
+
+		class ContractRemoveCooldown : public Command
+		{
+			using Command::Command;
+
+			virtual void OnCall() override
+			{
+				Stats::SetInt("MPX_FIXER_STORY_COOLDOWN", -1);
+
+				Notifications::Show("Contract Cooldown", "Cooldown Removed");
+			}
+		}
 
 		class ChopShopRobberySetup : public Command
 		{
@@ -424,12 +435,13 @@ namespace YimMenu::Features
 		static DrugWarsSetup _DrugWarsSetup{"drugwarsmissionsetup", "DWSetup", "Start selected Los Santos Drug Wars mission"};
 		static SAMercenariesSetup _SAMercenariesSetup{"samerccmissionsetup", "SMSetup", "Start selected San Andreas Mercenaries mission"};
 		static CluckinBellFarmRaidSetup _CluckinBellFarmRaidSetup{"cluckinbellfarmraidsetup", "CBSetup", "Start selected Cluckin' Bell Farm Raid mission"};
-		static CluckinBellFarmRaidRemoveCooldown _ClukinBellFarmRaidCooldown{"clukinbellfarmraidcooldown", "CBRemove Cooldown", "Removes cooldown for CluckinBell FarmRaid"};
+		static CluckinBellFarmRaidRemoveCooldown _ClukinBellFarmRaidCooldown{"clukinbellfarmraidcooldown", "CB RmCooldown", "Removes cooldown for CluckinBell FarmRaid"};
 		static TunersCompletePreps _TunersCompletePreps{"tunerscompletepreps", "TSetup Preps", "Complete all LS Tuners robbery preps"};
 		static TunersResetPreps _TunersResetPreps{"tunersresetpreps", "TReset Preps", "Reset LS Tuners robbery preps"};
 		static TunersResetContracts _TunersResetContracts{"tunersresetcontracts", "TReset Contracts", "Reset LS Tuners robbery contracts"};
 		static TunersRobberySetup _TunersRobberySetup{"tunersrobberysetup", "TSetup", "Start selected LS Tuners robbery"};
 		static ContractMissionsSetup _ContractmissionsSetup{"contractmissionssetup", "Contract Setup", "Start selected NightLife Leak mission"};
+		static ContractRemoveCooldown _ContractRemoveCooldown{"contractremovecooldown", "Contact Rmcooldown", "Contract Remove Cooldown"};
 		static ChopShopRobberySetup _ChopShopRobberySetup{"chopshoprobberysetup", "CSRSetup", "Start selected Chop Shop robbery"};
 
 	}
