@@ -1,4 +1,7 @@
-cmake_minimum_required(VERSION 3.20.x)
+cmake_minimum_required(VERSION 3.20)
+
+# REQUIRED for clang-cl cross-compilation (Windows target on Linux)
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 include(cmake/cross-compile.cmake)
 
@@ -30,6 +33,14 @@ add_compile_definitions(
     IMGUI_DEFINE_MATH_OPERATORS
 )
 
+if (TARGET fmt)
+    target_compile_options(fmt PRIVATE -Wno-deprecated-literal-operator)
+endif()
+
+if (TARGET luajit)
+    target_compile_definitions(luajit PRIVATE _CRT_SECURE_NO_WARNINGS)
+endif()
+
 message(STATUS "Setting up include directories.")
 target_include_directories(${PROJECT_NAME} PRIVATE
     "${SRC_DIR}"
@@ -50,7 +61,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     dbghelp
 
     # ImGui dependencies
-    $<IF:$<BOOL:${CROSSCOMPILE}>,d3dcompiler_47,d3dcompiler>
+    d3dcompiler
     dwmapi
     gdi32
     libluajit
