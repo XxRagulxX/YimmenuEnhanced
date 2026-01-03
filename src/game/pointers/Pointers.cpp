@@ -4,6 +4,7 @@
 #include "core/memory/ModuleMgr.hpp"
 #include "core/memory/PatternScanner.hpp"
 #include "core/util/Joaat.hpp"
+#include "types/network/rlSessionInfo.hpp"
 #include "types/rage/atArray.hpp"
 
 namespace YimMenu
@@ -387,6 +388,17 @@ namespace YimMenu
 		constexpr auto battlEyeServerProcessPlayerJoinPtrn = Pattern<"48 89 10 48 89 48 10 89 F9">("BattlEyeServerProcessPlayerJoin");
 		scanner.Add(battlEyeServerProcessPlayerJoinPtrn, [this](PointerCalculator ptr) {
 			BattlEyeServerProcessPlayerJoin = ptr.Sub(4).Rip().As<PVOID*>()[1];
+		});
+
+		constexpr auto gameDataHashPtrn = Pattern<"48 8D 3D ? ? ? ? 69 C9">("GameDataHash");
+		scanner.Add(gameDataHashPtrn, [this](PointerCalculator ptr) {
+			GameDataHash = ptr.Add(3).Rip().As<CGameDataHash*>();
+		});
+
+		constexpr auto getDLCHashPtrn = Pattern<"31 D2 E8 ? ? ? ? 3B 84">("GetDLCHash&DLCManager");
+		scanner.Add(getDLCHashPtrn, [this](PointerCalculator ptr) {
+			DLCManager = ptr.Sub(4).Rip().As<void**>();
+			GetDLCHash = ptr.Add(3).Rip().As<PVOID>();
 		});
 
 		constexpr auto assistedAimShouldReleaseEntityPtrn = Pattern<"80 7F 28 04 75 6A">("AssistedAimShouldReleaseEntity");

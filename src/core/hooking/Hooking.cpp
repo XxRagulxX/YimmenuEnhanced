@@ -40,6 +40,7 @@ namespace YimMenu
 		BaseHook::Add<Hooks::Spoofing::WriteSyncTree>(new DetourHook("WriteSyncTree", Pointers.WriteSyncTree, Hooks::Spoofing::WriteSyncTree));
 
 		BaseHook::Add<Hooks::Network::GetPoolType>(new DetourHook("GetPoolType", Pointers.GetPoolType, Hooks::Network::GetPoolType));
+		BaseHook::Add<Hooks::Network::GetDLCHash>(new DetourHook("GetDLCHash", Pointers.GetDLCHash, Hooks::Network::GetDLCHash));
 
 		BaseHook::Add<Hooks::Matchmaking::MatchmakingAdvertise>(new DetourHook("MatchmakingAdvertise", Pointers.MatchmakingAdvertise, Hooks::Matchmaking::MatchmakingAdvertise));
 		BaseHook::Add<Hooks::Matchmaking::MatchmakingSessionDetailSendResponse>(new DetourHook("MatchmakingSessionDetailSendResponse", Pointers.MatchmakingSessionDetailSendResponse, Hooks::Matchmaking::MatchmakingSessionDetailSendResponse));
