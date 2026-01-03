@@ -399,7 +399,7 @@ namespace YimMenu::Features
 
 				Notifications::Show("Contract Cooldown", "Cooldown Removed");
 			}
-		}
+		};
 
 		class ChopShopRobberySetup : public Command
 		{
