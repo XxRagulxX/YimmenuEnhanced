@@ -17,7 +17,7 @@ namespace YimMenu::Submenus
         auto cluckinbell = std::make_shared<Group>("Cluckin Bell",2);
         auto tuners = std::make_shared<Group>("Tuners",4);
         auto contract = std::make_shared<Group>("Contract",4);
-        auto chopshop = std::make_shared<Group>("Chopshop",2);
+        auto savageyard = std::make_shared<Group>("Savage Yard",2);
 
 
         lowrider->AddItem(std::make_shared<ListCommandItem>("lowridermission"_J));
@@ -52,8 +52,8 @@ namespace YimMenu::Submenus
         contract->AddItem(std::make_shared<CommandItem>("contractmissionssetup"_J));
         contract->AddItem(std::make_shared<CommandItem>("contractremovecooldown"_J));
 
-        chopshop->AddItem(std::make_shared<ListCommandItem>("chopshoprobbery"_J));
-        chopshop->AddItem(std::make_shared<CommandItem>("chopshoprobberysetup"_J));
+        savageyard->AddItem(std::make_shared<ListCommandItem>("savageyardrobbery"_J));
+        savageyard->AddItem(std::make_shared<CommandItem>("savageyardrobberysetup"_J));
         
 
         tab->AddItem(lowrider);
@@ -65,7 +65,7 @@ namespace YimMenu::Submenus
         tab->AddItem(cluckinbell);
         tab->AddItem(tuners);
         tab->AddItem(contract);
-        tab->AddItem(chopshop);
+        tab->AddItem(savageyard);
 
         return tab;
     

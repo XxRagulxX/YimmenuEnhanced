@@ -106,28 +106,28 @@ namespace YimMenu::Features
 
 		static std::vector<std::pair<int, const char*>> ContractMissions = {
 		    {0, "None"},
-		    {1, "The Nightclub"},
-		    {2, "The Marina"},
-		    {3, "NightLife Leak"},
-		    {4, "The Country Club"},
-		    {5, "Guest List"},
-		    {6, "High Society"},
-		    {7, "Davis"},
-		    {8, "The Ballas"},
-		    {9, "South Central"},
+		    {1, "Nightclub -The Nightclub"},
+		    {2, "Nightclub - The Marina"},
+		    {3, "Final - NightLife Leak"},
+		    {4, "High Society - The Country Club"},
+		    {5, "High Society - Guest List"},
+		    {6, "Final - High Society"},
+		    {7, "South Central- Davis"},
+		    {8, "South Central- The Ballas"},
+		    {9, "Final - South Central"},
 		    {10, "Studio Time"},
 			{11, "Don't Fuck with Dre"}};
 
 		static ListCommand _ContractMissions{"contractmissions", "Contract Missions", "Select Contract Mission", ContractMissions, 0};
 
-		static std::vector<std::pair<int, const char*>> ChopShopRobberies = {
+		static std::vector<std::pair<int, const char*>> SavageYardRobbery = {
 		    {1, "The Cargo Ship Robbery"},
 		    {2, "The Gangbanger Robbery"},
 		    {3, "The Duggan Robbery"},
 		    {4, "The Podium Robbery"},
 		    {5, "The McTony Robbery"}};
 
-		static ListCommand _ChopShopRobbery{"chopshoprobbery", "The Chop Shop Robbery", "Select Chop Shop robbery", ChopShopRobberies, 1};
+		static ListCommand _SavageYardRobbery{"savageyardrobbery", "The SavageYard Robbery", "Select SavageYard robbery", SavageYardRobbery, 1};
 
 
 		class LowriderSetup : public Command
@@ -401,13 +401,13 @@ namespace YimMenu::Features
 			}
 		};
 
-		class ChopShopRobberySetup : public Command
+		class SavageYardRobberySetup : public Command
 		{
 			using Command::Command;
 
 			virtual void OnCall() override
 			{
-				int index = _ChopShopRobbery.GetState();
+				int index = _SavageYardRobbery.GetState();
 
 				Stats::SetInt("MPX_SALV23_VEH_ROB", index - 1);
 				Stats::SetInt("MPX_MOST_TIME_ON_3_PLUS_STARS", 300000);
@@ -423,7 +423,7 @@ namespace YimMenu::Features
 				if (auto thread = Scripts::FindScriptThread("vehrob_planning"_J))
 					*ScriptLocal(thread, 537).As<int*>() = 2;
 
-				Notifications::Show("The Chop Shop Robbery", "Mission Setup Completed");
+				Notifications::Show("Savage Yard Robbery", "Mission Setup Completed");
 			}
 		};
 
@@ -442,7 +442,7 @@ namespace YimMenu::Features
 		static TunersRobberySetup _TunersRobberySetup{"tunersrobberysetup", "TSetup", "Start selected LS Tuners robbery"};
 		static ContractMissionsSetup _ContractmissionsSetup{"contractmissionssetup", "Contract Setup", "Start selected NightLife Leak mission"};
 		static ContractRemoveCooldown _ContractRemoveCooldown{"contractremovecooldown", "Contact Rmcooldown", "Contract Remove Cooldown"};
-		static ChopShopRobberySetup _ChopShopRobberySetup{"chopshoprobberysetup", "CSRSetup", "Start selected Chop Shop robbery"};
+		static SavageYardRobberySetup _SavageYardRobberySetup{"savageyardrobberysetup", "SYRSetup", "Start selected Savege Yard robbery"};
 
 	}
 }

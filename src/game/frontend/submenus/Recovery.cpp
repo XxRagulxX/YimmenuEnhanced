@@ -17,7 +17,8 @@ namespace YimMenu::Submenus
 		auto casino = std::make_shared<Category>("Casino");
 
 		auto generalGroup = std::make_shared<Group>("General");
-		auto businessGroup = std::make_shared<Group>("General");
+		auto businessSafe = std::make_shared<Group>("Business Safe");
+		auto businessGroup = std::make_shared<Group>("Business Manager");
 		auto casinoSlots = std::make_shared<Group>("Slot Machines");
 		//auto casinoWheel = std::make_shared<Group>("Lucky Wheel");
 		//auto casinoBlackJack = std::make_shared<Group>("Blackjack");
@@ -31,8 +32,9 @@ namespace YimMenu::Submenus
 		generalGroup->AddItem(std::make_shared<BoolCommandItem>("nochangeappearancecooldown"_J));
 		generalGroup->AddItem(std::make_shared<BoolCommandItem>("allowgenderchange"_J));
 
-		businessGroup->AddItem(std::make_shared<ListCommandItem>("businesssafe"_J));
-		businessGroup->AddItem(std::make_shared<CommandItem>("claimsafeearnings"_J));
+		businessSafe->AddItem(std::make_shared<ListCommandItem>("businesssafe"_J));
+		businessSafe->AddItem(std::make_shared<CommandItem>("claimsafeearnings"_J));
+
 		businessGroup->AddItem(std::make_shared<CommandItem>("resupplybusiness"_J));
 		businessGroup->AddItem(std::make_shared<CommandItem>("hangerresupply"_J));
 		businessGroup->AddItem(std::make_shared<CommandItem>("warehouseresupply"_J));
@@ -47,16 +49,17 @@ namespace YimMenu::Submenus
 
 
 		main->AddItem(generalGroup);
+		businesses->AddItem(businessSafe);
 		businesses->AddItem(businessGroup);
 		casino->AddItem(casinoSlots);
 
 		AddCategory(std::move(main));
 		AddCategory(std::move(businesses));
 		AddCategory(std::move(casino));
-		AddCategory(BuildStatEditorMenu());
-		AddCategory(BuildTransactionsMenu());
 		AddCategory(BuildHeistModifierMenu());
 		AddCategory(BuildDailyActivitiesMenu());
+		AddCategory(BuildStatEditorMenu());
+		AddCategory(BuildTransactionsMenu());
 		AddCategory(BuildUnlockerMenu());
 	}
 }
