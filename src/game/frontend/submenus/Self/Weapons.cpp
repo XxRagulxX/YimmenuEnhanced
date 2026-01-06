@@ -213,6 +213,7 @@ namespace YimMenu::Submenus
 		auto weaponsGlobalsGroup = std::make_shared<Group>("Globals", 12);
 		auto weaponsToolsGroup = std::make_shared<Group>("Tools", 1);
 		auto weaponsAmmuNationGroup = std::make_shared<Group>("Ammu-Nation");
+		auto weaponsGunVanGroup = std::make_shared<Group>("Gun Van");
 		auto weaponsAimbotGroup = std::make_shared<Group>("Aimbot", 1);
 
 		weaponsGlobalsGroup->AddItem(std::make_shared<BoolCommandItem>("infiniteammo"_J));
@@ -239,6 +240,10 @@ namespace YimMenu::Submenus
 			RenderAmmuNationMenu();
 		}));
 
+		weaponsGunVanGroup->AddItem(std::make_shared<ListCommandItem>("gunvan_weapon"_J));
+		weaponsGunVanGroup->AddItem(std::make_shared<ListCommandItem>("gunvan_slot"_J));
+		weaponsGunVanGroup->AddItem(std::make_shared<CommandItem>("gunvan_apply"_J));
+
 		weaponsAimbotGroup->AddItem(std::make_shared<BoolCommandItem>("aimbot"_J));
 		weaponsAimbotGroup->AddItem(std::make_shared<ConditionalItem>("aimbot"_J, std::make_shared<BoolCommandItem>("aimbotaimforhead"_J)));
 		weaponsAimbotGroup->AddItem(std::make_shared<ConditionalItem>("aimbot"_J, std::make_shared<BoolCommandItem>("aimbottargetdrivers"_J)));
@@ -247,6 +252,7 @@ namespace YimMenu::Submenus
 		weapons->AddItem(weaponsGlobalsGroup);
 		weapons->AddItem(weaponsToolsGroup);
 		weapons->AddItem(weaponsAmmuNationGroup);
+		weapons->AddItem(weaponsGunVanGroup);
 		weapons->AddItem(weaponsAimbotGroup);
 		weapons->AddItem(RenderCustomWeaponsMenu());
 		return weapons;
