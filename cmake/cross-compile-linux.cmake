@@ -42,7 +42,7 @@ if(CROSSCOMPILE)
     # ------------------------------------------------------------
     # msvc-wine root (CHANGE IF NEEDED)
     # ------------------------------------------------------------
-    set(MSVC_WINE_ROOT "$ENV{HOME}/my_msvc")
+    set(MSVC_WINE_ROOT "$ENV{HOME}/my_msvc/opt/msvc")
 
     if(NOT EXISTS "${MSVC_WINE_ROOT}/bin")
         message(FATAL_ERROR
