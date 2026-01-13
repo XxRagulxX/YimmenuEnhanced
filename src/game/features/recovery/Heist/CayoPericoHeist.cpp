@@ -52,28 +52,25 @@ namespace YimMenu::Features
 		};
 
 		static std::vector<std::pair<int, const char*>> cayoPericoHeistDifficulty = {
-			{126823, "Normal"},
-			{131055, "Hard"}
-		};
+		    {126823, "Normal"},
+		    {131055, "Hard"}};
 		static ListCommand _CayoPericoHeistDifficulty{"cayopericoheistdifficulty", "Difficulty", "Heist difficulty", cayoPericoHeistDifficulty, 126823};
 
 		static std::vector<std::pair<int, const char*>> cayoPericoHeistPrimaryTarget = {
-			{5, "Panther Statue"},
-			{3, "Pink Diamond"},
-			{4, "Madrazo Files"},
-			{2, "Bearer Bonds"},
-			{1, "Ruby Necklace"},
-			{0, "Sinsimito Tequila"}
-		};
+		    {5, "Panther Statue"},
+		    {3, "Pink Diamond"},
+		    {4, "Madrazo Files"},
+		    {2, "Bearer Bonds"},
+		    {1, "Ruby Necklace"},
+		    {0, "Sinsimito Tequila"}};
 		static ListCommand _CayoPericoHeistPrimaryTarget{"cayopericoheistprimarytarget", "Primary Target", "Primary target", cayoPericoHeistPrimaryTarget, 5};
 
 		static std::vector<std::pair<int, const char*>> cayoPericoHeistWeapon = {
-			{1, "Aggressor"},
-			{2, "Conspirator"},
-			{3, "Crack Shot"},
-			{4, "Saboteur"},
-			{5, "Marksman"}
-		};
+		    {1, "Aggressor"},
+		    {2, "Conspirator"},
+		    {3, "Crack Shot"},
+		    {4, "Saboteur"},
+		    {5, "Marksman"}};
 		static ListCommand _CayoPericoHeistWeapon{"cayopericoheistweapon", "Weapon", "Weapon category", cayoPericoHeistWeapon, 1};
 
 		class Setup : public Command
@@ -218,8 +215,8 @@ namespace YimMenu::Features
 			{
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_2020"_J))
 					*ScriptLocal(thread, 31349).As<int*>() = 6;
-				    Hash drainagePipeHash = "prop_chem_grill_bit"_J;
-					YimMenu::DeleteObjectsByHash(drainagePipeHash);
+				Hash drainagePipeHash = "prop_chem_grill_bit"_J;
+				YimMenu::DeleteObjectsByHash(drainagePipeHash);
 			}
 		};
 
@@ -311,26 +308,42 @@ namespace YimMenu::Features
 		{
 			using LoopedCommand::LoopedCommand;
 
-			virtual void OnTick() override
-			{
-				static Tunable fencingFeeTunable{902085532};
-				static Tunable pavelCutTunable{static_cast<uint32_t>(-1135949374)};
+		private:
+			Tunable m_pavel{"IH_DEDUCTION_PAVEL_CUT"_J};
+			Tunable m_fee{"IH_DEDUCTION_FENCING_FEE"_J};
 
-				if (fencingFeeTunable.IsReady())
-					fencingFeeTunable.Set(0.0f);
-				if (pavelCutTunable.IsReady())
-					pavelCutTunable.Set(0.0f);
+			void Apply()
+			{
+				if (m_pavel.IsReady())
+					m_pavel.Set(0.0f);
+
+				if (m_fee.IsReady())
+					m_fee.Set(0.0f);
+			}
+
+			void Reset()
+			{
+				if (m_pavel.IsReady())
+					m_pavel.Set(-0.02f);
+
+				if (m_fee.IsReady())
+					m_fee.Set(-0.1f);
+			}
+
+		public:
+			virtual void OnEnable() override
+			{
+				Apply();
 			}
 
 			virtual void OnDisable() override
 			{
-				static Tunable fencingFeeTunable{902085532};
-				static Tunable pavelCutTunable{static_cast<uint32_t>(-1135949374)};
+				Reset();
+			}
 
-				if (fencingFeeTunable.IsReady())
-					fencingFeeTunable.Set(0.1f);
-				if (pavelCutTunable.IsReady())
-					pavelCutTunable.Set(0.05f);
+			virtual void OnTick() override
+			{
+				Apply();
 			}
 		};
 
@@ -340,15 +353,8 @@ namespace YimMenu::Features
 
 			virtual void OnTick() override
 			{
-				// Check if the pause menu is active
 				if (HUD::IS_PAUSE_MENU_ACTIVE())
 					return;
-
-				// Optionally, check if the in-game internet is open (pseudo-code, adjust as needed)
-				// if (IsAppInternetActive())
-				//     return;
-
-				// Simulate left mouse button click
 				INPUT input = {0};
 				input.type = INPUT_MOUSE;
 				input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
@@ -359,7 +365,7 @@ namespace YimMenu::Features
 				input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
 				SendInput(1, &input, sizeof(INPUT));
 
-				ScriptMgr::Yield(50ms); // Delay for 50ms, or use std::this_thread::sleep_for if util::yield is unavailable
+				ScriptMgr::Yield(50ms);
 			}
 
 			virtual void OnDisable() override

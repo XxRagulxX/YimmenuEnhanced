@@ -14,7 +14,7 @@ namespace YimMenu::Features
 		using LoopedCommand::LoopedCommand;
 
 		Entity m_Entity{nullptr};
-		float m_SpeedMultiplier;
+		float m_SpeedMultiplier{};
 
 		virtual void OnTick() override
 		{
@@ -25,13 +25,17 @@ namespace YimMenu::Features
 			if (auto veh = Self::GetVehicle())
 				ent = veh;
 
-			const auto location = ent.GetPosition();
+			if (!ent || !ent.IsValid())
+				return;
 
 			// cleanup when changing entities
 			if (m_Entity != ent)
 			{
-				m_Entity.SetFrozen(false);
-				m_Entity.SetCollision(true);
+				if (m_Entity && m_Entity.IsValid())
+				{
+					m_Entity.SetFrozen(false);
+					m_Entity.SetCollision(true);
+				}
 
 				m_Entity = ent;
 			}
@@ -57,6 +61,9 @@ namespace YimMenu::Features
 			if (PAD::IS_DISABLED_CONTROL_PRESSED(0, (int)ControllerInputs::INPUT_MOVE_RIGHT_ONLY))
 				vel.x += _NoclipSpeed.GetState();
 
+			if (!ent || !ent.IsValid())
+				return;
+
 			auto rot = CAM::GET_GAMEPLAY_CAM_ROT(2);
 			ent.SetRotation({0.0f, rot.y, rot.z});
 			ent.SetCollision(false);
@@ -74,18 +81,16 @@ namespace YimMenu::Features
 
 				ent.SetFrozen(false);
 
+				const auto offset = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(ent.GetHandle(), vel.x * m_SpeedMultiplier, vel.y * m_SpeedMultiplier, vel.z * m_SpeedMultiplier);
 
-				{
-					const auto offset = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(ent.GetHandle(), vel.x * m_SpeedMultiplier, vel.y * m_SpeedMultiplier, vel.z * m_SpeedMultiplier);
-					ent.SetVelocity({});
-					ent.SetPosition({offset.x, offset.y, offset.z});
-				}
+				ent.SetVelocity({});
+				ent.SetPosition({offset.x, offset.y, offset.z});
 			}
 		}
 
 		virtual void OnDisable() override
 		{
-			if (m_Entity)
+			if (m_Entity && m_Entity.IsValid())
 			{
 				m_Entity.SetFrozen(false);
 				m_Entity.SetCollision(true);
