@@ -1,4 +1,7 @@
 #include "core/commands/Command.hpp"
+#include <unordered_map>
+#include <array>
+#include <cmath>
 #include "core/commands/IntCommand.hpp"
 #include "core/commands/ListCommand.hpp"
 #include "core/commands/LoopedCommand.hpp"
@@ -20,6 +23,9 @@ namespace YimMenu::Features
 		static IntCommand _CayoPericoHeistCut2{"cayopericoheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
 		static IntCommand _CayoPericoHeistCut3{"cayopericoheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
 		static IntCommand _CayoPericoHeistCut4{"cayopericoheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _CayoPavelCut{"cayopavelcut","Pavel Cut (%)","Pavel cut percentage",std::nullopt,std::nullopt, 2};
+		static IntCommand _CayoFencingCut{"cayofencecut","Fencing Fee (%)","Fencing fee percentage",std::nullopt,std::nullopt, 10};
+
 
 		class SetCuts : public Command
 		{
@@ -319,6 +325,9 @@ namespace YimMenu::Features
 
 				if (m_fee.IsReady())
 					m_fee.Set(0.0f);
+				
+				_CayoPavelCut.SetState(0);
+				_CayoFencingCut.SetState(0);
 			}
 
 			void Reset()
@@ -328,6 +337,9 @@ namespace YimMenu::Features
 
 				if (m_fee.IsReady())
 					m_fee.Set(-0.1f);
+
+				_CayoPavelCut.SetState(2);
+				_CayoFencingCut.SetState(10);
 			}
 
 		public:
@@ -371,6 +383,108 @@ namespace YimMenu::Features
 			virtual void OnDisable() override
 			{
 				// No cleanup needed for mouse clicks, but you can add logic here if required
+			}
+		};
+
+
+		class SetCayoMaxPayout : public Command
+		{
+			using Command::Command;
+
+		public:
+			virtual void OnCall() override
+			{
+				int target = _CayoPericoHeistPrimaryTarget.GetState();
+				bool hardMode = (_CayoPericoHeistDifficulty.GetState() == 131055);
+				float pavel = _CayoPavelCut.GetState()/ 100.0f;
+				float fencing = _CayoFencingCut.GetState() / 100.0f;
+				int players = GetPlayerCount();
+				if (players < 1)
+				   players = 1;
+
+				int cut = CalculateCut(target, hardMode, pavel, fencing);
+				if (cut <= 0)
+					return;
+
+				ApplyCuts(cut, players);
+			}
+
+		private:
+			int GetPlayerCount()
+			{
+				return 1;
+			}
+
+			int CalculateCut(int target, bool hard, float pavel, float fencing)
+			{
+				static std::unordered_map<int, std::pair<int, int>> payouts = {
+				    {0, {630000, 693000}},
+				    {1, {700000, 770000}},
+				    {2, {770000, 847000}},
+				    {3, {1300000, 1430000}},
+				    {4, {1100000, 1210000}},
+				    {5, {1900000, 2090000}}};
+
+				if (!payouts.contains(target))
+					return 0;
+
+				int payout = hard ? payouts[target].second : payouts[target].first;
+				constexpr int maxPayout = 2'550'000;
+
+				int cut = static_cast<int>(std::floor(maxPayout / (payout / 100.0)));
+				int finalPayout = static_cast<int>(std::floor(payout * (cut / 100.0)));
+
+				int difference = 1000;
+				bool found = false;
+
+				while (!found)
+				{
+					int pavelFee = static_cast<int>(std::floor(finalPayout * std::abs(pavel)));
+					int fencingFee = static_cast<int>(std::floor(finalPayout * std::abs(fencing)));
+					int feePayout = finalPayout - (pavelFee + fencingFee);
+
+					if (feePayout >= maxPayout - difference && feePayout <= maxPayout)
+						found = true;
+					else
+					{
+						cut++;
+						finalPayout = static_cast<int>(std::floor(payout * (cut / 100.0)));
+
+						if (cut > 500)
+						{
+							cut = static_cast<int>(std::floor(maxPayout / (payout / 100.0)));
+							finalPayout = static_cast<int>(std::floor(payout * (cut / 100.0)));
+							difference += 1000;
+						}
+					}
+				}
+
+				return cut;
+			}
+
+			void ApplyCuts(int totalCut, int players)
+			{
+				std::array<IntCommand*, 4> cmds = {
+				    &_CayoPericoHeistCut1,
+				    &_CayoPericoHeistCut2,
+				    &_CayoPericoHeistCut3,
+				    &_CayoPericoHeistCut4};
+
+				int perPlayer = totalCut / players;
+				int remainder = totalCut % players;
+
+				for (int i = 0; i < 4; ++i)
+				{
+					if (i < players)
+					{
+						int value = perPlayer + (i == 0 ? remainder : 0); // host gets remainder
+						cmds[i]->SetState(value);
+					}
+					else
+					{
+						cmds[i]->SetState(0);
+					}
+				}
 			}
 		};
 
@@ -420,5 +534,7 @@ namespace YimMenu::Features
 		static Removethefencingfeeandpavelcut _CayoPericoHeistRemoveFencingFeeAndPavelCut{"cayopericoheistremovefencingfeeandpavelcut", "Remove Fee&Cut", "Removes fencing fee and pavel cut"};
 		static RemoveCayoPericoCameras _RemoveCayoPericoCameras{"removecayopericocameras", "Remove Cams", "Removes all cameras"};
 		static AutoCollectTargets _AutoCollectTargets{"autocollecttargets", "Auto Collect", "Automatically collects targets"};
+		static SetCayoMaxPayout _CayoPericoHeistSetCayoMaxPayout{"cayopericoheistsetmaxpayout","Auto Set Cuts","Automatically calculates and sets player cuts"};
+
 	}
 }

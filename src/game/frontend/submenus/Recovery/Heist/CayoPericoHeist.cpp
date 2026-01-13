@@ -15,8 +15,9 @@ namespace YimMenu::Submenus
 		cuts->AddItem(std::make_shared<IntCommandItem>("cayopericoheistcut3"_J));
 		cuts->AddItem(std::make_shared<IntCommandItem>("cayopericoheistcut2"_J));
 		cuts->AddItem(std::make_shared<IntCommandItem>("cayopericoheistcut4"_J));
+		cuts->AddItem(std::make_shared<CommandItem>("cayopericoheistsetmaxpayout"_J));
 		cuts->AddItem(std::make_shared<CommandItem>("cayopericoheistforceready"_J));
-		cuts->AddItem(std::make_shared<CommandItem>("cayopericoheistsetcuts"_J));
+		cuts->AddItem(std::make_shared<CommandItem>("cayopericoheistsetcuts"_J));		
 
 		setups->AddItem(std::make_shared<ListCommandItem>("cayopericoheistdifficulty"_J));
 		setups->AddItem(std::make_shared<ListCommandItem>("cayopericoheistprimarytarget"_J));
