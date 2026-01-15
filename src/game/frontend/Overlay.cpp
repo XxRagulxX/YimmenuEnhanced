@@ -1,5 +1,6 @@
 #include "Overlay.hpp"
 #include "Menu.hpp"
+#include "core/commands/ListCommand.hpp"
 #include "core/commands/BoolCommand.hpp"
 #include "game/pointers/Pointers.hpp"
 #include "game/gta/invoker/Invoker.hpp"
@@ -7,26 +8,90 @@
 
 namespace YimMenu::Features
 {
+	void DrawBusinessOverlay();
 	BoolCommand _OverlayEnabled("overlay", "Overlay Enabled", "Show an info overlay at the top left corner of the screen");
 	BoolCommand _OverlayShowFPS("overlayfps", "Overlay Show FPS", "Show frame rate in the info overlay");
+	BoolCommand _OverlayLock("overlaylock", "Lock Overlay Position", "Lock the overlay so it cannot be moved in free mode");
+
+	static std::vector<std::pair<int, const char*>> g_OverlayPositionConfig = {
+	    {0, "topleft"},
+	    {1, "topright"},
+	    {2, "bottomleft"},
+	    {3, "bottomright"},
+	    {4, "free"}};
+
+	static ListCommand _OverlayPositionCmd("overlaypos", "Overlay Position", "Change overlay position", g_OverlayPositionConfig, 0);
 }
 
 namespace YimMenu
 {
+	static ImVec2 g_FreeOverlayPos = ImVec2(50.f, 50.f);
+
 	void Overlay::Draw()
 	{
 		if (!Features::_OverlayEnabled.GetState() || !NativeInvoker::AreHandlersCached())
 			return;
 
-		ImGui::SetNextWindowSize(ImVec2(*Pointers.ScreenResX - 10.0f, *Pointers.ScreenResY - 10.0f), ImGuiCond_Always);
-		ImGui::SetNextWindowPos(ImVec2(10.0f, 10.0f), ImGuiCond_Always);
-		ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+		auto posMode = (OverlayPosition)Features::_OverlayPositionCmd.GetState();
+
+		ImVec2 screen(*Pointers.ScreenResX, *Pointers.ScreenResY);
+		ImVec2 padding(10.f, 10.f);
+
+		ImVec2 window_size(450.f, 300.f);
+		ImVec2 pos = padding;
+
+		switch (posMode)
+		{
+		case OverlayPosition::TopLeft:
+			pos = padding;
+			break;
+
+		case OverlayPosition::TopRight:
+			pos = ImVec2(screen.x - window_size.x - padding.x, padding.y);
+			break;
+
+		case OverlayPosition::BottomLeft:
+			pos = ImVec2(padding.x, screen.y - window_size.y - padding.y);
+			break;
+
+		case OverlayPosition::BottomRight:
+			pos = ImVec2(
+			    screen.x - window_size.x - padding.x,
+			    screen.y - window_size.y - padding.y);
+			break;
+
+		case OverlayPosition::Free:
+			pos = g_FreeOverlayPos;
+			break;
+		}
+
+		ImGui::SetNextWindowSize(window_size, ImGuiCond_Always);
+		ImGuiCond cond = (posMode == OverlayPosition::Free) ? ImGuiCond_Once :
+		                                                      ImGuiCond_Always;
+
+		ImGui::SetNextWindowSize(window_size, ImGuiCond_Always);
+		ImGui::SetNextWindowPos(pos, cond);
+
+		ImGuiWindowFlags flags =
+		    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoBackground;
+
+		if (posMode != OverlayPosition::Free || Features::_OverlayLock.GetState())
+			flags |= ImGuiWindowFlags_NoMove;
+
+		ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 0));
 		ImGui::PushFont(Menu::Font::g_OverlayFont);
 
-		ImGui::Begin("##overlay", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoInputs);
+		ImGui::Begin("##overlay", nullptr, flags);
+
+		if (posMode == OverlayPosition::Free && !Features::_OverlayLock.GetState())
+		{
+			g_FreeOverlayPos = ImGui::GetWindowPos();
+		}
 
 		if (Features::_OverlayShowFPS.GetState())
 			ImGui::Text("FPS: %d", (int)(ImGui::GetIO().Framerate));
+		
+		Features::DrawBusinessOverlay();
 
 		ImGui::PopFont();
 		ImGui::PopStyleColor();

@@ -98,6 +98,8 @@ namespace YimMenu::Submenus
 
 		overlay->AddItem(std::make_shared<BoolCommandItem>("overlay"_J));
 		overlay->AddItem(std::make_shared<ConditionalItem>("overlay"_J, std::make_shared<BoolCommandItem>("overlayfps"_J)));
+		overlay->AddItem(std::make_shared<ConditionalItem>("overlay"_J, std::make_shared<ListCommandItem>("overlaypos"_J)));
+		overlay->AddItem(std::make_shared<ConditionalItem>("overlay"_J, std::make_shared<BoolCommandItem>("overlaylock"_J)));
 
 		chat->AddItem(std::make_shared<BoolCommandItem>("clearchat"_J));
 

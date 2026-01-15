@@ -35,6 +35,7 @@ namespace YimMenu::Submenus
 		businessSafe->AddItem(std::make_shared<ListCommandItem>("businesssafe"_J));
 		businessSafe->AddItem(std::make_shared<CommandItem>("claimsafeearnings"_J));
 
+		businessGroup->AddItem(std::make_shared<BoolCommandItem>("businessoverlay"_J));
 		businessGroup->AddItem(std::make_shared<CommandItem>("resupplybusiness"_J));
 		businessGroup->AddItem(std::make_shared<CommandItem>("hangerresupply"_J));
 		businessGroup->AddItem(std::make_shared<CommandItem>("warehouseresupply"_J));

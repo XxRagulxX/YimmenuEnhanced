@@ -7,4 +7,13 @@ namespace YimMenu
 	public:
 		static void Draw();
 	};
+
+	enum class OverlayPosition
+	{
+		TopLeft = 0,
+		TopRight,
+		BottomLeft,
+		BottomRight,
+		Free
+	};
 }
