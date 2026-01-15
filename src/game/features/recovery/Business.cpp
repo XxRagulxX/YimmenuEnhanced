@@ -195,12 +195,12 @@ namespace YimMenu::Features
 		};
 
 		static Biz biz[] = {
-		    {"Forgery", 0, 60},
-		    {"Weed", 1, 80},
-		    {"Cash", 2, 40},
-		    {"Meth", 3, 20},
-		    {"Cocaine", 4, 10},
-		    {"Bunker", 5, 100},
+		    {"Forgery", 2, 60},
+		    {"Weed", 3, 80},
+		    {"Cash", 4, 40}, 
+		    {"Meth", 1, 20}, 
+		    {"Cocaine", 0, 10}, 
+		    {"Bunker", 5, 100},  
 		};
 
 		for (auto& b : biz)
@@ -210,9 +210,8 @@ namespace YimMenu::Features
 
 			int percent = (b.cap > 0) ? (product * 100) / b.cap : 0;
 
-			ImGui::Text("%-8s : %3d%% | Supplies %3d | Stock %3d / %3d",
+			ImGui::Text("%-8s : Sup %3d | Stock %3d / %3d",
 			    b.name,
-			    percent,
 			    supplies,
 			    product,
 			    b.cap);
