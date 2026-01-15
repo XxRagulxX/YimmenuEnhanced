@@ -3,11 +3,13 @@
 #include "core/commands/Command.hpp"
 #include "core/commands/FloatCommand.hpp"
 #include "core/frontend/manager/styles/Themes.hpp"
+#include "game/frontend/Overlay.hpp"
 #include <regex>
 
 namespace YimMenu
 {
 	static std::vector<std::unique_ptr<ColorCommand>> g_ColorCommands;
+	static std::unique_ptr<ColorCommand> g_OverlayTextColorCmd;
 	static std::unordered_map<std::string, float> g_RoundingValues;
 	static std::unordered_map<std::string, std::unique_ptr<FloatCommand>> g_FloatCommands; // Global map for all FloatCommands
 	static bool g_ColorInit = false, g_RoundingInit = false;
@@ -84,6 +86,14 @@ namespace YimMenu
 			if (auto it = json.find(ImGui::GetStyleColorName(i)); it != json.end() && it->is_array())
 				g_ColorCommands[i]->SetState(ImVec4((*it)[0], (*it)[1], (*it)[2], (*it)[3]));
 
+		// Load Overlay Colour
+		if (auto it = json.find("OverlayTextColor"); it != json.end() && it->is_array())
+		{
+			auto& arr = *it;
+			YimMenu::g_OverlayTextColor = ImVec4(arr[0], arr[1], arr[2], arr[3]);
+			g_OverlayTextColorCmd->SetState(YimMenu::g_OverlayTextColor);
+		}
+
 		// Load rounding values
 		for (const char* key : {"WindowRounding", "FrameRounding", "GrabRounding", "ScrollbarRounding", "ChildRounding", "PopupRounding", "TabRounding"})
 			if (auto it = json.find(key); it != json.end())
@@ -108,6 +118,13 @@ namespace YimMenu
 		{
 			auto c = g_ColorCommands[i]->GetState();
 			json[ImGui::GetStyleColorName(i)] = {c.x, c.y, c.z, c.w};
+		}
+
+		// Overlay Colour
+		if (g_OverlayTextColorCmd)
+		{
+			auto c = g_OverlayTextColorCmd->GetState();
+			json["OverlayTextColor"] = {c.x, c.y, c.z, c.w};
 		}
 
 		// Save rounding
@@ -150,6 +167,8 @@ namespace YimMenu
 			    ImGui::GetStyleColorName(i),
 			    "Edit color for " + std::string(ImGui::GetStyleColorName(i)),
 			    style.Colors[i]));
+
+		g_OverlayTextColorCmd = std::make_unique<ColorCommand>("OverlayTextColor", "Overlay Text Color", "Color for overlay text only", YimMenu::g_OverlayTextColor);
 
 		if (!g_RoundingInit)
 		{
@@ -234,6 +253,18 @@ namespace YimMenu
 		{
 			SyncColorCommandsToStyle();
 			SaveSettings();
+		}
+		if (g_OverlayTextColorCmd)
+		{
+			ImGui::SeparatorText("Overlay");
+			auto col = g_OverlayTextColorCmd->GetState();
+			if (ImGui::ColorEdit4("Overlay Text Color", (float*)&col))
+			{
+				g_OverlayTextColorCmd->SetState(col);
+				YimMenu::g_OverlayTextColor = col;
+				SaveSettings();
+			}
+			ImGui::Separator();
 		}
 	}
 

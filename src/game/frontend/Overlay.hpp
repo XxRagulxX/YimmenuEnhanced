@@ -1,4 +1,5 @@
 #pragma once
+#include <imgui.h>
 
 namespace YimMenu
 {
@@ -16,4 +17,6 @@ namespace YimMenu
 		BottomRight,
 		Free
 	};
+
+	inline ImVec4 g_OverlayTextColor = ImVec4(1.f, 0.f, 0.f, 1.f); // default red
 }

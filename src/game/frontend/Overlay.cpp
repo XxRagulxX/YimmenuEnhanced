@@ -66,10 +66,8 @@ namespace YimMenu
 		}
 
 		ImGui::SetNextWindowSize(window_size, ImGuiCond_Always);
-		ImGuiCond cond = (posMode == OverlayPosition::Free) ? ImGuiCond_Once :
-		                                                      ImGuiCond_Always;
+		ImGuiCond cond = (posMode == OverlayPosition::Free) ? ImGuiCond_Once : ImGuiCond_Always;
 
-		ImGui::SetNextWindowSize(window_size, ImGuiCond_Always);
 		ImGui::SetNextWindowPos(pos, cond);
 
 		ImGuiWindowFlags flags =
@@ -78,8 +76,9 @@ namespace YimMenu
 		if (posMode != OverlayPosition::Free || Features::_OverlayLock.GetState())
 			flags |= ImGuiWindowFlags_NoMove;
 
-		ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 0));
 		ImGui::PushFont(Menu::Font::g_OverlayFont);
+
+		ImGui::PushStyleColor(ImGuiCol_Text, YimMenu::g_OverlayTextColor);
 
 		ImGui::Begin("##overlay", nullptr, flags);
 
@@ -93,8 +92,9 @@ namespace YimMenu
 		
 		Features::DrawBusinessOverlay();
 
-		ImGui::PopFont();
-		ImGui::PopStyleColor();
 		ImGui::End();
+
+		ImGui::PopStyleColor(1);
+		ImGui::PopFont();
 	}
 }
