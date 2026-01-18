@@ -44,6 +44,7 @@ namespace YimMenu::Submenus
 		teleport->AddItem(std::make_shared<ConditionalItem>("showotherteleport"_J, std::make_shared<ListCommandItem>("cayopericoothertplist"_J)));
 		teleport->AddItem(std::make_shared<ListCommandItem>("cayopericoteleportlist"_J));
 		teleport->AddItem(std::make_shared<CommandItem>("teleportcayo"_J));
+		teleport->AddItem(std::make_shared<CommandItem>("requestforkosatka"_J));
 
 
 		tab->AddItem(cuts);

@@ -245,7 +245,13 @@ namespace YimMenu::Features
 				std::string difficultyName = GetCayoDifficultyName(difficulty);
 				std::string weaponName = GetCayoWeaponName(weapon);
 
-				std::string message = std::format("Cayo Perico Heist Setup Completed\n" "Target: {}\n" "Difficulty: {}\n" "Weapons: {}", targetName, difficultyName, weaponName);
+				std::string message = std::format("Cayo Perico Heist Setup Completed\n"
+				                                  "Target: {}\n"
+				                                  "Difficulty: {}\n"
+				                                  "Weapons: {}",
+				    targetName,
+				    difficultyName,
+				    weaponName);
 
 				Notifications::ShowInGame("Cayo Perico", message, "CHAR_PAVEL", "Green");
 			}
@@ -623,6 +629,16 @@ namespace YimMenu::Features
 			}
 		};
 
+		class RequestKosatka : public Command
+		{
+			using Command::Command;
+
+			virtual void OnCall() override
+			{
+				*ScriptGlobal(2733138).At(613)<int*>() = 1;
+			}
+		};
+
 		class RemoveCayoPericoCameras : public Command
 		{
 			using Command::Command;
@@ -670,5 +686,6 @@ namespace YimMenu::Features
 		static SetCayoMaxPayout _CayoPericoHeistSetCayoMaxPayout{"cayopericoheistsetmaxpayout", "Auto Set Cuts", "Automatically calculates and sets player cuts"};
 		static TeleportCayoPerico _TeleportCayoPerico{"teleportcayo", "Teleport", "Teleport to selected Cayo Perico location"};
 		static TeleportCayoPericOthers _TeleportCayoPericOther{"showotherteleport", "Other Teleport", "Teleport to other Cayo Perico location"};
+		static RequestKosatka _RequestKosatka{"requestforkosatka", "Request Kosatka", "Requesting for Kosatka"}
 	};
 }
