@@ -21,7 +21,6 @@ namespace YimMenu::Features
 	{
 		using Command::Command;
 
-			Vector3 objectiveLocation;
 
 		virtual void OnCall() override
 		{
@@ -35,7 +34,6 @@ namespace YimMenu::Features
 					return;
 				}
 			}
-
 		}
 	};
 

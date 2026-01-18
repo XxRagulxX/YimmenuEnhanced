@@ -21,7 +21,7 @@ namespace YimMenu::Submenus
 
 
         lowrider->AddItem(std::make_shared<ListCommandItem>("lowridermission"_J));
-        lowrider->AddItem(std::make_shared<CommandItem>("lowridersetup"_J));
+        lowrider->AddItem(std::make_shared<CommandItem>("lowridersetup"_J,"Setup##lrsetup"));
 
         casino->AddItem(std::make_shared<ListCommandItem>("casinostorymission"_J));
         casino->AddItem(std::make_shared<CommandItem>("casinostorysetup"_J));

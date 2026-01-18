@@ -12,6 +12,7 @@
 #include "game/gta/ScriptLocal.hpp"
 #include "core/backend/ScriptMgr.hpp"
 #include "game/backend/Tunables.hpp"
+#include "game/backend/TeleportUtils.hpp"
 #include "game/backend/DeleteObjectsByHash.hpp"
 #include "core/backend/FiberPool.hpp"
 
@@ -19,12 +20,22 @@ namespace YimMenu::Features
 {
 	namespace CayoPericoHeist
 	{
-		static IntCommand _CayoPericoHeistCut1{"cayopericoheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _CayoPericoHeistCut2{"cayopericoheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _CayoPericoHeistCut3{"cayopericoheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _CayoPericoHeistCut4{"cayopericoheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _CayoPavelCut{"cayopavelcut","Pavel Cut (%)","Pavel cut percentage",std::nullopt,std::nullopt, 2};
-		static IntCommand _CayoFencingCut{"cayofencecut","Fencing Fee (%)","Fencing fee percentage",std::nullopt,std::nullopt, 10};
+		struct TeleportLocation
+		{
+			float x;
+			float y;
+			float z;
+			float heading;
+			const char* name;
+		};
+
+
+		static IntCommand _CayoPericoHeistCut1{"cayopericoheistcut1", "P1", "Player 1 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _CayoPericoHeistCut2{"cayopericoheistcut2", "P2", "Player 2 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _CayoPericoHeistCut3{"cayopericoheistcut3", "P3", "Player 3 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _CayoPericoHeistCut4{"cayopericoheistcut4", "P4", "Player 4 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _CayoPavelCut{"cayopavelcut", "Pavel Cut (%)", "Pavel cut percentage", std::nullopt, std::nullopt, 2};
+		static IntCommand _CayoFencingCut{"cayofencecut", "Fencing Fee (%)", "Fencing fee percentage", std::nullopt, std::nullopt, 10};
 
 
 		class SetCuts : public Command
@@ -56,6 +67,62 @@ namespace YimMenu::Features
 				}
 			}
 		};
+
+		static std::vector<TeleportLocation> cayoPericoTeleportPoints = {
+		    {5010.12f, -5750.1353f, 28.84334f, 325.0f, "El Rubio's Office"},
+		    {4990.0386f, -5717.6895f, 19.880217f, 50.0f, "Front Gate Exit"},
+		    {5044.001f, -5815.6426f, -11.808871f, 0.0f, "Drainage Pipe"},
+		    {5053.773f, -5773.2266f, -5.40778f, 0.0f, "Drainage: 2nd Checkpoint"},
+		    {5006.7f, -5756.2f, 14.8f, 145.0f, "Primary Target"},
+		    {4999.764f, -5749.864f, 14.84f, 0.0f, "Secondary Target"}};
+
+		static std::vector<std::pair<int, const char*>> cayoPericoTeleportList = {
+		    {0, "El Rubio's Office"},
+		    {1, "Front Gate Exit"},
+		    {2, "Drainage Pipe"},
+		    {3, "Drainage: 2nd Checkpoint"},
+		    {4, "Primary Target"},
+		    {5, "Secondary Target"},
+		    {6, "Others"}};
+
+		static ListCommand _CayoPericoTeleportList{"cayopericoteleportlist", "TP", "Teleport Location", cayoPericoTeleportList, 0};
+
+		static std::vector<TeleportLocation> cayoPericoOtherTeleportPoints = {
+		    {5081.0415f, -5755.32f, 15.829645f, -45.0f, "North"},
+		    {5006.722f, -5786.597f, 17.831688f, 35.0f, "West"},
+		    {5027.603f, -5734.682f, 17.255005f, -50.0f, "South"},
+		    {4503.587402f, -4555.740723f, 2.854459f, 0.0f, "Loot - #1 (Beach)"},
+		    {4437.821777f, -4447.841309f, 3.028436f, 0.0f, "Loot - #2 (Beach)"},
+		    {4447.091797f, -4442.184082f, 5.936794f, 0.0f, "Loot - #3 (Beach)"},
+		    {5330.527f, -5269.7515f, 33.18603f, 0.0f, "Loot - #1 (Hill)"},
+		    {5193.909668f, -5135.642578f, 2.045917f, 0.0f, "Loot - #2 (Hill)"},
+		    {4963.184570f, -5108.933105f, 1.670808f, 0.0f, "Loot - #3 (Hill)"},
+		    {4998.709473f, -5165.559570f, 1.464137f, 0.0f, "Loot - #4 (Hill)"},
+		    {4924.693359f, -5243.244629f, 1.223599f, 0.0f, "Loot - #5 (Hill)"},
+		    {5132.558594f, -4612.922852f, 1.162808f, 0.0f, "Loot - #1 (Dock)"},
+		    {5065.255371f, -4591.706543f, 1.555012f, 0.0f, "Loot - #2 (Dock)"},
+		    {5090.916016f, -4682.670898f, 1.107098f, 0.0f, "Loot - #3 (Dock)"},
+
+		};
+
+		static std::vector<std::pair<int, const char*>> cayoPericoOtherTeleportList = {
+		    {0, "North"},
+		    {1, "West"},
+		    {2, "South"},
+		    {3, "Loot - #1 (Beach)"},
+		    {4, "Loot - #2 (Beach)"},
+		    {5, "Loot - #3 (Beach)"},
+		    {6, "Loot - #1 (Hill)"},
+		    {7, "Loot - #2 (Hill)"},
+		    {8, "Loot - #3 (Hill)"},
+		    {9, "Loot - #4 (Hill)"},
+		    {10, "Loot - #5 (Hill)"},
+		    {11, "Loot - #1 (Dock)"},
+		    {12, "Loot - #2 (Dock)"},
+		    {13, "Loot - #3 (Dock)"},
+		};
+
+		static ListCommand _CayoPericoOtherTeleportList{"cayopericoothertplist", "Other TP", "Other teleport locations", cayoPericoOtherTeleportList, 0};
 
 		static std::vector<std::pair<int, const char*>> cayoPericoHeistDifficulty = {
 		    {126823, "Normal"},
@@ -325,7 +392,7 @@ namespace YimMenu::Features
 
 				if (m_fee.IsReady())
 					m_fee.Set(0.0f);
-				
+
 				_CayoPavelCut.SetState(0);
 				_CayoFencingCut.SetState(0);
 			}
@@ -359,34 +426,6 @@ namespace YimMenu::Features
 			}
 		};
 
-		class AutoCollectTargets : public LoopedCommand
-		{
-			using LoopedCommand::LoopedCommand;
-
-			virtual void OnTick() override
-			{
-				if (HUD::IS_PAUSE_MENU_ACTIVE())
-					return;
-				INPUT input = {0};
-				input.type = INPUT_MOUSE;
-				input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
-				SendInput(1, &input, sizeof(INPUT));
-
-				ZeroMemory(&input, sizeof(INPUT));
-				input.type = INPUT_MOUSE;
-				input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
-				SendInput(1, &input, sizeof(INPUT));
-
-				ScriptMgr::Yield(50ms);
-			}
-
-			virtual void OnDisable() override
-			{
-				// No cleanup needed for mouse clicks, but you can add logic here if required
-			}
-		};
-
-
 		class SetCayoMaxPayout : public Command
 		{
 			using Command::Command;
@@ -396,11 +435,11 @@ namespace YimMenu::Features
 			{
 				int target = _CayoPericoHeistPrimaryTarget.GetState();
 				bool hardMode = (_CayoPericoHeistDifficulty.GetState() == 131055);
-				float pavel = _CayoPavelCut.GetState()/ 100.0f;
+				float pavel = _CayoPavelCut.GetState() / 100.0f;
 				float fencing = _CayoFencingCut.GetState() / 100.0f;
 				int players = GetPlayerCount();
 				if (players < 1)
-				   players = 1;
+					players = 1;
 
 				int cut = CalculateCut(target, hardMode, pavel, fencing);
 				if (cut <= 0)
@@ -488,6 +527,43 @@ namespace YimMenu::Features
 			}
 		};
 
+		class TeleportCayoPerico : public Command
+		{
+			using Command::Command;
+
+			virtual void OnCall() override
+			{
+				int index = _CayoPericoTeleportList.GetState();
+
+				if (index >= 0 && index < 6)
+				{
+					const auto& tp = cayoPericoTeleportPoints[index];
+
+					TeleportHelpers::TeleportEntityTo(TeleportHelpers::MakePlace(tp.name, tp.x, tp.y, tp.z, tp.heading));
+				}
+				else if (index == 6)
+				{
+					int otherIndex = _CayoPericoOtherTeleportList.GetState();
+
+					if (otherIndex < 0 || otherIndex >= cayoPericoOtherTeleportPoints.size())
+						return;
+
+					const auto& tp = cayoPericoOtherTeleportPoints[otherIndex];
+
+					TeleportHelpers::TeleportEntityTo(TeleportHelpers::MakePlace(tp.name, tp.x, tp.y, tp.z, tp.heading));
+				}
+			}
+		};
+
+		class TeleportCayoPericOthers : public LoopedCommand
+		{
+			using LoopedCommand::LoopedCommand;
+
+			virtual void OnTick() override
+			{
+				bool show = (_CayoPericoTeleportList.GetState() == 6);
+			}
+		};
 
 		class RemoveCayoPericoCameras : public Command
 		{
@@ -520,7 +596,7 @@ namespace YimMenu::Features
 			}
 		};
 
-		static SetCuts _CayoPericoHeistSetCuts{"cayopericoheistsetcuts", "Set Cuts", "Sets heist cut"};
+		static SetCuts _CayoPericoHeistSetCuts{"cayopericoheistsetcuts", "Apply Cuts", "Applies heist cut in-game"};
 		static ForceReady _CayoPericoHeistForceReady{"cayopericoheistforceready", "Force Ready", "Forces all players to be ready"};
 		static Setup _CayoPericoHeistSetup{"cayopericoheistsetup", "Setup", "Sets up cayo perico heist"};
 		static SetPrimaryTargetValue _CayoPericoHeistSetPrimaryTargetValue{"cayopericoheistsetprimarytargetvalue", "Set Primary Target Value", "Updates primary target value"};
@@ -528,13 +604,13 @@ namespace YimMenu::Features
 		static SkipHacking _CayoPericoHeistSkipHacking{"cayopericoheistskiphacking", "Skip Hacking", "Skips hacking process"};
 		static CutSewer _CayoPericoHeistCutSewer{"cayopericoheistcutsewer", "Cut Sewer", "Cuts the sewer"};
 		static CutGlass _CayoPericoHeistCutGlass{"cayopericoheistcutglass", "Cut Glass", "Cuts the glass"};
-		static InfinitePlasmaCutterHeat _InfinitePlasmaCutterHeat{"infiniteplasmacutterheat", "Infinite Plasma", "Infinite Plasma Cutter Heat"};
+		static InfinitePlasmaCutterHeat _InfinitePlasmaCutterHeat{"infiniteplasmacutterheat", "Inf Plasma", "Infinite Plasma Cutter Heat"};
 		static TakePrimaryTarget _CayoPericoHeistTakePrimaryTarget{"cayopericoheisttakeprimarytarget", "Take Primary Target", "Takes primary target"};
 		static InstantFinish _CayoPericoHeistInstantFinish{"cayopericoheistinstantfinish", "Instant Finish", "Instantly passes the heist"};
 		static Removethefencingfeeandpavelcut _CayoPericoHeistRemoveFencingFeeAndPavelCut{"cayopericoheistremovefencingfeeandpavelcut", "Remove Fee&Cut", "Removes fencing fee and pavel cut"};
 		static RemoveCayoPericoCameras _RemoveCayoPericoCameras{"removecayopericocameras", "Remove Cams", "Removes all cameras"};
-		static AutoCollectTargets _AutoCollectTargets{"autocollecttargets", "Auto Collect", "Automatically collects targets"};
-		static SetCayoMaxPayout _CayoPericoHeistSetCayoMaxPayout{"cayopericoheistsetmaxpayout","Auto Set Cuts","Automatically calculates and sets player cuts"};
-
-	}
+		static SetCayoMaxPayout _CayoPericoHeistSetCayoMaxPayout{"cayopericoheistsetmaxpayout", "Auto Set Cuts", "Automatically calculates and sets player cuts"};
+		static TeleportCayoPerico _TeleportCayoPerico{"teleportcayo", "Teleport", "Teleport to selected Cayo Perico location"};
+		static TeleportCayoPericOthers _TeleportCayoPericOther{"showotherteleport", "Other Teleport", "Teleport to other Cayo Perico location"};
+	};
 }

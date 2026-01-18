@@ -16,10 +16,10 @@ namespace YimMenu::Features
 {
 	namespace DiamondCasinoHeist
 	{
-		static IntCommand _DiamondCasinoHeistCut1{"diamondcasinoheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _DiamondCasinoHeistCut2{"diamondcasinoheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _DiamondCasinoHeistCut3{"diamondcasinoheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _DiamondCasinoHeistCut4{"diamondcasinoheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _DiamondCasinoHeistCut1{"diamondcasinoheistcut1", "P1", "Player 1 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _DiamondCasinoHeistCut2{"diamondcasinoheistcut2", "P2", "Player 2 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _DiamondCasinoHeistCut3{"diamondcasinoheistcut3", "P3", "Player 3 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _DiamondCasinoHeistCut4{"diamondcasinoheistcut4", "P4", "Player 4 cut", std::nullopt, std::nullopt, 0};
 
 		class SetCuts : public Command
 		{
