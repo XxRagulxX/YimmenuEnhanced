@@ -1,6 +1,7 @@
 #include "Notifications.hpp"
 
 #include "core/logger/LogHelper.hpp"
+#include "game/gta/Natives.hpp"
 #include "core/backend/FiberPool.hpp"
 #include "core/util/Joaat.hpp"
 
@@ -158,5 +159,25 @@ namespace YimMenu
 		{
 			m_Notifications.erase(key);
 		}
+	}
+	void Notifications::ShowInGame(const std::string& title, const std::string& message, const std::string& icon)
+	{
+		GRAPHICS::REQUEST_STREAMED_TEXTURE_DICT(icon.c_str(), true);
+		while (!GRAPHICS::HAS_STREAMED_TEXTURE_DICT_LOADED(icon.c_str()))
+			BUILTIN::WAIT(0);
+
+		HUD::BEGIN_TEXT_COMMAND_THEFEED_POST("STRING");
+		HUD::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(message.c_str());
+		HUD::THEFEED_SET_BACKGROUND_COLOR_FOR_NEXT_POST(140);
+
+		HUD::END_TEXT_COMMAND_THEFEED_POST_MESSAGETEXT(
+		    icon.c_str(),
+		    icon.c_str(),
+		    true,
+		    1,
+		    title.c_str(),
+		    "~c~Notification");
+
+		HUD::END_TEXT_COMMAND_THEFEED_POST_TICKER(true, false);
 	}
 }

@@ -46,6 +46,7 @@ namespace YimMenu
 		}
 
 	public:
+		static void ShowInGame(const std::string& title, const std::string& message, const std::string& icon);
 		static Notification Show(std::string title, std::string message, NotificationType type = NotificationType::Info, int duration = 5000, std::function<void()> context_function = nullptr, std::string context_function_name = "")
 		{
 			return GetInstance().ShowImpl(title, message, type, duration, context_function, context_function_name);
