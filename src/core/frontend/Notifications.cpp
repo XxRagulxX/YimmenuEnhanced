@@ -160,15 +160,41 @@ namespace YimMenu
 			m_Notifications.erase(key);
 		}
 	}
-	void Notifications::ShowInGame(const std::string& title, const std::string& message, const std::string& icon)
+
+	int GetNotificationColor(const std::string& color)
 	{
+		if (color == "White")
+			return 160;
+		if (color == "Black")
+			return 140;
+		if (color == "Red")
+			return 6;
+		if (color == "Orange")
+			return 130;
+		if (color == "Yellow")
+			return 180;
+		if (color == "Mint")
+			return 200;
+		if (color == "Green")
+			return 184;
+		if (color == "Light Blue")
+			return 40;
+
+		return 140; // default = Black
+	}
+
+	void Notifications::ShowInGame(const std::string& title, const std::string& message, const std::string& icon, const std::string& color)
+	{
+		int bgColor = GetNotificationColor(color);
+
 		GRAPHICS::REQUEST_STREAMED_TEXTURE_DICT(icon.c_str(), true);
 		while (!GRAPHICS::HAS_STREAMED_TEXTURE_DICT_LOADED(icon.c_str()))
 			BUILTIN::WAIT(0);
 
 		HUD::BEGIN_TEXT_COMMAND_THEFEED_POST("STRING");
 		HUD::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(message.c_str());
-		HUD::THEFEED_SET_BACKGROUND_COLOR_FOR_NEXT_POST(140);
+
+		HUD::THEFEED_SET_BACKGROUND_COLOR_FOR_NEXT_POST(bgColor);
 
 		HUD::END_TEXT_COMMAND_THEFEED_POST_MESSAGETEXT(
 		    icon.c_str(),

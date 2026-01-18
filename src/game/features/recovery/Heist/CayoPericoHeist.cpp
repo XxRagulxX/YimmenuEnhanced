@@ -13,6 +13,7 @@
 #include "core/backend/ScriptMgr.hpp"
 #include "game/backend/Tunables.hpp"
 #include "game/backend/TeleportUtils.hpp"
+#include "core/frontend/Notifications.hpp"
 #include "game/backend/DeleteObjectsByHash.hpp"
 #include "core/backend/FiberPool.hpp"
 
@@ -50,6 +51,7 @@ namespace YimMenu::Features
 				*base.At(1, 1).As<int*>() = _CayoPericoHeistCut2.GetState();
 				*base.At(2, 1).As<int*>() = _CayoPericoHeistCut3.GetState();
 				*base.At(3, 1).As<int*>() = _CayoPericoHeistCut4.GetState();
+				Notifications::ShowInGame("Cayo Perico", "Apply Cut - Successfull", "CHAR_PAVEL", "Green");
 			}
 		};
 
@@ -65,6 +67,7 @@ namespace YimMenu::Features
 				{
 					*base.At(i, 27).At(7).At(i, 1).As<int*>() = 1;
 				}
+				Notifications::ShowInGame("Cayo Perico", "Force Ready Set - Successfull", "CHAR_PAVEL", "Green");
 			}
 		};
 
@@ -146,6 +149,43 @@ namespace YimMenu::Features
 		    {5, "Marksman"}};
 		static ListCommand _CayoPericoHeistWeapon{"cayopericoheistweapon", "Weapon", "Weapon category", cayoPericoHeistWeapon, 1};
 
+		std::string GetCayoTargetName(int value)
+		{
+			switch (value)
+			{
+			case 0: return "Sinsimito Tequila";
+			case 1: return "Ruby Necklace";
+			case 2: return "Bearer Bonds";
+			case 3: return "Pink Diamond";
+			case 4: return "Madrazo Files";
+			case 5: return "Panther Statue";
+			default: return "Unknown";
+			}
+		}
+
+		std::string GetCayoDifficultyName(int value)
+		{
+			switch (value)
+			{
+			case 126823: return "Normal";
+			case 131055: return "Hard";
+			default: return "Unknown";
+			}
+		}
+
+		std::string GetCayoWeaponName(int value)
+		{
+			switch (value)
+			{
+			case 1: return "Aggressor";
+			case 2: return "Conspirator";
+			case 3: return "Crack Shot";
+			case 4: return "Saboteur";
+			case 5: return "Marksman";
+			default: return "Unknown";
+			}
+		}
+
 		class Setup : public Command
 		{
 			using Command::Command;
@@ -196,6 +236,18 @@ namespace YimMenu::Features
 
 				if (auto thread = Scripts::FindScriptThread("heist_island_planning"_J))
 					*ScriptLocal(thread, 1570).As<int*>() = 2;
+
+				int target = _CayoPericoHeistPrimaryTarget.GetState();
+				int difficulty = _CayoPericoHeistDifficulty.GetState();
+				int weapon = _CayoPericoHeistWeapon.GetState();
+
+				std::string targetName = GetCayoTargetName(target);
+				std::string difficultyName = GetCayoDifficultyName(difficulty);
+				std::string weaponName = GetCayoWeaponName(weapon);
+
+				std::string message = std::format("Cayo Perico Heist Setup Completed\n" "Target: {}\n" "Difficulty: {}\n" "Weapons: {}", targetName, difficultyName, weaponName);
+
+				Notifications::ShowInGame("Cayo Perico", message, "CHAR_PAVEL", "Green");
 			}
 		};
 
@@ -278,6 +330,7 @@ namespace YimMenu::Features
 			{
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_2020"_J))
 					*ScriptLocal(thread, 26486).As<int*>() = 5;
+				Notifications::ShowInGame("Cayo Perico", "Skipped Hacking - Successfull", "CHAR_LESTER", "Black");
 			}
 		};
 		class CutSewer : public Command
@@ -290,6 +343,7 @@ namespace YimMenu::Features
 					*ScriptLocal(thread, 31349).As<int*>() = 6;
 				Hash drainagePipeHash = "prop_chem_grill_bit"_J;
 				YimMenu::DeleteObjectsByHash(drainagePipeHash);
+				Notifications::ShowInGame("Cayo Perico", "Cut Sewer Grill - Successfull", "CHAR_LESTER", "Black");
 			}
 		};
 
@@ -301,6 +355,7 @@ namespace YimMenu::Features
 			{
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_2020"_J))
 					*ScriptLocal(thread, 32589).At(3).As<float*>() = 100.0f;
+				Notifications::ShowInGame("Cayo Perico", "Cut Glass - Successfull", "CHAR_LESTER", "Black");
 			}
 		};
 
@@ -345,6 +400,7 @@ namespace YimMenu::Features
 						TASK::TASK_GO_STRAIGHT_TO_COORD(ped.GetHandle(), pos.x, pos.y, pos.z, 1.0, 3, heading, 5);
 					});
 				}
+				Notifications::ShowInGame("Cayo Perico", "Stole Primary Target - Successfull", "CHAR_LESTER", "Black");
 			}
 		};
 		class InfinitePlasmaCutterHeat : public LoopedCommand
@@ -374,6 +430,7 @@ namespace YimMenu::Features
 					*ScriptLocal(thread, 56223).As<int*>() = 9;
 					*ScriptLocal(thread, 56223).At(1776).At(0, 1).As<int*>() = 50;
 				}
+				Notifications::ShowInGame("Cayo Perico", "Instant Finish - Successfull", "CHAR_LESTER", "Black");
 			}
 		};
 
@@ -446,6 +503,7 @@ namespace YimMenu::Features
 					return;
 
 				ApplyCuts(cut, players);
+				Notifications::ShowInGame("Cayo Perico", "Max Payout Set - Successfull", "CHAR_PAVEL", "Black");
 			}
 
 		private:
