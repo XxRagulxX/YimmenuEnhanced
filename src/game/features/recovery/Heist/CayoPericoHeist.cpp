@@ -635,7 +635,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				*ScriptGlobal(2733138).At(613)<int*>() = 1;
+				*ScriptGlobal(2733138).At(613).As<int*>() = 1;
 			}
 		};
 
@@ -686,6 +686,6 @@ namespace YimMenu::Features
 		static SetCayoMaxPayout _CayoPericoHeistSetCayoMaxPayout{"cayopericoheistsetmaxpayout", "Auto Set Cuts", "Automatically calculates and sets player cuts"};
 		static TeleportCayoPerico _TeleportCayoPerico{"teleportcayo", "Teleport", "Teleport to selected Cayo Perico location"};
 		static TeleportCayoPericOthers _TeleportCayoPericOther{"showotherteleport", "Other Teleport", "Teleport to other Cayo Perico location"};
-		static RequestKosatka _RequestKosatka{"requestforkosatka", "Request Kosatka", "Requesting for Kosatka"}
+		static RequestKosatka _RequestKosatka{"requestforkosatka", "Request Kosatka", "Requesting for Kosatka"};
 	};
 }
