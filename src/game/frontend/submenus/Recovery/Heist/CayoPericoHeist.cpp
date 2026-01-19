@@ -41,11 +41,11 @@ namespace YimMenu::Submenus
 		misc->AddItem(std::make_shared<BoolCommandItem>("infiniteplasmacutterheat"_J));
 		misc->AddItem(std::make_shared<BoolCommandItem>("cayopericoheistremovefencingfeeandpavelcut"_J));
 
+		teleport->AddItem(std::make_shared<CommandItem>("requestforkosatka"_J));
 		teleport->AddItem(std::make_shared<BoolCommandItem>("showotherteleport"_J));
 		teleport->AddItem(std::make_shared<ConditionalItem>("showotherteleport"_J, std::make_shared<ListCommandItem>("cayopericoothertplist"_J)));
 		teleport->AddItem(std::make_shared<ListCommandItem>("cayopericoteleportlist"_J));
 		teleport->AddItem(std::make_shared<CommandItem>("teleportcayo"_J));
-		teleport->AddItem(std::make_shared<CommandItem>("requestforkosatka"_J));
 
 
 		tab->AddItem(cuts);
