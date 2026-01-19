@@ -12,11 +12,12 @@ namespace YimMenu::Submenus
 		auto misc = std::make_shared<Group>("Misc", 4);
 		auto teleport = std::make_shared<Group>("Teleport");
 
+		cuts->AddItem(std::make_shared<ListCommandItem>("cayopericoheistplayers"_J));
+		cuts->AddItem(std::make_shared<CommandItem>("cayopericoheistsetmaxpayout"_J));
 		cuts->AddItem(std::make_shared<IntCommandItem>("cayopericoheistcut1"_J));
 		cuts->AddItem(std::make_shared<IntCommandItem>("cayopericoheistcut3"_J));
 		cuts->AddItem(std::make_shared<IntCommandItem>("cayopericoheistcut2"_J));
 		cuts->AddItem(std::make_shared<IntCommandItem>("cayopericoheistcut4"_J));
-		cuts->AddItem(std::make_shared<CommandItem>("cayopericoheistsetmaxpayout"_J));
 		cuts->AddItem(std::make_shared<CommandItem>("cayopericoheistsetcuts"_J));
 		cuts->AddItem(std::make_shared<CommandItem>("cayopericoheistforceready"_J));
 				

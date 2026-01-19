@@ -127,6 +127,14 @@ namespace YimMenu::Features
 
 		static ListCommand _CayoPericoOtherTeleportList{"cayopericoothertplist", "Other TP", "Other teleport locations", cayoPericoOtherTeleportList, 0};
 
+		static std::vector<std::pair<int, const char*>> cayoPlayers = {
+		    {1, "1 Player"},
+		    {2, "2 Players"},
+		    {3, "3 Players"},
+		    {4, "4 Players"}};
+
+		static ListCommand _CayoPericoHeistPlayers{"cayopericoheistplayers", "Players", "How many players are in the heist", cayoPlayers, 1};
+
 		static std::vector<std::pair<int, const char*>> cayoPericoHeistDifficulty = {
 		    {126823, "Normal"},
 		    {131055, "Hard"}};
@@ -328,6 +336,7 @@ namespace YimMenu::Features
 					*ScriptLocal(thread, 59705).At(1376).At(53).As<int*>() = _CayoPericoHeistSecondaryTakeValue.GetState();
 			}
 		};
+
 		class SkipHacking : public Command
 		{
 			using Command::Command;
@@ -336,9 +345,9 @@ namespace YimMenu::Features
 			{
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_2020"_J))
 					*ScriptLocal(thread, 26486).As<int*>() = 5;
-				Notifications::ShowInGame("Cayo Perico", "Skipped Hacking - Successfull", "CHAR_LESTER", "Black");
 			}
 		};
+
 		class CutSewer : public Command
 		{
 			using Command::Command;
@@ -361,7 +370,6 @@ namespace YimMenu::Features
 			{
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_2020"_J))
 					*ScriptLocal(thread, 32589).At(3).As<float*>() = 100.0f;
-				Notifications::ShowInGame("Cayo Perico", "Cut Glass - Successfull", "CHAR_LESTER", "Black");
 			}
 		};
 
@@ -406,9 +414,9 @@ namespace YimMenu::Features
 						TASK::TASK_GO_STRAIGHT_TO_COORD(ped.GetHandle(), pos.x, pos.y, pos.z, 1.0, 3, heading, 5);
 					});
 				}
-				Notifications::ShowInGame("Cayo Perico", "Stole Primary Target - Successfull", "CHAR_LESTER", "Black");
 			}
 		};
+
 		class InfinitePlasmaCutterHeat : public LoopedCommand
 		{
 			using LoopedCommand::LoopedCommand;
@@ -436,7 +444,6 @@ namespace YimMenu::Features
 					*ScriptLocal(thread, 56223).As<int*>() = 9;
 					*ScriptLocal(thread, 56223).At(1776).At(0, 1).As<int*>() = 50;
 				}
-				Notifications::ShowInGame("Cayo Perico", "Instant Finish - Successfull", "CHAR_LESTER", "Black");
 			}
 		};
 
@@ -500,69 +507,43 @@ namespace YimMenu::Features
 				bool hardMode = (_CayoPericoHeistDifficulty.GetState() == 131055);
 				float pavel = _CayoPavelCut.GetState() / 100.0f;
 				float fencing = _CayoFencingCut.GetState() / 100.0f;
-				int players = GetPlayerCount();
-				if (players < 1)
-					players = 1;
+
+				int players = _CayoPericoHeistPlayers.GetState();
 
 				int cut = CalculateCut(target, hardMode, pavel, fencing);
-				if (cut <= 0)
-					return;
-
-				ApplyCuts(cut, players);
-				Notifications::ShowInGame("Cayo Perico", "Max Payout Set - Successfull", "CHAR_PAVEL", "Black");
+				if (cut > 0)
+					ApplyCuts(cut, players);
+			    Notifications::ShowInGame("Cayo Perico", "Max Payout Set - Successfull", "CHAR_PAVEL", "Black");
 			}
 
 		private:
-			int GetPlayerCount()
-			{
-				return 1;
-			}
-
 			int CalculateCut(int target, bool hard, float pavel, float fencing)
 			{
 				static std::unordered_map<int, std::pair<int, int>> payouts = {
-				    {0, {630000, 693000}},
-				    {1, {700000, 770000}},
-				    {2, {770000, 847000}},
-				    {3, {1300000, 1430000}},
-				    {4, {1100000, 1210000}},
-				    {5, {1900000, 2090000}}};
+				    {0, {630000, 693000}},   // Tequila
+				    {1, {700000, 770000}},   // Ruby Necklace
+				    {2, {770000, 847000}},   // Bearer Bonds
+				    {3, {1300000, 1430000}}, // Pink Diamond
+				    {4, {1100000, 1210000}}, // Madrazo Files
+				    {5, {1900000, 2090000}}  // Panther
+				};
 
 				if (!payouts.contains(target))
 					return 0;
 
-				int payout = hard ? payouts[target].second : payouts[target].first;
-				constexpr int maxPayout = 2'550'000;
+				int base = hard ? payouts[target].second : payouts[target].first;
 
-				int cut = static_cast<int>(std::floor(maxPayout / (payout / 100.0)));
-				int finalPayout = static_cast<int>(std::floor(payout * (cut / 100.0)));
+				constexpr float maxTake = 2'550'000.0f;
 
-				int difference = 1000;
-				bool found = false;
+				float feeMultiplier = 1.0f - (std::abs(pavel) + std::abs(fencing));
+				if (feeMultiplier <= 0.0f)
+					return 0;
 
-				while (!found)
-				{
-					int pavelFee = static_cast<int>(std::floor(finalPayout * std::abs(pavel)));
-					int fencingFee = static_cast<int>(std::floor(finalPayout * std::abs(fencing)));
-					int feePayout = finalPayout - (pavelFee + fencingFee);
+				float requiredGross = maxTake / feeMultiplier;
 
-					if (feePayout >= maxPayout - difference && feePayout <= maxPayout)
-						found = true;
-					else
-					{
-						cut++;
-						finalPayout = static_cast<int>(std::floor(payout * (cut / 100.0)));
+				int cut = static_cast<int>((requiredGross / base) * 100.0f);
 
-						if (cut > 500)
-						{
-							cut = static_cast<int>(std::floor(maxPayout / (payout / 100.0)));
-							finalPayout = static_cast<int>(std::floor(payout * (cut / 100.0)));
-							difference += 1000;
-						}
-					}
-				}
-
-				return cut;
+				return std::clamp(cut, 100, 500);
 			}
 
 			void ApplyCuts(int totalCut, int players)
