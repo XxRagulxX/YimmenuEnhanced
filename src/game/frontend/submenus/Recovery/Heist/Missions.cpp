@@ -24,36 +24,36 @@ namespace YimMenu::Submenus
         lowrider->AddItem(std::make_shared<CommandItem>("lowridersetup"_J,"Setup##lrsetup"));
 
         casino->AddItem(std::make_shared<ListCommandItem>("casinostorymission"_J));
-        casino->AddItem(std::make_shared<CommandItem>("casinostorysetup"_J));
+        casino->AddItem(std::make_shared<CommandItem>("casinostorysetup"_J,"Setup##cssetup"));
 
         yach->AddItem(std::make_shared<ListCommandItem>("superyachtmission"_J));
-        yach->AddItem(std::make_shared<CommandItem>("superyachtmissionsetup"_J));
+        yach->AddItem(std::make_shared<CommandItem>("superyachtmissionsetup"_J,"Setup##ysetup"));
 
         papertrail->AddItem(std::make_shared<ListCommandItem>("operationpapertrailmission"_J));
-        papertrail->AddItem(std::make_shared<CommandItem>("operationpapertrailsetup"_J));
+        papertrail->AddItem(std::make_shared<CommandItem>("operationpapertrailsetup"_J,"Setup##papersetup"));
 
         dragwar->AddItem(std::make_shared<ListCommandItem>("drugwarsmission"_J));
-        dragwar->AddItem(std::make_shared<CommandItem>("drugwarsmissionsetup"_J));
+        dragwar->AddItem(std::make_shared<CommandItem>("drugwarsmissionsetup"_J,"Setup##dwsetup"));
 
         mercenaries->AddItem(std::make_shared<ListCommandItem>("samerccmission"_J));
-        mercenaries->AddItem(std::make_shared<CommandItem>("samerccmissionsetup"_J));
+        mercenaries->AddItem(std::make_shared<CommandItem>("samerccmissionsetup"_J,"Setup##smsetup"));
 
         cluckinbell->AddItem(std::make_shared<ListCommandItem>("cluckinbellfarmraidmission"_J));
-        cluckinbell->AddItem(std::make_shared<CommandItem>("cluckinbellfarmraidsetup"_J));
-        cluckinbell->AddItem(std::make_shared<CommandItem>("clukinbellfarmraidcooldown"_J));
+        cluckinbell->AddItem(std::make_shared<CommandItem>("cluckinbellfarmraidsetup"_J,"Setup##cbsetup"));
+        cluckinbell->AddItem(std::make_shared<CommandItem>("clukinbellfarmraidcooldown"_J,"Remove Cooldown##cbrmcooldown"));
 
         tuners->AddItem(std::make_shared<ListCommandItem>("tunersrobbery"_J));
-        tuners->AddItem(std::make_shared<CommandItem>("tunerscompletepreps"_J));
-        tuners->AddItem(std::make_shared<CommandItem>("tunersresetpreps"_J));
-        tuners->AddItem(std::make_shared<CommandItem>("tunersresetcontracts"_J));
-        tuners->AddItem(std::make_shared<CommandItem>("tunersrobberysetup"_J));
+        tuners->AddItem(std::make_shared<CommandItem>("tunerscompletepreps"_J,"Complete Preps##tsetuppreps"));
+        tuners->AddItem(std::make_shared<CommandItem>("tunersresetpreps"_J,"Reset Preps##TResetPreps"));
+        tuners->AddItem(std::make_shared<CommandItem>("tunersresetcontracts"_J,"Rest Contracts##tresetcontracts"));
+        tuners->AddItem(std::make_shared<CommandItem>("tunersrobberysetup"_J,"Setup##tsetup"));
 
         contract->AddItem(std::make_shared<ListCommandItem>("contractmissions"_J));
-        contract->AddItem(std::make_shared<CommandItem>("contractmissionssetup"_J));
-        contract->AddItem(std::make_shared<CommandItem>("contractremovecooldown"_J));
+        contract->AddItem(std::make_shared<CommandItem>("contractmissionssetup"_J,"Setup##contractsetup"));
+        contract->AddItem(std::make_shared<CommandItem>("contractremovecooldown"_J,"Remove Cooldown##contactrmcooldown"));
 
         savageyard->AddItem(std::make_shared<ListCommandItem>("savageyardrobbery"_J));
-        savageyard->AddItem(std::make_shared<CommandItem>("savageyardrobberysetup"_J));
+        savageyard->AddItem(std::make_shared<CommandItem>("savageyardrobberysetup"_J,"Setup##syrsetup"));
         
 
         tab->AddItem(lowrider);

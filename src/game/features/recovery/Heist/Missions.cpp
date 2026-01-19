@@ -1,17 +1,9 @@
 #include "core/commands/Command.hpp"
-#include "core/commands/IntCommand.hpp"
 #include "core/commands/ListCommand.hpp"
-#include "core/commands/LoopedCommand.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/Natives.hpp"
 #include "game/gta/Stats.hpp"
 #include "core/frontend/Notifications.hpp"
-#include "game/gta/ScriptGlobal.hpp"
 #include "game/gta/ScriptLocal.hpp"
-#include "core/backend/ScriptMgr.hpp"
-#include "game/backend/Tunables.hpp"
-#include "game/backend/DeleteObjectsByHash.hpp"
-#include "core/backend/FiberPool.hpp"
+
 
 namespace YimMenu::Features
 {
@@ -116,7 +108,7 @@ namespace YimMenu::Features
 		    {8, "South Central- The Ballas"},
 		    {9, "Final - South Central"},
 		    {10, "Studio Time"},
-			{11, "Don't Fuck with Dre"}};
+		    {11, "Don't Fuck with Dre"}};
 
 		static ListCommand _ContractMissions{"contractmissions", "Contract Missions", "Select Contract Mission", ContractMissions, 0};
 
@@ -435,13 +427,13 @@ namespace YimMenu::Features
 		static DrugWarsSetup _DrugWarsSetup{"drugwarsmissionsetup", "DWSetup", "Start selected Los Santos Drug Wars mission"};
 		static SAMercenariesSetup _SAMercenariesSetup{"samerccmissionsetup", "SMSetup", "Start selected San Andreas Mercenaries mission"};
 		static CluckinBellFarmRaidSetup _CluckinBellFarmRaidSetup{"cluckinbellfarmraidsetup", "CBSetup", "Start selected Cluckin' Bell Farm Raid mission"};
-		static CluckinBellFarmRaidRemoveCooldown _ClukinBellFarmRaidCooldown{"clukinbellfarmraidcooldown", "CB RmCooldown", "Removes cooldown for CluckinBell FarmRaid"};
-		static TunersCompletePreps _TunersCompletePreps{"tunerscompletepreps", "TSetup Preps", "Complete all LS Tuners robbery preps"};
-		static TunersResetPreps _TunersResetPreps{"tunersresetpreps", "TReset Preps", "Reset LS Tuners robbery preps"};
-		static TunersResetContracts _TunersResetContracts{"tunersresetcontracts", "TReset Contracts", "Reset LS Tuners robbery contracts"};
+		static CluckinBellFarmRaidRemoveCooldown _ClukinBellFarmRaidCooldown{"clukinbellfarmraidcooldown", "CBRmCooldown", "Removes cooldown for CluckinBell FarmRaid"};
+		static TunersCompletePreps _TunersCompletePreps{"tunerscompletepreps", "TSetupPreps", "Complete all LS Tuners robbery preps"};
+		static TunersResetPreps _TunersResetPreps{"tunersresetpreps", "TResetPreps", "Reset LS Tuners robbery preps"};
+		static TunersResetContracts _TunersResetContracts{"tunersresetcontracts", "TResetContracts", "Reset LS Tuners robbery contracts"};
 		static TunersRobberySetup _TunersRobberySetup{"tunersrobberysetup", "TSetup", "Start selected LS Tuners robbery"};
-		static ContractMissionsSetup _ContractmissionsSetup{"contractmissionssetup", "Contract Setup", "Start selected NightLife Leak mission"};
-		static ContractRemoveCooldown _ContractRemoveCooldown{"contractremovecooldown", "Contact Rmcooldown", "Contract Remove Cooldown"};
+		static ContractMissionsSetup _ContractmissionsSetup{"contractmissionssetup", "ContractSetup", "Start selected NightLife Leak mission"};
+		static ContractRemoveCooldown _ContractRemoveCooldown{"contractremovecooldown", "ContactRmcooldown", "Contract Remove Cooldown"};
 		static SavageYardRobberySetup _SavageYardRobberySetup{"savageyardrobberysetup", "SYRSetup", "Start selected Savege Yard robbery"};
 
 	}
