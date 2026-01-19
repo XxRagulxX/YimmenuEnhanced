@@ -163,47 +163,74 @@ namespace YimMenu
 
 	int GetNotificationColor(const std::string& color)
 	{
-		if (color == "White")
+		std::string c = color;
+		std::transform(c.begin(), c.end(), c.begin(), ::tolower);
+
+		if (c == "white")
 			return 160;
-		if (color == "Black")
+		if (c == "black")
 			return 140;
-		if (color == "Red")
+		if (c == "red")
 			return 6;
-		if (color == "Orange")
+		if (c == "orange")
 			return 130;
-		if (color == "Yellow")
+		if (c == "yellow")
 			return 180;
-		if (color == "Mint")
+		if (c == "mint")
 			return 200;
-		if (color == "Green")
+		if (c == "green")
 			return 184;
-		if (color == "Light Blue")
+		if (c == "light blue")
 			return 40;
 
-		return 140; // default = Black
+		return 140; // default black
 	}
 
 	void Notifications::ShowInGame(const std::string& title, const std::string& message, const std::string& icon, const std::string& color)
 	{
-		int bgColor = GetNotificationColor(color);
+		if (title.empty() || message.empty())
+			return;
 
-		GRAPHICS::REQUEST_STREAMED_TEXTURE_DICT(icon.c_str(), true);
-		while (!GRAPHICS::HAS_STREAMED_TEXTURE_DICT_LOADED(icon.c_str()))
-			BUILTIN::WAIT(0);
+		FiberPool::Push([=] {
+			constexpr int TIMEOUT_FRAMES = 300;
+			constexpr int FEED_ICON_TYPE = 1;
 
-		HUD::BEGIN_TEXT_COMMAND_THEFEED_POST("STRING");
-		HUD::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(message.c_str());
+			int bgColor = GetNotificationColor(color);
 
-		HUD::THEFEED_SET_BACKGROUND_COLOR_FOR_NEXT_POST(bgColor);
+			std::string finalIcon = icon.empty() ? "CHAR_DEFAULT" : icon;
 
-		HUD::END_TEXT_COMMAND_THEFEED_POST_MESSAGETEXT(
-		    icon.c_str(),
-		    icon.c_str(),
-		    true,
-		    1,
-		    title.c_str(),
-		    "~c~Notification");
+			GRAPHICS::REQUEST_STREAMED_TEXTURE_DICT(finalIcon.c_str(), true);
 
-		HUD::END_TEXT_COMMAND_THEFEED_POST_TICKER(true, false);
+			int timeout = 0;
+			while (!GRAPHICS::HAS_STREAMED_TEXTURE_DICT_LOADED(finalIcon.c_str()))
+			{
+				BUILTIN::WAIT(0);
+
+				if (++timeout > TIMEOUT_FRAMES)
+				{
+					// fallback icon if failed
+					finalIcon = "CHAR_DEFAULT";
+					GRAPHICS::REQUEST_STREAMED_TEXTURE_DICT(finalIcon.c_str(), true);
+					break;
+				}
+			}
+
+			HUD::BEGIN_TEXT_COMMAND_THEFEED_POST("STRING");
+			HUD::ADD_TEXT_COMPONENT_SUBSTRING_PLAYER_NAME(message.c_str());
+
+			HUD::THEFEED_SET_BACKGROUND_COLOR_FOR_NEXT_POST(bgColor);
+
+			HUD::END_TEXT_COMMAND_THEFEED_POST_MESSAGETEXT(
+			    finalIcon.c_str(),
+			    finalIcon.c_str(),
+			    true,
+			    FEED_ICON_TYPE,
+			    title.c_str(),
+			    "~c~Notification");
+
+			HUD::END_TEXT_COMMAND_THEFEED_POST_TICKER(true, false);
+
+			GRAPHICS::SET_STREAMED_TEXTURE_DICT_AS_NO_LONGER_NEEDED(finalIcon.c_str());
+		});
 	}
 }
