@@ -6,11 +6,21 @@
 #include "game/gta/ScriptLocal.hpp"
 #include "core/backend/ScriptMgr.hpp"
 #include "types/script/globals/GPBD_FM_2.hpp"
+#include "game/backend/TeleportUtils.hpp"
+#include "core/frontend/Notifications.hpp"
 
 namespace YimMenu::Features
 {
 	namespace DoomsdayHeist
 	{
+		struct TeleportLocation
+		{
+			float x;
+			float y;
+			float z;
+			float heading;
+			const char* name;
+		};
 		static IntCommand _DoomsdayHeistCut1{"doomsdayheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
 		static IntCommand _DoomsdayHeistCut2{"doomsdayheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
 		static IntCommand _DoomsdayHeistCut3{"doomsdayheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
@@ -30,6 +40,25 @@ namespace YimMenu::Features
 				*base.At(3, 1).As<int*>() = _DoomsdayHeistCut4.GetState();
 			}
 		};
+		static std::vector<TeleportLocation> DoomsDayHeistTeleportPoints = {
+		    {515.528f, 4835.353f, -62.587f, 0.0f, "Heist Board"},
+		    {512.888f, 4833.033f, -68.989f, 0.0f, "Prisoner Cell"}
+		};
+
+		static std::vector<std::pair<int, const char*>> DoomsDayHeistTeleportList = {
+		    {0, "Heist Board"},
+		    {1, "Prisoner Cell"}};
+
+		static ListCommand _DoomsDayHeistTeleportList{"doomsdayheistteleportlist", "TP", "Teleport Location", DoomsDayHeistTeleportList, 0};
+
+		static std::vector<std::pair<int, const char*>> DoomsDayHeistPlayers = {
+		    {1, "1 Player"},
+		    {2, "2 Players"},
+		    {3, "3 Players"},
+		    {4, "4 Players"}};
+
+		static ListCommand _DoomsDayHeistPlayers{"doomsdayheistplayers", "Players", "How many players are in the heist", DoomsDayHeistPlayers, 1};
+
 
 		class ForceReady : public Command
 		{
@@ -48,10 +77,9 @@ namespace YimMenu::Features
 		};
 
 		static std::vector<std::pair<int, const char*>> doomsdayHeistCategory = {
-			{0, "The Data Breaches"},
-			{1, "The Bogdan Problem"},
-			{2, "The Doomsday Senario"}
-		};
+		    {0, "The Data Breaches"},
+		    {1, "The Bogdan Problem"},
+		    {2, "The Doomsday Senario"}};
 		static ListCommand _DoomsdayHeistCategory{"doomsdayheistcategory", "Select Heist", "Heist categories", doomsdayHeistCategory, 0};
 
 		class Setup : public Command
@@ -84,8 +112,78 @@ namespace YimMenu::Features
 
 				if (auto thread = Scripts::FindScriptThread("gb_gang_ops_planning"_J))
 					*ScriptLocal(thread, 211).As<int*>() = 6;
+			    
+				Notifications::ShowInGame("Doomsday Heist", "Doomsday Heist Setup - Completed", "CHAR_LESTER", "Green");
 			}
 		};
+
+		class SetMaxPayout : public Command
+		{
+			using Command::Command;
+
+		public:
+			virtual void OnCall() override
+			{
+				int heist = Stats::GetInt("MPX_GANGOPS_FLOW_MISSION_PROG");
+
+				// difficulty from globals (same as Lua AHDg)
+				int difficulty = *ScriptGlobal(4718592).At(3538).As<int*>();
+				if (difficulty == 0)
+					difficulty = 1;
+				int players = _DoomsDayHeistPlayers.GetState();
+
+				int cut = CalculateCut(heist, difficulty);
+
+				if (cut > 0)
+				{
+					ApplyCuts(cut, players); // Doomsday always supports 1–4 but menu usually assumes 4
+					Notifications::ShowInGame("Doomsday Heist", "Max Payout Set - Successful", "CHAR_LESTER", "Green");
+				}
+			}
+
+		private:
+			int CalculateCut(int heist, int difficulty)
+			{
+				// Lua table
+				static std::unordered_map<int, std::pair<int, int>> payouts = {
+				    {503, {975000, 1218750}},   // Data Breaches
+				    {240, {1425000, 1771250}},  // Bogdan Problem
+				    {16368, {1800000, 2250000}} // Doomsday Scenario
+				};
+
+				if (!payouts.contains(heist))
+					return 0;
+
+				float payout = (difficulty == 2) ? payouts[heist].second : payouts[heist].first;
+
+				constexpr float maxPayout = 2'550'000.0f;
+
+				int cut = static_cast<int>(maxPayout / (payout / 100.0f));
+
+				return std::clamp(cut, 100, 500);
+			}
+
+			void ApplyCuts(int totalCut, int players)
+			{
+				std::array<IntCommand*, 4> cmds = {
+				    &_DoomsdayHeistCut1,
+				    &_DoomsdayHeistCut2,
+				    &_DoomsdayHeistCut3,
+				    &_DoomsdayHeistCut4};
+
+				int per = totalCut / players;
+				int rem = totalCut % players;
+
+				for (int i = 0; i < 4; ++i)
+				{
+					if (i < players)
+						cmds[i]->SetState(per + (i == 0 ? rem : 0));
+					else
+						cmds[i]->SetState(0);
+				}
+			}
+		};
+
 
 		class SkipHacking : public Command
 		{
@@ -142,11 +240,32 @@ namespace YimMenu::Features
 			}
 		};
 
+		class Teleport : public Command
+		{
+			using Command::Command;
+
+			virtual void OnCall() override
+			{
+				int index = _DoomsDayHeistTeleportList.GetState();
+
+				if (index >= 0 && index < 6)
+				{
+					const auto& tp = DoomsDayHeistTeleportPoints[index];
+
+					TeleportHelpers::TeleportEntityTo(TeleportHelpers::MakePlace(tp.name, tp.x, tp.y, tp.z, tp.heading));
+				}
+
+			}
+		};
+
+
 		static SetCuts _DoomsdayHeistSetCuts{"doomsdayheistsetcuts", "Set Cuts", "Sets heist cut"};
 		static ForceReady _DoomsdayHeistForceReady{"doomsdayheistforceready", "Force Ready", "Forces all players to be ready"};
 		static Setup _DoomsdayHeistSetup{"doomsdayheistsetup", "Setup", "Sets up doomsday heist"};
+		static SetMaxPayout _DoomsdayHeistSetMaxPayout{"doomsdayheistsetmaxpayout", "Auto Set Cuts", "Automatically calculates and sets player cuts"};
 		static SkipHacking _DoomsdayHeistSkipHacking{"doomsdayheistskiphacking", "Skip Hacking", "Skips hacking process"};
 		static InstantFinish _DoomsdayHeistInstantFinish{"doomsdayheistinstantfinish", "Instant Finish", "Instantly passes the heist"};
 		static InstantFinishAct3 _DoomsdayHeistInstantFinishAct3{"doomsdayheistinstantfinishact3", "Instant Finish (Act: III)", "Instantly passes Doomsday Scenario Act: III"};
+		static Teleport _DoomsdayHeistTeleport{"doomsdayhesitteleport", "Teleport", "Teleport to selected dooms day location"};
 	}
 }

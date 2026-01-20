@@ -18,7 +18,7 @@ namespace YimMenu::Features
 		    {6, "Point and Shoot"},
 		    {7, "Desperate Times Call For..."},
 		    {8, "Peace Offerings"}};
-		static ListCommand _LowriderMission{"lowridermission", "Lowrider Mission", "Select Lowrider mission", LowriderMissionList, 1};
+		static ListCommand _MissionLowrider{"missionlowrider", "Lowrider Mission", "Select Lowrider mission", LowriderMissionList, 1};
 
 		static std::vector<std::pair<int, const char*>> CasinoStoryMissions = {
 		    {1, "Loose Cheng"},
@@ -27,7 +27,7 @@ namespace YimMenu::Features
 		    {4, "Play to Win"},
 		    {5, "Bad Beat"},
 		    {6, "Cashing Out"}};
-		static ListCommand _CasinoStoryMission{"casinostorymission", "Casino Story", "Select Casino Story mission", CasinoStoryMissions, 1};
+		static ListCommand _MissionCasinoStory{"missioncasinostory", "Casino Story", "Select Casino Story mission", CasinoStoryMissions, 1};
 
 		static std::vector<std::pair<int, const char*>> SuperyachtMissions = {
 		    {1, "Overboard"},
@@ -36,7 +36,7 @@ namespace YimMenu::Features
 		    {4, "Icebreaker"},
 		    {5, "Bon Voyage"},
 		    {6, "D-Day"}};
-		static ListCommand _SuperyachtMission{"superyachtmission", "A Superyacht Life", "Select Superyacht mission", SuperyachtMissions, 1};
+		static ListCommand _MissionSuperyacht{"missionsuperyacht", "A Superyacht Life", "Select Superyacht mission", SuperyachtMissions, 1};
 
 		static std::vector<std::pair<int, const char*>> OperationPaperTrailMissions = {
 		    {1, "Intelligence"},
@@ -46,7 +46,7 @@ namespace YimMenu::Features
 		    {5, "Operation Paper Trail"},
 		    {6, "Cleanup"}};
 
-		static ListCommand _OperationPaperTrailMission{"operationpapertrailmission", "Operation Paper Trail", "Select Operation Paper Trail mission", OperationPaperTrailMissions, 1};
+		static ListCommand _MissionOperationPaperTrail{"missionoperationpapertrail", "Operation Paper Trail", "Select Operation Paper Trail mission", OperationPaperTrailMissions, 1};
 
 		static std::vector<std::pair<int, const char*>> DrugWarsMissions = {
 		    {1, "Welcome to the Troupe (First Dose)"},
@@ -61,7 +61,7 @@ namespace YimMenu::Features
 		    {10, "Checking In (Last Dose)"},
 		    {11, "BDKD (Last Dose)"}};
 
-		static ListCommand _DrugWarsMission{"drugwarsmission", "Los Santos Drug Wars", "Select Drug Wars mission", DrugWarsMissions, 1};
+		static ListCommand _MissionDrugWars{"missiondrugwars", "Los Santos Drug Wars", "Select Drug Wars mission", DrugWarsMissions, 1};
 
 		static std::vector<std::pair<int, const char*>> SAMercenariesMissions = {
 		    {1, "Reporting for Duty"},
@@ -72,7 +72,7 @@ namespace YimMenu::Features
 		    {6, "Shock & Awe"},
 		    {7, "Unlock All Missions"}};
 
-		static ListCommand _SAMercenariesMission{"samerccmission", "San Andreas Mercenaries", "Select San Andreas Mercenaries mission", SAMercenariesMissions, 1};
+		static ListCommand _MissionSAMercenaries{"missionsamercenaries", "San Andreas Mercenaries", "Select San Andreas Mercenaries mission", SAMercenariesMissions, 1};
 
 		static std::vector<std::pair<int, const char*>> CluckinBellFarmRaidMissions = {
 		    {1, "Slush Fund"},
@@ -82,7 +82,7 @@ namespace YimMenu::Features
 		    {5, "Disorganized Crime"},
 		    {6, "Scene of The Crime"}};
 
-		static ListCommand _CluckinBellFarmRaidMission{"cluckinbellfarmraidmission", "The Cluckin' Bell Farm Raid", "Select Cluckin' Bell Farm Raid mission", CluckinBellFarmRaidMissions, 1};
+		static ListCommand _MissionCluckinBellFarmRaid{"missioncluckinbellfarmraid", "The Cluckin' Bell Farm Raid", "Select Cluckin' Bell Farm Raid mission", CluckinBellFarmRaidMissions, 1};
 
 		static std::vector<std::pair<int, const char*>> TunersRobberies = {
 		    {1, "Union Depository"},
@@ -94,7 +94,7 @@ namespace YimMenu::Features
 		    {7, "The Lost Contract"},
 		    {8, "The Data Contract"}};
 
-		static ListCommand _TunersRobbery{"tunersrobbery", "The Los Santos Tuners Robbery", "Select LS Tuners robbery", TunersRobberies, 1};
+		static ListCommand _MissionTunersRobbery{"missiontunersrobbery", "The Los Santos Tuners Robbery", "Select LS Tuners robbery", TunersRobberies, 1};
 
 		static std::vector<std::pair<int, const char*>> ContractMissions = {
 		    {0, "None"},
@@ -110,7 +110,7 @@ namespace YimMenu::Features
 		    {10, "Studio Time"},
 		    {11, "Don't Fuck with Dre"}};
 
-		static ListCommand _ContractMissions{"contractmissions", "Contract Missions", "Select Contract Mission", ContractMissions, 0};
+		static ListCommand _MissionContract{"missioncontract", "Contract Missions", "Select Contract Mission", ContractMissions, 0};
 
 		static std::vector<std::pair<int, const char*>> SavageYardRobbery = {
 		    {1, "The Cargo Ship Robbery"},
@@ -119,7 +119,7 @@ namespace YimMenu::Features
 		    {4, "The Podium Robbery"},
 		    {5, "The McTony Robbery"}};
 
-		static ListCommand _SavageYardRobbery{"savageyardrobbery", "The SavageYard Robbery", "Select SavageYard robbery", SavageYardRobbery, 1};
+		static ListCommand _MissionSavageYard{"missionsavageyard", "The SavageYard Robbery", "Select SavageYard robbery", SavageYardRobbery, 1};
 
 
 		class LowriderSetup : public Command
@@ -128,7 +128,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				int mission = _LowriderMission.GetState();
+				int mission = _MissionLowrider.GetState();
 
 				Stats::SetInt("MPX_LOW_FLOW_CURRENT_PROG", mission);
 				Stats::SetInt("MPX_LOW_FLOW_CURRENT_CALL", mission);
@@ -144,7 +144,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				int missionIndex = _CasinoStoryMission.GetState();
+				int missionIndex = _MissionCasinoStory.GetState();
 
 				Stats::SetInt("MPX_VCM_FLOW_PROGRESS", 1312735);
 				Stats::SetInt("MPX_VCM_STORY_PROGRESS", missionIndex - 1);
@@ -159,7 +159,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				int missionIndex = _SuperyachtMission.GetState();
+				int missionIndex = _MissionSuperyacht.GetState();
 
 				Stats::SetInt("MPX_YACHT_MISSION_PROG", missionIndex - 1);
 				Stats::SetInt("MPX_YACHT_MISSION_FLOW", 21845);
@@ -174,7 +174,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				int missionIndex = _OperationPaperTrailMission.GetState();
+				int missionIndex = _MissionOperationPaperTrail.GetState();
 
 				Stats::SetInt("MPX_ULP_MISSION_CURRENT", missionIndex - 1);
 
@@ -188,7 +188,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				int index = _DrugWarsMission.GetState();
+				int index = _MissionDrugWars.GetState();
 
 				Stats::SetInt("MPX_XM22_CURRENT", index - 1);
 
@@ -218,7 +218,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				int index = _SAMercenariesMission.GetState();
+				int index = _MissionSAMercenaries.GetState();
 
 				if (index != 7)
 					Stats::SetInt("MPX_SUM23_AVOP_CURRENT", index - 1);
@@ -247,7 +247,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				int index = _CluckinBellFarmRaidMission.GetState();
+				int index = _MissionCluckinBellFarmRaid.GetState();
 
 				switch (index)
 				{
@@ -320,7 +320,7 @@ namespace YimMenu::Features
 
 			void OnCall() override
 			{
-				int index = _TunersRobbery.GetState();
+				int index = _MissionTunersRobbery.GetState();
 				int robbery = index - 1;
 
 				Stats::SetInt("MPX_TUNER_CURRENT", robbery);
@@ -343,7 +343,7 @@ namespace YimMenu::Features
 
 			void OnCall() override
 			{
-				int index = _ContractMissions.GetState();
+				int index = _MissionContract.GetState();
 
 				int contract = -1;
 				switch (index)
@@ -399,7 +399,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				int index = _SavageYardRobbery.GetState();
+				int index = _MissionSavageYard.GetState();
 
 				Stats::SetInt("MPX_SALV23_VEH_ROB", index - 1);
 				Stats::SetInt("MPX_MOST_TIME_ON_3_PLUS_STARS", 300000);
@@ -420,21 +420,21 @@ namespace YimMenu::Features
 		};
 
 
-		static LowriderSetup _LowriderSetup{"lowridersetup", "LRSetup", "Start selected Lowrider mission"};
-		static CasinoStorySetup _CasinoStorySetup{"casinostorysetup", "CSSetup", "Start selected Casino Story mission"};
-		static SuperyachtSetup _SuperyachtSetup{"superyachtmissionsetup", "YSetup", "Start selected Superyacht mission"};
-		static OperationPaperTrailSetup _OperationPaperTrailSetup{"operationpapertrailsetup", "PaperSetup", "Start selected Operation Paper Trail mission"};
-		static DrugWarsSetup _DrugWarsSetup{"drugwarsmissionsetup", "DWSetup", "Start selected Los Santos Drug Wars mission"};
-		static SAMercenariesSetup _SAMercenariesSetup{"samerccmissionsetup", "SMSetup", "Start selected San Andreas Mercenaries mission"};
-		static CluckinBellFarmRaidSetup _CluckinBellFarmRaidSetup{"cluckinbellfarmraidsetup", "CBSetup", "Start selected Cluckin' Bell Farm Raid mission"};
-		static CluckinBellFarmRaidRemoveCooldown _ClukinBellFarmRaidCooldown{"clukinbellfarmraidcooldown", "CBRmCooldown", "Removes cooldown for CluckinBell FarmRaid"};
-		static TunersCompletePreps _TunersCompletePreps{"tunerscompletepreps", "TSetupPreps", "Complete all LS Tuners robbery preps"};
-		static TunersResetPreps _TunersResetPreps{"tunersresetpreps", "TResetPreps", "Reset LS Tuners robbery preps"};
-		static TunersResetContracts _TunersResetContracts{"tunersresetcontracts", "TResetContracts", "Reset LS Tuners robbery contracts"};
-		static TunersRobberySetup _TunersRobberySetup{"tunersrobberysetup", "TSetup", "Start selected LS Tuners robbery"};
-		static ContractMissionsSetup _ContractmissionsSetup{"contractmissionssetup", "ContractSetup", "Start selected NightLife Leak mission"};
-		static ContractRemoveCooldown _ContractRemoveCooldown{"contractremovecooldown", "ContactRmcooldown", "Contract Remove Cooldown"};
-		static SavageYardRobberySetup _SavageYardRobberySetup{"savageyardrobberysetup", "SYRSetup", "Start selected Savege Yard robbery"};
+		static LowriderSetup _MissionLowriderSetup{"missionlowridersetup", "LRSetup", "Start selected Lowrider mission"};
+		static CasinoStorySetup _MissionCasinoStorySetup{"missioncasinostorysetup", "CSSetup", "Start selected Casino Story mission"};
+		static SuperyachtSetup _MissionSuperyachtSetup{"missionsuperyachtsetup", "YSetup", "Start selected Superyacht mission"};
+		static OperationPaperTrailSetup _MissionOperationPaperTrailSetup{"missionoperationpapertrailsetup", "PaperSetup", "Start selected Operation Paper Trail mission"};
+		static DrugWarsSetup _MissionDrugWarsSetup{"missiondrugwarsmissionsetup", "DWSetup", "Start selected Los Santos Drug Wars mission"};
+		static SAMercenariesSetup _MissionSAMercenariesSetup{"missionsamercenariesmissionsetup", "SMSetup", "Start selected San Andreas Mercenaries mission"};
+		static CluckinBellFarmRaidSetup _MissionCluckinBellFarmRaidSetup{"missioncluckinbellfarmraidsetup", "CBSetup", "Start selected Cluckin' Bell Farm Raid mission"};
+		static CluckinBellFarmRaidRemoveCooldown _MissionClukinBellFarmRaidCooldown{"missionclukinbellfarmraidcooldown", "CBRmCooldown", "Removes cooldown for CluckinBell FarmRaid"};
+		static TunersCompletePreps _MissionTunersCompletePreps{"missiontunerscompletepreps", "TSetupPreps", "Complete all LS Tuners robbery preps"};
+		static TunersResetPreps _MissionTunersResetPreps{"missiontunersresetpreps", "TResetPreps", "Reset LS Tuners robbery preps"};
+		static TunersResetContracts _MissionTunersResetContracts{"missiontunersresetcontracts", "TResetContracts", "Reset LS Tuners robbery contracts"};
+		static TunersRobberySetup _MissionTunersRobberySetup{"missiontunersrobberysetup", "TSetup", "Start selected LS Tuners robbery"};
+		static ContractMissionsSetup _MissionContractmissionsSetup{"missioncontractmissionssetup", "ContractSetup", "Start selected NightLife Leak mission"};
+		static ContractRemoveCooldown _MissionContractRemoveCooldown{"missioncontractremovecooldown", "ContactRmcooldown", "Contract Remove Cooldown"};
+		static SavageYardRobberySetup _MissionSavageYardRobberySetup{"missionsavageyardrobberysetup", "SYRSetup", "Start selected Savege Yard robbery"};
 
 	}
 }

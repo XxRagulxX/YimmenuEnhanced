@@ -1,5 +1,5 @@
 #pragma once
-#include "game/frontend/submenus/Recovery/HeistModifier.hpp"
+#include "game/frontend/items/Items.hpp"
 
 namespace YimMenu::Submenus
 {

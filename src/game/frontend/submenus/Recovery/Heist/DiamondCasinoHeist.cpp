@@ -1,4 +1,6 @@
 #include "DiamondCasinoHeist.hpp"
+#include "game/frontend/items/Items.hpp"
+#include <memory>
 
 namespace YimMenu::Submenus
 {
@@ -9,8 +11,11 @@ namespace YimMenu::Submenus
 		auto cuts = std::make_shared<Group>("Heist Cuts", 2);
 		auto setups = std::make_shared<Group>("Heist Setups");
 		auto loots = std::make_shared<Group>("Loots", 2);
-		auto misc = std::make_shared<Group>("Misc", 1);
+		auto misc = std::make_shared<Group>("Misc", 4);
+		auto teleport = std::make_shared<Group>("Teleport");
 
+		cuts->AddItem(std::make_shared<ListCommandItem>("diamondcasinoheistplayers"_J));
+		cuts->AddItem(std::make_shared<CommandItem>("diamondcasinoheistsetmaxpayout"_J));
 		cuts->AddItem(std::make_shared<IntCommandItem>("diamondcasinoheistcut1"_J));
 		cuts->AddItem(std::make_shared<IntCommandItem>("diamondcasinoheistcut3"_J));
 		cuts->AddItem(std::make_shared<IntCommandItem>("diamondcasinoheistcut2"_J));
@@ -40,13 +45,19 @@ namespace YimMenu::Submenus
 		misc->AddItem(std::make_shared<CommandItem>("diamondcasinoheistskipdrilling"_J));
 		misc->AddItem(std::make_shared<CommandItem>("diamondcasinoheistsolomantrap"_J));
 		misc->AddItem(std::make_shared<CommandItem>("diamondcasinoheistinstantfinish"_J));
-		misc->AddItem(std::make_shared<CommandItem>("removecasinocameras"_J));
-		misc->AddItem(std::make_shared<CommandItem>("dimondcasinoheistkeycard"_J));
+		misc->AddItem(std::make_shared<CommandItem>("diamondcasinoheistremovecameras"_J));
+		misc->AddItem(std::make_shared<CommandItem>("diamondcasinoheistkeycard"_J));
+
+		teleport->AddItem(std::make_shared<BoolCommandItem>("diamondcasinoheistotherteleport"_J));
+		teleport->AddItem(std::make_shared<ConditionalItem>("diamondcasinoheistotherteleport"_J, std::make_shared<ListCommandItem>("diamondcasinoheistotherteleportlist"_J)));
+		teleport->AddItem(std::make_shared<ListCommandItem>("diamondcasinoheistteleportlist"_J));
+		teleport->AddItem(std::make_shared<CommandItem>("diamondcasinoheistteleport"_J));
 
 		tab->AddItem(cuts);
 		tab->AddItem(setups);
 		tab->AddItem(loots);
 		tab->AddItem(misc);
+		tab->AddItem(teleport);
 
 		return tab;
 	}

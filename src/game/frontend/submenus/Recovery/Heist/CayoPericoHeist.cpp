@@ -20,8 +20,9 @@ namespace YimMenu::Submenus
 		cuts->AddItem(std::make_shared<IntCommandItem>("cayopericoheistcut4"_J));
 		cuts->AddItem(std::make_shared<CommandItem>("cayopericoheistsetcuts"_J));
 		cuts->AddItem(std::make_shared<CommandItem>("cayopericoheistforceready"_J));
-				
 
+
+		setups->AddItem(std::make_shared<CommandItem>("cayopericoheistrequestforkosatka"_J));
 		setups->AddItem(std::make_shared<ListCommandItem>("cayopericoheistdifficulty"_J));
 		setups->AddItem(std::make_shared<ListCommandItem>("cayopericoheistprimarytarget"_J));
 		setups->AddItem(std::make_shared<ListCommandItem>("cayopericoheistweapon"_J));
@@ -37,15 +38,15 @@ namespace YimMenu::Submenus
 		misc->AddItem(std::make_shared<CommandItem>("cayopericoheistcutglass"_J));
 		misc->AddItem(std::make_shared<CommandItem>("cayopericoheisttakeprimarytarget"_J));
 		misc->AddItem(std::make_shared<CommandItem>("cayopericoheistinstantfinish"_J));
-		misc->AddItem(std::make_shared<CommandItem>("removecayopericocameras"_J));
-		misc->AddItem(std::make_shared<BoolCommandItem>("infiniteplasmacutterheat"_J));
+		misc->AddItem(std::make_shared<CommandItem>("cayopericoheistremovecayopericocameras"_J));
+		misc->AddItem(std::make_shared<BoolCommandItem>("cayopericoheistinfiniteplasmacutterheat"_J));
 		misc->AddItem(std::make_shared<BoolCommandItem>("cayopericoheistremovefencingfeeandpavelcut"_J));
 
-		teleport->AddItem(std::make_shared<CommandItem>("requestforkosatka"_J));
-		teleport->AddItem(std::make_shared<BoolCommandItem>("showotherteleport"_J));
-		teleport->AddItem(std::make_shared<ConditionalItem>("showotherteleport"_J, std::make_shared<ListCommandItem>("cayopericoothertplist"_J)));
+
+		teleport->AddItem(std::make_shared<BoolCommandItem>("cayopericoheistotherteleport"_J));
+		teleport->AddItem(std::make_shared<ConditionalItem>("cayopericoheistotherteleport"_J, std::make_shared<ListCommandItem>("cayopericootherteleportlist"_J)));
 		teleport->AddItem(std::make_shared<ListCommandItem>("cayopericoteleportlist"_J));
-		teleport->AddItem(std::make_shared<CommandItem>("teleportcayo"_J));
+		teleport->AddItem(std::make_shared<CommandItem>("cayopericoheistteleportcayo"_J));
 
 
 		tab->AddItem(cuts);
