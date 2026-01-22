@@ -64,6 +64,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     d3dcompiler
     dwmapi
     gdi32
+    dxgi
     libluajit
 )
 
