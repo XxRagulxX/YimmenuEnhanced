@@ -42,8 +42,7 @@ namespace YimMenu::Features
 		};
 		static std::vector<TeleportLocation> DoomsDayHeistTeleportPoints = {
 		    {515.528f, 4835.353f, -62.587f, 0.0f, "Heist Board"},
-		    {512.888f, 4833.033f, -68.989f, 0.0f, "Prisoner Cell"}
-		};
+		    {512.888f, 4833.033f, -68.989f, 0.0f, "Prisoner Cell"}};
 
 		static std::vector<std::pair<int, const char*>> DoomsDayHeistTeleportList = {
 		    {0, "Heist Board"},
@@ -124,37 +123,42 @@ namespace YimMenu::Features
 		public:
 			virtual void OnCall() override
 			{
-				int heist = Stats::GetInt("MPX_GANGOPS_FLOW_MISSION_PROG");
-
-				// difficulty from globals (same as Lua AHDg)
-				int difficulty = *ScriptGlobal(4718592).At(3538).As<int*>();
-				if (difficulty == 0)
-					difficulty = 1;
+				int category = _DoomsdayHeistCategory.GetState();
 				int players = _DoomsDayHeistPlayers.GetState();
 
-				int cut = CalculateCut(heist, difficulty);
+				if (players < 1 || players > 4)
+					players = 1;
 
-				if (cut > 0)
+				int difficulty = *ScriptGlobal(4718592).At(3538).As<int*>();
+				if (difficulty != 2)
+					difficulty = 1;
+
+				int cut = CalculateCut(category, difficulty);
+
+				if (cut <= 0)
 				{
-					ApplyCuts(cut, players); // Doomsday always supports 1–4 but menu usually assumes 4
-					Notifications::ShowInGame("Doomsday Heist", "Max Payout Set - Successful", "CHAR_LESTER", "Green");
+					Notifications::ShowInGame("Doomsday Heist", "Invalid heist state. Setup board first.", "CHAR_LESTER", "Red");
+					return;
 				}
+
+				ApplyCuts(cut, players);
+
+				Notifications::ShowInGame( "Doomsday Heist", "Max Payout Set - Successful", "CHAR_LESTER", "Green");
 			}
 
 		private:
-			int CalculateCut(int heist, int difficulty)
+			int CalculateCut(int category, int difficulty)
 			{
-				// Lua table
-				static std::unordered_map<int, std::pair<int, int>> payouts = {
-				    {503, {975000, 1218750}},   // Data Breaches
-				    {240, {1425000, 1771250}},  // Bogdan Problem
-				    {16368, {1800000, 2250000}} // Doomsday Scenario
+				static std::array<std::pair<int, int>, 3> payouts = {
+				    std::make_pair(975000, 1218750),  // 0 = Data Breaches
+				    std::make_pair(1425000, 1771250), // 1 = Bogdan Problem
+				    std::make_pair(1800000, 2250000)  // 2 = Doomsday Scenario
 				};
 
-				if (!payouts.contains(heist))
+				if (category < 0 || category > 2)
 					return 0;
 
-				float payout = (difficulty == 2) ? payouts[heist].second : payouts[heist].first;
+				float payout = (difficulty == 2) ? payouts[category].second : payouts[category].first;
 
 				constexpr float maxPayout = 2'550'000.0f;
 
@@ -254,7 +258,6 @@ namespace YimMenu::Features
 
 					TeleportHelpers::TeleportEntityTo(TeleportHelpers::MakePlace(tp.name, tp.x, tp.y, tp.z, tp.heading));
 				}
-
 			}
 		};
 

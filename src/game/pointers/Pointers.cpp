@@ -4,7 +4,6 @@
 #include "core/memory/ModuleMgr.hpp"
 #include "core/memory/PatternScanner.hpp"
 #include "core/util/Joaat.hpp"
-#include "types/network/rlSessionInfo.hpp"
 #include "types/rage/atArray.hpp"
 
 namespace YimMenu

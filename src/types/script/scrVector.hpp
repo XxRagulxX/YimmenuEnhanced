@@ -1,10 +1,6 @@
 #pragma once
 #include "../rage/vector.hpp"
 
-#include <ostream>
-#include <sstream>
-#include <string>
-
 namespace rage
 {
 	class scrVector

@@ -4,7 +4,7 @@
 #include "core/frontend/Notifications.hpp"
 #include "game/backend/SavedPlayers.hpp"
 #include "game/gta/Network.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "game/frontend/items/Items.hpp"
 
 namespace YimMenu::Submenus
 {

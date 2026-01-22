@@ -1,6 +1,6 @@
 #pragma once
 #include "RTTI.hpp"
-
+#include <cstdint>
 #include <cstddef>
 
 namespace rage

@@ -1,7 +1,7 @@
 #include "NativeHooks.hpp"
 
 #include "game/gta/invoker/Invoker.hpp"
-
+#include "game/pointers/Pointers.hpp"
 #include "types/script/scrProgram.hpp"
 
 

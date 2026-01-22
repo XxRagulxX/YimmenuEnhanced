@@ -1,7 +1,5 @@
-#include "core/commands/BoolCommand.hpp"
 #include "core/hooking/DetourHook.hpp"
 #include "game/backend/NodeHooks.hpp"
-#include "game/backend/Self.hpp"
 #include "game/hooks/Hooks.hpp"
 #include "game/gta/Nodes.hpp"
 

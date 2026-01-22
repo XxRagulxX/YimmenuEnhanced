@@ -1,4 +1,6 @@
 #pragma once
+#include <cstdint>
+
 enum class SeatPositions
 {
 	SEAT_DRIVER = -1,

@@ -1,4 +1,5 @@
 #include "Unlocker.hpp"
+#include "game/frontend/items/Items.hpp"
 
 namespace YimMenu::Submenus
 {

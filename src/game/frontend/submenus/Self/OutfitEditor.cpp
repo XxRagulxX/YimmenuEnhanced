@@ -1,6 +1,4 @@
 #include "OutfitEditor.hpp"
-
-#include "core/frontend/manager/UIManager.hpp"
 #include "game/backend/Self.hpp"
 #include "game/frontend/items/Items.hpp"
 #include "game/gta/Natives.hpp"

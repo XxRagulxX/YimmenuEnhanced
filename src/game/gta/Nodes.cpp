@@ -1,4 +1,5 @@
 #include "Nodes.hpp"
+#include <unordered_set>
 #include "game/pointers/Pointers.hpp"
 #include "types/network/sync/netSyncTree.hpp"
 

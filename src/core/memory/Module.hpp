@@ -1,6 +1,5 @@
 #pragma once
 #include "PointerCalculator.hpp"
-#include "common.hpp"
 
 #include <type_traits>
 

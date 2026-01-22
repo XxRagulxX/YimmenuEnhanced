@@ -1,13 +1,10 @@
-#include "DrawVariable.hpp"
-#include "Locals.hpp"
-#include "core/filemgr/FileMgr.hpp"
-#include "game/backend/Self.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "core/frontend/manager/Category.hpp"
 #include "core/backend/FiberPool.hpp"
-#include "game/gta/ScriptFunction.hpp"
+#include "game/frontend/items/Items.hpp"
 #include "game/gta/Natives.hpp"
-#include "types/script/globals/GlobalPlayerBD.hpp"
+#include "game/gta/ScriptFunction.hpp"
 #include "types/script/ScriptEvent.hpp"
+#include "game/backend/Self.hpp"
 
 namespace YimMenu::Submenus
 {

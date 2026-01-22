@@ -1,5 +1,4 @@
 #include "game/pointers/Pointers.hpp"
-#include "game/frontend/Menu.hpp"
 #include "core/frontend/manager/UIManager.hpp"
 #include "game/frontend/submenus/Settings/GUISettings.hpp"
 

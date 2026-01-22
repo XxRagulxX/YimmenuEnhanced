@@ -1,4 +1,6 @@
 #include "CacheFile.hpp"
+#include <fstream>
+#include <ios>  
 
 namespace YimMenu
 {

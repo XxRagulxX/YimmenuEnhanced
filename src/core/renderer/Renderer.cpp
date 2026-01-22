@@ -1,9 +1,5 @@
 #include "Renderer.hpp"
 
-#include "core/memory/ModuleMgr.hpp"
-#include "core/memory/PatternScanner.hpp"
-#include "game/frontend/GUI.hpp"
-#include "game/frontend/Menu.hpp"
 #include "game/pointers/Pointers.hpp"
 
 #include <backends/imgui_impl_dx12.h>

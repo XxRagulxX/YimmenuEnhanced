@@ -29,8 +29,8 @@ namespace YimMenu
 			return GetInstance().GetProjectFolderImpl(folder);
 		}
 
-		static const std::filesystem::path& CreateFolderIfNotExists(const std::filesystem::path& folder);
-		static const std::filesystem::path& EnsureFileCanBeCreated(const std::filesystem::path& file);
+		static std::filesystem::path CreateFolderIfNotExists(const std::filesystem::path& folder);
+		static std::filesystem::path EnsureFileCanBeCreated(const std::filesystem::path& file);
 
 	private:
 		void InitImpl(const std::filesystem::path& rootFolder);

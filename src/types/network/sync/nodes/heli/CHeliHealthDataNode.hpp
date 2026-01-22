@@ -1,5 +1,4 @@
 #pragma once
-#include "types/network/sync/CProjectBaseSyncDataNode.hpp"
 #include "types/network/sync/nodes/physical/CPhysicalHealthDataNode.hpp"
 
 #include <cstdint>

@@ -1,5 +1,6 @@
 #pragma once
 #include "scrThread.hpp"
+#include <cstdint>
 
 class CGameScriptHandler;
 class CGameScriptHandlerNetComponent;

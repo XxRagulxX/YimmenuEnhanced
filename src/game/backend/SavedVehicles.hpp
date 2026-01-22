@@ -1,5 +1,5 @@
 #pragma once
-#include "core/filemgr/FileMgr.hpp"
+#include "core/filemgr/Folder.hpp"
 #include "game/gta/Vehicle.hpp"
 
 namespace YimMenu

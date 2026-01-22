@@ -1,4 +1,5 @@
 #include "SavePersonalVehicle.hpp"
+#include <unordered_set>
 #include "core/commands/Command.hpp"
 #include "core/backend/ScriptMgr.hpp"
 #include "core/frontend/Notifications.hpp"

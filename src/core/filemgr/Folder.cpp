@@ -1,5 +1,6 @@
 #include "Folder.hpp"
-#include "FileMgr.hpp"
+#include <string>
+#include "core/filemgr/File.hpp"
 
 namespace YimMenu
 {
@@ -12,7 +13,7 @@ namespace YimMenu
 	{
 		if (file_path.is_absolute())
 			throw std::invalid_argument("folder#get_file requires a relative path.");
-		if (file_path.string().contains(".."))
+		if (file_path.string().find("..") != std::string::npos)
 			throw std::invalid_argument("Relative path traversal is not allowed, refrain from using \"..\" in file paths.");
 
 		return File(m_Path / file_path);

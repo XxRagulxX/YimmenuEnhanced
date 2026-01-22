@@ -1,5 +1,13 @@
 #pragma once
 
+#include <string>        
+#include <chrono>        
+#include <functional>    
+#include <unordered_map> 
+#include <mutex>         
+#include <cstdint>
+
+
 namespace YimMenu
 {
 	static inline float m_CardSizeX = 350.f;

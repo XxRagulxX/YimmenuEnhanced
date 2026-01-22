@@ -1,6 +1,6 @@
 #include "PatternCache.hpp"
-
 #include "core/filemgr/FileMgr.hpp"
+#include <fstream>
 
 namespace YimMenu
 {

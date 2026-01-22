@@ -1,6 +1,5 @@
 #include "game/backend/Self.hpp"
 #include "game/commands/PlayerCommand.hpp"
-#include "types/script/globals/GlobalPlayerBD.hpp"
 #include "types/script/ScriptEvent.hpp"
 
 namespace YimMenu::Features

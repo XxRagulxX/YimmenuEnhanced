@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 // of all the things they backported from RDR this is probably the dumbest
 class PoolEncryption

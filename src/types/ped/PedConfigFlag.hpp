@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 enum class PedConfigFlag : std::uint32_t
 {

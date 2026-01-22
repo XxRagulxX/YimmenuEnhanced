@@ -1,7 +1,6 @@
 #pragma once
 #include "Category.hpp"
 #include "Submenu.hpp"
-#include "core/frontend/manager/styles/Themes.hpp"
 
 namespace YimMenu
 {

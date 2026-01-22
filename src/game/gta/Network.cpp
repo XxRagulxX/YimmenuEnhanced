@@ -6,11 +6,9 @@
 #include "game/gta/ScriptGlobal.hpp"
 #include "game/gta/ScriptFunction.hpp"
 #include "game/pointers/Pointers.hpp"
-#include "types/rage/atArray.hpp"
 #include "types/network/rlSessionInfo.hpp"
 #include "types/network/rlSessionByGamerHandleTaskResult.hpp"
 #include "types/network/rlTaskStatus.hpp"
-#include "types/socialclub/rlQueryAccountsResult.hpp"
 #include "types/socialclub/rlGetAvatarsContext.hpp"
 #include "types/socialclub/rlScTaskStatus.hpp"
 

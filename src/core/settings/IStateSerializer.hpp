@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <nlohmann/json.hpp>
+
 namespace YimMenu
 {
 	class IStateSerializer

@@ -1,5 +1,5 @@
 #include "SavedVehicles.hpp"
-
+#include <fstream>
 #include "core/backend/ScriptMgr.hpp"
 #include "core/frontend/Notifications.hpp"
 #include "game/gta/VehicleModel.hpp"
@@ -7,6 +7,7 @@
 #include "game/gta/Natives.hpp"
 #include "game/gta/Vehicle.hpp"
 #include "game/gta/data/VehicleValues.hpp"
+#include "core/filemgr/FileMgr.hpp"
 
 namespace YimMenu
 {

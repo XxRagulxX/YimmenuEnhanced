@@ -1,5 +1,4 @@
 #include "core/scripting/LuaLibrary.hpp"
-#include "core/scripting/LuaScript.hpp"
 
 namespace YimMenu::Lua
 {

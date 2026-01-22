@@ -1,5 +1,6 @@
 #pragma once
-#include "game/frontend/GUI.hpp"
+
+#include <imgui.h>
 
 namespace YimMenu::Menu
 {

@@ -1,6 +1,5 @@
 #include "LuaScripts.hpp"
-#include "core/backend/ScriptMgr.hpp"
-#include "core/backend/FiberPool.hpp"
+#include <game/frontend/items/Items.hpp>
 #include "core/scripting/LuaManager.hpp"
 #include "core/frontend/widgets/imgui_colors.h"
 

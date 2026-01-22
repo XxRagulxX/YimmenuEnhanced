@@ -5,7 +5,6 @@
 #include "Player/Troll.hpp"
 #include "Player/Kick.hpp"
 #include "core/frontend/widgets/imgui_colors.h"
-#include "game/backend/PlayerData.hpp"
 #include "game/backend/Players.hpp"
 #include "game/frontend/items/Items.hpp"
 

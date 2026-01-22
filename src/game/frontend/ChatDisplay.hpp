@@ -1,7 +1,5 @@
 #pragma once
-#include "game/pointers/Pointers.hpp" // game import in core
-
-#include <mutex>
+#include <imgui.h>
 
 
 namespace YimMenu

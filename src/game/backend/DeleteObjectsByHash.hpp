@@ -1,6 +1,5 @@
 #pragma once
 #include "types/script/types.hpp"
-#include <cstdint> 
 
 namespace YimMenu
 {

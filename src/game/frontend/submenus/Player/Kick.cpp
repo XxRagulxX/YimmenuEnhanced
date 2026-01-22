@@ -1,4 +1,5 @@
-#include "Toxic.hpp"
+#include "game/frontend/items/Items.hpp"
+#include "core/frontend/manager/Category.hpp"
 
 namespace YimMenu::Submenus
 {

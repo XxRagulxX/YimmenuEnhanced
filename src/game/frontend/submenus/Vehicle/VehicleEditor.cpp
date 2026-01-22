@@ -1,5 +1,4 @@
 #include "VehicleEditor.hpp"
-
 #include "core/backend/FiberPool.hpp"
 #include "core/backend/ScriptMgr.hpp"
 #include "game/gta/VehicleModel.hpp"
@@ -7,6 +6,7 @@
 #include "game/gta/Natives.hpp"
 #include "game/gta/data/VehicleValues.hpp"
 #include "game/gta/data/ModNames.hpp"
+#include "game/frontend/items/Items.hpp"
 
 namespace YimMenu::Submenus
 {

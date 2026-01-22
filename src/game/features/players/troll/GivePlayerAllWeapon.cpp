@@ -1,6 +1,4 @@
 #include "game/commands/PlayerCommand.hpp"
-#include "core/commands/Command.hpp"
-#include "game/backend/Self.hpp"
 #include "game/gta/data/Weapons.hpp"
 
 

@@ -4,7 +4,6 @@
 #include "core/commands/BoolCommand.hpp"
 #include "game/pointers/Pointers.hpp"
 #include "game/gta/invoker/Invoker.hpp"
-#include "game/gta/Natives.hpp"
 
 namespace YimMenu::Features
 {

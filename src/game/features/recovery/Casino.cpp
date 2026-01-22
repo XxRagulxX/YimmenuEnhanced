@@ -2,9 +2,6 @@
 #include "game/backend/Self.hpp"
 #include "game/gta/Natives.hpp"
 #include "game/gta/ScriptLocal.hpp"
-#include "game/gta/Stats.hpp"
-#include "core/commands/ListCommand.hpp"
-#include "game/backend/Tunables.hpp"
 #include "core/backend/ScriptMgr.hpp"
 
 #include <set>

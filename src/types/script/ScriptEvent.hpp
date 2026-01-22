@@ -1,6 +1,7 @@
 #pragma once
 #include "types.hpp"
 #include "MPScriptData.hpp"
+#include <cstring>
 
 #define REGISTER_SCRIPT_EVENT(classType, indexType)                            \
 	constexpr static auto EVENT_INDEX = ScriptEventIndex::indexType;           \

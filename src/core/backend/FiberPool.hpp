@@ -1,4 +1,6 @@
 #pragma once
+#include "core/backend/FiberPool.hpp"
+#include <stack>
 
 namespace YimMenu
 {

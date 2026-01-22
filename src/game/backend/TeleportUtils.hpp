@@ -2,7 +2,6 @@
 
 #include "types/rage/vector.hpp"
 #include <string>
-#include <optional>
 
 namespace YimMenu::Features
 {

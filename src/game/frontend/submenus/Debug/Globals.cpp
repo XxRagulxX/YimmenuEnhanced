@@ -1,5 +1,7 @@
 #include "Globals.hpp"
-#include "DrawVariable.hpp"
+#include "game/backend/SavedVariables.hpp"
+#include "game/frontend/items/Items.hpp"
+#include "game/frontend/submenus/Debug/DrawVariable.hpp"
 
 // TODO: name compares are expensive, but this is way better than the old impl that reads the json file every frame
 

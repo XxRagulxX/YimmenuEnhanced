@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include <types/script/types.hpp>
 
 namespace YimMenu

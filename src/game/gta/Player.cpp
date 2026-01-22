@@ -1,10 +1,8 @@
 #include "Player.hpp"
-
 #include "Natives.hpp"
 #include "game/pointers/Pointers.hpp"
 #include "types/network/rlGamerInfo.hpp"
 #include "types/network/CNetGamePlayer.hpp"
-
 #include "types/script/globals/GPBD_FM.hpp"
 #include "core/backend/FiberPool.hpp"
 #include "core/backend/ScriptMgr.hpp"

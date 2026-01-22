@@ -1,5 +1,6 @@
 #pragma once
 #include "rlScTaskStatus.hpp"
+#include <cstdint>
 
 namespace rage
 {

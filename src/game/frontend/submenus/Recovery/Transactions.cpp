@@ -1,5 +1,5 @@
-#include "StatEditor.hpp"
 #include "core/backend/FiberPool.hpp"
+#include <unordered_set>
 #include "core/backend/ScriptMgr.hpp"
 #include "core/frontend/Notifications.hpp"
 #include "core/frontend/widgets/imgui_colors.h"
@@ -9,6 +9,8 @@
 #include "game/pointers/Pointers.hpp"
 #include "types/netshop/CNetShopTransaction.hpp"
 #include "types/netshop/netCatalogBaseItem.hpp"
+#include "game/frontend/items/Items.hpp"
+#include "core/frontend/manager/Category.hpp"
 
 namespace YimMenu::Submenus
 {

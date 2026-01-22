@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 enum class ControllerInputs : uint32_t
 {

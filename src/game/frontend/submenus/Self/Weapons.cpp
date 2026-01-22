@@ -9,6 +9,8 @@
 #include "types/script/scrThread.hpp"
 #include "core/commands/Commands.hpp"
 #include "game/features/self/CustomWeapon.hpp"
+#include "game/frontend/items/Items.hpp"
+#include "game/pointers/Pointers.hpp"
 
 namespace YimMenu::Submenus
 {

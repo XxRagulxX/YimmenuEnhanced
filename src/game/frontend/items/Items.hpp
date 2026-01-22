@@ -1,7 +1,6 @@
 #pragma once
 #include "core/frontend/manager/UIItem.hpp"
 #include "core/util/Joaat.hpp"
-#include "game/frontend/GUI.hpp"
 
 namespace YimMenu
 {

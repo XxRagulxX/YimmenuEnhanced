@@ -1,8 +1,6 @@
 #pragma once
-#include "types/network/sync/CProjectBaseSyncDataNode.hpp"
 #include "types/network/sync/nodes/vehicle/CVehicleControlDataNode.hpp"
 
-#include <cstdint>
 
 class CHeliControlDataNode : CVehicleControlDataNode
 {

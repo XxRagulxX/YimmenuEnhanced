@@ -2,7 +2,6 @@
 #include "GUI.hpp"
 #include "core/commands/Commands.hpp"
 #include "core/commands/BoolCommand.hpp"
-#include "game/backend/AnticheatBypass.hpp"
 #include "game/pointers/Pointers.hpp"
 #include <shellapi.h>
 

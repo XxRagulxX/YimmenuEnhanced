@@ -1,5 +1,4 @@
 #include "SpawnPed.hpp"
-#include "core/backend/ScriptMgr.hpp"
 #include "core/backend/FiberPool.hpp"
 #include "core/frontend/Notifications.hpp"
 #include "game/backend/Self.hpp"
@@ -10,6 +9,8 @@
 #include "game/gta/data/Weapons.hpp"
 #include "game/gta/Scripts.hpp"
 #include "game/backend/NativeHooks.hpp"
+#include "game/frontend/items/Items.hpp"
+#include "game/pointers/Pointers.hpp"
 
 namespace YimMenu::Submenus
 {

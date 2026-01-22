@@ -1,4 +1,5 @@
 #include "SavedPlayers.hpp"
+#include <fstream>
 #include "core/backend/ScriptMgr.hpp"
 #include "core/commands/BoolCommand.hpp"
 #include "core/commands/Command.hpp"

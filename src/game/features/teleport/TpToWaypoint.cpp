@@ -4,7 +4,6 @@
 #include "core/backend/ScriptMgr.hpp"
 #include "game/backend/Self.hpp"
 #include "game/gta/Natives.hpp"
-#include "core/frontend/Notifications.hpp"
 
 namespace YimMenu::Features
 {

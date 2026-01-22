@@ -1,6 +1,5 @@
 #pragma once
 #include "Crossmap.hpp"
-#include "game/pointers/Pointers.hpp"
 #include "types/script/scrNativeHandler.hpp"
 
 enum class NativeIndex;

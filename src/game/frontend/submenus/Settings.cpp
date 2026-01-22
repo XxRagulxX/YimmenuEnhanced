@@ -1,9 +1,7 @@
 #include "Settings.hpp"
-
 #include "core/commands/Commands.hpp"
 #include "core/commands/HotkeySystem.hpp"
-#include "core/commands/LoopedCommand.hpp"
-#include "game/backend/Self.hpp"
+#include "core/commands/Command.hpp"
 #include "game/frontend/items/Items.hpp"
 #include "game/frontend/items/DrawHotkey.hpp"
 #include "game/frontend/submenus/Settings/LuaScripts.hpp"

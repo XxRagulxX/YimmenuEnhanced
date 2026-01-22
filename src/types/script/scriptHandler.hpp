@@ -1,8 +1,5 @@
 #pragma once
-#include "scrThread.hpp"
 #include "scriptId.hpp"
-
-#include <cstdint>
 
 namespace rage
 {

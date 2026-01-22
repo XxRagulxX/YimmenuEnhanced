@@ -1,5 +1,4 @@
 #include "core/scripting/LuaLibrary.hpp"
-#include "core/scripting/LuaScript.hpp"
 #include "core/scripting/LuaUtils.hpp"
 #include "game/gta/invoker/Invoker.hpp"
 

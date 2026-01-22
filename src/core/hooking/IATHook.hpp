@@ -1,7 +1,6 @@
 #pragma once
 #include "BaseHook.hpp"
-#include "memory/Module.hpp"
-#include "memory/PointerCalculator.hpp"
+#include "core/memory/Module.hpp"
 
 namespace YimMenu
 {

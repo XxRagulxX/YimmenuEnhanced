@@ -1,8 +1,6 @@
 #include "Items.hpp"
-#include "core/commands/Command.hpp"
 #include "core/commands/Commands.hpp"
 #include "core/commands/FloatCommand.hpp"
-#include "core/frontend/widgets/toggle/imgui_toggle.hpp"
 
 namespace YimMenu
 {

@@ -1,4 +1,11 @@
 #pragma once
+#include <functional>
+#include <vector>
+#include <memory>
+#include <mutex>
+#include <optional>
+#include <chrono>
+#include <Windows.h>
 
 namespace YimMenu
 {

@@ -1,8 +1,6 @@
 #include <string>
 #include "game/gta/Stats.hpp"
-#include "game/gta/Natives.hpp"
 #include "game/gta/ScriptLocal.hpp"
-#include "game/backend/Tunables.hpp"
 #include "core/commands/LoopedCommand.hpp"
 #include "core/frontend/Notifications.hpp"
 #include "core/backend/ScriptMgr.hpp"

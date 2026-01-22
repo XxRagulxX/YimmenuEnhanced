@@ -1,6 +1,5 @@
 #include "game/backend/Self.hpp"
 #include "game/hooks/Hooks.hpp"
-#include "game/pointers/Pointers.hpp"
 #include "types/network/netGameEvent.hpp"
 #include "types/script/globals/GPBD_FM_3.hpp"
 #include "types/script/globals/GlobalPlayerBD.hpp"

@@ -15,6 +15,7 @@
 #include "types/script/GtaThread.hpp"
 #include "types/script/CGameScriptHandlerNetComponent.hpp"
 #include "types/network/CNetGamePlayer.hpp"
+#include "game/frontend/items/Items.hpp"
 
 namespace YimMenu::Submenus
 {

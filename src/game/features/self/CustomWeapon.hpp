@@ -5,10 +5,7 @@
 #include "core/commands/ListCommand.hpp"
 #include "core/commands/LoopedCommand.hpp"
 #include "core/commands/StringCommand.hpp"
-#include "core/util/Math.hpp"
 #include "core/util/RainbowColor.hpp"
-#include "game/gta/Entity.hpp"
-#include "game/gta/Natives.hpp"
 #include "types/pad/ControllerInputs.hpp"
 
 namespace YimMenu::Features

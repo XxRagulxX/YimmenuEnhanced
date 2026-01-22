@@ -1,5 +1,6 @@
 #pragma once
 #include "scriptHandlerNetComponent.hpp"
+#include <cstdint>
 
 class CNetGamePlayer;
 class MsgScriptNewHost;

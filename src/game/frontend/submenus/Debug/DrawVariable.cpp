@@ -1,6 +1,7 @@
 #include "DrawVariable.hpp"
 #include "core/frontend/widgets/imgui_bitfield.hpp"
 #include "types/script/scrVector.hpp"
+#include "core/logger/LogHelper.hpp"
 
 namespace YimMenu
 {

@@ -1,9 +1,8 @@
 #include "PatternScanner.hpp"
-
 #include "Module.hpp"
 #include "ModuleMgr.hpp"
 #include "core/backend/PatternCache.hpp"
-
+#include "core/logger/LogHelper.hpp"
 #include <future>
 
 namespace YimMenu

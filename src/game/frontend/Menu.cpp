@@ -1,13 +1,8 @@
 #include "Menu.hpp"
 #include "imgui.h"
-#include "imgui_internal.h"
-#include "core/commands/Commands.hpp"
 #include "core/frontend/manager/UIManager.hpp"
 #include "core/renderer/Renderer.hpp"
-#include "core/backend/FiberPool.hpp"
-#include "core/backend/ScriptMgr.hpp"
 #include "game/frontend/fonts/Fonts.hpp"
-#include "game/pointers/Pointers.hpp"
 #include "submenus/Self.hpp"
 #include "submenus/Vehicle.hpp"
 #include "submenus/Teleport.hpp"
@@ -17,10 +12,10 @@
 #include "submenus/Settings.hpp"
 #include "submenus/Debug.hpp"
 #include "submenus/World.hpp"
-#include "core/filemgr/FileMgr.hpp"
-#include "core/memory/ModuleMgr.hpp"
 #include "Onboarding.hpp"
 #include "core/frontend/manager/styles/Themes.hpp"
+#include "game/frontend/GUI.hpp"
+
 
 namespace YimMenu
 {

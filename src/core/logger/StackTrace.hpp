@@ -1,5 +1,7 @@
 #pragma once
 
+#include <winnt.h>
+
 namespace YimMenu
 {
 	class StackTrace

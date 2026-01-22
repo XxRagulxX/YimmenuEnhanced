@@ -1,4 +1,6 @@
 #include "SavedPlayerData.hpp"
+#include <string_view>
+#include <array>
 
 namespace YimMenu
 {

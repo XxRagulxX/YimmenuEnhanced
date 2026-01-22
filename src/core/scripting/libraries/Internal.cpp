@@ -1,5 +1,4 @@
 #include "core/scripting/LuaLibrary.hpp"
-#include "core/scripting/LuaScript.hpp"
 #include "core/scripting/LatentFunction.hpp"
 #include "game/gta/Vehicle.hpp"
 #include "game/backend/Self.hpp"

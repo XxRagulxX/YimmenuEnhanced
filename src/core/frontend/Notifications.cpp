@@ -1,6 +1,4 @@
 #include "Notifications.hpp"
-
-#include "core/logger/LogHelper.hpp"
 #include "game/gta/Natives.hpp"
 #include "core/backend/FiberPool.hpp"
 #include "core/util/Joaat.hpp"

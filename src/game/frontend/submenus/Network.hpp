@@ -1,5 +1,5 @@
 #pragma once
-#include "core/frontend/manager/UIManager.hpp"
+#include "core/frontend/manager/Submenu.hpp"
 
 namespace YimMenu::Submenus
 {

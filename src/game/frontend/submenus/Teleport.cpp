@@ -1,5 +1,4 @@
 #include "Teleport.hpp"
-
 #include "core/frontend/Notifications.hpp"
 #include "core/backend/FiberPool.hpp"
 #include "game/backend/SavedLocations.hpp"

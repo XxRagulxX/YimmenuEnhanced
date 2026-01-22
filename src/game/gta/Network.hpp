@@ -1,4 +1,7 @@
 #pragma once
+#include <cstdint>
+#include <string_view>
+#include <optional>
 
 namespace rage
 {

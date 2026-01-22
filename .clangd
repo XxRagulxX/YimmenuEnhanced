@@ -1,6 +1,7 @@
 CompileFlags:
   CompilationDatabase: build
   Add:
+    - -std=c++23
     - -Isrc
     - -Isrc/core
     - -Isrc/game

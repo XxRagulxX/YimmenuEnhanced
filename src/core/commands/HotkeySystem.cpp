@@ -2,7 +2,7 @@
 #include "core/backend/FiberPool.hpp"
 #include "core/backend/ScriptMgr.hpp"
 #include "Commands.hpp"
-#include "LoopedCommand.hpp"
+#include "Command.hpp"
 #include "core/util/Joaat.hpp"
 
 // TODO: serialization isn't stable

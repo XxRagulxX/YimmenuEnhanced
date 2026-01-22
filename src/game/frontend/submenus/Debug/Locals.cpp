@@ -1,7 +1,9 @@
 #include "Locals.hpp"
-#include "DrawVariable.hpp"
 #include "game/gta/Scripts.hpp"
+#include "game/backend/SavedVariables.hpp"
 #include "types/script/scrThread.hpp"
+#include "game/frontend/items/Items.hpp"
+#include "game/frontend/submenus/Debug/DrawVariable.hpp"
 
 namespace YimMenu::Submenus
 {

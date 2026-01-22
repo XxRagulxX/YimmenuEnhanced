@@ -1,9 +1,10 @@
 #include "core/hooking/DetourHook.hpp"
 #include "game/hooks/Hooks.hpp"
-#include "game/backend/Players.hpp"
 #include "game/pointers/Pointers.hpp"
 #include "types/network/netArrayHandler.hpp"
 #include "types/script/globals/GSBD.hpp"
+#include "game/gta/Player.hpp"
+#include "game/backend/PlayerData.hpp"
 
 namespace YimMenu::Hooks
 {

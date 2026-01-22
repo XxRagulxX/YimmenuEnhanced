@@ -1,12 +1,14 @@
 #include "CustomWeapon.hpp"
 #include "core/backend/FiberPool.hpp"
-#include "core/backend/ScriptMgr.hpp"
 #include "core/frontend/Notifications.hpp"
 #include "game/backend/Self.hpp"
 #include "game/gta/Object.hpp"
-#include "types/entity/DecalTypes.hpp"
 #include "types/script/Timer.hpp"
 #include "game/gta/RayCast.hpp"
+#include "game/gta/Natives.hpp"
+#include "core/util/Math.hpp"
+#include "types/entity/DecalTypes.hpp"
+
 
 namespace YimMenu::Features
 {

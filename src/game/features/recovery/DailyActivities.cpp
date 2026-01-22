@@ -10,7 +10,6 @@
 #include "game/gta/Natives.hpp"
 #include "game/gta/Scripts.hpp"
 #include "game/gta/Stats.hpp"
-#include "game/gta/Vehicle.hpp"
 #include "game/gta/ScriptFunction.hpp"
 #include "game/gta/ScriptLocal.hpp"
 #include "game/gta/ScriptGlobal.hpp"

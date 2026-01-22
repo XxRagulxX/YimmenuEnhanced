@@ -4,7 +4,6 @@
 #include "game/gta/Scripts.hpp"
 #include "game/gta/ScriptPointer.hpp"
 #include "types/script/scrThread.hpp"
-#include "types/script/scrProgram.hpp"
 #include "types/rage/tlsContext.hpp"
 
 namespace YimMenu

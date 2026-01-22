@@ -1,5 +1,6 @@
 #include "LuaConfig.hpp"
 #include "core/filemgr/FileMgr.hpp"
+#include <fstream>
 
 namespace YimMenu
 {

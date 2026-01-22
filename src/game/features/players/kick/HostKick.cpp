@@ -1,5 +1,4 @@
 #include "game/commands/PlayerCommand.hpp"
-#include "game/backend/NativeHooks.hpp"
 #include "game/gta/Natives.hpp"
 
 namespace YimMenu::Features

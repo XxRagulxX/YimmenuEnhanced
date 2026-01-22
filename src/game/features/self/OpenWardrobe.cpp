@@ -1,5 +1,4 @@
 #include "core/commands/Command.hpp"
-#include "core/backend/ScriptMgr.hpp"
 #include "core/frontend/Notifications.hpp"
 #include "game/backend/Self.hpp"
 #include "game/backend/ScriptPatches.hpp"

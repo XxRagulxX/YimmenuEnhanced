@@ -1,5 +1,4 @@
 #include "Items.hpp"
-#include "core/commands/Command.hpp"
 #include "core/commands/Commands.hpp"
 #include "core/commands/Vector3Command.hpp"
 #include "game/backend/SavedLocations.hpp"

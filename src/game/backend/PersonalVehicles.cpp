@@ -2,7 +2,6 @@
 #include "core/backend/FiberPool.hpp"
 #include "core/backend/ScriptMgr.hpp"
 #include "game/backend/Self.hpp"
-#include "game/gta/data/VehicleValues.hpp"
 #include "game/gta/Natives.hpp"
 #include "game/gta/ScriptFunction.hpp"
 #include "game/gta/ScriptLocal.hpp"

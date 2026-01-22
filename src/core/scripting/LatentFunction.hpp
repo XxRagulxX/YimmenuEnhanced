@@ -1,5 +1,6 @@
 #pragma once
-#include "LuaScript.hpp"
+
+#include <lua.h>
 
 namespace YimMenu::Lua
 {

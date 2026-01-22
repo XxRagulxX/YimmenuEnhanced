@@ -1,5 +1,4 @@
 #pragma once
-#include <cstdint>
 #include "types/network/sync/CProjectBaseSyncDataNode.hpp"
 
 class CPhysicalMigrationDataNode : CProjectBaseSyncDataNode

@@ -1,6 +1,5 @@
 #pragma once
 #include <AsyncLogger/Logger.hpp>
-#include <memory>
 #include <string>
 
 

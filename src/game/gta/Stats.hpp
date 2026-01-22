@@ -1,5 +1,4 @@
 #pragma once
-#include "core/util/Joaat.hpp"
 #include "types/script/types.hpp"
 
 namespace YimMenu::Stats

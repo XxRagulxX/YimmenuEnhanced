@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 enum class PedCombatAttribute : std::uint32_t
 {

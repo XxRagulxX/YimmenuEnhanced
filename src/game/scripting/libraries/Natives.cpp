@@ -3,7 +3,6 @@
 #include "core/scripting/LuaScript.hpp"
 #include "core/scripting/LuaUtils.hpp"
 #include "NativeDefs.hpp"
-#include "core/util/Joaat.hpp"
 
 namespace YimMenu::Lua
 {

@@ -1,6 +1,4 @@
 #pragma once
-#include "Player.hpp"
-
 #include "types/rage/datBitBuffer.hpp"
 #include "types/network/netMessage.hpp"
 

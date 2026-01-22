@@ -1,6 +1,5 @@
 #include "core/commands/Command.hpp"
 #include "core/commands/ListCommand.hpp"
-#include "core/commands/BoolCommand.hpp"
 #include "game/gta/data/IPL.hpp"
 #include "game/gta/Natives.hpp"
 #include "game/backend/Self.hpp"

@@ -1,5 +1,5 @@
 #pragma once
-#include "types.hpp"
+#include <cstdint>
 
 enum class HudColor : std::uint32_t
 {

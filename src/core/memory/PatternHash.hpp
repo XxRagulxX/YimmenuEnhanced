@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 // TODO: use an actual hash function
 namespace YimMenu
 {

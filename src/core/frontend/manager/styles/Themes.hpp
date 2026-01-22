@@ -1,8 +1,5 @@
 #pragma once
 
-#include "core/frontend/manager/Category.hpp"
-#include "game/frontend/items/Items.hpp"
-
 namespace YimMenu
 {
 	// Forward declarations of each theme's render function, append when adding new themes

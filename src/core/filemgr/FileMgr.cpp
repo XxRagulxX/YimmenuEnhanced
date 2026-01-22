@@ -16,7 +16,7 @@ namespace YimMenu
 		CreateFolderIfNotExists(m_RootFolder);
 	}
 
-	const std::filesystem::path& FileMgr::CreateFolderIfNotExists(const std::filesystem::path& folder)
+	std::filesystem::path FileMgr::CreateFolderIfNotExists(const std::filesystem::path& folder)
 	{
 		bool create_path = !exists(folder);
 
@@ -31,7 +31,7 @@ namespace YimMenu
 		return folder;
 	}
 
-	const std::filesystem::path& FileMgr::EnsureFileCanBeCreated(const std::filesystem::path& file)
+	std::filesystem::path FileMgr::EnsureFileCanBeCreated(const std::filesystem::path& file)
 	{
 		return FileMgr::CreateFolderIfNotExists(file.parent_path());
 	}

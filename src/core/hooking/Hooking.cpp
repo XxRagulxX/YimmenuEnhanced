@@ -2,7 +2,6 @@
 
 #include "BaseHook.hpp"
 #include "DetourHook.hpp"
-#include "VMTHook.hpp"
 #include "game/hooks/Hooks.hpp"
 #include "game/pointers/Pointers.hpp"
 

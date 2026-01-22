@@ -3,6 +3,8 @@
 #include <memory>
 #include <span>
 #include <vector>
+#include <stdint.h>
+#include <vcruntime_string.h>
 
 namespace YimMenu
 {

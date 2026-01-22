@@ -1,9 +1,9 @@
 #pragma once
-#include "BaseHook.hpp"
 
-#include <array>
-#include <cstddef>
-#include <string_view>
+#include <cstddef>      // std::size_t
+#include <string_view>  // std::string_view
+#include <cstdint>      // std::uint32_t
+#include <cstring>      // memcpy
 
 namespace YimMenu
 {
@@ -28,8 +28,8 @@ namespace YimMenu
 		VMTHook(VMTHook const&) = delete;
 		VMTHook& operator=(VMTHook const&) = delete;
 
-		virtual void Enable();
-		virtual void Disable();
+		void Enable();
+		void Disable();
 
 		template<typename T>
 		inline T Original(const std::uint32_t idx) const;

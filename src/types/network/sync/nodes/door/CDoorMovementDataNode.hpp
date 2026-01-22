@@ -1,6 +1,4 @@
 #pragma once
-#include <cstdint>
-#include "types/rage/vector.hpp"
 #include "types/network/sync/CProjectBaseSyncDataNode.hpp"
 
 class CDoorMovementDataNode : CSyncDataNodeFrequent

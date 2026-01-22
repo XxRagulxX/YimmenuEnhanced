@@ -5,7 +5,6 @@
 #include "game/pointers/Pointers.hpp"
 #include "game/backend/NativeHooks.hpp"
 #include "game/gta/Natives.hpp"
-#include "types/anticheat/CAnticheatContext.hpp"
 
 using FnGetVersion = int (*)();
 using FnLocalSaves = bool (*)();

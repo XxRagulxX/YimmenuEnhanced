@@ -3,6 +3,7 @@
 #include "game/backend/NativeHooks.hpp"
 #include "game/gta/Natives.hpp"
 #include "game/gta/Stats.hpp"
+#include "game/pointers/Pointers.hpp"
 
 namespace YimMenu::Features
 {

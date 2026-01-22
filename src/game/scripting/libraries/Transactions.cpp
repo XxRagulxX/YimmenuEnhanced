@@ -1,5 +1,5 @@
 #include "core/scripting/LuaLibrary.hpp"
-#include "core/scripting/LuaScript.hpp"
+#include <unordered_set>
 #include "core/scripting/LuaUtils.hpp"
 #include "core/scripting/LatentFunction.hpp"
 #include "core/backend/ScriptMgr.hpp"
