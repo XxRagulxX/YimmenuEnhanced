@@ -12,7 +12,7 @@ set(LUAJIT_FORCE_UTF8_FOPEN ON)
 FetchContent_Declare(
     luajit
     GIT_REPOSITORY https://github.com/WohlSoft/LuaJIT.git
-    GIT_TAG 27878965958986687f8caaf8a2b6b73bc5df85e0
+    GIT_TAG 41594f160375b25e6df19e6130c602d98d5b9c24
     GIT_PROGRESS TRUE
 )
 
