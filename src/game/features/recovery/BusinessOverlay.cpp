@@ -8,6 +8,11 @@
 namespace YimMenu::Features
 {
 	BoolCommand _BusinessOverlay("businessoverlay", "Show Business Overlay", "Displays current Business overlay");
+	BoolCommand _ShowWarehouse("showwarehouse", "Show Warehouse", "Display warehouse stock");
+	BoolCommand _ShowHangar("showhangar", "Show Hangar", "Display hangar stock");
+	BoolCommand _ShowBusinesses("showbusinesses", "Show Businesses", "Display MC business stock");
+	BoolCommand _ShowNightclub("shownightclub", "Show Nightclub", "Display nightclub stock");
+
 
 	enum class MCBusinessType
 	{
@@ -296,32 +301,61 @@ namespace YimMenu::Features
 		UpdateWarehouses();
 		UpdateNightclubStock();
 
-        int hangarStock = GetHangarStock();
-
-
-		ImGui::Text("Warehouse:");
-        ImGui::Text("Hangar : %d%% | %d / 50", (hangarStock * 100) / 50, hangarStock);
-		if (g_Warehouses.empty())
-			ImGui::TextDisabled("No active Warehouse");
-
-		for (auto& w : g_Warehouses)
-			ImGui::Text("%s | %d / %d crates", w.info->name, w.crates, w.info->capacity);
-
-		ImGui::Text("Businesses:");
-		if (g_Businesses.empty())
-			ImGui::TextDisabled("No active businesses");
-
-		for (auto& b : g_Businesses)
-			ImGui::Text("%s | Stock %d | Supplies %d", TypeName(b.type), b.product, b.supplies);
-
-		ImGui::Text("Nightclub Hub:");
-		if (g_OwnedNightclubId <= 0)
+		if (_ShowWarehouse.GetState())
 		{
-			ImGui::TextDisabled("No active Nightclub");
-			return;
+			ImGui::Text("Warehouse:");
+
+			if (g_Warehouses.empty())
+				ImGui::TextDisabled("No active Warehouse");
+
+			for (auto& w : g_Warehouses)
+				ImGui::Text("%s | %d / %d crates",
+				    w.info->name,
+				    w.crates,
+				    w.info->capacity);
+
+			ImGui::Separator();
 		}
 
-		for (auto& p : g_NightclubStock)
-			ImGui::Text("%s : %d", NightclubName(p.type), p.amount);
+		if (_ShowHangar.GetState())
+		{
+			int hangarStock = GetHangarStock();
+			ImGui::Text("Hangar : %d%% | %d / 50", (hangarStock * 100) / 50, hangarStock);
+			ImGui::Separator();
+		}
+
+		if (_ShowBusinesses.GetState())
+		{
+			ImGui::Text("Businesses:");
+
+			if (g_Businesses.empty())
+				ImGui::TextDisabled("No active businesses");
+
+			for (auto& b : g_Businesses)
+				ImGui::Text("%s | Stock %d | Supplies %d",
+				    TypeName(b.type),
+				    b.product,
+				    b.supplies);
+
+			ImGui::Separator();
+		}
+
+		if (_ShowNightclub.GetState())
+		{
+			ImGui::Text("Nightclub Hub:");
+
+			if (g_OwnedNightclubId <= 0)
+			{
+				ImGui::TextDisabled("No active Nightclub");
+				return;
+			}
+
+			auto it = g_NightclubMap.find(g_OwnedNightclubId);
+			ImGui::Text("Club: %s", it != g_NightclubMap.end() ? it->second.name : "Unknown");
+
+			for (auto& p : g_NightclubStock)
+				ImGui::Text("%s : %d", NightclubName(p.type), p.amount);
+		}
 	}
+
 }

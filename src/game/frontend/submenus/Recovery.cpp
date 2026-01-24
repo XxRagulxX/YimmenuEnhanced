@@ -5,6 +5,7 @@
 #include "Recovery/Unlocker.hpp"
 #include "Recovery/DailyActivities.hpp"
 #include "game/frontend/items/Items.hpp"
+#include <memory>
 
 namespace YimMenu::Submenus
 {
@@ -36,6 +37,11 @@ namespace YimMenu::Submenus
 		businessSafe->AddItem(std::make_shared<CommandItem>("claimsafeearnings"_J));
 
 		businessGroup->AddItem(std::make_shared<BoolCommandItem>("businessoverlay"_J));
+		businessGroup->AddItem(std::make_shared<ConditionalItem>("businessoverlay"_J, std::make_shared<BoolCommandItem>("showwarehouse"_J)));
+		businessGroup->AddItem(std::make_shared<ConditionalItem>("businessoverlay"_J, std::make_shared<BoolCommandItem>("showhangar"_J)));
+		businessGroup->AddItem(std::make_shared<ConditionalItem>("businessoverlay"_J, std::make_shared<BoolCommandItem>("showbusinesses"_J)));
+		businessGroup->AddItem(std::make_shared<ConditionalItem>("businessoverlay"_J, std::make_shared<BoolCommandItem>("shownightclub"_J)));
+
 		businessGroup->AddItem(std::make_shared<CommandItem>("resupplybusiness"_J));
 		businessGroup->AddItem(std::make_shared<CommandItem>("hangerresupply"_J));
 		businessGroup->AddItem(std::make_shared<CommandItem>("warehouseresupply"_J));
@@ -56,11 +62,11 @@ namespace YimMenu::Submenus
 
 		AddCategory(std::move(main));
 		AddCategory(std::move(businesses));
-		AddCategory(std::move(casino));
 		AddCategory(BuildHeistModifierMenu());
 		AddCategory(BuildDailyActivitiesMenu());
 		AddCategory(BuildStatEditorMenu());
 		AddCategory(BuildTransactionsMenu());
+		AddCategory(std::move(casino));
 		AddCategory(BuildUnlockerMenu());
 	}
 }
