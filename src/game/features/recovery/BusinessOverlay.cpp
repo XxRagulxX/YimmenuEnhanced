@@ -1,6 +1,8 @@
 #include "game/gta/Stats.hpp"
 #include "game/gta/ScriptGlobal.hpp"
 #include "core/commands/BoolCommand.hpp"
+#include "game/backend/Self.hpp"
+#include "types/network/CNetGamePlayer.hpp"
 
 namespace YimMenu::Features
 {
@@ -16,6 +18,32 @@ namespace YimMenu::Features
 		Bunker,
 		None = -1
 	};
+
+	struct WarehouseInfo
+	{
+		const char* name;
+		int capacity;
+		Vector3 coords;
+	};
+
+	struct WarehouseRuntime
+	{
+		int slot;
+		int property;
+		const WarehouseInfo* info;
+		int crates;
+	};
+
+
+	int GetLocalPlayerIndex()
+	{
+		auto player = YimMenu::Self::GetPlayer();
+
+		if (!player)
+			return 0;
+
+		return player.GetHandle()->m_PlayerIndex;
+	}
 
 	static const char* TypeName(MCBusinessType t)
 	{
@@ -47,6 +75,7 @@ namespace YimMenu::Features
 	};
 
 	static std::vector<BusinessRuntime> g_Businesses;
+	static std::vector<WarehouseRuntime> g_Warehouses;
 
 	static std::unordered_map<int, PropertyInfo> g_PropertyMap = {
 	    {1, {{52.903f, 6338.585f, 31.35f}, MCBusinessType::Meth}},
@@ -85,6 +114,55 @@ namespace YimMenu::Features
 	    {30, {{-3031.356f, 3334.059f, 9.1805f}, MCBusinessType::Bunker}},
 	    {31, {{-3157.599f, 1376.695f, 15.866f}, MCBusinessType::Bunker}},
 	};
+
+	static std::unordered_map<int, WarehouseInfo> g_WarehouseMap = {
+	    {1, {"Pacific Bait Storage", 16, {54.191f, -2569.248f, 6.0046f}}},
+	    {2, {"White Widow Garage", 16, {-1083.054f, -1261.893f, 5.534f}}},
+	    {3, {"Celltowa Unit", 16, {896.3665f, -1035.749f, 35.1096f}}},
+	    {4, {"Convenience Store Lockup", 16, {247.473f, -1956.943f, 23.1908f}}},
+	    {5, {"Foreclosed Garage", 16, {-424.828f, 185.825f, 80.775f}}},
+	    {6, {"Xero Gas Factory", 111, {-1042.482f, -2023.516f, 13.1616f}}},
+	    {7, {"Derriere Lingerie Backlot", 42, {-1268.119f, -812.2741f, 17.1075f}}},
+	    {8, {"Bilgeco Warehouse", 111, {-873.65f, -2735.948f, 13.9438f}}},
+	    {9, {"Pier 400 Utility Building", 16, {274.5224f, -3015.413f, 5.6993f}}},
+	    {10, {"GEE Warehouse", 42, {1569.69f, -2129.792f, 78.3351f}}},
+	    {11, {"LS Marine Building 3", 42, {-315.551f, -2698.654f, 7.5495f}}},
+	    {12, {"Railyard Warehouse", 42, {499.81f, -651.982f, 24.909f}}},
+	    {13, {"Fridgit Annexe", 42, {-528.5296f, -1784.573f, 21.5853f}}},
+	    {14, {"Disused Factory Outlet", 42, {-295.8596f, -1353.238f, 31.3138f}}},
+	    {15, {"Discount Retail Unit", 42, {349.839f, 328.889f, 104.272f}}},
+	    {16, {"Logistics Depot", 111, {926.2818f, -1560.311f, 30.7404f}}},
+	    {17, {"Darnell Bros Warehouse", 111, {759.566f, -909.466f, 25.244f}}},
+	    {18, {"Wholesale Furniture", 111, {1037.813f, -2173.062f, 31.5334f}}},
+	    {19, {"Cypress Warehouses", 111, {1019.116f, -2511.69f, 28.302f}}},
+	    {20, {"West Vinewood Backlot", 111, {-245.3405f, 203.3286f, 83.818f}}},
+	    {21, {"Old Power Station", 42, {539.346f, -1945.682f, 24.984f}}},
+	    {22, {"Walker & Sons Warehouse", 111, {96.1538f, -2216.4f, 6.1712f}}},
+	};
+	static int GetWarehouseCrates(int slot)
+	{
+		int base = (1845299 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 128) + 1;
+
+		if (auto p = ScriptGlobal(base + 5 + slot).As<int*>())
+			return *p;
+
+		return 0;
+	}
+
+	static int GetWarehouseOffset()
+	{
+		int player = GetLocalPlayerIndex();
+		return (1845299 + 1 + (player * 880) + 260 + 128) + 1;
+	}
+
+
+	static int GetWarehousePropertyFromSlot(int slot)
+	{
+		if (auto p = ScriptGlobal(GetWarehouseOffset() + (slot * 3)).As<int*>())
+			return *p;
+		return 0;
+	}
+
 
 	static int GetBusinessProduct(int slot)
 	{
@@ -126,12 +204,37 @@ namespace YimMenu::Features
 		}
 	}
 
+	static void UpdateWarehouses()
+	{
+		g_Warehouses.clear();
+
+		for (int slot = 0; slot < 5; ++slot)
+		{
+			int property = GetWarehousePropertyFromSlot(slot);
+			if (property <= 0)
+				continue;
+
+			auto it = g_WarehouseMap.find(property);
+			if (it == g_WarehouseMap.end())
+				continue;
+
+			WarehouseRuntime w{};
+			w.slot = slot;
+			w.property = property;
+			w.info = &it->second;
+			w.crates = GetWarehouseCrates(slot);
+
+			g_Warehouses.push_back(w);
+		}
+	}
+
 	void DrawBusinessOverlay()
 	{
 		if (!_BusinessOverlay.GetState())
 			return;
 
 		UpdateBusinesses();
+		UpdateWarehouses();
 
 		int hangarStock = 0;
 		if (auto p = ScriptGlobal(1845299 + 1 + 260 + 304 + 3).As<int*>())
@@ -141,8 +244,24 @@ namespace YimMenu::Features
 		if (auto p = ScriptGlobal(1845299 + 1 + 260 + 128 + 1).At(0, 3).As<int*>())
 			warehouseStock = *p;
 
+		ImGui::Text("Warehouse:");
+
 		ImGui::Text("Hangar    : %d%% | %d / 50", (hangarStock * 100) / 50, hangarStock);
-		ImGui::Text("Warehouse : %d%% | %d / 111", (warehouseStock * 100) / 111, warehouseStock);
+		// ImGui::Text("Warehouse : %d%% | %d / 111", (warehouseStock * 100) / 111, warehouseStock);
+
+		if (g_Warehouses.empty())
+		{
+			ImGui::TextDisabled("No active Warehouse");
+			return;
+		}
+
+		for (auto& w : g_Warehouses)
+		{
+			ImGui::Text("%s | %d / %d crates",
+			    w.info->name,
+			    w.crates,
+			    w.info->capacity);
+		}
 
 		ImGui::Text("Businesses:");
 
@@ -154,9 +273,8 @@ namespace YimMenu::Features
 
 		for (const auto& b : g_Businesses)
 		{
-			ImGui::Text("%s | Slot %d | Stock %d | Supplies %d",
+			ImGui::Text("%s | Stock %d | Supplies %d",
 			    TypeName(b.type),
-			    b.slot,
 			    b.product,
 			    b.supplies);
 		}
