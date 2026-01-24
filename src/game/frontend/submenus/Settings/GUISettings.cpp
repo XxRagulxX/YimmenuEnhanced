@@ -94,6 +94,13 @@ namespace YimMenu
 			g_OverlayTextColorCmd->SetState(YimMenu::g_OverlayTextColor);
 		}
 
+		// Load Overlay Scale
+		if (auto it = json.find("OverlayTextScale"); it != json.end() && it->is_number())
+		{
+			float scale = it->get<float>();
+			YimMenu::g_OverlayTextScale = std::clamp(scale, 0.5f, 2.5f);
+		}
+
 		// Load rounding values
 		for (const char* key : {"WindowRounding", "FrameRounding", "GrabRounding", "ScrollbarRounding", "ChildRounding", "PopupRounding", "TabRounding"})
 			if (auto it = json.find(key); it != json.end())
@@ -126,6 +133,9 @@ namespace YimMenu
 			auto c = g_OverlayTextColorCmd->GetState();
 			json["OverlayTextColor"] = {c.x, c.y, c.z, c.w};
 		}
+
+		// Overlay Text Scale
+		json["OverlayTextScale"] = YimMenu::g_OverlayTextScale;
 
 		// Save rounding
 		for (auto& [k, v] : g_RoundingValues)
@@ -335,6 +345,12 @@ namespace YimMenu
 		ImGui::SliderFloat("Font Scale", &scale, 0.5f, 2.0f, "%.2f");
 		if (ImGui::Button("Apply Font Scale"))
 			io.FontGlobalScale = scale;
+
+		// NEW: Overlay-only font size
+		if (ImGui::SliderFloat("Overlay Font Size", &YimMenu::g_OverlayTextScale, 0.5f, 2.5f, "%.2f"))
+		{
+			SaveSettings();
+		}
 	}
 
 	std::shared_ptr<Category> DrawGUISettingsMenu()

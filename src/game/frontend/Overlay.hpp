@@ -19,4 +19,5 @@ namespace YimMenu
 	};
 
 	inline ImVec4 g_OverlayTextColor = ImVec4(1.f, 0.f, 0.f, 1.f); // default red
+	inline float  g_OverlayTextScale = 1.0f; // default scale
 }

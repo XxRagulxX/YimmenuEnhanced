@@ -36,7 +36,6 @@ namespace YimMenu
 		ImVec2 screen(*Pointers.ScreenResX, *Pointers.ScreenResY);
 		ImVec2 padding(10.f, 10.f);
 
-		ImVec2 window_size(450.f, 300.f);
 		ImVec2 pos = padding;
 
 		switch (posMode)
@@ -46,17 +45,15 @@ namespace YimMenu
 			break;
 
 		case OverlayPosition::TopRight:
-			pos = ImVec2(screen.x - window_size.x - padding.x, padding.y);
+			pos = ImVec2(screen.x - padding.x, padding.y);
 			break;
 
 		case OverlayPosition::BottomLeft:
-			pos = ImVec2(padding.x, screen.y - window_size.y - padding.y);
+			pos = ImVec2(padding.x, screen.y - padding.y);
 			break;
 
 		case OverlayPosition::BottomRight:
-			pos = ImVec2(
-			    screen.x - window_size.x - padding.x,
-			    screen.y - window_size.y - padding.y);
+			pos = ImVec2(screen.x - padding.x, screen.y - padding.y);
 			break;
 
 		case OverlayPosition::Free:
@@ -64,13 +61,18 @@ namespace YimMenu
 			break;
 		}
 
-		ImGui::SetNextWindowSize(window_size, ImGuiCond_Always);
 		ImGuiCond cond = (posMode == OverlayPosition::Free) ? ImGuiCond_Once : ImGuiCond_Always;
 
 		ImGui::SetNextWindowPos(pos, cond);
 
 		ImGuiWindowFlags flags =
-		    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoBackground;
+		    ImGuiWindowFlags_NoTitleBar |
+		    ImGuiWindowFlags_NoCollapse |
+		    ImGuiWindowFlags_NoSavedSettings |
+		    ImGuiWindowFlags_NoScrollbar |
+		    ImGuiWindowFlags_NoScrollWithMouse |
+		    ImGuiWindowFlags_NoBackground |
+		    ImGuiWindowFlags_AlwaysAutoResize;
 
 		if (posMode != OverlayPosition::Free || Features::_OverlayLock.GetState())
 			flags |= ImGuiWindowFlags_NoMove;
@@ -80,6 +82,7 @@ namespace YimMenu
 		ImGui::PushStyleColor(ImGuiCol_Text, YimMenu::g_OverlayTextColor);
 
 		ImGui::Begin("##overlay", nullptr, flags);
+		ImGui::SetWindowFontScale(YimMenu::g_OverlayTextScale);
 
 		if (posMode == OverlayPosition::Free && !Features::_OverlayLock.GetState())
 		{
@@ -93,7 +96,7 @@ namespace YimMenu
 
 		ImGui::End();
 
-		ImGui::PopStyleColor(1);
+		ImGui::PopStyleColor();
 		ImGui::PopFont();
 	}
 }
