@@ -1,3 +1,4 @@
+#include "game/gta/Player.hpp"
 #include "game/gta/Stats.hpp"
 #include "game/gta/ScriptGlobal.hpp"
 #include "core/commands/BoolCommand.hpp"
@@ -10,13 +11,34 @@ namespace YimMenu::Features
 
 	enum class MCBusinessType
 	{
-		Forgery = 0,
+		Forgery,
 		Weed,
 		Cash,
 		Meth,
 		Cocaine,
 		Bunker,
 		None = -1
+	};
+	enum class NightclubProduct
+	{
+		Cargo,
+		Sporting,
+		Imports,
+		Research,
+		Organic,
+		Printing,
+		Cash
+	};
+
+	struct PropertyInfo
+	{
+		Vector3 coords;
+		MCBusinessType type;
+	};
+	struct BusinessRuntime
+	{
+		int slot{}, property{}, product{}, supplies{};
+		MCBusinessType type{};
 	};
 
 	struct WarehouseInfo
@@ -25,57 +47,28 @@ namespace YimMenu::Features
 		int capacity;
 		Vector3 coords;
 	};
-
 	struct WarehouseRuntime
 	{
-		int slot;
-		int property;
-		const WarehouseInfo* info;
-		int crates;
+		int slot{}, property{};
+		const WarehouseInfo* info{};
+		int crates{};
 	};
 
-
-	int GetLocalPlayerIndex()
+	struct NightclubInfo
 	{
-		auto player = YimMenu::Self::GetPlayer();
-
-		if (!player)
-			return 0;
-
-		return player.GetHandle()->m_PlayerIndex;
-	}
-
-	static const char* TypeName(MCBusinessType t)
-	{
-		switch (t)
-		{
-		case MCBusinessType::Forgery: return "Forgery";
-		case MCBusinessType::Weed: return "Weed";
-		case MCBusinessType::Cash: return "Cash";
-		case MCBusinessType::Meth: return "Meth";
-		case MCBusinessType::Cocaine: return "Cocaine";
-		case MCBusinessType::Bunker: return "Bunker";
-		default: return "None";
-		}
-	}
-
-	struct PropertyInfo
-	{
+		const char* name;
 		Vector3 coords;
-		MCBusinessType type;
 	};
-
-	struct BusinessRuntime
+	struct NightclubStock
 	{
-		int slot{};
-		int property{};
-		int product{};
-		int supplies{};
-		MCBusinessType type{};
+		NightclubProduct type;
+		int amount{};
 	};
 
 	static std::vector<BusinessRuntime> g_Businesses;
 	static std::vector<WarehouseRuntime> g_Warehouses;
+	static std::vector<NightclubStock> g_NightclubStock;
+	static int g_OwnedNightclubId = 0;
 
 	static std::unordered_map<int, PropertyInfo> g_PropertyMap = {
 	    {1, {{52.903f, 6338.585f, 31.35f}, MCBusinessType::Meth}},
@@ -83,25 +76,21 @@ namespace YimMenu::Features
 	    {3, {{51.7653f, 6486.163f, 31.428f}, MCBusinessType::Cocaine}},
 	    {4, {{-413.6606f, 6171.938f, 31.4782f}, MCBusinessType::Cash}},
 	    {5, {{-163.6828f, 6334.845f, 31.5808f}, MCBusinessType::Forgery}},
-
 	    {6, {{1454.671f, -1651.986f, 67.0f}, MCBusinessType::Meth}},
 	    {7, {{102.14f, 175.26f, 104.56f}, MCBusinessType::Weed}},
 	    {8, {{-1462.622f, -381.826f, 38.802f}, MCBusinessType::Cocaine}},
 	    {9, {{-1171.005f, -1380.922f, 4.937f}, MCBusinessType::Cash}},
 	    {10, {{299.071f, -759.072f, 29.333f}, MCBusinessType::Forgery}},
-
 	    {11, {{201.8909f, 2461.782f, 55.6885f}, MCBusinessType::Meth}},
 	    {12, {{2848.369f, 4450.147f, 48.5139f}, MCBusinessType::Weed}},
 	    {13, {{387.5332f, 3585.042f, 33.2922f}, MCBusinessType::Cocaine}},
 	    {14, {{636.6344f, 2785.126f, 42.0111f}, MCBusinessType::Cash}},
 	    {15, {{1657.066f, 4851.732f, 41.9882f}, MCBusinessType::Forgery}},
-
 	    {16, {{1181.44f, -3113.82f, 6.03f}, MCBusinessType::Meth}},
 	    {17, {{136.973f, -2472.795f, 5.98f}, MCBusinessType::Weed}},
 	    {18, {{-253.31f, -2591.15f, 5.97f}, MCBusinessType::Cocaine}},
 	    {19, {{671.451f, -2667.502f, 6.0812f}, MCBusinessType::Cash}},
 	    {20, {{-331.52f, -2778.97f, 5.12f}, MCBusinessType::Forgery}},
-
 	    {21, {{492.8395f, 3014.057f, 39.9793f}, MCBusinessType::Bunker}},
 	    {22, {{849.603f, 3021.697f, 40.3076f}, MCBusinessType::Bunker}},
 	    {23, {{39.5967f, 2930.506f, 54.8034f}, MCBusinessType::Bunker}},
@@ -139,41 +128,109 @@ namespace YimMenu::Features
 	    {21, {"Old Power Station", 42, {539.346f, -1945.682f, 24.984f}}},
 	    {22, {"Walker & Sons Warehouse", 111, {96.1538f, -2216.4f, 6.1712f}}},
 	};
+
+	static std::unordered_map<int, NightclubInfo> g_NightclubMap = {
+	    {1, {"La Mesa Nightclub", {968.08f, -2108.66f, 30.47f}}},
+	    {2, {"Mission Row Nightclub", {338.69f, -970.25f, 29.42f}}},
+	    {3, {"Strawberry Nightclub", {-120.906f, -1260.49f, 29.2088f}}},
+	    {4, {"West Vinewood Nightclub", {5.537f, 221.35f, 107.6566f}}},
+	    {5, {"Cypress Flats Nightclub", {871.47f, -2099.57f, 30.3768f}}},
+	    {6, {"LSIA Nightclub", {-676.625f, -2458.15f, 13.8444f}}},
+	    {7, {"Elysian Island Nightclub", {195.534f, -3168.88f, 5.7903f}}},
+	    {8, {"Downtown Vinewood Nightclub", {373.05f, 252.13f, 102.9097f}}},
+	    {9, {"Del Perro Nightclub", {-1283.38f, -649.916f, 26.5198f}}},
+	    {10, {"Vespucci Canals Nightclub", {-1174.85f, -1152.3f, 5.56128f}}},
+	};
+
+	static inline int GetLocalPlayerIndex()
+	{
+		auto player = Self::GetPlayer();
+		if (!player)
+			return 0;
+		auto handle = player.GetHandle();
+		if (!handle)
+			return 0;
+		return handle->m_PlayerIndex;
+	}
+
+	static inline const char* TypeName(MCBusinessType t)
+	{
+		switch (t)
+		{
+		case MCBusinessType::Forgery: return "Forgery";
+		case MCBusinessType::Weed: return "Weed";
+		case MCBusinessType::Cash: return "Cash";
+		case MCBusinessType::Meth: return "Meth";
+		case MCBusinessType::Cocaine: return "Cocaine";
+		case MCBusinessType::Bunker: return "Bunker";
+		default: return "None";
+		}
+	}
+
+	static inline const char* NightclubName(NightclubProduct t)
+	{
+		switch (t)
+		{
+		case NightclubProduct::Cargo: return "Cargo";
+		case NightclubProduct::Sporting: return "Sporting Goods";
+		case NightclubProduct::Imports: return "Imports";
+		case NightclubProduct::Research: return "Research";
+		case NightclubProduct::Organic: return "Organic";
+		case NightclubProduct::Printing: return "Printing";
+		case NightclubProduct::Cash: return "Cash";
+		default: return "Unknown";
+		}
+	}
+
+	static int GetHangarStock()
+	{
+		int player = GetLocalPlayerIndex();
+
+		if (auto p = ScriptGlobal(1845299 + 1 + (player * 880) + 260 + 304 + 3).As<int*>())
+			return *p;
+
+		return 0;
+	}
+
+
 	static int GetWarehouseCrates(int slot)
 	{
 		int base = (1845299 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 128) + 1;
-
 		if (auto p = ScriptGlobal(base + 5 + slot).As<int*>())
 			return *p;
-
 		return 0;
 	}
-
-	static int GetWarehouseOffset()
-	{
-		int player = GetLocalPlayerIndex();
-		return (1845299 + 1 + (player * 880) + 260 + 128) + 1;
-	}
-
 
 	static int GetWarehousePropertyFromSlot(int slot)
 	{
-		if (auto p = ScriptGlobal(GetWarehouseOffset() + (slot * 3)).As<int*>())
+		int base = 1845299 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 128 + 1;
+		if (auto p = ScriptGlobal(base + (slot * 3)).As<int*>())
 			return *p;
 		return 0;
 	}
 
+	static int GetOwnedNightclubID()
+	{
+		if (auto p = ScriptGlobal(1845299 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 364).As<int*>())
+			return *p;
+		return 0;
+	}
+
+	static int GetNightclubStock(int slot)
+	{
+		if (auto p = ScriptGlobal(1845299 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 320 + 9 + slot).As<int*>())
+			return *p;
+		return 0;
+	}
 
 	static int GetBusinessProduct(int slot)
 	{
 		return Stats::GetInt("MPX_PRODTOTALFORFACTORY" + std::to_string(slot));
 	}
-
 	static int GetBusinessSupplies(int slot)
 	{
 		return Stats::GetInt("MPX_MATTOTALFORFACTORY" + std::to_string(slot));
 	}
-
 	static int GetBusinessProperty(int slot)
 	{
 		return Stats::GetInt("MPX_factoryslot" + std::to_string(slot));
@@ -193,14 +250,11 @@ namespace YimMenu::Features
 			if (it == g_PropertyMap.end())
 				continue;
 
-			BusinessRuntime b{};
-			b.slot = slot;
-			b.property = property;
-			b.type = it->second.type;
-			b.product = GetBusinessProduct(slot);
-			b.supplies = GetBusinessSupplies(slot);
-
-			g_Businesses.push_back(b);
+			g_Businesses.push_back({slot,
+			    property,
+			    GetBusinessProduct(slot),
+			    GetBusinessSupplies(slot),
+			    it->second.type});
 		}
 	}
 
@@ -218,14 +272,19 @@ namespace YimMenu::Features
 			if (it == g_WarehouseMap.end())
 				continue;
 
-			WarehouseRuntime w{};
-			w.slot = slot;
-			w.property = property;
-			w.info = &it->second;
-			w.crates = GetWarehouseCrates(slot);
-
-			g_Warehouses.push_back(w);
+			g_Warehouses.push_back({slot, property, &it->second, GetWarehouseCrates(slot)});
 		}
+	}
+
+	static void UpdateNightclubStock()
+	{
+		g_NightclubStock.clear();
+		g_OwnedNightclubId = GetOwnedNightclubID();
+		if (g_OwnedNightclubId <= 0)
+			return;
+
+		for (int i = 0; i < 7; ++i)
+			g_NightclubStock.push_back({static_cast<NightclubProduct>(i), GetNightclubStock(i)});
 	}
 
 	void DrawBusinessOverlay()
@@ -235,48 +294,34 @@ namespace YimMenu::Features
 
 		UpdateBusinesses();
 		UpdateWarehouses();
+		UpdateNightclubStock();
 
-		int hangarStock = 0;
-		if (auto p = ScriptGlobal(1845299 + 1 + 260 + 304 + 3).As<int*>())
-			hangarStock = *p;
+        int hangarStock = GetHangarStock();
 
-		int warehouseStock = 0;
-		if (auto p = ScriptGlobal(1845299 + 1 + 260 + 128 + 1).At(0, 3).As<int*>())
-			warehouseStock = *p;
 
 		ImGui::Text("Warehouse:");
-
-		ImGui::Text("Hangar    : %d%% | %d / 50", (hangarStock * 100) / 50, hangarStock);
-		// ImGui::Text("Warehouse : %d%% | %d / 111", (warehouseStock * 100) / 111, warehouseStock);
-
+        ImGui::Text("Hangar : %d%% | %d / 50", (hangarStock * 100) / 50, hangarStock);
 		if (g_Warehouses.empty())
-		{
 			ImGui::TextDisabled("No active Warehouse");
-			return;
-		}
 
 		for (auto& w : g_Warehouses)
-		{
-			ImGui::Text("%s | %d / %d crates",
-			    w.info->name,
-			    w.crates,
-			    w.info->capacity);
-		}
+			ImGui::Text("%s | %d / %d crates", w.info->name, w.crates, w.info->capacity);
 
 		ImGui::Text("Businesses:");
-
 		if (g_Businesses.empty())
-		{
 			ImGui::TextDisabled("No active businesses");
+
+		for (auto& b : g_Businesses)
+			ImGui::Text("%s | Stock %d | Supplies %d", TypeName(b.type), b.product, b.supplies);
+
+		ImGui::Text("Nightclub Hub:");
+		if (g_OwnedNightclubId <= 0)
+		{
+			ImGui::TextDisabled("No active Nightclub");
 			return;
 		}
 
-		for (const auto& b : g_Businesses)
-		{
-			ImGui::Text("%s | Stock %d | Supplies %d",
-			    TypeName(b.type),
-			    b.product,
-			    b.supplies);
-		}
+		for (auto& p : g_NightclubStock)
+			ImGui::Text("%s : %d", NightclubName(p.type), p.amount);
 	}
 }
