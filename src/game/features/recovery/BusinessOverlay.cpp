@@ -189,9 +189,7 @@ namespace YimMenu::Features
 
 	static int GetHangarStock()
 	{
-		int player = GetLocalPlayerIndex();
-
-		if (auto p = ScriptGlobal(1845299 + 1 + (player * 880) + 260 + 304 + 3).As<int*>())
+		if (auto p = ScriptGlobal(1845299 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 304 + 3).As<int*>())
 			return *p;
 
 		return 0;
@@ -200,8 +198,7 @@ namespace YimMenu::Features
 
 	static int GetWarehouseCrates(int slot)
 	{
-		int base = (1845299 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 128) + 1;
-		if (auto p = ScriptGlobal(base + 5 + slot).As<int*>())
+		if (auto p = ScriptGlobal(1845299 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 128 + 1).At(slot, 3).As<int*>())
 			return *p;
 		return 0;
 	}
@@ -297,10 +294,6 @@ namespace YimMenu::Features
 		if (!_BusinessOverlay.GetState())
 			return;
 
-		UpdateBusinesses();
-		UpdateWarehouses();
-		UpdateNightclubStock();
-
 		if (_ShowWarehouse.GetState())
 		{
 			ImGui::Text("Warehouse:");
@@ -308,20 +301,19 @@ namespace YimMenu::Features
 			if (g_Warehouses.empty())
 				ImGui::TextDisabled("No active Warehouse");
 
+			UpdateWarehouses();
+
 			for (auto& w : g_Warehouses)
-				ImGui::Text("%s | %d / %d crates",
-				    w.info->name,
+				ImGui::Text("Warehouse | %d / %d crates",
+				    // w.info->name,
 				    w.crates,
 				    w.info->capacity);
-
-			ImGui::Separator();
 		}
 
 		if (_ShowHangar.GetState())
 		{
 			int hangarStock = GetHangarStock();
-			ImGui::Text("Hangar : %d%% | %d / 50", (hangarStock * 100) / 50, hangarStock);
-			ImGui::Separator();
+			ImGui::Text("Hangar | %d / 50", (hangarStock * 100) / 50);
 		}
 
 		if (_ShowBusinesses.GetState())
@@ -331,18 +323,20 @@ namespace YimMenu::Features
 			if (g_Businesses.empty())
 				ImGui::TextDisabled("No active businesses");
 
+			UpdateBusinesses();
+
 			for (auto& b : g_Businesses)
 				ImGui::Text("%s | Stock %d | Supplies %d",
 				    TypeName(b.type),
 				    b.product,
 				    b.supplies);
-
-			ImGui::Separator();
 		}
 
 		if (_ShowNightclub.GetState())
 		{
 			ImGui::Text("Nightclub Hub:");
+
+			UpdateNightclubStock();
 
 			if (g_OwnedNightclubId <= 0)
 			{
