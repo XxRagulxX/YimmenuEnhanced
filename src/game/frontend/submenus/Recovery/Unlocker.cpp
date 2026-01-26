@@ -13,6 +13,8 @@ namespace YimMenu::Submenus
 
 
 		unlock_goodies->AddItem(std::make_shared<BoolCommandItem>("unlockindependenceday"_J));
+		unlock_goodies->AddItem(std::make_shared<BoolCommandItem>("togglehalloween"_J));
+		unlock_goodies->AddItem(std::make_shared<BoolCommandItem>("togglexmas"_J));
 		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockclothing"_J));
 		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockalltattoos"_J));
 		unlock_goodies->AddItem(std::make_shared<CommandItem>("unlockmasks"_J));

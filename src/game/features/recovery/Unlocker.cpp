@@ -142,7 +142,6 @@ namespace YimMenu::Features
 			// NETWORK::NETWORK_SESSION_LEAVE_SINGLE_PLAYER();
 
 			Notifications::Show("Currently Disabled", "Sets Rank", NotificationType::Error);
-
 		}
 	};
 
@@ -176,7 +175,7 @@ namespace YimMenu::Features
 
 			// NETWORK::NETWORK_SESSION_LEAVE_SINGLE_PLAYER();
 
-			Notifications::Show("Currently Disabled","Sets Crew Rank", NotificationType::Error);
+			Notifications::Show("Currently Disabled", "Sets Crew Rank", NotificationType::Error);
 		}
 	};
 
@@ -4264,36 +4263,146 @@ namespace YimMenu::Features
 				    234593558,
 				    322731716,
 				    -1484555665,
-				    1299691672};
+				    1299691672,
 
-				auto get_tunable = [](int hash) -> int {
-					return *ScriptGlobal(262145 + hash).As<int*>();
+				    12134, // Independence Masks
+				    8521,  // Monster Truck
+				    8520,  // Western Sovereign
+				    8544,  // Pisswasser Hat
+				    8545,  // Benedict
+				    8546,  // Jlager
+				    8547,  // Patriot
+				    8548,  // Blarneys
+				    8549,  // Supa Wat Hat
+				    8506   // Enable Independence Pack
 				};
 
-				auto set_tunable = [](int hash, int value) {
-					*ScriptGlobal(262145 + hash).As<int*>() = value;
+				auto get_tunable = [](int idx) -> int {
+					return *ScriptGlobal(262145 + idx).As<int*>();
+				};
+
+				auto set_tunable = [](int idx, int value) {
+					*ScriptGlobal(262145 + idx).As<int*>() = value;
 				};
 
 				bool enabled = get_tunable(-648209009) == 1;
 
-				for (int hash : tunables)
-					set_tunable(hash, enabled ? 0 : 1);
+				for (int idx : tunables)
+					set_tunable(idx, enabled ? 0 : 1);
 
 				if (!enabled)
-				{
-					Notifications::Show("Independence Day", "Success! Independence Day Content is now enabled. Rejoin session", NotificationType::Success);
-				}
+					Notifications::Show("Independence Day", "Enabled. Rejoin session to apply.", NotificationType::Success);
 				else
-				{
-					Notifications::Show("Independence Day", "Independence Day Content is now disabled. Rejoin session", NotificationType::Success);
-				}
+					Notifications::Show("Independence Day", "Disabled. Rejoin session to apply.", NotificationType::Success);
 			});
 		}
 	};
 
 
-	static SetRank _SetRank{"setrank","Set Rank","Set your RP level"};
-	static SetCrewRank _SetCrewRank{"setcrewrank","Set Crew Rank","Set your crew rank"};
+	class ToggleHalloweenContent : public LoopedCommand
+	{
+		using LoopedCommand::LoopedCommand;
+
+		virtual void OnTick() override
+		{
+			FiberPool::Push([] {
+				bool isOnline = NETWORK::NETWORK_IS_SESSION_STARTED() && !NETWORK::NETWORK_IS_IN_TRANSITION() && !STREAMING::IS_PLAYER_SWITCH_IN_PROGRESS();
+
+				if (!isOnline)
+				{
+					Notifications::Show("Offline", "Please join any freemode session.", NotificationType::Error);
+					return;
+				}
+
+				std::vector<int> tunables = {
+				    12113, // ENABLE_HEIST_MASKS_HALLOWEEN
+				    12118, // TURN_ON_HALLOWEEN_VEHICLES
+				    12119, // TURN_ON_HALLOWEEN_MASKS
+				    12120, // TURN_ON_HALLOWEEN_FACEPAINT
+				    12122, // TURN_ON_HALLOWEEN_BOBBLEHEADS
+				    12128, // TURN_ON_HALLOWEEN_CLOTHING
+				    12130, // TURN_ON_HALLOWEEN_HORNS
+				    17459  // ENABLE_BIKER_SANCTUS
+				};
+
+				auto get = [](int idx) -> int {
+					return *ScriptGlobal(262145 + idx).As<int*>();
+				};
+
+				auto set = [](int idx, int value) {
+					*ScriptGlobal(262145 + idx).As<int*>() = value;
+				};
+
+				bool enabled = get(12113) == 1;
+
+				for (int idx : tunables)
+					set(idx, enabled ? 0 : 1);
+
+				if (!enabled)
+					Notifications::Show("Halloween", "Halloween content ENABLED. Rejoin session.", NotificationType::Success);
+				else
+					Notifications::Show("Halloween", "Halloween content DISABLED. Rejoin session.", NotificationType::Success);
+			});
+		}
+	};
+
+	class ToggleXmasContent : public LoopedCommand
+	{
+		using LoopedCommand::LoopedCommand;
+
+		virtual void OnTick() override
+		{
+			FiberPool::Push([] {
+				bool isOnline = NETWORK::NETWORK_IS_SESSION_STARTED() && !NETWORK::NETWORK_IS_IN_TRANSITION() && !STREAMING::IS_PLAYER_SWITCH_IN_PROGRESS();
+
+				if (!isOnline)
+				{
+					Notifications::Show("Offline", "Please join any freemode session.", NotificationType::Error);
+					return;
+				}
+
+				std::vector<int> tunables = {
+				    4424, // Main Xmas Unlock
+
+				    12785, // Xmas 2015 Masks
+				    12786, // Xmas 2015 Costumes
+				    12787, // Xmas 2015 Pyjamas
+				    13224, // Xmas 2015 Horns
+				    13227, // Xmas 2015 Beast Mask
+
+				    19112, // Xmas 2016 Masks
+				    19113, // Xmas 2016 Clothing
+
+				    22797, // Xmas 2017 Masks
+				    22798, // Xmas 2017 Clothing
+
+				    25592 // Xmas 2018 Clothing
+				};
+
+				auto get = [](int idx) -> int {
+					return *ScriptGlobal(262145 + idx).As<int*>();
+				};
+
+				auto set = [](int idx, int value) {
+					*ScriptGlobal(262145 + idx).As<int*>() = value;
+				};
+
+				bool enabled = get(4424) == 1;
+
+				for (int idx : tunables)
+					set(idx, enabled ? 0 : 1);
+
+				if (!enabled)
+					Notifications::Show("Christmas", "Xmas content ENABLED. Rejoin session.", NotificationType::Success);
+				else
+					Notifications::Show("Christmas", "Xmas content DISABLED. Rejoin session.", NotificationType::Success);
+			});
+		}
+	};
+
+
+	static SetRank _SetRank{"setrank", "Set Rank", "Set your RP level"};
+	static SetCrewRank _SetCrewRank{"setcrewrank", "Set Crew Rank", "Set your crew rank"};
 	static BunkerResearch _BunkerResearch{"bunkerresearch", "Unlock Bunker Research", "Unlocks all Bunker Research Items"};
 	static UnlockClothing _UnlockClothing{"unlockclothing", "Unlock Clothing", "Unlocks some Clothing"};
 	static UnlockCareerProgressAwards _UnlockCareerProgressAwards{"unlockcareerprogressawards", "Unlock Career Progress and Awards", "Unlocks all Awards"};
@@ -4307,4 +4416,7 @@ namespace YimMenu::Features
 	static UnlockFlightSchool _UnlockFlightSchool{"unlockflightschool", "Unlock Flight School", "Unlocks Flight School"};
 	static UnlockCollectables _UnlockCollectables{"unlockcollectables", "Unlock Collectables", "Unlocks Some Collectables"};
 	static UnlockIndependenceDay _UnlockIndependenceDay("unlockindependenceday", "Unlock Independence Day Content", "Enables or disables Independence Day DLC content");
+	static ToggleHalloweenContent g_ToggleHalloween("togglehalloween", "Toggle Halloween Content", "Enables or disables Halloween tunables");
+	static ToggleXmasContent g_ToggleXmas("togglexmas", "Toggle Christmas Content", "Enables or disables all Christmas tunables (rejoin required)");
+
 }
