@@ -46,7 +46,7 @@ namespace YimMenu::Features
 
 		// fallback value
 		if (!found_ground)
-			vec.z = PATHFIND::GET_APPROX_HEIGHT_FOR_POINT(vec.x, vec.y);
+			vec.z = PATH::GET_APPROX_HEIGHT_FOR_POINT(vec.x, vec.y);
 	}
 
 	class TpToWaypoint : public Command

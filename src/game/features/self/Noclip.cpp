@@ -61,10 +61,7 @@ namespace YimMenu::Features
 			if (PAD::IS_DISABLED_CONTROL_PRESSED(0, (int)ControllerInputs::INPUT_MOVE_RIGHT_ONLY))
 				vel.x += _NoclipSpeed.GetState();
 
-			if (!ent || !ent.IsValid())
-				return;
-
-			auto rot = CAM::GET_GAMEPLAY_CAM_ROT(2);
+			auto rot = CAMERA::GET_GAMEPLAY_CAM_ROT(2);
 			ent.SetRotation({0.0f, rot.y, rot.z});
 			ent.SetCollision(false);
 
