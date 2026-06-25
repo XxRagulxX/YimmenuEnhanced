@@ -56,11 +56,49 @@ if(CROSSCOMPILE)
     # ------------------------------------------------------------
     # Inject MSVC + Windows SDK paths
     # ------------------------------------------------------------
-    file(GLOB MSVC_LIB_DIR "${MSVC_WINE_ROOT}/lib/*/x64")
-    file(GLOB MSVC_INC_DIR "${MSVC_WINE_ROOT}/include/*")
+    file(GLOB MSVC_TOOLSET_DIR "${MSVC_WINE_ROOT}/VC/Tools/MSVC/*")
+    file(GLOB WINDOWS_SDK_DIR "${MSVC_WINE_ROOT}/Windows Kits/10")
 
-    set(ENV{LIB}     "${MSVC_LIB_DIR}")
-    set(ENV{INCLUDE} "${MSVC_INC_DIR}")
+    list(SORT MSVC_TOOLSET_DIR)
+    list(GET MSVC_TOOLSET_DIR -1 MSVC_TOOLSET_DIR)
+    list(SORT WINDOWS_SDK_DIR)
+    list(GET WINDOWS_SDK_DIR -1 WINDOWS_SDK_DIR)
+
+    file(GLOB MSVC_LIB_DIR "${MSVC_TOOLSET_DIR}/lib/x64")
+    file(GLOB WINDOWS_SDK_LIB_DIR
+        "${WINDOWS_SDK_DIR}/Lib/*/ucrt/x64"
+        "${WINDOWS_SDK_DIR}/Lib/*/um/x64"
+        "${WINDOWS_SDK_DIR}/Lib/*/onecore/x64"
+    )
+
+    file(GLOB MSVC_INC_DIR "${MSVC_TOOLSET_DIR}/include")
+    file(GLOB WINDOWS_SDK_INC_DIR
+        "${WINDOWS_SDK_DIR}/Include/*/ucrt"
+        "${WINDOWS_SDK_DIR}/Include/*/um"
+        "${WINDOWS_SDK_DIR}/Include/*/shared"
+        "${WINDOWS_SDK_DIR}/Include/*/winrt"
+        "${WINDOWS_SDK_DIR}/Include/*/cppwinrt"
+    )
+
+    list(APPEND MSVC_LIB_DIR ${WINDOWS_SDK_LIB_DIR})
+    list(APPEND MSVC_INC_DIR ${WINDOWS_SDK_INC_DIR})
+
+    set(MSVC_LIB_PATHS ${MSVC_LIB_DIR})
+    set(MSVC_INC_PATHS ${MSVC_INC_DIR})
+
+    string(JOIN ":" MSVC_LIB_ENV ${MSVC_LIB_PATHS})
+    string(JOIN ":" MSVC_INC_ENV ${MSVC_INC_PATHS})
+
+    foreach(MSVC_INCLUDE_PATH IN LISTS MSVC_INC_DIR)
+        add_compile_options("/imsvc${MSVC_INCLUDE_PATH}")
+    endforeach()
+
+    foreach(MSVC_LIBRARY_PATH IN LISTS MSVC_LIB_DIR)
+        add_link_options("/libpath:${MSVC_LIBRARY_PATH}")
+    endforeach()
+
+    set(ENV{LIB}     "${MSVC_LIB_ENV}")
+    set(ENV{INCLUDE} "${MSVC_INC_ENV}")
     set(ENV{PATH}    "${MSVC_WINE_ROOT}/bin:$ENV{PATH}")
 
     # ------------------------------------------------------------
