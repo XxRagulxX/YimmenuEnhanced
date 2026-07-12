@@ -27,11 +27,11 @@ if(CROSSCOMPILE)
         message(FATAL_ERROR "clang-cl not found. Install LLVM.")
     endif()
 
-    set(CMAKE_C_COMPILER   ${CLANG_CL_EXECUTABLE} CACHE STRING "" FORCE)
+    set(CMAKE_C_COMPILER ${CLANG_CL_EXECUTABLE} CACHE STRING "" FORCE)
     set(CMAKE_CXX_COMPILER ${CLANG_CL_EXECUTABLE} CACHE STRING "" FORCE)
-    set(CMAKE_LINKER       lld-link              CACHE STRING "" FORCE)
+    set(CMAKE_LINKER lld-link CACHE STRING "" FORCE)
 
-    set(CMAKE_C_COMPILER_TARGET   x86_64-pc-windows-msvc)
+    set(CMAKE_C_COMPILER_TARGET x86_64-pc-windows-msvc)
     set(CMAKE_CXX_COMPILER_TARGET x86_64-pc-windows-msvc)
 
     # ------------------------------------------------------------
@@ -52,6 +52,22 @@ if(CROSSCOMPILE)
     endif()
 
     message(STATUS "Using msvc-wine at: ${MSVC_WINE_ROOT}")
+
+    # ------------------------------------------------------------
+    # Locate MSVC tools
+    # ------------------------------------------------------------
+    find_program(MSVC_LIB_EXECUTABLE
+        NAMES lib lib.exe
+        PATHS "${MSVC_WINE_ROOT}/bin/x64"
+        NO_DEFAULT_PATH
+    )
+
+    if(NOT MSVC_LIB_EXECUTABLE)
+        message(FATAL_ERROR "MSVC lib.exe not found!")
+    endif()
+
+    set(CMAKE_AR "${MSVC_LIB_EXECUTABLE}" CACHE FILEPATH "" FORCE)
+    set(CMAKE_RANLIB ":" CACHE STRING "" FORCE)
 
     # ------------------------------------------------------------
     # Inject MSVC + Windows SDK paths
@@ -97,9 +113,22 @@ if(CROSSCOMPILE)
         add_link_options("/libpath:${MSVC_LIBRARY_PATH}")
     endforeach()
 
-    set(ENV{LIB}     "${MSVC_LIB_ENV}")
+    set(ENV{LIB} "${MSVC_LIB_ENV}")
     set(ENV{INCLUDE} "${MSVC_INC_ENV}")
-    set(ENV{PATH}    "${MSVC_WINE_ROOT}/bin:$ENV{PATH}")
+    # ------------------------------------------------------------
+    # MSVC Manifest Tool
+    # ------------------------------------------------------------
+    find_program(MSVC_MT_EXECUTABLE
+        NAMES mt mt.exe
+        PATHS "${MSVC_WINE_ROOT}/bin/x64"
+        NO_DEFAULT_PATH
+    )
+
+    if(NOT MSVC_MT_EXECUTABLE)
+        message(FATAL_ERROR "MSVC mt.exe not found!")
+    endif()
+
+    set(CMAKE_MT "${MSVC_MT_EXECUTABLE}" CACHE FILEPATH "" FORCE)
 
     # ------------------------------------------------------------
     # Disable MinGW / Unix search behavior
