@@ -26,6 +26,7 @@ namespace YimMenu::Submenus
 		//auto casinoRoulette = std::make_shared<Group>("Roulette");
 
 		generalGroup->AddItem(std::make_shared<BoolCommandItem>("playallmissionssolo"_J));
+		generalGroup->AddItem(std::make_shared<BoolCommandItem>("casinosolo"_J));
 		generalGroup->AddItem(std::make_shared<BoolCommandItem>("unlockgtaplus"_J));
 		generalGroup->AddItem(std::make_shared<BoolCommandItem>("overriderpmultiplier"_J));
 		generalGroup->AddItem(std::make_shared<ConditionalItem>("overriderpmultiplier"_J, std::make_shared<FloatCommandItem>("rpmultiplierinput"_J)));
