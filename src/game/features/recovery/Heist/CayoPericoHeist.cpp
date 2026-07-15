@@ -45,7 +45,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				auto base = ScriptGlobal(1980035).At(831).At(56);
+				auto base = ScriptGlobal(1980570).At(831).At(56);
 
 				*base.At(0, 1).As<int*>() = _CayoPericoHeistCut1.GetState();
 				*base.At(1, 1).As<int*>() = _CayoPericoHeistCut2.GetState();
@@ -61,7 +61,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				auto base = ScriptGlobal(1981146);
+				auto base = ScriptGlobal(1973762);
 
 				for (int i = 0; i <= 3; i++)
 				{
@@ -216,7 +216,7 @@ namespace YimMenu::Features
 				ScriptMgr::Yield(500ms);
 
 				if (auto thread = Scripts::FindScriptThread("heist_island_planning"_J))
-					*ScriptLocal(thread, 1570).As<int*>() = 2;
+					*ScriptLocal(thread, 1580).As<int*>() = 2;
 
 				Notifications::ShowInGame("Cayo Perico", "Cayo Perio Heist Setup Completed", "CHAR_PAVEL", "Green");
 			}
@@ -290,7 +290,7 @@ namespace YimMenu::Features
 			virtual void OnCall() override
 			{
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_2020"_J))
-					*ScriptLocal(thread, 59705).At(1376).At(53).As<int*>() = _CayoPericoHeistSecondaryTakeValue.GetState();
+					*ScriptLocal(thread, 59986).At(1376).At(53).As<int*>() = _CayoPericoHeistSecondaryTakeValue.GetState();
 			}
 		};
 
@@ -377,7 +377,7 @@ namespace YimMenu::Features
 			virtual void OnCall() override
 			{
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_2020"_J))
-					*ScriptLocal(thread, 26486).As<int*>() = 5;
+					*ScriptLocal(thread, 26619).As<int*>() = 5;
 			}
 		};
 
@@ -388,7 +388,7 @@ namespace YimMenu::Features
 			virtual void OnCall() override
 			{
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_2020"_J))
-					*ScriptLocal(thread, 31349).As<int*>() = 6;
+					*ScriptLocal(thread, 31511).As<int*>() = 6;
 				Hash drainagePipeHash = "prop_chem_grill_bit"_J;
 				YimMenu::DeleteObjectsByHash(drainagePipeHash);
 				Notifications::ShowInGame("Cayo Perico", "Cut Sewer Grill - Successfull", "CHAR_LESTER", "Black");
@@ -402,7 +402,7 @@ namespace YimMenu::Features
 			virtual void OnCall() override
 			{
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_2020"_J))
-					*ScriptLocal(thread, 32589).At(3).As<float*>() = 100.0f;
+					*ScriptLocal(thread, 32751).At(3).As<float*>() = 100.0f;
 			}
 		};
 
@@ -432,12 +432,12 @@ namespace YimMenu::Features
 						case 1:
 						case 3:
 						case 5:
-							*ScriptLocal(thread, 32588).As<int*>() = 5;
-							*ScriptLocal(thread, 32589).As<int*>() = 3;
+							*ScriptLocal(thread, 32750).As<int*>() = 5;
+							*ScriptLocal(thread, 32751).As<int*>() = 3;
 							break;
 						case 2:
 						case 4:
-							*ScriptLocal(thread, 32563).As<int*>() = 7;
+							*ScriptLocal(thread, 32725).As<int*>() = 7;
 							break;
 						default: break;
 						}
@@ -474,8 +474,8 @@ namespace YimMenu::Features
 					Scripts::ForceScriptHost(thread);
 					ScriptMgr::Yield(500ms);
 
-					*ScriptLocal(thread, 56223).As<int*>() = 9;
-					*ScriptLocal(thread, 56223).At(1776).At(0, 1).As<int*>() = 50;
+					*ScriptLocal(thread, 56504).As<int*>() = 9;
+					*ScriptLocal(thread, 56504).At(1776).At(0, 1).As<int*>() = 50;
 				}
 			}
 		};
