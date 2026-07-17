@@ -458,7 +458,7 @@ namespace YimMenu::Features
 			{
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_2020"_J))
 				{
-					*ScriptLocal(thread, 32589).At(4).As<float*>() = 0.0f;
+					*ScriptLocal(thread, 32751).At(4).As<float*>() = 0.0f; //DLC_H4_anims_glass_cutter_Sounds
 				}
 			}
 		};

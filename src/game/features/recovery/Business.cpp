@@ -41,13 +41,13 @@ namespace YimMenu::Features
 		using Command::Command;
 		virtual void OnCall() override
 		{
-			*ScriptGlobal(1673814).At(1).At(0).As<int*>() = 1; // Cash
-			*ScriptGlobal(1673814).At(1).At(1).As<int*>() = 1; // Document Forge
-			*ScriptGlobal(1673814).At(1).At(2).As<int*>() = 1; // Weed Farm
-			*ScriptGlobal(1673814).At(1).At(3).As<int*>() = 1; // Meth Lab
-			*ScriptGlobal(1673814).At(1).At(4).As<int*>() = 1; // Cocaine Lockup
-			*ScriptGlobal(1673814).At(1).At(5).As<int*>() = 1; // Bunker
-			*ScriptGlobal(1673814).At(1).At(6).As<int*>() = 1; // Acid Lab
+			*ScriptGlobal(1673820).At(1).At(0).As<int*>() = 1; // Cash
+			*ScriptGlobal(1673820).At(1).At(1).As<int*>() = 1; // Document Forge
+			*ScriptGlobal(1673820).At(1).At(2).As<int*>() = 1; // Weed Farm
+			*ScriptGlobal(1673820).At(1).At(3).As<int*>() = 1; // Meth Lab
+			*ScriptGlobal(1673820).At(1).At(4).As<int*>() = 1; // Cocaine Lockup
+			*ScriptGlobal(1673820).At(1).At(5).As<int*>() = 1; // Bunker
+			*ScriptGlobal(1673820).At(1).At(6).As<int*>() = 1; // Acid Lab
 		}
 	};
 
@@ -61,8 +61,8 @@ namespace YimMenu::Features
 			if (!thread)
 				return;
 
-			// epctLocal_731.f_17 -> mission / vehicle selector
-			constexpr int kMissionTypeLocal = 731 + 17; // = 748
+			// epctLocal_731.f_957 -> mission / vehicle selector
+			constexpr int kMissionTypeLocal = 738 + 957;
 
 			auto missionType = ScriptLocal(thread, kMissionTypeLocal).As<int*>();
 			if (!missionType)
@@ -91,7 +91,7 @@ namespace YimMenu::Features
 				Notifications::Show("Hangar Resupply", "Hangar resupply started.");
 				while (true)
 				{
-					int currentStock = *ScriptGlobal(1845299 + 1 + 260 + 304 + 3).As<int*>();
+					int currentStock = *ScriptGlobal(1845347 + 1 + 260 + 304 + 3).As<int*>();
 
 					if (currentStock >= 50)
 					{
@@ -121,7 +121,7 @@ namespace YimMenu::Features
 				Notifications::Show("Warehouse Resupply", "Warehouse resupply started.");
 				while (true)
 				{
-					int currentStock = *ScriptGlobal(1845299 + 1 + 260 + 128 + 1).At(0, 3).As<int*>();
+					int currentStock = *ScriptGlobal(1845347 + 1 + 260 + 128 + 1).At(0, 3).As<int*>();
 
 					if (currentStock >= 111)
 					{

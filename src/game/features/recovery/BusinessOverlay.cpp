@@ -189,7 +189,7 @@ namespace YimMenu::Features
 
 	static int GetHangarStock()
 	{
-		if (auto p = ScriptGlobal(1845299 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 304 + 3).As<int*>())
+		if (auto p = ScriptGlobal(1845347 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 304 + 3).As<int*>())
 			return *p;
 
 		return 0;
@@ -198,14 +198,14 @@ namespace YimMenu::Features
 
 	static int GetWarehouseCrates(int slot)
 	{
-		if (auto p = ScriptGlobal(1845299 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 128 + 1).At(slot, 3).As<int*>())
+		if (auto p = ScriptGlobal(1845347 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 128 + 1).At(slot, 3).As<int*>())
 			return *p;
 		return 0;
 	}
 
 	static int GetWarehousePropertyFromSlot(int slot)
 	{
-		int base = 1845299 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 128 + 1;
+		int base = 1845347 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 128 + 1;
 		if (auto p = ScriptGlobal(base + (slot * 3)).As<int*>())
 			return *p;
 		return 0;
@@ -213,14 +213,14 @@ namespace YimMenu::Features
 
 	static int GetOwnedNightclubID()
 	{
-		if (auto p = ScriptGlobal(1845299 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 364).As<int*>())
+		if (auto p = ScriptGlobal(1845347 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 364).As<int*>())
 			return *p;
 		return 0;
 	}
 
 	static int GetNightclubStock(int slot)
 	{
-		if (auto p = ScriptGlobal(1845299 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 320 + 9 + slot).As<int*>())
+		if (auto p = ScriptGlobal(1845347 + 1 + (GetLocalPlayerIndex() * 880) + 260 + 320 + 9 + slot).As<int*>())
 			return *p;
 		return 0;
 	}
@@ -264,7 +264,7 @@ namespace YimMenu::Features
 	{
 		g_Warehouses.clear();
 
-		for (int slot = 0; slot < 5; ++slot)
+		for (int slot = 0; slot < 1; ++slot)
 		{
 			int property = GetWarehousePropertyFromSlot(slot);
 			if (property <= 0)
@@ -296,12 +296,10 @@ namespace YimMenu::Features
 
 		if (_ShowWarehouse.GetState())
 		{
-			ImGui::Text("Warehouse:");
+			UpdateWarehouses();
 
 			if (g_Warehouses.empty())
 				ImGui::TextDisabled("No active Warehouse");
-
-			UpdateWarehouses();
 
 			for (auto& w : g_Warehouses)
 				ImGui::Text("Warehouse | %d / %d crates",
@@ -313,17 +311,16 @@ namespace YimMenu::Features
 		if (_ShowHangar.GetState())
 		{
 			int hangarStock = GetHangarStock();
-			ImGui::Text("Hangar | %d / 50", (hangarStock * 100) / 50);
+			ImGui::Text("Hangar | %d / 50", hangarStock);
 		}
 
 		if (_ShowBusinesses.GetState())
 		{
 			ImGui::Text("Businesses:");
+			UpdateBusinesses();
 
 			if (g_Businesses.empty())
 				ImGui::TextDisabled("No active businesses");
-
-			UpdateBusinesses();
 
 			for (auto& b : g_Businesses)
 				ImGui::Text("%s | Stock %d | Supplies %d",
