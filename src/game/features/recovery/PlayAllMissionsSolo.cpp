@@ -155,7 +155,7 @@ namespace YimMenu::Features
 
 			if (!m_CasinoSoloPatch)
 			{
-				m_CasinoSoloPatch = ScriptPatches::AddPatch("fmmc_launcher"_J, ScriptPointer("casinosolo", "2D 01 03 00 00 5D ? ? ? 2A 06 56 05 00 5D ? ? ? 20 2A 06 56 05 00 5D").Add(5), {0x71, 0x2E, 0x01, 0x01});
+				m_CasinoSoloPatch = ScriptPatches::AddPatch("fmmc_launcher"_J, ScriptPointer("CasinoSoloMissionPatch", "2D 01 03 00 00 5D ? ? ? 2A 06 56 05 00 5D ? ? ? 20 2A 06 56 05 00 5D").Add(5), {0x71, 0x2E, 0x01, 0x01});
 			}
 			m_CasinoSoloPatch->Enable();
 		}
