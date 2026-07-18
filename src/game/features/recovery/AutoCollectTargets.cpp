@@ -1,5 +1,6 @@
 #include "core/commands/LoopedCommand.hpp"
 #include "game/gta/Natives.hpp"
+#include "game/gta/ScriptLocal.hpp"
 
 #include <chrono>
 
@@ -28,8 +29,16 @@ namespace YimMenu::Features
             if (HUD::IS_PAUSE_MENU_ACTIVE())
                 return;
 
-            // Simulate left mouse click (same as Lua)
-            PAD::SET_CONTROL_VALUE_NEXT_FRAME(0, 237, 1.0f);
+            if (auto thread = Scripts::FindScriptThread("fm_mission_controller"_J))
+            {
+                auto lootState = ScriptLocal(thread, 10713).As<int*>();
+                if (lootState && *lootState == 3)
+                {
+                    *lootState = 4;
+
+                    *ScriptLocal(thread, 10713 + 14).As<int*>() = 2;
+                }
+            }
         }
 
         virtual void OnDisable() override
@@ -41,6 +50,6 @@ namespace YimMenu::Features
     static AutoCollectTargets _AutoCollectTargets{
         "autocollecttargets",
         "Auto Collect Targets",
-        "Automatically clicks the left mouse button."
+        "Automatically Collects Loots"
     };
 }
