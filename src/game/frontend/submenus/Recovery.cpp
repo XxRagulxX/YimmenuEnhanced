@@ -19,7 +19,8 @@ namespace YimMenu::Submenus
 
 		auto generalGroup = std::make_shared<Group>("General");
 		auto businessSafe = std::make_shared<Group>("Business Safe");
-		auto businessGroup = std::make_shared<Group>("Business Manager");
+		auto businessOverlay = std::make_shared<Group>("Business Overlay", 2);
+		auto businessManager = std::make_shared<Group>("Business Manager", 4);
 		auto casinoSlots = std::make_shared<Group>("Slot Machines");
 		//auto casinoWheel = std::make_shared<Group>("Lucky Wheel");
 		//auto casinoBlackJack = std::make_shared<Group>("Blackjack");
@@ -35,20 +36,20 @@ namespace YimMenu::Submenus
 		businessSafe->AddItem(std::make_shared<ListCommandItem>("businesssafe"_J));
 		businessSafe->AddItem(std::make_shared<CommandItem>("claimsafeearnings"_J));
 
-		businessGroup->AddItem(std::make_shared<BoolCommandItem>("businessoverlay"_J));
-		businessGroup->AddItem(std::make_shared<ConditionalItem>("businessoverlay"_J, std::make_shared<BoolCommandItem>("showwarehouse"_J)));
-		businessGroup->AddItem(std::make_shared<ConditionalItem>("businessoverlay"_J, std::make_shared<BoolCommandItem>("showhangar"_J)));
-		businessGroup->AddItem(std::make_shared<ConditionalItem>("businessoverlay"_J, std::make_shared<BoolCommandItem>("showbusinesses"_J)));
-		businessGroup->AddItem(std::make_shared<ConditionalItem>("businessoverlay"_J, std::make_shared<BoolCommandItem>("shownightclub"_J)));
+		businessOverlay->AddItem(std::make_shared<BoolCommandItem>("businessoverlay"_J));
+		businessOverlay->AddItem(std::make_shared<ConditionalItem>("businessoverlay"_J, std::make_shared<BoolCommandItem>("showwarehouse"_J)));
+		businessOverlay->AddItem(std::make_shared<ConditionalItem>("businessoverlay"_J, std::make_shared<BoolCommandItem>("showhangar"_J)));
+		businessOverlay->AddItem(std::make_shared<ConditionalItem>("businessoverlay"_J, std::make_shared<BoolCommandItem>("showbusinesses"_J)));
+		businessOverlay->AddItem(std::make_shared<ConditionalItem>("businessoverlay"_J, std::make_shared<BoolCommandItem>("shownightclub"_J)));
 
-		businessGroup->AddItem(std::make_shared<CommandItem>("resupplybusiness"_J));
-		businessGroup->AddItem(std::make_shared<CommandItem>("hangerresupply"_J));
-		businessGroup->AddItem(std::make_shared<CommandItem>("warehouseresupply"_J));
-		businessGroup->AddItem(std::make_shared<CommandItem>("nightclubpopularity"_J));
-		businessGroup->AddItem(std::make_shared<CommandItem>("salvageyardpopularity"_J));
-		businessGroup->AddItem(std::make_shared<CommandItem>("moneyfrontheatremove"_J));
-		businessGroup->AddItem(std::make_shared<BoolCommandItem>("removeresupplycooldown"_J));
-		businessGroup->AddItem(std::make_shared<BoolCommandItem>("enforceeasiestmission"_J));
+		businessManager->AddItem(std::make_shared<CommandItem>("resupplybusiness"_J));
+		businessManager->AddItem(std::make_shared<CommandItem>("hangerresupply"_J));
+		businessManager->AddItem(std::make_shared<CommandItem>("warehouseresupply"_J));
+		businessManager->AddItem(std::make_shared<CommandItem>("nightclubpopularity"_J));
+		businessManager->AddItem(std::make_shared<CommandItem>("salvageyardpopularity"_J));
+		businessManager->AddItem(std::make_shared<CommandItem>("moneyfrontheatremove"_J));
+		businessManager->AddItem(std::make_shared<BoolCommandItem>("removeresupplycooldown"_J));
+		businessManager->AddItem(std::make_shared<BoolCommandItem>("enforceeasiestmission"_J));
 
 
 		casinoSlots->AddItem(std::make_shared<BoolCommandItem>("casinomanipulaterigslotmachines"_J));
@@ -56,7 +57,8 @@ namespace YimMenu::Submenus
 
 		main->AddItem(generalGroup);
 		businesses->AddItem(businessSafe);
-		businesses->AddItem(businessGroup);
+		businesses->AddItem(businessOverlay);
+		businesses->AddItem(businessManager);
 		casino->AddItem(casinoSlots);
 
 		AddCategory(std::move(main));
