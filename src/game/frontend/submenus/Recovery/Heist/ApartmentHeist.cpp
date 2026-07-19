@@ -8,6 +8,7 @@ namespace YimMenu::Submenus
 
 		auto cuts = std::make_shared<Group>("Heist Cuts", 2);
 		auto setups = std::make_shared<Group>("Heist Setups");
+		auto hacks = std::make_shared<Group>("Hacking", 2);
 		auto misc = std::make_shared<Group>("Misc", 1);
 
 		cuts->AddItem(std::make_shared<IntCommandItem>("apartmentheistcut1"_J));
@@ -19,14 +20,16 @@ namespace YimMenu::Submenus
 
 		setups->AddItem(std::make_shared<CommandItem>("apartmentheistsetup"_J));
 
-		misc->AddItem(std::make_shared<CommandItem>("apartmentheistskiphacking"_J));
-		misc->AddItem(std::make_shared<CommandItem>("apartmentheistskipdrilling"_J));
-		misc->AddItem(std::make_shared<CommandItem>("apartmentheistskipswiping"_J));
+		hacks->AddItem(std::make_shared<CommandItem>("apartmentheistskiphacking"_J));
+		hacks->AddItem(std::make_shared<CommandItem>("apartmentheistskipdrilling"_J));
+		hacks->AddItem(std::make_shared<CommandItem>("apartmentheistskipswiping"_J));
+
 		misc->AddItem(std::make_shared<CommandItem>("apartmentheistinstantfinish"_J));
 		misc->AddItem(std::make_shared<CommandItem>("apartmentheistinstantfinishpacific"_J));
 
 		tab->AddItem(cuts);
 		tab->AddItem(setups);
+		tab->AddItem(hacks);
 		tab->AddItem(misc);
 
 		return tab;

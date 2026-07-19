@@ -269,6 +269,6 @@ namespace YimMenu::Features
 		static SkipHacking _DoomsdayHeistSkipHacking{"doomsdayheistskiphacking", "Skip Hacking", "Skips hacking process"};
 		static InstantFinish _DoomsdayHeistInstantFinish{"doomsdayheistinstantfinish", "Instant Finish", "Instantly passes the heist"};
 		static InstantFinishAct3 _DoomsdayHeistInstantFinishAct3{"doomsdayheistinstantfinishact3", "Instant Finish (Act: III)", "Instantly passes Doomsday Scenario Act: III"};
-		static Teleport _DoomsdayHeistTeleport{"doomsdayhesitteleport", "Teleport", "Teleport to selected dooms day location"};
+		static Teleport _DoomsdayHeistTeleport{"doomsdayheistteleport", "Teleport", "Teleport to selected dooms day location"};
 	}
 }

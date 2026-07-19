@@ -27,10 +27,10 @@ namespace YimMenu::Features
 			const char* name;
 		};
 
-		static IntCommand _DiamondCasinoHeistCut1{"diamondcasinoheistcut1", "P1", "Player 1 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _DiamondCasinoHeistCut2{"diamondcasinoheistcut2", "P2", "Player 2 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _DiamondCasinoHeistCut3{"diamondcasinoheistcut3", "P3", "Player 3 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _DiamondCasinoHeistCut4{"diamondcasinoheistcut4", "P4", "Player 4 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _DiamondCasinoHeistCut1{"diamondcasinoheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _DiamondCasinoHeistCut2{"diamondcasinoheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _DiamondCasinoHeistCut3{"diamondcasinoheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _DiamondCasinoHeistCut4{"diamondcasinoheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
 
 		class SetCuts : public Command
 		{
@@ -508,7 +508,7 @@ namespace YimMenu::Features
 			{
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller"_J))
 				{
-					*ScriptLocal(thread, 32785).At(Self::GetPlayer().GetId(), 294).At(144).As<int*>() = 8;
+					*ScriptLocal(thread, 32785).At(Self::GetPlayer().GetId(), 294).At(143).As<int*>() = 8;
 					*ScriptLocal(thread, 64655).As<int*>() = 5;
 				}
 			}
@@ -631,19 +631,19 @@ namespace YimMenu::Features
 			}
 		};
 
+		static SetMaxPayout _DiamondCasinoHeistSetMaxPayout{"diamondcasinoheistsetmaxpayout", "Set Max Cut", "Automatically calculates and sets player cuts"};
 		static SetCuts _DiamondCasinoHeistSetCuts{"diamondcasinoheistsetcuts", "Set Cuts", "Sets heist cut"};
 		static ForceReady _DiamondCasinoHeistForceReady{"diamondcasinoheistforceready", "Force Ready", "Forces all players to be ready"};
 		static Setup _DiamondCasinoHeistSetup{"diamondcasinoheistsetup", "Setup", "Sets up diamond casino heist"};
 		static SetPotentialTake _DiamondCasinoHeistSetPotentialTake{"diamondcasinoheistsetpotentialtake", "Set Potential Take", "Updates potential take"};
 		static SetActualTake _DiamondCasinoHeistSetActualTake{"diamondcasinoheistsetactualtake", "Set Actual Take", "Updates actual take"};
-		static SetMaxPayout _DiamondCasinoHeistSetMaxPayout{"diamondcasinoheistsetmaxpayout", "Set Max Cut", "Automatically calculates and sets player cuts"};
 		static SkipHacking _DiamondCasinoHeistSkipHacking{"diamondcasinoheistskiphacking", "Skip Hacking", "Skips hacking process"};
 		static SkipDrilling _DiamondCasinoHeistSkipDrilling{"diamondcasinoheistskipdrilling", "Skip Drilling", "Skips drilling process"};
 		static SoloMantrap _DiamondCasinoHeistSoloMantrap{"diamondcasinoheistsolomantrap", "Solo Mantrap", "Skips card swiping process"};
-		static InstantFinish _DiamondCasinoHeistInstantFinish{"diamondcasinoheistinstantfinish", "Instant Finish", "Instantly passes the heist"};
 		static RemoveCameras _DiamondCasinoHeistRemoveCameras{"diamondcasinoheistremovecameras", "Remove Cam", "Removes all cameras"};
 		static RemoveKeycard _DiamondCasinoHeistKeycard{"diamondcasinoheistkeycard", "Remove Keycard", "Removes keycard"};
+		static InstantFinish _DiamondCasinoHeistInstantFinish{"diamondcasinoheistinstantfinish", "Instant Finish", "Instantly passes the heist"};
 		static Teleport _DiamondCasinoHeistTeleport{"diamondcasinoheistteleport", "Teleport", "Teleport to selected casino location"};
-		static OtherTeleport _DiamondCasinoHeistOtherTeleport{"diamondcasinoheistotherteleport", "Other Teleport", "Teleport to selected other casino location"};
+		// static OtherTeleport _DiamondCasinoHeistOtherTeleport{"diamondcasinoheistotherteleport", "Other Teleport", "Teleport to selected other casino location"};
 	}
 }

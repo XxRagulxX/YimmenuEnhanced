@@ -31,10 +31,10 @@ namespace YimMenu::Features
 		};
 
 
-		static IntCommand _CayoPericoHeistCut1{"cayopericoheistcut1", "P1", "Player 1 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _CayoPericoHeistCut2{"cayopericoheistcut2", "P2", "Player 2 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _CayoPericoHeistCut3{"cayopericoheistcut3", "P3", "Player 3 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _CayoPericoHeistCut4{"cayopericoheistcut4", "P4", "Player 4 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _CayoPericoHeistCut1{"cayopericoheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _CayoPericoHeistCut2{"cayopericoheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _CayoPericoHeistCut3{"cayopericoheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
+		static IntCommand _CayoPericoHeistCut4{"cayopericoheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
 		static IntCommand _CayoPavelCut{"cayopavelcut", "Pavel Cut (%)", "Pavel cut percentage", std::nullopt, std::nullopt, 2};
 		static IntCommand _CayoFencingCut{"cayofencecut", "Fencing Fee (%)", "Fencing fee percentage", std::nullopt, std::nullopt, 10};
 
@@ -88,7 +88,7 @@ namespace YimMenu::Features
 		    {5, "Secondary Target"},
 		    {6, "Others"}};
 
-		static ListCommand _CayoPericoTeleportList{"cayopericoteleportlist", "TP", "Teleport Location", cayoPericoTeleportList, 0};
+		static ListCommand _CayoPericoTeleportList{"cayopericoteleportlist", "Teleport Locations", "Teleport Location", cayoPericoTeleportList, 0};
 
 		static std::vector<TeleportLocation> cayoPericoOtherTeleportPoints = {
 		    {5081.0415f, -5755.32f, 15.829645f, -45.0f, "North"},
@@ -163,7 +163,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				*ScriptGlobal(2733138).At(613).As<int*>() = 1;
+				*ScriptGlobal(2733326).At(613).As<int*>() = 1;
 			}
 		};
 
@@ -598,22 +598,22 @@ namespace YimMenu::Features
 			}
 		};
 
+		static SetMaxPayout _CayoPericoHeistSetMaxPayout{"cayopericoheistsetmaxpayout", "Auto Set Cuts", "Automatically calculates and sets player cuts"};
 		static SetCuts _CayoPericoHeistSetCuts{"cayopericoheistsetcuts", "Apply Cuts", "Applies heist cut in-game"};
 		static ForceReady _CayoPericoHeistForceReady{"cayopericoheistforceready", "Force Ready", "Forces all players to be ready"};
 		static RequestKosatka _CayoPericoHeistRequestKosatka{"cayopericoheistrequestforkosatka", "Request Kosatka", "Requesting for Kosatka"};
 		static Setup _CayoPericoHeistSetup{"cayopericoheistsetup", "Setup", "Sets up cayo perico heist"};
+		static FencingFeeandPavelCut _CayoPericoHeistRemoveFencingFeeAndPavelCut{"cayopericoheistremovefencingfeeandpavelcut", "Remove Fee&Cut", "Removes fencing fee and pavel cut"};
 		static SetPrimaryTargetValue _CayoPericoHeistSetPrimaryTargetValue{"cayopericoheistsetprimarytargetvalue", "Set Primary Target Value", "Updates primary target value"};
 		static SetSecondaryTakeValue _CayoPericoHeistSetSecondaryTakeValue{"cayopericoheistsetsecondarytakevalue", "Set Secondary Take Value", "Updates secondary take value"};
-		static SetMaxPayout _CayoPericoHeistSetMaxPayout{"cayopericoheistsetmaxpayout", "Auto Set Cuts", "Automatically calculates and sets player cuts"};
 		static SkipHacking _CayoPericoHeistSkipHacking{"cayopericoheistskiphacking", "Skip Hacking", "Skips hacking process"};
 		static CutSewer _CayoPericoHeistCutSewer{"cayopericoheistcutsewer", "Cut Sewer", "Cuts the sewer"};
 		static CutGlass _CayoPericoHeistCutGlass{"cayopericoheistcutglass", "Cut Glass", "Cuts the glass"};
-		static InfinitePlasmaCutterHeat _CayoPericoHeistInfinitePlasmaCutterHeat{"cayopericoheistinfiniteplasmacutterheat", "Inf Plasma", "Infinite Plasma Cutter Heat"};
+		static RemoveCameras _CayoPericoHeistRemoveCayoPericoCameras{"cayopericoheistremovecayopericocameras", "Remove Cams", "Removes all cameras"};
+		static InfinitePlasmaCutterHeat _CayoPericoHeistInfinitePlasmaCutterHeat{"cayopericoheistinfiniteplasmacutterheat", "Infinite Plasma", "Infinite Plasma Cutter Heat"};
 		static TakePrimaryTarget _CayoPericoHeistTakePrimaryTarget{"cayopericoheisttakeprimarytarget", "Take Primary Target", "Takes primary target"};
 		static InstantFinish _CayoPericoHeistInstantFinish{"cayopericoheistinstantfinish", "Instant Finish", "Instantly passes the heist"};
-		static FencingFeeandPavelCut _CayoPericoHeistRemoveFencingFeeAndPavelCut{"cayopericoheistremovefencingfeeandpavelcut", "Remove Fee&Cut", "Removes fencing fee and pavel cut"};
-		static RemoveCameras _CayoPericoHeistRemoveCayoPericoCameras{"cayopericoheistremovecayopericocameras", "Remove Cams", "Removes all cameras"};
 		static Teleport _CayoPericoHeistTeleportCayoPerico{"cayopericoheistteleportcayo", "Teleport", "Teleport to selected Cayo Perico location"};
-		static OtherTeleport _CayoPericoHeistTeleportCayoPericOther{"cayopericoheistotherteleport", "Other Teleport", "Teleport to other Cayo Perico location"};
+		// static OtherTeleport _CayoPericoHeistTeleportCayoPericOther{"cayopericoheistotherteleport", "Other Teleport", "Teleport to other Cayo Perico location"};
 	};
 }

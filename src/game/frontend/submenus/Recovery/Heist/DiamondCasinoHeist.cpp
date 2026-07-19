@@ -8,14 +8,17 @@ namespace YimMenu::Submenus
 	{
 		auto tab = std::make_shared<TabItem>("Diamond Casino Heist");
 
+		auto autocuts = std::make_shared<Group>("Auto Cuts", 1);
 		auto cuts = std::make_shared<Group>("Heist Cuts", 2);
 		auto setups = std::make_shared<Group>("Heist Setups");
 		auto loots = std::make_shared<Group>("Loots", 2);
-		auto misc = std::make_shared<Group>("Misc", 4);
+		auto hacks = std::make_shared<Group>("Hacking", 2);
+		auto misc = std::make_shared<Group>("Misc", 1);
 		auto teleport = std::make_shared<Group>("Teleport");
 
-		cuts->AddItem(std::make_shared<ListCommandItem>("diamondcasinoheistplayers"_J));
-		cuts->AddItem(std::make_shared<CommandItem>("diamondcasinoheistsetmaxpayout"_J));
+		autocuts->AddItem(std::make_shared<ListCommandItem>("diamondcasinoheistplayers"_J));
+		autocuts->AddItem(std::make_shared<CommandItem>("diamondcasinoheistsetmaxpayout"_J));
+
 		cuts->AddItem(std::make_shared<IntCommandItem>("diamondcasinoheistcut1"_J));
 		cuts->AddItem(std::make_shared<IntCommandItem>("diamondcasinoheistcut3"_J));
 		cuts->AddItem(std::make_shared<IntCommandItem>("diamondcasinoheistcut2"_J));
@@ -41,22 +44,25 @@ namespace YimMenu::Submenus
 		loots->AddItem(std::make_shared<CommandItem>("diamondcasinoheistsetpotentialtake"_J, "Set##potentialtake"));
 		loots->AddItem(std::make_shared<CommandItem>("diamondcasinoheistsetactualtake"_J, "Set##actualtake"));
 
-		misc->AddItem(std::make_shared<CommandItem>("diamondcasinoheistskiphacking"_J));
-		misc->AddItem(std::make_shared<CommandItem>("diamondcasinoheistskipdrilling"_J));
-		misc->AddItem(std::make_shared<CommandItem>("diamondcasinoheistsolomantrap"_J));
-		misc->AddItem(std::make_shared<CommandItem>("diamondcasinoheistinstantfinish"_J));
-		misc->AddItem(std::make_shared<CommandItem>("diamondcasinoheistremovecameras"_J));
-		misc->AddItem(std::make_shared<CommandItem>("diamondcasinoheistkeycard"_J));
-		misc->AddItem(std::make_shared<BoolCommandItem>("autocollecttargets"_J));
+		hacks->AddItem(std::make_shared<CommandItem>("diamondcasinoheistskiphacking"_J));
+		hacks->AddItem(std::make_shared<CommandItem>("diamondcasinoheistskipdrilling"_J));
+		hacks->AddItem(std::make_shared<CommandItem>("diamondcasinoheistsolomantrap"_J));
+		hacks->AddItem(std::make_shared<CommandItem>("diamondcasinoheistremovecameras"_J));
+		hacks->AddItem(std::make_shared<CommandItem>("diamondcasinoheistkeycard"_J));
+		hacks->AddItem(std::make_shared<BoolCommandItem>("autocollecttargets"_J));
 
-		teleport->AddItem(std::make_shared<BoolCommandItem>("diamondcasinoheistotherteleport"_J));
-		teleport->AddItem(std::make_shared<ConditionalItem>("diamondcasinoheistotherteleport"_J, std::make_shared<ListCommandItem>("diamondcasinoheistotherteleportlist"_J)));
+		misc->AddItem(std::make_shared<CommandItem>("diamondcasinoheistinstantfinish"_J));
+
 		teleport->AddItem(std::make_shared<ListCommandItem>("diamondcasinoheistteleportlist"_J));
+		// teleport->AddItem(std::make_shared<BoolCommandItem>("diamondcasinoheistotherteleport"_J));
+		// teleport->AddItem(std::make_shared<ConditionalItem>("diamondcasinoheistotherteleport"_J, std::make_shared<ListCommandItem>("diamondcasinoheistotherteleportlist"_J)));
 		teleport->AddItem(std::make_shared<CommandItem>("diamondcasinoheistteleport"_J));
 
+		tab->AddItem(autocuts);
 		tab->AddItem(cuts);
 		tab->AddItem(setups);
 		tab->AddItem(loots);
+		tab->AddItem(hacks);
 		tab->AddItem(misc);
 		tab->AddItem(teleport);
 

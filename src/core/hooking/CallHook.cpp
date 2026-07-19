@@ -11,7 +11,9 @@ namespace YimMenu
 
 		for (uint8_t* addr = base; addr < limit; addr += 0x10000)
 		{
-			if (m_Memory = VirtualAlloc(addr, 1024, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE))
+			m_Memory = VirtualAlloc(addr, 1024,	MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+
+			if (m_Memory)
 			{
 				LOGF(VERBOSE, "Allocated call hook memory at {}. Base: {}.", m_Memory.As<void*>(), static_cast<void*>(base));
 				break;
