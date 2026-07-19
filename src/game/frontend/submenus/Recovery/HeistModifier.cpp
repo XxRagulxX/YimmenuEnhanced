@@ -4,6 +4,7 @@
 #include "Heist/CayoPericoHeist.hpp"
 #include "Heist/DoomsdayHeist.hpp"
 #include "Heist/Missions.hpp"
+#include "Heist/KortzCenterHeist.hpp"
 
 namespace YimMenu::Submenus
 {
@@ -17,6 +18,7 @@ namespace YimMenu::Submenus
 		heistTabBar->AddItem(RenderCayoPericoHeistMenu());
 		heistTabBar->AddItem(RenderDoomsdayHeistMenu());
 		heistTabBar->AddItem(RenderMissionsMenu());
+		heistTabBar->AddItem(RenderKortzCenterHeistMenu());
 
 		menu->AddItem(std::move(heistTabBar));
 
