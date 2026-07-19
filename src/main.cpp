@@ -96,9 +96,9 @@ namespace YimMenu
 		}
 
 		LOG(INFO) << "Unloading";
+		ScriptMgr::Destroy();
 		NativeHooks::Destroy();
 		FiberPool::Destroy();
-		ScriptMgr::Destroy();
 		Hooking::Destroy();
 		CallSiteHook::Destroy();
 

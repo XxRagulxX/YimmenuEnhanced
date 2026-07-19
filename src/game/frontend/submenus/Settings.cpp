@@ -105,6 +105,7 @@ namespace YimMenu::Submenus
 		game->AddItem(pedEsp);
 		game->AddItem(objectEsp);
 
+		gui->AddItem(std::make_shared<CommandItem>("unloadmenu"_J));
 		gui->AddItem(uiStyle);
 		gui->AddItem(overlay);
 		gui->AddItem(chat);
