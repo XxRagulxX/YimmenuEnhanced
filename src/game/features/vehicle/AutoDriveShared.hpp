@@ -51,7 +51,16 @@ namespace YimMenu::Features::AutoDriveInternal
 	{
 		None,
 		UserWaypoint,
-		MissionObjective
+		GpsRoute
+	};
+
+	enum class RoutePhase
+	{
+		Idle,
+		Navigation,
+		TargetLost,
+		Wander,
+		Arrived
 	};
 
 	struct NavigationTarget
@@ -59,6 +68,15 @@ namespace YimMenu::Features::AutoDriveInternal
 		NavigationTargetSource m_Source = NavigationTargetSource::None;
 		Blip m_BlipHandle = 0;
 		Vector3 m_Position{};
+	};
+
+	struct RoadDriveStatus
+	{
+		RoutePhase m_Phase = RoutePhase::Idle;
+		NavigationTargetSource m_TargetSource = NavigationTargetSource::None;
+		Vector3 m_Target{};
+		Vector3 m_RoadTarget{};
+		bool m_HasTask = false;
 	};
 
 	class RoadDriveController
@@ -103,6 +121,8 @@ namespace YimMenu::Features::AutoDriveInternal
 	public:
 		RouteResult Tick(Ped driver, Vehicle vehicle, std::string_view startMessage);
 		void ClearTask(bool clearPedTask = true, bool clearVehicleTask = true);
+		bool HasTask() const;
+		RoadDriveStatus GetStatus() const;
 	};
 
 	bool IsSupportedRoadVehicle(Vehicle vehicle);
