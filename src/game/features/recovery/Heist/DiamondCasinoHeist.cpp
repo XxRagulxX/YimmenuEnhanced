@@ -632,7 +632,7 @@ namespace YimMenu::Features
 		};
 
 		static SetMaxPayout _DiamondCasinoHeistSetMaxPayout{"diamondcasinoheistsetmaxpayout", "Set Max Cut", "Automatically calculates and sets player cuts"};
-		static SetCuts _DiamondCasinoHeistSetCuts{"diamondcasinoheistsetcuts", "Set Cuts", "Sets heist cut"};
+		static SetCuts _DiamondCasinoHeistSetCuts{"diamondcasinoheistsetcuts", "Auto Set Cuts", "Sets heist cut"};
 		static ForceReady _DiamondCasinoHeistForceReady{"diamondcasinoheistforceready", "Force Ready", "Forces all players to be ready"};
 		static Setup _DiamondCasinoHeistSetup{"diamondcasinoheistsetup", "Setup", "Sets up diamond casino heist"};
 		static SetPotentialTake _DiamondCasinoHeistSetPotentialTake{"diamondcasinoheistsetpotentialtake", "Set Potential Take", "Updates potential take"};
