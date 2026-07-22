@@ -43,15 +43,6 @@ namespace YimMenu::Features
 		    {26, "Mi O Melee"}
 		};
 
-		static std::vector<TeleportLocation> DiamondCasinoHeistTeleportPoints = {
-		    {2630.7929f, 5900.47021f, -61.00007f, 0.0f, "Main Door Computer"},
-		    {2547.9192f, -273.16754f, -58.723003f, 0.0f, "CCTV"},
-		    {2465.4746f, -279.2276f, -70.694145f, 0.0f, "Mantrap Door"},
-		    {2515.1252f, -238.91661f, -70.73713f, 0.0f, "Inside The Vault"},
-		    {2497.5098f, -238.50768f, -70.7388f, 0.0f, "Outside The Vault"},
-		    {2520.8645f, -286.30685f, -58.723007f, 0.0f, "Daily Cash Storage"}};
-
-
 		static ListCommand _KortzCenterPrimaryTarget{"kortzcenterheistprimarytarget", "Primary Target", "Primary target", kortzCenterTargets, 0};
 		static IntCommand _KortzCenterPaintingValue{"kortzcenterheistpaintingvalue", "Painting Value", "Value to set for the selected painting target", 0, 9999999, 0};
 
