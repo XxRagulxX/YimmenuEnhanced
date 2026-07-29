@@ -7,6 +7,8 @@
 #include "game/gta/ScriptLocal.hpp"
 #include "game/gta/Scripts.hpp"
 #include "core/commands/FloatCommand.hpp"
+#include "core/backend/ScriptMgr.hpp"
+#include "game/gta/Natives.hpp"
 #include "game/backend/Self.hpp"
 
 namespace YimMenu::Features
@@ -202,13 +204,79 @@ namespace YimMenu::Features
 			}
 		};
 
-		static Setup _KortzCenterHeistSetup{"kortzcenterheistsetup", "Setup", "Sets up Kortz Center Heist"};
+		class AutoEnterPcAccessCode : public Command
+		{
+			using Command::Command;
+
+			virtual void OnCall() override
+			{
+				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_v3"_J))
+				{
+					for (int i = 0; i <= 2; i++)
+					{
+						*ScriptLocal(thread, 32818).At(1).At(i, 2).At(1).As<int*>() = 0;
+						ScriptMgr::Yield(100ms);
+						PAD::SET_CONTROL_VALUE_NEXT_FRAME(0, 237, 1.0);
+					}
+				}
+			}
+		};
+
+		// --- Setup ---
+		class Setup : public Command
+		{
+			using Command::Command;
+
+			virtual void OnCall() override
+			{
+				int generalBits = -1;
+				if (!_KortzCenterGuardRoutes.GetState()) generalBits &= ~(1 << 5);
+				if (!_KortzCenterGlassCutter.GetState()) generalBits &= ~(1 << 6);
+				if (!_KortzCenterPowerDrills.GetState()) generalBits &= ~(1 << 7);
+				if (!_KortzCenterEMPCharges.GetState()) generalBits &= ~(1 << 8);
+
+				int robberyProg = -1;
+				if (!_KortzCenterScopeOut.GetState()) robberyProg &= ~(1 << 0);
+				if (!_KortzCenterAlphaMail.GetState()) robberyProg &= ~(1 << 1);
+				if (!_KortzCenterHazmat.GetState()) robberyProg &= ~(1 << 2);
+				if (!_KortzCenterStaffKeycard.GetState()) robberyProg &= ~(1 << 3);
+				if (!_KortzCenterTacticalEquip.GetState()) robberyProg &= ~(1 << 4);
+				if (!_KortzCenterHackingDevice.GetState()) robberyProg &= ~(1 << 5);
+				if (!_KortzCenterAccessCode.GetState()) robberyProg &= ~(1 << 6);
+				if (!_KortzCenterUnmarkedWeapons.GetState()) robberyProg &= ~(1 << 7);
+				if (!_KortzCenterCaracara.GetState()) robberyProg &= ~(1 << 8);
+				if (!_KortzCenterAnnihilator.GetState()) robberyProg &= ~(1 << 9);
+				if (!_KortzCenterManchez.GetState()) robberyProg &= ~(1 << 10);
+				if (!_KortzCenterPrepEMP.GetState()) robberyProg &= ~(1 << 11);
+				if (!_KortzCenterGuardShipments.GetState()) robberyProg &= ~(1 << 12);
+				if (!_KortzCenterGuardRoutesPrep.GetState()) robberyProg &= ~(1 << 13);
+				if (!_KortzCenterGlassCutterPrep.GetState()) robberyProg &= ~(1 << 14);
+				if (!_KortzCenterPowerDrillsPrep.GetState()) robberyProg &= ~(1 << 15);
+
+				int scopingBS = _KortzCenterScopeSecondary.GetState() ? -1 : 0;
+				int poiBS = _KortzCenterScopePOI.GetState() ? -1 : 0;
+				int caracaraPrepBS = _KortzCenterCaracaraPrep.GetState() ? -1 : 0;
+				int annihilatorPrepBS = _KortzCenterAnnihilatorPrep.GetState() ? -1 : 0;
+				int manchezPrepBS = _KortzCenterManchezPrep.GetState() ? -1 : 0;
+				int empChargesPrepBS = _KortzCenterEMPChargesPrep.GetState() ? -1 : 0;
+
+				Stats::SetInt("MPX_K26_GENERAL_BS", generalBits);
+				Stats::SetInt("MPX_K26_GENERAL_BS2", -1);
+				Stats::SetInt("MPX_K26_ROBBERY_PROG", robberyProg);
+				Stats::SetInt("MPX_K26_SCOPING_BS", scopingBS);
+				Stats::SetInt("MPX_K26_POI_BS", poiBS);
+				Stats::SetInt("MPX_K26_HEIST_TARGET", _KortzCenterPrimaryTarget.GetState());
+			}
+		};
+
 		static SkipFingerprint _KortzCenterSkipFingerprint{"kortzcenterheistskipfingerprint", "Skip Fingerprint Hack", "Skips fingerprint hacking minigame in computer room"};
 		static SkipSignalNodes _KortzCenterSkipSignalNodes{"kortzcenterheistskipsignalnodes", "Skip Signal Nodes", "Skips signal nodes hacking at vault keypad"};
 		static SkipDataCrack _KortzCenterSkipDataCrack{"kortzcenterheistskipdatacrack", "Skip Data Crack", "Skips data crack minigame"};
 		static CutGlass _KortzCenterCutGlass{"kortzcenterheistcutglass", "Cut Glass", "Cuts display case glass instantly"};
 		static DisableLaserGrid _KortzCenterDisableLaser{"kortzcenterheistdisablelaser", "Disable Laser Grid", "Disables laser security grid"};
 		static TakePrimaryTarget _KortzCenterTakePrimary{"kortzcenterheisttakeprimary", "Take Primary Target", "Takes primary target painting (stand near it)"};
-		static TakeSecondaryTarget _KortzCenterTakeSecondary{"kortzcenterheisttakesecondary", "Take Secondary Target", "Takes secondary loot (stand near it)"};		
+		static TakeSecondaryTarget _KortzCenterTakeSecondary{"kortzcenterheisttakesecondary", "Take Secondary Target", "Takes secondary loot (stand near it)"};
+		static Setup _KortzCenterSetup{"kortzcenterheistsetup", "Setup", "Sets up Kortz Center heist"};
+		static AutoEnterPcAccessCode _KortzCenterAutoEnterPcAccessCode{"kortzcenterheistautoenterpcaccesscode", "Auto-Enter PC Access Code", "Automatically enters the PC access code"};
 	}
 }

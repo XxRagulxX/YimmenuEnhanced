@@ -48,12 +48,12 @@ namespace YimMenu::Submenus
 		hacks->AddItem(std::make_shared<CommandItem>("kortzcenterheistskipfingerprint"_J));
 		hacks->AddItem(std::make_shared<CommandItem>("kortzcenterheistskipsignalnodes"_J));
 		hacks->AddItem(std::make_shared<CommandItem>("kortzcenterheistskipdatacrack"_J));
+		hacks->AddItem(std::make_shared<CommandItem>("kortzcenterheistautoenterpcaccesscode"_J));
 		hacks->AddItem(std::make_shared<CommandItem>("kortzcenterheistcutglass"_J));
 		hacks->AddItem(std::make_shared<CommandItem>("kortzcenterheistdisablelaser"_J));
 
 		misc->AddItem(std::make_shared<CommandItem>("kortzcenterheisttakeprimary"_J));
 		misc->AddItem(std::make_shared<CommandItem>("kortzcenterheisttakesecondary"_J));
-	
 
 		tab->AddItem(setups);
 		tab->AddItem(hacks);
