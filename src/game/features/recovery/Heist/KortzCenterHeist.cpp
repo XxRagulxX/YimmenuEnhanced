@@ -7,7 +7,6 @@
 #include "game/gta/Scripts.hpp"
 #include "core/backend/ScriptMgr.hpp"
 #include "game/gta/Natives.hpp"
-#include "game/backend/Self.hpp"
 
 namespace YimMenu::Features
 {
@@ -44,7 +43,6 @@ namespace YimMenu::Features
 		};
 
 		static ListCommand _KortzCenterPrimaryTarget{"kortzcenterheistprimarytarget", "Primary Target", "Primary target", kortzCenterTargets, 0};
-		static IntCommand _KortzCenterPaintingValue{"kortzcenterheistpaintingvalue", "Painting Value", "Value to set for the selected painting target", 0, 9999999, 0};
 
 		static BoolCommand _KortzCenterGuardRoutes{"kortzcenterheistguardroutes", "Guard Routes", "Guard routes purchased", true};
 		static BoolCommand _KortzCenterGlassCutter{"kortzcenterheistglasscutter", "Glass Cutter", "Glass cutter purchased", true};
@@ -220,52 +218,6 @@ namespace YimMenu::Features
 			}
 		};
 
-		// --- Setup ---
-		class Setup : public Command
-		{
-			using Command::Command;
-
-			virtual void OnCall() override
-			{
-				int generalBits = -1;
-				if (!_KortzCenterGuardRoutes.GetState()) generalBits &= ~(1 << 5);
-				if (!_KortzCenterGlassCutter.GetState()) generalBits &= ~(1 << 6);
-				if (!_KortzCenterPowerDrills.GetState()) generalBits &= ~(1 << 7);
-				if (!_KortzCenterEMPCharges.GetState()) generalBits &= ~(1 << 8);
-
-				int robberyProg = -1;
-				if (!_KortzCenterScopeOut.GetState()) robberyProg &= ~(1 << 0);
-				if (!_KortzCenterAlphaMail.GetState()) robberyProg &= ~(1 << 1);
-				if (!_KortzCenterHazmat.GetState()) robberyProg &= ~(1 << 2);
-				if (!_KortzCenterStaffKeycard.GetState()) robberyProg &= ~(1 << 3);
-				if (!_KortzCenterTacticalEquip.GetState()) robberyProg &= ~(1 << 4);
-				if (!_KortzCenterHackingDevice.GetState()) robberyProg &= ~(1 << 5);
-				if (!_KortzCenterAccessCode.GetState()) robberyProg &= ~(1 << 6);
-				if (!_KortzCenterUnmarkedWeapons.GetState()) robberyProg &= ~(1 << 7);
-				if (!_KortzCenterCaracara.GetState()) robberyProg &= ~(1 << 8);
-				if (!_KortzCenterAnnihilator.GetState()) robberyProg &= ~(1 << 9);
-				if (!_KortzCenterManchez.GetState()) robberyProg &= ~(1 << 10);
-				if (!_KortzCenterPrepEMP.GetState()) robberyProg &= ~(1 << 11);
-				if (!_KortzCenterGuardShipments.GetState()) robberyProg &= ~(1 << 12);
-				if (!_KortzCenterGuardRoutesPrep.GetState()) robberyProg &= ~(1 << 13);
-				if (!_KortzCenterGlassCutterPrep.GetState()) robberyProg &= ~(1 << 14);
-				if (!_KortzCenterPowerDrillsPrep.GetState()) robberyProg &= ~(1 << 15);
-
-				int scopingBS = _KortzCenterScopeSecondary.GetState() ? -1 : 0;
-				int poiBS = _KortzCenterScopePOI.GetState() ? -1 : 0;
-				int caracaraPrepBS = _KortzCenterCaracaraPrep.GetState() ? -1 : 0;
-				int annihilatorPrepBS = _KortzCenterAnnihilatorPrep.GetState() ? -1 : 0;
-				int manchezPrepBS = _KortzCenterManchezPrep.GetState() ? -1 : 0;
-				int empChargesPrepBS = _KortzCenterEMPChargesPrep.GetState() ? -1 : 0;
-
-				Stats::SetInt("MPX_K26_GENERAL_BS", generalBits);
-				Stats::SetInt("MPX_K26_GENERAL_BS2", -1);
-				Stats::SetInt("MPX_K26_ROBBERY_PROG", robberyProg);
-				Stats::SetInt("MPX_K26_SCOPING_BS", scopingBS);
-				Stats::SetInt("MPX_K26_POI_BS", poiBS);
-				Stats::SetInt("MPX_K26_HEIST_TARGET", _KortzCenterPrimaryTarget.GetState());
-			}
-		};
 
 		static SkipFingerprint _KortzCenterSkipFingerprint{"kortzcenterheistskipfingerprint", "Skip Fingerprint Hack", "Skips fingerprint hacking minigame in computer room"};
 		static SkipSignalNodes _KortzCenterSkipSignalNodes{"kortzcenterheistskipsignalnodes", "Skip Signal Nodes", "Skips signal nodes hacking at vault keypad"};

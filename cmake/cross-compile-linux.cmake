@@ -10,6 +10,8 @@ endif()
 
 option(CROSSCOMPILE "Enable cross-compilation using clang-cl (MSVC ABI)" ${CROSSCOMPILE_DEFAULT})
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 if(CROSSCOMPILE)
     message(STATUS "Cross-compile is enabled (clang-cl / MSVC ABI).")
 

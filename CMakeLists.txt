@@ -7,6 +7,8 @@ include(cmake/cross-compile.cmake)
 
 project(YimMenuV2 VERSION 0.0.1 DESCRIPTION "A new base using new C++ features optimised for speed and ease of use")
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # libs
 include(cmake/async-logger.cmake)
 include(cmake/imgui.cmake)
