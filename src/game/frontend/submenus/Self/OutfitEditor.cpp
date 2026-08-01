@@ -7,6 +7,7 @@
 #include "game/gta/Natives.hpp"
 #include "core/util/Strings.hpp"
 #include "misc/cpp/imgui_stdlib.h"
+#include "imgui.h"
 
 namespace YimMenu
 {
@@ -159,7 +160,7 @@ namespace YimMenu
 						if (pair_lower.contains(search))
 						{
 							auto fileName = pair.c_str();
-							if (ImGui::Selectable(fileName, file == pair, ImGuiSelectableFlags_AllowItemOverlap))
+							if (ImGui::Selectable(fileName, file == pair, ImGuiSelectableFlags_AllowOverlap))
 								file = pair;
 						}
 					}
