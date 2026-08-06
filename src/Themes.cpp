@@ -1,5 +1,5 @@
 #include "Themes.hpp"
-#include "game/frontend/submenus/Settings/GUISettings.hpp"
+#include "GUISettings.hpp"
 
 namespace YimMenu
 {

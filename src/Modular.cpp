@@ -1,8 +1,8 @@
 #include <algorithm>
-#include "game/pointers/Pointers.hpp"
-#include "game/frontend/Menu.hpp"
-#include "core/frontend/manager/UIManager.hpp"
-#include "game/frontend/submenus/Settings/GUISettings.hpp"
+#include "Pointers.hpp"
+#include "Menu.hpp"
+#include "UIManager.hpp"
+#include "GUISettings.hpp"
 
 namespace YimMenu
 {

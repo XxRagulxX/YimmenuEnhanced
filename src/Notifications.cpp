@@ -1,7 +1,7 @@
 #include "Notifications.hpp"
-#include "game/gta/Natives.hpp"
-#include "core/backend/FiberPool.hpp"
-#include "core/util/Joaat.hpp"
+#include "Natives.hpp"
+#include "FiberPool.hpp"
+#include "Joaat.hpp"
 
 #include <mutex>
 

@@ -1,6 +1,6 @@
-#include "game/pointers/Pointers.hpp"
-#include "core/frontend/manager/UIManager.hpp"
-#include "game/frontend/submenus/Settings/GUISettings.hpp"
+#include "Pointers.hpp"
+#include "UIManager.hpp"
+#include "GUISettings.hpp"
 
 namespace YimMenu
 {
