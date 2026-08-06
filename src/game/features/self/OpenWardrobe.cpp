@@ -1,12 +1,12 @@
-#include "core/commands/Command.hpp"
-#include "core/frontend/Notifications.hpp"
-#include "game/backend/Self.hpp"
+#include "Command.hpp"
+#include "Notifications.hpp"
+#include "Self.hpp"
 #include "game/backend/ScriptPatches.hpp"
-#include "game/backend/NativeHooks.hpp"
-#include "game/gta/Natives.hpp"
+#include "NativeHooks.hpp"
+#include "Natives.hpp"
 #include "game/gta/Scripts.hpp"
-#include "game/gta/ScriptLocal.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "ScriptLocal.hpp"
+#include "Pointers.hpp"
 
 namespace YimMenu::Features
 {

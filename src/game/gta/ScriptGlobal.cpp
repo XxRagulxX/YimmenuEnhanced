@@ -1,4 +1,4 @@
-#include "game/pointers/Pointers.hpp"
+#include "Pointers.hpp"
 #include "ScriptGlobal.hpp"
 
 namespace YimMenu

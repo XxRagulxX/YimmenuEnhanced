@@ -1,8 +1,8 @@
 #include "core/commands/LoopedCommand.hpp"
-#include "game/backend/Self.hpp"
+#include "Self.hpp"
 #include "game/gta/Scripts.hpp"
-#include "game/gta/ScriptGlobal.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "ScriptGlobal.hpp"
+#include "Pointers.hpp"
 #include "types/script/globals/GlobalPlayerBD.hpp"
 
 namespace YimMenu::Features

@@ -1,5 +1,5 @@
 #include "Items.hpp"
-#include "core/commands/Commands.hpp"
+#include "Commands.hpp"
 #include "core/commands/StringCommand.hpp"
 #include "imgui.h"
 

@@ -1,6 +1,6 @@
-#include "core/commands/Command.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/Natives.hpp"
+#include "Command.hpp"
+#include "Self.hpp"
+#include "Natives.hpp"
 #include "types/blip/BlipSprite.hpp"
 
 namespace YimMenu::Features

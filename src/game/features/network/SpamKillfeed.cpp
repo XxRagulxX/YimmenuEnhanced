@@ -1,7 +1,7 @@
-#include "core/commands/BoolCommand.hpp"
+#include "BoolCommand.hpp"
 #include "game/backend/NodeHooks.hpp"
-#include "game/backend/Self.hpp"
-#include "game/backend/Players.hpp"
+#include "Self.hpp"
+#include "Players.hpp"
 #include "types/network/sync/nodes/ped/CPedHealthDataNode.hpp"
 
 namespace YimMenu::Features

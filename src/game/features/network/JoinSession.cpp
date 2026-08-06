@@ -1,4 +1,4 @@
-#include "core/commands/Command.hpp"
+#include "Command.hpp"
 #include "core/commands/ListCommand.hpp"
 #include "game/gta/Network.hpp"
 

@@ -1,7 +1,7 @@
 #include "core/memory/PointerCalculator.hpp"
 #include "core/scripting/LuaLibrary.hpp"
 #include "core/scripting/LuaUtils.hpp"
-#include "game/gta/invoker/Invoker.hpp"
+#include "Invoker.hpp"
 
 namespace YimMenu::Lua
 {

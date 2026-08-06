@@ -1,6 +1,6 @@
 #pragma once
-#include "core/util/Joaat.hpp"
-#include "game/gta/ScriptPointer.hpp"
+#include "Joaat.hpp"
+#include "ScriptPointer.hpp"
 
 namespace YimMenu
 {

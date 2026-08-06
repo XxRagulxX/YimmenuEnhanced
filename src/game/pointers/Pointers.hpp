@@ -2,7 +2,7 @@
 #include <d3d12.h>
 #include <dxgi1_4.h>
 #include <windows.h>
-#include "types/rage/vector.hpp"
+#include "vector.hpp"
 #include "types/rage/ObfVar.hpp"
 #include "core/memory/BytePatches.hpp"
 #include "types/rage/atArray.hpp"

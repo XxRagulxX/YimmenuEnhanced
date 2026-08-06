@@ -1,15 +1,15 @@
 #include "SavePersonalVehicle.hpp"
 #include <unordered_set>
-#include "core/commands/Command.hpp"
-#include "core/backend/ScriptMgr.hpp"
-#include "core/frontend/Notifications.hpp"
-#include "game/backend/Self.hpp"
+#include "Command.hpp"
+#include "ScriptMgr.hpp"
+#include "Notifications.hpp"
+#include "Self.hpp"
 #include "game/gta/Scripts.hpp"
-#include "game/gta/ScriptFunction.hpp"
-#include "game/gta/ScriptLocal.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "ScriptFunction.hpp"
+#include "ScriptLocal.hpp"
+#include "Pointers.hpp"
 #include "types/script/locals/VehicleRewardData.hpp"
-#include "types/script/globals/FreemodeGeneral.hpp"
+#include "FreemodeGeneral.hpp"
 
 namespace YimMenu::Features
 {

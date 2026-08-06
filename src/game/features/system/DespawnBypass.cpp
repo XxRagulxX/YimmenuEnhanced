@@ -1,4 +1,4 @@
-#include "core/commands/BoolCommand.hpp"
+#include "BoolCommand.hpp"
 #include "game/backend/ScriptPatches.hpp"
 
 namespace YimMenu::Features

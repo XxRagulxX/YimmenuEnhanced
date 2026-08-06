@@ -1,5 +1,5 @@
 #include "game/commands/PlayerCommand.hpp"
-#include "game/backend/Self.hpp"
+#include "Self.hpp"
 
 namespace YimMenu::Features
 {

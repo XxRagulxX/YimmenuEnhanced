@@ -1,10 +1,10 @@
 #include "core/hooking/DetourHook.hpp"
 #include "game/hooks/Hooks.hpp"
-#include "game/backend/Players.hpp"
-#include "types/network/CNetGamePlayer.hpp"
-#include "core/commands/BoolCommand.hpp"
-#include "game/gta/Natives.hpp"
-#include "core/backend/FiberPool.hpp"
+#include "Players.hpp"
+#include "CNetGamePlayer.hpp"
+#include "BoolCommand.hpp"
+#include "Natives.hpp"
+#include "FiberPool.hpp"
 
 namespace YimMenu::Features
 {

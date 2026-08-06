@@ -2,9 +2,9 @@
 #include "core/scripting/LuaLibrary.hpp"
 #include "core/scripting/LuaScript.hpp"
 #include "core/scripting/LuaUtils.hpp"
-#include "game/gta/ScriptPointer.hpp"
+#include "ScriptPointer.hpp"
 #include "game/gta/Scripts.hpp"
-#include "types/script/scrProgram.hpp"
+#include "scrProgram.hpp"
 
 namespace YimMenu::Lua
 {

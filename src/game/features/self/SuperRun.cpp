@@ -1,7 +1,7 @@
 #include "core/commands/LoopedCommand.hpp"
 #include "core/commands/FloatCommand.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/Natives.hpp"
+#include "Self.hpp"
+#include "Natives.hpp"
 
 namespace YimMenu::Features
 {

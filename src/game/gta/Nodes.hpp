@@ -1,5 +1,5 @@
 #pragma once
-#include "core/util/Joaat.hpp"
+#include "Joaat.hpp"
 #include "types/network/netObject.hpp"
 
 // Credits to Aure7138

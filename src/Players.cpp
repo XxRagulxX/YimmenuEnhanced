@@ -1,10 +1,10 @@
 #include "Players.hpp"
-#include "core/scripting/LuaManager.hpp"
-#include "game/backend/SavedPlayers.hpp"
-#include "game/pointers/Pointers.hpp"
-#include "types/network/CNetGamePlayer.hpp"
-#include "types/network/CNetworkPlayerMgr.hpp"
-#include "types/network/rlGamerInfo.hpp"
+#include "LuaManager.hpp"
+#include "SavedPlayers.hpp"
+#include "Pointers.hpp"
+#include "CNetGamePlayer.hpp"
+#include "CNetworkPlayerMgr.hpp"
+#include "rlGamerInfo.hpp"
 
 namespace YimMenu
 {

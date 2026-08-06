@@ -1,5 +1,5 @@
 #include "game/commands/PlayerCommand.hpp"
-#include "core/backend/ScriptMgr.hpp"
+#include "ScriptMgr.hpp"
 #include "game/gta/Scripts.hpp"
 #include "types/script/ScriptEvent.hpp"
 #include "types/script/globals/GSBD_RandomEvents.hpp"

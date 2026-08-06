@@ -1,10 +1,10 @@
 #include "AnticheatBypass.hpp"
-#include "core/backend/ScriptMgr.hpp"
-#include "core/memory/ModuleMgr.hpp"
-#include "core/util/Joaat.hpp"
-#include "game/pointers/Pointers.hpp"
-#include "game/backend/NativeHooks.hpp"
-#include "game/gta/Natives.hpp"
+#include "ScriptMgr.hpp"
+#include "ModuleMgr.hpp"
+#include "Joaat.hpp"
+#include "Pointers.hpp"
+#include "NativeHooks.hpp"
+#include "Natives.hpp"
 
 using FnGetVersion = int (*)();
 using FnLocalSaves = bool (*)();

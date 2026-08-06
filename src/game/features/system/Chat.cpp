@@ -1,14 +1,14 @@
-#include "core/backend/ScriptMgr.hpp"
-#include "core/commands/Command.hpp"
+#include "ScriptMgr.hpp"
+#include "Command.hpp"
 #include "core/frontend/widgets/imgui_colors.h"
-#include "game/backend/Players.hpp"
-#include "game/backend/Self.hpp"
+#include "Players.hpp"
+#include "Self.hpp"
 #include "game/frontend/ChatDisplay.hpp"
-#include "game/gta/Natives.hpp"
+#include "Natives.hpp"
 #include "game/gta/Packet.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "Pointers.hpp"
 #include "types/network/rlGamerHandle.hpp"
-#include "types/network/rlGamerInfo.hpp"
+#include "rlGamerInfo.hpp"
 
 namespace
 {

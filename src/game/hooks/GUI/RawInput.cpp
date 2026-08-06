@@ -1,5 +1,5 @@
 #include "core/hooking/DetourHook.hpp"
-#include "game/frontend/GUI.hpp"
+#include "GUI.hpp"
 #include "game/hooks/Hooks.hpp"
 
 #include <imgui.h>

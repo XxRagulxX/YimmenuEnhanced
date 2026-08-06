@@ -1,8 +1,8 @@
 #include "Ped.hpp"
 #include "Natives.hpp"
 #include "game/backend/Outfit.hpp"
-#include "core/backend/ScriptMgr.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "ScriptMgr.hpp"
+#include "Pointers.hpp"
 #include <random>
 
 namespace YimMenu

@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include "types/rage/vector.hpp"
+#include "vector.hpp"
 #include "types/script/CGameScriptId.hpp"
 
 namespace rage

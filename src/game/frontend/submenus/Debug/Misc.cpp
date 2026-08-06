@@ -1,10 +1,10 @@
 #include "core/frontend/manager/Category.hpp"
-#include "core/backend/FiberPool.hpp"
+#include "FiberPool.hpp"
 #include "game/frontend/items/Items.hpp"
-#include "game/gta/Natives.hpp"
-#include "game/gta/ScriptFunction.hpp"
+#include "Natives.hpp"
+#include "ScriptFunction.hpp"
 #include "types/script/ScriptEvent.hpp"
-#include "game/backend/Self.hpp"
+#include "Self.hpp"
 
 namespace YimMenu::Submenus
 {

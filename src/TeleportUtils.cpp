@@ -1,8 +1,8 @@
 ﻿#include "TeleportUtils.hpp"
 
-#include "game/backend/Self.hpp"
-#include "game/gta/Natives.hpp"
-#include "core/backend/FiberPool.hpp"
+#include "Self.hpp"
+#include "Natives.hpp"
+#include "FiberPool.hpp"
 
 namespace YimMenu::Features::TeleportHelpers
 {

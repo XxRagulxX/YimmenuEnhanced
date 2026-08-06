@@ -1,9 +1,9 @@
-#include "core/commands/BoolCommand.hpp"
+#include "BoolCommand.hpp"
 #include "core/hooking/DetourHook.hpp"
-#include "game/backend/NativeHooks.hpp"
-#include "game/gta/Natives.hpp"
+#include "NativeHooks.hpp"
+#include "Natives.hpp"
 #include "game/hooks/Hooks.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "Pointers.hpp"
 #include "types/game_files/CGameDataHash.hpp"
 
 namespace YimMenu::Features

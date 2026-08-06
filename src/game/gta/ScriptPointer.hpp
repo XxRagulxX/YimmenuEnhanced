@@ -1,5 +1,5 @@
 #pragma once
-#include "game/gta/ScriptData.hpp"
+#include "ScriptData.hpp"
 
 namespace YimMenu
 {

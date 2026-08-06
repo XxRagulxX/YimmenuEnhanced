@@ -1,9 +1,9 @@
 #include "Overlay.hpp"
 #include "Menu.hpp"
 #include "core/commands/ListCommand.hpp"
-#include "core/commands/BoolCommand.hpp"
-#include "game/pointers/Pointers.hpp"
-#include "game/gta/invoker/Invoker.hpp"
+#include "BoolCommand.hpp"
+#include "Pointers.hpp"
+#include "Invoker.hpp"
 
 namespace YimMenu::Features
 {

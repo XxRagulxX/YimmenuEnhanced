@@ -1,6 +1,6 @@
 #pragma once
-#include "types/network/rlTaskStatus.hpp"
-#include "types/network/MatchmakingId.hpp"
+#include "rlTaskStatus.hpp"
+#include "MatchmakingId.hpp"
 
 namespace rage
 {

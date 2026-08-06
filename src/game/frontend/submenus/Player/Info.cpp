@@ -1,11 +1,11 @@
 #include "Info.hpp"
 #include "game/frontend/items/Items.hpp"
-#include "core/backend/FiberPool.hpp"
-#include "game/backend/Players.hpp"
-#include "game/backend/SavedPlayers.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/Natives.hpp"
-#include "types/network/CNetGamePlayer.hpp"
+#include "FiberPool.hpp"
+#include "Players.hpp"
+#include "SavedPlayers.hpp"
+#include "Self.hpp"
+#include "Natives.hpp"
+#include "CNetGamePlayer.hpp"
 
 namespace YimMenu::Submenus
 {

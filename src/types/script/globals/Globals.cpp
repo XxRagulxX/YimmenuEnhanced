@@ -20,7 +20,7 @@
 #include "WeeklyChallenge.hpp"
 #include "FreemodeDelivery.hpp"
 #include "LauncherServerData.hpp"
-#include "game/gta/ScriptGlobal.hpp"
+#include "ScriptGlobal.hpp"
 
 #define DEFINE_GLOBAL_ACCESSOR(str, global)       \
 	str* str::Get()                               \

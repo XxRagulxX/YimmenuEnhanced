@@ -1,6 +1,6 @@
 #pragma once
 #include "Entity.hpp"
-#include "types/script/types.hpp"
+#include "types.hpp"
 
 namespace YimMenu
 {

@@ -1,11 +1,11 @@
-//#include "core/commands/BoolCommand.hpp"
+//#include "BoolCommand.hpp"
 #include "game/gta/Stats.hpp"
-#include "game/gta/Natives.hpp"
+#include "Natives.hpp"
 #include "core/commands/IntCommand.hpp"
-#include "game/gta/ScriptGlobal.hpp"
+#include "ScriptGlobal.hpp"
 #include "core/commands/LoopedCommand.hpp"
-#include "core/frontend/Notifications.hpp"
-#include "core/backend/FiberPool.hpp"
+#include "Notifications.hpp"
+#include "FiberPool.hpp"
 
 namespace YimMenu::Features
 {

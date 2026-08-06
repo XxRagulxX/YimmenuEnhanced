@@ -1,7 +1,7 @@
 #include "core/scripting/LuaLibrary.hpp"
 #include "core/scripting/LuaUtils.hpp"
 #include "core/scripting/LatentFunction.hpp"
-#include "game/gta/Ped.hpp"
+#include "Ped.hpp"
 #include "Entity.hpp"
 
 namespace YimMenu::Lua

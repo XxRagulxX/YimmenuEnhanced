@@ -1,8 +1,8 @@
 #include "Teleport.hpp"
-#include "core/frontend/Notifications.hpp"
-#include "core/backend/FiberPool.hpp"
-#include "game/backend/SavedLocations.hpp"
-#include "game/backend/Self.hpp"
+#include "Notifications.hpp"
+#include "FiberPool.hpp"
+#include "SavedLocations.hpp"
+#include "Self.hpp"
 #include "game/frontend/items/Items.hpp"
 
     namespace YimMenu::Submenus

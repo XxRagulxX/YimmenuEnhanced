@@ -1,8 +1,8 @@
 #include "Items.hpp"
-#include "core/commands/Commands.hpp"
-#include "core/commands/Command.hpp"
-#include "core/commands/HotkeySystem.hpp"
-#include "core/backend/FiberPool.hpp"
+#include "Commands.hpp"
+#include "Command.hpp"
+#include "HotkeySystem.hpp"
+#include "FiberPool.hpp"
 #include "DrawHotkey.hpp"
 
 namespace YimMenu

@@ -1,5 +1,5 @@
 #include "core/commands/LoopedCommand.hpp"
-#include "game/gta/Natives.hpp"
+#include "Natives.hpp"
 
 namespace YimMenu::Features
 {

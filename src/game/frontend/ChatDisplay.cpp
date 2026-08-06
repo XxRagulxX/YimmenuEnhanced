@@ -1,6 +1,6 @@
 #include "ChatDisplay.hpp"
 #include "Menu.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "Pointers.hpp"
 
 
 namespace YimMenu

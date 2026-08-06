@@ -1,17 +1,17 @@
 #include "Entity.hpp"
 
 #include "Natives.hpp"
-#include "core/util/Joaat.hpp"
-#include "core/backend/ScriptMgr.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "Joaat.hpp"
+#include "ScriptMgr.hpp"
+#include "Pointers.hpp"
 #include "types/rage/tlsContext.hpp"
 #include "types/entity/CDynamicEntity.hpp"
 #include "types/network/netObject.hpp"
-#include "types/network/CNetworkPlayerMgr.hpp"
+#include "CNetworkPlayerMgr.hpp"
 #include "game/gta/Scripts.hpp"
-#include "types/ped/CPedFactory.hpp"
+#include "CPedFactory.hpp"
 #include "types/network/netObjectMgrBase.hpp"
-#include "game/backend/Self.hpp"
+#include "Self.hpp"
 #include "game/gta/Packet.hpp"
 
 namespace

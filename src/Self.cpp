@@ -1,9 +1,9 @@
 #include "Self.hpp"
 
-#include "core/backend/ScriptMgr.hpp"
-#include "game/pointers/Pointers.hpp"
-#include "game/gta/Natives.hpp"
-#include "types/ped/CPedFactory.hpp"
+#include "ScriptMgr.hpp"
+#include "Pointers.hpp"
+#include "Natives.hpp"
+#include "CPedFactory.hpp"
 
 namespace YimMenu
 {

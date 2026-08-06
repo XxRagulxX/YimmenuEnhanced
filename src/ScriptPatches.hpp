@@ -1,7 +1,7 @@
 #pragma once
-#include "core/util/Joaat.hpp"
-#include "game/gta/ScriptData.hpp"
-#include "game/gta/ScriptPointer.hpp"
+#include "Joaat.hpp"
+#include "ScriptData.hpp"
+#include "ScriptPointer.hpp"
 
 namespace rage
 {

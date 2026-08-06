@@ -1,6 +1,6 @@
 #pragma once
-#include "core/commands/Command.hpp"
-#include "game/gta/Player.hpp"
+#include "Command.hpp"
+#include "Player.hpp"
 
 namespace YimMenu
 {

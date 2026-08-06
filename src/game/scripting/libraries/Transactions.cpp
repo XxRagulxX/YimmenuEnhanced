@@ -2,12 +2,12 @@
 #include <unordered_set>
 #include "core/scripting/LuaUtils.hpp"
 #include "core/scripting/LatentFunction.hpp"
-#include "core/backend/ScriptMgr.hpp"
-#include "game/pointers/Pointers.hpp"
-#include "game/gta/Natives.hpp"
+#include "ScriptMgr.hpp"
+#include "Pointers.hpp"
+#include "Natives.hpp"
 #include "game/gta/Scripts.hpp"
 #include "types/netshop/CNetShopTransaction.hpp"
-#include "game/backend/AnticheatBypass.hpp"
+#include "AnticheatBypass.hpp"
 
 namespace YimMenu::Lua
 {

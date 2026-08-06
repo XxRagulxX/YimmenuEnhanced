@@ -1,5 +1,5 @@
-#include "game/gta/Natives.hpp"
-#include "game/gta/Pools.hpp"
+#include "Natives.hpp"
+#include "Pools.hpp"
 
 namespace YimMenu
 {

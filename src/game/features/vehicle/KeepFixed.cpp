@@ -1,5 +1,5 @@
 #include "core/commands/LoopedCommand.hpp"
-#include "game/backend/Self.hpp"
+#include "Self.hpp"
 
 namespace YimMenu::Features
 {

@@ -1,6 +1,6 @@
 #include "Packet.hpp"
-#include "game/pointers/Pointers.hpp"
-#include "types/network/CNetworkPlayerMgr.hpp"
+#include "Pointers.hpp"
+#include "CNetworkPlayerMgr.hpp"
 
 
 namespace YimMenu

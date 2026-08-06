@@ -1,5 +1,5 @@
 #pragma once
-#include "core/commands/HotkeySystem.hpp"
+#include "HotkeySystem.hpp"
 
 namespace YimMenu
 {

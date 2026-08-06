@@ -1,5 +1,5 @@
 #pragma once
-#include "types/script/types.hpp"
+#include "types.hpp"
 #include "types/script/Timer.hpp"
 #include "types/script/globals/GSBD_BlockB.hpp"
 

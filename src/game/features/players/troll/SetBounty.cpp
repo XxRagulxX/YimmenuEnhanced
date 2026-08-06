@@ -1,4 +1,4 @@
-#include "core/commands/BoolCommand.hpp"
+#include "BoolCommand.hpp"
 #include "core/commands/IntCommand.hpp"
 #include "game/commands/PlayerCommand.hpp"
 #include "types/script/ScriptEvent.hpp"

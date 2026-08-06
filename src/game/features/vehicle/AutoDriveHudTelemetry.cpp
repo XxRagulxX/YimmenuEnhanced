@@ -1,9 +1,9 @@
 #include "AutoDriveHudTelemetry.hpp"
 
-#include "core/commands/BoolCommand.hpp"
-#include "core/util/Joaat.hpp"
-#include "game/gta/Natives.hpp"
-#include "game/gta/Pools.hpp"
+#include "BoolCommand.hpp"
+#include "Joaat.hpp"
+#include "Natives.hpp"
+#include "Pools.hpp"
 
 #include <algorithm>
 #include <array>

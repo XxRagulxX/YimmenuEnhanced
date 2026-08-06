@@ -1,8 +1,8 @@
 #pragma once
 #include <cstddef>
 #include <type_traits>
-#include <types/script/scrThread.hpp>
-#include <core/util/Joaat.hpp>
+#include <scrThread.hpp>
+#include <Joaat.hpp>
 #include <game/gta/Scripts.hpp>
 
 namespace YimMenu

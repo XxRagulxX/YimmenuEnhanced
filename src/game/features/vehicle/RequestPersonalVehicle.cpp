@@ -1,6 +1,6 @@
-#include "core/commands/Command.hpp"
+#include "Command.hpp"
 #include "game/backend/PersonalVehicles.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "Pointers.hpp"
 
 namespace YimMenu
 {

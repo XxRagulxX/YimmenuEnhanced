@@ -1,7 +1,7 @@
 #include "Locals.hpp"
 #include "game/gta/Scripts.hpp"
 #include "game/backend/SavedVariables.hpp"
-#include "types/script/scrThread.hpp"
+#include "scrThread.hpp"
 #include "game/frontend/items/Items.hpp"
 #include "game/frontend/submenus/Debug/DrawVariable.hpp"
 

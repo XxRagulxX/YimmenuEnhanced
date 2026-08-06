@@ -1,13 +1,13 @@
 #include "SpawnVehicle.hpp"
-#include "core/commands/BoolCommand.hpp"
+#include "BoolCommand.hpp"
 #include <game/frontend/items/Items.hpp>
-#include "core/backend/FiberPool.hpp"
-#include "core/frontend/Notifications.hpp"
-#include "game/backend/Self.hpp"
+#include "FiberPool.hpp"
+#include "Notifications.hpp"
+#include "Self.hpp"
 #include "game/backend/PersonalVehicles.hpp"
 #include "game/gta/data/Vehicles.hpp"
-#include "game/gta/Natives.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "Natives.hpp"
+#include "Pointers.hpp"
 
 namespace YimMenu::Submenus
 {

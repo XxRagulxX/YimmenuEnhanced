@@ -1,10 +1,10 @@
 #include "core/scripting/LuaLibrary.hpp"
 #include "core/scripting/LuaScript.hpp"
 #include "core/scripting/LuaUtils.hpp"
-#include "game/backend/Players.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/Player.hpp"
-#include "types/rage/vector.hpp"
+#include "Players.hpp"
+#include "Self.hpp"
+#include "Player.hpp"
+#include "vector.hpp"
 
 namespace YimMenu::Lua
 {

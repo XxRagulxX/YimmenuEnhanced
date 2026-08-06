@@ -1,8 +1,8 @@
-#include "core/commands/Command.hpp"
+#include "Command.hpp"
 #include "core/commands/ListCommand.hpp"
 #include "game/gta/Stats.hpp"
-#include "core/frontend/Notifications.hpp"
-#include "game/gta/ScriptLocal.hpp"
+#include "Notifications.hpp"
+#include "ScriptLocal.hpp"
 
 
 namespace YimMenu::Features

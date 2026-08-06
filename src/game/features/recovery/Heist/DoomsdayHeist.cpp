@@ -1,13 +1,13 @@
-#include "core/commands/Command.hpp"
+#include "Command.hpp"
 #include "core/commands/IntCommand.hpp"
 #include "core/commands/ListCommand.hpp"
 #include "game/gta/Stats.hpp"
-#include "game/gta/ScriptGlobal.hpp"
-#include "game/gta/ScriptLocal.hpp"
-#include "core/backend/ScriptMgr.hpp"
+#include "ScriptGlobal.hpp"
+#include "ScriptLocal.hpp"
+#include "ScriptMgr.hpp"
 #include "types/script/globals/GPBD_FM_2.hpp"
 #include "game/backend/TeleportUtils.hpp"
-#include "core/frontend/Notifications.hpp"
+#include "Notifications.hpp"
 
 namespace YimMenu::Features
 {

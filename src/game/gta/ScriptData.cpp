@@ -1,5 +1,5 @@
 #include "ScriptData.hpp"
-#include "types/script/scrProgram.hpp"
+#include "scrProgram.hpp"
 
 namespace YimMenu
 {

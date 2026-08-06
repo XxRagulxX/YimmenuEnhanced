@@ -1,6 +1,6 @@
 #include "SavedLocations.hpp"
 #include <fstream>
-#include "core/filemgr/FileMgr.hpp"
+#include "FileMgr.hpp"
 
 namespace YimMenu
 {

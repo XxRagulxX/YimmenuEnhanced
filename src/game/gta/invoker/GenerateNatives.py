@@ -71,7 +71,7 @@ def load_natives_data():
 
 def write_crossmap_header():
         open("Crossmap.hpp", "w+").write(f"""#pragma once
-#include "types/script/scrNativeHandler.hpp"
+#include "scrNativeHandler.hpp"
 
 namespace YimMenu
 {{
@@ -108,7 +108,7 @@ def write_natives_header():
 
     open("../Natives.hpp", "w+").write(f"""#pragma once
 #include "invoker/Invoker.hpp"
-#include "types/script/types.hpp"
+#include "types.hpp"
 
 // clang-format off
 enum class NativeIndex

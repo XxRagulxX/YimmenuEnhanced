@@ -1,5 +1,5 @@
 #include "Timer.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "Pointers.hpp"
 
 void TIMER::Initialize(bool localTimer)
 {

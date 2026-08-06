@@ -1,6 +1,6 @@
 #pragma once
 
-#include "game/gta/Ped.hpp"
+#include "Ped.hpp"
 
 #include <chrono>
 #include <cstdint>

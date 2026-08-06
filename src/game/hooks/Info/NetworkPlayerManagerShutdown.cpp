@@ -1,5 +1,5 @@
 #include "core/hooking/DetourHook.hpp"
-#include "game/backend/Players.hpp"
+#include "Players.hpp"
 #include "game/hooks/Hooks.hpp"
 
 namespace YimMenu::Hooks

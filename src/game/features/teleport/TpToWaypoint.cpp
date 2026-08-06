@@ -1,9 +1,9 @@
-#include "core/commands/Command.hpp"
+#include "Command.hpp"
 #include "core/commands/LoopedCommand.hpp"
-#include "core/backend/FiberPool.hpp"
-#include "core/backend/ScriptMgr.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/Natives.hpp"
+#include "FiberPool.hpp"
+#include "ScriptMgr.hpp"
+#include "Self.hpp"
+#include "Natives.hpp"
 
 namespace YimMenu::Features
 {

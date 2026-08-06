@@ -1,8 +1,8 @@
 #include "NativeHooks.hpp"
 
-#include "game/gta/invoker/Invoker.hpp"
-#include "game/pointers/Pointers.hpp"
-#include "types/script/scrProgram.hpp"
+#include "Invoker.hpp"
+#include "Pointers.hpp"
+#include "scrProgram.hpp"
 
 
 namespace YimMenu

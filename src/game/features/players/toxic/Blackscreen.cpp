@@ -1,4 +1,4 @@
-#include "game/backend/Self.hpp"
+#include "Self.hpp"
 #include "game/commands/PlayerCommand.hpp"
 #include "types/script/ScriptEvent.hpp"
 

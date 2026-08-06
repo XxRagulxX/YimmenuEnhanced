@@ -1,8 +1,8 @@
 #include "core/commands/ListCommand.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/ScriptGlobal.hpp"
-#include "game/pointers/Pointers.hpp"
-#include "types/script/globals/GPBD_FM.hpp"
+#include "Self.hpp"
+#include "ScriptGlobal.hpp"
+#include "Pointers.hpp"
+#include "GPBD_FM.hpp"
 #include "types/script/globals/GPBD_FM_2.hpp"
 
 namespace YimMenu::Features

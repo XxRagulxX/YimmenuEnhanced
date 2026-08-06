@@ -1,12 +1,12 @@
 #include "AutoDriveShared.hpp"
 #include "AutoDriveHudTelemetry.hpp"
 
-#include "core/commands/BoolCommand.hpp"
-#include "core/commands/Commands.hpp"
+#include "BoolCommand.hpp"
+#include "Commands.hpp"
 #include "core/commands/LoopedCommand.hpp"
-#include "core/frontend/Notifications.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/Natives.hpp"
+#include "Notifications.hpp"
+#include "Self.hpp"
+#include "Natives.hpp"
 #include "types/pad/ControllerInputs.hpp"
 
 #include <algorithm>

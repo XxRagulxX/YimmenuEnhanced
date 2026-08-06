@@ -1,9 +1,9 @@
 #include "ScriptPatches.hpp"
 
-#include "game/backend/ScriptPointers.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "ScriptPointers.hpp"
+#include "Pointers.hpp"
 
-#include "types/script/scrProgram.hpp"
+#include "scrProgram.hpp"
 
 namespace YimMenu
 {

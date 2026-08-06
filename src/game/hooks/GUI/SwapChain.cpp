@@ -1,5 +1,5 @@
 #include "core/hooking/DetourHook.hpp"
-#include "core/renderer/Renderer.hpp"
+#include "Renderer.hpp"
 #include "game/hooks/Hooks.hpp"
 
 namespace YimMenu::Hooks

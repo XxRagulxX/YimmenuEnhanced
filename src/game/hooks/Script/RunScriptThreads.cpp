@@ -1,5 +1,5 @@
 #include "core/hooking/DetourHook.hpp"
-#include "core/backend/ScriptMgr.hpp"
+#include "ScriptMgr.hpp"
 #include "game/hooks/Hooks.hpp"
 #include "game/gta/Scripts.hpp"
 

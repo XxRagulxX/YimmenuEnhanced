@@ -1,6 +1,6 @@
 #include "core/commands/LoopedCommand.hpp"
-#include "game/gta/ScriptGlobal.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "ScriptGlobal.hpp"
+#include "Pointers.hpp"
 
 namespace YimMenu::Features
 {

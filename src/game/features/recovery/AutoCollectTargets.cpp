@@ -1,5 +1,5 @@
 #include "core/commands/LoopedCommand.hpp"
-#include "game/gta/ScriptLocal.hpp"
+#include "ScriptLocal.hpp"
 
 
 namespace YimMenu::Features

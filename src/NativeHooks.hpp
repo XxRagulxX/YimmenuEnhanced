@@ -1,7 +1,7 @@
 #pragma once
-#include "core/hooking/VMTHook.hpp"
-#include "core/util/Joaat.hpp"
-#include "types/script/scrNativeHandler.hpp"
+#include "VMTHook.hpp"
+#include "Joaat.hpp"
+#include "scrNativeHandler.hpp"
 
 enum class NativeIndex;
 

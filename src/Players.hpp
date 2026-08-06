@@ -1,6 +1,6 @@
 #pragma once
 #include "PlayerData.hpp"
-#include "game/gta/Player.hpp"
+#include "Player.hpp"
 
 namespace YimMenu
 {

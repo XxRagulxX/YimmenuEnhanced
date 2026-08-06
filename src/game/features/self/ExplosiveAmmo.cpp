@@ -1,7 +1,7 @@
 #include "core/commands/LoopedCommand.hpp"
-#include "game/backend/Self.hpp"
+#include "Self.hpp"
 #include "types/fx/ExplosionType.hpp"
-#include <game/gta/Natives.hpp>
+#include <Natives.hpp>
 #include "core/commands/ListCommand.hpp"
 #include "core/commands/FloatCommand.hpp"
 #include "game/gta/Scripts.hpp"

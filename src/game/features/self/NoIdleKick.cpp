@@ -1,5 +1,5 @@
 #include "core/commands/LoopedCommand.hpp"
-#include "game/backend/Tunables.hpp"
+#include "Tunables.hpp"
 
 namespace YimMenu::Features
 {

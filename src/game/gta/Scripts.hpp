@@ -1,6 +1,6 @@
 #pragma once
-#include "core/util/Joaat.hpp"
-#include "game/gta/data/StackSizes.hpp"
+#include "Joaat.hpp"
+#include "StackSizes.hpp"
 
 namespace rage
 {

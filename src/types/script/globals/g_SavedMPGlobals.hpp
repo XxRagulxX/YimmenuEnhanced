@@ -1,5 +1,5 @@
 #pragma once
-#include "types/script/types.hpp"
+#include "types.hpp"
 
 // All the names can be found in the startup script
 

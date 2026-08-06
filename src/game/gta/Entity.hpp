@@ -1,6 +1,6 @@
 #pragma once
-#include "types/rage/vector.hpp"
-#include "types/script/types.hpp"
+#include "vector.hpp"
+#include "types.hpp"
 
 #define ENTITY_DEBUG
 

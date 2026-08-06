@@ -1,7 +1,7 @@
 #pragma once
 #include "Entity.hpp"
-#include "types/script/types.hpp"
-#include "core/util/Joaat.hpp"
+#include "types.hpp"
+#include "Joaat.hpp"
 
 namespace YimMenu
 {

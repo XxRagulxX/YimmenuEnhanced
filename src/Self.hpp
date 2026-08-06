@@ -1,8 +1,8 @@
 #pragma once
-#include "game/gta/Entity.hpp"
-#include "game/gta/Ped.hpp"
-#include "game/gta/Player.hpp"
-#include "game/gta/Vehicle.hpp"
+#include "Entity.hpp"
+#include "Ped.hpp"
+#include "Player.hpp"
+#include "Vehicle.hpp"
 
 namespace YimMenu
 {

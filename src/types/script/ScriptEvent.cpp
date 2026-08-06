@@ -1,5 +1,5 @@
 #include "ScriptEvent.hpp"
-#include "game/gta/Natives.hpp"
+#include "Natives.hpp"
 
 void SCRIPT_EVENT::SendImpl(int size)
 {

@@ -1,6 +1,6 @@
 #include "Vehicle.hpp"
-#include "core/commands/BoolCommand.hpp"
-#include "core/commands/Commands.hpp"
+#include "BoolCommand.hpp"
+#include "Commands.hpp"
 #include "game/frontend/items/Items.hpp"
 #include "game/frontend/submenus/Vehicle/SpawnVehicle.hpp"
 #include "Vehicle/VehicleEditor.hpp"

@@ -1,8 +1,8 @@
 #include "Onboarding.hpp"
 #include "GUI.hpp"
-#include "core/commands/Commands.hpp"
-#include "core/commands/BoolCommand.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "Commands.hpp"
+#include "BoolCommand.hpp"
+#include "Pointers.hpp"
 #include <shellapi.h>
 
 namespace YimMenu

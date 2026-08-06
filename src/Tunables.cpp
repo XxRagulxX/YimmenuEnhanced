@@ -1,12 +1,12 @@
 #include "Tunables.hpp"
-#include "core/filemgr/FileMgr.hpp"
-#include "core/memory/ModuleMgr.hpp"
-#include "core/backend/ScriptMgr.hpp"
-#include "game/backend/NativeHooks.hpp"
-#include "game/gta/data/StackSizes.hpp"
-#include "game/gta/Natives.hpp"
+#include "FileMgr.hpp"
+#include "ModuleMgr.hpp"
+#include "ScriptMgr.hpp"
+#include "NativeHooks.hpp"
+#include "StackSizes.hpp"
+#include "Natives.hpp"
 #include "game/gta/Scripts.hpp"
-#include "types/script/scrProgram.hpp"
+#include "scrProgram.hpp"
 
 namespace YimMenu
 {

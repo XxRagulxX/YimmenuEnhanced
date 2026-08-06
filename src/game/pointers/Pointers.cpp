@@ -1,9 +1,9 @@
 #include "Pointers.hpp"
 
 #include "core/backend/PatternCache.hpp"
-#include "core/memory/ModuleMgr.hpp"
+#include "ModuleMgr.hpp"
 #include "core/memory/PatternScanner.hpp"
-#include "core/util/Joaat.hpp"
+#include "Joaat.hpp"
 #include "types/rage/atArray.hpp"
 
 namespace YimMenu

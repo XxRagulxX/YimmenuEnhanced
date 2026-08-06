@@ -1,5 +1,5 @@
-#include "core/commands/Command.hpp"
-#include "game/backend/Self.hpp"
+#include "Command.hpp"
+#include "Self.hpp"
 #include "game/gta/data/Weapons.hpp"
 
 namespace YimMenu::Features

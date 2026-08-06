@@ -1,13 +1,13 @@
 #include "ESP.hpp"
 #include "game/gta/Object.hpp"
-#include "core/commands/BoolCommand.hpp"
+#include "BoolCommand.hpp"
 #include "core/commands/ColorCommand.hpp"
-#include "game/backend/Players.hpp"
-#include "game/backend/Self.hpp"
-#include "game/pointers/Pointers.hpp"
-#include "game/gta/Pools.hpp"
-#include "game/gta/invoker/Invoker.hpp"
-#include "game/gta/Natives.hpp"
+#include "Players.hpp"
+#include "Self.hpp"
+#include "Pointers.hpp"
+#include "Pools.hpp"
+#include "Invoker.hpp"
+#include "Natives.hpp"
 
 namespace
 {

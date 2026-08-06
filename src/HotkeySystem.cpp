@@ -7,9 +7,9 @@
 
 // TODO: serialization isn't stable
 
-#include "game/pointers/Pointers.hpp" // game import in core!
-#include "game/gta/Natives.hpp"       // game import in core!
-#include "game/frontend/GUI.hpp"
+#include "Pointers.hpp" // game import in core!
+#include "Natives.hpp"       // game import in core!
+#include "GUI.hpp"
 
 namespace YimMenu
 {

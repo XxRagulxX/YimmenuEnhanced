@@ -1,5 +1,5 @@
 #include "RayCast.hpp"
-#include "game/gta/Natives.hpp"
+#include "Natives.hpp"
 #include "core/util/Math.hpp"
 
 namespace YimMenu

@@ -1,6 +1,6 @@
 #pragma once
 #include "types/network/sync/CProjectBaseSyncDataNode.hpp"
-#include "types/rage/vector.hpp"
+#include "vector.hpp"
 
 class CEntityOrientationDataNode : CSyncDataNodeFrequent
 {

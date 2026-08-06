@@ -1,12 +1,12 @@
-#include "core/commands/Command.hpp"
-#include "core/commands/BoolCommand.hpp"
+#include "Command.hpp"
+#include "BoolCommand.hpp"
 #include "core/commands/ListCommand.hpp"
 #include "game/gta/Stats.hpp"
-#include "game/gta/ScriptGlobal.hpp"
-#include "game/gta/ScriptLocal.hpp"
+#include "ScriptGlobal.hpp"
+#include "ScriptLocal.hpp"
 #include "game/gta/Scripts.hpp"
-#include "core/backend/ScriptMgr.hpp"
-#include "game/gta/Natives.hpp"
+#include "ScriptMgr.hpp"
+#include "Natives.hpp"
 
 namespace YimMenu::Features
 {

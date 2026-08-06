@@ -1,6 +1,6 @@
 #pragma once
-#include "game/gta/Nodes.hpp"
-#include "game/gta/Player.hpp"
+#include "Nodes.hpp"
+#include "Player.hpp"
 
 class CProjectBaseSyncDataNode;
 

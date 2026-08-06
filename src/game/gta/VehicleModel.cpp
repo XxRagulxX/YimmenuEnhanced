@@ -1,7 +1,7 @@
 #include "VehicleModel.hpp"
-#include "core/util/Joaat.hpp"
-#include "game/gta/Natives.hpp"
-#include "game/gta/data/VehicleValues.hpp"
+#include "Joaat.hpp"
+#include "Natives.hpp"
+#include "VehicleValues.hpp"
 
 namespace YimMenu
 {

@@ -1,9 +1,9 @@
-#include "core/commands/BoolCommand.hpp"
+#include "BoolCommand.hpp"
 #include "core/commands/LoopedCommand.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/Natives.hpp"
-#include "game/gta/Pools.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "Self.hpp"
+#include "Natives.hpp"
+#include "Pools.hpp"
+#include "Pointers.hpp"
 
 #include <set>
 

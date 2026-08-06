@@ -1,11 +1,11 @@
 #include <string>
 #include "game/gta/Stats.hpp"
-#include "game/gta/ScriptLocal.hpp"
+#include "ScriptLocal.hpp"
 #include "core/commands/LoopedCommand.hpp"
-#include "core/frontend/Notifications.hpp"
-#include "core/backend/ScriptMgr.hpp"
-#include "core/backend/FiberPool.hpp"
-#include "game/gta/ScriptGlobal.hpp"
+#include "Notifications.hpp"
+#include "ScriptMgr.hpp"
+#include "FiberPool.hpp"
+#include "ScriptGlobal.hpp"
 
 namespace YimMenu::Features
 {

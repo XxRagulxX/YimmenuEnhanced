@@ -1,6 +1,6 @@
 #include "core/commands/LoopedCommand.hpp"
 #include "core/commands/ListCommand.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "Pointers.hpp"
 
 namespace YimMenu::Features
 {

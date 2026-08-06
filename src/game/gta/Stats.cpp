@@ -1,6 +1,6 @@
 #include "Stats.hpp"
-#include "game/gta/Natives.hpp"
-#include "core/util/Joaat.hpp"
+#include "Natives.hpp"
+#include "Joaat.hpp"
 
 namespace YimMenu::Stats
 {

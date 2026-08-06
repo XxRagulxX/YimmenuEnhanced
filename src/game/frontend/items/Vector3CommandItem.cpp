@@ -1,9 +1,9 @@
 #include "Items.hpp"
-#include "core/commands/Commands.hpp"
+#include "Commands.hpp"
 #include "core/commands/Vector3Command.hpp"
-#include "game/backend/SavedLocations.hpp"
-#include "game/backend/Self.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "SavedLocations.hpp"
+#include "Self.hpp"
+#include "Pointers.hpp"
 
 namespace YimMenu
 {

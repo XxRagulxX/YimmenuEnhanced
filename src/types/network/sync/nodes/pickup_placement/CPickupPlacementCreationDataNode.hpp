@@ -1,5 +1,5 @@
 #pragma once
-#include "types/rage/vector.hpp"
+#include "vector.hpp"
 #include "types/network/sync/CProjectBaseSyncDataNode.hpp"
 #include "types/script/CGameScriptObjInfo.hpp"
 

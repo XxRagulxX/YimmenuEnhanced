@@ -1,6 +1,6 @@
-#include "core/commands/Command.hpp"
-#include "game/gta/Natives.hpp"
-#include "core/frontend/Notifications.hpp"
+#include "Command.hpp"
+#include "Natives.hpp"
+#include "Notifications.hpp"
 
 namespace YimMenu::Features
 {

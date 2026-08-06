@@ -1,5 +1,5 @@
-#include "core/commands/BoolCommand.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "BoolCommand.hpp"
+#include "Pointers.hpp"
 
 namespace YimMenu::Features
 {

@@ -1,5 +1,5 @@
 #include "Self.hpp"
-#include "core/util/Joaat.hpp"
+#include "Joaat.hpp"
 #include "game/frontend/items/Items.hpp"
 #include "Self/OutfitEditor.hpp"
 #include "Self/Weapons.hpp"

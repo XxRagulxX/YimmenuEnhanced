@@ -1,9 +1,9 @@
 #include "core/hooking/DetourHook.hpp"
-#include "core/commands/BoolCommand.hpp"
+#include "BoolCommand.hpp"
 #include "game/hooks/Hooks.hpp"
 #include "types/entity/CDynamicEntity.hpp"
-#include "game/gta/Ped.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "Ped.hpp"
+#include "Pointers.hpp"
 
 namespace YimMenu::Hooks
 {

@@ -1,8 +1,8 @@
-#include "core/commands/Command.hpp"
+#include "Command.hpp"
 #include "core/commands/ListCommand.hpp"
 #include "game/gta/data/IPL.hpp"
-#include "game/gta/Natives.hpp"
-#include "game/backend/Self.hpp"
+#include "Natives.hpp"
+#include "Self.hpp"
 
 namespace YimMenu::Features
 {

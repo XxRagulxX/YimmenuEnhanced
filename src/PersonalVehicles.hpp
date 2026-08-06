@@ -1,6 +1,6 @@
 #pragma once
-#include "core/util/Joaat.hpp"
-#include "game/gta/Vehicle.hpp"
+#include "Joaat.hpp"
+#include "Vehicle.hpp"
 
 #include <set>
 

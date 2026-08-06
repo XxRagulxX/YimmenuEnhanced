@@ -1,7 +1,7 @@
 #pragma once
-#include "core/util/Joaat.hpp"
-#include "core/filemgr/CacheFile.hpp"
-#include "game/gta/ScriptGlobal.hpp"
+#include "Joaat.hpp"
+#include "CacheFile.hpp"
+#include "ScriptGlobal.hpp"
 
 namespace YimMenu
 {

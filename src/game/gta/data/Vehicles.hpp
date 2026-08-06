@@ -1,5 +1,5 @@
 #pragma once
-#include "core/util/Joaat.hpp"
+#include "Joaat.hpp"
 #include <array>
 
 namespace YimMenu

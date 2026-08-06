@@ -1,9 +1,9 @@
 #include "core/commands/FloatCommand.hpp"
 #include "core/commands/LoopedCommand.hpp"
 #include "core/util/Math.hpp"
-#include "game/backend/Self.hpp"
-#include "game/frontend/GUI.hpp"
-#include "game/gta/Natives.hpp"
+#include "Self.hpp"
+#include "GUI.hpp"
+#include "Natives.hpp"
 #include "types/pad/ControllerInputs.hpp"
 
 

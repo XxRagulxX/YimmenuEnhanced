@@ -1,9 +1,9 @@
 #include "Outfit.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/Natives.hpp"
-#include "core/frontend/Notifications.hpp"
+#include "Self.hpp"
+#include "Natives.hpp"
+#include "Notifications.hpp"
 #include <fstream>
-#include "core/util/Strings.hpp"
+#include "Strings.hpp"
 
 namespace YimMenu
 {

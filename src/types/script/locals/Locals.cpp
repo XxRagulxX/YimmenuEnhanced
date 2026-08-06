@@ -5,7 +5,7 @@
 #include "HSWTimeTrialData.hpp"
 #include "BikeTimeTrialData.hpp"
 #include "LauncherClientData.hpp"
-#include "game/gta/ScriptLocal.hpp"
+#include "ScriptLocal.hpp"
 
 #define DEFINE_LOCAL_ACCESSOR(str, local)               \
 	str* str::Get(rage::scrThread* thread)              \

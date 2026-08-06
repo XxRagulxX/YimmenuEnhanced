@@ -1,9 +1,9 @@
 #include "SavedVariables.hpp"
 #include <fstream>
-#include "core/filemgr/FileMgr.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/ScriptGlobal.hpp"
-#include "types/script/scrThread.hpp"
+#include "FileMgr.hpp"
+#include "Self.hpp"
+#include "ScriptGlobal.hpp"
+#include "scrThread.hpp"
 
 namespace YimMenu
 {

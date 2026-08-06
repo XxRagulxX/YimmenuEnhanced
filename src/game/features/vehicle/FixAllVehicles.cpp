@@ -1,7 +1,7 @@
-#include "core/commands/Command.hpp"
-#include "core/frontend/Notifications.hpp"
+#include "Command.hpp"
+#include "Notifications.hpp"
 #include "game/backend/PersonalVehicles.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "Pointers.hpp"
 
 namespace YimMenu::Features
 {

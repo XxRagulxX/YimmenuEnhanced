@@ -1,6 +1,6 @@
-#include "core/commands/BoolCommand.hpp"
-#include "game/backend/NativeHooks.hpp"
-#include "game/gta/Natives.hpp"
+#include "BoolCommand.hpp"
+#include "NativeHooks.hpp"
+#include "Natives.hpp"
 
 namespace YimMenu::Features
 {

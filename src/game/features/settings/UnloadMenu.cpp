@@ -1,6 +1,6 @@
-#include "core/commands/Command.hpp"
-#include "game/backend/Self.hpp"
-#include "core/commands/Commands.hpp"
+#include "Command.hpp"
+#include "Self.hpp"
+#include "Commands.hpp"
 
 namespace YimMenu::Features
 {

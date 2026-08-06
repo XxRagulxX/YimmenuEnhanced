@@ -1,21 +1,21 @@
-#include "core/commands/Command.hpp"
+#include "Command.hpp"
 #include <unordered_map>
 #include <array>
 #include <cmath>
 #include "core/commands/IntCommand.hpp"
 #include "core/commands/ListCommand.hpp"
 #include "core/commands/LoopedCommand.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/Natives.hpp"
+#include "Self.hpp"
+#include "Natives.hpp"
 #include "game/gta/Stats.hpp"
-#include "game/gta/ScriptGlobal.hpp"
-#include "game/gta/ScriptLocal.hpp"
-#include "core/backend/ScriptMgr.hpp"
-#include "game/backend/Tunables.hpp"
+#include "ScriptGlobal.hpp"
+#include "ScriptLocal.hpp"
+#include "ScriptMgr.hpp"
+#include "Tunables.hpp"
 #include "game/backend/TeleportUtils.hpp"
-#include "core/frontend/Notifications.hpp"
+#include "Notifications.hpp"
 #include "game/backend/DeleteObjectsByHash.hpp"
-#include "core/backend/FiberPool.hpp"
+#include "FiberPool.hpp"
 
 namespace YimMenu::Features
 {

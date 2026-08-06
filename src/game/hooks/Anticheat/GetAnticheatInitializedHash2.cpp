@@ -1,6 +1,6 @@
 #include "core/hooking/DetourHook.hpp"
 #include "game/hooks/Hooks.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "Pointers.hpp"
 #include "types/anticheat/CAnticheatContext.hpp"
 
 namespace YimMenu::Hooks

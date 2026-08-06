@@ -1,15 +1,15 @@
 #include "SavedPlayers.hpp"
 #include <fstream>
-#include "core/backend/ScriptMgr.hpp"
-#include "core/commands/BoolCommand.hpp"
-#include "core/commands/Command.hpp"
-#include "core/filemgr/FileMgr.hpp"
-#include "core/frontend/Notifications.hpp"
-#include "game/backend/PlayerData.hpp"
-#include "game/pointers/Pointers.hpp"
-#include "types/socialclub/rlQueryPresenceAttributesContext.hpp"
-#include "types/socialclub/rlScGamerHandle.hpp"
-#include "types/socialclub/rlScTaskStatus.hpp"
+#include "ScriptMgr.hpp"
+#include "BoolCommand.hpp"
+#include "Command.hpp"
+#include "FileMgr.hpp"
+#include "Notifications.hpp"
+#include "PlayerData.hpp"
+#include "Pointers.hpp"
+#include "rlQueryPresenceAttributesContext.hpp"
+#include "rlScGamerHandle.hpp"
+#include "rlScTaskStatus.hpp"
 
 namespace YimMenu::Features
 {

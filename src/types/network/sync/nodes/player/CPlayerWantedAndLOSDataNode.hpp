@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include "types/rage/vector.hpp"
+#include "vector.hpp"
 #include "types/network/sync/CProjectBaseSyncDataNode.hpp"
 
 // very sus, probably best to disable this for now

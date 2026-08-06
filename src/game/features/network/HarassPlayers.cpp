@@ -1,6 +1,6 @@
-#include "core/commands/BoolCommand.hpp"
+#include "BoolCommand.hpp"
 #include "game/backend/NodeHooks.hpp"
-#include "game/backend/Self.hpp"
+#include "Self.hpp"
 
 #include "types/network/sync/nodes/ped/CPedGameStateDataNode.hpp"
 #include "types/network/sync/nodes/proximity_migrateable/CSectorDataNode.hpp"

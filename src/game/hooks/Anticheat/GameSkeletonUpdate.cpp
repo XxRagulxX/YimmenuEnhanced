@@ -1,5 +1,5 @@
 #include "game/hooks/Hooks.hpp"
-#include "core/util/Joaat.hpp"
+#include "Joaat.hpp"
 #include "types/rage/gameSkeleton.hpp"
 
 namespace YimMenu::Hooks

@@ -1,8 +1,8 @@
 #include "core/commands/LoopedCommand.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/Natives.hpp"
-#include "game/gta/ScriptLocal.hpp"
-#include "core/backend/ScriptMgr.hpp"
+#include "Self.hpp"
+#include "Natives.hpp"
+#include "ScriptLocal.hpp"
+#include "ScriptMgr.hpp"
 
 #include <set>
 

@@ -1,7 +1,7 @@
 #include "core/scripting/LuaLibrary.hpp"
 #include "core/scripting/LuaScript.hpp"
 #include "core/scripting/LuaUtils.hpp"
-#include "game/gta/ScriptLocal.hpp"
+#include "ScriptLocal.hpp"
 #include "types/script/scrVector.hpp"
 
 namespace YimMenu::Lua

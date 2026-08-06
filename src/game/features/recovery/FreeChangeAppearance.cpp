@@ -1,5 +1,5 @@
-#include "core/commands/BoolCommand.hpp"
-#include "game/backend/Tunables.hpp"
+#include "BoolCommand.hpp"
+#include "Tunables.hpp"
 
 namespace YimMenu::Features
 {

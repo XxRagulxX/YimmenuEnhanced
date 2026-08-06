@@ -1,8 +1,8 @@
 #include "core/commands/StringCommand.hpp"
-#include "core/frontend/Notifications.hpp"
-#include "game/backend/Self.hpp"
+#include "Notifications.hpp"
+#include "Self.hpp"
 #include "game/gta/Object.hpp"
-#include "game/gta/Natives.hpp"
+#include "Natives.hpp"
 
 namespace YimMenu::Features
 {

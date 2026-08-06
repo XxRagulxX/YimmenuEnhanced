@@ -1,7 +1,7 @@
-#include "core/commands/Command.hpp"
+#include "Command.hpp"
 #include "core/commands/IntCommand.hpp"
 #include "core/commands/LoopedCommand.hpp"
-#include "game/gta/Natives.hpp"
+#include "Natives.hpp"
 
 namespace YimMenu::Features
 {

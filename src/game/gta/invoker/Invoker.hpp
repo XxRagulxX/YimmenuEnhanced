@@ -1,6 +1,6 @@
 #pragma once
 #include "Crossmap.hpp"
-#include "types/script/scrNativeHandler.hpp"
+#include "scrNativeHandler.hpp"
 
 enum class NativeIndex;
 namespace YimMenu

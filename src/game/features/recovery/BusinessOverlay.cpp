@@ -1,9 +1,9 @@
-#include "game/gta/Player.hpp"
+#include "Player.hpp"
 #include "game/gta/Stats.hpp"
-#include "game/gta/ScriptGlobal.hpp"
-#include "core/commands/BoolCommand.hpp"
-#include "game/backend/Self.hpp"
-#include "types/network/CNetGamePlayer.hpp"
+#include "ScriptGlobal.hpp"
+#include "BoolCommand.hpp"
+#include "Self.hpp"
+#include "CNetGamePlayer.hpp"
 
 namespace YimMenu::Features
 {

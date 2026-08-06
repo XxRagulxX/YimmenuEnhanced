@@ -1,6 +1,6 @@
 #pragma once
 #include "invoker/Invoker.hpp"
-#include "types/script/types.hpp"
+#include "types.hpp"
 
 // clang-format off
 enum class NativeIndex

@@ -1,6 +1,6 @@
 #include "core/scripting/LuaLibrary.hpp"
 #include "core/scripting/LuaUtils.hpp"
-#include "game/backend/Tunables.hpp"
+#include "Tunables.hpp"
 
 namespace YimMenu::Lua
 {

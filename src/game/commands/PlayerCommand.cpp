@@ -1,7 +1,7 @@
 #include "PlayerCommand.hpp"
 
-#include "game/backend/Players.hpp"
-#include "game/backend/Self.hpp"
+#include "Players.hpp"
+#include "Self.hpp"
 
 namespace YimMenu
 {

@@ -1,9 +1,9 @@
 #include "core/commands/LoopedCommand.hpp"
 #include "core/commands/ListCommand.hpp"
-#include "game/backend/NativeHooks.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/Natives.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "NativeHooks.hpp"
+#include "Self.hpp"
+#include "Natives.hpp"
+#include "Pointers.hpp"
 #include "types/pad/ControllerInputs.hpp"
 
 namespace YimMenu::Features

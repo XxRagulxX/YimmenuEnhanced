@@ -1,5 +1,5 @@
 #include "Pools.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "Pointers.hpp"
 #include "types/rage/PoolEncryption.hpp"
 
 

@@ -2,7 +2,7 @@
 
 #include "core/commands/IntCommand.hpp"
 #include "core/commands/ListCommand.hpp"
-#include "game/gta/Natives.hpp"
+#include "Natives.hpp"
 #include "types/blip/BlipSprite.hpp"
 
 #include <array>

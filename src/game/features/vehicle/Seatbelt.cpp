@@ -1,6 +1,6 @@
 #include "core/commands/LoopedCommand.hpp"
-#include "game/gta/Natives.hpp"
-#include "game/backend/Self.hpp"
+#include "Natives.hpp"
+#include "Self.hpp"
 #include "types/ped/PedConfigFlag.hpp"
 
 namespace YimMenu::Features

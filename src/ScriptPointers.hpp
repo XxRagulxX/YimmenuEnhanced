@@ -1,6 +1,6 @@
 #pragma once
-#include "core/util/Joaat.hpp"
-#include "core/filemgr/CacheFile.hpp"
+#include "Joaat.hpp"
+#include "CacheFile.hpp"
 
 namespace YimMenu
 {

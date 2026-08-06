@@ -1,7 +1,7 @@
 #include "StatEditor.hpp"
-#include "core/backend/FiberPool.hpp"
-#include "game/pointers/Pointers.hpp"
-#include "game/gta/Natives.hpp"
+#include "FiberPool.hpp"
+#include "Pointers.hpp"
+#include "Natives.hpp"
 #include "types/stats/CStatsMgr.hpp"
 #include "game/frontend/items/Items.hpp"
 

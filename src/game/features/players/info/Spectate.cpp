@@ -1,6 +1,6 @@
 #include "core/commands/LoopedCommand.hpp"
-#include "game/backend/Players.hpp"
-#include "game/gta/Natives.hpp"
+#include "Players.hpp"
+#include "Natives.hpp"
 
 namespace YimMenu::Features
 {

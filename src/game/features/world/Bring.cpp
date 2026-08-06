@@ -1,6 +1,6 @@
-#include "core/commands/Command.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/Pools.hpp"
+#include "Command.hpp"
+#include "Self.hpp"
+#include "Pools.hpp"
 
 namespace YimMenu::Features
 {

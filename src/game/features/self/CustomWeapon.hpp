@@ -1,5 +1,5 @@
 #pragma once
-#include "core/commands/BoolCommand.hpp"
+#include "BoolCommand.hpp"
 #include "core/commands/ColorCommand.hpp"
 #include "core/commands/IntCommand.hpp"
 #include "core/commands/ListCommand.hpp"

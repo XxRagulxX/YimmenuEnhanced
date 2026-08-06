@@ -1,8 +1,8 @@
 #include "Vehicle.hpp"
 #include "Natives.hpp"
-#include "core/backend/ScriptMgr.hpp"
-#include "game/pointers/Pointers.hpp"
-#include "game/gta/data/VehicleValues.hpp"
+#include "ScriptMgr.hpp"
+#include "Pointers.hpp"
+#include "VehicleValues.hpp"
 #include "game/gta/data/Vehicles.hpp"
 
 namespace YimMenu

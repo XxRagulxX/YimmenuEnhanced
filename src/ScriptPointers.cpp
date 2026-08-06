@@ -1,6 +1,6 @@
 #include "ScriptPointers.hpp"
-#include "core/filemgr/FileMgr.hpp"
-#include "core/memory/ModuleMgr.hpp"
+#include "FileMgr.hpp"
+#include "ModuleMgr.hpp"
 
 namespace YimMenu
 {

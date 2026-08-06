@@ -1,5 +1,5 @@
 #include "core/commands/LoopedCommand.hpp"
-#include "game/backend/Self.hpp"
+#include "Self.hpp"
 #include "game/gta/Scripts.hpp"
 #include "types/script/globals/GPBD_FM_3.hpp"
 

@@ -1,13 +1,13 @@
-#include "core/commands/Command.hpp"
+#include "Command.hpp"
 #include "core/commands/ListCommand.hpp"
-#include "game/gta/Natives.hpp"
+#include "Natives.hpp"
 #include "game/gta/Stats.hpp"
-#include "core/frontend/Notifications.hpp"
-#include "game/gta/ScriptGlobal.hpp"
-#include "core/backend/ScriptMgr.hpp"
-#include "game/backend/Tunables.hpp"
-#include "core/backend/FiberPool.hpp"
-#include "core/util/Joaat.hpp"
+#include "Notifications.hpp"
+#include "ScriptGlobal.hpp"
+#include "ScriptMgr.hpp"
+#include "Tunables.hpp"
+#include "FiberPool.hpp"
+#include "Joaat.hpp"
 
 namespace YimMenu::Features
 {

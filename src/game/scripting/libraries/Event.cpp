@@ -1,7 +1,7 @@
 #include "core/scripting/LuaLibrary.hpp"
 #include "core/scripting/LuaScript.hpp"
 #include "core/scripting/LuaUtils.hpp"
-#include "core/util/Joaat.hpp"
+#include "Joaat.hpp"
 
 namespace YimMenu::Lua
 {

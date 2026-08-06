@@ -1,6 +1,6 @@
 #pragma once
 
-#include "types/rage/vector.hpp"
+#include "vector.hpp"
 #include <string>
 
 namespace YimMenu::Features

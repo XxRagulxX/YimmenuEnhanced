@@ -1,14 +1,14 @@
 #include "SavedVehicles.hpp"
 #include <fstream>
-#include "core/backend/ScriptMgr.hpp"
-#include "core/frontend/Notifications.hpp"
-#include "game/gta/VehicleModel.hpp"
-#include "game/backend/Self.hpp"
-#include "game/gta/Natives.hpp"
-#include "core/util/Strings.hpp"
-#include "game/gta/Vehicle.hpp"
-#include "game/gta/data/VehicleValues.hpp"
-#include "core/filemgr/FileMgr.hpp"
+#include "ScriptMgr.hpp"
+#include "Notifications.hpp"
+#include "VehicleModel.hpp"
+#include "Self.hpp"
+#include "Natives.hpp"
+#include "Strings.hpp"
+#include "Vehicle.hpp"
+#include "VehicleValues.hpp"
+#include "FileMgr.hpp"
 
 namespace YimMenu
 {

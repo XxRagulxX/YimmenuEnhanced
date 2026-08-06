@@ -1,9 +1,9 @@
 #include "ScriptFunction.hpp"
-#include "game/backend/ScriptPointers.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "ScriptPointers.hpp"
+#include "Pointers.hpp"
 #include "game/gta/Scripts.hpp"
-#include "game/gta/ScriptPointer.hpp"
-#include "types/script/scrThread.hpp"
+#include "ScriptPointer.hpp"
+#include "scrThread.hpp"
 #include "types/rage/tlsContext.hpp"
 
 namespace YimMenu

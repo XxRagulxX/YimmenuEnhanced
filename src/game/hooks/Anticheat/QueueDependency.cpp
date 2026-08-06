@@ -1,9 +1,9 @@
 #include "core/hooking/DetourHook.hpp"
 #include "game/hooks/Hooks.hpp"
-#include "game/pointers/Pointers.hpp"
-#include "core/memory/ModuleMgr.hpp"
+#include "Pointers.hpp"
+#include "ModuleMgr.hpp"
 #include "core/memory/PointerCalculator.hpp"
-#include "core/util/Joaat.hpp"
+#include "Joaat.hpp"
 
 #include <intrin.h>
 

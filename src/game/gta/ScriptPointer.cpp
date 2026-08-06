@@ -1,7 +1,7 @@
 #include "ScriptPointer.hpp"
 #include "game/gta/Scripts.hpp"
-#include "types/script/scrProgram.hpp"
-#include "core/logger/LogHelper.hpp"
+#include "scrProgram.hpp"
+#include "LogHelper.hpp"
 
 namespace YimMenu
 {

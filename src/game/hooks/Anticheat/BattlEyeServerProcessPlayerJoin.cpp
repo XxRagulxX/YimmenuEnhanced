@@ -1,10 +1,10 @@
 #include "core/hooking/DetourHook.hpp"
-#include "core/commands/BoolCommand.hpp"
-#include "core/commands/Commands.hpp"
+#include "BoolCommand.hpp"
+#include "Commands.hpp"
 #include "game/hooks/Hooks.hpp"
-#include "game/gta/Natives.hpp"
+#include "Natives.hpp"
 #include "types/battleye/CBattlEyePlayerModifyContext.hpp"
-#include "game/backend/AnticheatBypass.hpp"
+#include "AnticheatBypass.hpp"
 
 namespace YimMenu::Hooks
 {
