@@ -1,6 +1,6 @@
 #include "Folder.hpp"
 #include <string>
-#include "core/filemgr/File.hpp"
+#include "File.hpp"
 
 namespace YimMenu
 {
