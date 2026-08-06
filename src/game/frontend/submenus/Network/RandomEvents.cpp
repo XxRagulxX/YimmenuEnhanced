@@ -8,7 +8,7 @@
 #include "game/gta/data/RandomEvents.hpp"
 #include "Scripts.hpp"
 #include "ScriptFunction.hpp"
-#include "types/script/globals/GPBD_FM_2.hpp"
+#include "GPBD_FM_2.hpp"
 #include "GSBD_RandomEvents.hpp"
 #include "types/script/locals/FMRandomEvents.hpp"
 #include "ScriptEvent.hpp"

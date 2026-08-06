@@ -9,7 +9,7 @@
 #include "Ped.hpp"
 #include "Natives.hpp"
 #include "Scripts.hpp"
-#include "game/gta/Stats.hpp"
+#include "Stats.hpp"
 #include "ScriptFunction.hpp"
 #include "ScriptLocal.hpp"
 #include "ScriptGlobal.hpp"

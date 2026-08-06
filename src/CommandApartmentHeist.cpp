@@ -1,6 +1,6 @@
 #include "IntCommand.hpp"
 #include "Command.hpp"
-#include "game/gta/Stats.hpp"
+#include "Stats.hpp"
 #include "Players.hpp"
 #include "ScriptGlobal.hpp"
 #include "ScriptLocal.hpp"

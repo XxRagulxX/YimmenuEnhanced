@@ -1,7 +1,7 @@
 #include "Command.hpp"
 #include "BoolCommand.hpp"
 #include "ListCommand.hpp"
-#include "game/gta/Stats.hpp"
+#include "Stats.hpp"
 #include "ScriptGlobal.hpp"
 #include "ScriptLocal.hpp"
 #include "Scripts.hpp"

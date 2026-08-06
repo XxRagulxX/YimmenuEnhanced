@@ -1,5 +1,5 @@
 //#include "BoolCommand.hpp"
-#include "game/gta/Stats.hpp"
+#include "Stats.hpp"
 #include "Natives.hpp"
 #include "IntCommand.hpp"
 #include "ScriptGlobal.hpp"

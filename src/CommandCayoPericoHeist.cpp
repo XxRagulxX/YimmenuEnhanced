@@ -7,14 +7,14 @@
 #include "LoopedCommand.hpp"
 #include "Self.hpp"
 #include "Natives.hpp"
-#include "game/gta/Stats.hpp"
+#include "Stats.hpp"
 #include "ScriptGlobal.hpp"
 #include "ScriptLocal.hpp"
 #include "ScriptMgr.hpp"
 #include "Tunables.hpp"
-#include "game/backend/TeleportUtils.hpp"
+#include "TeleportUtils.hpp"
 #include "Notifications.hpp"
-#include "game/backend/DeleteObjectsByHash.hpp"
+#include "DeleteObjectsByHash.hpp"
 #include "FiberPool.hpp"
 
 namespace YimMenu::Features

@@ -1,6 +1,6 @@
 #include "Items.hpp"
 #include "Commands.hpp"
-#include "core/commands/FloatCommand.hpp"
+#include "FloatCommand.hpp"
 
 namespace YimMenu
 {

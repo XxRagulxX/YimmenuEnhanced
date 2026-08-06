@@ -3,7 +3,7 @@
 #include "ScriptGlobal.hpp"
 #include "Pointers.hpp"
 #include "GPBD_FM.hpp"
-#include "types/script/globals/GPBD_FM_2.hpp"
+#include "GPBD_FM_2.hpp"
 
 namespace YimMenu::Features
 {

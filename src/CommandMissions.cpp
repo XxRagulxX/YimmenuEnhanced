@@ -1,6 +1,6 @@
 #include "Command.hpp"
 #include "ListCommand.hpp"
-#include "game/gta/Stats.hpp"
+#include "Stats.hpp"
 #include "Notifications.hpp"
 #include "ScriptLocal.hpp"
 

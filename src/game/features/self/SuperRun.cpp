@@ -1,5 +1,5 @@
 #include "LoopedCommand.hpp"
-#include "core/commands/FloatCommand.hpp"
+#include "FloatCommand.hpp"
 #include "Self.hpp"
 #include "Natives.hpp"
 

@@ -3,7 +3,7 @@
 #include "ExplosionType.hpp"
 #include <Natives.hpp>
 #include "ListCommand.hpp"
-#include "core/commands/FloatCommand.hpp"
+#include "FloatCommand.hpp"
 #include "Scripts.hpp"
 
 namespace YimMenu::Features

@@ -1,5 +1,5 @@
 #include <string>
-#include "game/gta/Stats.hpp"
+#include "Stats.hpp"
 #include "ScriptLocal.hpp"
 #include "LoopedCommand.hpp"
 #include "Notifications.hpp"

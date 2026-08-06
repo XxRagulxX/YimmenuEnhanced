@@ -1,5 +1,5 @@
 #include "BoolCommand.hpp"
-#include "game/gta/Stats.hpp"
+#include "Stats.hpp"
 
 namespace YimMenu::Features
 {

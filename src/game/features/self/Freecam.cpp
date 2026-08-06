@@ -1,4 +1,4 @@
-#include "core/commands/FloatCommand.hpp"
+#include "FloatCommand.hpp"
 #include "LoopedCommand.hpp"
 #include "core/util/Math.hpp"
 #include "Self.hpp"

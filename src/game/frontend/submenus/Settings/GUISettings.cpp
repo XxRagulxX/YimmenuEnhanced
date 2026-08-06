@@ -1,6 +1,6 @@
 #include "GUISettings.hpp"
 #include "core/commands/ColorCommand.hpp"
-#include "core/commands/FloatCommand.hpp"
+#include "FloatCommand.hpp"
 #include "game/frontend/Overlay.hpp"
 #include <regex>
 #include <fstream>

@@ -2,7 +2,7 @@
 #include "CallHook.hpp"
 #include "NativeHooks.hpp"
 #include "Natives.hpp"
-#include "game/gta/Stats.hpp"
+#include "Stats.hpp"
 #include "Pointers.hpp"
 
 namespace YimMenu::Features

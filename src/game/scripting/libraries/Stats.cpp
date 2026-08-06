@@ -1,6 +1,6 @@
 #include "core/scripting/LuaLibrary.hpp"
 #include "core/scripting/LuaUtils.hpp"
-#include "game/gta/Stats.hpp"
+#include "Stats.hpp"
 
 namespace YimMenu::Lua
 {

@@ -6,7 +6,7 @@
 #include "ScriptFunction.hpp"
 #include "ScriptLocal.hpp"
 #include "ScriptGlobal.hpp"
-#include "game/gta/Stats.hpp"
+#include "Stats.hpp"
 #include "GPBD_FM.hpp"
 #include "MPSV.hpp"
 #include "FreemodeGeneral.hpp"
