@@ -5,7 +5,7 @@
 #include "ScriptLocal.hpp"
 #include "ScriptGlobal.hpp"
 #include "Pointers.hpp"
-#include "types/script/Timer.hpp"
+#include "Timer.hpp"
 
 namespace YimMenu::Features
 {

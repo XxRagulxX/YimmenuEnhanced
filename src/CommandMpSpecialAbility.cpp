@@ -4,7 +4,7 @@
 #include "Self.hpp"
 #include "Natives.hpp"
 #include "Pointers.hpp"
-#include "types/pad/ControllerInputs.hpp"
+#include "ControllerInputs.hpp"
 
 namespace YimMenu::Features
 {

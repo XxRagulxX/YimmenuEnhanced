@@ -1,7 +1,7 @@
 #include "LoopedCommand.hpp"
 #include "Natives.hpp"
 #include "Self.hpp"
-#include "types/ped/PedConfigFlag.hpp"
+#include "PedConfigFlag.hpp"
 
 namespace YimMenu::Features
 {

@@ -1,6 +1,6 @@
 #pragma once
 #include "types.hpp"
-#include "types/script/Timer.hpp"
+#include "Timer.hpp"
 
 namespace rage
 {

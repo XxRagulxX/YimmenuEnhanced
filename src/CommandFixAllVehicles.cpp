@@ -1,6 +1,6 @@
 #include "Command.hpp"
 #include "Notifications.hpp"
-#include "game/backend/PersonalVehicles.hpp"
+#include "PersonalVehicles.hpp"
 #include "Pointers.hpp"
 
 namespace YimMenu::Features

@@ -7,9 +7,9 @@
 #include "ScriptMgr.hpp"
 #include "Renderer.hpp"
 #include "Notifications.hpp"
-#include "game/frontend/ChatDisplay.hpp"
+#include "ChatDisplay.hpp"
 #include "Natives.hpp"
-#include "types/pad/ControllerInputs.hpp"
+#include "ControllerInputs.hpp"
 #include "core/frontend/manager/styles/Themes.hpp"
 
 namespace YimMenu

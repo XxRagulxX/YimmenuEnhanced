@@ -8,7 +8,7 @@
 #include "ScriptFunction.hpp"
 #include "ScriptLocal.hpp"
 #include "Pointers.hpp"
-#include "types/script/locals/VehicleRewardData.hpp"
+#include "VehicleRewardData.hpp"
 #include "FreemodeGeneral.hpp"
 
 namespace YimMenu::Features

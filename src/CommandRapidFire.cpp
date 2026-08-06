@@ -1,9 +1,9 @@
 #include "LoopedCommand.hpp"
-#include "core/util/Math.hpp"
+#include "Math.hpp"
 #include "Self.hpp"
 #include "Natives.hpp"
 #include "GUI.hpp"
-#include "types/pad/ControllerInputs.hpp"
+#include "ControllerInputs.hpp"
 
 namespace YimMenu::Features
 {

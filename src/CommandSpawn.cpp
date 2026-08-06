@@ -1,7 +1,7 @@
-#include "core/commands/StringCommand.hpp"
+#include "StringCommand.hpp"
 #include "Notifications.hpp"
 #include "Self.hpp"
-#include "game/gta/Object.hpp"
+#include "Object.hpp"
 #include "Natives.hpp"
 
 namespace YimMenu::Features

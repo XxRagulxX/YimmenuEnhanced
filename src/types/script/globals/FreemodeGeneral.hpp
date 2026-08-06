@@ -1,6 +1,6 @@
 #pragma once
 #include "types.hpp"
-#include "types/script/Timer.hpp"
+#include "Timer.hpp"
 #include "types/script/globals/GSBD_BlockB.hpp"
 
 enum class eDealerPremiumProducts

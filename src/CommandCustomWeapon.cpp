@@ -2,12 +2,12 @@
 #include "FiberPool.hpp"
 #include "Notifications.hpp"
 #include "Self.hpp"
-#include "game/gta/Object.hpp"
-#include "types/script/Timer.hpp"
-#include "game/gta/RayCast.hpp"
+#include "Object.hpp"
+#include "Timer.hpp"
+#include "RayCast.hpp"
 #include "Natives.hpp"
-#include "core/util/Math.hpp"
-#include "types/entity/DecalTypes.hpp"
+#include "Math.hpp"
+#include "DecalTypes.hpp"
 
 
 namespace YimMenu::Features

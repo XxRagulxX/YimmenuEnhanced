@@ -4,7 +4,7 @@
 #include "FiberPool.hpp"
 #include "Notifications.hpp"
 #include "Self.hpp"
-#include "game/backend/PersonalVehicles.hpp"
+#include "PersonalVehicles.hpp"
 #include "game/gta/data/Vehicles.hpp"
 #include "Natives.hpp"
 #include "Pointers.hpp"

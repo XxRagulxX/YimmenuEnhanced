@@ -2,7 +2,7 @@
 #include <unordered_set>
 #include "ScriptMgr.hpp"
 #include "Notifications.hpp"
-#include "core/frontend/widgets/imgui_colors.h"
+#include "imgui_colors.h"
 #include "AnticheatBypass.hpp"
 #include "Natives.hpp"
 #include "Scripts.hpp"

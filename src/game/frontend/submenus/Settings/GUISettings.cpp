@@ -1,5 +1,5 @@
 #include "GUISettings.hpp"
-#include "core/commands/ColorCommand.hpp"
+#include "ColorCommand.hpp"
 #include "FloatCommand.hpp"
 #include "game/frontend/Overlay.hpp"
 #include <regex>

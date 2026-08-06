@@ -1,12 +1,12 @@
 #pragma once
 #include "BoolCommand.hpp"
-#include "core/commands/ColorCommand.hpp"
+#include "ColorCommand.hpp"
 #include "IntCommand.hpp"
 #include "ListCommand.hpp"
 #include "LoopedCommand.hpp"
-#include "core/commands/StringCommand.hpp"
-#include "core/util/RainbowColor.hpp"
-#include "types/pad/ControllerInputs.hpp"
+#include "StringCommand.hpp"
+#include "RainbowColor.hpp"
+#include "ControllerInputs.hpp"
 
 namespace YimMenu::Features
 {

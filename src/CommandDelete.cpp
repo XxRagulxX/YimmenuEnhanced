@@ -1,6 +1,6 @@
 #include "Command.hpp"
 #include "Pools.hpp"
-#include "game/gta/Object.hpp"
+#include "Object.hpp"
 
 namespace YimMenu::Features
 {

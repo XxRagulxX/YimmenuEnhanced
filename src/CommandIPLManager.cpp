@@ -1,6 +1,6 @@
 #include "Command.hpp"
 #include "ListCommand.hpp"
-#include "game/gta/data/IPL.hpp"
+#include "IPL.hpp"
 #include "Natives.hpp"
 #include "Self.hpp"
 

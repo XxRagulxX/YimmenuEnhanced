@@ -7,7 +7,7 @@
 #include "Notifications.hpp"
 #include "Self.hpp"
 #include "Natives.hpp"
-#include "types/pad/ControllerInputs.hpp"
+#include "ControllerInputs.hpp"
 
 #include <algorithm>
 #include <cmath>

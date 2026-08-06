@@ -2,14 +2,14 @@
 #include "LuaManager.hpp"
 #include "AnticheatBypass.hpp"
 #include "Players.hpp"
-#include "game/frontend/ChatDisplay.hpp"
+#include "ChatDisplay.hpp"
 #include "Hooks.hpp"
 #include "game/gta/Packet.hpp"
 #include "Self.hpp"
 #include "types/network/netEvent.hpp"
 #include "types/network/netMessage.hpp"
 #include "types/rage/datBitBuffer.hpp"
-#include "core/frontend/widgets/imgui_colors.h"
+#include "imgui_colors.h"
 
 namespace YimMenu::Hooks
 {

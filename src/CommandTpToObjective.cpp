@@ -1,7 +1,7 @@
 #include "Command.hpp"
 #include "Self.hpp"
 #include "Natives.hpp"
-#include "types/blip/BlipSprite.hpp"
+#include "BlipSprite.hpp"
 
 namespace YimMenu::Features
 {

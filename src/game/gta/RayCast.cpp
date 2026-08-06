@@ -1,6 +1,6 @@
 #include "RayCast.hpp"
 #include "Natives.hpp"
-#include "core/util/Math.hpp"
+#include "Math.hpp"
 
 namespace YimMenu
 {

@@ -1,6 +1,6 @@
 #include "Items.hpp"
 #include "Commands.hpp"
-#include "core/commands/StringCommand.hpp"
+#include "StringCommand.hpp"
 #include "imgui.h"
 
 namespace YimMenu

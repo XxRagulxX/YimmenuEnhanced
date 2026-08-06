@@ -1,13 +1,13 @@
 #include "ScriptMgr.hpp"
 #include "Command.hpp"
-#include "core/frontend/widgets/imgui_colors.h"
+#include "imgui_colors.h"
 #include "Players.hpp"
 #include "Self.hpp"
-#include "game/frontend/ChatDisplay.hpp"
+#include "ChatDisplay.hpp"
 #include "Natives.hpp"
 #include "game/gta/Packet.hpp"
 #include "Pointers.hpp"
-#include "types/network/rlGamerHandle.hpp"
+#include "rlGamerHandle.hpp"
 #include "rlGamerInfo.hpp"
 
 namespace

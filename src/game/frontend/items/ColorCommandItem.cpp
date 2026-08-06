@@ -1,5 +1,5 @@
 #include "Items.hpp"
-#include "core/commands/ColorCommand.hpp"
+#include "ColorCommand.hpp"
 #include "Commands.hpp"
 
 namespace YimMenu

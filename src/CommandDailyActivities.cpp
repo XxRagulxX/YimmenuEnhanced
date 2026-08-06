@@ -14,7 +14,7 @@
 #include "ScriptLocal.hpp"
 #include "ScriptGlobal.hpp"
 #include "Pointers.hpp"
-#include "types/blip/BlipSprite.hpp"
+#include "BlipSprite.hpp"
 #include "ScriptEvent.hpp"
 #include "types/script/MPScriptData.hpp"
 #include "types/script/globals/GPBD_Flow.hpp"

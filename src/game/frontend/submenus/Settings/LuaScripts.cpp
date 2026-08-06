@@ -1,7 +1,7 @@
 #include "LuaScripts.hpp"
 #include <game/frontend/items/Items.hpp>
 #include "LuaManager.hpp"
-#include "core/frontend/widgets/imgui_colors.h"
+#include "imgui_colors.h"
 
 namespace YimMenu::Submenus
 {

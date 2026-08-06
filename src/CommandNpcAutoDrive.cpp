@@ -8,7 +8,7 @@
 #include "Joaat.hpp"
 #include "Self.hpp"
 #include "Natives.hpp"
-#include "types/ped/PedConfigFlag.hpp"
+#include "PedConfigFlag.hpp"
 
 #include <cstdint>
 #include <optional>
