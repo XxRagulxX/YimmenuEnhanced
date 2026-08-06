@@ -1,13 +1,13 @@
-#include "core/memory/ModuleMgr.hpp"
-#include "core/memory/Pattern.hpp"
-#include "core/memory/PatternScanner.hpp"
-#include "core/memory/PointerCalculator.hpp"
-#include "core/scripting/LuaLibrary.hpp"
-#include "core/scripting/LuaScript.hpp"
-#include "core/scripting/LuaUserInterface.hpp"
-#include "core/scripting/LuaUtils.hpp"
-#include "core/util/Joaat.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "ModuleMgr.hpp"
+#include "Pattern.hpp"
+#include "PatternScanner.hpp"
+#include "PointerCalculator.hpp"
+#include "LuaLibrary.hpp"
+#include "LuaScript.hpp"
+#include "LuaUserInterface.hpp"
+#include "LuaUtils.hpp"
+#include "Joaat.hpp"
+#include "Pointers.hpp"
 
 namespace YimMenu::Lua
 {

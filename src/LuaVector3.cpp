@@ -1,6 +1,6 @@
-#include "core/scripting/LuaLibrary.hpp"
-#include "core/scripting/LuaUtils.hpp"
-#include "types/rage/vector.hpp"
+#include "LuaLibrary.hpp"
+#include "LuaUtils.hpp"
+#include "vector.hpp"
 
 namespace YimMenu::Lua
 {

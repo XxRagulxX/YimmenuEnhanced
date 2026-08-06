@@ -1,5 +1,5 @@
 #include "lua.hpp"
-#include "core/util/Joaat.hpp"
+#include "Joaat.hpp"
 #undef GetObject // another dumb Windows.h definition
 
 namespace YimMenu::Lua

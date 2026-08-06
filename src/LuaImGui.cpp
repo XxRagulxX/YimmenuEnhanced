@@ -1,6 +1,6 @@
-#include "core/scripting/LuaLibrary.hpp"
-#include "core/scripting/LuaScript.hpp"
-#include "core/scripting/LuaUtils.hpp"
+#include "LuaLibrary.hpp"
+#include "LuaScript.hpp"
+#include "LuaUtils.hpp"
 
 #include <imgui.h>
 #include <misc/cpp/imgui_stdlib.h>

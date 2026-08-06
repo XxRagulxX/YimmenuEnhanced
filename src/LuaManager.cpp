@@ -1,9 +1,9 @@
 #include "LuaManager.hpp"
-#include "core/filemgr/FileMgr.hpp"
-#include "core/backend/ScriptMgr.hpp"
-#include "core/frontend/Notifications.hpp"
-#include "types/script/scrThread.hpp"
-#include "core/util/Joaat.hpp"
+#include "FileMgr.hpp"
+#include "ScriptMgr.hpp"
+#include "Notifications.hpp"
+#include "scrThread.hpp"
+#include "Joaat.hpp"
 
 namespace YimMenu
 {

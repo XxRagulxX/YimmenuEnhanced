@@ -1,8 +1,8 @@
-#include "core/scripting/LuaLibrary.hpp"
-#include "core/scripting/LatentFunction.hpp"
-#include "game/gta/Vehicle.hpp"
-#include "game/backend/Self.hpp"
-#include "core/util/Joaat.hpp"
+#include "LuaLibrary.hpp"
+#include "LatentFunction.hpp"
+#include "Vehicle.hpp"
+#include "Self.hpp"
+#include "Joaat.hpp"
 
 namespace YimMenu::Lua
 {

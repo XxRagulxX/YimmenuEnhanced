@@ -1,11 +1,11 @@
 #pragma once
 
-#include "core/commands/BoolCommand.hpp"
-#include "core/commands/Command.hpp"
-#include "core/commands/FloatCommand.hpp"
-#include "core/commands/IntCommand.hpp"
-#include "core/commands/ListCommand.hpp"
-#include "core/commands/LoopedCommand.hpp"
+#include "BoolCommand.hpp"
+#include "Command.hpp"
+#include "FloatCommand.hpp"
+#include "IntCommand.hpp"
+#include "ListCommand.hpp"
+#include "LoopedCommand.hpp"
 
 namespace YimMenu
 {

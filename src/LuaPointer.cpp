@@ -1,8 +1,8 @@
-#include "core/memory/BytePatches.hpp"
-#include "core/memory/PointerCalculator.hpp"
-#include "core/scripting/LuaLibrary.hpp"
-#include "core/scripting/LuaScript.hpp"
-#include "core/scripting/LuaUtils.hpp"
+#include "BytePatches.hpp"
+#include "PointerCalculator.hpp"
+#include "LuaLibrary.hpp"
+#include "LuaScript.hpp"
+#include "LuaUtils.hpp"
 
 namespace YimMenu::Lua
 {

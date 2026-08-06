@@ -1,6 +1,6 @@
-#include "core/scripting/LuaLibrary.hpp"
-#include "core/scripting/LuaUtils.hpp"
-#include "core/util/Joaat.hpp"
+#include "LuaLibrary.hpp"
+#include "LuaUtils.hpp"
+#include "Joaat.hpp"
 
 #include <chrono>
 

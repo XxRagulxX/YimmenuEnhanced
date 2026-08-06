@@ -1,7 +1,7 @@
 #include "LuaCommands.hpp"
 #include "LuaScript.hpp"
 #include "LuaUserInterface.hpp"
-#include "core/commands/Commands.hpp"
+#include "Commands.hpp"
 
 namespace YimMenu
 {

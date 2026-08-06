@@ -1,11 +1,11 @@
 #include "LuaUserInterface.hpp"
 #include "LuaScript.hpp"
 
-#include "core/commands/Command.hpp"
-#include "core/frontend/manager/Category.hpp"
-#include "core/frontend/manager/Submenu.hpp"
-#include "core/frontend/manager/UIManager.hpp"
-#include "game/frontend/items/Items.hpp"
+#include "Command.hpp"
+#include "Category.hpp"
+#include "Submenu.hpp"
+#include "UIManager.hpp"
+#include "Items.hpp"
 
 namespace YimMenu
 {

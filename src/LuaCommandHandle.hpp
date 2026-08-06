@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/util/Joaat.hpp"
+#include "Joaat.hpp"
 #include "lua.hpp"
 
 namespace YimMenu::Lua

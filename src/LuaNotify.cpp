@@ -1,6 +1,6 @@
-#include "core/scripting/LuaLibrary.hpp"
-#include "core/scripting/LuaUtils.hpp"
-#include "core/frontend/Notifications.hpp"
+#include "LuaLibrary.hpp"
+#include "LuaUtils.hpp"
+#include "Notifications.hpp"
 
 namespace YimMenu::Lua
 {
