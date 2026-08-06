@@ -1,6 +1,6 @@
 #pragma once
 #include "PatternHash.hpp"
-#include "core/util/StrToHex.hpp"
+#include "StrToHex.hpp"
 
 #include <string_view>
 #include <vector>
