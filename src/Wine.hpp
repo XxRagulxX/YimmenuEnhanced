@@ -1,4 +1,4 @@
-#include "core/memory/ModuleMgr.hpp"
+#include "ModuleMgr.hpp"
 #include "Joaat.hpp"
 
 #include <optional>
