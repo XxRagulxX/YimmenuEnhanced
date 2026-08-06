@@ -1,6 +1,6 @@
-#include "core/memory/PointerCalculator.hpp"
+#include "PointerCalculator.hpp"
 #include "core/scripting/LuaLibrary.hpp"
-#include "core/scripting/LuaUtils.hpp"
+#include "LuaUtils.hpp"
 #include "Invoker.hpp"
 
 namespace YimMenu::Lua

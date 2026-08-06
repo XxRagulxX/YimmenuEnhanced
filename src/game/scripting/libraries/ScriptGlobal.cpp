@@ -1,5 +1,5 @@
 #include "core/scripting/LuaLibrary.hpp"
-#include "core/scripting/LuaUtils.hpp"
+#include "LuaUtils.hpp"
 #include "ScriptGlobal.hpp"
 #include "scrVector.hpp"
 

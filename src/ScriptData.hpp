@@ -1,5 +1,5 @@
 #pragma once
-#include "core/memory/Pattern.hpp"
+#include "Pattern.hpp"
 
 namespace rage
 {

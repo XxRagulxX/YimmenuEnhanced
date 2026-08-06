@@ -1,6 +1,6 @@
 #pragma once
 #include "types/rage/atArray.hpp"
-#include "types/network/netSocketAddress.hpp"
+#include "netSocketAddress.hpp"
 
 namespace rage
 {

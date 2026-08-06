@@ -1,7 +1,7 @@
 #include "Nodes.hpp"
 #include <unordered_set>
 #include "Pointers.hpp"
-#include "types/network/sync/netSyncTree.hpp"
+#include "netSyncTree.hpp"
 
 namespace YimMenu
 {

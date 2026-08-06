@@ -3,7 +3,7 @@
 #include "Commands.hpp"
 #include "Hooks.hpp"
 #include "Natives.hpp"
-#include "types/battleye/CBattlEyePlayerModifyContext.hpp"
+#include "CBattlEyePlayerModifyContext.hpp"
 #include "AnticheatBypass.hpp"
 
 namespace YimMenu::Hooks

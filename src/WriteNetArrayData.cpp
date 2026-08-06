@@ -1,7 +1,7 @@
 #include "DetourHook.hpp"
 #include "Hooks.hpp"
 #include "Pointers.hpp"
-#include "types/network/netArrayHandler.hpp"
+#include "netArrayHandler.hpp"
 #include "GSBD.hpp"
 #include "Player.hpp"
 #include "PlayerData.hpp"

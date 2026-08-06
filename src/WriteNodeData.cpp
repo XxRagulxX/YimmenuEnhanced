@@ -3,7 +3,7 @@
 #include "Hooks.hpp"
 #include "Nodes.hpp"
 
-#include "types/rage/datBitBuffer.hpp"
+#include "datBitBuffer.hpp"
 
 namespace YimMenu::Hooks
 {

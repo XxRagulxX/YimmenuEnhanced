@@ -1,6 +1,6 @@
 #include "Hooks.hpp"
 #include "DetourHook.hpp"
-#include "game/backend/CustomMatchmaking.hpp"
+#include "CustomMatchmaking.hpp"
 
 namespace YimMenu::Hooks
 {

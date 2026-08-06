@@ -6,9 +6,9 @@
 #include "Hooks.hpp"
 #include "Packet.hpp"
 #include "Self.hpp"
-#include "types/network/netEvent.hpp"
-#include "types/network/netMessage.hpp"
-#include "types/rage/datBitBuffer.hpp"
+#include "netEvent.hpp"
+#include "netMessage.hpp"
+#include "datBitBuffer.hpp"
 #include "imgui_colors.h"
 
 namespace YimMenu::Hooks

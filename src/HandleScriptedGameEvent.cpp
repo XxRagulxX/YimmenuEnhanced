@@ -1,11 +1,11 @@
 #include "Self.hpp"
 #include "Hooks.hpp"
-#include "types/network/netGameEvent.hpp"
+#include "netGameEvent.hpp"
 #include "GPBD_FM_3.hpp"
 #include "GlobalPlayerBD.hpp"
 #include "ScriptEvent.hpp"
 #include "LuaManager.hpp"
-#include "core/scripting/LuaUtils.hpp"
+#include "LuaUtils.hpp"
 #include "Joaat.hpp"
 
 namespace YimMenu::Hooks

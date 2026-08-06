@@ -1,5 +1,5 @@
 #include "CGameScriptId.hpp"
-#include "types/rage/datBitBuffer.hpp"
+#include "datBitBuffer.hpp"
 
 void CGameScriptId::Deserialize(rage::datBitBuffer& buffer)
 {

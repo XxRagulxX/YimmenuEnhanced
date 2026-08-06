@@ -1,6 +1,6 @@
 #include "core/scripting/LuaLibrary.hpp"
 #include "core/scripting/LuaScript.hpp"
-#include "core/scripting/LuaUtils.hpp"
+#include "LuaUtils.hpp"
 #include "Players.hpp"
 #include "Self.hpp"
 #include "Player.hpp"

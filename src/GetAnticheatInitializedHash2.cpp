@@ -1,7 +1,7 @@
 #include "DetourHook.hpp"
 #include "Hooks.hpp"
 #include "Pointers.hpp"
-#include "types/anticheat/CAnticheatContext.hpp"
+#include "CAnticheatContext.hpp"
 
 namespace YimMenu::Hooks
 {

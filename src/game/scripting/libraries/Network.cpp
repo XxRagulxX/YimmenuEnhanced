@@ -1,5 +1,5 @@
 #include "core/scripting/LuaLibrary.hpp"
-#include "core/scripting/LuaUtils.hpp"
+#include "LuaUtils.hpp"
 #include "Natives.hpp"
 #include "Self.hpp"
 #include "Scripts.hpp"

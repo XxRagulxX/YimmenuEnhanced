@@ -1,7 +1,7 @@
 #include "core/scripting/LuaLibrary.hpp"
 #include "core/scripting/LuaResource.hpp"
 #include "core/scripting/LuaScript.hpp"
-#include "core/scripting/LuaUtils.hpp"
+#include "LuaUtils.hpp"
 #include "NativeDefs.hpp"
 
 namespace YimMenu::Lua

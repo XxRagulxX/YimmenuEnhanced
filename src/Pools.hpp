@@ -2,8 +2,8 @@
 #include "Entity.hpp"
 #include "Ped.hpp"
 #include "Vehicle.hpp"
-#include "types/rage/fwBasePool.hpp"
-#include "types/vehicle/fwVehiclePool.hpp"
+#include "fwBasePool.hpp"
+#include "fwVehiclePool.hpp"
 
 
 namespace YimMenu

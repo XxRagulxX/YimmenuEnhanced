@@ -1,5 +1,5 @@
 #include "core/scripting/LuaLibrary.hpp"
-#include "core/scripting/LuaUtils.hpp"
+#include "LuaUtils.hpp"
 #include "core/scripting/LatentFunction.hpp"
 #include "Vehicle.hpp"
 #include "Entity.hpp"

@@ -9,7 +9,7 @@
 #include "NodeHooks.hpp"
 #include "Players.hpp"
 #include "Vehicle.hpp"
-#include "types/network/sync/nodes/vehicle/CVehicleProximityMigrationDataNode.hpp"
+#include "CVehicleProximityMigrationDataNode.hpp"
 #include "Self.hpp"
 
 namespace YimMenu

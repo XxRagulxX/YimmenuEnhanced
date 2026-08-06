@@ -1,6 +1,6 @@
 #pragma once
 #include "Ped.hpp"
-#include "types/network/netSocketAddress.hpp"
+#include "netSocketAddress.hpp"
 
 class CNetGamePlayer;
 union netAddress;

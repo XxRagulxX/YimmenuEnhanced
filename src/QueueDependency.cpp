@@ -2,7 +2,7 @@
 #include "Hooks.hpp"
 #include "Pointers.hpp"
 #include "ModuleMgr.hpp"
-#include "core/memory/PointerCalculator.hpp"
+#include "PointerCalculator.hpp"
 #include "Joaat.hpp"
 
 #include <intrin.h>

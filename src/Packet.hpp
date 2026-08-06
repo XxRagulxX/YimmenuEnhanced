@@ -1,6 +1,6 @@
 #pragma once
-#include "types/rage/datBitBuffer.hpp"
-#include "types/network/netMessage.hpp"
+#include "datBitBuffer.hpp"
+#include "netMessage.hpp"
 
 
 namespace YimMenu

@@ -6,8 +6,8 @@
 #include "Hooks.hpp"
 #include "Pointers.hpp"
 #include "CNetGamePlayer.hpp"
-#include "types/network/netGameEvent.hpp"
-#include "types/rage/datBitBuffer.hpp"
+#include "netGameEvent.hpp"
+#include "datBitBuffer.hpp"
 #include "GlobalPlayerBD.hpp"
 
 namespace YimMenu::Hooks

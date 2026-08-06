@@ -1,6 +1,6 @@
 #include "Pools.hpp"
 #include "Pointers.hpp"
-#include "types/rage/PoolEncryption.hpp"
+#include "PoolEncryption.hpp"
 
 
 namespace YimMenu

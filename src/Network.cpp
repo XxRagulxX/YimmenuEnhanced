@@ -6,10 +6,10 @@
 #include "ScriptGlobal.hpp"
 #include "ScriptFunction.hpp"
 #include "Pointers.hpp"
-#include "types/network/rlSessionInfo.hpp"
-#include "types/network/rlSessionByGamerHandleTaskResult.hpp"
+#include "rlSessionInfo.hpp"
+#include "rlSessionByGamerHandleTaskResult.hpp"
 #include "rlTaskStatus.hpp"
-#include "types/socialclub/rlGetAvatarsContext.hpp"
+#include "rlGetAvatarsContext.hpp"
 #include "rlScTaskStatus.hpp"
 
 namespace YimMenu::Network
