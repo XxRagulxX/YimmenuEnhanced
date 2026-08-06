@@ -6,7 +6,7 @@
 #include "Ped.hpp"
 #include "Natives.hpp"
 #include "types/ped/PedCombatAttribute.hpp"
-#include "game/gta/data/Weapons.hpp"
+#include "Weapons.hpp"
 #include "Scripts.hpp"
 #include "NativeHooks.hpp"
 #include "game/frontend/items/Items.hpp"

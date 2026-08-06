@@ -1,5 +1,5 @@
 #include "Items.hpp"
-#include "game/commands/PlayerCommand.hpp"
+#include "PlayerCommand.hpp"
 #include "Commands.hpp"
 #include "FiberPool.hpp"
 #include "Players.hpp"

@@ -1,8 +1,8 @@
 #include "Self.hpp"
-#include "game/commands/PlayerCommand.hpp"
+#include "PlayerCommand.hpp"
 #include "ListCommand.hpp"
-#include "types/script/globals/GlobalPlayerBD.hpp"
-#include "types/script/ScriptEvent.hpp"
+#include "GlobalPlayerBD.hpp"
+#include "ScriptEvent.hpp"
 
 namespace YimMenu::Features
 {

@@ -6,7 +6,7 @@
 #include "scrProgram.hpp"
 #include "types/script/CGameScriptHandler.hpp"
 #include "types/script/CGameScriptHandlerNetComponent.hpp"
-#include "types/script/globals/GlobalPlayerBD.hpp"
+#include "GlobalPlayerBD.hpp"
 #include "GPBD_FM_3.hpp"
 #include "types/script/globals/LauncherServerData.hpp"
 #include "types/script/locals/LauncherClientData.hpp"
@@ -16,7 +16,7 @@
 #include "Self.hpp"
 #include "core/memory/Pattern.hpp"
 #include "game/gta/data/LauncherScripts.hpp"
-#include "types/script/ScriptEvent.hpp"
+#include "ScriptEvent.hpp"
 #include "ScriptGlobal.hpp"
 
 namespace YimMenu::Scripts

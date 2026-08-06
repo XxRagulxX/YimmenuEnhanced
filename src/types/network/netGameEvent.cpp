@@ -1,5 +1,5 @@
 #include "netGameEvent.hpp"
-#include "types/fx/ExplosionType.hpp"
+#include "ExplosionType.hpp"
 #include "types/rage/datBitBuffer.hpp"
 
 bool CScriptedGameEvent::Deserialize(rage::datBitBuffer& buffer)

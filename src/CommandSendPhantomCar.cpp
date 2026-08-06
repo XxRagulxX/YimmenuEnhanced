@@ -1,8 +1,8 @@
-#include "game/commands/PlayerCommand.hpp"
+#include "PlayerCommand.hpp"
 #include "ScriptMgr.hpp"
 #include "Scripts.hpp"
-#include "types/script/ScriptEvent.hpp"
-#include "types/script/globals/GSBD_RandomEvents.hpp"
+#include "ScriptEvent.hpp"
+#include "GSBD_RandomEvents.hpp"
 
 namespace YimMenu::Features
 {

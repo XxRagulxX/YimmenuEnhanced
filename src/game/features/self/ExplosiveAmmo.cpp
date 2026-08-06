@@ -1,6 +1,6 @@
 #include "LoopedCommand.hpp"
 #include "Self.hpp"
-#include "types/fx/ExplosionType.hpp"
+#include "ExplosionType.hpp"
 #include <Natives.hpp>
 #include "ListCommand.hpp"
 #include "core/commands/FloatCommand.hpp"

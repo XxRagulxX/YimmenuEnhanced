@@ -1,6 +1,6 @@
 #include "Command.hpp"
 #include "LoopedCommand.hpp"
-#include "core/commands/IntCommand.hpp"
+#include "IntCommand.hpp"
 #include "Self.hpp"
 #include "Natives.hpp"
 

@@ -1,5 +1,5 @@
-#include "game/commands/PlayerCommand.hpp"
-#include "types/script/globals/GSBD_Kicking.hpp"
+#include "PlayerCommand.hpp"
+#include "GSBD_Kicking.hpp"
 #include "Scripts.hpp"
 
 namespace YimMenu::Features

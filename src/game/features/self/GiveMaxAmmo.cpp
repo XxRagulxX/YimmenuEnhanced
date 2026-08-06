@@ -1,6 +1,6 @@
 #include "Command.hpp"
 #include "Self.hpp"
-#include "game/gta/data/Weapons.hpp"
+#include "Weapons.hpp"
 
 namespace YimMenu::Features
 {

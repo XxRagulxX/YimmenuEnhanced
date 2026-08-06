@@ -1,8 +1,8 @@
 #include "BoolCommand.hpp"
-#include "core/commands/IntCommand.hpp"
-#include "game/commands/PlayerCommand.hpp"
-#include "types/script/ScriptEvent.hpp"
-#include "types/script/globals/GSBD_FM_Events.hpp"
+#include "IntCommand.hpp"
+#include "PlayerCommand.hpp"
+#include "ScriptEvent.hpp"
+#include "GSBD_FM_Events.hpp"
 
 namespace YimMenu::Features
 {

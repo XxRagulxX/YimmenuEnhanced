@@ -1,7 +1,7 @@
 //#include "BoolCommand.hpp"
 #include "game/gta/Stats.hpp"
 #include "Natives.hpp"
-#include "core/commands/IntCommand.hpp"
+#include "IntCommand.hpp"
 #include "ScriptGlobal.hpp"
 #include "LoopedCommand.hpp"
 #include "Notifications.hpp"

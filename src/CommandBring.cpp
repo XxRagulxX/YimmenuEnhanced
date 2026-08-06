@@ -1,4 +1,4 @@
-#include "game/commands/PlayerCommand.hpp"
+#include "PlayerCommand.hpp"
 #include "Self.hpp"
 
 namespace YimMenu::Features

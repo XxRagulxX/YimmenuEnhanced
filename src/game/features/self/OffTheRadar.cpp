@@ -3,7 +3,7 @@
 #include "Scripts.hpp"
 #include "ScriptGlobal.hpp"
 #include "Pointers.hpp"
-#include "types/script/globals/GlobalPlayerBD.hpp"
+#include "GlobalPlayerBD.hpp"
 
 namespace YimMenu::Features
 {

@@ -1,4 +1,4 @@
-#include "game/commands/PlayerCommand.hpp"
+#include "PlayerCommand.hpp"
 #include "Natives.hpp"
 
 namespace YimMenu::Features

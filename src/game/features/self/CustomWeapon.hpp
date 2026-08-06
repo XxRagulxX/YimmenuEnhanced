@@ -1,7 +1,7 @@
 #pragma once
 #include "BoolCommand.hpp"
 #include "core/commands/ColorCommand.hpp"
-#include "core/commands/IntCommand.hpp"
+#include "IntCommand.hpp"
 #include "ListCommand.hpp"
 #include "LoopedCommand.hpp"
 #include "core/commands/StringCommand.hpp"

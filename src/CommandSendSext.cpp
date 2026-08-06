@@ -1,5 +1,5 @@
-#include "game/commands/PlayerCommand.hpp"
-#include "types/script/ScriptEvent.hpp"
+#include "PlayerCommand.hpp"
+#include "ScriptEvent.hpp"
 
 namespace YimMenu::Features
 {

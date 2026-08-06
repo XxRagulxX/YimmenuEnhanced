@@ -2,7 +2,7 @@
 #include <unordered_map>
 #include <array>
 #include <cmath>
-#include "core/commands/IntCommand.hpp"
+#include "IntCommand.hpp"
 #include "ListCommand.hpp"
 #include "LoopedCommand.hpp"
 #include "Self.hpp"

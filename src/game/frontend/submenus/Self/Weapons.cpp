@@ -2,7 +2,7 @@
 #include "FiberPool.hpp"
 #include "ScriptMgr.hpp"
 #include "Self.hpp"
-#include "game/gta/data/Weapons.hpp"
+#include "Weapons.hpp"
 #include "Natives.hpp"
 #include "Scripts.hpp"
 #include "ScriptFunction.hpp"

@@ -1,5 +1,5 @@
 #include "Command.hpp"
-#include "core/commands/IntCommand.hpp"
+#include "IntCommand.hpp"
 #include "LoopedCommand.hpp"
 #include "Natives.hpp"
 

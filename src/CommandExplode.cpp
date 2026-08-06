@@ -1,5 +1,5 @@
-#include "game/commands/PlayerCommand.hpp"
-#include "types/fx/ExplosionType.hpp"
+#include "PlayerCommand.hpp"
+#include "ExplosionType.hpp"
 
 namespace YimMenu::Features
 {

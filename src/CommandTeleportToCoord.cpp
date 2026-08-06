@@ -1,6 +1,6 @@
 #include "Self.hpp"
-#include "game/commands/PlayerCommand.hpp"
-#include "core/commands/Vector3Command.hpp"
+#include "PlayerCommand.hpp"
+#include "Vector3Command.hpp"
 
 namespace YimMenu::Features
 {

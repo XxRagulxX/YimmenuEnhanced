@@ -1,5 +1,5 @@
 #include "Command.hpp"
-#include "core/commands/IntCommand.hpp"
+#include "IntCommand.hpp"
 #include "ListCommand.hpp"
 #include "game/gta/Stats.hpp"
 #include "ScriptGlobal.hpp"

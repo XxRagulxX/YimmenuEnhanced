@@ -1,4 +1,4 @@
-#include "game/commands/PlayerCommand.hpp"
+#include "PlayerCommand.hpp"
 #include "Scripts.hpp"
 #include "PlayerData.hpp"
 #include "GSBD.hpp"

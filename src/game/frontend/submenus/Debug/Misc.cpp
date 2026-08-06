@@ -3,7 +3,7 @@
 #include "game/frontend/items/Items.hpp"
 #include "Natives.hpp"
 #include "ScriptFunction.hpp"
-#include "types/script/ScriptEvent.hpp"
+#include "ScriptEvent.hpp"
 #include "Self.hpp"
 
 namespace YimMenu::Submenus
