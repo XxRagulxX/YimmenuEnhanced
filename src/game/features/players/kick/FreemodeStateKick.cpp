@@ -1,7 +1,7 @@
 #include "game/commands/PlayerCommand.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 #include "PlayerData.hpp"
-#include "types/script/globals/GSBD.hpp"
+#include "GSBD.hpp"
 
 namespace YimMenu::Features
 {

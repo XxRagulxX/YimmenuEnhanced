@@ -1,4 +1,4 @@
-#include "core/commands/LoopedCommand.hpp"
+#include "LoopedCommand.hpp"
 #include "Natives.hpp"
 #include "Self.hpp"
 #include "types/ped/PedConfigFlag.hpp"

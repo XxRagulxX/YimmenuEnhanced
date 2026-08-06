@@ -1,7 +1,7 @@
 #include <string>
 #include "game/gta/Stats.hpp"
 #include "ScriptLocal.hpp"
-#include "core/commands/LoopedCommand.hpp"
+#include "LoopedCommand.hpp"
 #include "Notifications.hpp"
 #include "ScriptMgr.hpp"
 #include "FiberPool.hpp"

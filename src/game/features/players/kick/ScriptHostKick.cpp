@@ -1,6 +1,6 @@
 #include "game/commands/PlayerCommand.hpp"
 #include "types/script/globals/GSBD_Kicking.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 
 namespace YimMenu::Features
 {

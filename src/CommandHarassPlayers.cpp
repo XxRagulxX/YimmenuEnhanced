@@ -1,10 +1,10 @@
 #include "BoolCommand.hpp"
-#include "game/backend/NodeHooks.hpp"
+#include "NodeHooks.hpp"
 #include "Self.hpp"
 
-#include "types/network/sync/nodes/ped/CPedGameStateDataNode.hpp"
-#include "types/network/sync/nodes/proximity_migrateable/CSectorDataNode.hpp"
-#include "types/network/sync/nodes/player/CPlayerSectorPosNode.hpp"
+#include "CPedGameStateDataNode.hpp"
+#include "CSectorDataNode.hpp"
+#include "CPlayerSectorPosNode.hpp"
 
 namespace YimMenu::Features
 {

@@ -1,6 +1,6 @@
-#include "core/commands/LoopedCommand.hpp"
+#include "LoopedCommand.hpp"
 #include "Self.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 #include "ScriptGlobal.hpp"
 #include "Pointers.hpp"
 #include "types/script/globals/GlobalPlayerBD.hpp"

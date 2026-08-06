@@ -1,10 +1,10 @@
 #include "Command.hpp"
 #include "BoolCommand.hpp"
-#include "core/commands/ListCommand.hpp"
+#include "ListCommand.hpp"
 #include "game/gta/Stats.hpp"
 #include "ScriptGlobal.hpp"
 #include "ScriptLocal.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 #include "ScriptMgr.hpp"
 #include "Natives.hpp"
 

@@ -1,6 +1,6 @@
-#include "core/hooking/DetourHook.hpp"
-#include "game/backend/NodeHooks.hpp"
-#include "game/hooks/Hooks.hpp"
+#include "DetourHook.hpp"
+#include "NodeHooks.hpp"
+#include "Hooks.hpp"
 #include "Nodes.hpp"
 
 #include "types/rage/datBitBuffer.hpp"

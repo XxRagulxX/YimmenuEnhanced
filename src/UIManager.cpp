@@ -1,5 +1,5 @@
 #include "UIManager.hpp"
-#include "core/commands/ListCommand.hpp"
+#include "ListCommand.hpp"
 #include "core/frontend/manager/styles/Themes.hpp"
 
 namespace YimMenu::Features

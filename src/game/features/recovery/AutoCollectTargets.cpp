@@ -1,4 +1,4 @@
-#include "core/commands/LoopedCommand.hpp"
+#include "LoopedCommand.hpp"
 #include "ScriptLocal.hpp"
 
 

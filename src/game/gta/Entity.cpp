@@ -8,7 +8,7 @@
 #include "types/entity/CDynamicEntity.hpp"
 #include "types/network/netObject.hpp"
 #include "CNetworkPlayerMgr.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 #include "CPedFactory.hpp"
 #include "types/network/netObjectMgrBase.hpp"
 #include "Self.hpp"

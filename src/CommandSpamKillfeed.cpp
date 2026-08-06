@@ -1,8 +1,8 @@
 #include "BoolCommand.hpp"
-#include "game/backend/NodeHooks.hpp"
+#include "NodeHooks.hpp"
 #include "Self.hpp"
 #include "Players.hpp"
-#include "types/network/sync/nodes/ped/CPedHealthDataNode.hpp"
+#include "CPedHealthDataNode.hpp"
 
 namespace YimMenu::Features
 {

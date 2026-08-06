@@ -4,7 +4,7 @@
 #include "ScriptMgr.hpp"
 #include "Notifications.hpp"
 #include "Self.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 #include "ScriptFunction.hpp"
 #include "ScriptLocal.hpp"
 #include "Pointers.hpp"

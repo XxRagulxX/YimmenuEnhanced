@@ -1,7 +1,7 @@
 #include "BoolCommand.hpp"
 #include "NativeHooks.hpp"
 #include "Natives.hpp"
-#include "types/script/globals/GSBD.hpp"
+#include "GSBD.hpp"
 
 namespace YimMenu::Features
 {

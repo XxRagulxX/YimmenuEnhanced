@@ -1,7 +1,7 @@
-#include "core/hooking/DetourHook.hpp"
+#include "DetourHook.hpp"
 #include "ScriptMgr.hpp"
-#include "game/hooks/Hooks.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Hooks.hpp"
+#include "Scripts.hpp"
 
 namespace YimMenu::Hooks
 {

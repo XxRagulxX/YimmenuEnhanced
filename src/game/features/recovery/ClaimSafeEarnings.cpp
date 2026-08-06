@@ -1,4 +1,4 @@
-#include "core/commands/ListCommand.hpp"
+#include "ListCommand.hpp"
 #include "Self.hpp"
 #include "ScriptGlobal.hpp"
 #include "Pointers.hpp"

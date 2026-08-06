@@ -3,7 +3,7 @@
 #include <type_traits>
 #include <scrThread.hpp>
 #include <Joaat.hpp>
-#include <game/gta/Scripts.hpp>
+#include <Scripts.hpp>
 
 namespace YimMenu
 {

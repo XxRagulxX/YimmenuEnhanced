@@ -3,8 +3,8 @@
 #include <array>
 #include <cmath>
 #include "core/commands/IntCommand.hpp"
-#include "core/commands/ListCommand.hpp"
-#include "core/commands/LoopedCommand.hpp"
+#include "ListCommand.hpp"
+#include "LoopedCommand.hpp"
 #include "Self.hpp"
 #include "Natives.hpp"
 #include "game/gta/Stats.hpp"

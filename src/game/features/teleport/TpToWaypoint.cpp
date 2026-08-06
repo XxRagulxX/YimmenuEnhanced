@@ -1,5 +1,5 @@
 #include "Command.hpp"
-#include "core/commands/LoopedCommand.hpp"
+#include "LoopedCommand.hpp"
 #include "FiberPool.hpp"
 #include "ScriptMgr.hpp"
 #include "Self.hpp"

@@ -1,5 +1,5 @@
 #include "Locals.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 #include "game/backend/SavedVariables.hpp"
 #include "scrThread.hpp"
 #include "game/frontend/items/Items.hpp"

@@ -1,5 +1,5 @@
-#include "core/commands/LoopedCommand.hpp"
-#include "game/backend/ScriptPatches.hpp"
+#include "LoopedCommand.hpp"
+#include "ScriptPatches.hpp"
 #include "Natives.hpp"
 
 namespace YimMenu::Features

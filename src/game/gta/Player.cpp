@@ -6,7 +6,7 @@
 #include "GPBD_FM.hpp"
 #include "FiberPool.hpp"
 #include "ScriptMgr.hpp"
-#include "game/backend/NodeHooks.hpp"
+#include "NodeHooks.hpp"
 #include "Players.hpp"
 #include "Vehicle.hpp"
 #include "types/network/sync/nodes/vehicle/CVehicleProximityMigrationDataNode.hpp"

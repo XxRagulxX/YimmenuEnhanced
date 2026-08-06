@@ -1,7 +1,7 @@
 #include "AutoDriveShared.hpp"
 
 #include "core/commands/IntCommand.hpp"
-#include "core/commands/ListCommand.hpp"
+#include "ListCommand.hpp"
 #include "Natives.hpp"
 #include "types/blip/BlipSprite.hpp"
 

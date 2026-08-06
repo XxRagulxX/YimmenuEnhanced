@@ -1,6 +1,6 @@
-#include "core/commands/LoopedCommand.hpp"
-#include "core/hooking/DetourHook.hpp"
-#include "game/hooks/Hooks.hpp"
+#include "LoopedCommand.hpp"
+#include "DetourHook.hpp"
+#include "Hooks.hpp"
 #include "Pointers.hpp"
 
 namespace YimMenu::Features

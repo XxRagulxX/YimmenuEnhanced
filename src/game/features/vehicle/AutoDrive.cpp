@@ -3,7 +3,7 @@
 
 #include "BoolCommand.hpp"
 #include "Commands.hpp"
-#include "core/commands/LoopedCommand.hpp"
+#include "LoopedCommand.hpp"
 #include "Notifications.hpp"
 #include "Self.hpp"
 #include "Natives.hpp"

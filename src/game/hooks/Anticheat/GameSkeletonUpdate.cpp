@@ -1,4 +1,4 @@
-#include "game/hooks/Hooks.hpp"
+#include "Hooks.hpp"
 #include "Joaat.hpp"
 #include "types/rage/gameSkeleton.hpp"
 

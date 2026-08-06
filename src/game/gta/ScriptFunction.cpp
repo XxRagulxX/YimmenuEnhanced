@@ -1,7 +1,7 @@
 #include "ScriptFunction.hpp"
 #include "ScriptPointers.hpp"
 #include "Pointers.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 #include "ScriptPointer.hpp"
 #include "scrThread.hpp"
 #include "types/rage/tlsContext.hpp"

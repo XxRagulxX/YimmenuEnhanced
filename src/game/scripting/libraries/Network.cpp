@@ -2,7 +2,7 @@
 #include "core/scripting/LuaUtils.hpp"
 #include "Natives.hpp"
 #include "Self.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 #include "Pointers.hpp"
 
 namespace YimMenu::Lua

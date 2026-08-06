@@ -3,7 +3,7 @@
 #include "core/frontend/widgets/imgui_colors.h"
 #include "Notifications.hpp"
 #include "SavedPlayers.hpp"
-#include "game/gta/Network.hpp"
+#include "Network.hpp"
 #include "game/frontend/items/Items.hpp"
 
 namespace YimMenu::Submenus

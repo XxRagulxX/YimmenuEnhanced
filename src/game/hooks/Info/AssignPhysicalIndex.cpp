@@ -1,5 +1,5 @@
-#include "core/hooking/DetourHook.hpp"
-#include "game/hooks/Hooks.hpp"
+#include "DetourHook.hpp"
+#include "Hooks.hpp"
 #include "Players.hpp"
 #include "CNetGamePlayer.hpp"
 #include "BoolCommand.hpp"

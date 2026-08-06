@@ -1,6 +1,6 @@
 #include "Self.hpp"
 #include "game/commands/PlayerCommand.hpp"
-#include "core/commands/ListCommand.hpp"
+#include "ListCommand.hpp"
 #include "types/script/ScriptEvent.hpp"
 
 namespace YimMenu::Features

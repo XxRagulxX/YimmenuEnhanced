@@ -1,10 +1,10 @@
-#include "core/commands/LoopedCommand.hpp"
+#include "LoopedCommand.hpp"
 #include "Self.hpp"
 #include "types/fx/ExplosionType.hpp"
 #include <Natives.hpp>
-#include "core/commands/ListCommand.hpp"
+#include "ListCommand.hpp"
 #include "core/commands/FloatCommand.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 
 namespace YimMenu::Features
 {

@@ -1,5 +1,5 @@
 #include "BoolCommand.hpp"
-#include "core/commands/LoopedCommand.hpp"
+#include "LoopedCommand.hpp"
 #include "Self.hpp"
 #include "Natives.hpp"
 #include "Pools.hpp"

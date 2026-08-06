@@ -1,5 +1,5 @@
 #include "BoolCommand.hpp"
-#include "game/backend/ScriptPatches.hpp"
+#include "ScriptPatches.hpp"
 
 namespace YimMenu::Features
 {

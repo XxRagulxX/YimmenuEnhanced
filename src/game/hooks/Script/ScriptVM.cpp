@@ -1,6 +1,6 @@
-#include "core/hooking/DetourHook.hpp"
-#include "game/hooks/Hooks.hpp"
-#include "game/backend/ScriptPatches.hpp"
+#include "DetourHook.hpp"
+#include "Hooks.hpp"
+#include "ScriptPatches.hpp"
 
 namespace YimMenu::Hooks
 {

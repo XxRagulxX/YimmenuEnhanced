@@ -5,7 +5,7 @@
 #include "NativeHooks.hpp"
 #include "StackSizes.hpp"
 #include "Natives.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 #include "scrProgram.hpp"
 
 namespace YimMenu

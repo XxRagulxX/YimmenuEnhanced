@@ -1,10 +1,10 @@
 #include "BoolCommand.hpp"
-#include "core/hooking/DetourHook.hpp"
+#include "DetourHook.hpp"
 #include "NativeHooks.hpp"
 #include "Natives.hpp"
-#include "game/hooks/Hooks.hpp"
+#include "Hooks.hpp"
 #include "Pointers.hpp"
-#include "types/game_files/CGameDataHash.hpp"
+#include "CGameDataHash.hpp"
 
 namespace YimMenu::Features
 {

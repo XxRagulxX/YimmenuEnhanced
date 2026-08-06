@@ -7,7 +7,7 @@
 #include "types/script/CGameScriptHandler.hpp"
 #include "types/script/CGameScriptHandlerNetComponent.hpp"
 #include "types/script/globals/GlobalPlayerBD.hpp"
-#include "types/script/globals/GPBD_FM_3.hpp"
+#include "GPBD_FM_3.hpp"
 #include "types/script/globals/LauncherServerData.hpp"
 #include "types/script/locals/LauncherClientData.hpp"
 #include "Natives.hpp"

@@ -4,7 +4,7 @@
 #include "Self.hpp"
 #include "game/gta/data/Weapons.hpp"
 #include "Natives.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 #include "ScriptFunction.hpp"
 #include "scrThread.hpp"
 #include "Commands.hpp"

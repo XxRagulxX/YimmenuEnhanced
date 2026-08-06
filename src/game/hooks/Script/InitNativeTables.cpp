@@ -1,7 +1,7 @@
-#include "core/hooking/DetourHook.hpp"
+#include "DetourHook.hpp"
 #include "NativeHooks.hpp"
-#include "game/backend/ScriptPatches.hpp"
-#include "game/hooks/Hooks.hpp"
+#include "ScriptPatches.hpp"
+#include "Hooks.hpp"
 
 #include "scrProgram.hpp"
 

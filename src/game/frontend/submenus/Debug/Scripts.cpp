@@ -1,6 +1,6 @@
 #include "Scripts.hpp"
 #include "StackSizes.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 #include "scrProgram.hpp"
 #include "game/frontend/items/Items.hpp"
 #include "FiberPool.hpp"

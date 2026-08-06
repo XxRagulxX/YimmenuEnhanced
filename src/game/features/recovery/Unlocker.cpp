@@ -3,7 +3,7 @@
 #include "Natives.hpp"
 #include "core/commands/IntCommand.hpp"
 #include "ScriptGlobal.hpp"
-#include "core/commands/LoopedCommand.hpp"
+#include "LoopedCommand.hpp"
 #include "Notifications.hpp"
 #include "FiberPool.hpp"
 

@@ -1,6 +1,6 @@
 #include "Command.hpp"
 #include "core/commands/IntCommand.hpp"
-#include "core/commands/LoopedCommand.hpp"
+#include "LoopedCommand.hpp"
 #include "Natives.hpp"
 
 namespace YimMenu::Features

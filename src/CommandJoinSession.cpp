@@ -1,6 +1,6 @@
 #include "Command.hpp"
-#include "core/commands/ListCommand.hpp"
-#include "game/gta/Network.hpp"
+#include "ListCommand.hpp"
+#include "Network.hpp"
 
 namespace YimMenu::Features
 {

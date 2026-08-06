@@ -1,5 +1,5 @@
 #include "ScriptPointer.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 #include "scrProgram.hpp"
 #include "LogHelper.hpp"
 

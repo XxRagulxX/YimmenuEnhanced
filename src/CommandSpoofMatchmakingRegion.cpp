@@ -1,5 +1,5 @@
-#include "core/commands/LoopedCommand.hpp"
-#include "core/commands/ListCommand.hpp"
+#include "LoopedCommand.hpp"
+#include "ListCommand.hpp"
 #include "Pointers.hpp"
 
 namespace YimMenu::Features

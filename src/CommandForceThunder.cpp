@@ -1,7 +1,7 @@
-#include "core/commands/LoopedCommand.hpp"
+#include "LoopedCommand.hpp"
 #include "Self.hpp"
-#include "game/gta/Scripts.hpp"
-#include "types/script/globals/GPBD_FM_3.hpp"
+#include "Scripts.hpp"
+#include "GPBD_FM_3.hpp"
 
 namespace YimMenu::Features
 {

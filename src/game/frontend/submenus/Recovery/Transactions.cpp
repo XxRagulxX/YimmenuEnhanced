@@ -5,7 +5,7 @@
 #include "core/frontend/widgets/imgui_colors.h"
 #include "AnticheatBypass.hpp"
 #include "Natives.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 #include "Pointers.hpp"
 #include "types/netshop/CNetShopTransaction.hpp"
 #include "types/netshop/netCatalogBaseItem.hpp"

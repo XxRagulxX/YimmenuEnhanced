@@ -1,6 +1,6 @@
 #include "Overlay.hpp"
 #include "Menu.hpp"
-#include "core/commands/ListCommand.hpp"
+#include "ListCommand.hpp"
 #include "BoolCommand.hpp"
 #include "Pointers.hpp"
 #include "Invoker.hpp"

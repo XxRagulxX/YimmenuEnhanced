@@ -1,10 +1,10 @@
 #include "Command.hpp"
 #include "Notifications.hpp"
 #include "Self.hpp"
-#include "game/backend/ScriptPatches.hpp"
+#include "ScriptPatches.hpp"
 #include "NativeHooks.hpp"
 #include "Natives.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 #include "ScriptLocal.hpp"
 #include "Pointers.hpp"
 

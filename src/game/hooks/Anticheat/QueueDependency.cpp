@@ -1,5 +1,5 @@
-#include "core/hooking/DetourHook.hpp"
-#include "game/hooks/Hooks.hpp"
+#include "DetourHook.hpp"
+#include "Hooks.hpp"
 #include "Pointers.hpp"
 #include "ModuleMgr.hpp"
 #include "core/memory/PointerCalculator.hpp"

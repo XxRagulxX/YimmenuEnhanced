@@ -1,6 +1,6 @@
-#include "core/hooking/DetourHook.hpp"
+#include "DetourHook.hpp"
 #include "BoolCommand.hpp"
-#include "game/hooks/Hooks.hpp"
+#include "Hooks.hpp"
 #include "types/entity/CDynamicEntity.hpp"
 #include "Ped.hpp"
 #include "Pointers.hpp"

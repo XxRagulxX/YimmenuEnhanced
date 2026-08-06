@@ -1,8 +1,8 @@
-#include "core/hooking/DetourHook.hpp"
-#include "game/hooks/Hooks.hpp"
+#include "DetourHook.hpp"
+#include "Hooks.hpp"
 #include "Pointers.hpp"
 #include "types/network/netArrayHandler.hpp"
-#include "types/script/globals/GSBD.hpp"
+#include "GSBD.hpp"
 #include "Player.hpp"
 #include "PlayerData.hpp"
 

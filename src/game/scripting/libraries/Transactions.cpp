@@ -5,7 +5,7 @@
 #include "ScriptMgr.hpp"
 #include "Pointers.hpp"
 #include "Natives.hpp"
-#include "game/gta/Scripts.hpp"
+#include "Scripts.hpp"
 #include "types/netshop/CNetShopTransaction.hpp"
 #include "AnticheatBypass.hpp"
 

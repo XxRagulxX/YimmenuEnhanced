@@ -3,7 +3,7 @@
 #include "core/scripting/LuaScript.hpp"
 #include "core/scripting/LuaUtils.hpp"
 #include "Joaat.hpp"
-#include "game/backend/ScriptPatches.hpp"
+#include "ScriptPatches.hpp"
 #include "ScriptPointer.hpp"
 
 namespace YimMenu::Lua
