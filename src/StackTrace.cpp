@@ -1,7 +1,7 @@
 #include "StackTrace.hpp"
 #include <dbghelp.h>
 #include <winternl.h>
-#include "core/logger/LogHelper.hpp"
+#include "LogHelper.hpp"
 
 namespace YimMenu
 {

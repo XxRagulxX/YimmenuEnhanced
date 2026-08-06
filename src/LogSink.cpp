@@ -1,8 +1,8 @@
 #include "LogSink.hpp"
 #include "LogColor.hpp"
 #include <format>
-#include "core/util/Wine.hpp"
-#include "core/logger/LogHelper.hpp"
+#include "Wine.hpp"
+#include "LogHelper.hpp"
 
 namespace YimMenu
 {
