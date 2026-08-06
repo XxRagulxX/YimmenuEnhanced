@@ -6,7 +6,7 @@
 #include "Pointers.hpp"
 #include "Natives.hpp"
 #include "Scripts.hpp"
-#include "types/netshop/CNetShopTransaction.hpp"
+#include "CNetShopTransaction.hpp"
 #include "AnticheatBypass.hpp"
 
 namespace YimMenu::Lua

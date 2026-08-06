@@ -1,7 +1,7 @@
 #include "core/scripting/LuaLibrary.hpp"
 #include "core/scripting/LuaUtils.hpp"
 #include "ScriptGlobal.hpp"
-#include "types/script/scrVector.hpp"
+#include "scrVector.hpp"
 
 namespace YimMenu::Lua
 {

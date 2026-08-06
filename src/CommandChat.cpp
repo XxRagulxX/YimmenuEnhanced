@@ -5,7 +5,7 @@
 #include "Self.hpp"
 #include "ChatDisplay.hpp"
 #include "Natives.hpp"
-#include "game/gta/Packet.hpp"
+#include "Packet.hpp"
 #include "Pointers.hpp"
 #include "rlGamerHandle.hpp"
 #include "rlGamerInfo.hpp"

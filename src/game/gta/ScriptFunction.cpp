@@ -4,7 +4,7 @@
 #include "Scripts.hpp"
 #include "ScriptPointer.hpp"
 #include "scrThread.hpp"
-#include "types/rage/tlsContext.hpp"
+#include "tlsContext.hpp"
 
 namespace YimMenu
 {

@@ -1,0 +1,11 @@
+#pragma once
+#include "Submenu.hpp"
+
+namespace YimMenu::Submenus
+{
+	class Self : public Submenu
+	{
+	public:
+		Self();
+	};
+}

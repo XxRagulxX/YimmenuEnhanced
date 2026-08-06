@@ -3,7 +3,7 @@
 #include "ScriptMgr.hpp"
 #include "Pointers.hpp"
 #include "VehicleValues.hpp"
-#include "game/gta/data/Vehicles.hpp"
+#include "Vehicles.hpp"
 
 namespace YimMenu
 {

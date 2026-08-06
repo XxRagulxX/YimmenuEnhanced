@@ -4,7 +4,7 @@
 #include "Players.hpp"
 #include "ChatDisplay.hpp"
 #include "Hooks.hpp"
-#include "game/gta/Packet.hpp"
+#include "Packet.hpp"
 #include "Self.hpp"
 #include "types/network/netEvent.hpp"
 #include "types/network/netMessage.hpp"

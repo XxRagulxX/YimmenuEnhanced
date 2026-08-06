@@ -1,6 +1,6 @@
 #pragma once
 #include "Joaat.hpp"
-#include "types/network/netObject.hpp"
+#include "netObject.hpp"
 
 // Credits to Aure7138
 

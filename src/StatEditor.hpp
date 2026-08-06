@@ -1,0 +1,8 @@
+// StatEditor.hpp
+#pragma once
+#include "Category.hpp"
+
+namespace YimMenu::Submenus
+{
+	std::shared_ptr<Category> BuildStatEditorMenu();
+}

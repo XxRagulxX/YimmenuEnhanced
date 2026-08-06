@@ -1,6 +1,6 @@
 #include "Ped.hpp"
 #include "Natives.hpp"
-#include "game/backend/Outfit.hpp"
+#include "Outfit.hpp"
 #include "ScriptMgr.hpp"
 #include "Pointers.hpp"
 #include <random>

@@ -4,15 +4,15 @@
 #include "Joaat.hpp"
 #include "ScriptMgr.hpp"
 #include "Pointers.hpp"
-#include "types/rage/tlsContext.hpp"
-#include "types/entity/CDynamicEntity.hpp"
-#include "types/network/netObject.hpp"
+#include "tlsContext.hpp"
+#include "CDynamicEntity.hpp"
+#include "netObject.hpp"
 #include "CNetworkPlayerMgr.hpp"
 #include "Scripts.hpp"
 #include "CPedFactory.hpp"
-#include "types/network/netObjectMgrBase.hpp"
+#include "netObjectMgrBase.hpp"
 #include "Self.hpp"
-#include "game/gta/Packet.hpp"
+#include "Packet.hpp"
 
 namespace
 {

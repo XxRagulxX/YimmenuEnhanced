@@ -1,7 +1,7 @@
 #include "DetourHook.hpp"
 #include "BoolCommand.hpp"
 #include "Hooks.hpp"
-#include "types/entity/CDynamicEntity.hpp"
+#include "CDynamicEntity.hpp"
 #include "Ped.hpp"
 #include "Pointers.hpp"
 
