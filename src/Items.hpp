@@ -1,5 +1,5 @@
 #pragma once
-#include "core/frontend/manager/UIItem.hpp"
+#include "UIItem.hpp"
 #include "Joaat.hpp"
 
 namespace YimMenu

@@ -1,5 +1,5 @@
 #include "Items.hpp"
-#include "game/frontend/Menu.hpp"
+#include "Menu.hpp"
 
 namespace YimMenu
 {

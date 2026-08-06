@@ -1,6 +1,6 @@
 #include "AutoDriveHUD.hpp"
 
-#include "game/features/vehicle/AutoDriveHudTelemetry.hpp"
+#include "AutoDriveHudTelemetry.hpp"
 
 #include <algorithm>
 #include <chrono>

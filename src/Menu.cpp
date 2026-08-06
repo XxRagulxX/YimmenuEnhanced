@@ -1,6 +1,6 @@
 #include "Menu.hpp"
 #include "imgui.h"
-#include "core/frontend/manager/UIManager.hpp"
+#include "UIManager.hpp"
 #include "Renderer.hpp"
 #include "game/frontend/fonts/Fonts.hpp"
 #include "submenus/Self.hpp"
@@ -13,7 +13,7 @@
 #include "submenus/Debug.hpp"
 #include "submenus/World.hpp"
 #include "Onboarding.hpp"
-#include "core/frontend/manager/styles/Themes.hpp"
+#include "Themes.hpp"
 #include "GUI.hpp"
 
 

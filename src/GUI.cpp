@@ -1,4 +1,4 @@
-#include "core/frontend/manager/UIManager.hpp"
+#include "UIManager.hpp"
 #include "GUI.hpp"
 #include "Menu.hpp"
 #include "ESP.hpp"
@@ -10,7 +10,7 @@
 #include "ChatDisplay.hpp"
 #include "Natives.hpp"
 #include "ControllerInputs.hpp"
-#include "core/frontend/manager/styles/Themes.hpp"
+#include "Themes.hpp"
 
 namespace YimMenu
 {
