@@ -2,7 +2,7 @@
 #include "Command.hpp"
 #include "BoolCommand.hpp"
 #include "LoopedCommand.hpp"
-#include "core/backend/ScriptMgr.hpp"
+#include "ScriptMgr.hpp"
 
 namespace YimMenu
 {

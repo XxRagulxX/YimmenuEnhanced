@@ -1,5 +1,5 @@
 #pragma once
-#include "core/memory/PatternHash.hpp"
+#include "PatternHash.hpp"
 
 namespace YimMenu
 {

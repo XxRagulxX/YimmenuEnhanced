@@ -1,9 +1,9 @@
 #include "HotkeySystem.hpp"
-#include "core/backend/FiberPool.hpp"
-#include "core/backend/ScriptMgr.hpp"
+#include "FiberPool.hpp"
+#include "ScriptMgr.hpp"
 #include "Commands.hpp"
 #include "Command.hpp"
-#include "core/util/Joaat.hpp"
+#include "Joaat.hpp"
 
 // TODO: serialization isn't stable
 

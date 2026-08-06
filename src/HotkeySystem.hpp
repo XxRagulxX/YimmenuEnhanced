@@ -1,5 +1,5 @@
 #pragma once
-#include "core/settings/IStateSerializer.hpp"
+#include "IStateSerializer.hpp"
 
 namespace YimMenu
 {

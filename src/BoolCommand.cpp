@@ -1,5 +1,5 @@
 #include "BoolCommand.hpp"
-#include "core/backend/FiberPool.hpp"
+#include "FiberPool.hpp"
 #include "Commands.hpp"
 
 namespace YimMenu

@@ -1,5 +1,5 @@
 #pragma once
-#include <AsyncLogger/Logger.hpp>
+#include <Logger.hpp>
 #include <MinHook.h>
 #include <windows.h>
 #include <atomic>

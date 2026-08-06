@@ -1,5 +1,5 @@
 #include "ScriptMgr.hpp"
-#include "core/scripting/LuaManager.hpp"
+#include "LuaManager.hpp"
 
 namespace YimMenu
 {

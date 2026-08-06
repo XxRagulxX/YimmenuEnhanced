@@ -1,6 +1,6 @@
 #pragma once
-#include "core/util/Joaat.hpp"
-#include "core/settings/IStateSerializer.hpp"
+#include "Joaat.hpp"
+#include "IStateSerializer.hpp"
 
 namespace YimMenu
 {

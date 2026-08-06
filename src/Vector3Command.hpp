@@ -1,5 +1,5 @@
 #pragma once
-#include "types/rage/vector.hpp"
+#include "vector.hpp"
 #include "Command.hpp"
 
 namespace YimMenu
