@@ -1,5 +1,6 @@
+#include "LibEntity.hpp"
 #include "LuaLibrary.hpp"
-#include "LuaUtils.hpp"
+#include "LuaMainUtils.hpp"
 #include "LatentFunction.hpp"
 #include "Ped.hpp"
 #include "Entity.hpp"

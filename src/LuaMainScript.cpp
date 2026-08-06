@@ -1,4 +1,4 @@
-#include "LuaScript.hpp"
+#include "LuaMainScript.hpp"
 #include "LuaManager.hpp"
 
 namespace YimMenu

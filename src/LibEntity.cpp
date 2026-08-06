@@ -1,8 +1,8 @@
 #include "LuaLibrary.hpp"
-#include "LuaUtils.hpp"
+#include "LuaMainUtils.hpp"
 #include "LatentFunction.hpp"
 #include "Entity.hpp"
-#include "Entity.hpp"
+#include "LibEntity.hpp"
 
 namespace YimMenu::Lua
 {

@@ -1,4 +1,4 @@
-#include "OpenGunLocker.hpp"
+#include "CommandOpenGunLocker.hpp"
 #include "Command.hpp"
 #include "ScriptMgr.hpp"
 #include "Notifications.hpp"

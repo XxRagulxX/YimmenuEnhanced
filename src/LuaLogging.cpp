@@ -1,6 +1,6 @@
 #include "LuaLibrary.hpp"
-#include "LuaScript.hpp"
-#include "LuaUtils.hpp"
+#include "LuaMainScript.hpp"
+#include "LuaMainUtils.hpp"
 
 namespace YimMenu::Lua
 {

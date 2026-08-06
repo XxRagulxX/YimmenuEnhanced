@@ -6,7 +6,7 @@
 #include "Ped.hpp"
 #include "Natives.hpp"
 #include "PedCombatAttribute.hpp"
-#include "Weapons.hpp"
+#include "WeaponsHashes.hpp"
 #include "Scripts.hpp"
 #include "NativeHooks.hpp"
 #include "Items.hpp"

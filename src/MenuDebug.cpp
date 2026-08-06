@@ -1,8 +1,8 @@
-#include "Debug.hpp"
+#include "MenuDebug.hpp"
 #include "Misc.hpp"
 #include "Globals.hpp"
 #include "Locals.hpp"
-#include "Scripts.hpp"
+#include "MenuScripts.hpp"
 
 namespace YimMenu::Submenus
 {

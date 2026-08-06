@@ -5,7 +5,7 @@
 #include "Troll.hpp"
 #include "Kick.hpp"
 #include "imgui_colors.h"
-#include "Players.hpp"
+#include "MenuPlayers.hpp"
 #include "Items.hpp"
 
 namespace YimMenu::Submenus

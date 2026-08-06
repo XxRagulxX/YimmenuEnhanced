@@ -1,9 +1,9 @@
-#include "Network.hpp"
+#include "MenuNetwork.hpp"
 #include "FiberPool.hpp"
 #include "Notifications.hpp"
 #include "Items.hpp"
-#include "SavedPlayers.hpp"
-#include "RandomEvents.hpp"
+#include "MenuSavedPlayers.hpp"
+#include "MenuRandomEvents.hpp"
 #include "Network.hpp"
 
 namespace YimMenu::Submenus

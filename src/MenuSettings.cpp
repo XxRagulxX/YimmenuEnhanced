@@ -1,4 +1,4 @@
-#include "Settings.hpp"
+#include "MenuSettings.hpp"
 #include "Commands.hpp"
 #include "HotkeySystem.hpp"
 #include "Command.hpp"

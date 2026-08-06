@@ -1,5 +1,5 @@
-#include "AutoDriveShared.hpp"
-#include "AutoDriveHudTelemetry.hpp"
+#include "CommandAutoDriveShared.hpp"
+#include "CommandAutoDriveHudTelemetry.hpp"
 
 #include "BoolCommand.hpp"
 #include "Commands.hpp"

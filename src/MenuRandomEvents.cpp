@@ -5,7 +5,7 @@
 #include "Self.hpp"
 #include "Tunables.hpp"
 #include "ScriptPatches.hpp"
-#include "RandomEvents.hpp"
+#include "MenuRandomEvents.hpp"
 #include "Scripts.hpp"
 #include "ScriptFunction.hpp"
 #include "GPBD_FM_2.hpp"

@@ -1,4 +1,4 @@
-#include "Self.hpp"
+#include "MenuSelf.hpp"
 #include "Joaat.hpp"
 #include "Items.hpp"
 #include "OutfitEditor.hpp"

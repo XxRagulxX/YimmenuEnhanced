@@ -1,6 +1,6 @@
 #pragma once
 #include "types.hpp"
-#include "globals/LauncherServerData.hpp"
+#include "LauncherServerData.hpp"
 #include "scrThread.hpp"
 
 struct LauncherClientDataEntry

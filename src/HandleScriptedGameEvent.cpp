@@ -5,7 +5,7 @@
 #include "GlobalPlayerBD.hpp"
 #include "ScriptEvent.hpp"
 #include "LuaManager.hpp"
-#include "LuaUtils.hpp"
+#include "LuaMainUtils.hpp"
 #include "Joaat.hpp"
 
 namespace YimMenu::Hooks

@@ -9,10 +9,10 @@
 #include "PlayerCommand.hpp"
 #include "LuaCommands.hpp"
 #include "LuaLibrary.hpp"
-#include "LuaScript.hpp"
+#include "LuaMainScript.hpp"
 #include "LuaUserInterface.hpp"
-#include "LuaUtils.hpp"
-#include "oaat.hpp"
+#include "LuaMainUtils.hpp"
+#include "Joaat.hpp"
 #include "Items.hpp"
 #include "LuaCommandHandle.hpp"
 

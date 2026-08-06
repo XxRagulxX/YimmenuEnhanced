@@ -1,10 +1,10 @@
-#include "Vehicle.hpp"
+#include "MenuVehicle.hpp"
 #include "BoolCommand.hpp"
 #include "Commands.hpp"
 #include "Items.hpp"
 #include "SpawnVehicle.hpp"
-#include "Vehicle/VehicleEditor.hpp"
-#include "Vehicle/SavedVehicles.hpp"
+#include "VehicleEditor.hpp"
+#include "SavedVehicles.hpp"
 
 namespace YimMenu::Submenus
 {

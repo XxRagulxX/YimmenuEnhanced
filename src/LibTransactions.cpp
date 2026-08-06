@@ -1,6 +1,6 @@
 #include "LuaLibrary.hpp"
 #include <unordered_set>
-#include "LuaUtils.hpp"
+#include "LuaMainUtils.hpp"
 #include "LatentFunction.hpp"
 #include "ScriptMgr.hpp"
 #include "Pointers.hpp"

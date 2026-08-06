@@ -1,5 +1,5 @@
 #include "LuaCommands.hpp"
-#include "LuaScript.hpp"
+#include "LuaMainScript.hpp"
 #include "LuaUserInterface.hpp"
 #include "Commands.hpp"
 

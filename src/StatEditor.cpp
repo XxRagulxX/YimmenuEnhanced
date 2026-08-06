@@ -2,7 +2,7 @@
 #include "FiberPool.hpp"
 #include "Pointers.hpp"
 #include "Natives.hpp"
-#include "types/stats/CStatsMgr.hpp"
+#include "CStatsMgr.hpp"
 #include "Items.hpp"
 
 namespace YimMenu::Submenus

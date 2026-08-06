@@ -1,7 +1,7 @@
 #include "Items.hpp"
 #include "Commands.hpp"
 #include "Vector3Command.hpp"
-#include "SavedLocations.hpp"
+#include "CommandSavedLocations.hpp"
 #include "Self.hpp"
 #include "Pointers.hpp"
 

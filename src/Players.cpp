@@ -1,6 +1,6 @@
 #include "Players.hpp"
 #include "LuaManager.hpp"
-#include "SavedPlayers.hpp"
+#include "CommandSavedPlayers.hpp"
 #include "Pointers.hpp"
 #include "CNetGamePlayer.hpp"
 #include "CNetworkPlayerMgr.hpp"

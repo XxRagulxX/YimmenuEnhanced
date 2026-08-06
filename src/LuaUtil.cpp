@@ -1,5 +1,5 @@
 #include "LuaLibrary.hpp"
-#include "LuaUtils.hpp"
+#include "LuaMainUtils.hpp"
 #include "Joaat.hpp"
 
 #include <chrono>

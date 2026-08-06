@@ -3,9 +3,9 @@
 #include "PatternScanner.hpp"
 #include "PointerCalculator.hpp"
 #include "LuaLibrary.hpp"
-#include "LuaScript.hpp"
+#include "LuaMainScript.hpp"
 #include "LuaUserInterface.hpp"
-#include "LuaUtils.hpp"
+#include "LuaMainUtils.hpp"
 #include "Joaat.hpp"
 #include "Pointers.hpp"
 

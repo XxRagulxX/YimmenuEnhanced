@@ -1,7 +1,7 @@
-#include "Teleport.hpp"
+#include "MenuTeleport.hpp"
 #include "Notifications.hpp"
 #include "FiberPool.hpp"
-#include "SavedLocations.hpp"
+#include "CommandSavedLocations.hpp"
 #include "Self.hpp"
 #include "Items.hpp"
 

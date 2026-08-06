@@ -1,5 +1,5 @@
 #pragma once
-#include "LuaScript.hpp"
+#include "LuaMainScript.hpp"
 #include "LuaLibrary.hpp"
 #include "LuaResource.hpp"
 

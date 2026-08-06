@@ -1,5 +1,5 @@
 #include "LatentFunction.hpp"
-#include "LuaScript.hpp"
+#include "LuaMainScript.hpp"
 
 namespace YimMenu::Lua
 {

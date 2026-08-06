@@ -1,6 +1,6 @@
 #include "Scripts.hpp"
 #include "StackSizes.hpp"
-#include "Scripts.hpp"
+#include "MenuScripts.hpp"
 #include "scrProgram.hpp"
 #include "Items.hpp"
 #include "FiberPool.hpp"

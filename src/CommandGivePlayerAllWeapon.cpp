@@ -1,5 +1,5 @@
 #include "PlayerCommand.hpp"
-#include "Weapons.hpp"
+#include "WeaponsHashes.hpp"
 
 
 namespace YimMenu::Features

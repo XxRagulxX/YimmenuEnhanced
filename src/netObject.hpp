@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rage/RTTI.hpp"
+#include "RTTI.hpp"
 #include <cstdint>
 
 class CDynamicEntity;
