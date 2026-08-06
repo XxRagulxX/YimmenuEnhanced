@@ -1,5 +1,5 @@
 #pragma once
-#include "core/memory/PointerCalculator.hpp"
+#include "PointerCalculator.hpp"
 
 namespace YimMenu
 {

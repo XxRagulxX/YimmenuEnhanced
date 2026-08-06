@@ -2,8 +2,8 @@
 
 #include "BaseHook.hpp"
 #include "DetourHook.hpp"
-#include "game/hooks/Hooks.hpp"
-#include "game/pointers/Pointers.hpp"
+#include "Hooks.hpp"
+#include "Pointers.hpp"
 
 namespace YimMenu
 {
