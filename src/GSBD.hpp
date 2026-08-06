@@ -1,5 +1,5 @@
 #pragma once
-#include "../types.hpp"
+#include "types.hpp"
 #include "GlobalPlayerBD.hpp"
 
 struct IMPOUND_VEHICLE_INFO

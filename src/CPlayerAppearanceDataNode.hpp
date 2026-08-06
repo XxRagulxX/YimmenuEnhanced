@@ -1,5 +1,5 @@
 #pragma once
-#include "../CPedComponents.hpp"
+#include "CPedComponents.hpp"
 #include "CProjectBaseSyncDataNode.hpp"
 
 class CPlayerAppearanceDataNode : CSyncDataNodeInfrequent

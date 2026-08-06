@@ -1,5 +1,5 @@
 #pragma once
-#include "../types.hpp"
+#include "types.hpp"
 
 // this is why your apartment generally takes years to load
 struct GSBD_PropertyInstances

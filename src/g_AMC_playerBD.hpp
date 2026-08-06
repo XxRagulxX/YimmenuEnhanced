@@ -1,6 +1,6 @@
 #pragma once
-#include "../Timer.hpp"
-#include "../types.hpp"
+#include "Timer.hpp"
+#include "types.hpp"
 
 struct g_AMC_playerBD_Entry
 {

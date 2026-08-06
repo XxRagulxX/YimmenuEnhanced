@@ -1,7 +1,7 @@
 #pragma once
-#include "../MPScriptData.hpp"
-#include "../Timer.hpp"
-#include "../types.hpp"
+#include "MPScriptData.hpp"
+#include "Timer.hpp"
+#include "types.hpp"
 
 enum class eMissionDataFlags
 {

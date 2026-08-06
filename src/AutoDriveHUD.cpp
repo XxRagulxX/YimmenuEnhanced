@@ -1,6 +1,6 @@
 #include "AutoDriveHUD.hpp"
 
-#include "AutoDriveHudTelemetry.hpp"
+#include "CommandAutoDriveHudTelemetry.hpp"
 
 #include <algorithm>
 #include <chrono>

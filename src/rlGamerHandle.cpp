@@ -1,4 +1,4 @@
-#include "../rage/datBitBuffer.hpp"
+#include "rage/datBitBuffer.hpp"
 #include "rlGamerHandle.hpp"
 
 namespace rage

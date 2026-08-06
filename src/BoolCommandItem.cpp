@@ -1,7 +1,7 @@
 #include "Items.hpp"
 #include "BoolCommand.hpp"
 #include "Commands.hpp"
-#include "core/frontend/widgets/toggle/imgui_toggle.hpp"
+#include "imgui_toggle.hpp"
 
 namespace YimMenu
 {

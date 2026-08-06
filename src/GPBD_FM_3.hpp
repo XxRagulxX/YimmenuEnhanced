@@ -1,8 +1,8 @@
 #pragma once
-#include "../HudColor.hpp"
-#include "../MPScriptData.hpp"
-#include "../Timer.hpp"
-#include "../types.hpp"
+#include "HudColor.hpp"
+#include "MPScriptData.hpp"
+#include "Timer.hpp"
+#include "types.hpp"
 
 enum class eActivityType
 {

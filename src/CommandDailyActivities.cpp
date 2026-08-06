@@ -1,4 +1,4 @@
-#include "DailyActivities.hpp"
+#include "CommmandDailyActivities.hpp"
 #include "ListCommand.hpp"
 #include "BoolCommand.hpp"
 #include "ScriptMgr.hpp"

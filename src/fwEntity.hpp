@@ -1,9 +1,9 @@
 #pragma once
 
 
-#include "../rage/RTTI.hpp"
-#include "../rage/fwExtensibleBase.hpp"
-#include "../rage/vector.hpp"
+#include "RTTI.hpp"
+#include "fwExtensibleBase.hpp"
+#include "vector.hpp"
 
 #include <cstdint>
 

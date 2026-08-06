@@ -1,4 +1,4 @@
-#include "AutoDriveHudTelemetry.hpp"
+#include "CommandAutoDriveHudTelemetry.hpp"
 
 #include "BoolCommand.hpp"
 #include "Joaat.hpp"

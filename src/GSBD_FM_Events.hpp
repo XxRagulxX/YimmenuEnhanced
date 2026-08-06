@@ -1,5 +1,5 @@
 #pragma once
-#include "../types.hpp"
+#include "types.hpp"
 
 // TODO
 struct GSBD_FM_Events
