@@ -82,7 +82,7 @@ namespace YimMenu::Features
 
 		virtual void OnCall() override
 		{
-			FiberPool::Push([] {
+			FiberPool::queueJob([] {
 				if (*ScriptGlobal(2655288).As<int*>() == -1)
 				{
 					Notifications::Show("Hangar Resupply", "Session not ready. Try again in a moment.", NotificationType::Error);
@@ -112,7 +112,7 @@ namespace YimMenu::Features
 
 		virtual void OnCall() override
 		{
-			FiberPool::Push([] {
+			FiberPool::queueJob([] {
 				if (*ScriptGlobal(2655288).As<int*>() == -1)
 				{
 					Notifications::Show("Warehouse Resupply", "Session not ready. Try again in a moment.", NotificationType::Error);

@@ -34,7 +34,7 @@ namespace YimMenu::Features
 			{
 				if (PAD::IS_DISABLED_CONTROL_JUST_RELEASED(0, (int)ControllerInputs::INPUT_ATTACK))
 				{
-					FiberPool::Push([=]() mutable {
+					FiberPool::queueJob([=]() mutable {
 						if (RayCast(&m_Entity).Cast())
 						{
 							if (m_Entity.IsPed())
@@ -123,7 +123,7 @@ namespace YimMenu::Features
 				}
 			};
 
-			FiberPool::Push([=]() mutable {
+			FiberPool::queueJob([=]() mutable {
 				if (PAD::IS_DISABLED_CONTROL_PRESSED(0, (int)ControllerInputs::INPUT_AIM))
 				{
 					location = Self::GetPed().GetPosition();
@@ -271,7 +271,7 @@ namespace YimMenu::Features
 					{
 						Vector3 location = CAMERA::GET_GAMEPLAY_CAM_COORD();
 
-						FiberPool::Push([location, modelHash]() {
+						FiberPool::queueJob([location, modelHash]() {
 							constexpr int rotation_order = 2;
 							auto rot = CAMERA::GET_GAMEPLAY_CAM_ROT(rotation_order);
 

@@ -151,7 +151,7 @@ namespace YimMenu::Submenus
 
 			if (ImGui::Button("Join"))
 			{
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					Network::JoinRockstarId(g_SelectedRid);
 				});
 			}
@@ -186,7 +186,7 @@ namespace YimMenu::Submenus
 		ImGui::InputText("Username", name_buf, sizeof(name_buf));
 		ImGui::SameLine();
 		if (ImGui::Button("Add"))
-			FiberPool::Push([] {
+			FiberPool::queueJob([] {
 				auto rid = YimMenu::Network::ResolveRockstarId(name_buf);
 				if (rid)
 				{

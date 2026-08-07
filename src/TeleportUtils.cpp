@@ -66,7 +66,7 @@ namespace YimMenu::Features::TeleportHelpers
 		if (!IsValidCoordinate(place.position))
 			return;
 
-		FiberPool::Push([place] {
+		FiberPool::queueJob([place] {
 			PerformTeleport(place);
 		});
 	}

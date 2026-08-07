@@ -36,7 +36,7 @@ namespace YimMenu::Submenus
 			ImGui::InputText("Username", name_buf, sizeof(name_buf));
 			ImGui::SameLine();
 			if (ImGui::Button("Join##username"))
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					auto rid = YimMenu::Network::ResolveRockstarId(name_buf);
 					if (rid)
 					{
@@ -52,7 +52,7 @@ namespace YimMenu::Submenus
 			ImGui::InputScalar("Rockstar Id", ImGuiDataType_U64, &rockstar_id);
 			ImGui::SameLine();
 			if (ImGui::Button("Join##rid"))
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					YimMenu::Network::JoinRockstarId(rockstar_id);
 				});
 		}));

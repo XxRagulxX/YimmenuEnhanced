@@ -32,7 +32,7 @@ namespace YimMenu
 
 	void FloatCommand::SetState(float state)
 	{
-		FiberPool::Push([this] {
+		FiberPool::queueJob([this] {
 			OnChange();
 		});
 		m_State = state;

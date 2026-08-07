@@ -110,7 +110,7 @@ namespace YimMenu
 		{
 			ImGui::Spacing();
 			if (ImGui::Selectable(notification.m_ContextFuncName.c_str()))
-				FiberPool::Push([notification] {
+				FiberPool::queueJob([notification] {
 					notification.m_ContextFunc();
 				});
 		}
@@ -189,7 +189,7 @@ namespace YimMenu
 		if (title.empty() || message.empty())
 			return;
 
-		FiberPool::Push([=] {
+		FiberPool::queueJob([=] {
 			constexpr int TIMEOUT_FRAMES = 300;
 			constexpr int FEED_ICON_TYPE = 1;
 

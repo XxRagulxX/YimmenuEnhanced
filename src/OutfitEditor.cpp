@@ -53,7 +53,7 @@ namespace YimMenu
 				if (ImGui::InputInt(std::format("{} [0,{}]##1", item.label, item.drawable_id_max).c_str(), &item.drawable_id))
 				{
 					Outfit::OutfitEditor::CheckBoundsDrawable(item, 0);
-					FiberPool::Push([id = t.first, item, this] {
+					FiberPool::queueJob([id = t.first, item, this] {
 						PED::SET_PED_COMPONENT_VARIATION(Self::GetPed().GetHandle(), id, item.drawable_id, 0, PED::GET_PED_PALETTE_VARIATION(Self::GetPed().GetHandle(), id));
 						RefreshStats();
 					});
@@ -72,7 +72,7 @@ namespace YimMenu
 				if (ImGui::InputInt(std::format("{} TEX [0,{}]##2", item.label, item.texture_id_max).c_str(), &item.texture_id))
 				{
 					Outfit::OutfitEditor::CheckBoundsTexture(item, 0);
-					FiberPool::Push([id = t.first, item, this] {
+					FiberPool::queueJob([id = t.first, item, this] {
 						PED::SET_PED_COMPONENT_VARIATION(Self::GetPed().GetHandle(), id, item.drawable_id, item.texture_id, PED::GET_PED_PALETTE_VARIATION(Self::GetPed().GetHandle(), id));
 						RefreshStats();
 					});
@@ -90,7 +90,7 @@ namespace YimMenu
 				if (ImGui::InputInt(std::format("{} [0,{}]##3", item.label, item.drawable_id_max).c_str(), &item.drawable_id))
 				{
 					Outfit::OutfitEditor::CheckBoundsDrawable(item, -1);
-					FiberPool::Push([id = t.first, item, this] {
+					FiberPool::queueJob([id = t.first, item, this] {
 						if (item.drawable_id == -1)
 							PED::CLEAR_PED_PROP(Self::GetPed().GetHandle(), id, 1);
 						else
@@ -110,7 +110,7 @@ namespace YimMenu
 				if (ImGui::InputInt(std::format("{} TEX [0,{}]##4", item.label, item.texture_id_max).c_str(), &item.texture_id))
 				{
 					Outfit::OutfitEditor::CheckBoundsTexture(item, -1);
-					FiberPool::Push([id = t.first, item, this] {
+					FiberPool::queueJob([id = t.first, item, this] {
 						PED::SET_PED_PROP_INDEX(Self::GetPed().GetHandle(), id, item.drawable_id, item.texture_id, TRUE, 0);
 						RefreshStats();
 					});
@@ -129,7 +129,7 @@ namespace YimMenu
 					if (ImGui::Selectable("Root", folder == ""))
 					{
 						folder.clear();
-						FiberPool::Push([this] {
+						FiberPool::queueJob([this] {
 							Outfit::OutfitEditor::RefreshList(folder, folders, files);
 						});
 					}
@@ -138,7 +138,7 @@ namespace YimMenu
 						if (ImGui::Selectable(folderName.c_str(), folder == folderName))
 						{
 							folder = folderName;
-							FiberPool::Push([this] {
+							FiberPool::queueJob([this] {
 								Outfit::OutfitEditor::RefreshList(folder, folders, files);
 							});
 						}
@@ -173,7 +173,7 @@ namespace YimMenu
 		void RenderSaveButton(bool saveToNewFolder)
 		{
 			if (ImGui::Button("Save Outfit"))
-				FiberPool::Push([saveToNewFolder, this] {
+				FiberPool::queueJob([saveToNewFolder, this] {
 					std::string fileName = TrimString(outfitName);
 					strcpy(outfitName, "");
 
@@ -200,7 +200,7 @@ namespace YimMenu
 			ImGui::BeginGroup();
 			{
 				if (ImGui::Button("Refresh list"))
-					FiberPool::Push([this] {
+					FiberPool::queueJob([this] {
 						Outfit::OutfitEditor::RefreshList(folder, folders, files);
 					});
 				ImGui::Spacing();
@@ -208,7 +208,7 @@ namespace YimMenu
 				ImGui::Checkbox("Apply hair", &applyHair);
 				ImGui::Spacing();
 				if (ImGui::Button("Apply Selected Outfit"))
-					FiberPool::Push([this] {
+					FiberPool::queueJob([this] {
 						Outfit::OutfitEditor::ApplyOutfitFromJson(folder, file, applyHair);
 						applyHair = false; // reset everytime
 						RefreshStats();
@@ -244,12 +244,12 @@ namespace YimMenu
 
 		category->AddItem(std::make_shared<ImGuiItem>([] {
 			if (ImGui::Button("Refresh Stats"))
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					editor.RefreshStats();
 				});
 			ImGui::SameLine();
 			if (ImGui::Button("Randomize Outfit"))
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					Self::GetPed().RandomizeOutfit2();
 				});
 

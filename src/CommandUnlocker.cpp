@@ -185,7 +185,7 @@ namespace YimMenu::Features
 
 		virtual void OnCall() override
 		{
-			FiberPool::Push([] {
+			FiberPool::queueJob([] {
 				const int research[] = {
 				    15381,
 				    15382,
@@ -3515,7 +3515,7 @@ namespace YimMenu::Features
 
 		virtual void OnCall() override
 		{
-			FiberPool::Push([] {
+			FiberPool::queueJob([] {
 				bool isOnline =
 				    NETWORK::NETWORK_IS_SESSION_STARTED() && !NETWORK::NETWORK_IS_IN_TRANSITION() && !STREAMING::IS_PLAYER_SWITCH_IN_PROGRESS();
 
@@ -4205,7 +4205,7 @@ namespace YimMenu::Features
 
 		virtual void OnCall() override
 		{
-			FiberPool::Push([] {
+			FiberPool::queueJob([] {
 				bool isOnline =
 				    NETWORK::NETWORK_IS_SESSION_STARTED() && !NETWORK::NETWORK_IS_IN_TRANSITION() && !STREAMING::IS_PLAYER_SWITCH_IN_PROGRESS();
 
@@ -4241,7 +4241,7 @@ namespace YimMenu::Features
 
 		virtual void OnTick() override
 		{
-			FiberPool::Push([] {
+			FiberPool::queueJob([] {
 				bool isOnline = NETWORK::NETWORK_IS_SESSION_STARTED() && !NETWORK::NETWORK_IS_IN_TRANSITION() && !STREAMING::IS_PLAYER_SWITCH_IN_PROGRESS();
 
 				if (!isOnline)
@@ -4305,7 +4305,7 @@ namespace YimMenu::Features
 
 		virtual void OnTick() override
 		{
-			FiberPool::Push([] {
+			FiberPool::queueJob([] {
 				bool isOnline = NETWORK::NETWORK_IS_SESSION_STARTED() && !NETWORK::NETWORK_IS_IN_TRANSITION() && !STREAMING::IS_PLAYER_SWITCH_IN_PROGRESS();
 
 				if (!isOnline)
@@ -4352,7 +4352,7 @@ namespace YimMenu::Features
 
 		virtual void OnTick() override
 		{
-			FiberPool::Push([] {
+			FiberPool::queueJob([] {
 				bool isOnline = NETWORK::NETWORK_IS_SESSION_STARTED() && !NETWORK::NETWORK_IS_IN_TRANSITION() && !STREAMING::IS_PLAYER_SWITCH_IN_PROGRESS();
 
 				if (!isOnline)

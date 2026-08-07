@@ -38,7 +38,7 @@ namespace YimMenu
 
 	void Vector3Command::SetState(const rage::fvector3& state)
 	{
-		FiberPool::Push([this] {
+		FiberPool::queueJob([this] {
 			OnChange();
 		});
 		m_State = state;

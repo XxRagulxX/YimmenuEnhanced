@@ -76,7 +76,7 @@ namespace YimMenu::Features
 			if (HUD::IS_WAYPOINT_ACTIVE())
 			{
 				auto coords = HUD::GET_BLIP_COORDS(HUD::GET_CLOSEST_BLIP_INFO_ID(HUD::GET_WAYPOINT_BLIP_ENUM_ID()));
-				FiberPool::Push([coords] {
+				FiberPool::queueJob([coords] {
 					auto new_coords{coords};
 					ResolveZCoordinate(new_coords);
 					Self::GetPed().TeleportTo(new_coords);

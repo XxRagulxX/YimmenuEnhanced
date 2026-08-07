@@ -129,7 +129,7 @@ namespace YimMenu
 
 		auto num_slots_copy = num_slots;
 		auto available_slots_copy = available_slots;
-		FiberPool::Push([this, num_slots_copy, available_slots_copy, info, attrs, id, status] {
+		FiberPool::queueJob([this, num_slots_copy, available_slots_copy, info, attrs, id, status] {
 			rage::rlTaskStatus first_advert_status;
 			if (!BaseHook::Get<Hooks::Matchmaking::MatchmakingAdvertise, DetourHook<decltype(&Hooks::Matchmaking::MatchmakingAdvertise)>>()->Original()(0, num_slots_copy, available_slots_copy, attrs, -1, info, id, &first_advert_status))
 			{
@@ -155,7 +155,7 @@ namespace YimMenu
 			// create the multiplexed sessions
 			for (int i = 0; i < Features::_MultiplexCount.GetState() - 1; i++)
 			{
-				FiberPool::Push([this, num_slots_copy, available_slots_copy, info, attrs, status, id_hash, i] {
+				FiberPool::queueJob([this, num_slots_copy, available_slots_copy, info, attrs, status, id_hash, i] {
 					rage::rlTaskStatus additional_advert_status;
 					MatchmakingId additional_id;
 
@@ -197,7 +197,7 @@ namespace YimMenu
 			{
 				auto num_slots_copy = num_slots;
 				auto available_slots_copy = available_slots;
-				FiberPool::Push([session, num_slots_copy, available_slots_copy, info, attrs]() {
+				FiberPool::queueJob([session, num_slots_copy, available_slots_copy, info, attrs]() {
 					auto session_copy = session; // the compiler doesn't like it if I use session directly
 					BaseHook::Get<Hooks::Matchmaking::MatchmakingUpdate, DetourHook<decltype(&Hooks::Matchmaking::MatchmakingUpdate)>>()->Original()(0, &session_copy, num_slots_copy, available_slots_copy, info, attrs, nullptr); // life's too short to check the task result
 				});
@@ -214,7 +214,7 @@ namespace YimMenu
 		{
 			for (auto& session : it->second)
 			{
-				FiberPool::Push([session]() {
+				FiberPool::queueJob([session]() {
 					auto session_copy = session; // the compiler doesn't like it if I use session directly
 					BaseHook::Get<Hooks::Matchmaking::MatchmakingUnadvertise, DetourHook<decltype(&Hooks::Matchmaking::MatchmakingUnadvertise)>>()->Original()(0, &session_copy, nullptr);
 				});

@@ -35,14 +35,14 @@ namespace YimMenu
 	{
 		if (state && !m_State)
 		{
-			FiberPool::Push([this] {
+			FiberPool::queueJob([this] {
 				OnEnable();
 				m_Ready = true;
 			});
 		}
 		else if (!state && m_State)
 		{
-			FiberPool::Push([this] {
+			FiberPool::queueJob([this] {
 				OnDisable();
 				m_Ready = true;
 			});

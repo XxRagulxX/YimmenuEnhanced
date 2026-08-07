@@ -29,7 +29,7 @@ namespace YimMenu::Submenus
 
 		spawn->AddItem(std::make_unique<ImGuiItem>([] {
 			static bool init = [] {
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					std::unordered_map<std::string, int> nameCount;
 
 					for (auto& veh : g_VehicleHashes)
@@ -110,7 +110,7 @@ namespace YimMenu::Submenus
 							ImGui::PushID(hash);
 							if (ImGui::Selectable(name.c_str()))
 							{
-								FiberPool::Push([hash] {
+								FiberPool::queueJob([hash] {
 									auto handle = Vehicle::Create(hash, Vehicle::GetSpawnLocRelToPed(Self::GetPed().GetHandle(), hash), Self::GetPed().GetHeading());
 
 									if (spawnInsideVehicle.GetState())
@@ -201,7 +201,7 @@ namespace YimMenu::Submenus
 							ImGui::PushID(personalVeh->GetId());
 							if (ImGui::Selectable(label.c_str()))
 							{
-								FiberPool::Push([&personalVeh] {
+								FiberPool::queueJob([&personalVeh] {
 									if (spawnClonePersonalVehicle.GetState())
 									{
 										auto coords  = Vehicle::GetSpawnLocRelToPed(Self::GetPed().GetHandle(), personalVeh->GetModel());

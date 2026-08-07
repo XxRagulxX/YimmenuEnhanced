@@ -351,11 +351,11 @@ namespace YimMenu::Submenus
 			ImGui::SameLine();
 			ImGui::BeginDisabled(!can_edit);
 			if (ImGui::Button("Write"))
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					WriteStat(current_info.m_NameHash, value, current_info.m_Data);
 				});
 			if (ImGui::IsMouseClicked(ImGuiMouseButton_Right) && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					WriteStat(current_info.m_NameHash, value, current_info.m_Data);
 				});
 			if (!can_edit && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))
@@ -388,7 +388,7 @@ namespace YimMenu::Submenus
 				ReadPackedStat(value, current_info);
 			ImGui::SameLine();
 			if (ImGui::Button("Write##packed"))
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					WritePackedStat(value, current_info);
 				});
 		}));
@@ -408,7 +408,7 @@ namespace YimMenu::Submenus
 			ImGui::InputScalar("Value##packed_range", ImGuiDataType_U8, &value);
 			ImGui::SameLine();
 			if (ImGui::Button("Write##packed_range"))
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					WritePackedStatRange(start, end, value);
 				});
 		}));
@@ -420,7 +420,7 @@ namespace YimMenu::Submenus
 			if (ImGui::Button("Load from Clipboard"))
 			{
 				auto clip_text = std::string(ImGui::GetClipboardText());
-				FiberPool::Push([clip_text] {
+				FiberPool::queueJob([clip_text] {
 					for (auto line : clip_text | std::ranges::views::split('\n'))
 					{
 						auto components = TrimString(std::string_view{line.begin(), line.end()}) | std::ranges::views::split('=') | std::ranges::to<std::vector<std::string>>();

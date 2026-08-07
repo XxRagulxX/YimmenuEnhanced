@@ -58,7 +58,7 @@ namespace YimMenu
 	{
 		if (!AreColorsEqual(m_State, state))
 		{
-			FiberPool::Push([this] {
+			FiberPool::queueJob([this] {
 				OnChange();
 			});
 			m_State = state;

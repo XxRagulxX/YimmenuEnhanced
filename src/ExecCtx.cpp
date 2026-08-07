@@ -36,7 +36,7 @@ namespace YimMenu
 			// FiberPool::queueJob(std::move(f));
 
 			// Until then:
-			FiberPool::Push(std::move(f));
+			FiberPool::queueJob(std::move(f));
 		}
 	}
 

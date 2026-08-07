@@ -110,14 +110,14 @@ namespace YimMenu::Submenus
 					SavedPlayers::GetPlayerData(Players::GetSelected());
 				ImGui::SameLine();
 				if (ImGui::Button("View SC Profile"))
-					FiberPool::Push([] {
+					FiberPool::queueJob([] {
 						uint64_t handle[13];
 						NETWORK::NETWORK_HANDLE_FROM_PLAYER(Players::GetSelected().GetId(), handle, std::size(handle));
 						NETWORK::NETWORK_SHOW_PROFILE_UI(handle);
 					});
 				ImGui::SameLine();
 				if (ImGui::Button("Add Friend"))
-					FiberPool::Push([] {
+					FiberPool::queueJob([] {
 						uint64_t handle[13];
 						NETWORK::NETWORK_HANDLE_FROM_PLAYER(Players::GetSelected().GetId(), handle, std::size(handle));
 						NETWORK::NETWORK_ADD_FRIEND(handle, "");

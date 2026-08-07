@@ -195,7 +195,7 @@ namespace YimMenu::Submenus
 
 					if (ImGui::Selectable(randomEventNames[event], event == selectedEvent))
 					{
-						FiberPool::Push([event] {
+						FiberPool::queueJob([event] {
 							selectedEvent = (eRandomEvent)event;
 							OnComboChange();
 						});
@@ -222,7 +222,7 @@ namespace YimMenu::Submenus
 
 			if (ImGui::Button("Launch Event"))
 			{
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					if (GSBDRandomEvents->EventData[selectedEvent].State != eRandomEventState::ACTIVE)
 					{
 						SCRIPT_EVENT_REQUEST_RANDOM_EVENT eventData;
@@ -249,7 +249,7 @@ namespace YimMenu::Submenus
 
 			if (ImGui::Button("Kill Event"))
 			{
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					if (GSBDRandomEvents->EventData[selectedEvent].State == eRandomEventState::AVAILABLE)
 					{
 						GSBDRandomEvents->EventData[selectedEvent].State = eRandomEventState::CLEANUP;
@@ -269,7 +269,7 @@ namespace YimMenu::Submenus
 
 			if (ImGui::Button("Teleport to Event"))
 			{
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					if (GSBDRandomEvents->EventData[selectedEvent].State >= eRandomEventState::AVAILABLE)
 					{
 						if (auto coords = GSBDRandomEvents->EventData[selectedEvent].TriggerPosition)
@@ -302,7 +302,7 @@ namespace YimMenu::Submenus
 						ImGui::BeginDisabled(netComponent->IsLocalPlayerHost());
 						if (ImGui::SmallButton("Take Control"))
 						{
-							FiberPool::Push([eventThread] {
+							FiberPool::queueJob([eventThread] {
 								Scripts::ForceScriptHost(eventThread);
 							});
 						}

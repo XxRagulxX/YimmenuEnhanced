@@ -1,51 +1,32 @@
 #include "FiberPool.hpp"
+
+#include <soup/AtomicDeque.hpp>
+
+#include "Script.hpp"
 #include "ScriptMgr.hpp"
 
 namespace YimMenu
 {
-	void FiberPool::InitImpl(int num_fibers)
+	static soup::AtomicDeque<std::function<void()>> g_JobQueue;
+
+	void FiberPool::queueJob(std::function<void()>&& func)
 	{
-		for (std::size_t i = 0; i < num_fibers; ++i)
+		g_JobQueue.emplace_front(std::move(func));
+	}
+
+	void FiberPool::onTick()
+	{
+		auto jobs = g_JobQueue.size();
+
+		while (jobs--)
 		{
-			//g_script_mgr.AddScript(std::make_unique<Script>(&ScriptEntry));
-			g_script_mgr.addScript(GetModuleHandle(nullptr), std::make_unique<Script>(&ScriptEntry));
-		}
-	}
+			g_script_mgr.addScript(
+			    GetModuleHandle(nullptr),
+			    std::make_unique<Script>([] {
+				    auto job = g_JobQueue.pop_back();
 
-	void FiberPool::DestroyImpl()
-	{
-		std::lock_guard lock(m_Mutex);
-
-		while (!m_Jobs.empty())
-			m_Jobs.pop();
-	}
-
-	void FiberPool::PushImpl(std::function<void()> callback)
-	{
-		std::lock_guard lock(m_Mutex);
-		m_Jobs.push(std::move(callback));
-	}
-
-	void FiberPool::Tick()
-	{
-		std::unique_lock lock(m_Mutex);
-
-		if (!m_Jobs.empty())
-		{
-			auto job = std::move(m_Jobs.top());
-			m_Jobs.pop();
-			lock.unlock();
-
-			std::invoke(std::move(job));
-		}
-	}
-
-	void FiberPool::ScriptEntry()
-	{
-		while (g_Running)
-		{
-			FiberPool::GetInstance().Tick();
-			Script::current()->yield();
+				    (*job)();
+			    }));
 		}
 	}
 }

@@ -423,7 +423,7 @@ namespace YimMenu::Features
 					auto heading = ped.GetHeading();
 					auto primary_target = Stats::GetInt("MPX_H4CNF_TARGET");
 
-					FiberPool::Push([&] {
+					FiberPool::queueJob([&] {
 						TASK::TASK_GO_STRAIGHT_TO_COORD(ped.GetHandle(), 5006.917, -5755.931, 15.484, 1.0, 3, 15, 5);
 
 						switch (primary_target)

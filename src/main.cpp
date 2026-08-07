@@ -76,8 +76,6 @@ namespace YimMenu
 		g_script_mgr.addScript(module, std::make_unique<Script>(&Self::RunScript));
 		g_script_mgr.addScript(module, std::make_unique<Script>(&GUI::RunScript));
 
-		FiberPool::Init(16);
-
 		g_script_mgr.addScript(module, std::make_unique<Script>(&LuaManager::RunScript));
 		g_script_mgr.addScript(module, std::make_unique<Script>(&HotkeySystem::RunScript));
 		g_script_mgr.addScript(module, std::make_unique<Script>(&Commands::RunScript));
@@ -104,7 +102,6 @@ namespace YimMenu
 		//ScriptMgr::Destroy();
 		g_script_mgr.deinit();
 		NativeHooks::Destroy();
-		FiberPool::Destroy();
 		Hooking::Destroy();
 		CallSiteHook::Destroy();
 

@@ -53,7 +53,7 @@
 
 		if (ImGui::Button("Save Current Location")) // Button widget still crashes
 		{
-			FiberPool::Push([=] {
+			FiberPool::queueJob([=] {
 				if (newLocationName.empty())
 				{
 					Notifications::Show("Custom Teleport", "Please enter a valid name", NotificationType::Warning);
@@ -137,7 +137,7 @@
 						{
 							if (ImGui::IsMouseDoubleClicked(0))
 							{
-								FiberPool::Push([l] {
+								FiberPool::queueJob([l] {
 									rage::fvector3 l_ = {l.x, l.y, l.z};
 									Self::GetPed().TeleportTo(l_);
 								});

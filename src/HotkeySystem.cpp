@@ -122,7 +122,7 @@ namespace YimMenu
 								command->Call();
 							else
 							{
-								FiberPool::Push([command] {
+								FiberPool::queueJob([command] {
 									command->Call();
 								});
 							}

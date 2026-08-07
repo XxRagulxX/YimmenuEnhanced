@@ -15,7 +15,7 @@ namespace YimMenu::Submenus
 		misc->AddItem(std::make_unique<ImGuiItem>([] {
 			if (ImGui::Button("Network Bail"))
 			{
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					NETWORK::NETWORK_BAIL(0, 24, 0);
 				});
 			}
@@ -28,7 +28,7 @@ namespace YimMenu::Submenus
 
 			if (ImGui::Button("DoTeleport"))
 			{
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					SCRIPT_EVENT_SEND_TO_INTERIOR message;
 					message.Interior = interiorIndex;
 					message.EnterOwnerInterior = enterOwnerInterior;
@@ -48,7 +48,7 @@ namespace YimMenu::Submenus
 			ImGui::InputInt("Team", &team);
 			if (ImGui::Button("fm_mission_controller DoTeamSwap"))
 			{
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					static ScriptFunction DoTeamSwap("fm_mission_controller"_J, ScriptPointer("DoTeamSwap", "2D 02 04 00 00 38 00 50"));
 					DoTeamSwap.Call<void>(team, true);
 				});

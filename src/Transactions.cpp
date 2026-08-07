@@ -182,7 +182,7 @@ namespace YimMenu::Submenus
 
 	static void ProcessTransaction(const TransactionInfo& info)
 	{
-		FiberPool::Push([&info] {
+		FiberPool::queueJob([&info] {
 			int txn_id{-1};
 			bool txn_failed{false};
 			CNetShopTransaction* txn{nullptr};
@@ -581,7 +581,7 @@ namespace YimMenu::Submenus
 
 			ImGui::BeginDisabled(!txn_valid);
 			if (ImGui::Button("Trigger"))
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					ProcessTransaction(info);
 				});
 			if (!txn_valid && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled))

@@ -194,7 +194,7 @@ namespace YimMenu::Submenus
 				ImGui::SameLine();
 				if (ImGui::Button("Log Labels"))
 				{
-					FiberPool::Push([] {
+					FiberPool::queueJob([] {
 						for (int i = 0; i < curProgram->m_StringsCount; i++)
 						{
 							if (auto str = curProgram->GetString(i))
@@ -220,7 +220,7 @@ namespace YimMenu::Submenus
 						ImGui::BeginDisabled(netComponent->IsLocalPlayerHost());
 						if (ImGui::SmallButton("Take Control"))
 						{
-							FiberPool::Push([] {
+							FiberPool::queueJob([] {
 								Scripts::ForceScriptHost(curThread);
 							});
 						}
@@ -337,7 +337,7 @@ namespace YimMenu::Submenus
 
 			if (ImGui::Button("Start Script"))
 			{
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					auto hash = Joaat(scriptSearch);
 
 					if (!SCRIPT::DOES_SCRIPT_WITH_NAME_HASH_EXIST(hash))
@@ -390,14 +390,14 @@ namespace YimMenu::Submenus
 				ImGui::SameLine();
 				if (ImGui::Button("Start Session Script"))
 				{
-					FiberPool::Push([] {
+					FiberPool::queueJob([] {
 						Scripts::StartLauncherScript(Joaat(scriptSearch));
 					});
 				}
 				ImGui::SameLine();
 				if (ImGui::Button("Start Script With Event"))
 				{
-					FiberPool::Push([] {
+					FiberPool::queueJob([] {
 						Scripts::ForceScriptOnPlayer(Joaat(scriptSearch), -1);
 					});
 				}

@@ -17,7 +17,7 @@ namespace YimMenu
 		{
 			if (m_OnClick != nullptr)
 			{
-				FiberPool::Push([&] {
+				FiberPool::queueJob([&] {
 					m_OnClick();
 				});
 			}

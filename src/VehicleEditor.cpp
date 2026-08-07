@@ -34,7 +34,7 @@ namespace YimMenu::Submenus
 
 			preparingVehicle = true;
 
-			FiberPool::Push([] {
+			FiberPool::queueJob([] {
 				currentVeh = Self::GetVehicle().GetHandle();
 				auto model = Self::GetVehicle().GetModel();
 				front_wheel_stock_mod = -1;
@@ -177,7 +177,7 @@ namespace YimMenu::Submenus
 				ImGui::Text("%s", vehName.c_str());
 				ImGui::SameLine();
 				if (ImGui::Button("Refresh Current Vehicle"))
-					FiberPool::Push([] {
+					FiberPool::queueJob([] {
 						currentVeh = -1;
 					});
 
@@ -187,12 +187,12 @@ namespace YimMenu::Submenus
 					ImGui::InputTextWithHint("##plate", "Plate Number", plate, sizeof(plate), ImGuiInputTextFlags_None);
 					ImGui::SameLine();
 					if (ImGui::Button("Change Plate"))
-						FiberPool::Push([] {
+						FiberPool::queueJob([] {
 							Self::GetVehicle().SetPlateText(plate);
 						});
 					ImGui::SameLine();
 					if (ImGui::Button("Max Vehicle"))
-						FiberPool::Push([] {
+						FiberPool::queueJob([] {
 							Self::GetVehicle().Upgrade();
 							currentVeh = -1;
 						});
@@ -200,25 +200,25 @@ namespace YimMenu::Submenus
 				ImGui::SeparatorText("Mod Options");
 				{
 					if (ImGui::Checkbox("Burstible tires", (bool*)&owned_mods[(int)CustomVehicleModType::MOD_TIRE_CAN_BURST]))
-						FiberPool::Push([] {
+						FiberPool::queueJob([] {
 							VEHICLE::SET_VEHICLE_TYRES_CAN_BURST(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_TIRE_CAN_BURST]);
 						});
 					ImGui::SameLine();
 					if (ImGui::Checkbox("Low Grip Tires", (bool*)&owned_mods[(int)CustomVehicleModType::MOD_DRIFT_TIRE]))
 
-						FiberPool::Push([] {
+						FiberPool::queueJob([] {
 							VEHICLE::SET_DRIFT_TYRES(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_DRIFT_TIRE]);
 						});
 					ImGui::SameLine();
 					if (ImGui::Checkbox("Turbo", (bool*)&owned_mods[(int)VehicleModType::MOD_TURBO]))
 
-						FiberPool::Push([] {
+						FiberPool::queueJob([] {
 							VEHICLE::TOGGLE_VEHICLE_MOD(currentVeh, (int)VehicleModType::MOD_TURBO, owned_mods[(int)VehicleModType::MOD_TURBO]);
 						});
 					ImGui::SameLine();
 					if (ImGui::Checkbox("Tire Smoke", (bool*)&owned_mods[(int)VehicleModType::MOD_TYRE_SMOKE]))
 
-						FiberPool::Push([] {
+						FiberPool::queueJob([] {
 							VEHICLE::TOGGLE_VEHICLE_MOD(currentVeh, (int)VehicleModType::MOD_TYRE_SMOKE, owned_mods[(int)VehicleModType::MOD_TYRE_SMOKE]);
 						});
 				}
@@ -273,7 +273,7 @@ namespace YimMenu::Submenus
 
 									if (ImGui::Selectable(name.c_str(), item_selected))
 									{
-										FiberPool::Push([&mod, is_wheel_mod, wheel_stock_mod, wheel_custom, name] {
+										FiberPool::queueJob([&mod, is_wheel_mod, wheel_stock_mod, wheel_custom, name] {
 											if (selected_slot >= 0)
 											{
 												VEHICLE::SET_VEHICLE_MOD(currentVeh, selected_slot, mod, 0);
@@ -333,7 +333,7 @@ namespace YimMenu::Submenus
 										if (!isBennys)
 										{
 											if (i == 0 && ImGui::Selectable("Stock", mod == owned_mods[selected_slot] && *wheel_custom == 0))
-												FiberPool::Push([&mod] {
+												FiberPool::queueJob([&mod] {
 													VEHICLE::SET_VEHICLE_MOD(currentVeh, selected_slot, mod, 0);
 													currentVeh = -1;
 												});
@@ -341,7 +341,7 @@ namespace YimMenu::Submenus
 										}
 
 										if (ImGui::Selectable(("Style " + std::to_string(mod)).c_str(), mod == owned_mods[selected_slot] && *wheel_custom == should_custom))
-											FiberPool::Push([&mod, should_custom] {
+											FiberPool::queueJob([&mod, should_custom] {
 												VEHICLE::SET_VEHICLE_MOD(currentVeh, selected_slot, mod, should_custom);
 												currentVeh = -1;
 											});
@@ -363,7 +363,7 @@ namespace YimMenu::Submenus
 							if (ImGui::Checkbox(std::format("{}###extra{}", id, id).c_str(), &is_extra_enabled))
 							{
 								owned_mods[extra] = is_extra_enabled;
-								FiberPool::Push([id, is_extra_enabled] {
+								FiberPool::queueJob([id, is_extra_enabled] {
 									VEHICLE::SET_VEHICLE_EXTRA(currentVeh, id, !is_extra_enabled);
 								});
 							}
@@ -375,28 +375,28 @@ namespace YimMenu::Submenus
 				{
 					ImGui::PushID("##headlight_en");
 					if (ImGui::Checkbox("Headlight", (bool*)&owned_mods[(int)VehicleModType::MOD_XENON_LIGHTS]))
-						FiberPool::Push([] {
+						FiberPool::queueJob([] {
 							VEHICLE::TOGGLE_VEHICLE_MOD(currentVeh, (int)VehicleModType::MOD_XENON_LIGHTS, owned_mods[(int)VehicleModType::MOD_XENON_LIGHTS]);
 						});
 					ImGui::PopID();
 					ImGui::SameLine();
 					if (ImGui::Checkbox("Left", (bool*)&owned_mods[(int)CustomVehicleModType::MOD_NEON_LEFT_ON]))
-						FiberPool::Push([] {
+						FiberPool::queueJob([] {
 							VEHICLE::SET_VEHICLE_NEON_ENABLED(currentVeh, (int)NeonLightLocations::NEON_LEFT, owned_mods[(int)CustomVehicleModType::MOD_NEON_LEFT_ON]);
 						});
 					ImGui::SameLine();
 					if (ImGui::Checkbox("Right", (bool*)&owned_mods[(int)CustomVehicleModType::MOD_NEON_RIGHT_ON]))
-						FiberPool::Push([] {
+						FiberPool::queueJob([] {
 							VEHICLE::SET_VEHICLE_NEON_ENABLED(currentVeh, (int)NeonLightLocations::NEON_RIGHT, owned_mods[(int)CustomVehicleModType::MOD_NEON_RIGHT_ON]);
 						});
 					ImGui::SameLine();
 					if (ImGui::Checkbox("Front", (bool*)&owned_mods[(int)CustomVehicleModType::MOD_NEON_FRONT_ON]))
-						FiberPool::Push([] {
+						FiberPool::queueJob([] {
 							VEHICLE::SET_VEHICLE_NEON_ENABLED(currentVeh, (int)NeonLightLocations::NEON_FRONT, owned_mods[(int)CustomVehicleModType::MOD_NEON_FRONT_ON]);
 						});
 					ImGui::SameLine();
 					if (ImGui::Checkbox("Back", (bool*)&owned_mods[(int)CustomVehicleModType::MOD_NEON_BACK_ON]))
-						FiberPool::Push([] {
+						FiberPool::queueJob([] {
 							VEHICLE::SET_VEHICLE_NEON_ENABLED(currentVeh, (int)NeonLightLocations::NEON_BACK, owned_mods[(int)CustomVehicleModType::MOD_NEON_BACK_ON]);
 						});
 				}
@@ -484,7 +484,7 @@ namespace YimMenu::Submenus
 								color_type = 9;
 
 							if (ImGui::Selectable("Remove Custom", false))
-								FiberPool::Push([] {
+								FiberPool::queueJob([] {
 									if (color_to_change == 0)
 										VEHICLE::CLEAR_VEHICLE_CUSTOM_PRIMARY_COLOUR(currentVeh);
 									else
@@ -559,7 +559,7 @@ namespace YimMenu::Submenus
 
 									if (ImGui::Selectable(name, false))
 									{
-										FiberPool::Push([&rgb] {
+										FiberPool::queueJob([&rgb] {
 											VEHICLE::SET_VEHICLE_TYRE_SMOKE_COLOR(currentVeh, rgb[0], rgb[1], rgb[2]);
 										});
 										*color_r = rgb[0];
@@ -583,7 +583,7 @@ namespace YimMenu::Submenus
 
 									if (ImGui::Selectable(name, false))
 									{
-										FiberPool::Push([&rgb] {
+										FiberPool::queueJob([&rgb] {
 											VEHICLE::SET_VEHICLE_NEON_COLOUR(currentVeh, rgb[0], rgb[1], rgb[2]);
 										});
 										*color_r = rgb[0];
@@ -604,7 +604,7 @@ namespace YimMenu::Submenus
 							*color_g = (int)(color[1] * 255);
 							*color_b = (int)(color[2] * 255);
 
-							FiberPool::Push([color_r, color_g, color_b] {
+							FiberPool::queueJob([color_r, color_g, color_b] {
 								switch (color_to_change)
 								{
 								case 0:
@@ -654,7 +654,7 @@ namespace YimMenu::Submenus
 										owned_mods[(int)CustomVehicleModType::MOD_PRIMARY_COL] = (int)VehicleColorsChrome::COLOR_CHROME;
 									else
 										owned_mods[(int)CustomVehicleModType::MOD_SECONDARY_COL] = (int)VehicleColorsChrome::COLOR_CHROME;
-									FiberPool::Push([] {
+									FiberPool::queueJob([] {
 										VEHICLE::SET_VEHICLE_COLOURS(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_PRIMARY_COL], owned_mods[(int)CustomVehicleModType::MOD_SECONDARY_COL]);
 									});
 								}
@@ -671,7 +671,7 @@ namespace YimMenu::Submenus
 											owned_mods[(int)CustomVehicleModType::MOD_PRIMARY_COL] = color;
 										else
 											owned_mods[(int)CustomVehicleModType::MOD_SECONDARY_COL] = color;
-										FiberPool::Push([] {
+										FiberPool::queueJob([] {
 											VEHICLE::SET_VEHICLE_COLOURS(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_PRIMARY_COL], owned_mods[(int)CustomVehicleModType::MOD_SECONDARY_COL]);
 										});
 									}
@@ -689,7 +689,7 @@ namespace YimMenu::Submenus
 											owned_mods[(int)CustomVehicleModType::MOD_PRIMARY_COL] = color;
 										else
 											owned_mods[(int)CustomVehicleModType::MOD_SECONDARY_COL] = color;
-										FiberPool::Push([] {
+										FiberPool::queueJob([] {
 											VEHICLE::SET_VEHICLE_COLOURS(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_PRIMARY_COL], owned_mods[(int)CustomVehicleModType::MOD_SECONDARY_COL]);
 										});
 									}
@@ -707,7 +707,7 @@ namespace YimMenu::Submenus
 											owned_mods[(int)CustomVehicleModType::MOD_PRIMARY_COL] = color;
 										else
 											owned_mods[(int)CustomVehicleModType::MOD_SECONDARY_COL] = color;
-										FiberPool::Push([] {
+										FiberPool::queueJob([] {
 											VEHICLE::SET_VEHICLE_COLOURS(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_PRIMARY_COL], owned_mods[(int)CustomVehicleModType::MOD_SECONDARY_COL]);
 										});
 									}
@@ -725,7 +725,7 @@ namespace YimMenu::Submenus
 											owned_mods[(int)CustomVehicleModType::MOD_PRIMARY_COL] = color;
 										else
 											owned_mods[(int)CustomVehicleModType::MOD_SECONDARY_COL] = color;
-										FiberPool::Push([] {
+										FiberPool::queueJob([] {
 											VEHICLE::SET_VEHICLE_COLOURS(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_PRIMARY_COL], owned_mods[(int)CustomVehicleModType::MOD_SECONDARY_COL]);
 										});
 									}
@@ -743,7 +743,7 @@ namespace YimMenu::Submenus
 											owned_mods[(int)CustomVehicleModType::MOD_PRIMARY_COL] = color;
 										else
 											owned_mods[(int)CustomVehicleModType::MOD_SECONDARY_COL] = color;
-										FiberPool::Push([] {
+										FiberPool::queueJob([] {
 											VEHICLE::SET_VEHICLE_COLOURS(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_PRIMARY_COL], owned_mods[(int)CustomVehicleModType::MOD_SECONDARY_COL]);
 										});
 									}
@@ -761,7 +761,7 @@ namespace YimMenu::Submenus
 											owned_mods[(int)CustomVehicleModType::MOD_PRIMARY_COL] = color;
 										else
 											owned_mods[(int)CustomVehicleModType::MOD_SECONDARY_COL] = color;
-										FiberPool::Push([] {
+										FiberPool::queueJob([] {
 											VEHICLE::SET_VEHICLE_COLOURS(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_PRIMARY_COL], owned_mods[(int)CustomVehicleModType::MOD_SECONDARY_COL]);
 										});
 									}
@@ -776,7 +776,7 @@ namespace YimMenu::Submenus
 									{
 										selected_color = color;
 										owned_mods[(int)CustomVehicleModType::MOD_PEARLESCENT_COL] = color;
-										FiberPool::Push([] {
+										FiberPool::queueJob([] {
 											VEHICLE::SET_VEHICLE_EXTRA_COLOURS(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_PEARLESCENT_COL], owned_mods[(int)CustomVehicleModType::MOD_WHEEL_COL]);
 										});
 									}
@@ -791,7 +791,7 @@ namespace YimMenu::Submenus
 								{
 									selected_color = alloy_color;
 									owned_mods[(int)CustomVehicleModType::MOD_WHEEL_COL] = alloy_color;
-									FiberPool::Push([] {
+									FiberPool::queueJob([] {
 										VEHICLE::SET_VEHICLE_EXTRA_COLOURS(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_PEARLESCENT_COL], owned_mods[(int)CustomVehicleModType::MOD_WHEEL_COL]);
 									});
 								}
@@ -802,7 +802,7 @@ namespace YimMenu::Submenus
 									{
 										selected_color = color;
 										owned_mods[(int)CustomVehicleModType::MOD_WHEEL_COL] = color;
-										FiberPool::Push([] {
+										FiberPool::queueJob([] {
 											VEHICLE::SET_VEHICLE_EXTRA_COLOURS(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_PEARLESCENT_COL], owned_mods[(int)CustomVehicleModType::MOD_WHEEL_COL]);
 										});
 									}
@@ -814,7 +814,7 @@ namespace YimMenu::Submenus
 									{
 										selected_color = color;
 										owned_mods[(int)CustomVehicleModType::MOD_WHEEL_COL] = color;
-										FiberPool::Push([] {
+										FiberPool::queueJob([] {
 											VEHICLE::SET_VEHICLE_EXTRA_COLOURS(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_PEARLESCENT_COL], owned_mods[(int)CustomVehicleModType::MOD_WHEEL_COL]);
 										});
 									}
@@ -830,7 +830,7 @@ namespace YimMenu::Submenus
 									{
 										selected_color = color;
 										owned_mods[(int)CustomVehicleModType::MOD_INTERIOR_COL] = color;
-										FiberPool::Push([] {
+										FiberPool::queueJob([] {
 											VEHICLE::SET_VEHICLE_EXTRA_COLOUR_5(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_INTERIOR_COL]);
 										});
 									}
@@ -845,7 +845,7 @@ namespace YimMenu::Submenus
 									{
 										selected_color = color;
 										owned_mods[(int)CustomVehicleModType::MOD_DASHBOARD_COL] = color;
-										FiberPool::Push([] {
+										FiberPool::queueJob([] {
 											VEHICLE::SET_VEHICLE_EXTRA_COLOUR_6(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_DASHBOARD_COL]);
 										});
 									}
@@ -860,7 +860,7 @@ namespace YimMenu::Submenus
 									{
 										selected_color = color;
 										owned_mods[(int)CustomVehicleModType::MOD_XENON_COL] = color;
-										FiberPool::Push([] {
+										FiberPool::queueJob([] {
 											VEHICLE::SET_VEHICLE_XENON_LIGHT_COLOR_INDEX(currentVeh, owned_mods[(int)CustomVehicleModType::MOD_XENON_COL]);
 										});
 									}

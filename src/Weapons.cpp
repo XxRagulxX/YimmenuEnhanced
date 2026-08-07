@@ -62,7 +62,7 @@ namespace YimMenu::Submenus
 		static int accuracy{};
 
 		static bool init = [] {
-			FiberPool::Push([] {
+			FiberPool::queueJob([] {
 				while (Scripts::IsScriptActive("startup"_J))
 					Script::current()->yield();
 
@@ -123,7 +123,7 @@ namespace YimMenu::Submenus
 					ImGui::PushID(weap.hash);
 					if (ImGui::Selectable(weap.name.c_str()))
 					{
-						FiberPool::Push([weap] {
+						FiberPool::queueJob([weap] {
 							selectedWeapon = weap.name;
 							selectedWeaponHash = weap.hash;
 							FetchWeaponStats(selectedWeaponHash, kills, deaths, kdRatio, headshots, accuracy);
@@ -145,14 +145,14 @@ namespace YimMenu::Submenus
 
 		if (ImGui::Button("Give Weapon"))
 		{
-			FiberPool::Push([] {
+			FiberPool::queueJob([] {
 				Self::GetPed().GiveWeapon(selectedWeaponHash, true);
 			});
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Remove Weapon"))
 		{
-			FiberPool::Push([] {
+			FiberPool::queueJob([] {
 				Self::GetPed().RemoveWeapon(selectedWeaponHash);
 			});
 		}

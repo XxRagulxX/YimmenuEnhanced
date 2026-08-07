@@ -26,7 +26,7 @@ namespace YimMenu
 			// Capture the command by value, not 'this'. This item may be drawn from a 
 			// Lua command handle's :draw()) and gets destroyed before the FiberPool task runs.
 			auto command = m_Command;
-			FiberPool::Push([command] {
+			FiberPool::queueJob([command] {
 				command->Call();
 			});
 		}

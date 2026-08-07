@@ -22,7 +22,7 @@ namespace YimMenu
 
 		if (ImGui::Button(m_LabelOverride.has_value() ? m_LabelOverride.value().data() : m_Command->GetLabel().data()))
 		{
-			FiberPool::Push([this] {
+			FiberPool::queueJob([this] {
 				if (Players::GetSelected().IsValid())
 					m_Command->Call(Players::GetSelected());
 			});

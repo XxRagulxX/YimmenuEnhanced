@@ -32,7 +32,7 @@ namespace YimMenu
 
 	void IntCommand::SetState(int state)
 	{
-		FiberPool::Push([this] {
+		FiberPool::queueJob([this] {
 			OnChange();
 		});
 		m_State = state;

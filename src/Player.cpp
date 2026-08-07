@@ -243,7 +243,7 @@ namespace YimMenu
 			if (auto vehicle = ped.GetVehicle())
 			{
 				auto handle = vehicle.GetHandle();
-				FiberPool::Push([handle, coords] {
+				FiberPool::queueJob([handle, coords] {
 					auto new_veh = Vehicle(handle);
 					if (new_veh.RequestControl())
 						new_veh.SetPosition(coords);
@@ -286,7 +286,7 @@ namespace YimMenu
 		s_VehicleMigrationHook->Enable();
 
 		auto player_id = this->GetId();
-		FiberPool::Push([player_id, coords] {
+		FiberPool::queueJob([player_id, coords] {
 			auto player = Player(player_id);
 
 			if (!player.IsValid())

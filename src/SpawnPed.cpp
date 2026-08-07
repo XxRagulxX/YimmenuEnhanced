@@ -53,7 +53,7 @@ namespace YimMenu::Submenus
 						if (ImGui::Selectable(name))
 						{
 							auto set_player = ImGui::GetIO().KeyCtrl;
-							FiberPool::Push([name, set_player] {
+							FiberPool::queueJob([name, set_player] {
 								if (spawnInMyVehicle)
 								{
 									auto vehicle = Self::GetVehicle();
@@ -210,7 +210,7 @@ namespace YimMenu::Submenus
 			ImGui::Checkbox("Blip Ped", &blipPed);
 			if (ImGui::Button("Remove All"))
 			{
-				FiberPool::Push([] {
+				FiberPool::queueJob([] {
 					for (auto& ped : spawnedPeds)
 						if (ped)
 							ped.Delete();

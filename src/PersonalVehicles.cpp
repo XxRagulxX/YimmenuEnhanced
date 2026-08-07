@@ -459,7 +459,7 @@ namespace YimMenu
 
         m_LastUpdate = std::chrono::steady_clock::now();
 
-        FiberPool::Push([] {
+        FiberPool::queueJob([] {
 			RegisterVehicles();
             RegisterGarages();
 		});

@@ -1,5 +1,5 @@
 #include "ScriptMgr.hpp"
-#include "AsyncLogger/Logger.hpp"
+#include "FiberPool.hpp"
 
 namespace YimMenu
 {
@@ -80,6 +80,8 @@ namespace YimMenu
 		{
 			ConvertThreadToFiber(nullptr);
 		}
+
+		FiberPool::onTick();
 
 		Script::ret_fiber = GetCurrentFiber();
 
