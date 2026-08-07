@@ -136,15 +136,22 @@ namespace YimMenu
 
 		m_EffectiveTarget = m_TargetFunc;
 
-		if (const auto result = MH_CreateHook(m_TargetFunc, m_DetourFunc, &m_OriginalFunc); result != MH_OK)
+		if (const auto result = MH_CreateHook(
+		        m_TargetFunc,
+		        m_DetourFunc,
+		        &m_OriginalFunc);
+		    result != MH_OK)
 		{
-			LOGF(FATAL, "Failed to create hook {}", name);
+			LOGF(FATAL,
+			    "Failed to create hook {}",
+			    name);
+
 			throw std::runtime_error("Failed to create hook!");
 		}
 
 		LOGF(INFO, "Created hook {}", name);
-	}
 
+	}
 	template<typename T>
 	inline DetourHook<T>::~DetourHook()
 	{
@@ -243,13 +250,18 @@ namespace YimMenu
 		if (m_OriginalFunc)
 			return true;
 
-		if (const auto result = MH_CreateHook(
-		        m_TargetFunc,
-		        m_DetourFunc,
-		        &m_OriginalFunc);
-		    result != MH_OK)
+		const auto result = MH_CreateHook(
+		    m_TargetFunc,
+		    m_DetourFunc,
+		    &m_OriginalFunc);
+
+		if (result != MH_OK)
 		{
-			LOGF(FATAL, "Failed to create hook {}", Name());
+			LOGF(FATAL,
+			    "Failed to create hook {} (MH Error {})",
+			    Name(),
+			    static_cast<int>(result));
+
 			return false;
 		}
 
