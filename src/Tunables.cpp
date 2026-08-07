@@ -75,7 +75,7 @@ namespace YimMenu
 
 		while (true)
 		{
-			ScriptMgr::Yield();
+			Script::current()->yield();
 
 			m_CacheFile.Load();
 

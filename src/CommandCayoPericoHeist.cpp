@@ -213,7 +213,7 @@ namespace YimMenu::Features
 				Stats::SetInt("MPX_H4CNF_TROJAN", 5);
 				Stats::SetInt("MPX_H4_PLAYTHROUGH_STATUS", 100);
 
-				ScriptMgr::Yield(500ms);
+				Script::current()->yield(500);
 
 				if (auto thread = Scripts::FindScriptThread("heist_island_planning"_J))
 					*ScriptLocal(thread, 1580).As<int*>() = 2;
@@ -442,7 +442,8 @@ namespace YimMenu::Features
 						default: break;
 						}
 
-						ScriptMgr::Yield(4000ms);
+						Script::current()->yield(4000);
+
 
 						TASK::TASK_GO_STRAIGHT_TO_COORD(ped.GetHandle(), pos.x, pos.y, pos.z, 1.0, 3, heading, 5);
 					});
@@ -472,7 +473,7 @@ namespace YimMenu::Features
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_2020"_J))
 				{
 					Scripts::ForceScriptHost(thread);
-					ScriptMgr::Yield(500ms);
+					Script::current()->yield(500);
 
 					*ScriptLocal(thread, 56504).As<int*>() = 9;
 					*ScriptLocal(thread, 56504).At(1776).At(0, 1).As<int*>() = 50;

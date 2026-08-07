@@ -349,7 +349,7 @@ namespace YimMenu
 				*Pointers.NeedsBERestart = false;
 				*Pointers.IsBEBanned = false;
 			}
-			ScriptMgr::Yield();
+			Script::current()->yield();
 		}
 	}
 }

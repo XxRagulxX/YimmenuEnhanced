@@ -143,7 +143,7 @@ namespace YimMenu::Lua
 			}
 
 			while (txn->m_Status == 0 || txn->m_Status == 1)
-				ScriptMgr::Yield();
+				Script::current()->yield();
 
 			if (txn->m_Status == 3)
 			{

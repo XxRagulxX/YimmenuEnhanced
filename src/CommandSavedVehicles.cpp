@@ -192,7 +192,7 @@ namespace YimMenu
 
 		if (veh != nullptr)
 		{
-			ScriptMgr::Yield();
+			Script::current()->yield();
 
 			auto vehicle = veh.GetHandle();
 

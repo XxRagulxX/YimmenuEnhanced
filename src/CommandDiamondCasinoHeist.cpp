@@ -279,7 +279,7 @@ namespace YimMenu::Features
 				Stats::SetInt("MPX_H3OPT_BITSET0", rand() % (INT_MAX)); // Refresh board
 				Stats::SetInt("MPX_H3OPT_BITSET1", rand() % (INT_MAX)); // Refresh board
 
-				ScriptMgr::Yield(500ms);
+				Script::current()->yield(500);
 
 				Stats::SetInt("MPX_H3OPT_BITSET0", -1); // Refresh board
 				Stats::SetInt("MPX_H3OPT_BITSET1", -1); // Refresh board
@@ -523,7 +523,7 @@ namespace YimMenu::Features
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller"_J))
 				{
 					Scripts::ForceScriptHost(thread);
-					ScriptMgr::Yield(500ms);
+					Script::current()->yield(500);
 
 					*ScriptLocal(thread, 20412).At(1740).At(0, 1).As<int*>() = 80;
 					*ScriptLocal(thread, 20412).At(2686).As<int*>() = 4443220;

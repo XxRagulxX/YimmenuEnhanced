@@ -131,7 +131,7 @@ namespace YimMenu
 					}
 				}
 			}
-			ScriptMgr::Yield();
+			Script::current()->yield();
 		}
 	}
 

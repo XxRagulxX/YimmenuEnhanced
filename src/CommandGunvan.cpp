@@ -251,11 +251,11 @@ namespace YimMenu::Features
 				HUD::SET_BLIP_AS_SHORT_RANGE(HUD::GET_FIRST_BLIP_INFO_ID(844), false);
 
 				Stats::SetPackedBool(24, true);
-				ScriptMgr::Yield(300ms);
+				Script::current()->yield(300);
 				Stats::SetPackedBool(24, false);
-				ScriptMgr::Yield(300ms);
+				Script::current()->yield(300);
 				Stats::SetPackedBool(24, true);
-				ScriptMgr::Yield(300ms);
+				Script::current()->yield(300);
 				Stats::SetPackedBool(24, false);
 
 				int weaponId = _GunVanWeapon.GetState();

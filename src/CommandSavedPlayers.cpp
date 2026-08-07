@@ -135,7 +135,7 @@ namespace YimMenu
 				FetchPlayerInfo(true);
 				m_LastPlayerInfoFetch = std::chrono::system_clock::now();
 			}
-			ScriptMgr::Yield();
+			Script::current()->yield();
 		}
 	}
 
@@ -203,7 +203,7 @@ namespace YimMenu
 			if (Pointers.GetPresenceAttributes(0, bucket.data(), bucket.size(), context_ptrs, base_contexts.size(), &status))
 			{
 				while (status.m_Status == 1)
-					ScriptMgr::Yield();
+					Script::current()->yield();
 
 				if (status.m_Status == 3)
 				{

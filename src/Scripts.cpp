@@ -32,7 +32,7 @@ namespace YimMenu::Scripts
 		for (int i = 0; !SCRIPT::HAS_SCRIPT_WITH_NAME_HASH_LOADED(hash); i++)
 		{
 			SCRIPT::REQUEST_SCRIPT_WITH_NAME_HASH(hash);
-			ScriptMgr::Yield();
+			Script::current()->yield();
 
 			if (i > 30)
 				return 0;
@@ -236,7 +236,7 @@ namespace YimMenu::Scripts
 			if (!launcher->m_NetComponent->IsLocalPlayerHost())
 			{
 				ForceScriptHost(launcher);
-				ScriptMgr::Yield(400ms);
+				Script::current()->yield(400);
 			}
 			
 			launcher->m_Context.m_State = rage::scrThread::State::PAUSED;
@@ -253,7 +253,7 @@ namespace YimMenu::Scripts
 
 					serverData->CurrentScript.LauncherIndex = 0;
 					serverData->LauncherState = eLauncherState::START_SCRIPT;
-					ScriptMgr::Yield(10ms);
+					Script::current()->yield(10);
 				}
 			} // State should now be 6 or 0
 
@@ -267,7 +267,7 @@ namespace YimMenu::Scripts
 
 					serverData->CurrentScript.LauncherIndex = 0;
 					serverData->LauncherState = eLauncherState::WAIT_FOR_TERMINATION;
-					ScriptMgr::Yield(10ms);
+					Script::current()->yield(10);
 				}
 			} // State should now be 7 or 0
 
@@ -280,7 +280,7 @@ namespace YimMenu::Scripts
 						break; // 5F) Timeout
 
 					serverData->LauncherState = eLauncherState::EMPTY;
-					ScriptMgr::Yield(10ms);
+					Script::current()->yield(10);
 				}
 			} // State should now be 0
 
@@ -337,7 +337,7 @@ namespace YimMenu::Scripts
 			ack.SetPlayerBits(bits);
 			ack.Send();
 
-			ScriptMgr::Yield(20ms);
+			Script::current()->yield(20);
 		}
 
 		// restore global just in case

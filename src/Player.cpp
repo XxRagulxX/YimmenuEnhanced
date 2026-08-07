@@ -315,7 +315,7 @@ namespace YimMenu
 			RemoteTeleport tp{coords, player};
 			s_RemoteTeleports.emplace(car.GetNetworkObjectId(), tp);
 
-			ScriptMgr::Yield(25ms);
+			Script::current()->yield(25);
 
 			for (int i = 0; i < 30; i++)
 			{
@@ -330,7 +330,7 @@ namespace YimMenu
 					Pointers.MigrateObject(player.GetHandle(), car.GetNetworkObject(), 3);
 				// req control immediately after to cycle
 				car.RequestControl(0);
-				ScriptMgr::Yield(20ms);
+				Script::current()->yield(20);
 			}
 
 			s_RemoteTeleports.erase(car.GetNetworkObjectId());

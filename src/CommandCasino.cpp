@@ -74,7 +74,7 @@ virtual void OnDisable() override
 				// waiting for reset until next time using
 				while (!spin_state_whitelist.contains(*spin_state))
 				{
-					ScriptMgr::Yield();
+					Script::current()->yield();
 					spin_state = ScriptLocal("casino_slots"_J, spin_state_var).As<int*>();
 					if (spin_state == nullptr){
 						return;

@@ -64,7 +64,7 @@ namespace YimMenu::Submenus
 		static bool init = [] {
 			FiberPool::Push([] {
 				while (Scripts::IsScriptActive("startup"_J))
-					ScriptMgr::Yield();
+					Script::current()->yield();
 
 				uint64_t garbage[4]{};
 				if (auto id = Scripts::StartScript("mp_weapons"_J, eStackSizes::PAUSE_MENU_SCRIPT, &garbage, 4))

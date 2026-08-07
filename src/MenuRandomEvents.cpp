@@ -230,7 +230,7 @@ namespace YimMenu::Submenus
 						eventData.Subvariation = selectedSubvariation;
 						eventData.PlayersToSend = 1; // Set FORCE_LAUNCH bit of all players
 						eventData.Send();
-						ScriptMgr::Yield(100ms);
+						Script::current()->yield(100);
 						if (GSBDRandomEvents->EventData[selectedEvent].State == eRandomEventState::INACTIVE)
 						{
 							Notifications::Show("Random Events", "Failed to launch event. Are you freemode host?", NotificationType::Error);

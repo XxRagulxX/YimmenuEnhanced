@@ -100,7 +100,7 @@ namespace YimMenu::Features
 					}
 					Stats::SetPackedBool(36828, true);
 
-					ScriptMgr::Yield(30000ms);
+					Script::current()->yield(30000);
 				}
 			});
 		}
@@ -132,7 +132,7 @@ namespace YimMenu::Features
 					Stats::SetPackedBool(32359, true);
 					Stats::SetPackedBool(32363, true);
 
-					ScriptMgr::Yield(30000ms);
+					Script::current()->yield(30000);
 				}
 			});
 		}

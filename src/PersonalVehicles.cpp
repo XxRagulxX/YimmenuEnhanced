@@ -332,7 +332,6 @@ namespace YimMenu
 			m_Data->PersonalVehicleFlags.Clear(ePersonalVehicleFlags::TRIGGER_SPAWN_TOGGLE);
 			for (int i = 0; veh.IsValid(); i++)
 			{
-				ScriptMgr::Yield(100ms);
 				if (i > 30)
 				{
 					LOG(WARNING) << "Despawn() Timed out despawning Personal Vehicle.";
@@ -369,7 +368,7 @@ namespace YimMenu
 
 			Repair();
 			
-			ScriptMgr::Yield(100ms);
+			Script::current()->yield(100);
 
 			if (bring)
 				freemodeGeneral->NodeDistanceCheck = 0;
@@ -377,7 +376,7 @@ namespace YimMenu
 			freemodeGeneral->Exec1Impound               = FALSE; // not really sure what this does
 			freemodeGeneral->RequestedPersonalVehicleId = m_Id;
 
-			ScriptMgr::Yield(100ms);
+			Script::current()->yield(100);
 
 			*ScriptLocal("freemode"_J, 19672).At(176).As<int*>() = 0;
 
@@ -385,7 +384,7 @@ namespace YimMenu
 			{
 				for (int i = 0; !GetCurrentHandle().IsValid(); i++)
 				{
-					ScriptMgr::Yield(100ms);
+					Script::current()->yield(100);
 					if (i > 30)
 						break;
 				}
@@ -475,7 +474,7 @@ namespace YimMenu
 			for (int i = 0; i < arraySize; i++)
 			{
 				if (i % 100 == 0)
-					ScriptMgr::Yield();
+					Script::current()->yield();
 
 				auto data = &MPSV::Get()->Entries[i];
 

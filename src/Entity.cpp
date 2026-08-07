@@ -361,7 +361,7 @@ namespace YimMenu
 
 			Pointers.RequestControl(GetNetworkObject());
 			if (timeout)
-				ScriptMgr::Yield();
+				Script::current()->yield();
 		}
 
 		return HasControl();

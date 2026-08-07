@@ -139,7 +139,7 @@ namespace YimMenu
 			}
 
 			while (first_advert_status.m_Status == 1)
-				ScriptMgr::Yield();
+				Script::current()->yield();
 
 			if (first_advert_status.m_Status == 2)
 			{
@@ -166,7 +166,7 @@ namespace YimMenu
 					}
 
 					while (additional_advert_status.m_Status == 1)
-						ScriptMgr::Yield();
+						Script::current()->yield();
 
 					if (additional_advert_status.m_Status == 2)
 					{

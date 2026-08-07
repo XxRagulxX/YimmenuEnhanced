@@ -17,7 +17,7 @@ namespace YimMenu
 		while (g_Running)
 		{
 			Commands::RunLoopedCommands();
-			ScriptMgr::Yield();
+			Script::current()->yield();
 		}
 	}
 

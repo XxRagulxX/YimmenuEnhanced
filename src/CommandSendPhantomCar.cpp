@@ -21,7 +21,7 @@ namespace YimMenu::Features
 				data.PlayersToSend = 1;
 				data.Send();
 
-				ScriptMgr::Yield();
+				Script::current()->yield();
 
 				GSBDRandomEvents->TargetData.PhantomCarTarget = player.GetId();
 			}

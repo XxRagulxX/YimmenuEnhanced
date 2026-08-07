@@ -46,7 +46,7 @@ namespace YimMenu
 		for (int i = 0; !STREAMING::HAS_MODEL_LOADED(model); i++)
 		{
 			STREAMING::REQUEST_MODEL(model);
-			ScriptMgr::Yield();
+			Script::current()->yield();
 
 			if (i > 30)
 			{

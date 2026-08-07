@@ -19,7 +19,7 @@ namespace YimMenu
 		while (g_Running)
 		{
 			UpdateImpl();
-			ScriptMgr::Yield();
+			Script::current()->yield();
 		}
 	}
 

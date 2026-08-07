@@ -1,86 +1,52 @@
 #pragma once
-#include <functional>
-#include <vector>
+
 #include <memory>
-#include <mutex>
-#include <optional>
-#include <chrono>
+#include <unordered_map>
+#include <vector>
+
 #include <Windows.h>
+
+#include "Script.hpp"
 
 namespace YimMenu
 {
-	class Script
-	{
-	public:
-		std::function<void()> m_Callback;
-		bool m_Done;
-		HANDLE m_ChildFiber;
-		HANDLE m_MainFiber;
-		std::optional<std::chrono::high_resolution_clock::time_point> m_WakeTime;
-
-	public:
-		explicit Script(std::function<void()> callback);
-		~Script();
-
-		void Tick();
-		void Yield(std::optional<std::chrono::high_resolution_clock::duration> time = std::nullopt);
-	};
-
 	class ScriptMgr
 	{
-	private:
-		ScriptMgr() {};
-
 	public:
-		virtual ~ScriptMgr()
-		{
-			DestroyImpl();
-		};
+		ScriptMgr() = default;
+		~ScriptMgr() = default;
 
 		ScriptMgr(const ScriptMgr&) = delete;
-		ScriptMgr(ScriptMgr&&) noexcept = delete;
 		ScriptMgr& operator=(const ScriptMgr&) = delete;
-		ScriptMgr& operator=(ScriptMgr&&) noexcept = delete;
+		ScriptMgr(ScriptMgr&&) = delete;
+		ScriptMgr& operator=(ScriptMgr&&) = delete;
 
-		static void Init()
-		{
-			GetInstance().InitImpl();
-		}
+		//============================================================
+		// Stand Runtime
+		//============================================================
 
-		static void Destroy()
-		{
-			GetInstance().DestroyImpl();
-		}
+		void addScript(HMODULE module, std::unique_ptr<Script>&& script);
 
-		static void Tick()
-		{
-			GetInstance().TickImpl();
-		}
+		[[nodiscard]]
+		HMODULE getScriptModule(const Script* script) const;
 
-		static void Yield(std::optional<std::chrono::high_resolution_clock::duration> time = std::nullopt)
-		{
-			GetInstance().YieldImpl(time);
-		}
+		void removeScripts(HMODULE module);
 
-		static void AddScript(std::unique_ptr<Script> script)
-		{
-			GetInstance().AddScriptImpl(std::move(script));
-		}
+		void removeScript(script_func_t function);
+
+		[[nodiscard]]
+		size_t getNumScripts(HMODULE module) const;
+
+		void tick();
+
+		void deinit();
 
 	private:
-		std::mutex m_Mutex;
-		std::vector<std::unique_ptr<Script>> m_Scripts;
-
-		void InitImpl();
-		void DestroyImpl();
-		void TickImpl();
-		void YieldImpl(std::optional<std::chrono::high_resolution_clock::duration> time = std::nullopt);
-		void AddScriptImpl(std::unique_ptr<Script> script);
-
-		static ScriptMgr& GetInstance()
-		{
-			static ScriptMgr i{};
-			return i;
-		}
+		std::unordered_map<
+		    HMODULE,
+		    std::vector<std::unique_ptr<Script>>>
+		    m_Scripts;
 	};
+
+	inline ScriptMgr g_script_mgr;
 }

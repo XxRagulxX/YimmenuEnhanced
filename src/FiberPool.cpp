@@ -7,7 +7,8 @@ namespace YimMenu
 	{
 		for (std::size_t i = 0; i < num_fibers; ++i)
 		{
-			ScriptMgr::AddScript(std::make_unique<Script>(&ScriptEntry));
+			//g_script_mgr.AddScript(std::make_unique<Script>(&ScriptEntry));
+			g_script_mgr.addScript(GetModuleHandle(nullptr), std::make_unique<Script>(&ScriptEntry));
 		}
 	}
 
@@ -44,7 +45,7 @@ namespace YimMenu
 		while (g_Running)
 		{
 			FiberPool::GetInstance().Tick();
-			ScriptMgr::Yield();
+			Script::current()->yield();
 		}
 	}
 }

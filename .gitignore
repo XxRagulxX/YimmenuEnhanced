@@ -3,3 +3,4 @@ build/
 .vs
 .lastcommit
 out/
+src/soup/

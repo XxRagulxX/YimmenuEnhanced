@@ -34,6 +34,8 @@ namespace YimMenu
 		const auto documents = std::filesystem::path(std::getenv("appdata")) / "YimMenuV2";
 		FileMgr::Init(documents);
 
+		HMODULE module = GetModuleHandle(nullptr);
+
 		LogHelper::Init("YimMenuV2", FileMgr::GetProjectFile("./cout.log"));
 
 		LOGF(INFO, "Welcome to YimMenuV2! Build date: {} at {}", __DATE__, __TIME__);
@@ -60,26 +62,29 @@ namespace YimMenu
 
 		Hooking::Init();
 
-		ScriptMgr::Init();
+		//ScriptMgr::Init();
+		//g_script_mgr.Init();
 		LOG(INFO) << "ScriptMgr initialized";
 
 		ScriptPointers::Init();
 
 		GUI::Init();
 
-		ScriptMgr::AddScript(std::make_unique<Script>(&NativeHooks::RunScript)); // runs once
-		ScriptMgr::AddScript(std::make_unique<Script>(&Tunables::RunScript));    // runs once
-		ScriptMgr::AddScript(std::make_unique<Script>(&AnticheatBypass::RunScript));
-		ScriptMgr::AddScript(std::make_unique<Script>(&Self::RunScript));
-		ScriptMgr::AddScript(std::make_unique<Script>(&GUI::RunScript));
+		g_script_mgr.addScript(module, std::make_unique<Script>(&NativeHooks::RunScript)); // runs once
+		g_script_mgr.addScript(module, std::make_unique<Script>(&Tunables::RunScript));    // runs once
+		g_script_mgr.addScript(module, std::make_unique<Script>(&AnticheatBypass::RunScript));
+		g_script_mgr.addScript(module, std::make_unique<Script>(&Self::RunScript));
+		g_script_mgr.addScript(module, std::make_unique<Script>(&GUI::RunScript));
+
 		FiberPool::Init(16);
-		ScriptMgr::AddScript(std::make_unique<Script>(&LuaManager::RunScript));
-		ScriptMgr::AddScript(std::make_unique<Script>(&HotkeySystem::RunScript));
-		ScriptMgr::AddScript(std::make_unique<Script>(&Commands::RunScript));
-		ScriptMgr::AddScript(std::make_unique<Script>(&Features::SavePersonalVehicle::RunScript));
-		ScriptMgr::AddScript(std::make_unique<Script>(&Features::OpenGunLocker::RunScript));
-		ScriptMgr::AddScript(std::make_unique<Script>(&Features::OpenStreetDealerMenu::RunScript));
-		ScriptMgr::AddScript(std::make_unique<Script>(&SavedPlayers::RunScript));
+
+		g_script_mgr.addScript(module, std::make_unique<Script>(&LuaManager::RunScript));
+		g_script_mgr.addScript(module, std::make_unique<Script>(&HotkeySystem::RunScript));
+		g_script_mgr.addScript(module, std::make_unique<Script>(&Commands::RunScript));
+		g_script_mgr.addScript(module, std::make_unique<Script>(&Features::SavePersonalVehicle::RunScript));
+		g_script_mgr.addScript(module, std::make_unique<Script>(&Features::OpenGunLocker::RunScript));
+		g_script_mgr.addScript(module, std::make_unique<Script>(&Features::OpenStreetDealerMenu::RunScript));
+		g_script_mgr.addScript(module, std::make_unique<Script>(&SavedPlayers::RunScript));
 
 		if (!Pointers.LateInit())
 			LOG(WARNING) << "Socialclub patterns failed to load";
@@ -96,7 +101,8 @@ namespace YimMenu
 		}
 
 		LOG(INFO) << "Unloading";
-		ScriptMgr::Destroy();
+		//ScriptMgr::Destroy();
+		g_script_mgr.deinit();
 		NativeHooks::Destroy();
 		FiberPool::Destroy();
 		Hooking::Destroy();

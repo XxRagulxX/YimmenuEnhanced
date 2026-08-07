@@ -22,7 +22,7 @@ namespace
 		while (true)
 		{
 			YimMenu::ChatDisplay::MarkAccessed();
-			YimMenu::ScriptMgr::Yield();
+			YimMenu::Script::current()->yield();
 			int update_res = MISC::UPDATE_ONSCREEN_KEYBOARD();
 
 			if (update_res == 1)

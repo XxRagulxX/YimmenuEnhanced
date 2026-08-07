@@ -48,7 +48,7 @@ namespace YimMenu::Submenus
 				{
 					HUD::CLEAR_ADDITIONAL_TEXT(10, TRUE);
 					HUD::REQUEST_ADDITIONAL_TEXT("MOD_MNU", 10);
-					ScriptMgr::Yield();
+					Script::current()->yield();
 				}
 
 				VEHICLE::SET_VEHICLE_MOD_KIT(currentVeh, 0);

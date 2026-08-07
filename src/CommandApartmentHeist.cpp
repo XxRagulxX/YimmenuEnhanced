@@ -31,7 +31,7 @@ namespace YimMenu::Features
 				*base1.At(2, 1).As<int*>() = _ApartmentHeistCut3.GetState();
 				*base1.At(3, 1).As<int*>() = _ApartmentHeistCut4.GetState();
 
-				ScriptMgr::Yield(500ms);
+				Script::current()->yield(500);
 
 				*base2.At(0, 1).As<int*>() = -1 * (*base1.At(0, 1).As<int*>() + *base1.At(1, 1).As<int*>() + *base1.At(2, 1).As<int*>() + *base1.At(3, 1).As<int*>() - 100);
 				
@@ -118,7 +118,7 @@ namespace YimMenu::Features
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller"_J))
 				{
 					Scripts::ForceScriptHost(thread);
-					ScriptMgr::Yield(500ms);
+					Script::current()->yield(500);
 
 					*ScriptLocal(thread, 20412).At(1725).At(0, 1).As<int*>() = 80;
 					*ScriptLocal(thread, 20412).As<int*>() = 12;
@@ -138,7 +138,7 @@ namespace YimMenu::Features
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller"_J))
 				{
 					Scripts::ForceScriptHost(thread);
-					ScriptMgr::Yield(500ms);
+					Script::current()->yield(500);
 
 					*ScriptLocal(thread, 20412).At(2686).As<int*>() = 1875000;
 					*ScriptLocal(thread, 20412).At(1062).As<int*>() = 5;

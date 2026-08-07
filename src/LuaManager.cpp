@@ -140,7 +140,7 @@ namespace YimMenu
 						script->Tick();
 			}
 
-			ScriptMgr::Yield();
+			Script::current()->yield();
 		}
 	}
 

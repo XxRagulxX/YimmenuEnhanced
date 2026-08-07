@@ -19,7 +19,7 @@ namespace YimMenu::Features
 	{
 		while (g_Running)
 		{
-			ScriptMgr::Yield();
+			Script::current()->yield();
 
 			if (!m_ShouldRunScript)
 				continue;

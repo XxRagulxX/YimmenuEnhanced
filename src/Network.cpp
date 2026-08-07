@@ -69,7 +69,7 @@ namespace YimMenu::Network
 		if (Pointers.GetSessionByGamerHandle(0, &handle, 1, &result, 1, &success, &status))
 		{
 			while (status.m_Status == 1)
-				ScriptMgr::Yield();
+				Script::current()->yield();
 
 			if (status.m_Status == 3 && success)
 			{
@@ -110,7 +110,7 @@ namespace YimMenu::Network
 		{
 			while (context.m_Status.m_Status == 1)
 			{
-				ScriptMgr::Yield();
+				Script::current()->yield();
 			}
 
 			if (context.m_Status.m_Status == 3 && results->m_NumResults == 1)

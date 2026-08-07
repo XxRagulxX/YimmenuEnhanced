@@ -18,7 +18,8 @@ namespace YimMenu::Hooks
 			if (thread)
 			{
 				Scripts::RunAsScript(thread, [] {
-					ScriptMgr::Tick();
+					//g_script_mgr.tick();;
+					g_script_mgr.tick();
 				});
 			}
 		}

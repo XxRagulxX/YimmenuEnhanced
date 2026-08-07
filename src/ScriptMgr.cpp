@@ -1,82 +1,117 @@
 #include "ScriptMgr.hpp"
-#include "LuaManager.hpp"
+#include "AsyncLogger/Logger.hpp"
 
 namespace YimMenu
 {
-	Script::Script(std::function<void()> callback) :
-	    m_Callback(callback),
-	    m_Done(false),
-	    m_ChildFiber(0),
-	    m_MainFiber(0),
-	    m_WakeTime(std::nullopt)
+	//------------------------------------------------------------
+	// Script Registration
+	//------------------------------------------------------------
+
+	void ScriptMgr::addScript(HMODULE module, std::unique_ptr<Script>&& script)
 	{
-		m_ChildFiber = CreateFiber(
-		    0,
-		    [](void* param) {
-			    auto this_script = static_cast<Script*>(param);
-			    this_script->m_Callback();
-			    this_script->m_Done = true;
-			    SwitchToFiber(this_script->m_MainFiber);
-		    },
-		    this);
+		m_Scripts[module].emplace_back(std::move(script));
 	}
 
-	Script::~Script()
+	HMODULE ScriptMgr::getScriptModule(const Script* script) const
 	{
-		if (m_ChildFiber)
-			DeleteFiber(m_ChildFiber);
-	}
-
-	void Script::Tick()
-	{
-		m_MainFiber = GetCurrentFiber();
-		if ((!m_WakeTime.has_value() || m_WakeTime.value() <= std::chrono::high_resolution_clock::now()) && !m_Done)
+		for (const auto& [module, scripts] : m_Scripts)
 		{
-			SwitchToFiber(m_ChildFiber);
+			for (const auto& scr : scripts)
+			{
+				if (scr.get() == script)
+				{
+					return module;
+				}
+			}
+		}
+
+		return nullptr;
+	}
+
+	//------------------------------------------------------------
+	// Script Removal
+	//------------------------------------------------------------
+
+	void ScriptMgr::removeScripts(HMODULE module)
+	{
+		auto it = m_Scripts.find(module);
+
+		if (it == m_Scripts.end())
+			return;
+
+		for (auto& script : it->second)
+		{
+			script->stop();
 		}
 	}
 
-	void Script::Yield(std::optional<std::chrono::high_resolution_clock::duration> time)
+	void ScriptMgr::removeScript(script_func_t function)
 	{
-		if (time.has_value())
-			m_WakeTime = std::chrono::high_resolution_clock::now() + time.value();
-		else
-			m_WakeTime = std::nullopt;
-
-		SwitchToFiber(m_MainFiber);
+		for (auto& [module, scripts] : m_Scripts)
+		{
+			for (auto& script : scripts)
+			{
+				if (script->func == function)
+				{
+					script->stop();
+					return;
+				}
+			}
+		}
 	}
 
-	void ScriptMgr::InitImpl()
+	//------------------------------------------------------------
+	// Query
+	//------------------------------------------------------------
+
+	size_t ScriptMgr::getNumScripts(HMODULE module) const
 	{
-		// none required
+		auto it = m_Scripts.find(module);
+
+		if (it == m_Scripts.end())
+			return 0;
+
+		return it->second.size();
 	}
 
-	void ScriptMgr::DestroyImpl()
+	void ScriptMgr::tick()
 	{
-		std::lock_guard lock(m_Mutex);
+		if (!IsThreadAFiber())
+		{
+			ConvertThreadToFiber(nullptr);
+		}
+
+		Script::ret_fiber = GetCurrentFiber();
+
+		for (auto moduleIt = m_Scripts.begin(); moduleIt != m_Scripts.end();)
+		{
+			auto& scripts = moduleIt->second;
+
+			for (auto scriptIt = scripts.begin(); scriptIt != scripts.end();)
+			{
+				if ((*scriptIt)->tick())
+				{
+					++scriptIt;
+				}
+				else
+				{
+					scriptIt = scripts.erase(scriptIt);
+				}
+			}
+
+			if (scripts.empty())
+			{
+				moduleIt = m_Scripts.erase(moduleIt);
+			}
+			else
+			{
+				++moduleIt;
+			}
+		}
+	}
+
+	void ScriptMgr::deinit()
+	{
 		m_Scripts.clear();
-	}
-
-	void ScriptMgr::TickImpl()
-	{
-		std::lock_guard lock(m_Mutex);
-		static bool ensure_main_fiber = (ConvertThreadToFiber(nullptr), true);
-
-		for (const auto& script : m_Scripts)
-			script->Tick();
-	}
-
-	void ScriptMgr::YieldImpl(std::optional<std::chrono::high_resolution_clock::duration> time)
-	{
-		if (auto script = LuaManager::GetRunningCoroutine())
-			LuaScript::GetScript(script).Yield(script, time ? std::chrono::duration_cast<std::chrono::milliseconds>(*time).count() : 0);
-		else if (auto script = static_cast<Script*>(GetFiberData()))
-			script->Yield(time);
-	}
-
-	void ScriptMgr::AddScriptImpl(std::unique_ptr<Script> script)
-	{
-		std::lock_guard lock(m_Mutex);
-		m_Scripts.push_back(std::move(script));
 	}
 }

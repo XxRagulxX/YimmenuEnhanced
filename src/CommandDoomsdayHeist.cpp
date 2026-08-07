@@ -107,7 +107,7 @@ namespace YimMenu::Features
 				default: break;
 				}
 
-				ScriptMgr::Yield(500ms);
+				Script::current()->yield(500);
 
 				if (auto thread = Scripts::FindScriptThread("gb_gang_ops_planning"_J))
 					*ScriptLocal(thread, 218).As<int*>() = 6;
@@ -213,7 +213,7 @@ namespace YimMenu::Features
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller"_J))
 				{
 					Scripts::ForceScriptHost(thread);
-					ScriptMgr::Yield(500ms);
+					Script::current()->yield(500);
 
 					*ScriptLocal(thread, 20412).At(1725).At(0, 1).As<int*>() = 80;
 					*ScriptLocal(thread, 20412).As<int*>() = 12;
@@ -233,7 +233,7 @@ namespace YimMenu::Features
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller"_J))
 				{
 					Scripts::ForceScriptHost(thread);
-					ScriptMgr::Yield(500ms);
+					Script::current()->yield(500);
 
 					*ScriptLocal(thread, 20412).As<int*>() = 12;
 					*ScriptLocal(thread, 20412).At(1740).At(0, 1).As<int*>() = 150;

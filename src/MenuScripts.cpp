@@ -361,7 +361,7 @@ namespace YimMenu::Submenus
 					while (!SCRIPT::HAS_SCRIPT_WITH_NAME_HASH_LOADED(hash))
 					{
 						SCRIPT::REQUEST_SCRIPT_WITH_NAME_HASH(hash);
-						ScriptMgr::Yield();
+						Script::current()->yield();
 					}
 
 					int id = 0;

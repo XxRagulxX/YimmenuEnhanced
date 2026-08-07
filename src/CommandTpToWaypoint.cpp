@@ -33,7 +33,7 @@ namespace YimMenu::Features
 			}
 
 			++current_attempts;
-			ScriptMgr::Yield();
+			Script::current()->yield();
 		} while (current_attempts < max_attempts);
 		
 		// whether ground was found or not check for water height

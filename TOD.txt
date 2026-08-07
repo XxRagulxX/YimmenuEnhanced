@@ -1,0 +1,19 @@
+ScriptMgr -- need to be worked again once the project is completed 
+{
+uint32_t script_thread;
+
+handler_map
+
+call_map
+
+reverse_entrypoint_map
+
+initEntrypointMaps()
+
+mapEntrypoint()
+
+mapDetour()
+}
+
+
+
