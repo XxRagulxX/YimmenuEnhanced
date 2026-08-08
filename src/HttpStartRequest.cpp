@@ -1,5 +1,6 @@
 #include "DetourHook.hpp"
 #include "Hooks.hpp"
+#include "Hooking.hpp"
 
 
 namespace YimMenu::Hooks
@@ -18,6 +19,6 @@ namespace YimMenu::Hooks
 			LOG(WARNING) << "Blocked Bonus Report";
 		}
 
-		return BaseHook::Get<Anticheat::HttpStartRequest, DetourHook>()->Original<decltype(&Anticheat::HttpStartRequest)>()(request);
+		return Hooking::Get<Anticheat::HttpStartRequest>()->Original<decltype(&Anticheat::HttpStartRequest)>()(request);
 	}
 }

@@ -4,6 +4,7 @@
 #include "netArrayHandler.hpp"
 #include "GSBD.hpp"
 #include "Player.hpp"
+#include "Hooking.hpp"
 #include "PlayerData.hpp"
 
 namespace YimMenu::Hooks
@@ -40,6 +41,6 @@ namespace YimMenu::Hooks
 	{
 		FreemodeStateKick kick(target, static_cast<void*>(_this->m_Array));
 
-		return BaseHook::Get<Spoofing::WriteNetArrayData, DetourHook>()->Original<decltype(&Spoofing::WriteNetArrayData)>()(_this, target, bit_buffer, counter, elem_start, silent);
+		return Hooking::Get<Spoofing::WriteNetArrayData>()->Original<decltype(&Spoofing::WriteNetArrayData)>()(_this, target, bit_buffer, counter, elem_start, silent);
 	}
 }

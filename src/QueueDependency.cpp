@@ -4,6 +4,7 @@
 #include "ModuleMgr.hpp"
 #include "PointerCalculator.hpp"
 #include "Joaat.hpp"
+#include "Hooking.hpp"
 
 #include <intrin.h>
 
@@ -42,7 +43,7 @@ namespace YimMenu::Hooks
 		auto f3 = *reinterpret_cast<void**>(a1 + 0x1A0);
 
 		if (!f1)
-			return BaseHook::Get<Anticheat::QueueDependency, DetourHook>()->Original<decltype(&Anticheat::QueueDependency)>()(a1);
+			return Hooking::Get<Anticheat::QueueDependency>()->Original<decltype(&Anticheat::QueueDependency)>()(a1);
 
 		if (f1 == Pointers.SigScanMemory)
 		{
@@ -57,6 +58,6 @@ namespace YimMenu::Hooks
 			return;
 		}
 
-		BaseHook::Get<Anticheat::QueueDependency, DetourHook>()->Original<decltype(&Anticheat::QueueDependency)>()(a1);
+		Hooking::Get<Anticheat::QueueDependency>()->Original<decltype(&Anticheat::QueueDependency)>()(a1);
 	}
 }

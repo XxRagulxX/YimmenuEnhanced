@@ -1,19 +1,19 @@
 #pragma once
-#include "BaseHook.hpp"
+
 #include "PointerCalculator.hpp"
 
-#include <MinHook.h>
+#include <cstdint>
 #include <string_view>
-#include <AsyncLogger/Logger.hpp>
 
 namespace YimMenu
 {
-	enum DetourHookFlags : uint8_t
+	enum DetourHookFlags : std::uint8_t
 	{
 		DH_NONE = 0,
 		DH_MANDATORY = 1 << 0,
 		DH_NOFOLLOWJUMPS = 1 << 1,
 		DH_LONGJUMP = 1 << 2,
+
 #ifdef YIMMENU_DEBUG
 		DH_FORCEFAIL = 1 << 7,
 #endif
@@ -26,21 +26,33 @@ namespace YimMenu
 		Main
 	};
 
-	class DetourHook : public BaseHook
+	class DetourHook
 	{
 	private:
+		// Basic hook information
+		std::string_view m_Name;
+		bool m_Enabled = false;
+
+		// Hook functions
 		void* m_TargetFunc = nullptr;
 		void* m_DetourFunc = nullptr;
 		void* m_OriginalFunc = nullptr;
 
-		// Stand architecture additions
+		// Resolved/effective target
 		void* m_EffectiveTarget = nullptr;
 
-		uint8_t m_Flags = DH_NONE;
+		// Stand-compatible flags
+		std::uint8_t m_Flags = DH_NONE;
 
+		// Hook lifecycle group
 		HookGroup m_Group = HookGroup::Main;
 
 	public:
+		DetourHook(
+		    std::string_view name,
+		    void* target,
+		    void* detour);
+
 		virtual ~DetourHook();
 
 		DetourHook(const DetourHook&) = delete;
@@ -49,7 +61,17 @@ namespace YimMenu
 		DetourHook(DetourHook&&) = delete;
 		DetourHook& operator=(DetourHook&&) = delete;
 
-		DetourHook(std::string_view name, void* target, void* detour);
+		[[nodiscard]]
+		std::string_view Name() const noexcept
+		{
+			return m_Name;
+		}
+
+		[[nodiscard]]
+		bool IsEnabled() const noexcept
+		{
+			return m_Enabled;
+		}
 
 		bool Enable();
 		bool Disable();
@@ -57,20 +79,33 @@ namespace YimMenu
 		bool EnableNow();
 		bool DisableNow();
 
-		//======================================================
-		// Stand compatibility wrappers
-		//======================================================
+		bool CreateHook();
 
-		void init(void* detour, void* target, uint8_t flags = DH_NONE) noexcept
+		bool EnableHook();
+		bool EnableHookQueued();
+
+		bool DisableHook();
+		bool DisableHookQueued();
+
+		bool RemoveHook();
+
+		void init(void* detour, void* target, std::uint8_t flags = DH_NONE) noexcept
 		{
 			m_DetourFunc = detour;
 			m_TargetFunc = target;
 			m_Flags = flags;
+
+			m_EffectiveTarget = nullptr;
+			m_OriginalFunc = nullptr;
+			m_Enabled = false;
 		}
 
 		void setTarget(void* target) noexcept
 		{
 			m_TargetFunc = target;
+			m_EffectiveTarget = nullptr;
+			m_OriginalFunc = nullptr;
+			m_Enabled = false;
 		}
 
 		void SetGroup(HookGroup group) noexcept
@@ -84,28 +119,26 @@ namespace YimMenu
 			return m_Group;
 		}
 
-		template<typename U>
+		template<typename T>
 		[[nodiscard]]
-		U Original() const noexcept
+		T Original() const noexcept
 		{
-			return reinterpret_cast<U>(m_OriginalFunc);
+			return reinterpret_cast<T>(m_OriginalFunc);
 		}
 
-		template<typename U>
+		template<typename T>
 		[[nodiscard]]
-		U getOriginal() const noexcept
+		T getOriginal() const noexcept
 		{
-			return Original<U>();
+			return Original<T>();
 		}
 
-		//======================================================
-		// Stand compatibility wrappers
-		//======================================================
 
 		[[nodiscard]]
 		bool isValid() const noexcept
 		{
-			return m_TargetFunc != nullptr && m_DetourFunc != nullptr;
+			return m_TargetFunc != nullptr
+			    && m_DetourFunc != nullptr;
 		}
 
 		[[nodiscard]]
@@ -132,174 +165,7 @@ namespace YimMenu
 			return (m_Flags & DH_LONGJUMP) != 0;
 		}
 
-		//Future Implementation
-
-		bool CreateHook();
-
-		bool EnableHook();
-		bool EnableHookQueued();
-
-		bool DisableHook();
-		bool DisableHookQueued();
-
-		bool RemoveHook();
-
 	private:
 		void OptimizeHook();
 	};
-
-	inline DetourHook::DetourHook(
-	    std::string_view name,
-	    void* target,
-	    void* detour) :
-	    BaseHook(name),
-	    m_TargetFunc(target),
-	    m_DetourFunc(detour),
-	    m_OriginalFunc(nullptr)
-	{
-		OptimizeHook();
-		m_EffectiveTarget = m_TargetFunc;
-	}
-
-	inline DetourHook::~DetourHook()
-	{
-		RemoveHook();
-	}
-
-	inline bool DetourHook::Enable()
-	{
-		if (m_Enabled)
-			return false;
-
-		if (const auto result = MH_QueueEnableHook(m_TargetFunc); result != MH_OK)
-		{
-			throw std::runtime_error("Failed to queue hook to be enabled.");
-
-			return false;
-		}
-
-		m_Enabled = true;
-		return true;
-	}
-
-	inline bool DetourHook::Disable()
-	{
-		if (!m_Enabled)
-			return false;
-
-		if (const auto result = MH_QueueDisableHook(m_TargetFunc); result != MH_OK)
-		{
-			throw std::runtime_error("Failed to queue hook to be disable.");
-
-			return false;
-		}
-
-		m_Enabled = false;
-		return true;
-	}
-
-	inline bool DetourHook::EnableNow()
-	{
-		if (m_Enabled)
-			return false;
-
-		if (const auto result = MH_EnableHook(m_TargetFunc); result != MH_OK)
-		{
-			throw std::runtime_error("Failed to enable hook right now.");
-
-			return false;
-		}
-
-		m_Enabled = true;
-		return true;
-	}
-
-	inline bool DetourHook::DisableNow()
-	{
-		if (!m_Enabled)
-			return false;
-
-		if (const auto result = MH_DisableHook(m_TargetFunc); result != MH_OK)
-		{
-			throw std::runtime_error("Failed to disable hook right now.");
-
-			return false;
-		}
-
-		m_Enabled = false;
-		return true;
-	}
-
-	inline void DetourHook::OptimizeHook()
-	{
-		auto ptr = PointerCalculator(m_TargetFunc);
-		while (ptr.As<std::uint8_t&>() == 0xE9)
-		{
-			ptr = ptr.Add(1).Rip();
-		}
-		m_TargetFunc = ptr.As<void*>();
-	}
-
-	inline bool DetourHook::CreateHook()
-	{
-		if (m_OriginalFunc)
-			return true;
-
-		const auto result = MH_CreateHook(
-		    m_TargetFunc,
-		    m_DetourFunc,
-		    &m_OriginalFunc);
-
-		if (result != MH_OK)
-		{
-			LOGF(FATAL,
-			    "Failed to create hook {} (MH Error {})",
-			    Name(),
-			    static_cast<int>(result));
-
-			return false;
-		}
-
-		LOGF(INFO, "Created hook {}", Name());
-
-		return true;
-	}
-
-	inline bool DetourHook::EnableHook()
-	{
-		return EnableNow();
-	}
-
-	inline bool DetourHook::EnableHookQueued()
-	{
-		return Enable();
-	}
-
-	inline bool DetourHook::DisableHook()
-	{
-		return DisableNow();
-	}
-
-	inline bool DetourHook::DisableHookQueued()
-	{
-		return Disable();
-	}
-
-	inline bool DetourHook::RemoveHook()
-	{
-		if (!m_OriginalFunc)
-			return false;
-
-		const auto result = MH_RemoveHook(m_TargetFunc);
-
-		if (result != MH_OK)
-		{
-			throw std::runtime_error("Failed to remove hook.");
-		}
-
-		m_OriginalFunc = nullptr;
-		m_Enabled = false;
-
-		return true;
-	}
 }

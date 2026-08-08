@@ -3,8 +3,7 @@
 #include <memory>
 #include <string_view>
 #include <vector>
-#include <algorithm>
-#include "BaseHook.hpp"
+
 #include "DetourHook.hpp"
 #include "MinHook.hpp"
 
@@ -21,13 +20,37 @@ namespace YimMenu
 		std::vector<std::unique_ptr<DetourHook>> m_Hooks;
 
 		// Creates and owns a hook.
+		template<auto HookFunc>
 		DetourHook* AddHook(
 		    std::string_view name,
 		    void* target,
 		    void* detour,
 		    HookGroup group = HookGroup::Main);
 
+		// Internal lookup.
+		DetourHook* FindHook(std::string_view name);
+
 	public:
+
+		template<auto HookFunc>
+		struct HookHelper
+		{
+			inline static DetourHook* m_Hook = nullptr;
+		};
+
+		template<auto HookFunc>
+		static void RegisterHook(DetourHook* hook)
+		{
+			HookHelper<HookFunc>::m_Hook = hook;
+		}
+
+		template<auto HookFunc>
+		[[nodiscard]]
+		static DetourHook* Get()
+		{
+			return HookHelper<HookFunc>::m_Hook;
+		}
+
 		virtual ~Hooking();
 
 		Hooking(const Hooking&) = delete;
@@ -37,6 +60,9 @@ namespace YimMenu
 
 		static bool Init();
 		static void Destroy();
+
+		// Public hook lookup.
+		static DetourHook* GetHook(std::string_view name);
 
 	private:
 		bool InitImpl();

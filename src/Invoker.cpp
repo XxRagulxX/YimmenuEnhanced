@@ -3,7 +3,7 @@
 #include "Crossmap.hpp"
 #include "DetourHook.hpp"
 #include "Hooks.hpp"
-
+#include "Hooking.hpp"
 #include "scrProgram.hpp"
 
 namespace YimMenu
@@ -23,7 +23,7 @@ namespace YimMenu
 		auto program = reinterpret_cast<rage::scrProgram*>(calloc(1, sizeof(rage::scrProgram)));
 		program->m_NativeCount = m_Handlers.size();
 		program->m_NativeEntrypoints = m_Handlers.data();
-		BaseHook::Get<Hooks::Script::InitNativeTables, DetourHook>()->Original<decltype(&Hooks::Script::InitNativeTables)>()(program);
+		Hooking::Get<Hooks::Script::InitNativeTables>()->Original<decltype(&Hooks::Script::InitNativeTables)>()(program);
 		free(program);
 		m_AreHandlersCached = true;
 	}

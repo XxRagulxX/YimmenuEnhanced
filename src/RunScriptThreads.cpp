@@ -1,13 +1,14 @@
 #include "DetourHook.hpp"
 #include "ScriptMgr.hpp"
 #include "Hooks.hpp"
+#include "Hooking.hpp"
 #include "Scripts.hpp"
 
 namespace YimMenu::Hooks
 {
 	bool Script::RunScriptThreads(int ops_to_execute)
 	{
-		auto res = BaseHook::Get<Script::RunScriptThreads, DetourHook>()->Original<decltype(&RunScriptThreads)>()(ops_to_execute); // let's see what happens if we run our stuff after the game code instead of before
+		auto res = Hooking::Get<Script::RunScriptThreads>()->Original<decltype(&RunScriptThreads)>()(ops_to_execute); // let's see what happens if we run our stuff after the game code instead of before
 		if (g_Running)
 		{
 			auto thread = Scripts::FindScriptThread("freemode"_J);

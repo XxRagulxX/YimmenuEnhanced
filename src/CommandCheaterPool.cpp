@@ -2,6 +2,7 @@
 #include "DetourHook.hpp"
 #include "Hooks.hpp"
 #include "Pointers.hpp"
+#include "Hooking.hpp"
 
 namespace YimMenu::Features
 {
@@ -41,6 +42,6 @@ namespace YimMenu::Hooks
 		if (YimMenu::Features::_CheaterPool.GetState())
 			return 1;
 
-		return BaseHook::Get<Network::GetPoolType, DetourHook>()->Original<decltype(&Network::GetPoolType)>()();
+		return Hooking::Get<Network::GetPoolType>()->Original<decltype(&Network::GetPoolType)>()();
 	}
 }

@@ -1,6 +1,7 @@
 #include "DetourHook.hpp"
 #include "Hooks.hpp"
 #include "ScriptPatches.hpp"
+#include "Hooking.hpp"
 
 namespace YimMenu::Hooks
 {
@@ -9,10 +10,10 @@ namespace YimMenu::Hooks
 		if (g_Running)
 		{
 			ScriptPatches::OnScriptVMEnter(program);
-			auto res = BaseHook::Get<Script::ScriptVM, DetourHook>()->Original<decltype(&Script::ScriptVM)>()(stack, scr_globals, program, ctx);
+			auto res = Hooking::Get<Script::ScriptVM>()->Original<decltype(&Script::ScriptVM)>()(stack, scr_globals, program, ctx);
 			ScriptPatches::OnScriptVMLeave(program);
 			return res;
 		}
-		return BaseHook::Get<Script::ScriptVM, DetourHook>()->Original<decltype(&Script::ScriptVM)>()(stack, scr_globals, program, ctx);
+		return Hooking::Get<Script::ScriptVM>()->Original<decltype(&Script::ScriptVM)>()(stack, scr_globals, program, ctx);
 	}
 }

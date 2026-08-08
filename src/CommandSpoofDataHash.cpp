@@ -5,6 +5,7 @@
 #include "Hooks.hpp"
 #include "Pointers.hpp"
 #include "CGameDataHash.hpp"
+#include "Hooking.hpp"
 
 namespace YimMenu::Features
 {
@@ -16,9 +17,7 @@ namespace YimMenu::Features
 		{
 			auto log = LOG(VERBOSE);
 			log << "DLC Hash: "
-			    << BaseHook::Get<Hooks::Network::GetDLCHash, DetourHook>()->Original<decltype(&Hooks::Network::GetDLCHash)>()(
-			           *Pointers.DLCManager,
-			           0)
+			    << Hooking::Get<Hooks::Network::GetDLCHash>()->Original<decltype(&Hooks::Network::GetDLCHash)>()(*Pointers.DLCManager, 0)
 			    << "\n";
 			if (auto hashes = Pointers.GameDataHash)
 			{
@@ -95,6 +94,6 @@ namespace YimMenu::Hooks
 		if (YimMenu::Features::_SpoofDataHash.GetState())
 			return 1631480001;
 
-		return BaseHook::Get<Network::GetDLCHash, DetourHook>()->Original<decltype(&Network::GetDLCHash)>()(manager, seed);
+		return Hooking::Get<Network::GetDLCHash>()->Original<decltype(&Network::GetDLCHash)>()(manager, seed);
 	}
 }

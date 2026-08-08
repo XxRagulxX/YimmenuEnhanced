@@ -1,6 +1,7 @@
 #include "Hooks.hpp"
 #include "DetourHook.hpp"
 #include "CustomMatchmaking.hpp"
+#include "Hooking.hpp"
 
 namespace YimMenu::Hooks
 {
@@ -9,6 +10,6 @@ namespace YimMenu::Hooks
 		if (!CustomMatchmaking::OnAdvertise(num_slots, available_slots, info, data, out_id, status))
 			return true;
 
-		return BaseHook::Get<Matchmaking::MatchmakingAdvertise, DetourHook>()->Original<decltype(&Matchmaking::MatchmakingAdvertise)>()(profile_index, num_slots, available_slots, data, session_id, info, out_id, status);
+		return Hooking::Get<Matchmaking::MatchmakingAdvertise>()->Original<decltype(&Matchmaking::MatchmakingAdvertise)>()(profile_index, num_slots, available_slots, data, session_id, info, out_id, status);
 	}
 }

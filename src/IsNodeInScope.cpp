@@ -1,6 +1,7 @@
 #include "DetourHook.hpp"
 #include "NodeHooks.hpp"
 #include "Hooks.hpp"
+#include "Hooking.hpp"
 
 namespace YimMenu::Hooks
 {
@@ -9,6 +10,6 @@ namespace YimMenu::Hooks
 		if (NodeHooks::ShouldForceInScope(reinterpret_cast<CProjectBaseSyncDataNode*>(node)))
 			return true;
 
-		return BaseHook::Get<Spoofing::IsNodeInScope, DetourHook>()->Original<decltype(&Spoofing::IsNodeInScope)>()(node, a2, playerId, flags, a5, a6);
+		return Hooking::Get<Spoofing::IsNodeInScope>()->Original<decltype(&Spoofing::IsNodeInScope)>()(node, a2, playerId, flags, a5, a6);
 	}
 }

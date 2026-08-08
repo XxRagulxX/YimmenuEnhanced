@@ -1,6 +1,7 @@
 #include "Hooks.hpp"
 #include "DetourHook.hpp"
 #include "CustomMatchmaking.hpp"
+#include "Hooking.hpp"
 
 namespace YimMenu::Hooks
 {
@@ -11,6 +12,6 @@ namespace YimMenu::Hooks
 			status->m_Status = 2;
 			return true;
 		}
-		return BaseHook::Get<Matchmaking::MatchmakingUnadvertise, DetourHook>()->Original<decltype(&Matchmaking::MatchmakingUnadvertise)>()(profile_index, id, status);
+		return Hooking::Get<Matchmaking::MatchmakingUnadvertise>()->Original<decltype(&Matchmaking::MatchmakingUnadvertise)>()(profile_index, id, status);
 	}
 }

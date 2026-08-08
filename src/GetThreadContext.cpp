@@ -1,11 +1,12 @@
 #include "DetourHook.hpp"
 #include "Hooks.hpp"
+#include "Hooking.hpp"
 
 namespace YimMenu::Hooks
 {
 	BOOL Anticheat::GetThreadContext(HANDLE hThread, LPCONTEXT lpContext)
 	{
-		auto ret = BaseHook::Get<Anticheat::GetThreadContext, DetourHook>()->Original<decltype(&Anticheat::GetThreadContext)>()(hThread, lpContext);
+		auto ret = Hooking::Get<Anticheat::GetThreadContext>()->Original<decltype(&Anticheat::GetThreadContext)>()(hThread, lpContext);
 		lpContext->Dr0 = 0;
 		lpContext->Dr1 = 0;
 		lpContext->Dr2 = 0;

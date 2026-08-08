@@ -2,6 +2,7 @@
 #include "Hooks.hpp"
 #include "Pointers.hpp"
 #include "CAnticheatContext.hpp"
+#include "Hooking.hpp"
 
 namespace YimMenu::Hooks
 {
@@ -10,7 +11,7 @@ namespace YimMenu::Hooks
 		auto orig = (*Pointers.AnticheatContext) ? (*Pointers.AnticheatContext)->m_BattlEyeEnabled : false;
 		if (*Pointers.AnticheatContext)
 			(*Pointers.AnticheatContext)->m_BattlEyeEnabled = true; // integ checks will boot us out if we set this outside this function
-		auto ret = BaseHook::Get<Anticheat::GetAnticheatInitializedHash2, DetourHook>()->Original<decltype(&Anticheat::GetAnticheatInitializedHash2)>()(ac_var, seed);
+		auto ret = Hooking::Get<Anticheat::GetAnticheatInitializedHash2>()->Original<decltype(&Anticheat::GetAnticheatInitializedHash2)>()(ac_var, seed);
 		if (*Pointers.AnticheatContext)
 			(*Pointers.AnticheatContext)->m_BattlEyeEnabled = orig;
 		return ret;

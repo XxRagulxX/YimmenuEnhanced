@@ -1,6 +1,7 @@
 #include "DetourHook.hpp"
 #include "NodeHooks.hpp"
 #include "Hooks.hpp"
+#include "Hooking.hpp"
 
 namespace YimMenu::Hooks
 {
@@ -9,7 +10,7 @@ namespace YimMenu::Hooks
 		NodeHooks::SetSyncingObject(object);
 		NodeHooks::SetSyncingPlayer(Player(player_id));
 
-		auto ret = BaseHook::Get<Spoofing::WriteSyncTree, DetourHook>()->Original<decltype(&Spoofing::WriteSyncTree)>()(tree, type, flags, object, buffer, unk, a6, player_id, a8);
+		auto ret = Hooking::Get<Spoofing::WriteSyncTree>()->Original<decltype(&Spoofing::WriteSyncTree)>()(tree, type, flags, object, buffer, unk, a6, player_id, a8);
 
 		NodeHooks::SetSyncingObject(nullptr);
 		NodeHooks::SetSyncingPlayer(nullptr);

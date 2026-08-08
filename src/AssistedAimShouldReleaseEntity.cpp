@@ -4,6 +4,7 @@
 #include "CDynamicEntity.hpp"
 #include "Ped.hpp"
 #include "Pointers.hpp"
+#include "Hooking.hpp"
 
 namespace YimMenu::Hooks
 {
@@ -24,6 +25,6 @@ namespace YimMenu::Hooks
 			}
 		}
 
-		return BaseHook::Get<Misc::AssistedAimShouldReleaseEntity, DetourHook>()->Original<decltype(&Misc::AssistedAimShouldReleaseEntity)>()(a1);
+		return Hooking::Get<Misc::AssistedAimShouldReleaseEntity>()->Original<decltype(&Misc::AssistedAimShouldReleaseEntity)>()(a1);
 	}
 }

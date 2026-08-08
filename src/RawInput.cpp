@@ -1,6 +1,7 @@
 #include "DetourHook.hpp"
 #include "GUI.hpp"
 #include "Hooks.hpp"
+#include "Hooking.hpp"
 
 #include <imgui.h>
 
@@ -8,7 +9,7 @@ namespace YimMenu::Hooks
 {
 	UINT RawInput::GetRawInputData(HRAWINPUT hRawInput, UINT uiCommand, LPVOID pData, PUINT pcbSize, UINT cbSizeHeader)
 	{
-		auto result = BaseHook::Get<RawInput::GetRawInputData, DetourHook>()->Original<decltype(&RawInput::GetRawInputData)>()(hRawInput, uiCommand, pData, pcbSize, cbSizeHeader);
+		auto result = Hooking::Get<RawInput::GetRawInputData>()->Original<decltype(&RawInput::GetRawInputData)>()(hRawInput, uiCommand, pData, pcbSize, cbSizeHeader);
 
 		if (result > 0 && pData && uiCommand == RID_INPUT && ImGui::GetIO().WantCaptureMouse)
 		{

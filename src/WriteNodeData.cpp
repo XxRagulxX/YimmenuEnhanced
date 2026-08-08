@@ -2,6 +2,7 @@
 #include "NodeHooks.hpp"
 #include "Hooks.hpp"
 #include "Nodes.hpp"
+#include "Hooking.hpp"
 
 #include "datBitBuffer.hpp"
 
@@ -13,7 +14,7 @@ namespace YimMenu::Hooks
 		bool node_dirty = false;
 		Nodes::Init();
 
-		BaseHook::Get<Spoofing::WriteNodeData, DetourHook>()->Original<decltype(&Spoofing::WriteNodeData)>()(node, object, buffer, logger, update);
+		Hooking::Get<Spoofing::WriteNodeData>()->Original<decltype(&Spoofing::WriteNodeData)>()(node, object, buffer, logger, update);
 
 		if (NodeHooks::ModifyNodeData(node, object))
 			node_dirty = true;
@@ -21,7 +22,7 @@ namespace YimMenu::Hooks
 		if (node_dirty)
 		{
 			*buffer = orig_buffer;
-			BaseHook::Get<Spoofing::WriteNodeData, DetourHook>()->Original<decltype(&Spoofing::WriteNodeData)>()(node, object, buffer, logger, false);
+			Hooking::Get<Spoofing::WriteNodeData>()->Original<decltype(&Spoofing::WriteNodeData)>()(node, object, buffer, logger, false);
 		}
 	}
 }

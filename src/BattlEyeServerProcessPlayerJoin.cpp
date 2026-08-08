@@ -5,6 +5,7 @@
 #include "Natives.hpp"
 #include "CBattlEyePlayerModifyContext.hpp"
 #include "AnticheatBypass.hpp"
+#include "Hooking.hpp"
 
 namespace YimMenu::Hooks
 {
@@ -27,6 +28,6 @@ namespace YimMenu::Hooks
 			}
 		}
 
-		return BaseHook::Get<Anticheat::BattlEyeServerProcessPlayerJoin, DetourHook>()->Original<decltype(&Anticheat::BattlEyeServerProcessPlayerJoin)>()(server_iface, context);
+		return Hooking::Get<Anticheat::BattlEyeServerProcessPlayerJoin>()->Original<decltype(&Anticheat::BattlEyeServerProcessPlayerJoin)>()(server_iface, context);
 	}
 }

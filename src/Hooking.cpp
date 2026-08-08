@@ -4,7 +4,6 @@
 #include <stdexcept>
 #include <string>
 
-#include "BaseHook.hpp"
 #include "DetourHook.hpp"
 #include "Hooks.hpp"
 #include "Pointers.hpp"
@@ -15,117 +14,82 @@ namespace YimMenu
 	{
 		// Window hooks
 
-		auto* hook = AddHook("WndProc", Pointers.WndProc, reinterpret_cast<void*>(Hooks::Window::WndProc), HookGroup::Minimal);
-		BaseHook::Add<Hooks::Window::WndProc>(hook);
+		auto* hook = AddHook<Hooks::Window::WndProc>("WndProc", Pointers.WndProc, reinterpret_cast<void*>(Hooks::Window::WndProc), HookGroup::Minimal);
 
 		// Raw input hooks
 
-		auto* rawInputHook = AddHook("GetRawInputData", reinterpret_cast<void*>(GetProcAddress(LoadLibraryA("user32.dll"),"GetRawInputData")), reinterpret_cast<void*>(Hooks::RawInput::GetRawInputData), HookGroup::Minimal);
-		BaseHook::Add<Hooks::RawInput::GetRawInputData>(rawInputHook);
+		auto* rawInputHook = AddHook<Hooks::RawInput::GetRawInputData>("GetRawInputData", reinterpret_cast<void*>(GetProcAddress(LoadLibraryA("user32.dll"), "GetRawInputData")), reinterpret_cast<void*>(Hooks::RawInput::GetRawInputData), HookGroup::Minimal);
 
 		// DXGI hooks
 
 		auto swapchain_vft = *reinterpret_cast<void***>(*Pointers.SwapChain);
 
-		auto* presentHook = AddHook("Present", swapchain_vft[Hooks::SwapChain::VMTPresentIdx], reinterpret_cast<void*>(Hooks::SwapChain::Present), HookGroup::Minimal);
-		BaseHook::Add<Hooks::SwapChain::Present>(presentHook);
+		auto* presentHook = AddHook<Hooks::SwapChain::Present>("Present", swapchain_vft[Hooks::SwapChain::VMTPresentIdx], reinterpret_cast<void*>(Hooks::SwapChain::Present), HookGroup::Minimal);
 
-		auto* resizeBuffersHook = AddHook("ResizeBuffers", swapchain_vft[Hooks::SwapChain::VMTResizeBuffersIdx], reinterpret_cast<void*>(Hooks::SwapChain::ResizeBuffers), HookGroup::Minimal);
-		BaseHook::Add<Hooks::SwapChain::ResizeBuffers>(resizeBuffersHook);
-
+		auto* resizeBuffersHook = AddHook<Hooks::SwapChain::ResizeBuffers>("ResizeBuffers", swapchain_vft[Hooks::SwapChain::VMTResizeBuffersIdx], reinterpret_cast<void*>(Hooks::SwapChain::ResizeBuffers), HookGroup::Minimal);
 
 		// Anticheat hooks
 
-		auto* gameSkeletonUpdateHook = AddHook("GameSkeletonUpdate", Pointers.GameSkeletonUpdate, reinterpret_cast<void*>(Hooks::Anticheat::GameSkeletonUpdate));
-		BaseHook::Add<Hooks::Anticheat::GameSkeletonUpdate>(gameSkeletonUpdateHook);
+		auto* gameSkeletonUpdateHook = AddHook<Hooks::Anticheat::GameSkeletonUpdate>("GameSkeletonUpdate", Pointers.GameSkeletonUpdate, reinterpret_cast<void*>(Hooks::Anticheat::GameSkeletonUpdate));
 
+		auto* prepareMetricForSendingHook = AddHook<Hooks::Anticheat::PrepareMetricForSending>("PrepareMetricForSending", Pointers.PrepareMetricForSending, reinterpret_cast<void*>(Hooks::Anticheat::PrepareMetricForSending));
 
-		auto* prepareMetricForSendingHook = AddHook("PrepareMetricForSending", Pointers.PrepareMetricForSending, reinterpret_cast<void*>(Hooks::Anticheat::PrepareMetricForSending));
-		BaseHook::Add<Hooks::Anticheat::PrepareMetricForSending>(prepareMetricForSendingHook);
+		auto* getThreadContextHook = AddHook<Hooks::Anticheat::GetThreadContext>("GetThreadContext", reinterpret_cast<void*>(GetProcAddress(LoadLibraryA("kernel32.dll"), "GetThreadContext")), reinterpret_cast<void*>(Hooks::Anticheat::GetThreadContext));
 
+		auto* httpStartRequestHook = AddHook<Hooks::Anticheat::HttpStartRequest>("HttpStartRequest", Pointers.HttpStartRequest, reinterpret_cast<void*>(Hooks::Anticheat::HttpStartRequest));
 
-		auto* getThreadContextHook = AddHook("GetThreadContext", reinterpret_cast<void*>(GetProcAddress(LoadLibraryA("kernel32.dll"), "GetThreadContext")), reinterpret_cast<void*>(Hooks::Anticheat::GetThreadContext));
-		BaseHook::Add<Hooks::Anticheat::GetThreadContext>(getThreadContextHook);
+		auto* battlEyeServerProcessPlayerJoinHook = AddHook<Hooks::Anticheat::BattlEyeServerProcessPlayerJoin>("BattlEyeServerProcessPlayerJoin", Pointers.BattlEyeServerProcessPlayerJoin, reinterpret_cast<void*>(Hooks::Anticheat::BattlEyeServerProcessPlayerJoin));
 
-		auto* httpStartRequestHook = AddHook("HttpStartRequest", Pointers.HttpStartRequest, reinterpret_cast<void*>(Hooks::Anticheat::HttpStartRequest));
-		BaseHook::Add<Hooks::Anticheat::HttpStartRequest>(httpStartRequestHook);
+		auto* getAnticheatInitializedHashHook = AddHook<Hooks::Anticheat::GetAnticheatInitializedHash>("GetAnticheatInitializedHash", Pointers.GetAnticheatInitializedHash, reinterpret_cast<void*>(Hooks::Anticheat::GetAnticheatInitializedHash));
 
-
-		auto* battlEyeServerProcessPlayerJoinHook = AddHook("BattlEyeServerProcessPlayerJoin", Pointers.BattlEyeServerProcessPlayerJoin, reinterpret_cast<void*>(Hooks::Anticheat::BattlEyeServerProcessPlayerJoin));
-		BaseHook::Add<Hooks::Anticheat::BattlEyeServerProcessPlayerJoin>(battlEyeServerProcessPlayerJoinHook);
-
-
-		auto* getAnticheatInitializedHashHook = AddHook("GetAnticheatInitializedHash", Pointers.GetAnticheatInitializedHash, reinterpret_cast<void*>(Hooks::Anticheat::GetAnticheatInitializedHash));
-		BaseHook::Add<Hooks::Anticheat::GetAnticheatInitializedHash>(getAnticheatInitializedHashHook);
-
-
-		auto* getAnticheatInitializedHash2Hook = AddHook("GetAnticheatInitializedHash2", Pointers.GetAnticheatInitializedHash2, reinterpret_cast<void*>(Hooks::Anticheat::GetAnticheatInitializedHash2));
-		BaseHook::Add<Hooks::Anticheat::GetAnticheatInitializedHash2>(getAnticheatInitializedHash2Hook);
+		auto* getAnticheatInitializedHash2Hook = AddHook<Hooks::Anticheat::GetAnticheatInitializedHash2>("GetAnticheatInitializedHash2", Pointers.GetAnticheatInitializedHash2, reinterpret_cast<void*>(Hooks::Anticheat::GetAnticheatInitializedHash2));
 
 		// Script hooks
 
-		auto* runScriptThreadsHook = AddHook("RunScriptThreads", Pointers.RunScriptThreads, reinterpret_cast<void*>(Hooks::Script::RunScriptThreads));
-		BaseHook::Add<Hooks::Script::RunScriptThreads>(runScriptThreadsHook);
+		auto* runScriptThreadsHook = AddHook<Hooks::Script::RunScriptThreads>("RunScriptThreads", Pointers.RunScriptThreads, reinterpret_cast<void*>(Hooks::Script::RunScriptThreads));
 
-		auto* initNativeTablesHook = AddHook("InitNativeTables", Pointers.InitNativeTables, reinterpret_cast<void*>(Hooks::Script::InitNativeTables));
-		BaseHook::Add<Hooks::Script::InitNativeTables>(initNativeTablesHook);
+		auto* initNativeTablesHook = AddHook<Hooks::Script::InitNativeTables>("InitNativeTables", Pointers.InitNativeTables, reinterpret_cast<void*>(Hooks::Script::InitNativeTables));
 
-		auto* scriptVMHook = AddHook("ScriptVM", reinterpret_cast<void*>(Pointers.ScriptVM), reinterpret_cast<void*>(Hooks::Script::ScriptVM));
-		BaseHook::Add<Hooks::Script::ScriptVM>(scriptVMHook);
+		auto* scriptVMHook = AddHook<Hooks::Script::ScriptVM>("ScriptVM", reinterpret_cast<void*>(Pointers.ScriptVM), reinterpret_cast<void*>(Hooks::Script::ScriptVM));
 
-		auto* assignPhysicalIndexHook = AddHook("AssignPhysicalIndex", Pointers.AssignPhysicalIndex, reinterpret_cast<void*>(Hooks::Info::AssignPhysicalIndex));
-		BaseHook::Add<Hooks::Info::AssignPhysicalIndex>(assignPhysicalIndexHook);
+		auto* assignPhysicalIndexHook = AddHook<Hooks::Info::AssignPhysicalIndex>("AssignPhysicalIndex", Pointers.AssignPhysicalIndex, reinterpret_cast<void*>(Hooks::Info::AssignPhysicalIndex));
 
-		auto* networkPlayerMgrShutdownHook = AddHook("NetworkPlayerMgrShutdown", Pointers.NetworkPlayerMgrShutdown, reinterpret_cast<void*>(Hooks::Info::NetworkPlayerMgrShutdown));
-		BaseHook::Add<Hooks::Info::NetworkPlayerMgrShutdown>(networkPlayerMgrShutdownHook);
+		auto* networkPlayerMgrShutdownHook = AddHook<Hooks::Info::NetworkPlayerMgrShutdown>("NetworkPlayerMgrShutdown", Pointers.NetworkPlayerMgrShutdown, reinterpret_cast<void*>(Hooks::Info::NetworkPlayerMgrShutdown));
 
 		// Spoofing hooks
 
-		auto* isNodeInScopeHook = AddHook("IsNodeInScope", Pointers.IsNodeInScope, reinterpret_cast<void*>(Hooks::Spoofing::IsNodeInScope));
-		BaseHook::Add<Hooks::Spoofing::IsNodeInScope>(isNodeInScopeHook);
+		auto* isNodeInScopeHook = AddHook<Hooks::Spoofing::IsNodeInScope>("IsNodeInScope", Pointers.IsNodeInScope, reinterpret_cast<void*>(Hooks::Spoofing::IsNodeInScope));
 
-		auto* shouldUseNodeCacheHook = AddHook("ShouldUseNodeCache", Pointers.ShouldUseNodeCache, reinterpret_cast<void*>(Hooks::Spoofing::ShouldUseNodeCache));
-		BaseHook::Add<Hooks::Spoofing::ShouldUseNodeCache>(shouldUseNodeCacheHook);
+		auto* shouldUseNodeCacheHook = AddHook<Hooks::Spoofing::ShouldUseNodeCache>("ShouldUseNodeCache", Pointers.ShouldUseNodeCache, reinterpret_cast<void*>(Hooks::Spoofing::ShouldUseNodeCache));
 
-		auto* writeNetArrayDataHook = AddHook("WriteNetArrayData", Pointers.WriteNetArrayData, reinterpret_cast<void*>(Hooks::Spoofing::WriteNetArrayData));
-		BaseHook::Add<Hooks::Spoofing::WriteNetArrayData>(writeNetArrayDataHook);
+		auto* writeNetArrayDataHook = AddHook<Hooks::Spoofing::WriteNetArrayData>("WriteNetArrayData", Pointers.WriteNetArrayData, reinterpret_cast<void*>(Hooks::Spoofing::WriteNetArrayData));
 
-		auto* writeNodeDataHook = AddHook("WriteNodeData", Pointers.WriteNodeData, reinterpret_cast<void*>(Hooks::Spoofing::WriteNodeData));
-		BaseHook::Add<Hooks::Spoofing::WriteNodeData>(writeNodeDataHook);
+		auto* writeNodeDataHook = AddHook<Hooks::Spoofing::WriteNodeData>("WriteNodeData", Pointers.WriteNodeData, reinterpret_cast<void*>(Hooks::Spoofing::WriteNodeData));
 
-		auto* writeSyncTreeHook = AddHook("WriteSyncTree", Pointers.WriteSyncTree, reinterpret_cast<void*>(Hooks::Spoofing::WriteSyncTree));
-		BaseHook::Add<Hooks::Spoofing::WriteSyncTree>(writeSyncTreeHook);
+		auto* writeSyncTreeHook = AddHook<Hooks::Spoofing::WriteSyncTree>("WriteSyncTree", Pointers.WriteSyncTree, reinterpret_cast<void*>(Hooks::Spoofing::WriteSyncTree));
 
 		// Network hooks
 
-		auto* receiveNetMessageHook = AddHook("ReceiveNetMessage", Pointers.ReceiveNetMessage, reinterpret_cast<void*>(Hooks::Network::ReceiveNetMessage));
-		BaseHook::Add<Hooks::Network::ReceiveNetMessage>(receiveNetMessageHook);
+		auto* receiveNetMessageHook = AddHook<Hooks::Network::ReceiveNetMessage>("ReceiveNetMessage", Pointers.ReceiveNetMessage, reinterpret_cast<void*>(Hooks::Network::ReceiveNetMessage));
 
-		auto* getPoolTypeHook = AddHook("GetPoolType", Pointers.GetPoolType, reinterpret_cast<void*>(Hooks::Network::GetPoolType));
-		BaseHook::Add<Hooks::Network::GetPoolType>(getPoolTypeHook);
+		auto* getPoolTypeHook = AddHook<Hooks::Network::GetPoolType>("GetPoolType", Pointers.GetPoolType, reinterpret_cast<void*>(Hooks::Network::GetPoolType));
 
-		auto* getDLCHashHook = AddHook("GetDLCHash", Pointers.GetDLCHash, reinterpret_cast<void*>(Hooks::Network::GetDLCHash));
-		BaseHook::Add<Hooks::Network::GetDLCHash>(getDLCHashHook);
+		auto* getDLCHashHook = AddHook<Hooks::Network::GetDLCHash>("GetDLCHash", Pointers.GetDLCHash, reinterpret_cast<void*>(Hooks::Network::GetDLCHash));
 
 		// Matchmaking hooks
 
-		auto* matchmakingAdvertiseHook = AddHook("MatchmakingAdvertise", Pointers.MatchmakingAdvertise, reinterpret_cast<void*>(Hooks::Matchmaking::MatchmakingAdvertise));
-		BaseHook::Add<Hooks::Matchmaking::MatchmakingAdvertise>(matchmakingAdvertiseHook);
+		auto* matchmakingAdvertiseHook = AddHook<Hooks::Matchmaking::MatchmakingAdvertise>("MatchmakingAdvertise", Pointers.MatchmakingAdvertise, reinterpret_cast<void*>(Hooks::Matchmaking::MatchmakingAdvertise));
+
+		auto* matchmakingSessionDetailSendResponseHook = AddHook<Hooks::Matchmaking::MatchmakingSessionDetailSendResponse>("MatchmakingSessionDetailSendResponse", Pointers.MatchmakingSessionDetailSendResponse, reinterpret_cast<void*>(Hooks::Matchmaking::MatchmakingSessionDetailSendResponse));
 
 
-		auto* matchmakingSessionDetailSendResponseHook = AddHook("MatchmakingSessionDetailSendResponse", Pointers.MatchmakingSessionDetailSendResponse, reinterpret_cast<void*>(Hooks::Matchmaking::MatchmakingSessionDetailSendResponse));
-		BaseHook::Add<Hooks::Matchmaking::MatchmakingSessionDetailSendResponse>(matchmakingSessionDetailSendResponseHook);
+		auto* matchmakingUnadvertiseHook = AddHook<Hooks::Matchmaking::MatchmakingUnadvertise>("MatchmakingUnadvertise", Pointers.MatchmakingUnadvertise, reinterpret_cast<void*>(Hooks::Matchmaking::MatchmakingUnadvertise));
 
-		auto* matchmakingUnadvertiseHook = AddHook("MatchmakingUnadvertise", Pointers.MatchmakingUnadvertise, reinterpret_cast<void*>(Hooks::Matchmaking::MatchmakingUnadvertise));
-		BaseHook::Add<Hooks::Matchmaking::MatchmakingUnadvertise>(matchmakingUnadvertiseHook);
-
-		auto* matchmakingUpdateHook = AddHook("MatchmakingUpdate", Pointers.MatchmakingUpdate, reinterpret_cast<void*>(Hooks::Matchmaking::MatchmakingUpdate));
-		BaseHook::Add<Hooks::Matchmaking::MatchmakingUpdate>(matchmakingUpdateHook);
+		auto* matchmakingUpdateHook = AddHook<Hooks::Matchmaking::MatchmakingUpdate>("MatchmakingUpdate", Pointers.MatchmakingUpdate, reinterpret_cast<void*>(Hooks::Matchmaking::MatchmakingUpdate));
 
 		// Misc hooks
 
-		auto* assistedAimShouldReleaseEntityHook = AddHook("AssistedAimShouldReleaseEntity", Pointers.AssistedAimShouldReleaseEntity, reinterpret_cast<void*>(Hooks::Misc::AssistedAimShouldReleaseEntity));
-		BaseHook::Add<Hooks::Misc::AssistedAimShouldReleaseEntity>(assistedAimShouldReleaseEntityHook);
+		auto* assistedAimShouldReleaseEntityHook = AddHook<Hooks::Misc::AssistedAimShouldReleaseEntity>("AssistedAimShouldReleaseEntity", Pointers.AssistedAimShouldReleaseEntity, reinterpret_cast<void*>(Hooks::Misc::AssistedAimShouldReleaseEntity));
 
 	}
 
@@ -301,6 +265,7 @@ namespace YimMenu
 		return hooks;
 	}
 
+	template<auto HookFunc>
 	DetourHook* Hooking::AddHook(
 	    std::string_view name,
 	    void* target,
@@ -318,6 +283,24 @@ namespace YimMenu
 
 		m_Hooks.emplace_back(std::move(hook));
 
+		RegisterHook<HookFunc>(ptr);
+
 		return ptr;
+	}
+
+	DetourHook* Hooking::FindHook(std::string_view name)
+	{
+		for (auto& hook : m_Hooks)
+		{
+			if (hook && hook->Name() == name)
+				return hook.get();
+		}
+
+		return nullptr;
+	}
+
+	DetourHook* Hooking::GetHook(std::string_view name)
+	{
+		return GetInstance().FindHook(name);
 	}
 }
