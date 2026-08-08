@@ -5,7 +5,6 @@
 #include <vector>
 
 #include "DetourHook.hpp"
-#include "MinHook.hpp"
 
 namespace YimMenu
 {
@@ -13,8 +12,6 @@ namespace YimMenu
 	{
 	private:
 		Hooking();
-
-		MinHook m_MinHook;
 
 		// Central ownership of all hooks.
 		std::vector<std::unique_ptr<DetourHook>> m_Hooks;
@@ -67,10 +64,6 @@ namespace YimMenu
 	private:
 		bool InitImpl();
 		void DestroyImpl();
-
-		//--------------------------------------------------
-		// Stand-compatible lifecycle API
-		//--------------------------------------------------
 
 		std::vector<DetourHook*> GetMinimalHooks();
 		std::vector<DetourHook*> GetPassiveHooks();

@@ -3,7 +3,7 @@
 #include <array>
 #include <stdexcept>
 #include <string>
-
+#include <MinHook.h>
 #include "DetourHook.hpp"
 #include "Hooks.hpp"
 #include "Pointers.hpp"
@@ -96,6 +96,8 @@ namespace YimMenu
 	Hooking::~Hooking()
 	{
 		DestroyImpl();
+
+		MH_Uninitialize();
 	}
 
 	bool Hooking::Init()
@@ -108,9 +110,18 @@ namespace YimMenu
 		GetInstance().DestroyImpl();
 		BytePatches::RestoreAll();
 	}
+
+	const auto status = MH_Initialize();
 	
 	bool Hooking::InitImpl()
 	{
+		const auto status = MH_Initialize();
+
+		if (status != MH_OK && status != MH_ERROR_ALREADY_INITIALIZED)
+		{
+			return false;
+		}
+
 		LOGF(INFO, "[Hooking] Starting hook initialization.");
 		auto minimalHooks = GetMinimalHooks();
 		auto passiveHooks = GetPassiveHooks();
@@ -181,7 +192,7 @@ namespace YimMenu
 			}
 		}
 
-		m_MinHook.ApplyQueued();
+		MH_ApplyQueued();
 	}
 
 	void Hooking::BatchDisable(const std::vector<DetourHook*>& hooks)
@@ -198,7 +209,7 @@ namespace YimMenu
 			}
 		}
 
-		m_MinHook.ApplyQueued();
+		MH_ApplyQueued();
 	}
 
 	void Hooking::BatchRemove(const std::vector<DetourHook*>& hooks)

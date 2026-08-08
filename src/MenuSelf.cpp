@@ -24,7 +24,7 @@ namespace YimMenu::Submenus
 		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("noragdoll"_J));
 		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("noidlekick"_J));
 		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("unlimitedoxygen"_J));
-		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("formatmoney"_J));
+		//globalsGroup->AddItem(std::make_shared<BoolCommandItem>("formatmoney"_J));
 		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("mobileradio"_J));
 		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("keepplayerclean"_J));
 		globalsGroup->AddItem(std::make_shared<BoolCommandItem>("disablecriticalhits"_J));

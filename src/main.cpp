@@ -7,7 +7,6 @@
 #include "FileMgr.hpp"
 #include "Notifications.hpp"
 #include "Hooking.hpp"
-#include "CallHook.hpp"
 #include "ModuleMgr.hpp"
 #include "Renderer.hpp"
 #include "Wine.hpp"
@@ -103,7 +102,6 @@ namespace YimMenu
 		g_script_mgr.deinit();
 		NativeHooks::Destroy();
 		Hooking::Destroy();
-		CallSiteHook::Destroy();
 
 	EARLY_UNLOAD:
 		g_Running = false;
