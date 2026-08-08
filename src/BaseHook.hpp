@@ -1,6 +1,6 @@
 #pragma once
+
 #include <string_view>
-#include <vector>
 
 namespace YimMenu
 {
@@ -13,18 +13,22 @@ namespace YimMenu
 		bool m_Enabled;
 
 	public:
-		BaseHook(const std::string_view name);
+		explicit BaseHook(std::string_view name);
 		virtual ~BaseHook() = default;
+
 		BaseHook(const BaseHook&) = delete;
 		BaseHook(BaseHook&&) noexcept = delete;
 		BaseHook& operator=(const BaseHook&) = delete;
 		BaseHook& operator=(BaseHook&&) noexcept = delete;
 
-		const std::string_view Name() const
+		[[nodiscard]]
+		const std::string_view Name() const noexcept
 		{
 			return m_Name;
 		}
-		inline bool IsEnabled() const
+
+		[[nodiscard]]
+		bool IsEnabled() const noexcept
 		{
 			return m_Enabled;
 		}
@@ -33,35 +37,39 @@ namespace YimMenu
 		virtual bool Disable() = 0;
 
 	public:
+		// --------------------------------------------------
+		// Hook function -> hook instance lookup
+		//
+		// BaseHook does NOT own hooks.
+		// Hooking owns the actual DetourHook objects.
+		// --------------------------------------------------
+
 		template<auto HookFunc>
 		struct HookHelper
 		{
-			inline static BaseHook* m_Hook;
+			inline static BaseHook* m_Hook = nullptr;
 		};
 
 		template<auto HookFunc>
-		inline static void Add(BaseHook* hook);
+		static void Add(BaseHook* hook)
+		{
+			HookHelper<HookFunc>::m_Hook = hook;
+		}
+
+		template<auto HookFunc>
+		static void Remove(BaseHook* hook)
+		{
+			if (HookHelper<HookFunc>::m_Hook == hook)
+			{
+				HookHelper<HookFunc>::m_Hook = nullptr;
+			}
+		}
+
 		template<auto HookFunc, typename T>
-		inline static T* Get();
-
-		static std::vector<BaseHook*>& Hooks();
-
-		static void EnableAll();
-		static void DisableAll();
-
-	private:
-		inline static std::vector<BaseHook*> m_Hooks;
+		[[nodiscard]]
+		static T* Get()
+		{
+			return reinterpret_cast<T*>(HookHelper<HookFunc>::m_Hook);
+		}
 	};
-
-	template<auto HookFunc>
-	inline void BaseHook::Add(BaseHook* hook)
-	{
-		HookHelper<HookFunc>::m_Hook = hook;
-	}
-
-	template<auto HookFunc, typename T>
-	inline T* BaseHook::Get()
-	{
-		return reinterpret_cast<T*>(HookHelper<HookFunc>::m_Hook);
-	}
 }
