@@ -143,7 +143,7 @@ namespace YimMenu
 
 	bool Hooking::InitImpl()
 	{
-		auto hooks = GetAllHooks();
+		std::vector<DetourHook*> hooks = GetAllHooks();
 
 		BatchCreate(hooks);
 		BatchEnable(hooks);
@@ -153,7 +153,7 @@ namespace YimMenu
 
 	void Hooking::DestroyImpl()
 	{
-		auto hooks = GetAllHooks();
+		std::vector<DetourHook*> hooks = GetAllHooks();
 
 		BatchDisable(hooks);
 		BatchRemove(hooks);
@@ -165,8 +165,10 @@ namespace YimMenu
 	{
 		for (auto* hook : hooks)
 		{
-			if (hook)
-				hook->CreateHook();
+			if (!hook)
+				continue;
+
+			hook->CreateHook();
 		}
 	}
 
@@ -174,8 +176,10 @@ namespace YimMenu
 	{
 		for (auto* hook : hooks)
 		{
-			if (hook)
-				hook->Enable();
+			if (!hook)
+				continue;
+
+			hook->EnableHookQueued();
 		}
 
 		m_MinHook.ApplyQueued();
@@ -185,8 +189,10 @@ namespace YimMenu
 	{
 		for (auto* hook : hooks)
 		{
-			if (hook)
-				hook->Disable();
+			if (!hook)
+				continue;
+
+			hook->DisableHookQueued();
 		}
 
 		m_MinHook.ApplyQueued();
@@ -196,8 +202,10 @@ namespace YimMenu
 	{
 		for (auto* hook : hooks)
 		{
-			if (hook)
-				hook->RemoveHook();
+			if (!hook)
+				continue;
+
+			hook->RemoveHook();
 		}
 	}
 
@@ -218,7 +226,8 @@ namespace YimMenu
 
 		for (auto& hook : m_Hooks)
 		{
-			hooks.push_back(hook.get());
+			if (hook)
+				hooks.push_back(hook.get());
 		}
 
 		return hooks;
@@ -226,13 +235,14 @@ namespace YimMenu
 
 	std::vector<DetourHook*> Hooking::GetAllHooks()
 	{
-		auto hooks = GetMinimalHooks();
+		std::vector<DetourHook*> hooks;
+		hooks.reserve(m_Hooks.size());
 
-		auto passive = GetPassiveHooks();
-		hooks.insert(hooks.end(), passive.begin(), passive.end());
-
-		auto main = GetMainHooks();
-		hooks.insert(hooks.end(), main.begin(), main.end());
+		for (auto& hook : m_Hooks)
+		{
+			if (hook)
+				hooks.push_back(hook.get());
+		}
 
 		return hooks;
 	}
