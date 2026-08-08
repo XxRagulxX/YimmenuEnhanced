@@ -3,7 +3,7 @@
 #include <memory>
 #include <string_view>
 #include <vector>
-
+#include <algorithm>
 #include "BaseHook.hpp"
 #include "DetourHook.hpp"
 #include "MinHook.hpp"

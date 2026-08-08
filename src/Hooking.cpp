@@ -1,5 +1,5 @@
 #include "Hooking.hpp"
-
+#include <array>
 #include "BaseHook.hpp"
 #include "DetourHook.hpp"
 #include "Hooks.hpp"
@@ -143,17 +143,25 @@ namespace YimMenu
 
 	bool Hooking::InitImpl()
 	{
-		std::vector<DetourHook*> hooks = GetAllHooks();
+		LOGF(INFO, "[Hooking] Starting hook initialization.");
+		auto minimalHooks = GetMinimalHooks();
+		auto passiveHooks = GetPassiveHooks();
+		auto mainHooks = GetMainHooks();
 
-		BatchCreate(hooks);
-		BatchEnable(hooks);
+		BatchCreate(minimalHooks);
+		BatchCreate(passiveHooks);
+		BatchCreate(mainHooks);
+
+		BatchEnable(minimalHooks);
+		BatchEnable(passiveHooks);
+		BatchEnable(mainHooks);
 
 		return true;
 	}
 
 	void Hooking::DestroyImpl()
 	{
-		std::vector<DetourHook*> hooks = GetAllHooks();
+		auto hooks = GetAllHooks();
 
 		BatchDisable(hooks);
 		BatchRemove(hooks);
@@ -211,23 +219,84 @@ namespace YimMenu
 
 	std::vector<DetourHook*> Hooking::GetMinimalHooks()
 	{
-		return {};
+		constexpr std::array<std::string_view, 5> minimalNames{
+		    "Present",
+		    "ResizeBuffers",
+		    "GameSkeletonUpdate",
+		    "RunScriptThreads",
+		    "ScriptVM"};
+
+		std::vector<DetourHook*> hooks;
+
+		for (auto& hook : m_Hooks)
+		{
+			if (!hook)
+				continue;
+
+			for (const auto name : minimalNames)
+			{
+				if (hook->Name() == name)
+				{
+					hooks.push_back(hook.get());
+					break;
+				}
+			}
+		}
+
+		return hooks;
 	}
 
 	std::vector<DetourHook*> Hooking::GetPassiveHooks()
 	{
-		return {};
+		constexpr std::array<std::string_view, 1> passiveNames{
+		    "HttpStartRequest"};
+
+		std::vector<DetourHook*> hooks;
+
+		for (auto& hook : m_Hooks)
+		{
+			if (!hook)
+				continue;
+
+			for (const auto name : passiveNames)
+			{
+				if (hook->Name() == name)
+				{
+					hooks.push_back(hook.get());
+					break;
+				}
+			}
+		}
+
+		return hooks;
 	}
 
 	std::vector<DetourHook*> Hooking::GetMainHooks()
 	{
+		const auto minimalHooks = GetMinimalHooks();
+		const auto passiveHooks = GetPassiveHooks();
+
 		std::vector<DetourHook*> hooks;
-		hooks.reserve(m_Hooks.size());
 
 		for (auto& hook : m_Hooks)
 		{
-			if (hook)
-				hooks.push_back(hook.get());
+			if (!hook)
+				continue;
+
+			auto* ptr = hook.get();
+
+			const bool isMinimal =
+			    std::find(minimalHooks.begin(), minimalHooks.end(), ptr)
+			    != minimalHooks.end();
+
+			const bool isPassive =
+			    std::find(passiveHooks.begin(), passiveHooks.end(), ptr)
+			    != passiveHooks.end();
+
+			if (!isMinimal && !isPassive)
+			{
+				hooks.push_back(ptr);
+			}
 		}
 
 		return hooks;
@@ -236,13 +305,30 @@ namespace YimMenu
 	std::vector<DetourHook*> Hooking::GetAllHooks()
 	{
 		std::vector<DetourHook*> hooks;
-		hooks.reserve(m_Hooks.size());
 
-		for (auto& hook : m_Hooks)
-		{
-			if (hook)
-				hooks.push_back(hook.get());
-		}
+		const auto minimalHooks = GetMinimalHooks();
+		const auto passiveHooks = GetPassiveHooks();
+		const auto mainHooks = GetMainHooks();
+
+		hooks.reserve(
+		    minimalHooks.size()
+		    + passiveHooks.size()
+		    + mainHooks.size());
+
+		hooks.insert(
+		    hooks.end(),
+		    minimalHooks.begin(),
+		    minimalHooks.end());
+
+		hooks.insert(
+		    hooks.end(),
+		    passiveHooks.begin(),
+		    passiveHooks.end());
+
+		hooks.insert(
+		    hooks.end(),
+		    mainHooks.begin(),
+		    mainHooks.end());
 
 		return hooks;
 	}
