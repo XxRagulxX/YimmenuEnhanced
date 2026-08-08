@@ -127,31 +127,17 @@ namespace YimMenu
 		void OptimizeHook();
 	};
 
-	inline DetourHook::DetourHook(std::string_view name, void* target, void* detour):
-		BaseHook(name),
+	inline DetourHook::DetourHook(
+	    std::string_view name,
+	    void* target,
+	    void* detour) :
+	    BaseHook(name),
 	    m_TargetFunc(target),
 	    m_DetourFunc(detour),
 	    m_OriginalFunc(nullptr)
 	{
 		OptimizeHook();
-
 		m_EffectiveTarget = m_TargetFunc;
-
-		if (const auto result = MH_CreateHook(
-		        m_TargetFunc,
-		        m_DetourFunc,
-		        &m_OriginalFunc);
-		    result != MH_OK)
-		{
-			LOGF(FATAL,
-			    "Failed to create hook {}",
-			    name);
-
-			throw std::runtime_error("Failed to create hook!");
-		}
-
-		LOGF(INFO, "Created hook {}", name);
-
 	}
 
 	inline DetourHook::~DetourHook()
