@@ -1,5 +1,6 @@
 #include "ScriptMgr.hpp"
 #include "FiberPool.hpp"
+#include "Exceptional.hpp"
 
 namespace YimMenu
 {
@@ -91,7 +92,17 @@ namespace YimMenu
 
 			for (auto scriptIt = scripts.begin(); scriptIt != scripts.end();)
 			{
-				if ((*scriptIt)->tick())
+				bool ok = false;
+
+				__try
+				{
+					ok = (*scriptIt)->tick();
+				}
+				__EXCEPTIONAL()
+				{
+				}
+
+				if (ok)
 				{
 					++scriptIt;
 				}
