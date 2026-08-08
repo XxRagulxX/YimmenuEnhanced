@@ -41,6 +41,6 @@ namespace YimMenu::Hooks
 		if (YimMenu::Features::_CheaterPool.GetState())
 			return 1;
 
-		return BaseHook::Get<Network::GetPoolType, DetourHook<decltype(&Network::GetPoolType)>>()->Original()();
+		return BaseHook::Get<Network::GetPoolType, DetourHook>()->Original<decltype(&Network::GetPoolType)>()();
 	}
 }

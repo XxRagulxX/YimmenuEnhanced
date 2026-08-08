@@ -7,9 +7,9 @@ namespace YimMenu::Hooks
 	void Info::NetworkPlayerMgrShutdown(CNetworkPlayerMgr* mgr)
 	{
 		if (!g_Running)
-			return BaseHook::Get<Info::NetworkPlayerMgrShutdown, DetourHook<decltype(&Info::NetworkPlayerMgrShutdown)>>()->Original()(mgr);
+			return BaseHook::Get<Info::NetworkPlayerMgrShutdown, DetourHook>()->Original<decltype(&Info::NetworkPlayerMgrShutdown)>()(mgr);
 
 		Players::Shutdown();
-		BaseHook::Get<Info::NetworkPlayerMgrShutdown, DetourHook<decltype(&Info::NetworkPlayerMgrShutdown)>>()->Original()(mgr);
+		BaseHook::Get<Info::NetworkPlayerMgrShutdown, DetourHook>()->Original<decltype(&Info::NetworkPlayerMgrShutdown)>()(mgr);
 	}
 }

@@ -16,7 +16,7 @@ namespace YimMenu::Features
 		{
 			auto log = LOG(VERBOSE);
 			log << "DLC Hash: "
-			    << BaseHook::Get<Hooks::Network::GetDLCHash, DetourHook<decltype(&Hooks::Network::GetDLCHash)>>()->Original()(
+			    << BaseHook::Get<Hooks::Network::GetDLCHash, DetourHook>()->Original<decltype(&Hooks::Network::GetDLCHash)>()(
 			           *Pointers.DLCManager,
 			           0)
 			    << "\n";
@@ -95,6 +95,6 @@ namespace YimMenu::Hooks
 		if (YimMenu::Features::_SpoofDataHash.GetState())
 			return 1631480001;
 
-		return BaseHook::Get<Network::GetDLCHash, DetourHook<decltype(&Network::GetDLCHash)>>()->Original()(manager, seed);
+		return BaseHook::Get<Network::GetDLCHash, DetourHook>()->Original<decltype(&Network::GetDLCHash)>()(manager, seed);
 	}
 }

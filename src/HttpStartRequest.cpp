@@ -18,6 +18,6 @@ namespace YimMenu::Hooks
 			LOG(WARNING) << "Blocked Bonus Report";
 		}
 
-		return BaseHook::Get<Anticheat::HttpStartRequest, DetourHook<decltype(&Anticheat::HttpStartRequest)>>()->Original()(request);
+		return BaseHook::Get<Anticheat::HttpStartRequest, DetourHook>()->Original<decltype(&Anticheat::HttpStartRequest)>()(request);
 	}
 }

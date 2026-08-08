@@ -9,6 +9,6 @@ namespace YimMenu::Hooks
 		if (NodeHooks::ShouldSkipNodeCache(reinterpret_cast<CProjectBaseSyncDataNode*>(node)))
 			return false;
 
-		return BaseHook::Get<Spoofing::ShouldUseNodeCache, DetourHook<decltype(&Spoofing::ShouldUseNodeCache)>>()->Original()(node, flags);
+		return BaseHook::Get<Spoofing::ShouldUseNodeCache, DetourHook>()->Original<decltype(&Spoofing::ShouldUseNodeCache)>()(node, flags);
 	}
 }

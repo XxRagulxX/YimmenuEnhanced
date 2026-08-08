@@ -40,6 +40,6 @@ namespace YimMenu::Hooks
 	{
 		FreemodeStateKick kick(target, static_cast<void*>(_this->m_Array));
 
-		return BaseHook::Get<Spoofing::WriteNetArrayData, DetourHook<decltype(&Spoofing::WriteNetArrayData)>>()->Original()(_this, target, bit_buffer, counter, elem_start, silent);
+		return BaseHook::Get<Spoofing::WriteNetArrayData, DetourHook>()->Original<decltype(&Spoofing::WriteNetArrayData)>()(_this, target, bit_buffer, counter, elem_start, silent);
 	}
 }

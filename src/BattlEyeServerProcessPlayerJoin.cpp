@@ -27,6 +27,6 @@ namespace YimMenu::Hooks
 			}
 		}
 
-		return BaseHook::Get<Anticheat::BattlEyeServerProcessPlayerJoin, DetourHook<decltype(&Anticheat::BattlEyeServerProcessPlayerJoin)>>()->Original()(server_iface, context);
+		return BaseHook::Get<Anticheat::BattlEyeServerProcessPlayerJoin, DetourHook>()->Original<decltype(&Anticheat::BattlEyeServerProcessPlayerJoin)>()(server_iface, context);
 	}
 }

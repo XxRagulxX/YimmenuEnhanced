@@ -24,6 +24,6 @@ namespace YimMenu::Hooks
 			}
 		}
 
-		return BaseHook::Get<Misc::AssistedAimShouldReleaseEntity, DetourHook<decltype(&Misc::AssistedAimShouldReleaseEntity)>>()->Original()(a1);
+		return BaseHook::Get<Misc::AssistedAimShouldReleaseEntity, DetourHook>()->Original<decltype(&Misc::AssistedAimShouldReleaseEntity)>()(a1);
 	}
 }

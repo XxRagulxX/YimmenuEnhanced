@@ -25,10 +25,10 @@ namespace YimMenu::Hooks
 	void Network::ReceiveNetMessage(void* a1, rage::netConnectionManager* mgr, rage::netEvent* event)
 	{
 		if (!g_Running)
-			return BaseHook::Get<Network::ReceiveNetMessage, DetourHook<decltype(&Network::ReceiveNetMessage)>>()->Original()(a1, mgr, event);
+			return BaseHook::Get<Network::ReceiveNetMessage, DetourHook>()->Original<decltype(&Network::ReceiveNetMessage)>()(a1, mgr, event);
 
 		if (event->GetEventType() != rage::netEvent::Type::FrameReceived)
-			return BaseHook::Get<Network::ReceiveNetMessage, DetourHook<decltype(&Network::ReceiveNetMessage)>>()->Original()(a1, mgr, event);
+			return BaseHook::Get<Network::ReceiveNetMessage, DetourHook>()->Original<decltype(&Network::ReceiveNetMessage)>()(a1, mgr, event);
 
 		// TODO: port security ID stuff from V1
 		auto fr_evt = reinterpret_cast<rage::netEventFrameReceived*>(event);
@@ -214,6 +214,6 @@ namespace YimMenu::Hooks
 			break;
 		}
 
-		BaseHook::Get<Network::ReceiveNetMessage, DetourHook<decltype(&Network::ReceiveNetMessage)>>()->Original()(a1, mgr, event);
+		BaseHook::Get<Network::ReceiveNetMessage, DetourHook>()->Original<decltype(&Network::ReceiveNetMessage)>()(a1, mgr, event);
 	}
 }

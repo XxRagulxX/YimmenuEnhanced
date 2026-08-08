@@ -11,6 +11,6 @@ namespace YimMenu::Hooks
 			status->m_Status = 2;
 			return true;
 		}
-		return BaseHook::Get<Matchmaking::MatchmakingUnadvertise, DetourHook<decltype(&Matchmaking::MatchmakingUnadvertise)>>()->Original()(profile_index, id, status);
+		return BaseHook::Get<Matchmaking::MatchmakingUnadvertise, DetourHook>()->Original<decltype(&Matchmaking::MatchmakingUnadvertise)>()(profile_index, id, status);
 	}
 }

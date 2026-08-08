@@ -9,6 +9,6 @@ namespace YimMenu::Hooks
 		if (g_Running)
 			Renderer::WndProc(hwnd, umsg, wparam, lparam);
 
-		return BaseHook::Get<Window::WndProc, DetourHook<WNDPROC>>()->Original()(hwnd, umsg, wparam, lparam);
+		return BaseHook::Get<Window::WndProc, DetourHook>()->Original<WNDPROC>()(hwnd, umsg, wparam, lparam);
 	}
 }

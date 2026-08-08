@@ -9,6 +9,6 @@ namespace YimMenu::Hooks
 		if (!CustomMatchmaking::OnAdvertise(num_slots, available_slots, info, data, out_id, status))
 			return true;
 
-		return BaseHook::Get<Matchmaking::MatchmakingAdvertise, DetourHook<decltype(&Matchmaking::MatchmakingAdvertise)>>()->Original()(profile_index, num_slots, available_slots, data, session_id, info, out_id, status);
+		return BaseHook::Get<Matchmaking::MatchmakingAdvertise, DetourHook>()->Original<decltype(&Matchmaking::MatchmakingAdvertise)>()(profile_index, num_slots, available_slots, data, session_id, info, out_id, status);
 	}
 }

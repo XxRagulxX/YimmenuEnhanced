@@ -9,7 +9,7 @@ namespace YimMenu::Hooks
 {
 	void Script::InitNativeTables(rage::scrProgram* program)
 	{
-		BaseHook::Get<Script::InitNativeTables, DetourHook<decltype(&Script::InitNativeTables)>>()->Original()(program);
+		BaseHook::Get<Script::InitNativeTables, DetourHook>()->Original<decltype(&Script::InitNativeTables)>()(program);
 		if (g_Running)
 		{
 			if (program->m_CodeBlocks && program->m_CodeSize)

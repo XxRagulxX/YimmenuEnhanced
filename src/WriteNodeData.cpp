@@ -13,7 +13,7 @@ namespace YimMenu::Hooks
 		bool node_dirty = false;
 		Nodes::Init();
 
-		BaseHook::Get<Spoofing::WriteNodeData, DetourHook<decltype(&Spoofing::WriteNodeData)>>()->Original()(node, object, buffer, logger, update);
+		BaseHook::Get<Spoofing::WriteNodeData, DetourHook>()->Original<decltype(&Spoofing::WriteNodeData)>()(node, object, buffer, logger, update);
 
 		if (NodeHooks::ModifyNodeData(node, object))
 			node_dirty = true;
@@ -21,7 +21,7 @@ namespace YimMenu::Hooks
 		if (node_dirty)
 		{
 			*buffer = orig_buffer;
-			BaseHook::Get<Spoofing::WriteNodeData, DetourHook<decltype(&Spoofing::WriteNodeData)>>()->Original()(node, object, buffer, logger, false);
+			BaseHook::Get<Spoofing::WriteNodeData, DetourHook>()->Original<decltype(&Spoofing::WriteNodeData)>()(node, object, buffer, logger, false);
 		}
 	}
 }

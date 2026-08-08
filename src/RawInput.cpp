@@ -8,7 +8,7 @@ namespace YimMenu::Hooks
 {
 	UINT RawInput::GetRawInputData(HRAWINPUT hRawInput, UINT uiCommand, LPVOID pData, PUINT pcbSize, UINT cbSizeHeader)
 	{
-		auto result = BaseHook::Get<RawInput::GetRawInputData, DetourHook<decltype(&RawInput::GetRawInputData)>>()->Original()(hRawInput, uiCommand, pData, pcbSize, cbSizeHeader);
+		auto result = BaseHook::Get<RawInput::GetRawInputData, DetourHook>()->Original<decltype(&RawInput::GetRawInputData)>()(hRawInput, uiCommand, pData, pcbSize, cbSizeHeader);
 
 		if (result > 0 && pData && uiCommand == RID_INPUT && ImGui::GetIO().WantCaptureMouse)
 		{

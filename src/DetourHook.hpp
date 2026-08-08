@@ -18,7 +18,6 @@ namespace YimMenu
 		DH_FORCEFAIL = 1 << 7,
 #endif
 	};
-	template<typename T = int*>
 	class DetourHook : public BaseHook
 	{
 	private:
@@ -32,6 +31,7 @@ namespace YimMenu
 		uint8_t m_Flags = DH_NONE;
 
 	public:
+		virtual ~DetourHook();
 
 		DetourHook(const DetourHook&) = delete;
 		DetourHook& operator=(const DetourHook&) = delete;
@@ -39,8 +39,7 @@ namespace YimMenu
 		DetourHook(DetourHook&&) = delete;
 		DetourHook& operator=(DetourHook&&) = delete;
 
-		DetourHook(const std::string_view name, void* target, T detour);
-		virtual ~DetourHook();
+		DetourHook(std::string_view name, void* target, void* detour);
 
 		bool Enable();
 		bool Disable();
@@ -48,27 +47,30 @@ namespace YimMenu
 		bool EnableNow();
 		bool DisableNow();
 
-		template<typename U = T>
-		[[nodiscard]]
-		U Original() const noexcept;
-
 		//======================================================
 		// Stand compatibility wrappers
 		//======================================================
 
-		void Init(void* detour, void* target, uint8_t flags = DH_NONE) noexcept
+		void init(void* detour, void* target, uint8_t flags = DH_NONE) noexcept
 		{
 			m_DetourFunc = detour;
 			m_TargetFunc = target;
 			m_Flags = flags;
 		}
 
-		void SetTarget(void* target) noexcept
+		void setTarget(void* target) noexcept
 		{
 			m_TargetFunc = target;
 		}
 
-		template<typename U = T>
+		template<typename U>
+		[[nodiscard]]
+		U Original() const noexcept
+		{
+			return reinterpret_cast<U>(m_OriginalFunc);
+		}
+
+		template<typename U>
 		[[nodiscard]]
 		U getOriginal() const noexcept
 		{
@@ -80,31 +82,31 @@ namespace YimMenu
 		//======================================================
 
 		[[nodiscard]]
-		bool IsValid() const noexcept
+		bool isValid() const noexcept
 		{
 			return m_TargetFunc != nullptr && m_DetourFunc != nullptr;
 		}
 
 		[[nodiscard]]
-		bool IsHooked() const noexcept
+		bool isHooked() const noexcept
 		{
 			return m_OriginalFunc != nullptr;
 		}
 
 		[[nodiscard]]
-		bool IsMandatory() const noexcept
+		bool isMandatory() const noexcept
 		{
 			return (m_Flags & DH_MANDATORY) != 0;
 		}
 
 		[[nodiscard]]
-		bool CanFollowJumps() const noexcept
+		bool canFollowJumps() const noexcept
 		{
 			return (m_Flags & DH_NOFOLLOWJUMPS) == 0;
 		}
 
 		[[nodiscard]]
-		bool IsLongJump() const noexcept
+		bool isLongjump() const noexcept
 		{
 			return (m_Flags & DH_LONGJUMP) != 0;
 		}
@@ -125,11 +127,10 @@ namespace YimMenu
 		void OptimizeHook();
 	};
 
-	template<typename T>
-	inline DetourHook<T>::DetourHook(const std::string_view name, void* target, T detour) :
-	    BaseHook(name),
+	inline DetourHook::DetourHook(std::string_view name, void* target, void* detour):
+		BaseHook(name),
 	    m_TargetFunc(target),
-	    m_DetourFunc(reinterpret_cast<void*>(detour)),
+	    m_DetourFunc(detour),
 	    m_OriginalFunc(nullptr)
 	{
 		OptimizeHook();
@@ -152,14 +153,13 @@ namespace YimMenu
 		LOGF(INFO, "Created hook {}", name);
 
 	}
-	template<typename T>
-	inline DetourHook<T>::~DetourHook()
+
+	inline DetourHook::~DetourHook()
 	{
 		RemoveHook();
 	}
 
-	template<typename T>
-	inline bool DetourHook<T>::Enable()
+	inline bool DetourHook::Enable()
 	{
 		if (m_Enabled)
 			return false;
@@ -175,8 +175,7 @@ namespace YimMenu
 		return true;
 	}
 
-	template<typename T>
-	inline bool DetourHook<T>::Disable()
+	inline bool DetourHook::Disable()
 	{
 		if (!m_Enabled)
 			return false;
@@ -192,8 +191,7 @@ namespace YimMenu
 		return true;
 	}
 
-	template<typename T>
-	inline bool DetourHook<T>::EnableNow()
+	inline bool DetourHook::EnableNow()
 	{
 		if (m_Enabled)
 			return false;
@@ -209,8 +207,7 @@ namespace YimMenu
 		return true;
 	}
 
-	template<typename T>
-	inline bool DetourHook<T>::DisableNow()
+	inline bool DetourHook::DisableNow()
 	{
 		if (!m_Enabled)
 			return false;
@@ -226,15 +223,7 @@ namespace YimMenu
 		return true;
 	}
 
-	template<typename T>
-	template<typename U>
-	inline U DetourHook<T>::Original() const noexcept
-	{
-		return reinterpret_cast<U>(m_OriginalFunc);
-	}
-
-	template<typename T>
-	inline void DetourHook<T>::OptimizeHook()
+	inline void DetourHook::OptimizeHook()
 	{
 		auto ptr = PointerCalculator(m_TargetFunc);
 		while (ptr.As<std::uint8_t&>() == 0xE9)
@@ -244,8 +233,7 @@ namespace YimMenu
 		m_TargetFunc = ptr.As<void*>();
 	}
 
-	template<typename T>
-	inline bool DetourHook<T>::CreateHook()
+	inline bool DetourHook::CreateHook()
 	{
 		if (m_OriginalFunc)
 			return true;
@@ -270,32 +258,27 @@ namespace YimMenu
 		return true;
 	}
 
-	template<typename T>
-	inline void DetourHook<T>::EnableHook()
+	inline void DetourHook::EnableHook()
 	{
 		EnableNow();
 	}
 
-	template<typename T>
-	inline void DetourHook<T>::EnableHookQueued()
+	inline void DetourHook::EnableHookQueued()
 	{
 		Enable();
 	}
 
-	template<typename T>
-	inline void DetourHook<T>::DisableHook()
+	inline void DetourHook::DisableHook()
 	{
 		DisableNow();
 	}
 
-	template<typename T>
-	inline void DetourHook<T>::DisableHookQueued()
+	inline void DetourHook::DisableHookQueued()
 	{
 		Disable();
 	}
 
-	template<typename T>
-	inline void DetourHook<T>::RemoveHook()
+	inline void DetourHook::RemoveHook()
 	{
 		if (m_OriginalFunc)
 		{

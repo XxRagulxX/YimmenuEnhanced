@@ -9,7 +9,7 @@ namespace YimMenu::Hooks
 		NodeHooks::SetSyncingObject(object);
 		NodeHooks::SetSyncingPlayer(Player(player_id));
 
-		auto ret = BaseHook::Get<Spoofing::WriteSyncTree, DetourHook<decltype(&Spoofing::WriteSyncTree)>>()->Original()(tree, type, flags, object, buffer, unk, a6, player_id, a8);
+		auto ret = BaseHook::Get<Spoofing::WriteSyncTree, DetourHook>()->Original<decltype(&Spoofing::WriteSyncTree)>()(tree, type, flags, object, buffer, unk, a6, player_id, a8);
 
 		NodeHooks::SetSyncingObject(nullptr);
 		NodeHooks::SetSyncingPlayer(nullptr);

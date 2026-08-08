@@ -9,10 +9,10 @@ namespace YimMenu::Hooks
 		if (g_Running)
 		{
 			ScriptPatches::OnScriptVMEnter(program);
-			auto res = BaseHook::Get<Script::ScriptVM, DetourHook<decltype(&Script::ScriptVM)>>()->Original()(stack, scr_globals, program, ctx);
+			auto res = BaseHook::Get<Script::ScriptVM, DetourHook>()->Original<decltype(&Script::ScriptVM)>()(stack, scr_globals, program, ctx);
 			ScriptPatches::OnScriptVMLeave(program);
 			return res;
 		}
-		return BaseHook::Get<Script::ScriptVM, DetourHook<decltype(&Script::ScriptVM)>>()->Original()(stack, scr_globals, program, ctx);
+		return BaseHook::Get<Script::ScriptVM, DetourHook>()->Original<decltype(&Script::ScriptVM)>()(stack, scr_globals, program, ctx);
 	}
 }

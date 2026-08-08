@@ -42,7 +42,7 @@ namespace YimMenu::Hooks
 		auto f3 = *reinterpret_cast<void**>(a1 + 0x1A0);
 
 		if (!f1)
-			return BaseHook::Get<Anticheat::QueueDependency, DetourHook<decltype(&Anticheat::QueueDependency)>>()->Original()(a1);
+			return BaseHook::Get<Anticheat::QueueDependency, DetourHook>()->Original<decltype(&Anticheat::QueueDependency)>()(a1);
 
 		if (f1 == Pointers.SigScanMemory)
 		{
@@ -57,6 +57,6 @@ namespace YimMenu::Hooks
 			return;
 		}
 
-		BaseHook::Get<Anticheat::QueueDependency, DetourHook<decltype(&Anticheat::QueueDependency)>>()->Original()(a1);
+		BaseHook::Get<Anticheat::QueueDependency, DetourHook>()->Original<decltype(&Anticheat::QueueDependency)>()(a1);
 	}
 }

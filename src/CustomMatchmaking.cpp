@@ -131,7 +131,7 @@ namespace YimMenu
 		auto available_slots_copy = available_slots;
 		FiberPool::queueJob([this, num_slots_copy, available_slots_copy, info, attrs, id, status] {
 			rage::rlTaskStatus first_advert_status;
-			if (!BaseHook::Get<Hooks::Matchmaking::MatchmakingAdvertise, DetourHook<decltype(&Hooks::Matchmaking::MatchmakingAdvertise)>>()->Original()(0, num_slots_copy, available_slots_copy, attrs, -1, info, id, &first_advert_status))
+			if (!BaseHook::Get<Hooks::Matchmaking::MatchmakingAdvertise, DetourHook>()->Original<decltype(&Hooks::Matchmaking::MatchmakingAdvertise)>()(0, num_slots_copy, available_slots_copy, attrs, -1, info, id, &first_advert_status))
 			{
 				LOGF(WARNING, "OnAdvertiseImpl(): MatchmakingAdvertise returned false for the initial advertisement");
 				status->m_Status = 2;
@@ -159,7 +159,7 @@ namespace YimMenu
 					rage::rlTaskStatus additional_advert_status;
 					MatchmakingId additional_id;
 
-					if (!BaseHook::Get<Hooks::Matchmaking::MatchmakingAdvertise, DetourHook<decltype(&Hooks::Matchmaking::MatchmakingAdvertise)>>()->Original()(0, num_slots_copy, available_slots_copy, attrs, -1, info, &additional_id, &additional_advert_status))
+					if (!BaseHook::Get<Hooks::Matchmaking::MatchmakingAdvertise, DetourHook>()->Original<decltype(&Hooks::Matchmaking::MatchmakingAdvertise)>()(0, num_slots_copy, available_slots_copy, attrs, -1, info, &additional_id, &additional_advert_status))
 					{
 						LOGF(WARNING, "OnAdvertiseImpl(): MatchmakingAdvertise returned false for additional advertisement {}", i);
 						return;
@@ -199,7 +199,7 @@ namespace YimMenu
 				auto available_slots_copy = available_slots;
 				FiberPool::queueJob([session, num_slots_copy, available_slots_copy, info, attrs]() {
 					auto session_copy = session; // the compiler doesn't like it if I use session directly
-					BaseHook::Get<Hooks::Matchmaking::MatchmakingUpdate, DetourHook<decltype(&Hooks::Matchmaking::MatchmakingUpdate)>>()->Original()(0, &session_copy, num_slots_copy, available_slots_copy, info, attrs, nullptr); // life's too short to check the task result
+					BaseHook::Get<Hooks::Matchmaking::MatchmakingUpdate, DetourHook>()->Original<decltype(&Hooks::Matchmaking::MatchmakingUpdate)>()(0, &session_copy, num_slots_copy, available_slots_copy, info, attrs, nullptr); // life's too short to check the task result
 				});
 			}
 		}
@@ -216,7 +216,7 @@ namespace YimMenu
 			{
 				FiberPool::queueJob([session]() {
 					auto session_copy = session; // the compiler doesn't like it if I use session directly
-					BaseHook::Get<Hooks::Matchmaking::MatchmakingUnadvertise, DetourHook<decltype(&Hooks::Matchmaking::MatchmakingUnadvertise)>>()->Original()(0, &session_copy, nullptr);
+					BaseHook::Get<Hooks::Matchmaking::MatchmakingUnadvertise, DetourHook>()->Original<decltype(&Hooks::Matchmaking::MatchmakingUnadvertise)>()(0, &session_copy, nullptr);
 				});
 			}
 
