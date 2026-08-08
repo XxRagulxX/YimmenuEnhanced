@@ -24,7 +24,8 @@ namespace YimMenu
 		DetourHook* AddHook(
 		    std::string_view name,
 		    void* target,
-		    void* detour);
+		    void* detour,
+		    HookGroup group = HookGroup::Main);
 
 	public:
 		virtual ~Hooking();

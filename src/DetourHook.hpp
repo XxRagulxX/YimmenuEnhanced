@@ -18,6 +18,14 @@ namespace YimMenu
 		DH_FORCEFAIL = 1 << 7,
 #endif
 	};
+
+	enum class HookGroup : std::uint8_t
+	{
+		Minimal,
+		Passive,
+		Main
+	};
+
 	class DetourHook : public BaseHook
 	{
 	private:
@@ -29,6 +37,8 @@ namespace YimMenu
 		void* m_EffectiveTarget = nullptr;
 
 		uint8_t m_Flags = DH_NONE;
+
+		HookGroup m_Group = HookGroup::Main;
 
 	public:
 		virtual ~DetourHook();
@@ -61,6 +71,17 @@ namespace YimMenu
 		void setTarget(void* target) noexcept
 		{
 			m_TargetFunc = target;
+		}
+
+		void SetGroup(HookGroup group) noexcept
+		{
+			m_Group = group;
+		}
+
+		[[nodiscard]]
+		HookGroup GetGroup() const noexcept
+		{
+			return m_Group;
 		}
 
 		template<typename U>
@@ -115,13 +136,13 @@ namespace YimMenu
 
 		bool CreateHook();
 
-		void EnableHook();
-		void EnableHookQueued();
+		bool EnableHook();
+		bool EnableHookQueued();
 
-		void DisableHook();
-		void DisableHookQueued();
+		bool DisableHook();
+		bool DisableHookQueued();
 
-		void RemoveHook();
+		bool RemoveHook();
 
 	private:
 		void OptimizeHook();
@@ -244,32 +265,41 @@ namespace YimMenu
 		return true;
 	}
 
-	inline void DetourHook::EnableHook()
+	inline bool DetourHook::EnableHook()
 	{
-		EnableNow();
+		return EnableNow();
 	}
 
-	inline void DetourHook::EnableHookQueued()
+	inline bool DetourHook::EnableHookQueued()
 	{
-		Enable();
+		return Enable();
 	}
 
-	inline void DetourHook::DisableHook()
+	inline bool DetourHook::DisableHook()
 	{
-		DisableNow();
+		return DisableNow();
 	}
 
-	inline void DetourHook::DisableHookQueued()
+	inline bool DetourHook::DisableHookQueued()
 	{
-		Disable();
+		return Disable();
 	}
 
-	inline void DetourHook::RemoveHook()
+	inline bool DetourHook::RemoveHook()
 	{
-		if (m_OriginalFunc)
+		if (!m_OriginalFunc)
+			return false;
+
+		const auto result = MH_RemoveHook(m_TargetFunc);
+
+		if (result != MH_OK)
 		{
-			MH_RemoveHook(m_TargetFunc);
-			m_OriginalFunc = nullptr;
+			throw std::runtime_error("Failed to remove hook.");
 		}
+
+		m_OriginalFunc = nullptr;
+		m_Enabled = false;
+
+		return true;
 	}
 }
