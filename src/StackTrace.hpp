@@ -1,6 +1,13 @@
 #pragma once
 
-#include <winnt.h>
+#include <Windows.h>
+
+#include <cstdint>
+#include <filesystem>
+#include <ostream>
+#include <sstream>
+#include <string>
+#include <vector>
 
 namespace YimMenu
 {
@@ -8,32 +15,40 @@ namespace YimMenu
 	{
 	public:
 		StackTrace();
-		virtual ~StackTrace();
+		~StackTrace();
 
-		const std::vector<uint64_t>& GetFramePointers();
-		void NewStackTrace(EXCEPTION_POINTERS* exception_info);
+		StackTrace(const StackTrace&) = delete;
+		StackTrace& operator=(const StackTrace&) = delete;
+
+		[[nodiscard]]
+		const std::vector<uint64_t>& GetFramePointers() const noexcept;
+
+		void NewStackTrace(
+		    EXCEPTION_POINTERS* exception_info);
+
+		[[nodiscard]]
 		std::string GetString() const;
-		void Clear();
 
-		friend std::ostream& operator<<(std::ostream& os, const StackTrace& st);
-		friend std::ostream& operator<<(std::ostream& os, const StackTrace* st);
+		void Clear() noexcept;
+
+		friend std::ostream& operator<<(
+		    std::ostream& os,
+		    const StackTrace& st);
+
+		friend std::ostream& operator<<(
+		    std::ostream& os,
+		    const StackTrace* st);
 
 	private:
 		struct ModuleInfo
 		{
-			ModuleInfo(std::filesystem::path path, void* base) :
-			    m_Name(path.filename().string()),
-			    m_Base(reinterpret_cast<uintptr_t>(base))
-			{
-				const auto dos_header = reinterpret_cast<IMAGE_DOS_HEADER*>(base);
-				const auto nt_header = reinterpret_cast<IMAGE_NT_HEADERS*>(m_Base + dos_header->e_lfanew);
-
-				m_Size = nt_header->OptionalHeader.SizeOfCode;
-			}
+			ModuleInfo(
+			    std::filesystem::path path,
+			    void* base);
 
 			std::string m_Name;
-			uintptr_t m_Base;
-			size_t m_Size;
+			uintptr_t m_Base = 0;
+			size_t m_Size = 0;
 		};
 
 	private:
@@ -42,12 +57,17 @@ namespace YimMenu
 		void DumpStacktrace();
 		void DumpExceptionInfo();
 		void GrabStacktrace();
-		const ModuleInfo* GetModuleByAddress(uint64_t addr) const;
 
-		static std::string ExceptionCodeToString(const DWORD code);
+		[[nodiscard]]
+		const ModuleInfo* GetModuleByAddress(
+		    uint64_t addr) const;
+
+		[[nodiscard]]
+		static std::string ExceptionCodeToString(
+		    DWORD code);
 
 	private:
-		EXCEPTION_POINTERS* m_ExceptionInfo;
+		EXCEPTION_POINTERS* m_ExceptionInfo = nullptr;
 
 		std::stringstream m_Dump;
 		std::vector<uint64_t> m_FramePointers;
@@ -55,15 +75,21 @@ namespace YimMenu
 		inline static std::vector<ModuleInfo> m_Modules;
 	};
 
-	inline std::ostream& operator<<(std::ostream& os, const StackTrace& st)
+	inline std::ostream& operator<<(
+	    std::ostream& os,
+	    const StackTrace& st)
 	{
 		os << st.GetString();
 		return os;
 	}
 
-	inline std::ostream& operator<<(std::ostream& os, const StackTrace* st)
+	inline std::ostream& operator<<(
+	    std::ostream& os,
+	    const StackTrace* st)
 	{
-		os << st->GetString();
+		if (st)
+			os << st->GetString();
+
 		return os;
 	}
 }

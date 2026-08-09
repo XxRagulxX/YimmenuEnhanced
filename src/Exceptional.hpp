@@ -1,14 +1,19 @@
 #pragma once
 
-#include <Windows.h>
+#include <atomic>
+#include <functional>
 #include <string>
+#include <windows.h>
+
+#include "ErrorCommons.hpp"
+#include "Spinlock.hpp"
 
 namespace YimMenu
 {
 	enum class ExceptionContext : uint8_t
 	{
-		LUA = 1,
 		OTHER = 0,
+		LUA = 1
 	};
 
 	struct ExceptionData
@@ -18,68 +23,56 @@ namespace YimMenu
 	};
 
 	long handle_exception_spec(void*) noexcept;
+
 	using handle_exception_t = decltype(&handle_exception_spec);
 
 	long handle_caught_exception_spec(ExceptionData*) noexcept;
+
 	using handle_caught_exception_t = decltype(&handle_caught_exception_spec);
 
 	long handle_uncaught_exception_spec(_EXCEPTION_POINTERS*) noexcept;
-	using handle_uncaught_exception_t = decltype(&handle_uncaught_exception_spec);
 
-	class Exceptional
-	{
-	public:
-		static void report(const std::string&)
-		{
-			// TODO: Full Stand implementation later.
-		}
-	};
+	using handle_uncaught_exception_t = decltype(&handle_uncaught_exception_spec);
 }
 
 extern "C"
 {
-	void exceptional_init(
-	    YimMenu::handle_caught_exception_t,
-	    YimMenu::handle_uncaught_exception_t);
+	void exceptional_init(YimMenu::handle_caught_exception_t fpCaughtExp, YimMenu::handle_uncaught_exception_t fpLogUncaughtExp);
 
 	void disable_exception_handling();
 
-	[[nodiscard]]
-	bool exceptional_has_exp();
+	[[nodiscard]] bool exceptional_has_exp();
 
-	void exceptional_get_exp(
-	    void**,
-	    YimMenu::handle_exception_t*);
+	void exceptional_get_exp(void** pOutData, YimMenu::handle_exception_t* pOutHandler);
 
 	void exceptional_clear_exp();
 
-	long exceptional_on_exception(
-	    YimMenu::ExceptionData*,
-	    YimMenu::handle_caught_exception_t);
+	long exceptional_on_exception(YimMenu::ExceptionData* data, YimMenu::handle_caught_exception_t handler);
 
-	long exceptional_on_caught_exception(
-	    YimMenu::ExceptionData*);
+	long exceptional_on_caught_exception(YimMenu::ExceptionData* data);
 
-	long exceptional_on_uncaught_exception(
-	    _EXCEPTION_POINTERS*);
+	long exceptional_on_uncaught_exception(_EXCEPTION_POINTERS* exp);
 
-	void exceptional_set_retval(long);
+	void exceptional_set_retval(long retval);
 }
 
 #define __EXCEPTIONAL_CTX(ctx)                   \
 	__except (::exceptional_on_caught_exception( \
 	    new ::YimMenu::ExceptionData{            \
 	        GetExceptionInformation(),           \
-	        ::YimMenu::ExceptionContext::ctx}))
+	        ::YimMenu::ExceptionContext::##ctx}))
 
-#define __EXCEPTIONAL() __EXCEPTIONAL_CTX(OTHER)
-#define __EXCEPTIONAL_LUA() __EXCEPTIONAL_CTX(LUA)
+#define __EXCEPTIONAL() \
+	__EXCEPTIONAL_CTX(OTHER)
 
-#define __EXCEPTIONAL_CUSTOM_CTX(handler, ctx) \
-	__except (::exceptional_on_exception(      \
-	    new ::YimMenu::ExceptionData{          \
-	        GetExceptionInformation(),         \
-	        ::YimMenu::ExceptionContext::ctx}, \
+#define __EXCEPTIONAL_LUA() \
+	__EXCEPTIONAL_CTX(LUA)
+
+#define __EXCEPTIONAL_CUSTOM_CTX(handler, ctx)   \
+	__except (::exceptional_on_exception(        \
+	    new ::YimMenu::ExceptionData{            \
+	        GetExceptionInformation(),           \
+	        ::YimMenu::ExceptionContext::##ctx}, \
 	    handler))
 
 #define __EXCEPTIONAL_CUSTOM(handler) \
@@ -87,3 +80,92 @@ extern "C"
 
 #define __EXCEPTIONAL_CUSTOM_LUA(handler) \
 	__EXCEPTIONAL_CUSTOM_CTX(handler, LUA)
+
+#define __EXCEPTIONAL_LOG_IF(cond)                                  \
+	__except (cond ? ::exceptional_on_caught_exception(             \
+	                     new ::YimMenu::ExceptionData{              \
+	                         GetExceptionInformation(),             \
+	                         ::YimMenu::ExceptionContext::OTHER}) : \
+	                 EXCEPTION_EXECUTE_HANDLER)
+
+#define __EXCEPTIONAL_IF(cond)                                      \
+	__except (cond ? ::exceptional_on_caught_exception(             \
+	                     new ::YimMenu::ExceptionData{              \
+	                         GetExceptionInformation(),             \
+	                         ::YimMenu::ExceptionContext::OTHER}) : \
+	                 EXCEPTION_CONTINUE_SEARCH)
+
+#define EXCEPTIONAL_LOCK(mtx) \
+	mtx.lock();               \
+	__try                     \
+	{
+#define EXCEPTIONAL_TRY_LOCK(mtx) \
+	if (mtx.tryLock())            \
+		__try                     \
+		{
+#define EXCEPTIONAL_UNLOCK(mtx) \
+	}                           \
+	__EXCEPTIONAL()             \
+	{                           \
+	}                           \
+	mtx.unlock();
+
+#define EXCEPTIONAL_QUIET_UNLOCK(mtx)    \
+	}                                    \
+	__except (EXCEPTION_EXECUTE_HANDLER) \
+	{                                    \
+	}                                    \
+	mtx.unlock();
+
+namespace YimMenu
+{
+	class Exceptional
+	{
+	public:
+		inline static std::atomic_uint32_t counted_threads = 0;
+
+		static void hideThread(HANDLE hThread) noexcept;
+
+		[[nodiscard]]
+		static HANDLE createThread(std::function<void()>&& func) noexcept;
+
+		[[nodiscard]]
+		static HANDLE createExceptionalThread(std::function<void()>&& func) noexcept;
+
+		static void createManagedThread(std::function<void()>&& func) noexcept;
+
+		static void createManagedCountedThread(std::function<void()>&& func) noexcept;
+
+		static void createManagedExceptionalThread(std::function<void()>&& func) noexcept;
+
+		static LPTOP_LEVEL_EXCEPTION_FILTER setUnhandledExceptionHandler();
+
+		inline static volatile bool thread_can_run = true;
+
+		inline static volatile bool thread_is_running = true;
+
+		static void disableExceptionHandling() noexcept;
+
+		static void thread_func() noexcept;
+
+		static void report(const std::string& type, std::string&& message, const ErrorInfo& err = ErrorInfo::fromStack(), 
+			void custom_footer_info() = nullptr, ExceptionContext ctx = ExceptionContext::OTHER) noexcept;
+
+		static void report(const std::string& type, std::string&& message, ExceptionData* data, void custom_footer_info() = nullptr) noexcept;
+
+		static void report(const std::string& type, const ErrorInfo& err = ErrorInfo::fromStack()) noexcept;
+
+		static long handleCaughtException(ExceptionData* data) noexcept;
+
+		static long handleUncaughtException(_EXCEPTION_POINTERS* exp) noexcept;
+
+		[[nodiscard]]
+		static std::string getExceptionName(_EXCEPTION_POINTERS* exp) noexcept;
+
+		[[nodiscard]]
+		static std::string getExceptionName(const ExceptionData* data) noexcept;
+
+	public:
+		static long handleExceptionInErrorReporting(_EXCEPTION_POINTERS* exp) noexcept;
+	};
+}

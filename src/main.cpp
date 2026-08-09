@@ -25,6 +25,7 @@
 #include "CommandOpenGunLocker.hpp"
 #include "CommandDailyActivities.hpp"
 #include "LogHelper.hpp"
+#include "Exceptional.hpp"
 
 namespace YimMenu
 {
@@ -61,8 +62,18 @@ namespace YimMenu
 
 		Hooking::Init();
 
-		//ScriptMgr::Init();
-		//g_script_mgr.Init();
+		exceptional_init(
+		    &Exceptional::handleCaughtException,
+		    &Exceptional::handleUncaughtException);
+
+		Exceptional::createManagedThread(
+		    []() {
+			    Exceptional::thread_func();
+		    });
+
+		LOG(INFO) << "Exceptional initialized";
+
+	
 		LOG(INFO) << "ScriptMgr initialized";
 
 		ScriptPointers::Init();
