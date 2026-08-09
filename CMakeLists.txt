@@ -13,9 +13,8 @@ project(
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# -----------------------------------------------------------------------------
+
 # Libraries
-# -----------------------------------------------------------------------------
 
 include(cmake/async-logger.cmake)
 include(cmake/imgui.cmake)
@@ -23,9 +22,7 @@ include(cmake/json.cmake)
 include(cmake/minhook.cmake)
 include(cmake/luajit.cmake)
 
-# -----------------------------------------------------------------------------
 # Source
-# -----------------------------------------------------------------------------
 
 set(SRC_DIR "${PROJECT_SOURCE_DIR}/src")
 
@@ -34,9 +31,7 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
     "${SRC_DIR}/*.cpp"
 )
 
-# -----------------------------------------------------------------------------
 # YimMenu target
-# -----------------------------------------------------------------------------
 
 add_library(${PROJECT_NAME} MODULE
     ${SRC_FILES}
@@ -47,11 +42,7 @@ set_property(
     PROPERTY CXX_STANDARD 23
 )
 
-# -----------------------------------------------------------------------------
 # MASM / x64 assembly
-#
-# These files are required by Exceptional and ErrorCommons.
-# -----------------------------------------------------------------------------
 
 if(MSVC)
     enable_language(ASM_MASM)
@@ -74,9 +65,7 @@ if(MSVC)
     )
 endif()
 
-# -----------------------------------------------------------------------------
 # Precompiled headers
-# -----------------------------------------------------------------------------
 
 target_precompile_headers(
     ${PROJECT_NAME}
@@ -84,9 +73,7 @@ target_precompile_headers(
         "${SRC_DIR}/common.hpp"
 )
 
-# -----------------------------------------------------------------------------
 # Compile definitions
-# -----------------------------------------------------------------------------
 
 target_compile_definitions(
     ${PROJECT_NAME}
@@ -97,9 +84,7 @@ target_compile_definitions(
         IMGUI_DEFINE_MATH_OPERATORS
 )
 
-# -----------------------------------------------------------------------------
 # fmt
-# -----------------------------------------------------------------------------
 
 if(TARGET fmt)
     target_compile_options(
@@ -109,9 +94,7 @@ if(TARGET fmt)
     )
 endif()
 
-# -----------------------------------------------------------------------------
 # LuaJIT
-# -----------------------------------------------------------------------------
 
 if(TARGET luajit)
     target_compile_definitions(
@@ -121,9 +104,7 @@ if(TARGET luajit)
     )
 endif()
 
-# -----------------------------------------------------------------------------
 # Include directories
-# -----------------------------------------------------------------------------
 
 message(STATUS "Setting up include directories.")
 
@@ -138,9 +119,8 @@ target_include_directories(
         "${luajit_BINARY_DIR}/src"
 )
 
-# -----------------------------------------------------------------------------
+
 # Libraries
-# -----------------------------------------------------------------------------
 
 message(STATUS "Setting up linked libraries")
 
@@ -163,9 +143,7 @@ target_link_libraries(
         libluajit
 )
 
-# -----------------------------------------------------------------------------
 # Compiler options
-# -----------------------------------------------------------------------------
 
 target_compile_options(
     ${PROJECT_NAME}

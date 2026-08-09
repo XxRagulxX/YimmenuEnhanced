@@ -25,7 +25,7 @@
 #include "CommandOpenGunLocker.hpp"
 #include "CommandDailyActivities.hpp"
 #include "LogHelper.hpp"
-#include "Exceptional.hpp"
+#include "ExceptionHandler.hpp"
 
 namespace YimMenu
 {
@@ -44,6 +44,10 @@ namespace YimMenu
 		SavedLocations::FetchSavedLocations();
 		Settings::Initialize(FileMgr::GetProjectFile("./settings.json"));
 
+		bool rendererInitialized = false;
+		bool hookingInitialized = false;
+		bool exceptionalInitialized = false;
+
 		if (!ModuleMgr.LoadModules())
 			goto EARLY_UNLOAD;
 
@@ -58,18 +62,23 @@ namespace YimMenu
 		if (!Renderer::Init())
 			goto EARLY_UNLOAD;
 
+		rendererInitialized = true;
+
 		Players::Init();
 
 		Hooking::Init();
+		hookingInitialized = true;
 
-		exceptional_init(
-		    &Exceptional::handleCaughtException,
-		    &Exceptional::handleUncaughtException);
+		exceptional_init(&Exceptional::handleCaughtException, &Exceptional::handleUncaughtException);
+
+		Exceptional::setUnhandledExceptionHandler();
 
 		Exceptional::createManagedThread(
 		    []() {
 			    Exceptional::thread_func();
 		    });
+
+		exceptionalInitialized = true;
 
 		LOG(INFO) << "Exceptional initialized";
 
@@ -107,22 +116,52 @@ namespace YimMenu
 			Settings::Tick();
 			std::this_thread::yield();
 		}
-
-		LOG(INFO) << "Unloading";
-		//ScriptMgr::Destroy();
-		g_script_mgr.deinit();
-		NativeHooks::Destroy();
-		Hooking::Destroy();
-
 	EARLY_UNLOAD:
+
+		LOG(INFO) << "=== UNLOAD BEGIN ===";
+
 		g_Running = false;
-		Renderer::Destroy();
+
+		LOG(INFO) << "Stopping ScriptMgr";
+		g_script_mgr.deinit();
+		LOG(INFO) << "ScriptMgr stopped";
+
+		if (exceptionalInitialized)
+		{
+			LOG(INFO) << "Stopping Exceptional";
+			Exceptional::disableExceptionHandling();
+			LOG(INFO) << "Exceptional stopped";
+		}
+
+		if (hookingInitialized)
+		{
+			LOG(INFO) << "Destroying NativeHooks";
+			NativeHooks::Destroy();
+			LOG(INFO) << "NativeHooks destroyed";
+
+			LOG(INFO) << "Destroying Hooking";
+			Hooking::Destroy();
+			LOG(INFO) << "Hooking destroyed";
+		}
+
+		if (rendererInitialized)
+		{
+			LOG(INFO) << "Destroying Renderer";
+			Renderer::Destroy();
+			LOG(INFO) << "Renderer destroyed";
+		}
+
+		LOG(INFO) << "=== YimMenuV2 shutdown complete ===";
+
 		LogHelper::Destroy();
 
-		CloseHandle(g_MainThread);
-		FreeLibraryAndExitThread(g_DllInstance, EXIT_SUCCESS);
+		if (g_MainThread)
+		{
+			CloseHandle(g_MainThread);
+			g_MainThread = nullptr;
+		}
 
-		return EXIT_SUCCESS;
+		FreeLibraryAndExitThread(g_DllInstance, EXIT_SUCCESS);
 	}
 }
 

@@ -1,6 +1,4 @@
 #include "Command.hpp"
-#include "Self.hpp"
-#include "Commands.hpp"
 
 namespace YimMenu::Features
 {
@@ -10,7 +8,6 @@ namespace YimMenu::Features
 
 		virtual void OnCall() override
 		{
-			Commands::Shutdown();
 			g_Running = false;
 		}
 	};

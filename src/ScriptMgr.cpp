@@ -1,13 +1,12 @@
 #include "ScriptMgr.hpp"
+
+#include <thread>
+
 #include "FiberPool.hpp"
-#include "Exceptional.hpp"
+#include "ExceptionHandler.hpp"
 
 namespace YimMenu
 {
-	//------------------------------------------------------------
-	// Script Registration
-	//------------------------------------------------------------
-
 	void ScriptMgr::addScript(HMODULE module, std::unique_ptr<Script>&& script)
 	{
 		m_Scripts[module].emplace_back(std::move(script));
@@ -29,10 +28,6 @@ namespace YimMenu
 		return nullptr;
 	}
 
-	//------------------------------------------------------------
-	// Script Removal
-	//------------------------------------------------------------
-
 	void ScriptMgr::removeScripts(HMODULE module)
 	{
 		auto it = m_Scripts.find(module);
@@ -42,7 +37,10 @@ namespace YimMenu
 
 		for (auto& script : it->second)
 		{
-			script->stop();
+			if (script)
+			{
+				script->stop();
+			}
 		}
 	}
 
@@ -52,7 +50,7 @@ namespace YimMenu
 		{
 			for (auto& script : scripts)
 			{
-				if (script->func == function)
+				if (script && script->func == function)
 				{
 					script->stop();
 					return;
@@ -60,10 +58,6 @@ namespace YimMenu
 			}
 		}
 	}
-
-	//------------------------------------------------------------
-	// Query
-	//------------------------------------------------------------
 
 	size_t ScriptMgr::getNumScripts(HMODULE module) const
 	{
@@ -77,6 +71,8 @@ namespace YimMenu
 
 	void ScriptMgr::tick()
 	{
+		m_Ticking.store(true, std::memory_order_release);
+
 		if (!IsThreadAFiber())
 		{
 			ConvertThreadToFiber(nullptr);
@@ -121,10 +117,32 @@ namespace YimMenu
 				++moduleIt;
 			}
 		}
+
+		m_Ticking.store(false, std::memory_order_release);
 	}
 
 	void ScriptMgr::deinit()
 	{
+
+		while (m_Ticking.load(std::memory_order_acquire))
+		{
+			std::this_thread::yield();
+		}
+
+		for (auto& [module, scripts] : m_Scripts)
+		{
+			for (auto& script : scripts)
+			{
+				if (script)
+				{
+					script->stop();
+				}
+			}
+		}
+
 		m_Scripts.clear();
+
+		m_Ticking.store(false, std::memory_order_release);
 	}
+
 }

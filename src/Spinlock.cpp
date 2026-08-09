@@ -2,7 +2,7 @@
 
 #include <soup/ObfusString.hpp>
 
-#include "Exceptional.hpp"
+#include "ExceptionHandler.hpp"
 #include "get_current_time_millis.hpp"
 
 namespace YimMenu

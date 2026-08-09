@@ -1,15 +1,11 @@
 #include "Script.hpp"
 
-#include "Exceptional.hpp"
 #include "ExecCtx.hpp"
-#include "get_current_time_millis.hpp"
-#include "Hooking.hpp"
 #include "ScriptMgr.hpp"
+#include "get_current_time_millis.hpp"
+#include "ExceptionHandler.hpp"
 #include "Util.hpp"
 
-#if REPORT_YIELD_WITH_LOCK
-	#include "Gui.hpp"
-#endif
 #include <soup/base.hpp>
 
 namespace YimMenu
@@ -17,10 +13,7 @@ namespace YimMenu
 	Script::Script(script_func_t func) :
 	    func(func)
 	{
-		fiber = CreateFiber(0, [](void* param) {
-			static_cast<Script*>(param)->fiberFunc();
-		},
-		    this);
+		fiber = CreateFiber(0, [](void* param) {static_cast<Script*>(param)->fiberFunc();},this);
 	}
 
 	Script::~Script()
@@ -28,6 +21,7 @@ namespace YimMenu
 		if (fiber != nullptr)
 		{
 			DeleteFiber(fiber);
+			fiber = nullptr;
 		}
 	}
 
@@ -72,47 +66,20 @@ namespace YimMenu
 	void Script::nestedTick()
 	{
 		SOUP_ASSERT(ExecCtx::get().isScript());
+
 		SOUP_ASSERT(!isCurrent());
 
 		const auto prev_ret_fiber = ret_fiber;
+
 		ret_fiber = GetCurrentFiber();
 
-#if REPORT_YIELD_WITH_LOCK
-		nested = true;
-#endif
-
 		tick();
-
-#if REPORT_YIELD_WITH_LOCK
-		nested = false;
-#endif
 
 		ret_fiber = prev_ret_fiber;
 	}
 
 	void Script::yield()
 	{
-#if REPORT_YIELD_IN_NOYIELD
-		if (ExecCtx::get().tc != TC_SCRIPT_YIELDABLE)
-		{
-			Exceptional::report("Yielding not allowed in this context");
-		}
-#endif
-
-#if REPORT_YIELD_WITH_LOCK
-		if (!nested)
-		{
-			if (g_gui.root_mtx.isWriteLockedByThisThread())
-			{
-				Exceptional::report("Yielding while having root write lock");
-			}
-			else if (g_gui.root_mtx.isReadLockedByThisThread())
-			{
-				Exceptional::report("Yielding while having root read lock");
-			}
-		}
-#endif
-
 		SwitchToFiber(ret_fiber);
 	}
 
@@ -137,10 +104,6 @@ namespace YimMenu
 		}
 
 		func = nullptr;
-
-#if REPORT_YIELD_IN_NOYIELD
-		ExecCtx::get().tc = TC_SCRIPT_YIELDABLE;
-#endif
 
 		do
 		{
