@@ -20,7 +20,7 @@ namespace YimMenu
 
 		bool scanSuccess = true;
 
-		if (!ModuleMgr.IsManualMapped())
+		if (!g_ModuleMgr.IsManualMapped())
 		{
 			std::vector<std::future<bool>> jobs;
 			for (const auto& [pattern, func] : m_Patterns)

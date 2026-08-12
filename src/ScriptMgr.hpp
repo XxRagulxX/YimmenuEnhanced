@@ -1,11 +1,12 @@
 #pragma once
 
+#include <Windows.h>
+
 #include <atomic>
+#include <cstddef>
 #include <memory>
 #include <unordered_map>
 #include <vector>
-
-#include <Windows.h>
 
 #include "Script.hpp"
 
@@ -35,7 +36,7 @@ namespace YimMenu
 
 		void removeScript(script_func_t function);
 
-		[[nodiscard]] size_t getNumScripts(HMODULE module) const;
+		[[nodiscard]] std::size_t getNumScripts(HMODULE module) const;
 
 		void tick();
 

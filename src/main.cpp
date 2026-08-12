@@ -48,10 +48,10 @@ namespace YimMenu
 		bool hookingInitialized = false;
 		bool exceptionalInitialized = false;
 
-		if (!ModuleMgr.LoadModules())
+		if (!g_ModuleMgr.LoadModules())
 			goto EARLY_UNLOAD;
 
-		if (ModuleMgr.IsManualMapped())
+		if (g_ModuleMgr.IsManualMapped())
 			LOGF(WARNING, "Manual mapping detected, switch to normal injection if you're having issues");
 
 		if (!Pointers.Init())
@@ -71,7 +71,7 @@ namespace YimMenu
 
 		exceptional_init(&Exceptional::handleCaughtException, &Exceptional::handleUncaughtException);
 
-		Exceptional::setUnhandledExceptionHandler();
+		(void)Exceptional::setUnhandledExceptionHandler();
 
 		Exceptional::createManagedThread(
 		    []() {

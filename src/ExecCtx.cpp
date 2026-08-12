@@ -7,11 +7,11 @@
 
 namespace YimMenu
 {
-	static thread_local ExecCtx inst;
+	thread_local ExecCtx g_ExecCtx;
 
 	ExecCtx& ExecCtx::get() noexcept
 	{
-		return inst;
+		return g_ExecCtx;
 	}
 
 	bool ExecCtx::isScript() const noexcept
@@ -29,29 +29,25 @@ namespace YimMenu
 		if (isScript())
 		{
 			f();
+			return;
 		}
-		else
-		{
-			// If you rename FiberPool to match Stand:
-			// FiberPool::queueJob(std::move(f));
 
-			// Until then:
-			FiberPool::queueJob(std::move(f));
-		}
+		FiberPool::queueJob(std::move(f));
 	}
 
 	void ExecCtx::yield()
 	{
-		if (tc == TC_SCRIPT_YIELDABLE)
+		switch (tc)
 		{
+		case TC_SCRIPT_YIELDABLE:
 			Script::current()->yield();
-		}
-		else if (tc == TC_OTHER)
-		{
+			break;
+
+		case TC_OTHER:
 			soup::os::sleep(10);
-		}
-		else
-		{
+			break;
+
+		default:
 			SOUP_ASSERT_UNREACHABLE;
 		}
 	}

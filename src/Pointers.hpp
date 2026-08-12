@@ -85,6 +85,7 @@ namespace YimMenu
 		const char* OnlineVersion;
 		rage::atArray<rage::scrThread*>* ScriptThreads;
 		PVOID InitNativeTables;
+		PVOID GameLogos;
 		std::int64_t** ScriptGlobals;
 		PVOID RunScriptThreads;
 		Functions::HandleToPtr HandleToPtr;

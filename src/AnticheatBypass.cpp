@@ -243,7 +243,7 @@ namespace YimMenu
 	static bool CheckForFSL()
 	{
 		int num_versions = 0;
-		for (auto& module : ModuleMgr.GetModules())
+		for (auto& module : g_ModuleMgr.GetModules())
 			if (module.first == "WINMM.dll"_J)
 				num_versions++;
 
@@ -294,7 +294,7 @@ namespace YimMenu
 		if (m_IsFSLLoaded)
 		{
 			Module* FSL = nullptr;
-			for (auto& module : ModuleMgr.GetModules())
+			for (auto& module : g_ModuleMgr.GetModules())
 				if (module.first == "WINMM.dll"_J && module.second->IsExported("LawnchairGetVersion"))
 					FSL = module.second.get();
 
@@ -335,7 +335,7 @@ namespace YimMenu
 			Pointers.BattlEyeStatusUpdatePatch->Apply();
 
 #if RESTORE_DESTROYED_FUNCTIONS
-			uintptr_t base = ModuleMgr.Get("GTA5_Enhanced.exe"_J)->Base();
+			uintptr_t base = g_ModuleMgr.Get("GTA5_Enhanced.exe"_J)->Base();
 			PatchEncryptedFunctions(base);
 			PatchDestroyedFunctions(base);
 #endif

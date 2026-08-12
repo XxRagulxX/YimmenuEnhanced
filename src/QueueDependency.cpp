@@ -13,7 +13,7 @@ namespace YimMenu::Hooks
 	static bool IsAddressInGameMemory(void* addr)
 	{
 		auto as_int = reinterpret_cast<uintptr_t>(addr);
-		static auto module = ModuleMgr.Get("GTA5_Enhanced.exe"_J); // this should always succeed
+		static auto module = g_ModuleMgr.Get("GTA5_Enhanced.exe"_J); // this should always succeed
 
 		return as_int >= module->Base() && as_int <= module->End();
 	}

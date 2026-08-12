@@ -1,12 +1,12 @@
 #include "Script.hpp"
 
-#include "ExecCtx.hpp"
-#include "ScriptMgr.hpp"
-#include "get_current_time_millis.hpp"
-#include "ExceptionHandler.hpp"
-#include "Util.hpp"
-
 #include <soup/base.hpp>
+
+#include "ExecCtx.hpp"
+#include "ExceptionHandler.hpp"
+#include "ScriptMgr.hpp"
+#include "Util.hpp"
+#include "get_current_time_millis.hpp"
 
 namespace YimMenu
 {
@@ -18,11 +18,7 @@ namespace YimMenu
 
 	Script::~Script()
 	{
-		if (fiber != nullptr)
-		{
-			DeleteFiber(fiber);
-			fiber = nullptr;
-		}
+		stop();
 	}
 
 	Script* Script::current()
@@ -42,11 +38,13 @@ namespace YimMenu
 
 	void Script::stop()
 	{
-		if (fiber != nullptr)
+		if (fiber == nullptr)
 		{
-			DeleteFiber(fiber);
-			fiber = nullptr;
+			return;
 		}
+
+		DeleteFiber(fiber);
+		fiber = nullptr;
 	}
 
 	bool Script::tick()
@@ -66,20 +64,21 @@ namespace YimMenu
 	void Script::nestedTick()
 	{
 		SOUP_ASSERT(ExecCtx::get().isScript());
-
 		SOUP_ASSERT(!isCurrent());
 
-		const auto prev_ret_fiber = ret_fiber;
+		const auto previous_ret_fiber = ret_fiber;
 
 		ret_fiber = GetCurrentFiber();
 
 		tick();
 
-		ret_fiber = prev_ret_fiber;
+		ret_fiber = previous_ret_fiber;
 	}
 
 	void Script::yield()
 	{
+		SOUP_ASSERT(ret_fiber != nullptr);
+
 		SwitchToFiber(ret_fiber);
 	}
 
@@ -105,9 +104,9 @@ namespace YimMenu
 
 		func = nullptr;
 
-		do
+		for (;;)
 		{
 			yield();
-		} while (true);
+		}
 	}
 }

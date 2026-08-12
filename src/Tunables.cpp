@@ -79,7 +79,7 @@ namespace YimMenu
 
 			m_CacheFile.Load();
 
-			if (m_CacheFile.UpToDate(ModuleMgr.Get("GTA5_Enhanced.exe"_J)->GetNtHeader()->FileHeader.TimeDateStamp))
+			if (m_CacheFile.UpToDate(g_ModuleMgr.Get("GTA5_Enhanced.exe"_J)->GetNtHeader()->FileHeader.TimeDateStamp))
 			{
 				m_Loading = true;
 				Load();
@@ -171,7 +171,7 @@ namespace YimMenu
 			dataPtr += sizeof(TunableSaveStruct);
 		}
 
-		m_CacheFile.SetHeaderVersion(ModuleMgr.Get("GTA5_Enhanced.exe"_J)->GetNtHeader()->FileHeader.TimeDateStamp);
+		m_CacheFile.SetHeaderVersion(g_ModuleMgr.Get("GTA5_Enhanced.exe"_J)->GetNtHeader()->FileHeader.TimeDateStamp);
 		m_CacheFile.SetData(std::move(data), dataSize);
 		m_CacheFile.Write();
 	}

@@ -25,7 +25,8 @@ namespace YimMenu
 			    std::make_unique<Script>([] {
 				    auto job = g_JobQueue.pop_back();
 
-				    (*job)();
+				    if (job)
+					    (*job)();
 			    }));
 		}
 	}

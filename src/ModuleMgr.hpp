@@ -33,5 +33,5 @@ namespace YimMenu
 		std::unordered_multimap<std::uint32_t, std::unique_ptr<Module>> m_CachedModules;
 	};
 
-	inline YimMenu::ModuleMgr ModuleMgr;
+	inline YimMenu::ModuleMgr g_ModuleMgr;
 }

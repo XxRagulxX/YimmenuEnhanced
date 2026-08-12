@@ -18,7 +18,7 @@ namespace YimMenu
 	{
 		PatternCache::Init();
 
-		const auto gta5 = ModuleMgr.Get("GTA5_Enhanced.exe"_J);
+		const auto gta5 = g_ModuleMgr.Get("GTA5_Enhanced.exe"_J);
 		if (!gta5)
 		{
 			LOG(FATAL) << "Could not find GTA5_Enhanced.exe, is this GTA 5 Enhanced?";
@@ -459,7 +459,7 @@ namespace YimMenu
 
 	bool Pointers::LateInit()
 	{
-		auto sc = ModuleMgr.Get("socialclub.dll"_J);
+		auto sc = g_ModuleMgr.Get("socialclub.dll"_J);
 		while (!sc)
 		{
 			LOG(WARNING) << "Waiting for socialclub.dll";
@@ -471,8 +471,8 @@ namespace YimMenu
 				return false;
 			}
 
-			ModuleMgr.LoadModules();
-			sc = ModuleMgr.Get("socialclub.dll"_J);
+			g_ModuleMgr.LoadModules();
+			sc = g_ModuleMgr.Get("socialclub.dll"_J);
 		}
 
 		auto scanner = PatternScanner(sc);
