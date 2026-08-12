@@ -40,8 +40,6 @@ namespace YimMenu
 
 		void tick();
 
-		void beginShutdown() noexcept;
-
 		void deinit();
 
 		[[nodiscard]] bool isTicking() const noexcept
@@ -49,17 +47,11 @@ namespace YimMenu
 			return m_Ticking.load(std::memory_order_acquire);
 		}
 
-		[[nodiscard]] bool isShuttingDown() const noexcept
-		{
-			return m_ShuttingDown.load(std::memory_order_acquire);
-		}
-
 	private:
 		std::unordered_map<HMODULE, std::vector<std::unique_ptr<Script>>> m_Scripts;
 
 		std::atomic_bool m_Ticking{false};
 
-		std::atomic_bool m_ShuttingDown{false};
 	};
 
 	inline ScriptMgr g_script_mgr;

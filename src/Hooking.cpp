@@ -111,8 +111,6 @@ namespace YimMenu
 		BytePatches::RestoreAll();
 	}
 
-	const auto status = MH_Initialize();
-	
 	bool Hooking::InitImpl()
 	{
 		const auto status = MH_Initialize();
@@ -126,11 +124,6 @@ namespace YimMenu
 		auto minimalHooks = GetMinimalHooks();
 		auto passiveHooks = GetPassiveHooks();
 		auto mainHooks = GetMainHooks();
-
-
-		LOGF(INFO, "Minimal hooks: {}", minimalHooks.size());
-		LOGF(INFO, "Passive hooks: {}", passiveHooks.size());
-		LOGF(INFO, "Main hooks: {}", mainHooks.size());
 
 		// Create hooks in stages.
 		BatchCreate(minimalHooks);
@@ -192,7 +185,11 @@ namespace YimMenu
 			}
 		}
 
-		MH_ApplyQueued();
+		if (MH_ApplyQueued() != MH_OK)
+		{
+			throw std::runtime_error(
+			    "Failed to apply queued hook enables.");
+		}
 	}
 
 	void Hooking::BatchDisable(const std::vector<DetourHook*>& hooks)
@@ -209,7 +206,11 @@ namespace YimMenu
 			}
 		}
 
-		MH_ApplyQueued();
+		if (MH_ApplyQueued() != MH_OK)
+		{
+			throw std::runtime_error(
+			    "Failed to apply queued hook enables.");
+		}
 	}
 
 	void Hooking::BatchRemove(const std::vector<DetourHook*>& hooks)
