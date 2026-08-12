@@ -4,7 +4,10 @@
 #include <cstdlib>
 #include <cstring>
 #include <exception>
+#include <signal.h>
 #include <string>
+
+#include <rtcapi.h>
 
 #include <soup/os.hpp>
 
@@ -46,7 +49,7 @@ extern "C"
 
 	long exceptional_on_exception(YimMenu::ExceptionData* data, YimMenu::handle_caught_exception_t handler);
 
-	long exceptional_on_caught_exception(YimMenu::ExceptionData* data); 
+	long exceptional_on_caught_exception(YimMenu::ExceptionData* data);
 
 	long exceptional_on_uncaught_exception(_EXCEPTION_POINTERS* exp);
 
@@ -217,9 +220,76 @@ namespace YimMenu
 			return nullptr;
 		}
 
-		const HANDLE thread = CreateThread(nullptr, 0, [](LPVOID parameter) -> DWORD {auto* function = static_cast<std::function<void()>*>(parameter);
-		                      
-		                     (void)Exceptional::setUnhandledExceptionHandler(); (*function)(); delete function; return 0;}, function, 0, nullptr);
+		const HANDLE thread = CreateThread(
+		    nullptr,
+		    0,
+		    [](LPVOID parameter) -> DWORD {
+			    /*
+			     * Stand installs these CRT/runtime handlers when its
+			     * worker threads start. They are process-wide handlers,
+			     * so do not reinstall the YimMenu unhandled-exception
+			     * filter here; it is installed during startup in main.cpp.
+			     */
+
+			    _set_abort_behavior(0, 0);
+
+			    _RTC_SetErrorFuncW(
+			        [](int,
+			            const wchar_t*,
+			            int,
+			            const wchar_t*,
+			            const wchar_t*,
+			            ...) {
+				        Exceptional::report(
+				            "CRT Run-Time Error",
+				            {});
+				        return 0;
+			        });
+
+			    _set_purecall_handler(
+			        [] {
+				        Exceptional::report(
+				            "Pure Virtual Call",
+				            {});
+			        });
+
+			    signal(
+			        SIGINT,
+			        [](int) {
+				        throw std::exception("SIGINT");
+			        });
+
+			    signal(
+			        SIGTERM,
+			        [](int) {
+				        throw std::exception("SIGTERM");
+			        });
+
+			    signal(
+			        SIGABRT,
+			        [](int) {
+				        throw std::exception("SIGABRT");
+			        });
+
+			    set_terminate(
+			        [] {
+				        Exceptional::report(
+				            "Terminate Called",
+				            {});
+				        std::abort();
+			        });
+
+			    auto* function =
+			        static_cast<std::function<void()>*>(parameter);
+
+			    (*function)();
+
+			    delete function;
+			    return 0;
+		    },
+		    function,
+		    0,
+		    nullptr);
 
 		if (!thread)
 		{
@@ -233,7 +303,7 @@ namespace YimMenu
 	}
 
 
-	HANDLE Exceptional::createExceptionalThread(std::function<void()>&& func) noexcept 
+	HANDLE Exceptional::createExceptionalThread(std::function<void()>&& func) noexcept
 	{
 		auto* function = new (std::nothrow) std::function<void()>(std::move(func));
 
@@ -242,10 +312,11 @@ namespace YimMenu
 			return nullptr;
 		}
 
-		return createThread([function] {runExceptionalFunction(function);
+		return createThread([function] {
+			runExceptionalFunction(function);
 
-			    delete function;
-		    });
+			delete function;
+		});
 	}
 
 
@@ -264,7 +335,10 @@ namespace YimMenu
 	{
 		SOUP_ASSERT(++counted_threads != 0);
 
-		createManagedThread([func = std::move(func)]() mutable {func(); --counted_threads;});
+		createManagedThread([func = std::move(func)]() mutable {
+			func();
+			--counted_threads;
+		});
 	}
 
 
@@ -272,17 +346,18 @@ namespace YimMenu
 	{
 		SOUP_ASSERT(++counted_threads != 0);
 
-		createManagedThread([func = std::move(func)]() mutable {auto* function = new (std::nothrow) std::function<void()>(std::move(func));
+		createManagedThread([func = std::move(func)]() mutable {
+			auto* function = new (std::nothrow) std::function<void()>(std::move(func));
 
-			    if (function)
-			    {
-				    runExceptionalFunction(function);
+			if (function)
+			{
+				runExceptionalFunction(function);
 
-				    delete function;
-			    }
+				delete function;
+			}
 
-			    --counted_threads;
-		    });
+			--counted_threads;
+		});
 	}
 
 	LPTOP_LEVEL_EXCEPTION_FILTER
@@ -523,7 +598,7 @@ namespace YimMenu
 
 			result.append(" (Status ");
 
-			result.append(formatAddress( exp->ExceptionRecord->ExceptionInformation[2]));
+			result.append(formatAddress(exp->ExceptionRecord->ExceptionInformation[2]));
 
 			result.push_back(')');
 

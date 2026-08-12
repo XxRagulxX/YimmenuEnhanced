@@ -38,22 +38,41 @@ namespace YimMenu
 
 	std::optional<std::uint32_t> ScriptData::GetCodeLocationByPattern(ScriptData* data, const SimplePattern& pattern)
 	{
-		std::uint32_t codeSize = data->GetSize();
-		for (uint32_t i = 0; i < (codeSize - pattern.m_Bytes.size()); i++)
+		if (!data || pattern.m_Bytes.empty())
+			return std::nullopt;
+
+		const auto codeSize = static_cast<std::size_t>(data->GetSize());
+
+		const auto patternSize = pattern.m_Bytes.size();
+
+		if (patternSize > codeSize)
+			return std::nullopt;
+
+		for (std::size_t i = 0;
+		    i + patternSize <= codeSize;
+		    ++i)
 		{
-			for (uint32_t j = 0; j < pattern.m_Bytes.size(); j++)
+			bool found = true;
+
+			for (std::size_t j = 0;
+			    j < patternSize;
+			    ++j)
 			{
 				if (pattern.m_Bytes[j].has_value())
 				{
-					int loc = i + j;
-					if (pattern.m_Bytes[j] != *GetCodeLocation(data, loc))
-						goto incorrect;
+					const auto loc = static_cast<std::uint32_t>(i + j);
+
+					if (pattern.m_Bytes[j].value()
+					    != *GetCodeLocation(data, loc))
+					{
+						found = false;
+						break;
+					}
 				}
 			}
 
-			return i;
-		incorrect:
-			continue;
+			if (found)
+				return static_cast<std::uint32_t>(i);
 		}
 
 		return std::nullopt;

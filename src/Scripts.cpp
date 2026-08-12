@@ -152,19 +152,43 @@ namespace YimMenu::Scripts
 		return false;
 	}
 
-	std::optional<std::uint32_t> GetCodeLocationByPattern(rage::scrProgram* program, SimplePattern pattern)
+	std::optional<std::uint32_t> GetCodeLocationByPattern(
+	    rage::scrProgram* program,
+	    SimplePattern pattern)
 	{
-		uint32_t codeSize = program->m_CodeSize;
-		for (uint32_t i = 0; i < (codeSize - pattern.m_Bytes.size()); i++)
-		{
-			for (uint32_t j = 0; j < pattern.m_Bytes.size(); j++)
-				if (pattern.m_Bytes[j].has_value())
-					if (pattern.m_Bytes[j].value() != *program->GetCodeAddress(i + j))
-						goto incorrect;
+		if (!program || pattern.m_Bytes.empty())
+			return std::nullopt;
 
-			return i;
-		incorrect:
-			continue;
+		const auto codeSize =
+		    static_cast<std::size_t>(program->m_CodeSize);
+
+		const auto patternSize = pattern.m_Bytes.size();
+
+		if (patternSize > codeSize)
+			return std::nullopt;
+
+		for (std::size_t i = 0;
+		    i + patternSize <= codeSize;
+		    ++i)
+		{
+			bool found = true;
+
+			for (std::size_t j = 0;
+			    j < patternSize;
+			    ++j)
+			{
+				if (pattern.m_Bytes[j].has_value()
+				    && pattern.m_Bytes[j].value()
+				        != *program->GetCodeAddress(
+				            static_cast<std::uint32_t>(i + j)))
+				{
+					found = false;
+					break;
+				}
+			}
+
+			if (found)
+				return static_cast<std::uint32_t>(i);
 		}
 
 		return std::nullopt;
@@ -238,7 +262,7 @@ namespace YimMenu::Scripts
 				ForceScriptHost(launcher);
 				Script::current()->yield(400);
 			}
-			
+
 			launcher->m_Context.m_State = rage::scrThread::State::PAUSED;
 
 			auto serverData = LauncherServerData::Get();
@@ -326,7 +350,7 @@ namespace YimMenu::Scripts
 		auto bypass_global = ScriptGlobal(1991386); // this global will bypass the new checks added this update
 		auto old_val = *bypass_global.As<int*>();
 		*bypass_global.As<int*>() = rand_int_2 ^ rand() ^ time(0);
-		
+
 		event.SetPlayerBits(bits);
 		event.Send();
 

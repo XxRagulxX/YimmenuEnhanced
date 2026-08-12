@@ -1,30 +1,54 @@
 #include "PatternBatch.hpp"
 
 #include <algorithm>
+#include <string_view>
 #include <thread>
 #include <utility>
 #include <vector>
 
 #include "LogHelper.hpp"
+#include "PatternCache.hpp"
 
 namespace YimMenu
 {
-	PatternBatch::PatternBatch(
-	    std::unordered_map<std::string, std::uintptr_t>* cache) :
-	    m_Cache(cache)
+	PatternHash PatternBatch::MakePatternHash(
+	    std::string_view signature)
 	{
+		PatternHash hash;
+		std::size_t signatureByteLength = 0;
+
+		for (const char c : signature)
+		{
+			hash = hash.Update(c);
+
+			if (c == ' ')
+			{
+				++signatureByteLength;
+			}
+		}
+
+		hash = hash.Update('\0');
+		++signatureByteLength;
+		hash = hash.Update(signatureByteLength);
+
+		return hash;
 	}
 
 	void PatternBatch::Add(
 	    std::string name,
 	    soup::Range range,
-	    soup::Pattern pattern,
+	    std::string signature,
 	    PatternCallback callback)
 	{
+		auto hash = MakePatternHash(signature);
+		soup::Pattern pattern(signature);
+
 		AddImpl(
 		    std::move(name),
+		    std::move(signature),
 		    std::move(range),
 		    std::move(pattern),
+		    hash,
 		    std::move(callback),
 		    {});
 	}
@@ -32,22 +56,29 @@ namespace YimMenu
 	void PatternBatch::AddOptional(
 	    std::string name,
 	    soup::Range range,
-	    soup::Pattern pattern,
+	    std::string signature,
 	    PatternCallback callback,
 	    PatternFailCallback failCallback)
 	{
+		auto hash = MakePatternHash(signature);
+		soup::Pattern pattern(signature);
+
 		AddImpl(
 		    std::move(name),
+		    std::move(signature),
 		    std::move(range),
 		    std::move(pattern),
+		    hash,
 		    std::move(callback),
 		    std::move(failCallback));
 	}
 
 	void PatternBatch::AddImpl(
 	    std::string name,
+	    std::string signature,
 	    soup::Range range,
 	    soup::Pattern pattern,
+	    PatternHash hash,
 	    PatternCallback callback,
 	    PatternFailCallback failCallback)
 	{
@@ -55,8 +86,10 @@ namespace YimMenu
 
 		m_Entries.emplace(
 		    std::move(name),
+		    std::move(signature),
 		    std::move(range),
 		    std::move(pattern),
+		    hash,
 		    std::move(callback),
 		    std::move(failCallback));
 	}
@@ -72,47 +105,65 @@ namespace YimMenu
 
 	bool PatternBatch::ProcessEntry(Entry& entry)
 	{
-		soup::Pointer result;
-		bool fromCache = false;
-
-		// Try the cached offset first.
-		//
-		// The cache is never trusted blindly. The cached address must still
-		// be inside the scan range and the pattern must still match there.
-		if (m_Cache)
+		/*
+		 * Try the persistent cache first.
+		 *
+		 * A cached offset is never trusted blindly. The resulting
+		 * address must still be inside the scan range and the pattern
+		 * must still match at that address.
+		 */
+		if (PatternCache::IsInitialized())
 		{
-			std::lock_guard lock(m_Mutex);
-
-			const auto cached = m_Cache->find(entry.m_Name);
-
-			if (cached != m_Cache->end())
+			if (const auto cached =
+			        PatternCache::GetCachedOffset(entry.m_Hash))
 			{
-				result =
+				const auto cachedAddress =
 				    entry.m_Range.base.as<std::uintptr_t>()
-				    + cached->second;
+				    + static_cast<std::uintptr_t>(*cached);
 
-				if (result.isInRange(entry.m_Range)
-				    && entry.m_Pattern.matches(result.as<std::uint8_t*>()))
+				const soup::Pointer cachedResult(cachedAddress);
+
+				if (cachedResult.isInRange(entry.m_Range)
+				    && entry.m_Pattern.matches(
+				        cachedResult.as<std::uint8_t*>()))
 				{
-					fromCache = true;
-
 					m_CacheUtilisation.fetch_add(
 					    1,
 					    std::memory_order_relaxed);
+
+					LOG(INFO)
+					    << "Using cached pattern ["
+					    << entry.m_Name
+					    << "] : ["
+					    << HEX(cachedAddress)
+					    << "]";
+
+					/*
+					 * The cached address is valid.
+					 * Do not perform a full pattern scan.
+					 */
+					if (entry.m_Callback)
+					{
+						entry.m_Callback(cachedResult);
+					}
+
+					return true;
 				}
-				else
-				{
-					result = nullptr;
-				}
+
+				LOG(WARNING)
+				    << "Cached pattern ["
+				    << entry.m_Name
+				    << "] is invalid, rescanning...";
 			}
 		}
 
-		// Cache miss or stale cache.
-		// Perform a full pattern scan.
-		if (!result)
-		{
-			result = entry.m_Range.scan(entry.m_Pattern);
-		}
+		/*
+		 * No usable cached address exists.
+		 *
+		 * This is the only path that performs a full SOUP scan.
+		 */
+		const auto result =
+		    entry.m_Range.scan(entry.m_Pattern);
 
 		if (result)
 		{
@@ -123,24 +174,23 @@ namespace YimMenu
 			    << HEX(result.as<std::uintptr_t>())
 			    << "]";
 
-			// Execute the pointer initialization callback.
-			//
-			// Do not hold m_Mutex while executing callbacks.
 			if (entry.m_Callback)
 			{
 				entry.m_Callback(result);
 			}
 
-			// Update the cache only when the pattern was actually scanned.
-			if (!fromCache && m_Cache)
+			/*
+			 * Save the newly discovered offset for future runs.
+			 */
+			if (PatternCache::IsInitialized())
 			{
 				const auto offset =
 				    result.as<std::uintptr_t>()
 				    - entry.m_Range.base.as<std::uintptr_t>();
 
-				std::lock_guard lock(m_Mutex);
-
-				(*m_Cache)[entry.m_Name] = offset;
+				PatternCache::UpdateCachedOffset(
+				    entry.m_Hash,
+				    static_cast<int>(offset));
 			}
 
 			return true;
@@ -151,14 +201,18 @@ namespace YimMenu
 		    << entry.m_Name
 		    << "]";
 
-		// Optional patterns are allowed to fail.
+		/*
+		 * Optional patterns are allowed to fail.
+		 */
 		if (entry.m_FailCallback)
 		{
 			entry.m_FailCallback(*this);
 			return true;
 		}
 
-		// Record the failure.
+		/*
+		 * Required pattern failed.
+		 */
 		{
 			std::lock_guard lock(m_Mutex);
 
@@ -186,8 +240,10 @@ namespace YimMenu
 		{
 			Entry entry{
 			    "",
+			    "",
 			    soup::Range{},
 			    soup::Pattern{},
+			    PatternHash{},
 			    {},
 			    {}};
 
@@ -203,8 +259,6 @@ namespace YimMenu
 				m_Entries.pop();
 			}
 
-			// Pattern scanning happens outside the mutex so workers
-			// can scan in parallel.
 			ProcessEntry(entry);
 		}
 	}
@@ -226,7 +280,8 @@ namespace YimMenu
 		}
 
 		auto threadCount =
-		    static_cast<std::size_t>(std::thread::hardware_concurrency());
+		    static_cast<std::size_t>(
+		        std::thread::hardware_concurrency());
 
 		if (threadCount == 0)
 		{
