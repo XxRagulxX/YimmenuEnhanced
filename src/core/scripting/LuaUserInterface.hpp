@@ -56,6 +56,11 @@ namespace YimMenu
 
 		std::vector<int> m_RenderCallbacks;
 
+		std::vector<int> m_ImGuiCallbacks;
+		std::vector<int> m_AlwaysDrawImGuiCallbacks;
+		std::atomic<bool> m_HasImGuiCallbacks{false};
+		std::atomic<bool> m_HasAlwaysDrawImGuiCallbacks{false};
+
 		std::unordered_set<void*> m_ScriptAllocations;
 
 		std::mutex m_TickFunctionsLock;
@@ -64,6 +69,8 @@ namespace YimMenu
 		std::chrono::system_clock::time_point m_LastThrotlledCoroutinePush;
 
 		bool m_ShutdownCalled = false;
+
+		void RunImGuiCallbacks(const std::vector<int>& callbacks);
 
 	public:
 		LuaUserInterface();
@@ -97,6 +104,12 @@ namespace YimMenu
 		void TrackAttachedGroupItem(std::shared_ptr<Group> parent, std::shared_ptr<UIItem> item);
 		void TrackOwnedGroup(std::shared_ptr<Group> group);
 		void TrackRenderCallback(int func_ref);
+
+		void AddImGuiCallback(int func_ref);
+		void AddAlwaysDrawImGuiCallback(int func_ref);
+		
+		void DrawImGuiCallbacks();
+		void DrawAlwaysDrawImGuiCallbacks();
 
 		void TrackScriptAllocation(void* ptr);
 		bool ReleaseScriptAllocation(void* ptr);
