@@ -1,5 +1,4 @@
 #include "Menu.hpp"
-#include "imgui.h"
 #include "core/frontend/manager/UIManager.hpp"
 #include "core/renderer/Renderer.hpp"
 #include "game/frontend/fonts/Fonts.hpp"
@@ -13,15 +12,11 @@
 #include "submenus/Debug.hpp"
 #include "submenus/World.hpp"
 #include "Onboarding.hpp"
-#include "core/frontend/manager/styles/Themes.hpp"
-#include "game/frontend/GUI.hpp"
-
 
 namespace YimMenu
 {
 	void Menu::Init()
 	{
-		SetupStyle();
 		// Arguably the only place this file should be edited at for more menus
 		UIManager::AddSubmenu(std::make_shared<Submenus::Self>());
 		UIManager::AddSubmenu(std::make_shared<Submenus::Vehicle>());
@@ -33,7 +28,7 @@ namespace YimMenu
 		UIManager::AddSubmenu(std::make_shared<Submenus::Settings>());
 		UIManager::AddSubmenu(std::make_shared<Submenus::Debug>());
 
-		Renderer::AddRendererCallBack(
+		Renderer::AddRendererCallback(
 		    [&] {
 			    ProcessOnboarding();
 			    if (!GUI::IsOpen())

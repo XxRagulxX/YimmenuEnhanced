@@ -1,7 +1,5 @@
 #pragma once
 
-#include <imgui.h>
-
 namespace YimMenu::Menu
 {
 	extern void Init();
