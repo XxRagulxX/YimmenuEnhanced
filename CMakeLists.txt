@@ -143,6 +143,12 @@ target_link_libraries(
         gdi32
         dxgi
         libluajit
+
+        # DirectXTK12 dependency: EffectDeviceResources::DemandCreateRootSig
+        # calls D3D12SerializeRootSignature, which lives in d3d12.lib. Nothing
+        # else in this project links it directly (the D3D12 device/queue are
+        # obtained from the game's existing swapchain, not D3D12CreateDevice).
+        d3d12
 )
 
 # Compiler options
