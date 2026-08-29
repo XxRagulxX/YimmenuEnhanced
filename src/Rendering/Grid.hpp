@@ -27,14 +27,17 @@ namespace YimMenu::Rendering
 		virtual ~Grid() = default;
 
 		void Draw();
+		void DrawText();
 
 	protected:
-		// Builds m_Items. Called once, lazily, on the first Draw().
+		// Builds m_Items. Called once, lazily, on the first Draw()/DrawText()
+		// (whichever runs first).
 		virtual void Populate() = 0;
 
 		std::vector<std::unique_ptr<GridItem>> m_Items;
 
 	private:
+		void EnsurePopulated();
 		void SetPositions();
 
 		float m_X;

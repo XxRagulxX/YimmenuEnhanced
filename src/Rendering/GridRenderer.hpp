@@ -3,9 +3,12 @@
 #include <Effects.h>
 #include <GraphicsMemory.h>
 #include <PrimitiveBatch.h>
+#include <SpriteBatch.h>
+#include <SpriteFont.h>
 #include <VertexTypes.h>
 #include <d3d12.h>
 #include <memory>
+#include <wrl/client.h>
 
 namespace YimMenu::Rendering
 {
@@ -18,11 +21,10 @@ namespace YimMenu::Rendering
 	// is built on DirectXTK (D3D11) - this is the DirectXTK12/D3D12 equivalent,
 	// since this project's swapchain is D3D12.
 	//
-	// This provides a pixel-space DrawRect() primitive (Stand's drawRectH
-	// equivalent) that Grid/GridItem-based widgets draw themselves with.
-	// Text/font rendering (Stand's drawTextC equivalent) is follow-up work -
-	// it needs a DirectXTK12 SpriteFont asset, which isn't something this
-	// port can generate without a Windows toolchain to run MakeSpriteFont.
+	// This provides pixel-space DrawRect()/DrawText() primitives (Stand's
+	// drawRectH/drawTextC equivalents) that Grid/GridItem-based widgets draw
+	// themselves with. Text uses the same embedded "Be Vietnam Pro" spritefont
+	// blob stand-reference itself ships (see font_bevietnamprolight.hpp).
 	class GridRenderer final
 	{
 	private:
@@ -49,6 +51,15 @@ namespace YimMenu::Rendering
 			GetInstance().DrawRectImpl(x, y, width, height, colour);
 		}
 
+		// Draws a UTF-8 text string at a pixel-space position (top-left
+		// origin). Only valid to call from a GridItem::DrawText() invoked
+		// via Grid::DrawText(), i.e. the separate SpriteBatch pass in
+		// DrawImpl. No-ops silently if the embedded font failed to load.
+		static void DrawText(float x, float y, const char* text, const DirectX::XMFLOAT4& colour)
+		{
+			GetInstance().DrawTextImpl(x, y, text, colour);
+		}
+
 	private:
 		static GridRenderer& GetInstance()
 		{
@@ -58,6 +69,7 @@ namespace YimMenu::Rendering
 
 		void DrawImpl(ID3D12GraphicsCommandList* commandList);
 		void DrawRectImpl(float x, float y, float width, float height, const DirectX::XMFLOAT4& colour);
+		void DrawTextImpl(float x, float y, const char* text, const DirectX::XMFLOAT4& colour);
 
 		void EnsureDeviceResources(ID3D12Device* device);
 		void ReleaseDeviceResources();
@@ -69,5 +81,12 @@ namespace YimMenu::Rendering
 		std::unique_ptr<DirectX::CommonStates> m_States;
 		std::unique_ptr<DirectX::BasicEffect> m_Effect;
 		std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> m_Batch;
+
+		// Text (only created if the embedded font loads successfully -
+		// DrawTextImpl no-ops otherwise, DrawRect/the rest of the pipeline
+		// is unaffected).
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_FontDescriptorHeap;
+		std::unique_ptr<DirectX::SpriteFont> m_Font;
+		std::unique_ptr<DirectX::SpriteBatch> m_SpriteBatch;
 	};
 }

@@ -17,7 +17,15 @@ namespace YimMenu::Rendering
 
 		virtual ~GridItem() = default;
 
+		// Solid-colour/background draws (PrimitiveBatch pass).
 		virtual void Draw() = 0;
+
+		// Text draws (SpriteBatch pass, a separate batch type/pipeline
+		// state from Draw() above - see GridRenderer::DrawImpl). Default
+		// no-op: most items have no text of their own.
+		virtual void DrawText()
+		{
+		}
 
 		void SetPosition(float x, float y, float width)
 		{

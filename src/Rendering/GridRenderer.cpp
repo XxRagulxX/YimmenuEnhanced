@@ -3,10 +3,13 @@
 #include "BoolCommand.hpp"
 #include "Grid.hpp"
 #include "GridItemRect.hpp"
+#include "GridItemText.hpp"
 #include "Pointers.hpp"
 #include "Renderer.hpp"
+#include "font_bevietnamprolight.hpp"
 
 #include <RenderTargetState.h>
+#include <ResourceUploadBatch.h>
 
 namespace YimMenu::Rendering
 {
@@ -39,6 +42,8 @@ namespace YimMenu::Rendering
 			m_Items.push_back(std::make_unique<GridItemRect>(28.f, XMFLOAT4(0.85f, 0.1f, 0.1f, 1.f)));
 			m_Items.push_back(std::make_unique<GridItemRect>(28.f, XMFLOAT4(0.1f, 0.7f, 0.2f, 1.f)));
 			m_Items.push_back(std::make_unique<GridItemRect>(28.f, XMFLOAT4(0.15f, 0.4f, 0.9f, 1.f)));
+			m_Items.push_back(
+			    std::make_unique<GridItemText>(24.f, "YimMenu (Stand-style renderer)", XMFLOAT4(1.f, 1.f, 1.f, 1.f)));
 		}
 	};
 
@@ -69,10 +74,54 @@ namespace YimMenu::Rendering
 
 		m_Effect = std::make_unique<DirectX::BasicEffect>(device, DirectX::EffectFlags::VertexColor, pd);
 		m_Batch  = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(device);
+
+		// Text: embedded "Be Vietnam Pro" spritefont (see
+		// font_bevietnamprolight.hpp). Failure here (e.g. a malformed blob)
+		// is non-fatal - DrawTextImpl no-ops if m_Font/m_SpriteBatch are
+		// null, and rect drawing above is unaffected.
+		D3D12_DESCRIPTOR_HEAP_DESC fontHeapDesc{
+		    D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 1, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE};
+		if (const auto result = device->CreateDescriptorHeap(&fontHeapDesc,
+		        __uuidof(ID3D12DescriptorHeap),
+		        (void**)m_FontDescriptorHeap.ReleaseAndGetAddressOf());
+		    result < 0)
+		{
+			LOGF(WARNING, "[GridRenderer] Failed to create font descriptor heap with result: [{}]", result);
+		}
+		else
+		{
+			try
+			{
+				DirectX::ResourceUploadBatch upload(device);
+				upload.Begin();
+
+				m_Font = std::make_unique<DirectX::SpriteFont>(device,
+				    upload,
+				    reinterpret_cast<const uint8_t*>(font_bevietnamprolight::chunk_1),
+				    sizeof(font_bevietnamprolight::chunk_1),
+				    m_FontDescriptorHeap->GetCPUDescriptorHandleForHeapStart(),
+				    m_FontDescriptorHeap->GetGPUDescriptorHandleForHeapStart());
+				m_Font->SetDefaultCharacter(L'?');
+
+				DirectX::SpriteBatchPipelineStateDescription spritePd(rtState);
+				m_SpriteBatch = std::make_unique<DirectX::SpriteBatch>(device, upload, spritePd);
+
+				upload.End(Renderer::GetCommandQueue()).wait();
+			}
+			catch (const std::exception& e)
+			{
+				LOGF(WARNING, "[GridRenderer] Failed to load embedded font: {}", e.what());
+				m_Font.reset();
+				m_SpriteBatch.reset();
+			}
+		}
 	}
 
 	void GridRenderer::ReleaseDeviceResources()
 	{
+		m_SpriteBatch.reset();
+		m_Font.reset();
+		m_FontDescriptorHeap.Reset();
 		m_Batch.reset();
 		m_Effect.reset();
 		m_States.reset();
@@ -106,12 +155,32 @@ namespace YimMenu::Rendering
 		commandList->RSSetViewports(1, &viewport);
 		commandList->RSSetScissorRects(1, &scissorRect);
 
-		m_Effect->Apply(commandList);
-		m_Batch->Begin(commandList);
+		if (m_Effect && m_Batch)
+		{
+			m_Effect->Apply(commandList);
+			m_Batch->Begin(commandList);
 
-		g_TestGrid.Draw();
+			g_TestGrid.Draw();
 
-		m_Batch->End();
+			m_Batch->End();
+		}
+
+		// Separate pass/batch type from the rects above: SpriteBatch manages
+		// its own root signature + PSO (set in Begin()) and needs the font's
+		// SRV descriptor heap bound, which replaces whatever heap ImGui left
+		// bound - safe here since ImGui has already finished recording its
+		// own draws for this frame by the time our callback runs.
+		if (m_Font && m_SpriteBatch && m_FontDescriptorHeap)
+		{
+			commandList->SetDescriptorHeaps(1, m_FontDescriptorHeap.GetAddressOf());
+
+			m_SpriteBatch->SetViewport(viewport);
+			m_SpriteBatch->Begin(commandList);
+
+			g_TestGrid.DrawText();
+
+			m_SpriteBatch->End();
+		}
 
 		m_GraphicsMemory->Commit(Renderer::GetCommandQueue());
 	}
@@ -134,6 +203,14 @@ namespace YimMenu::Rendering
 		VertexPositionColor v3(toNdc(x, y + height), colour);
 
 		m_Batch->DrawQuad(v0, v1, v2, v3);
+	}
+
+	void GridRenderer::DrawTextImpl(float x, float y, const char* text, const DirectX::XMFLOAT4& colour)
+	{
+		if (!m_Font || !m_SpriteBatch)
+			return;
+
+		m_Font->DrawString(m_SpriteBatch.get(), text, DirectX::XMFLOAT2(x, y), DirectX::XMLoadFloat4(&colour));
 	}
 
 	void GridRenderer::Init()

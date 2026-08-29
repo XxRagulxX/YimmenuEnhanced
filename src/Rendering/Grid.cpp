@@ -12,16 +12,29 @@ namespace YimMenu::Rendering
 		}
 	}
 
+	void Grid::EnsurePopulated()
+	{
+		if (m_Populated)
+			return;
+
+		Populate();
+		SetPositions();
+		m_Populated = true;
+	}
+
 	void Grid::Draw()
 	{
-		if (!m_Populated)
-		{
-			Populate();
-			SetPositions();
-			m_Populated = true;
-		}
+		EnsurePopulated();
 
 		for (auto& item : m_Items)
 			item->Draw();
+	}
+
+	void Grid::DrawText()
+	{
+		EnsurePopulated();
+
+		for (auto& item : m_Items)
+			item->DrawText();
 	}
 }
