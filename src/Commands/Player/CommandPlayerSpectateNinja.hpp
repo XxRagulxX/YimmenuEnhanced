@@ -1,0 +1,14 @@
+#pragma once
+
+#include "Commands/Player/CommandPlayerSpectate.hpp"
+
+namespace Stand
+{
+	class CommandPlayerSpectateNinja : public CommandPlayerSpectate
+	{
+	public:
+		explicit CommandPlayerSpectateNinja(CommandList* const parent);
+
+		void onEnable(Click& click) final;
+	};
+}

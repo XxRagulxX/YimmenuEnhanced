@@ -1,5 +1,6 @@
+.cache/
 build/
-.cache
-.vs
-.lastcommit
+build-single.log
+build.log
 out/
+.vs/
