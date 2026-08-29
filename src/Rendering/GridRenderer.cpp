@@ -2,11 +2,7 @@
 
 #include "BoolCommand.hpp"
 #include "GUI.hpp"
-#include "Grid.hpp"
-#include "GridItemButton.hpp"
-#include "GridItemHeader.hpp"
-#include "GridItemTabsHorizontal.hpp"
-#include "GridItemToggle.hpp"
+#include "MiscGrid.hpp"
 #include "Pointers.hpp"
 #include "Renderer.hpp"
 #include "font_bevietnamprolight.hpp"
@@ -39,8 +35,12 @@ namespace YimMenu::Rendering
 		}
 	}
 
-	// Visualises the new DirectXTK12 draw pipeline while it's being built
-	// out; doesn't touch the existing ImGui menu. Off by default.
+	// Master visibility toggle for the whole DirectXTK12/Grid renderer
+	// (MiscGrid below); doesn't touch the existing ImGui menu, which is
+	// still the only way to reach DoTeleport/DoTeamSwap (see MiscGrid.hpp).
+	// Kept the original internal name ("standrenderertest") so existing
+	// saved settings.json state isn't lost across the label/description
+	// change - it's still the same registered command.
 	class StandRendererTest : public BoolCommand
 	{
 		using BoolCommand::BoolCommand;
@@ -62,39 +62,11 @@ namespace YimMenu::Rendering
 
 	static StandRendererTest _StandRendererTest{"standrenderertest",
 	    "Stand Renderer Test",
-	    "Draws a small stack of test rectangles using the new DirectXTK12/Grid draw pipeline (Stand-style renderer port, WIP)"};
+	    "Shows a Stand-style rebuild of Debug > Misc (Network Bail, Dump Data Hash, and this "
+	    "toggle itself) using the new DirectXTK12/Grid draw pipeline. DoTeleport/DoTeamSwap "
+	    "aren't included yet (need numeric input widgets) - use the regular Misc category for those."};
 
-	// Grid proving out the real widget set (header, tabs, toggles, button)
-	// on top of the Grid/GridItem tree - a rough stand-in for what an
-	// actual menu page's layout looks like, still standalone/decorative
-	// (no input/hit-testing yet, so nothing here is actually clickable).
-	class TestGrid : public Grid
-	{
-	public:
-		TestGrid() :
-		    Grid(20.f, 20.f, 260.f)
-		{
-		}
-
-	protected:
-		void Populate() override
-		{
-			m_Items.push_back(std::make_unique<GridItemHeader>(30.f, "YimMenu (Stand-style)"));
-			m_Items.push_back(
-			    std::make_unique<GridItemTabsHorizontal>(28.f, std::vector<std::string>{"Main", "Weapons", "Outfit"}, 0));
-			m_Items.push_back(std::make_unique<GridItemToggle>(26.f, "God Mode", true));
-			m_Items.push_back(std::make_unique<GridItemToggle>(26.f, "Invisibility", false));
-			m_Items.push_back(std::make_unique<GridItemButton>(28.f, "Heal"));
-
-			// Fires exactly once (Grid::EnsurePopulated() guards re-entry) -
-			// confirms the render callback is actually running and reaching
-			// the Grid/GridItem tree, independent of whether anything ends
-			// up visible on screen.
-			LOGF(INFO, "[GridRenderer] TestGrid populated with {} items", m_Items.size());
-		}
-	};
-
-	static TestGrid g_TestGrid{};
+	static MiscGrid g_MiscGrid{};
 
 	void GridRenderer::EnsureDeviceResources(ID3D12Device* device)
 	{
@@ -206,7 +178,7 @@ namespace YimMenu::Rendering
 		if (GUI::IsOpen())
 		{
 			DirectX::XMFLOAT2 cursor;
-			if (TryGetCursorPos(cursor) && g_TestGrid.FindItemAt(cursor.x, cursor.y))
+			if (TryGetCursorPos(cursor) && g_MiscGrid.FindItemAt(cursor.x, cursor.y))
 				ImGui::SetNextFrameWantCaptureMouse(true);
 		}
 
@@ -227,7 +199,7 @@ namespace YimMenu::Rendering
 			m_Effect->Apply(commandList);
 			m_Batch->Begin(commandList);
 
-			g_TestGrid.Draw();
+			g_MiscGrid.Draw();
 
 			m_Batch->End();
 		}
@@ -244,7 +216,7 @@ namespace YimMenu::Rendering
 			m_SpriteBatch->SetViewport(viewport);
 			m_SpriteBatch->Begin(commandList);
 
-			g_TestGrid.DrawText();
+			g_MiscGrid.DrawText();
 
 			m_SpriteBatch->End();
 		}
@@ -302,7 +274,7 @@ namespace YimMenu::Rendering
 		if (!TryGetCursorPos(cursor))
 			return;
 
-		if (auto* item = g_TestGrid.FindItemAt(cursor.x, cursor.y))
+		if (auto* item = g_MiscGrid.FindItemAt(cursor.x, cursor.y))
 			item->OnClick(cursor.x, cursor.y);
 	}
 

@@ -29,5 +29,8 @@ namespace YimMenu::Rendering
 	void GridItemButton::OnClick(float, float)
 	{
 		LOGF(INFO, "[GridRenderer] Button '{}' clicked", m_Label);
+
+		if (m_Action)
+			m_Action();
 	}
 }

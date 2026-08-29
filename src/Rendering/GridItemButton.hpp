@@ -1,19 +1,22 @@
 #pragma once
 #include "GridItem.hpp"
 
+#include <functional>
 #include <string>
 
 namespace YimMenu::Rendering
 {
-	// A button-styled rectangle with a centred label. Click just logs for
-	// now - not yet wired to a real command (that's follow-up work once a
-	// real menu page uses this instead of TestGrid).
+	// A button-styled rectangle with a centred label. Runs an optional
+	// action callback on click (in addition to the log line, which stays
+	// so a click is always independently verifiable in the log even for
+	// a silent/purely-visual action, or when no callback is given at all).
 	class GridItemButton : public GridItem
 	{
 	public:
-		GridItemButton(float height, std::string label) :
+		GridItemButton(float height, std::string label, std::function<void()> action = nullptr) :
 		    GridItem(height),
-		    m_Label(std::move(label))
+		    m_Label(std::move(label)),
+		    m_Action(std::move(action))
 		{
 		}
 
@@ -23,5 +26,6 @@ namespace YimMenu::Rendering
 
 	private:
 		std::string m_Label;
+		std::function<void()> m_Action;
 	};
 }
