@@ -2,8 +2,10 @@
 
 #include "BoolCommand.hpp"
 #include "Grid.hpp"
-#include "GridItemRect.hpp"
-#include "GridItemText.hpp"
+#include "GridItemButton.hpp"
+#include "GridItemHeader.hpp"
+#include "GridItemTabsHorizontal.hpp"
+#include "GridItemToggle.hpp"
 #include "Pointers.hpp"
 #include "Renderer.hpp"
 #include "font_bevietnamprolight.hpp"
@@ -38,26 +40,27 @@ namespace YimMenu::Rendering
 	    "Stand Renderer Test",
 	    "Draws a small stack of test rectangles using the new DirectXTK12/Grid draw pipeline (Stand-style renderer port, WIP)"};
 
-	// Minimal Grid proving out the Grid/GridItem tree: a small stack of
-	// solid-colour boxes. Replaced by a real menu grid once text rendering
-	// and richer GridItem types (buttons, toggles, ...) land.
+	// Grid proving out the real widget set (header, tabs, toggles, button)
+	// on top of the Grid/GridItem tree - a rough stand-in for what an
+	// actual menu page's layout looks like, still standalone/decorative
+	// (no input/hit-testing yet, so nothing here is actually clickable).
 	class TestGrid : public Grid
 	{
 	public:
 		TestGrid() :
-		    Grid(20.f, 20.f, 220.f)
+		    Grid(20.f, 20.f, 260.f)
 		{
 		}
 
 	protected:
 		void Populate() override
 		{
-			using namespace DirectX;
-			m_Items.push_back(std::make_unique<GridItemRect>(28.f, XMFLOAT4(0.85f, 0.1f, 0.1f, 1.f)));
-			m_Items.push_back(std::make_unique<GridItemRect>(28.f, XMFLOAT4(0.1f, 0.7f, 0.2f, 1.f)));
-			m_Items.push_back(std::make_unique<GridItemRect>(28.f, XMFLOAT4(0.15f, 0.4f, 0.9f, 1.f)));
+			m_Items.push_back(std::make_unique<GridItemHeader>(30.f, "YimMenu (Stand-style)"));
 			m_Items.push_back(
-			    std::make_unique<GridItemText>(24.f, "YimMenu (Stand-style renderer)", XMFLOAT4(1.f, 1.f, 1.f, 1.f)));
+			    std::make_unique<GridItemTabsHorizontal>(28.f, std::vector<std::string>{"Main", "Weapons", "Outfit"}, 0));
+			m_Items.push_back(std::make_unique<GridItemToggle>(26.f, "God Mode", true));
+			m_Items.push_back(std::make_unique<GridItemToggle>(26.f, "Invisibility", false));
+			m_Items.push_back(std::make_unique<GridItemButton>(28.f, "Heal"));
 
 			// Fires exactly once (Grid::EnsurePopulated() guards re-entry) -
 			// confirms the render callback is actually running and reaching
@@ -81,7 +84,7 @@ namespace YimMenu::Rendering
 		// should be owned centrally (one instance per device, Commit()'d once
 		// per frame) rather than per-consumer.
 		m_GraphicsMemory = std::make_unique<DirectX::GraphicsMemory>(device);
-		m_States         = std::make_unique<DirectX::CommonStates>(device);
+		m_States = std::make_unique<DirectX::CommonStates>(device);
 
 		DirectX::RenderTargetState rtState(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
 
@@ -93,7 +96,7 @@ namespace YimMenu::Rendering
 		    D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
 
 		m_Effect = std::make_unique<DirectX::BasicEffect>(device, DirectX::EffectFlags::VertexColor, pd);
-		m_Batch  = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(device);
+		m_Batch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(device);
 
 		LOG(INFO) << "[GridRenderer] DirectXTK12 rect pipeline ready";
 
@@ -102,7 +105,9 @@ namespace YimMenu::Rendering
 		// is non-fatal - DrawTextImpl no-ops if m_Font/m_SpriteBatch are
 		// null, and rect drawing above is unaffected.
 		D3D12_DESCRIPTOR_HEAP_DESC fontHeapDesc{
-		    D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, 1, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE};
+		    D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
+		    1,
+		    D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE};
 		if (const auto result = device->CreateDescriptorHeap(&fontHeapDesc,
 		        __uuidof(ID3D12DescriptorHeap),
 		        (void**)m_FontDescriptorHeap.ReleaseAndGetAddressOf());
@@ -171,7 +176,7 @@ namespace YimMenu::Rendering
 		// whatever its last recorded draw command needed, which may be a
 		// clipped sub-rect. Reset both to the full backbuffer so our clip
 		// space (NDC) coordinates map onto the whole screen as expected.
-		const float width  = static_cast<float>(*Pointers.ScreenResX);
+		const float width = static_cast<float>(*Pointers.ScreenResX);
 		const float height = static_cast<float>(*Pointers.ScreenResY);
 
 		D3D12_VIEWPORT viewport{0.f, 0.f, width, height, 0.f, 1.f};
@@ -213,7 +218,7 @@ namespace YimMenu::Rendering
 	{
 		using namespace DirectX;
 
-		const float screenWidth  = static_cast<float>(*Pointers.ScreenResX);
+		const float screenWidth = static_cast<float>(*Pointers.ScreenResX);
 		const float screenHeight = static_cast<float>(*Pointers.ScreenResY);
 
 		// Pixel space (top-left origin, Y down) -> clip space / NDC (Y up).
@@ -235,6 +240,16 @@ namespace YimMenu::Rendering
 			return;
 
 		m_Font->DrawString(m_SpriteBatch.get(), text, DirectX::XMFLOAT2(x, y), DirectX::XMLoadFloat4(&colour));
+	}
+
+	DirectX::XMFLOAT2 GridRenderer::MeasureTextImpl(const char* text) const
+	{
+		if (!m_Font)
+			return {};
+
+		DirectX::XMFLOAT2 size;
+		DirectX::XMStoreFloat2(&size, m_Font->MeasureString(text));
+		return size;
 	}
 
 	void GridRenderer::Init()

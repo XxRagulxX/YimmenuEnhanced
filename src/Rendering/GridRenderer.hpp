@@ -60,6 +60,15 @@ namespace YimMenu::Rendering
 			GetInstance().DrawTextImpl(x, y, text, colour);
 		}
 
+		// Measures a UTF-8 text string in pixels (x = width, y = height) for
+		// layout purposes (centering, tab widths, ...). Returns {0, 0} if
+		// the embedded font failed to load. Safe to call any time (does not
+		// require a batch to be open).
+		static DirectX::XMFLOAT2 MeasureText(const char* text)
+		{
+			return GetInstance().MeasureTextImpl(text);
+		}
+
 	private:
 		static GridRenderer& GetInstance()
 		{
@@ -70,6 +79,7 @@ namespace YimMenu::Rendering
 		void DrawImpl(ID3D12GraphicsCommandList* commandList);
 		void DrawRectImpl(float x, float y, float width, float height, const DirectX::XMFLOAT4& colour);
 		void DrawTextImpl(float x, float y, const char* text, const DirectX::XMFLOAT4& colour);
+		DirectX::XMFLOAT2 MeasureTextImpl(const char* text) const;
 
 		void EnsureDeviceResources(ID3D12Device* device);
 		void ReleaseDeviceResources();
