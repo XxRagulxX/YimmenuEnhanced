@@ -30,7 +30,7 @@ namespace YimMenu::Rendering
 		// TODO: once more DirectXTK12-based subsystems exist, GraphicsMemory
 		// should be owned centrally (one instance per device, Commit()'d once
 		// per frame) rather than per-consumer.
-		m_GraphicsMemory = std::make_unique<DirectX::GraphicsMemory>(device, Renderer::GetBufferCount());
+		m_GraphicsMemory = std::make_unique<DirectX::GraphicsMemory>(device);
 		m_States         = std::make_unique<DirectX::CommonStates>(device);
 
 		DirectX::RenderTargetState rtState(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
