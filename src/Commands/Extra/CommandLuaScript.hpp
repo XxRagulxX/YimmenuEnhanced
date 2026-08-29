@@ -478,7 +478,6 @@ f(target)
 	extern int lua_menu_add_value_replacement(lua_State* L);
 	extern int lua_menu_set_temporary(lua_State* L);
 	extern int lua_menu_show_warning(lua_State* L);
-	extern int lua_menu_get_activation_key_hash(lua_State* L);
 	extern int lua_menu_get_edition(lua_State* L);
 	extern int lua_menu_get_version(lua_State* L);
 

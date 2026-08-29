@@ -1,9 +1,11 @@
 #pragma once
 
 #include "Commands/Widgets/CommandToggle.hpp"
+#include "Commands/Widgets/CommandSlider.hpp"
+#include "Commands/Widgets/CommandListSelect.hpp"
 
 #include "Core/AbstractPlayer.hpp"
-#include "Network/Auth.hpp"
+#include "Commands/Player/CommandPlayerbar.hpp"
 #include "Rendering/BackgroundBlur.hpp"
 #include "Commands/Player/CommandPlayer.hpp"
 #include "Game/huddecl.hpp"
@@ -82,9 +84,8 @@ namespace Stand
 					players = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 };
 #endif
 					if (!players.empty()
-						&& (players.size() != 1 || parent->as<CommandPlayerbar>()->show_if_alone->m_on)
-						&& g_auth.license_permissions >= LICPERM_REGULAR
-						)
+					   && (players.size() != 1 || parent->as<CommandPlayerbar>()->show_if_alone->m_on)
+					)
 					{
 						DirectX::SimpleMath::Vector2 max_size{};
 						for (const auto& p : players)

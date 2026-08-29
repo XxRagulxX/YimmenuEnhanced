@@ -12,7 +12,6 @@
 
 #include "Core/AbstractEntity.hpp"
 #include "AntiCheat/AntiAntiCheat.hpp"
-#include "Network/Auth.hpp"
 #include "Network/BattlEyeServer.hpp"
 #include "Scripting/BgScript.hpp"
 #include "Menu/ButtonInstructions.hpp"
@@ -174,18 +173,7 @@ namespace Stand
 
 	void Gui::setApplicableNonFreeRootStateValue() noexcept
 	{
-		if (g_auth.license_permissions == LICPERM_BASIC)
-		{
-			root_state = GUI_BASIC;
-		}
-		else if (g_auth.license_permissions == LICPERM_REGULAR)
-		{
-			root_state = GUI_REGULAR;
-		}
-		else if (g_auth.license_permissions == LICPERM_ULTIMATE)
-		{
-			root_state = GUI_ULTIMATE;
-		}
+		root_state = GUI_ULTIMATE;
 	}
 
 	void Gui::setProfilesTutorialDone()
@@ -1134,7 +1122,7 @@ namespace Stand
 						auto* const prev_active_list = active_list;
 						auto* const tab = getCurrentMenuTab();
 						active_list = active_list->getParentForBack(tab);
-						if (g_auth.isStateConsistentRaw())
+						// if (g_auth.isStateConsistentRaw())
 						{
 							if (ContextMenu::isOpen())
 							{
@@ -2093,13 +2081,6 @@ namespace Stand
 		if (isUnloadPending())
 		{
 			return;
-		}
-
-		if (g_auth.hasApiCredentials())
-		{
-			HttpRequestBuilder b(HttpRequestBuilder::POST, soup::ObfusString("stand.sh"), soup::ObfusString("/api/logout"));
-			b.setPayload(g_auth.activation_key_to_try);
-			b.dispatch();
 		}
 
 		unload_state = UnloadState::REQUESTED;

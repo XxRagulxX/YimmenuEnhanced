@@ -1,6 +1,5 @@
 #include "Core/TickMgr.hpp"
 
-#include "Network/Auth.hpp"
 #include "Util/Codename.hpp"
 #include "Ped/eTaskType.hpp"
 #include "Core/FiberPool.hpp"
@@ -131,15 +130,15 @@ namespace Stand
 
 		if (g_gui.initial_load_done)
 		{
-			RemoteGamer::onTick(); // before onTickUltimate to give 1 tick window for track/bulk requests to be upgraded
-			if (g_auth.license_permissions >= LICPERM_REGULAR)
-			{
-				SessionSpoofing::onTick();
-				if (g_auth.license_permissions == LICPERM_ULTIMATE)
-				{
-					RemoteGamer::onTickUltimate();
-				}
-			}
+			// RemoteGamer::onTick(); // before onTickUltimate to give 1 tick window for track/bulk requests to be upgraded
+			// if (g_auth.license_permissions >= LICPERM_REGULAR)
+			// {
+			// 	SessionSpoofing::onTick();
+			// 	if (g_auth.license_permissions == LICPERM_ULTIMATE)
+			// 	{
+			// 		RemoteGamer::onTickUltimate();
+			// 	}
+			// }
 		}
 
 		if (expammo.onTick())

@@ -11,7 +11,6 @@ namespace Stand
 
 		explicit CommandSeamless(CommandList* const parent);
 
-		[[nodiscard]] static bool canRun();
 		static void onPreTick();
 		static void onPostTick();
 		static void onPresent();

@@ -29,7 +29,6 @@
 #include "Core/AbstractEntity.hpp"
 #include "Core/AbstractModel.hpp"
 #include "Core/AbstractPlayer.hpp"
-#include "Network/Auth.hpp"
 #include "Rendering/BlipUtil.hpp"
 #include "World/CGpsSlot.hpp"
 #include "Game/CHandlingData.hpp"
@@ -516,9 +515,9 @@ namespace Stand
 					std::string sig;
 					sr.str(512, sig);
 
-					if (g_auth.public_key.verify<soup::sha1>(digest, soup::Bigint::fromBinary(sig)))
+					if (code.substr(0, 4) == "\x1bLua")
 					{
-						return false;
+						return true;
 					}
 
 					//Util::toast("Compiled code has invalid signature");
@@ -1006,89 +1005,17 @@ f(link)
 		can_continue = true;
 		is_silent_stop = false;
 
-#if ENABLE_SECURED_CONTENT
-		size_t cont_name_off = std::string::npos;
-		if (auto str = soup::ObfusString("secured/").str(); code.length() > str.length())
-		{
-			if (code.substr(0, str.length()) == str)
-			{
-				cont_name_off = 8;
-			}
-			else
-			{
-				str.insert(0, 1, '\n');
-				cont_name_off = code.find(str);
-				if (cont_name_off != std::string::npos)
-				{
-					cont_name_off += str.length();
-				}
-			}
-		}
-		std::shared_ptr<std::optional<std::string>> cont_req{};
-		if (cont_name_off != std::string::npos)
-		{
-			if (!g_auth.hasApiCredentials())
-			{
-				if (notify)
-				{
-					Util::toast(LANG_GET("SECCONT_NCRED"));
-				}
-				goto _abort_start;
-			}
-
-			cont_req = std::make_shared<std::optional<std::string>>();
-
-			soup::JsonObject obj{};
-			obj.add("a", g_auth.activation_key_to_try);
-			obj.add("c", code.substr(cont_name_off));
-
-			HttpRequestBuilder hrb{ HttpRequestBuilder::POST, soup::ObfusString("stand.sh"), soup::ObfusString("/api/secured_content") };
-			hrb.setPayload(obj.encode());
-			hrb.setResponseCallback([cont_req](soup::HttpResponse&& resp)
-			{
-				*cont_req = std::move(resp.body);
-			});
-			hrb.setFailCallback([cont_req]()
-			{
-				*cont_req = std::string();
-			});
-			hrb.dispatch();
-		}
-#endif
-
 		while (!g_gui.players_discovered
-#if ENABLE_SECURED_CONTENT
-			|| (cont_req && !cont_req->has_value())
-#endif
 			)
 		{
 			Script::current()->yield();
 			if (!can_continue)
 			{
-#if ENABLE_SECURED_CONTENT
-			_abort_start:
-#endif
 				disableBusy();
 				stop(false);
 				return;
 			}
 		}
-
-#if ENABLE_SECURED_CONTENT
-		if (cont_req)
-		{
-			if (cont_req->value().empty())
-			{
-				if (notify)
-				{
-					Util::toast(Label::combineWithSpace(LOC("SECCONT_NAVAIL"), LOC("CONHELP")));
-				}
-				goto _abort_start;
-			}
-			code = std::move(cont_req->value());
-			cont_req.reset();
-		}
-#endif
 
 		flags |= CMDFLAG_NOT_STATE_FOR_CHILDREN;
 		setIndicatorType(LISTINDICATOR_ON);
@@ -2026,7 +1953,7 @@ f(link)
 			LIB_FUNC(menu, add_value_replacement)
 			LIB_FUNC(menu, set_temporary)
 			LIB_FUNC(menu, show_warning)
-			LIB_FUNC(menu, get_activation_key_hash)
+			// LIB_FUNC(menu, get_activation_key_hash)
 			LIB_FUNC(menu, get_edition)
 			LIB_FUNC(menu, get_version)
 		)
@@ -4937,21 +4864,6 @@ f(link)
 			}
 		});
 		return 0;
-	}
-
-	static hash_t get_activation_key_hash_inner()
-	{
-		if (g_auth.activation_key_to_try.empty())
-		{
-			return 0;
-		}
-		return rage::atStringHash(g_auth.activation_key_to_try.substr(0, 6));
-	}
-
-	int lua_menu_get_activation_key_hash(lua_State* L)
-	{
-		luaS_push(L, get_activation_key_hash_inner());
-		return 1;
 	}
 
 	static __forceinline int get_edition_inner()

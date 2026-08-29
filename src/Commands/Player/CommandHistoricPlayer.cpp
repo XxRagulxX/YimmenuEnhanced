@@ -244,7 +244,7 @@ namespace Stand
 
 	std::string CommandHistoricPlayer::getStateImpl(const CommandHistoricPlayer* _this)
 	{
-		if (RemoteGamer::haveTrackPermissions())
+		// if (RemoteGamer::haveTrackPermissions())
 		{
 			auto* g = RemoteGamer::get(_this->player->rid, true, RGU_BULK);
 			return g->toShortString().getEnglishUtf8();

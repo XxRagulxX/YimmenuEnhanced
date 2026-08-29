@@ -1,6 +1,5 @@
 #include "Commands/Player/CommandPlayerPong.hpp"
 
-#include "Network/Auth.hpp"
 #include "Commands/Player/CommandPlayer.hpp"
 #include "Network/DirectPacket.hpp"
 #include "Game/Pong.hpp"
@@ -15,11 +14,6 @@ namespace Stand
 
 	void CommandPlayerPong::onClick(Click& click)
 	{
-		if (!g_auth.isSuiEnabledThisSession())
-		{
-			click.setResponse(LOC("CMDSUI"));
-			return;
-		}
 		auto* const pc = (CommandPlayer*)PC_PTR;
 		if (!pc->isStandUser())
 		{

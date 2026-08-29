@@ -5,7 +5,6 @@
 #include <cstring>
 #include "lib/soup/ObfusString.hpp"
 
-#include "Network/Auth.hpp"
 #include "Core/Exceptional.hpp"
 #include "Core/FiberPool.hpp"
 #include "Util/fmt_arg.hpp"
@@ -633,10 +632,6 @@ namespace Stand
 		return std::nullopt;
 	}
 
-	bool RemoteGamer::haveTrackPermissions() noexcept
-	{
-		return g_auth.license_permissions == LICPERM_ULTIMATE;
-	}
 
 	bool RemoteGamer::isTrackedIgnorePermission() noexcept
 	{
@@ -645,12 +640,12 @@ namespace Stand
 
 	bool RemoteGamer::isTracked() noexcept
 	{
-		return isTrackedIgnorePermission() && haveTrackPermissions();
+		return isTrackedIgnorePermission();
 	}
 
 	bool RemoteGamer::isAnyTracked() noexcept
 	{
-		return !tracked.empty() && haveTrackPermissions();
+		return !tracked.empty();
 	}
 
 	void RemoteGamer::track() noexcept

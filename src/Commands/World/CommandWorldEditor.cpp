@@ -4,7 +4,6 @@
 #include "lib/soup/Ray.hpp"
 
 #include "Core/AbstractEntity.hpp"
-#include "Network/Auth.hpp"
 #include "Util/Box.hpp"
 #include "Menu/ButtonInstructions.hpp"
 #include "Commands/Widgets/Commandbox.hpp"
@@ -74,7 +73,7 @@ namespace Stand
 		{
 			if (!active)
 			{
-				if (g_auth.license_permissions < LICPERM_REGULAR)
+				// if (g_auth.license_permissions < LICPERM_REGULAR)
 				{
 					Util::toast(LOC("CMDNEDR"));
 					do

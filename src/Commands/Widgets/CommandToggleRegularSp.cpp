@@ -1,6 +1,5 @@
 #include "Commands/Widgets/CommandToggleRegularSp.hpp"
 
-#include "Network/Auth.hpp"
 #include "Network/is_session.hpp"
 
 namespace Stand
@@ -12,6 +11,6 @@ namespace Stand
 
 	bool CommandToggleRegularSp::checkPermissions() noexcept
 	{
-		return g_auth.license_permissions >= LICPERM_REGULAR || !is_session_or_transition_active();
+		return !is_session_or_transition_active();
 	}
 }

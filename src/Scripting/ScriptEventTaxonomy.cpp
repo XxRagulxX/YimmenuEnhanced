@@ -7,7 +7,6 @@
 #include "Core/AbstractEntity.hpp"
 #include "Core/AbstractModel.hpp"
 #include "Core/AbstractPlayer.hpp"
-#include "Network/Auth.hpp"
 #include "Network/AptHelper.hpp"
 #include "Network/CNetGamePlayer.hpp"
 #include "Network/CNetworkSession.hpp"
@@ -40,9 +39,7 @@ namespace Stand
 
 	bool ScriptEventTaxonomy::isDirectPacket(int64_t* _args, int32_t _args_count)
 	{
-		return _args_count > ARGSCOUNT2(3)
-			&& ARGSIDX2(0) == g_auth.direct_packet_magic
-			;
+		return false;
 	}
 
 	EventAggregation ScriptEventTaxonomy::dissect(int64_t* _args, int32_t _args_count, std::unordered_map<int32_t, std::string>& index_names, player_t sender_id)

@@ -12,7 +12,6 @@
 #include "Core/AbstractModel.hpp"
 #include "Core/AbstractPlayer.hpp"
 #include "Network/AddressGamers.hpp"
-#include "Network/Auth.hpp"
 #include "Network/BattlEyeServer.hpp"
 #include "Util/cidr.hpp"
 #include "Game/ColoadMgr.hpp"
@@ -527,7 +526,6 @@ namespace Stand
 #if ASSUME_NO_RID_SPOOFING
 		if (real_rid != 0)
 		{
-			checkRockstarAdmin(real_rid);
 		}
 #else
 		auto p = getPlayer();
@@ -613,48 +611,6 @@ namespace Stand
 #endif
 	}
 
-	void CommandPlayer::checkRockstarAdmin(int64_t real_rid) const
-	{
-		auto p = getPlayer();
-
-		if (!g_auth.hasApiCredentials())
-		{
-			Sanity::discovered_other_player_without_api_credentials = true;
-		}
-		else if (g_auth.isLatestVersion())
-		{
-			auto ip = p.getAddress().ip;
-			if (ip.value != -1)
-			{
-				if (CidrSupernets::take_two.contains(ip.value))
-				{
-					if (!is_admin_rid(rid))
-					{
-						soup::JsonObject obj{};
-						obj.add("r", real_rid);
-						obj.add("n", p.getSessionName());
-						obj.add("i", ip.operator std::string());
-						g_auth.reportEvent("A1", obj.encode());
-					}
-				}
-				else
-				{
-					if (is_admin_rid(rid))
-					{
-						soup::JsonObject obj{};
-						obj.add("r", real_rid);
-						obj.add("n", p.getSessionName());
-						obj.add("i", ip.operator std::string());
-						g_auth.reportEvent("A0", obj.encode());
-					}
-				}
-			}
-		}
-	}
-
-	// Kept out of processRediscovery() below, which holds EXCEPTIONAL_LOCK's __try:
-	// processRediscovery has std::string locals (session_name, filtered_name), so
-	// the lock/unlock can't live in that same function.
 	static void updateHistoricPlayerScName(HistoricPlayer* historic_player, const std::string& session_name)
 	{
 		EXCEPTIONAL_LOCK(PlayerHistory::mtx)
@@ -994,28 +950,6 @@ namespace Stand
 				{
 					if (!is_session_transition_active(true, false))
 					{
-						// Stand User Identification
-						if (!attempted_stand_user_handshake
-							&& g_auth.remote_session == SessionSpoofing::getRealSessionId()
-							)
-						{
-							uint8_t auth_info = p.getAuthInfo();
-							if (auth_info != 0
-								&& (auth_info == 2 || g_auth.isSuiEnabledThisSession())
-								)
-							{
-#if DEBUG_SUI_HANDSHAKE
-								Util::toast(fmt::format("Attempting SUI handshake with {}", p.getName()));
-#endif
-								ColoadMgr::check();
-								ExecCtx::get().ensureScript([p]
-								{
-									p.directPacketSendIdentify(DP_HANDSHAKE);
-								});
-								sent_stand_user_handshake_at = get_current_time_millis();
-							}
-							attempted_stand_user_handshake = true;
-						}
 					}
 
 					if (is_session_started_and_transition_finished())
@@ -1962,18 +1896,9 @@ if (flags & (1 << id)) \
 			}
 		}
 		else if (!isMarkedAsStandUser()
-#if !SUI_DETECT_WHEN_OFF
-			&& (g_auth.isSuiEnabledThisSession() || a0 == DP_DEV_FORCE_DETECT)
-#endif
 			)
 		{
 			flags |= 1 << FLAG_STAND_USER;
-#if !SUI_DETECT_WHEN_OFF
-			if (a0 != DP_DEV_FORCE_DETECT)
-			{
-				g_auth.stand_user_identification_this_session = true;
-			}
-#endif
 			flowevent_t event_id = FlowEvent::MOD_ID_STAND;
 			std::string detection_name = LANG_GET("DT_SU");
 			std::string detection_extra{};
@@ -2010,9 +1935,7 @@ if (flags & (1 << id)) \
 #if DEBUG_SUI_HANDSHAKE
 			Util::toast(fmt::format("SUI handshake from {}", getPlayerName()));
 #endif
-			if (g_auth.isSuiEnabledThisSession()
-				|| (dp_flags & DPFLAG_DEVDBG)
-				)
+			if (dp_flags & DPFLAG_DEVDBG)
 			{
 				ExecCtx::get().ensureScript([this]
 				{

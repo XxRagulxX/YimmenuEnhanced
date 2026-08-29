@@ -10,7 +10,6 @@
 #include "lib/soup/ObfusString.hpp"
 #include "lib/soup/rand.hpp"
 
-#include "Network/Auth.hpp"
 #include "Util/BinaryStream.hpp"
 #include "Commands/Widgets/CommandDivider.hpp"
 #include "Commands/Player/CommandHistoricPlayer.hpp"
@@ -154,10 +153,6 @@ namespace Stand
 		onUpdate();
 		updateDivider();
 
-		if (!g_auth.isStateConsistent())
-		{
-			Sanity::playerhistory_insert_in_auth_inconsistent_state = true;
-		}
 
 		return entry;
 	}

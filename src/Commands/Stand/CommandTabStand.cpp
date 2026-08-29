@@ -3,7 +3,6 @@
 #include "lib/soup/netIntrospectTask.hpp"
 #include "lib/soup/ObfusString.hpp"
 
-#include "Network/Auth.hpp"
 #include "Util/get_appdata_path.hpp"
 #include "Game/ColoadMgr.hpp"
 #include "Commands/Widgets/CommandInput.hpp"
@@ -131,6 +130,7 @@
 #include "Commands/Extra/CommandScripts.hpp"
 
 #include "Commands/Online/CommandChatGadget.hpp"
+#include "Commands/Online/CommandStandUserIdentification.hpp"
 //#include "CommandSvmBpOptim.hpp"
 #include "Commands/World/CommandShowNavMesh.hpp"
 #include "Commands/World/CommandShowNavMeshNeighbors.hpp"
@@ -1037,35 +1037,6 @@ namespace Stand
 
 			secret->createChild<CommandListMillion>();
 			secret->createChild<CommandRabbitHole>();
-
-			// Auth
-			{
-				auto* auth = secret->createChild<CommandList>(LIT_OBF("Auth"));
-
-				auth->createChild<CommandLambdaAction>(LIT_OBF("Log Out"), CMDNAMES(), NOLABEL, &Auth::logOutManual, CMDFLAGS_LIST | CMDFLAG_TEMPORARY);
-				/*auth->createChild<CommandLambdaAction>(LIT("Switch To Basic Edition"), CMDNAMES(), NOLABEL, [](Click& click)
-				{
-					g_relay.sendLineAsync("as reqelv 1");
-				}, COMMANDFLAG_TEMPORARY);
-				auth->createChild<CommandLambdaAction>(LIT("Switch To Regular Edition"), CMDNAMES(), NOLABEL, [](Click& click)
-				{
-					g_relay.sendLineAsync("as reqelv 2");
-				}, COMMANDFLAG_TEMPORARY);
-				auth->createChild<CommandLambdaAction>(LIT("Switch To Ultimate Edition"), CMDNAMES(), NOLABEL, [](Click& click)
-				{
-					g_relay.sendLineAsync("as reqelv 3");
-				}, COMMANDFLAG_TEMPORARY);*/
-				auth->createChild<CommandLambdaAction>(LIT_OBF("Discover Activation Key + Log In"), CMDNAMES(), NOLABEL, [](Click& click)
-				{
-					if (g_auth.discoverActivationKey())
-					{
-						g_auth.enableNotifications();
-						g_auth.tryActivationKey();
-						click.setResponse(LOC("ACTVTE_STRT2"));
-					}
-				}, CMDFLAGS_ACTION | CMDFLAG_TEMPORARY);
-			}
-
 			secret->createChild<CommandLambdaAction>(LIT_OBF("Perform Commands Check"), CMDNAMES(), LIT_OBF("Writes to your log."), [](Click& click)
 			{
 				Exceptional::createManagedExceptionalThread(__FUNCTION__, &rootCheckThread);

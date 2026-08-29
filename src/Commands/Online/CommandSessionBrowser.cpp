@@ -1,6 +1,5 @@
 #include "Commands/Online/CommandSessionBrowser.hpp"
 
-#include "Network/Auth.hpp"
 #include "Network/Blacklist.hpp"
 #include "Network/CNetworkAssetVerifier.hpp"
 #include "Commands/Widgets/CommandDivider.hpp"
@@ -218,9 +217,7 @@ namespace Stand
 		{
 			return;
 		}
-		if (!Matchmaking::canSendRequest()
-			|| g_auth.license_permissions < LICPERM_REGULAR
-			)
+		if (!Matchmaking::canSendRequest())
 		{
 			return;
 		}

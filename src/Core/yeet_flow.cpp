@@ -2,7 +2,6 @@
 
 #include "lib/soup/ObfusString.hpp"
 
-#include "Network/Auth.hpp"
 #include "Core/ConsoleLogger.hpp"
 #include "Network/HttpRequestBuilder.hpp"
 #include "Network/NetInterface.hpp"
@@ -11,35 +10,10 @@
 
 namespace Stand
 {
-	static void yeet_job() // OBFUS!
-	{
-		while (g_auth.sent_next_heartbeat)
-		{
-			Script::current()->yield();
-		}
-		HttpRequestBuilder b(HttpRequestBuilder::POST, soup::ObfusString("stand.sh"), soup::ObfusString("/api/logout"));
-		b.setPayload(g_auth.activation_key_to_try);
-		b.setResponseCallback([](soup::HttpResponse&&)
-		{
-			yeet_now();
-		});
-		b.setFailCallback([](std::string&&)
-		{
-			yeet_now();
-		});
-		b.dispatch();
-	}
 
 	void yeet_flow(ThreadContext thread_context)
 	{
-		if (g_auth.hasApiCredentials())
-		{
-			Util::ensureYieldableScriptThread(thread_context, &yeet_job);
-		}
-		else
-		{
-			yeet_now();
-		}
+		yeet_now();
 	}
 
 	void yeet_now() // OBFUS!

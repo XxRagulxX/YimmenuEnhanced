@@ -5,7 +5,6 @@
 #include "lib/soup/ObfusString.hpp"
 #include "lib/soup/Socket.hpp"
 
-#include "Network/Auth.hpp"
 #include "Core/Exceptional.hpp"
 #include "Core/FiberPool.hpp"
 #include "Rendering/Gui.hpp"
@@ -208,16 +207,8 @@ namespace Stand
 
 	void RelayCon::sendHandshakeResponse()
 	{
-		if (g_auth.license_permissions >= LICPERM_REGULAR)
-		{
-			std::string hello = soup::ObfusString("Stand:1:").str();
-			hello.append(g_auth.activation_key_to_try);
-			sendRaw(std::move(hello));
-		}
-		else
-		{
-			close();
-		}
+		std::string hello = soup::ObfusString("Stand:1:").str();
+		sendRaw(std::move(hello));
 	}
 
 	Command* RelayCon::getCommand(const std::string& target)

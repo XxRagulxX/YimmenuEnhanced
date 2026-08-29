@@ -39,6 +39,7 @@ namespace Stand
 		GUI_BASIC,
 		GUI_REGULAR,
 		GUI_ULTIMATE,
+		GUI_FULL,
 	};
 
 	enum BulkStateOperation : uint8_t
@@ -364,7 +365,7 @@ namespace Stand
 		[[nodiscard]] SOUP_FORCEINLINE bool isRootStateRegularEdition() const noexcept { return root_state == GUI_REGULAR; }
 		[[nodiscard]] SOUP_FORCEINLINE bool isRootStateUltimateEdition() const noexcept { return root_state == GUI_ULTIMATE; }
 		[[nodiscard]] SOUP_FORCEINLINE bool isRootStateNonFree() const noexcept { return root_state >= GUI_BASIC; }
-		[[nodiscard]] SOUP_FORCEINLINE bool isRootStateFull() const noexcept { return root_state > GUI_FREEONLINE; }
+		[[nodiscard]] SOUP_FORCEINLINE bool isRootStateFull() const noexcept { return root_state == GUI_ULTIMATE; }
 		[[nodiscard]] bool shouldRootStateShowLicensePrompt() const noexcept;
 
 #if FREE_PROTECTIONS

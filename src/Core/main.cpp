@@ -8,7 +8,6 @@
 #include "lib/soup/sha1.hpp"
 #include "lib/soup/string.hpp"
 
-#include "Network/Auth.hpp"
 #include "Network/CNetworkAssetVerifier.hpp"
 #include "AntiCheat/CodeIntegrity.hpp"
 #include "Game/ColoadMgr.hpp"
@@ -891,12 +890,6 @@ namespace Stand
 			DiscordEventHandlers handlers;
 			memset(&handlers, 0, sizeof(handlers));
 			Discord_Initialize("842884721255251989", &handlers, false, nullptr);
-		}
-
-		g_auth.discoverActivationKey();
-		if (g_auth.activation_key_to_try.empty())
-		{
-			g_gui.initial_auth_done.fulfil();
 		}
 
 		g_script_mgr.addScript(g_hmodule, std::make_unique<Script>(&Gui::scriptFunc));
@@ -2953,29 +2946,11 @@ namespace Stand
 			}
 			if (bad_state == 0)
 			{
-				if (g_auth.license_permissions != LICPERM_FREE && g_auth.activation_key_to_try.empty())
-				{
-					bad_state = 11;
-				}
-				else if (!g_gui.isRootStateFull()
-					&& g_gui.root_list->children.size() > 5
-					)
-				{
-					bad_state = 7;
-				}
-				else if (g_gui.shouldRootStateShowLicensePrompt()
-					&& g_gui.getActivateTab() == nullptr
-					)
-				{
-					bad_state = 8;
-				}
-				/*else if (*pointers::session_id != 0
-					&& *pointers::session_id != SessionSpoofing::getRealSessionId()
-					)
-				{
-					//g_logger.log(fmt::format("{} =/= {}", *pointers::session_id, SessionSpoofing::getRealSessionId()));
-					bad_state = 12;
-				}*/
+
+				    if (!g_gui.isRootStateFull() && g_gui.root_list->children.size() > 5)
+					{
+						bad_state = 7;
+					}
 			}
 			if (bad_state != 0)
 			{
@@ -3000,65 +2975,6 @@ namespace Stand
 		}
 		if (!g_gui.isUnloadPending())
 		{
-			// Log out if perm has expired (or is invalid)
-			if (g_auth.license_permissions != LICPERM_FREE && g_auth.verifyPermSig() < g_auth.license_permissions)
-			{
-				if (++st.perm_expiry == 5)
-				{
-					g_auth.logOut(true);
-					Util::toast(Label::combineWithSpace(LOC("AUTH_X"), LOC("CONHELP")), TOAST_ABOVE_MAP);
-				}
-			}
-			else
-			{
-				if (st.perm_expiry != 0)
-				{
-					--st.perm_expiry;
-				}
-			}
-			// Ensure we have the server data that we need
-			if (!g_auth.activation_key_to_try.empty())
-			{
-				if (g_tunables.version == 0)
-				{
-					if (!g_tunables.downloading)
-					{
-						g_tunables.download();
-					}
-				}
-				else if (!g_auth.sent_next_heartbeat
-					&& (pointers::rlPresence_m_ActingGamerInfo->getHandle().rockstar_id != 0 || g_gui.root_state != GUI_MINIMAL)
-					)
-				{
-					auto session = SessionSpoofing::getRealSessionId();
-					if (!g_auth.perm_sig.empty())
-					{
-						const bool is_different_session = g_auth.isDifferentSession(session);
-						if (get_seconds_since_unix_epoch() >= g_auth.next_heartbeat
-							|| is_different_session
-							)
-						{
-							g_auth.sendHeartbeat(session);
-						}
-						if (is_different_session)
-						{
-							g_auth.stand_user_identification_this_session = false;
-						}
-
-						// Really dirty, but since we don't have BE running, we need these fixed to be able to join others.
-						/*(*pointers::asset_verifier)->m_CRC.Set(0x124ea49d);
-						(*pointers::asset_verifier)->m_StaticCRC.Set(0xcd3ac8fd);
-						(*pointers::asset_verifier)->m_BattlEye.Set(0);*/
-					}
-					else
-					{
-						if (get_seconds_since_unix_epoch() >= g_auth.next_heartbeat)
-						{
-							g_auth.sendHeartbeat(session);
-						}
-					}
-				}
-			}
 			if (g_gui.root_state != GUI_MINIMAL)
 			{
 				// Check clipboard
@@ -3068,24 +2984,6 @@ namespace Stand
 				{
 					if (clipboard.substr(6, 9) == soup::ObfusString("Activate-").str())
 					{
-						soup::string::rtrim(clipboard);
-						if (g_auth.activation_key_to_try.empty()
-							&& clipboard.length() == 6 + 9 + ACTIVATION_KEY_CHARS
-							)
-						{
-							handled = true; mainFlashWindow();
-							g_auth.activation_key_to_try = clipboard.substr(6 + 9);
-							if (g_auth.activation_key_to_try == g_auth.crash_key)
-							{
-								g_auth.next_heartbeat = LLONG_MAX;
-							}
-							else
-							{
-								g_auth.enableNotifications();
-								g_auth.tryActivationKey();
-								Util::toast(LOC("ACTVTE_STRT2"), TOAST_ABOVE_MAP);
-							}
-						}
 					}
 					else if (clipboard.substr(6, 5) == soup::ObfusString("Join-").str())
 					{
@@ -3100,11 +2998,8 @@ namespace Stand
 					else if (clipboard.substr(6, 6) == soup::ObfusString("Relay-").str())
 					{
 						handled = true;
-						if (g_auth.license_permissions >= LICPERM_REGULAR)
-						{
-							g_relay.server = clipboard.substr(6 + 6);
-							g_relay.init();
-						}
+						g_relay.server = clipboard.substr(6 + 6);
+						g_relay.init();
 					}
 					else if (clipboard.substr(6, 11) == soup::ObfusString("Commandbox-").str())
 					{

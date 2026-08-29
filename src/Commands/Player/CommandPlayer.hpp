@@ -186,7 +186,6 @@ namespace Stand
 
 	private:
 		void concludeRidChecks(int64_t real_rid);
-		void checkRockstarAdmin(int64_t real_rid) const;
 		void processRediscovery(AbstractPlayer p) const;
 
 		void updateCachedVars();

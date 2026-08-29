@@ -111,7 +111,6 @@ namespace Stand
 		[[nodiscard]] std::string getGsInfo() const;
 		[[nodiscard]] std::optional<int64_t> getGsType() const noexcept;
 
-		[[nodiscard]] static bool haveTrackPermissions() noexcept;
 	private:
 		[[nodiscard]] bool isTrackedIgnorePermission() noexcept;
 	public:

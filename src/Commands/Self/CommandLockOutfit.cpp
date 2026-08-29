@@ -4,7 +4,6 @@
 
 #include "Core/AbstractEntity.hpp"
 #include "Core/AbstractModel.hpp"
-#include "Network/Auth.hpp"
 #include "Commands/Self/CommandOutfitComponent.hpp"
 #include "Commands/Self/CommandOutfitComponentVariation.hpp"
 #include "Commands/Widgets/CommandList.hpp"

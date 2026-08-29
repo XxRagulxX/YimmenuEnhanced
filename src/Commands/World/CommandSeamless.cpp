@@ -1,6 +1,5 @@
 #include "Commands/World/CommandSeamless.hpp"
 
-#include "Network/Auth.hpp"
 #include "Commands/Widgets/CommandListSelect.hpp"
 #include "Ped/eTaskType.hpp"
 #include "Core/FiberPool.hpp"
@@ -39,19 +38,8 @@ namespace Stand
 	static std::wstring centered_text{};
 	static time_t warning_message_since = 0;
 
-	bool CommandSeamless::canRun()
-	{
-		return *pointers::CLoadingScreens_ms_Context == 0
-			&& g_auth.license_permissions != LICPERM_FREE
-			;
-	}
-
 	void CommandSeamless::onPreTick()
 	{
-		if (!canRun())
-		{
-			return;
-		}
 		const auto ts = ScriptGlobal(GLOBAL_TRANSITION_STATE).get<TransitionState>();
 		if (is_session_transition_active(ts))
 		{
@@ -91,10 +79,10 @@ namespace Stand
 
 	void CommandSeamless::onPostTick()
 	{
-		if (!canRun())
-		{
-			return;
-		}
+		// if (!canRun())
+		// {
+		// 	return;
+		// }
 		AbstractEntity::updatePlayerPedVehAndEnt();
 		const auto ts = ScriptGlobal(GLOBAL_TRANSITION_STATE).get<TransitionState>();
 		if (is_session_transition_active(ts))

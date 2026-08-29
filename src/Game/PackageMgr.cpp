@@ -7,7 +7,6 @@
 #include "lib/soup/FileReader.hpp"
 #include "lib/soup/FileWriter.hpp"
 
-#include "Network/Auth.hpp"
 #include "Util/Codename.hpp"
 #include "Core/Exceptional.hpp"
 #include "Core/ExecCtx.hpp"
@@ -171,7 +170,6 @@ namespace Stand
 		if (!PackageMgr::packages_reported_as_installed.contains(this->name))
 		{
 			PackageMgr::packages_reported_as_installed.emplace(this->name);
-			g_auth.reportEvent("PI", this->name);
 		}
 	}
 

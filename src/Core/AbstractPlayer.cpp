@@ -8,7 +8,6 @@
 
 #include "Core/AbstractEntity.hpp"
 #include "Core/AbstractModel.hpp"
-#include "Network/Auth.hpp"
 #include "Network/BattlEyeServer.hpp"
 #include "Scripting/BgScript.hpp"
 #include "Network/Blacklist.hpp"
@@ -80,6 +79,11 @@
 #include "Game/using_model.hpp"
 #include "Util/Util.hpp"
 #include "Core/yeet_flow.hpp"
+
+namespace Stand
+{
+    inline bool g_sui_enabled = true;
+}
 
 namespace Stand
 {
@@ -3184,29 +3188,29 @@ if (cmd->flags & (1 << id)) \
 				ad_recipients_threshold = 70;
 			}
 			float advertising_percentage = (float)sent_ads / (float)sent_messages;
-			if (people_advertised_to.size() >= ad_recipients_threshold // enough people have received an advertisement?
-				&& (advertising_percentage > 0.4) // and more than 40% of all outgoing messages are advertisements?
-				)
-			{
-				if (g_auth.hasApiCredentials())
-				{
-					if (GET_MILLIS_SINCE(last_suspend_request) > 3000)
-					{
-						std::string data = g_player.getSessionName();
-						for (const auto& msg : advertisements_sent)
-						{
-							data.append(soup::ObfusString(" % ").str());
-							data.append(msg);
-						}
-						g_auth.reportEvent("SA", std::move(data));
-						last_suspend_request = get_current_time_millis();
-					}
-				}
-				else
-				{
-					yeet_now();
-				}
-			}
+			// if (people_advertised_to.size() >= ad_recipients_threshold // enough people have received an advertisement?
+			// 	&& (advertising_percentage > 0.4) // and more than 40% of all outgoing messages are advertisements?
+			// 	)
+			// {
+			// 	if (g_auth.hasApiCredentials())
+			// 	{
+			// 		if (GET_MILLIS_SINCE(last_suspend_request) > 3000)
+			// 		{
+			// 			std::string data = g_player.getSessionName();
+			// 			for (const auto& msg : advertisements_sent)
+			// 			{
+			// 				data.append(soup::ObfusString(" % ").str());
+			// 				data.append(msg);
+			// 			}
+			// 			// g_auth.reportEvent("SA", std::move(data));
+			// 			last_suspend_request = get_current_time_millis();
+			// 		}
+			// 	}
+			// 	else
+			// 	{
+			// 		yeet_now();
+			// 	}
+			// }
 		}
 	}
 
@@ -3383,7 +3387,8 @@ if (cmd->flags & (1 << id)) \
 		{
 			flags |= DPFLAG_COLOADING;
 		}
-		if (g_auth.isSuiEnabledThisSession())
+		// if (g_auth.isSuiEnabledThisSession())
+		if (g_sui_enabled)
 		{
 			flags |= DPFLAG_SUION;
 		}
@@ -3396,7 +3401,7 @@ if (cmd->flags & (1 << id)) \
 #endif
 
 		uint64_t args[] = {
-			g_auth.direct_packet_magic, // 0: Magic Number
+			// g_auth.direct_packet_magic, // 0: Magic Number
 			g_player, // 1: Sender
 			flags, // 2: Flags
 			a0, // 3+: Arbitrary Data
@@ -3427,22 +3432,6 @@ if (cmd->flags & (1 << id)) \
 	void AbstractPlayer::directPacketSendIdentify(DirectPacket a0) const
 	{
 		return directPacketSend(a0);
-	}
-
-	uint8_t AbstractPlayer::getAuthInfo() const
-	{
-		for (const auto& gi : g_auth.remote_session_peers)
-		{
-			if (gi->appliesTo(*this))
-			{
-				if (gi->is_on_devdbg)
-				{
-					return 2;
-				}
-				return 1;
-			}
-		}
-		return 0;
 	}
 
 	v3 AbstractPlayer::getCamPos() const

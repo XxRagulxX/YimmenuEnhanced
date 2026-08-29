@@ -1,6 +1,5 @@
 #include "Commands/Stand/CommandRootName.hpp"
 
-#include "Network/Auth.hpp"
 #include "Config/conf.hpp"
 #include "Rendering/Gui.hpp"
 #include "Util/Label.hpp"
@@ -27,65 +26,52 @@ namespace Stand
 		{
 			addOption(ret, RN_AUTHED, RootNameMgr::authed_root_name);
 		}
-		if (g_auth.license_permissions != LICPERM_FREE)
+
+		long long i = RN_RNDBOOL_FALSE;
+
+		for (const auto& root_name : RootNameMgr::rndbool_false)
 		{
-			if (g_auth.unlocks & UNLOCK_RNDBOOL)
-			{
-				long long i = RN_RNDBOOL_TRUE;
-				for (const auto& root_name : RootNameMgr::rndbool_true)
-				{
-					addOption(ret, i, root_name, LOC("RN_RNDBOOL"));
-					++i;
-				}
-			}
-			else
-			{
-				long long i = RN_RNDBOOL_FALSE;
-				for (const auto& root_name : RootNameMgr::rndbool_false)
-				{
-					addOption(ret, i, root_name, LOC("RN_RNDBOOL"));
-					++i;
-				}
-			}
-			if (g_auth.unlocks & UNLOCK_USED100)
-			{
-				long long i = RN_USED100;
-				for (const auto& root_name : RootNameMgr::used100)
-				{
-					addOption(ret, i, root_name, LOC("RN_100"));
-					++i;
-				}
-			}
-			if (g_auth.unlocks & UNLOCK_PRE100)
-			{
-				long long i = RN_PRE100;
-				for (const auto& root_name : RootNameMgr::pre100)
-				{
-					addOption(ret, i, root_name, LOC("RN_EA"));
-					++i;
-				}
-			}
-			if (g_auth.license_permissions >= LICPERM_ULTIMATE)
-			{
-				long long i = RN_ALL_TOXIC;
-				for (const auto& root_name : RootNameMgr::all_toxic)
-				{
-					addOption(ret, i, root_name, LOC("RN_U"));
-					++i;
-				}
-				if (g_auth.unlocks & UNLOCK_EARLY_TOXIC)
-				{
-					i = RN_EARLY_TOXIC;
-					for (const auto& root_name : RootNameMgr::early_toxic)
-					{
-						addOption(ret, i, root_name, LOC("RN_EU"));
-						++i;
-					}
-				}
-			}
+			addOption(ret, i, root_name, LOC("RN_RNDBOOL"));
+			++i;
 		}
-		return ret;
-	}
+
+		i = RN_RNDBOOL_TRUE;
+		for (const auto& root_name : RootNameMgr::rndbool_true)
+		{
+			addOption(ret, i, root_name, LOC("RN_RNDBOOL"));
+			++i;
+		}
+		
+		i = RN_USED100;
+		for (const auto& root_name : RootNameMgr::used100)
+		{
+			addOption(ret, i, root_name, LOC("RN_100"));
+			++i;
+		}
+
+		i = RN_PRE100;
+		for (const auto& root_name : RootNameMgr::pre100)
+		{
+			addOption(ret, i, root_name, LOC("RN_EA"));
+			++i;
+		}
+
+		i = RN_ALL_TOXIC;
+		for (const auto& root_name : RootNameMgr::all_toxic)
+		{
+			addOption(ret, i, root_name, LOC("RN_U"));
+			++i;
+		}
+		
+		i = RN_EARLY_TOXIC;
+		for (const auto& root_name : RootNameMgr::early_toxic)
+		{
+			addOption(ret, i, root_name, LOC("RN_EU"));
+			++i;
+		}
+		
+    return ret;
+}
 
 	CommandRootName::CommandRootName(CommandList* parent)
 		: CommandListSelect(parent, LOC("RN"), {}, NOLABEL, getOptions(), RootNameMgr::getDefaultRootNameIdForState(), CMDFLAGS_LIST_SELECT, CMDFLAG_FEATURELIST_FINISHLIST)

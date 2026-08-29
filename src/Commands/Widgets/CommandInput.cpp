@@ -1,6 +1,5 @@
 #include "Commands/Widgets/CommandInput.hpp"
 
-#include "Network/Auth.hpp"
 #include "Core/Exceptional.hpp"
 #include "Rendering/Gui.hpp"
 #include "Localization/lang.hpp"

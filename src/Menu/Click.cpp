@@ -1,7 +1,6 @@
 #include "Menu/Click.hpp"
 
 #include "Core/AbstractPlayer.hpp"
-#include "Network/Auth.hpp"
 #include "Network/ChatCommandsCommon.hpp"
 #include "Commands/Widgets/CommandListSelect.hpp"
 #include "Core/ExecCtx.hpp"
@@ -21,17 +20,6 @@ namespace Stand
 	{
 		return g_gui.root_list.get();
 	}
-
-	/*static void validateTc(ThreadContext thread_context)
-	{
-		if (thread_context != ExecCtx::get().tc
-			&& thread_context != TC_OTHER
-			//&& !(thread_context == TC_SCRIPT_NOYIELD && ExecCtx::get().tc == TC_SCRIPT_YIELDABLE)
-			)
-		{
-			Exceptional::report(fmt::format("TC mismatch: Got {}, but ExecCtx says {}", (uint8_t)thread_context, (uint8_t)ExecCtx::get().tc));
-		}
-	}*/
 
 	Click::Click(ClickType type) noexcept
 		: Click(type, ExecCtx::get().tc)
@@ -277,48 +265,24 @@ namespace Stand
 		return Click(*this).inOnline();
 	}
 
-	bool Click::isBasicEdition() noexcept // OBFUS!
+	bool Click::isBasicEdition() noexcept
 	{
-		if ((isBulk() ? g_auth.license_permissions : g_auth.verifyPermSig()) < LICPERM_BASIC)
-		{
-			if (!isAuto())
-			{
-				setResponse(LOC("FREE_T"));
-			}
-			return false;
-		}
-		//last_successful_permission_check = get_current_time_millis();
 		return true;
 	}
 
-	bool Click::isRegularEdition() noexcept // OBFUS!
+	bool Click::isRegularEdition() noexcept
 	{
-		if ((isBulk() ? g_auth.license_permissions : g_auth.verifyPermSig()) < LICPERM_REGULAR)
-		{
-			setResponse(LOC("CMDNEDR"));
-			return false;
-		}
 		last_successful_permission_check = get_current_time_millis();
 		return true;
 	}
 
-	bool Click::isRegularEditionOrSp() noexcept // OBFUS!
+	bool Click::isRegularEditionOrSp() noexcept
 	{
-		if (g_auth.license_permissions >= LICPERM_REGULAR || !is_session_or_transition_active())
-		{
-			return true;
-		}
-		setResponse(LOC("CMDFULLSP"));
-		return false;
+		return true;
 	}
 
-	bool Click::isUltimateEdition() noexcept // OBFUS!
+	bool Click::isUltimateEdition() noexcept
 	{
-		if ((isBulk() ? g_auth.license_permissions : g_auth.verifyPermSig()) < LICPERM_ULTIMATE)
-		{
-			setResponse(LOC("CMDNEDU"));
-			return false;
-		}
 		last_successful_permission_check = get_current_time_millis();
 		return true;
 	}

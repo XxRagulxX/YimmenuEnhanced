@@ -341,23 +341,50 @@ namespace Stand
 		g_gui.root_update_in_progress = false;
 	}
 
-	void RootMgr::updateRootStateCore()
-	{
-		g_gui.root_lang = Lang::active_id;
-		g_gui.players_discovered = false;
-		g_gui.pseudo_commands = std::make_unique<CommandList>(nullptr,NOLABEL);
-		if (g_gui.unload_state == UnloadState::SWITCH_TO_GUI_NONE)
-		{
-			g_gui.root_state = GUI_NONE;
-			g_gui.root_list = std::make_unique<CommandList>(nullptr, NOLABEL);
-		}
-		else
-		{
-			CommandPhysical::collapse_command_names.emplace(L"t");
-			g_gui.root_list = std::unique_ptr<CommandList>(get_root_list());
-		}
-		g_gui.about_to_update_root_state = false;
-		g_gui.root_cursor = ((g_gui.root_state == GUI_FREE) ? 1 : 0);
-		g_gui.updateTabs(TC_SCRIPT_YIELDABLE);
-	}
+void RootMgr::updateRootStateCore()
+{
+    g_logger.log("ROOT UPDATE: begin");
+
+    g_gui.root_lang = Lang::active_id;
+    g_gui.players_discovered = false;
+
+    g_logger.log("ROOT UPDATE: creating pseudo commands");
+    g_gui.pseudo_commands =
+        std::make_unique<CommandList>(nullptr, NOLABEL);
+
+    g_logger.log("ROOT UPDATE: before get_root_list");
+
+    if (g_gui.unload_state == UnloadState::SWITCH_TO_GUI_NONE)
+    {
+        g_logger.log("ROOT UPDATE: switching to GUI_NONE");
+
+        g_gui.root_state = GUI_NONE;
+        g_gui.root_list =
+            std::make_unique<CommandList>(nullptr, NOLABEL);
+    }
+    else
+    {
+        g_logger.log("ROOT UPDATE: calling get_root_list");
+
+        CommandPhysical::collapse_command_names.emplace(L"t");
+
+        g_gui.root_list =
+            std::unique_ptr<CommandList>(get_root_list());
+
+        g_logger.log("ROOT UPDATE: get_root_list returned");
+    }
+
+    g_logger.log("ROOT UPDATE: clearing about_to_update_root_state");
+
+    g_gui.about_to_update_root_state = false;
+
+    g_gui.root_cursor =
+        (g_gui.root_state == GUI_FREE) ? 1 : 0;
+
+    g_logger.log("ROOT UPDATE: updating tabs");
+
+    g_gui.updateTabs(TC_SCRIPT_YIELDABLE);
+
+    g_logger.log("ROOT UPDATE: complete");
+}
 }

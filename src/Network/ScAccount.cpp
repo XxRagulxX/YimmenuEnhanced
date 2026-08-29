@@ -8,7 +8,6 @@
 #include "lib/soup/json.hpp"
 #include "lib/soup/UniquePtr.hpp"
 
-#include "Network/Auth.hpp"
 #include "Menu/Click.hpp"
 #include "AntiCheat/Hooking.hpp"
 #include "Network/HttpRequestBuilder.hpp"
@@ -503,13 +502,6 @@ namespace Stand
 					hp->flags |= HP_SCNAME;
 					PlayerHistory::save();
 				}
-			}
-			if (is_rid_valid(rid))
-			{
-				soup::JsonObject obj{};
-				obj.add("i", rid);
-				obj.add("n", name);
-				g_auth.reportEvent("RS", obj.encode());
 			}
 		}
 	}

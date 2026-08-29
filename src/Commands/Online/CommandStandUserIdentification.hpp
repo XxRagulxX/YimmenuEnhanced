@@ -2,7 +2,6 @@
 
 #include "Commands/Stand/CommandToggleNoCorrelation.hpp"
 
-#include "Network/Auth.hpp"
 #include "Rendering/Gui.hpp"
 
 namespace Stand
@@ -19,13 +18,13 @@ namespace Stand
 		{
 			if (g_gui.canUpdateThemeSettingWithDefaultDependency())
 			{
-				g_auth.stand_user_identification = true;
+				// g_auth.stand_user_identification = true;
 			}
 		}
 
 		void onDisable(Click& click) final
 		{
-			g_auth.stand_user_identification = false;
+			// g_auth.stand_user_identification = false;
 		}
 	};
 }
