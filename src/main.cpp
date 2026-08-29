@@ -9,6 +9,7 @@
 #include "Hooking.hpp"
 #include "ModuleMgr.hpp"
 #include "Renderer.hpp"
+#include "Rendering/GridRenderer.hpp"
 #include "Wine.hpp"
 #include "LuaManager.hpp"
 #include "AnticheatBypass.hpp"
@@ -63,6 +64,8 @@ namespace YimMenu
 			goto EARLY_UNLOAD;
 
 		rendererInitialized = true;
+
+		Rendering::GridRenderer::Init();
 
 		Players::Init();
 

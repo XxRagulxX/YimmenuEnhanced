@@ -23,6 +23,11 @@ namespace YimMenu
 	using namespace Microsoft::WRL;
 	using RendererCallBack = std::function<void()>;
 	using WindowProcedureCallback = std::function<void(HWND, UINT, WPARAM, LPARAM)>;
+	// Runs after ImGui has recorded its draw data but before the command list
+	// is closed, so a callback can record its own D3D12 draw calls (e.g. the
+	// DirectXTK12-based Stand-style renderer in src/Rendering/) into the same
+	// per-frame command list ImGui already uses.
+	using Direct3DDrawCallBack = std::function<void(ID3D12GraphicsCommandList*)>;
 
 	struct FrameContext
 	{
@@ -120,6 +125,35 @@ namespace YimMenu
 			GetInstance().AddWindowProcedureCallbackImpl(std::move(callback));
 		}
 
+		/**
+		 * @brief Add a callback function to record raw D3D12 draw calls
+		 * (e.g. DirectXTK12) into the same command list ImGui renders into.
+		 *
+		 * @param callback Callback function
+		 * @param priority Low values will be drawn before higher values.
+		 * @return true Successfully added callback.
+		 * @return false Duplicate render priority was given.
+		 */
+		static bool AddDirect3DDrawCallBack(Direct3DDrawCallBack&& callback, std::uint32_t priority)
+		{
+			return GetInstance().AddDirect3DDrawCallBackImpl(std::move(callback), priority);
+		}
+
+		static ID3D12Device* GetDevice()
+		{
+			return GetInstance().m_Device.Get();
+		}
+
+		static ID3D12CommandQueue* GetCommandQueue()
+		{
+			return GetInstance().m_CommandQueue.Get();
+		}
+
+		static UINT GetBufferCount()
+		{
+			return GetInstance().m_SwapChainDesc.BufferCount;
+		}
+
 		static void DX12OnPresent()
 		{
 			GetInstance().DX12OnPresentImpl();
@@ -175,6 +209,7 @@ namespace YimMenu
 
 		bool AddRendererCallBackImpl(RendererCallBack&& callback, std::uint32_t priority);
 		void AddWindowProcedureCallbackImpl(WindowProcedureCallback&& callback);
+		bool AddDirect3DDrawCallBackImpl(Direct3DDrawCallBack&& callback, std::uint32_t priority);
 
 		void DX12OnPresentImpl();
 
@@ -222,6 +257,7 @@ namespace YimMenu
 	private:
 		//Other
 		std::map<joaat_t, RendererCallBack> m_RendererCallBacks;
+		std::map<joaat_t, Direct3DDrawCallBack> m_Direct3DDrawCallBacks;
 		std::vector<WindowProcedureCallback> m_WindowProcedureCallbacks;
 	};
 }

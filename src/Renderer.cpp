@@ -234,6 +234,11 @@ namespace YimMenu
 		return m_WindowProcedureCallbacks.push_back(callback);
 	}
 
+	bool Renderer::AddDirect3DDrawCallBackImpl(Direct3DDrawCallBack&& callback, std::uint32_t priority)
+	{
+		return m_Direct3DDrawCallBacks.insert({priority, callback}).second;
+	}
+
 	void Renderer::DX12OnPresentImpl()
 	{
 		if (!m_SafeToRender)
@@ -373,6 +378,9 @@ namespace YimMenu
 		ImGui::Render();
 
 		ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), GetInstance().m_CommandList.Get());
+
+		for (const auto& callback : GetInstance().m_Direct3DDrawCallBacks | std::views::values)
+			callback(GetInstance().m_CommandList.Get());
 
 		Barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
 		Barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;

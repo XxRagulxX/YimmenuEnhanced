@@ -21,6 +21,7 @@ include(cmake/imgui.cmake)
 include(cmake/json.cmake)
 include(cmake/minhook.cmake)
 include(cmake/luajit.cmake)
+include(cmake/directxtk12.cmake)
 
 # Source
 
@@ -133,6 +134,7 @@ target_link_libraries(
         imgui
         minhook
         nlohmann_json::nlohmann_json
+        DirectXTK12
         dbghelp
 
         # ImGui dependencies
