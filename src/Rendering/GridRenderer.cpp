@@ -36,9 +36,9 @@ namespace YimMenu::Rendering
 		DirectX::RenderTargetState rtState(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_FORMAT_UNKNOWN);
 
 		DirectX::EffectPipelineStateDescription pd(&DirectX::VertexPositionColor::InputLayout,
-		    DirectX::CommonStates::AlphaBlend(),
-		    DirectX::CommonStates::DepthNone(),
-		    DirectX::CommonStates::CullNone(),
+		    DirectX::CommonStates::AlphaBlend,
+		    DirectX::CommonStates::DepthNone,
+		    DirectX::CommonStates::CullNone,
 		    rtState,
 		    D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
 
