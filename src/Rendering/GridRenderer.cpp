@@ -18,6 +18,20 @@ namespace YimMenu::Rendering
 	class StandRendererTest : public BoolCommand
 	{
 		using BoolCommand::BoolCommand;
+
+		// Log lines here are the easiest way to confirm the toggle itself
+		// fired (BoolCommand::SetState runs OnEnable/OnDisable via
+		// FiberPool, not the render thread, so this also proves that path
+		// works independently of anything DX12-related).
+		void OnEnable() override
+		{
+			LOG(INFO) << "[GridRenderer] Stand Renderer Test enabled";
+		}
+
+		void OnDisable() override
+		{
+			LOG(INFO) << "[GridRenderer] Stand Renderer Test disabled";
+		}
 	};
 
 	static StandRendererTest _StandRendererTest{"standrenderertest",
@@ -44,6 +58,12 @@ namespace YimMenu::Rendering
 			m_Items.push_back(std::make_unique<GridItemRect>(28.f, XMFLOAT4(0.15f, 0.4f, 0.9f, 1.f)));
 			m_Items.push_back(
 			    std::make_unique<GridItemText>(24.f, "YimMenu (Stand-style renderer)", XMFLOAT4(1.f, 1.f, 1.f, 1.f)));
+
+			// Fires exactly once (Grid::EnsurePopulated() guards re-entry) -
+			// confirms the render callback is actually running and reaching
+			// the Grid/GridItem tree, independent of whether anything ends
+			// up visible on screen.
+			LOGF(INFO, "[GridRenderer] TestGrid populated with {} items", m_Items.size());
 		}
 	};
 
@@ -74,6 +94,8 @@ namespace YimMenu::Rendering
 
 		m_Effect = std::make_unique<DirectX::BasicEffect>(device, DirectX::EffectFlags::VertexColor, pd);
 		m_Batch  = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>>(device);
+
+		LOG(INFO) << "[GridRenderer] DirectXTK12 rect pipeline ready";
 
 		// Text: embedded "Be Vietnam Pro" spritefont (see
 		// font_bevietnamprolight.hpp). Failure here (e.g. a malformed blob)
@@ -107,6 +129,8 @@ namespace YimMenu::Rendering
 				m_SpriteBatch = std::make_unique<DirectX::SpriteBatch>(device, upload, spritePd);
 
 				upload.End(Renderer::GetCommandQueue()).wait();
+
+				LOG(INFO) << "[GridRenderer] Embedded font loaded, text pipeline ready";
 			}
 			catch (const std::exception& e)
 			{
