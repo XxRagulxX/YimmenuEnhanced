@@ -25,4 +25,10 @@ namespace YimMenu::Rendering
 		const float textY = m_Y + (m_Height - GridRenderer::MeasureText(m_Label.c_str()).y) * 0.5f;
 		GridRenderer::DrawText(m_X + kIndicatorSize + kLabelGap, textY, m_Label.c_str(), kLabelColour);
 	}
+
+	void GridItemToggle::OnClick(float, float)
+	{
+		m_State = !m_State;
+		LOGF(INFO, "[GridRenderer] Toggle '{}' clicked, now {}", m_Label, m_State ? "on" : "off");
+	}
 }

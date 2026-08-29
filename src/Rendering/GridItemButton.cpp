@@ -25,4 +25,9 @@ namespace YimMenu::Rendering
 		const float textY = m_Y + (m_Height - size.y) * 0.5f;
 		GridRenderer::DrawText(textX, textY, m_Label.c_str(), kText);
 	}
+
+	void GridItemButton::OnClick(float, float)
+	{
+		LOGF(INFO, "[GridRenderer] Button '{}' clicked", m_Label);
+	}
 }

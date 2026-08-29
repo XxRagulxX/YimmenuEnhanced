@@ -1,6 +1,7 @@
 #include "GridRenderer.hpp"
 
 #include "BoolCommand.hpp"
+#include "GUI.hpp"
 #include "Grid.hpp"
 #include "GridItemButton.hpp"
 #include "GridItemHeader.hpp"
@@ -12,9 +13,32 @@
 
 #include <RenderTargetState.h>
 #include <ResourceUploadBatch.h>
+#include <imgui.h>
 
 namespace YimMenu::Rendering
 {
+	namespace
+	{
+		// Cursor position in the same pixel space (client-area, top-left
+		// origin) DrawRect/DrawText and Pointers.ScreenResX/Y already use.
+		// Nothing in the codebase already exposes this - GUI.cpp's own
+		// GetCursorPos/SetCursorPos calls only save/restore the OS cursor
+		// across a menu toggle, they don't convert it to this space.
+		bool TryGetCursorPos(DirectX::XMFLOAT2& out)
+		{
+			if (!Pointers.Hwnd || !*Pointers.Hwnd)
+				return false;
+
+			POINT cursor;
+			if (!GetCursorPos(&cursor))
+				return false;
+
+			ScreenToClient(*Pointers.Hwnd, &cursor);
+			out = {static_cast<float>(cursor.x), static_cast<float>(cursor.y)};
+			return true;
+		}
+	}
+
 	// Visualises the new DirectXTK12 draw pipeline while it's being built
 	// out; doesn't touch the existing ImGui menu. Off by default.
 	class StandRendererTest : public BoolCommand
@@ -172,6 +196,20 @@ namespace YimMenu::Rendering
 
 		EnsureDeviceResources(device);
 
+		// Hover suppression: if the cursor is over one of our own items
+		// while the menu is open, tell ImGui to claim the mouse for this
+		// frame anyway (even though it isn't hovering any ImGui window of
+		// its own here) - RawInput.cpp's GetRawInputData hook already
+		// suppresses clicks from reaching the game whenever
+		// io.WantCaptureMouse is true, so this piggybacks on that existing
+		// mechanism instead of building a parallel one.
+		if (GUI::IsOpen())
+		{
+			DirectX::XMFLOAT2 cursor;
+			if (TryGetCursorPos(cursor) && g_TestGrid.FindItemAt(cursor.x, cursor.y))
+				ImGui::SetNextFrameWantCaptureMouse(true);
+		}
+
 		// ImGui's DX12 backend leaves the viewport/scissor rect set to
 		// whatever its last recorded draw command needed, which may be a
 		// clipped sub-rect. Reset both to the full backbuffer so our clip
@@ -252,6 +290,22 @@ namespace YimMenu::Rendering
 		return size;
 	}
 
+	void GridRenderer::WndProcImpl(HWND, UINT msg, WPARAM, LPARAM)
+	{
+		if (msg != WM_LBUTTONDOWN)
+			return;
+
+		if (!_StandRendererTest.GetState() || !GUI::IsOpen())
+			return;
+
+		DirectX::XMFLOAT2 cursor;
+		if (!TryGetCursorPos(cursor))
+			return;
+
+		if (auto* item = g_TestGrid.FindItemAt(cursor.x, cursor.y))
+			item->OnClick(cursor.x, cursor.y);
+	}
+
 	void GridRenderer::Init()
 	{
 		Renderer::AddDirect3DDrawCallBack(
@@ -259,5 +313,9 @@ namespace YimMenu::Rendering
 			    GetInstance().DrawImpl(commandList);
 		    },
 		    0);
+
+		Renderer::AddWindowProcedureCallback([](HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
+			GetInstance().WndProcImpl(hwnd, msg, wparam, lparam);
+		});
 	}
 }

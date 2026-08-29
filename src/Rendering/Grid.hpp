@@ -29,6 +29,12 @@ namespace YimMenu::Rendering
 		void Draw();
 		void DrawText();
 
+		// Pixel-space hit test (see GridItem::Contains) against every item
+		// in this grid. Returns the first item whose bounds contain the
+		// cursor, or nullptr. Populates the grid on first call, same as
+		// Draw()/DrawText(), so this is safe to call before either has run.
+		GridItem* FindItemAt(float cursorX, float cursorY);
+
 	protected:
 		// Builds m_Items. Called once, lazily, on the first Draw()/DrawText()
 		// (whichever runs first).

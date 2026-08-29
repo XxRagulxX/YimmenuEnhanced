@@ -37,4 +37,17 @@ namespace YimMenu::Rendering
 		for (auto& item : m_Items)
 			item->DrawText();
 	}
+
+	GridItem* Grid::FindItemAt(float cursorX, float cursorY)
+	{
+		EnsurePopulated();
+
+		for (auto& item : m_Items)
+		{
+			if (item->Contains(cursorX, cursorY))
+				return item.get();
+		}
+
+		return nullptr;
+	}
 }

@@ -7,8 +7,10 @@
 namespace YimMenu::Rendering
 {
 	// A row of tab labels with one highlighted as active, mirroring
-	// stand-reference's src/Menu/GridItemTabsHorizontal.*. Purely visual
-	// for now - no click-to-switch-tab yet (needs input/hit-testing).
+	// stand-reference's src/Menu/GridItemTabsHorizontal.*. Clicking a tab
+	// switches which one is active - not yet wired to actually swap the
+	// grid's contents (that's follow-up work once a real menu page uses
+	// this instead of TestGrid).
 	class GridItemTabsHorizontal : public GridItem
 	{
 	public:
@@ -21,6 +23,7 @@ namespace YimMenu::Rendering
 
 		void Draw() override;
 		void DrawText() override;
+		void OnClick(float cursorX, float cursorY) override;
 
 	private:
 		std::vector<std::string> m_Tabs;

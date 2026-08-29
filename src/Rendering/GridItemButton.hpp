@@ -5,8 +5,9 @@
 
 namespace YimMenu::Rendering
 {
-	// A button-styled rectangle with a centred label. Purely visual for
-	// now - no click handling yet (needs the input/hit-testing pass).
+	// A button-styled rectangle with a centred label. Click just logs for
+	// now - not yet wired to a real command (that's follow-up work once a
+	// real menu page uses this instead of TestGrid).
 	class GridItemButton : public GridItem
 	{
 	public:
@@ -18,6 +19,7 @@ namespace YimMenu::Rendering
 
 		void Draw() override;
 		void DrawText() override;
+		void OnClick(float cursorX, float cursorY) override;
 
 	private:
 		std::string m_Label;

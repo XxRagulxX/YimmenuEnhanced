@@ -6,9 +6,9 @@
 namespace YimMenu::Rendering
 {
 	// A label with an on/off indicator, mirroring how Stand's own list
-	// items show bool-command state inline. Purely visual for now: state
-	// is fixed at construction, not yet togglable (needs input/hit-testing
-	// and BoolCommand wiring).
+	// items show bool-command state inline. Clicking flips its own local
+	// state - not yet wired to a real BoolCommand (that's follow-up work
+	// once a real menu page uses this instead of TestGrid).
 	class GridItemToggle : public GridItem
 	{
 	public:
@@ -21,6 +21,7 @@ namespace YimMenu::Rendering
 
 		void Draw() override;
 		void DrawText() override;
+		void OnClick(float cursorX, float cursorY) override;
 
 	private:
 		std::string m_Label;

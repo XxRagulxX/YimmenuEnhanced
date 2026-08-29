@@ -42,4 +42,22 @@ namespace YimMenu::Rendering
 			x += tabWidth + kTabGap;
 		}
 	}
+
+	void GridItemTabsHorizontal::OnClick(float cursorX, float)
+	{
+		// Recompute the same per-tab segment boundaries Draw() lays out,
+		// and find which one cursorX falls into.
+		float x = m_X;
+		for (size_t i = 0; i < m_Tabs.size(); ++i)
+		{
+			const float tabWidth = GridRenderer::MeasureText(m_Tabs[i].c_str()).x + kTabPaddingX * 2.f;
+			if (cursorX >= x && cursorX < x + tabWidth)
+			{
+				m_ActiveIndex = i;
+				LOGF(INFO, "[GridRenderer] Tab '{}' clicked", m_Tabs[i]);
+				return;
+			}
+			x += tabWidth + kTabGap;
+		}
+	}
 }

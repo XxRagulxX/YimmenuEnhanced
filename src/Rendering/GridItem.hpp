@@ -39,6 +39,24 @@ namespace YimMenu::Rendering
 			return m_Height;
 		}
 
+		// Pixel-space hit test against this item's assigned bounds (same
+		// coordinate space as GridRenderer::DrawRect/DrawText - top-left
+		// origin, Y down). Mirrors stand-reference's own cursor-vs-bounds
+		// comparisons (e.g. GridItemList.cpp) rather than any OS hit-testing.
+		bool Contains(float cursorX, float cursorY) const
+		{
+			return cursorX >= m_X && cursorX < m_X + m_Width && cursorY >= m_Y && cursorY < m_Y + m_Height;
+		}
+
+		// Called when this item is clicked (cursor was inside Contains()
+		// bounds at the moment of a mouse-down). cursorX/Y are given in
+		// case a widget needs to know where within itself the click
+		// landed (e.g. which segment of a tab strip). Default no-op: most
+		// items don't respond to clicks (yet - no real command wiring).
+		virtual void OnClick(float cursorX, float cursorY)
+		{
+		}
+
 	protected:
 		float m_X{};
 		float m_Y{};

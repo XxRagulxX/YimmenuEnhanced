@@ -8,6 +8,7 @@
 #include <VertexTypes.h>
 #include <d3d12.h>
 #include <memory>
+#include <windows.h>
 #include <wrl/client.h>
 
 namespace YimMenu::Rendering
@@ -38,8 +39,8 @@ namespace YimMenu::Rendering
 		GridRenderer& operator=(const GridRenderer&) = delete;
 		GridRenderer& operator=(GridRenderer&&) noexcept = delete;
 
-		// Registers our draw callback with Renderer. Call once from Main(),
-		// after Renderer::Init().
+		// Registers our draw/window-procedure callbacks with Renderer. Call
+		// once from Main(), after Renderer::Init().
 		static void Init();
 
 		// Draws a solid-colour rectangle in pixel space (top-left origin,
@@ -77,6 +78,7 @@ namespace YimMenu::Rendering
 		}
 
 		void DrawImpl(ID3D12GraphicsCommandList* commandList);
+		void WndProcImpl(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 		void DrawRectImpl(float x, float y, float width, float height, const DirectX::XMFLOAT4& colour);
 		void DrawTextImpl(float x, float y, const char* text, const DirectX::XMFLOAT4& colour);
 		DirectX::XMFLOAT2 MeasureTextImpl(const char* text) const;
