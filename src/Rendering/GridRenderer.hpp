@@ -18,11 +18,11 @@ namespace YimMenu::Rendering
 	// is built on DirectXTK (D3D11) - this is the DirectXTK12/D3D12 equivalent,
 	// since this project's swapchain is D3D12.
 	//
-	// This is intentionally minimal for now (one hardcoded test primitive,
-	// gated behind the "standrenderertest" debug toggle) - the real
-	// screen-space draw helpers (Stand's drawRectH/drawTextC/... equivalents)
-	// and the Grid/GridItem retained-mode widget tree land in follow-ups once
-	// this scaffolding is confirmed working end-to-end.
+	// This provides a pixel-space DrawRect() primitive (Stand's drawRectH
+	// equivalent) that Grid/GridItem-based widgets draw themselves with.
+	// Text/font rendering (Stand's drawTextC equivalent) is follow-up work -
+	// it needs a DirectXTK12 SpriteFont asset, which isn't something this
+	// port can generate without a Windows toolchain to run MakeSpriteFont.
 	class GridRenderer final
 	{
 	private:
@@ -40,6 +40,15 @@ namespace YimMenu::Rendering
 		// after Renderer::Init().
 		static void Init();
 
+		// Draws a solid-colour rectangle in pixel space (top-left origin,
+		// Y down), converting to clip space (NDC) internally. Only valid to
+		// call while a batch is open, i.e. from a GridItem::Draw() invoked
+		// via Grid::Draw() during our own Direct3DDrawCallBack.
+		static void DrawRect(float x, float y, float width, float height, const DirectX::XMFLOAT4& colour)
+		{
+			GetInstance().DrawRectImpl(x, y, width, height, colour);
+		}
+
 	private:
 		static GridRenderer& GetInstance()
 		{
@@ -48,6 +57,7 @@ namespace YimMenu::Rendering
 		}
 
 		void DrawImpl(ID3D12GraphicsCommandList* commandList);
+		void DrawRectImpl(float x, float y, float width, float height, const DirectX::XMFLOAT4& colour);
 
 		void EnsureDeviceResources(ID3D12Device* device);
 		void ReleaseDeviceResources();

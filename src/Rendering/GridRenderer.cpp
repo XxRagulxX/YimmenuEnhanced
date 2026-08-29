@@ -1,6 +1,8 @@
 #include "GridRenderer.hpp"
 
 #include "BoolCommand.hpp"
+#include "Grid.hpp"
+#include "GridItemRect.hpp"
 #include "Pointers.hpp"
 #include "Renderer.hpp"
 
@@ -17,7 +19,30 @@ namespace YimMenu::Rendering
 
 	static StandRendererTest _StandRendererTest{"standrenderertest",
 	    "Stand Renderer Test",
-	    "Draws a test rectangle using the new DirectXTK12 draw pipeline (Stand-style renderer port, WIP)"};
+	    "Draws a small stack of test rectangles using the new DirectXTK12/Grid draw pipeline (Stand-style renderer port, WIP)"};
+
+	// Minimal Grid proving out the Grid/GridItem tree: a small stack of
+	// solid-colour boxes. Replaced by a real menu grid once text rendering
+	// and richer GridItem types (buttons, toggles, ...) land.
+	class TestGrid : public Grid
+	{
+	public:
+		TestGrid() :
+		    Grid(20.f, 20.f, 220.f)
+		{
+		}
+
+	protected:
+		void Populate() override
+		{
+			using namespace DirectX;
+			m_Items.push_back(std::make_unique<GridItemRect>(28.f, XMFLOAT4(0.85f, 0.1f, 0.1f, 1.f)));
+			m_Items.push_back(std::make_unique<GridItemRect>(28.f, XMFLOAT4(0.1f, 0.7f, 0.2f, 1.f)));
+			m_Items.push_back(std::make_unique<GridItemRect>(28.f, XMFLOAT4(0.15f, 0.4f, 0.9f, 1.f)));
+		}
+	};
+
+	static TestGrid g_TestGrid{};
 
 	void GridRenderer::EnsureDeviceResources(ID3D12Device* device)
 	{
@@ -69,8 +94,6 @@ namespace YimMenu::Rendering
 
 		EnsureDeviceResources(device);
 
-		using namespace DirectX;
-
 		// ImGui's DX12 backend leaves the viewport/scissor rect set to
 		// whatever its last recorded draw command needed, which may be a
 		// clipped sub-rect. Reset both to the full backbuffer so our clip
@@ -86,26 +109,31 @@ namespace YimMenu::Rendering
 		m_Effect->Apply(commandList);
 		m_Batch->Begin(commandList);
 
-		// A small rectangle in the top-left corner, in clip space (NDC), as a
-		// smoke test for the DirectXTK12 pipeline. Real screen-space
-		// coordinate helpers (Stand's drawRectH/... equivalents) land in a
-		// follow-up once this scaffolding is confirmed working.
-		constexpr float left   = -0.98f;
-		constexpr float right  = -0.70f;
-		constexpr float top    = 0.95f;
-		constexpr float bottom = 0.85f;
-		const XMFLOAT4 red(1.f, 0.f, 0.f, 1.f);
-
-		VertexPositionColor v0(XMFLOAT3(left, top, 0.f), red);
-		VertexPositionColor v1(XMFLOAT3(right, top, 0.f), red);
-		VertexPositionColor v2(XMFLOAT3(right, bottom, 0.f), red);
-		VertexPositionColor v3(XMFLOAT3(left, bottom, 0.f), red);
-
-		m_Batch->DrawQuad(v0, v1, v2, v3);
+		g_TestGrid.Draw();
 
 		m_Batch->End();
 
 		m_GraphicsMemory->Commit(Renderer::GetCommandQueue());
+	}
+
+	void GridRenderer::DrawRectImpl(float x, float y, float width, float height, const DirectX::XMFLOAT4& colour)
+	{
+		using namespace DirectX;
+
+		const float screenWidth  = static_cast<float>(*Pointers.ScreenResX);
+		const float screenHeight = static_cast<float>(*Pointers.ScreenResY);
+
+		// Pixel space (top-left origin, Y down) -> clip space / NDC (Y up).
+		auto toNdc = [&](float px, float py) {
+			return XMFLOAT3((px / screenWidth) * 2.f - 1.f, 1.f - (py / screenHeight) * 2.f, 0.f);
+		};
+
+		VertexPositionColor v0(toNdc(x, y), colour);
+		VertexPositionColor v1(toNdc(x + width, y), colour);
+		VertexPositionColor v2(toNdc(x + width, y + height), colour);
+		VertexPositionColor v3(toNdc(x, y + height), colour);
+
+		m_Batch->DrawQuad(v0, v1, v2, v3);
 	}
 
 	void GridRenderer::Init()
