@@ -10,11 +10,8 @@ namespace YimMenu::Rendering
 	// Players::GetSelected(), so there's nothing for them to do (and, with
 	// nobody connected at all, nobody to select in the first place) without
 	// one - re-populates itself (see Grid::invalidate()) whenever that
-	// changes, rather than always showing them regardless. Info still
-	// points at the shared placeholder even once visible - it's a live
-	// per-player stats readout (health/coords/rank/RID/platform IDs/IP,
-	// several ImGui-only popups and clipboard buttons), a different kind
-	// of widget than anything else ported so far and out of scope here.
+	// changes, rather than always showing them regardless. See InfoGrid's
+	// own class comment for its live per-player stats readout.
 	class PlayersGrid : public Grid
 	{
 	public:

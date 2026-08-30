@@ -4,9 +4,9 @@
 #include "GridItemFolder.hpp"
 #include "GridItemPlayerList.hpp"
 #include "GridItemText.hpp"
+#include "InfoGrid.hpp"
 #include "Joaat.hpp"
 #include "KickGrid.hpp"
-#include "PlaceholderGrid.hpp"
 #include "Players.hpp"
 #include "Theme.hpp"
 #include "ToxicGrid.hpp"
@@ -21,6 +21,7 @@ namespace YimMenu::Rendering
 
 		// Owned here rather than in MenuGrid.cpp - see SelfGrid.cpp's
 		// identical note about WeaponsGrid.
+		InfoGrid g_InfoContent{};
 		ToxicGrid g_ToxicContent{};
 		TrollGrid g_TrollContent{};
 		KickGrid g_KickContent{};
@@ -56,7 +57,7 @@ namespace YimMenu::Rendering
 		if (m_LastHasSelection)
 		{
 			items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
-			items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Info", &GetPlaceholderGrid()));
+			items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Info", &g_InfoContent));
 			items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Troll", &g_TrollContent));
 			items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Toxic", &g_ToxicContent));
 			items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Kick", &g_KickContent));
