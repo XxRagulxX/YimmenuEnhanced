@@ -2,6 +2,7 @@
 #include "GridItem.hpp"
 #include "Joaat.hpp"
 
+#include <functional>
 #include <memory>
 #include <optional>
 #include <string>
@@ -29,4 +30,19 @@ namespace YimMenu::Rendering
 	// shaped rows plumb straight into MenuFocus/Grid::getFocusableItems()
 	// like everything else already does.
 	void AddColorCommandRows(std::vector<std::unique_ptr<GridItem>>& items_draft, int16_t width, joaat_t id, std::optional<std::string> labelOverride = std::nullopt);
+
+	// AddColorCommandRows() above with no gating parameter of its own -
+	// unlike a single-GridItem widget, there's nothing to hand a
+	// GridItemConditional directly. Builds the five rows into a scratch
+	// vector instead and wraps each one individually in a
+	// GridItemConditional sharing the same condition before moving it
+	// into items_draft - needed wherever a ColorCommand swatch is itself
+	// behind a ConditionalItem in the original ImGui menu (Weapons >
+	// Custom Weapons' paintguncolor, Settings > Game's ESP name/skeleton/
+	// hash colour swatches, ...).
+	void AddConditionalColorCommandRows(std::vector<std::unique_ptr<GridItem>>& items_draft,
+	    int16_t width,
+	    joaat_t id,
+	    std::function<bool()> condition,
+	    std::optional<std::string> labelOverride = std::nullopt);
 }

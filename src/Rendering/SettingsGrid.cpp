@@ -3,6 +3,7 @@
 #include "GridItemFolder.hpp"
 #include "GridItemText.hpp"
 #include "PlaceholderGrid.hpp"
+#include "SettingsGameGrid.hpp"
 #include "SettingsGuiGrid.hpp"
 #include "Theme.hpp"
 
@@ -16,6 +17,7 @@ namespace YimMenu::Rendering
 		// Owned here rather than in MenuGrid.cpp - see SelfGrid.cpp's
 		// identical note about WeaponsGrid.
 		SettingsGuiGrid g_GuiContent{};
+		SettingsGameGrid g_GameContent{};
 	}
 
 	// Origin (1438, 587) and spacer (3) match every other content Grid's -
@@ -33,7 +35,7 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Hotkeys", &GetPlaceholderGrid()));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "GUI", &g_GuiContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Game", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Game", &g_GameContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Customize", &GetPlaceholderGrid()));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Lua Scripts", &GetPlaceholderGrid()));
 

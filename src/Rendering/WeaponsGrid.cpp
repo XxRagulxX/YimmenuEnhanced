@@ -16,29 +16,12 @@
 #include "ListCommand.hpp"
 #include "Theme.hpp"
 
-#include <utility>
-
 namespace YimMenu::Rendering
 {
 	namespace
 	{
 		constexpr float kSectionHeaderH = Theme::kContentItemHeight;
 		constexpr float kItemH = Theme::kContentItemHeight;
-
-		// AddColorCommandRows (GridItemCommandColor.hpp) pushes its five
-		// rows straight into items_draft with no gating parameter of its
-		// own - unlike every single-GridItem widget elsewhere in this
-		// file, there's nothing to hand to GridItemConditional directly.
-		// Builds the rows into a scratch vector instead and wraps each
-		// one individually before moving it into the real items_draft.
-		void AddConditionalColorCommandRows(std::vector<std::unique_ptr<GridItem>>& items_draft, int16_t width, joaat_t id, std::function<bool()> condition)
-		{
-			std::vector<std::unique_ptr<GridItem>> rows;
-			AddColorCommandRows(rows, width, id);
-
-			for (auto& row : rows)
-				items_draft.push_back(std::make_unique<GridItemConditional>(std::move(row), condition));
-		}
 
 		// Weapons.cpp's own RenderCustomWeaponsMenu() nests
 		// customWeapons (gated on customweapon) inside customWeaponsGroup,
