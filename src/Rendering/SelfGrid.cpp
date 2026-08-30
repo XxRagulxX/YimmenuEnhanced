@@ -16,7 +16,7 @@ namespace YimMenu::Rendering
 	// Position matches MenuGrid.cpp's kContentX/kContentY exactly (same
 	// convention as MiscGrid.cpp - no shared header for these yet).
 	SelfGrid::SelfGrid() :
-	    Grid(168.f, 94.f, 270.f)
+	    Grid(168.f, 94.f, 300.f)
 	{
 	}
 

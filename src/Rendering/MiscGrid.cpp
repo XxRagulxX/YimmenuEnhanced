@@ -18,7 +18,7 @@ namespace YimMenu::Rendering
 	// (no shared header for these yet - if more content grids need the same
 	// position, that's worth factoring out then).
 	MiscGrid::MiscGrid() :
-	    Grid(168.f, 94.f, 270.f)
+	    Grid(168.f, 94.f, 300.f)
 	{
 	}
 

@@ -13,7 +13,12 @@ namespace YimMenu::Rendering
 	{
 		constexpr float kHeaderX = 20.f;
 		constexpr float kHeaderY = 20.f;
-		constexpr float kHeaderW = 440.f;
+		// Must reach at least kContentX + the content grids' own width
+		// below (300 as of writing) - a real command label (e.g. "Skip
+		// Conversation") can be wider than expected, and there's no
+		// text-wrapping yet, so this needs real margin rather than an
+		// exact fit.
+		constexpr float kHeaderW = 460.f;
 		constexpr float kHeaderH = 30.f;
 		constexpr float kChromeGap = 8.f;
 
