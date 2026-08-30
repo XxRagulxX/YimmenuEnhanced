@@ -3,25 +3,18 @@
 
 namespace YimMenu::Rendering
 {
-	// Content grid for Self > Main: mirrors MenuSelf.cpp's Globals and
-	// Tools groups (all real BoolCommand/Command toggles+buttons) plus the
-	// two unconditional Special Ability items, wired the same way MiscGrid
-	// wires Debug > Misc.
-	//
-	// Deliberately NOT included (all need things this system doesn't have
-	// yet, so nothing here fakes them):
-	// - localvis (ConditionalItem gated on invis) and the Special Ability
-	//   list dropdown (ConditionalItem gated on mpspecialability) - no
-	//   conditional-visibility widget yet.
-	// - The whole Wanted group - its ConditionalItem nesting (clearWanted/
-	//   setWanted visibility depending on freezewanted/neverwanted) needs
-	//   verifying against ConditionalItem's actual show/hide semantics
-	//   before faithfully replicating, and it also uses an IntCommandItem
-	//   slider, a different control from GridItemIntStepper's buttons.
-	// - The whole Movement group - uses FloatCommandItem (no float widget
-	//   yet) and more ConditionalItems (superrun/noclip/freecam-gated).
-	// All of the above stay reachable via the existing ImGui Self > Main
-	// category, untouched.
+	// Content grid for Self > Main: mirrors MenuSelf.cpp's Globals, Tools,
+	// Special Ability, Wanted and Movement groups in full. localvis and
+	// the Special Ability list dropdown are each a single GridItemConditional
+	// gated on invis/mpspecialability directly (matching ConditionalItem's
+	// own single-BoolCommand gate). Wanted's two-level ConditionalItem
+	// nesting (clearWanted/setWanted groups, each itself containing a
+	// further-conditional row) is flattened into per-row conditions - see
+	// SelfGrid.cpp's own comment on ShouldClearOrSetWanted() for the
+	// combined-AND case neither BoolCommand alone can express. Movement's
+	// four speed multipliers (moverateoverride/runsprintswimmultiplier/
+	// noclipspeed/freecamspeed) are plain single-BoolCommand
+	// GridItemConditionals (superrun/superrun/noclip/freecam).
 	//
 	// Also the Self submenu's root as far as MenuGrid/MenuNavigation are
 	// concerned: Populate() appends a GridItemFolder row for each of
