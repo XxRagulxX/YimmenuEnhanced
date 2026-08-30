@@ -116,6 +116,22 @@ namespace YimMenu::Rendering
 		// repeatable update()/updateNow().
 		virtual void populate(std::vector<std::unique_ptr<GridItem>>& items_draft) = 0;
 
+		// Clears items, so the next draw()/drawText()/findItemAt() call
+		// rebuilds this Grid's own item list from scratch via populate()
+		// again - this project's own minimal seed of the real live-
+		// repopulation Stand's own update()/updateNow() provide (see the
+		// class comment above), for a content Grid whose own content
+		// genuinely needs to change while it's showing (e.g. PlayersGrid,
+		// which reruns populate() to show/hide its own category folders
+		// depending on whether a player is selected) rather than a
+		// one-off populate() ever needing to change. Nothing calls this
+		// automatically - a subclass that needs it calls it itself, from
+		// its own draw()/drawText()/findItemAt() override, the same way
+		// MenuGrid::SyncNavigation() is called from all three there.
+		// Resets the current scroll position along with it, since it no
+		// longer necessarily makes sense against the rebuilt content.
+		void invalidate();
+
 	public:
 		// Positions every item in-place: walks the list applying each
 		// item's alignment_relative_to_last against whatever came before

@@ -7,6 +7,7 @@
 #include "Joaat.hpp"
 #include "KickGrid.hpp"
 #include "PlaceholderGrid.hpp"
+#include "Players.hpp"
 #include "Theme.hpp"
 #include "ToxicGrid.hpp"
 #include "TrollGrid.hpp"
@@ -37,18 +38,55 @@ namespace YimMenu::Rendering
 
 	void PlayersGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
-		// DrawPlayerList()'s own spectate toggle + player list.
+		m_LastHasSelection = Players::GetSelected().IsValid();
+
+		// DrawPlayerList()'s own spectate toggle + player list - always
+		// shown, regardless of selection (this is how you select someone
+		// in the first place).
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Players", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "spectate"_J));
 		items_draft.push_back(std::make_unique<GridItemPlayerList>(Theme::kContentWidth));
 
-		// Every one of MenuPlayers.cpp's own categories.
-		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Info", &GetPlaceholderGrid()));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Troll", &g_TrollContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Toxic", &g_ToxicContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Kick", &g_KickContent));
+		// Every one of MenuPlayers.cpp's own categories - only once a
+		// player is actually selected (see the class comment in
+		// PlayersGrid.hpp for why). With nobody selected (including
+		// because nobody's connected at all), the page is just the
+		// toggle + list above - SyncSelection() re-populates as soon as
+		// that changes.
+		if (m_LastHasSelection)
+		{
+			items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
+			items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Info", &GetPlaceholderGrid()));
+			items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Troll", &g_TrollContent));
+			items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Toxic", &g_ToxicContent));
+			items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Kick", &g_KickContent));
+		}
 
-		LOGF(INFO, "[GridRenderer] PlayersGrid populated with {} items", items_draft.size());
+		LOGF(INFO, "[GridRenderer] PlayersGrid populated with {} items ({} a selection)", items_draft.size(), m_LastHasSelection ? "with" : "without");
+	}
+
+	void PlayersGrid::SyncSelection()
+	{
+		const auto hasSelection = Players::GetSelected().IsValid();
+		if (hasSelection != m_LastHasSelection)
+			invalidate();
+	}
+
+	void PlayersGrid::draw()
+	{
+		SyncSelection();
+		Grid::draw();
+	}
+
+	void PlayersGrid::drawText()
+	{
+		SyncSelection();
+		Grid::drawText();
+	}
+
+	GridItem* PlayersGrid::findItemAt(int16_t cursorX, int16_t cursorY)
+	{
+		SyncSelection();
+		return Grid::findItemAt(cursorX, cursorY);
 	}
 }

@@ -16,6 +16,14 @@ namespace YimMenu::Rendering
 		items = std::move(itemsDraft);
 	}
 
+	void Grid::invalidate()
+	{
+		// soup::SharedPtr has no operator=(nullptr) - reset() is its own
+		// equivalent (see stand-reference's src/lib/soup/SharedPtr.hpp).
+		items.reset();
+		m_ScrollOffset = 0;
+	}
+
 	// Ported verbatim from Stand's own Grid::setPositions() (Menu/Grid.cpp).
 	void Grid::setPositions(const std::vector<std::unique_ptr<GridItem>>& itemsToPosition, size_t recursions) const
 	{
