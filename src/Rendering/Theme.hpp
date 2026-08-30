@@ -72,4 +72,19 @@ namespace YimMenu::Rendering::Theme
 	// text.scale/addressbar_text.scale identically across the same three
 	// widget kinds.
 	constexpr float kTextScale = 0.65625f;
+
+	// Stand's own virtual HUD canvas dimensions (see GridRenderer::
+	// PosH2C/SizeH2C's own doc comment for what "H-space" means) - shared
+	// here since both GridRenderer.cpp (H-space <-> client-pixel
+	// conversion) and MenuGrid.cpp (working out how much of a content
+	// Grid's own list is actually visible, for scrolling - see
+	// Grid::ScrollBy()/ScrollToShow()) need the same numbers.
+	constexpr float kHudWidth = 1920.f;
+	constexpr float kHudHeight = 1080.f;
+
+	// Bottom margin (H-space) a content Grid's own visible scroll window
+	// stops short of the HUD canvas's bottom edge by - same idea as
+	// kHeaderX/kHeaderY's own 20px margins elsewhere in this system, just
+	// for the opposite edge.
+	constexpr int16_t kContentBottomMargin = 20;
 }

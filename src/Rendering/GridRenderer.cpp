@@ -3,6 +3,7 @@
 #include "BoolCommand.hpp"
 #include "GUI.hpp"
 #include "MenuGrid.hpp"
+#include "MenuNavigation.hpp"
 #include "Pointers.hpp"
 #include "Renderer.hpp"
 #include "Theme.hpp"
@@ -34,9 +35,15 @@ namespace YimMenu::Rendering
 		// hudCorrection lets a non-16:9 client area (ultrawide, or a
 		// window narrower than it is tall) black-bar the extra space
 		// instead of stretching the menu's aspect ratio - same as
-		// Stand's own hudCorrectionC.
-		constexpr float kHudWidth = 1920.f;
-		constexpr float kHudHeight = 1080.f;
+		// Stand's own hudCorrectionC. kHudWidth/kHudHeight themselves
+		// live in Theme.hpp - MenuGrid.cpp needs the same numbers for
+		// its own scroll-window math.
+		using Theme::kHudHeight;
+		using Theme::kHudWidth;
+
+		// One row's worth of scroll per wheel notch (WHEEL_DELTA, 120,
+		// per Win32 convention).
+		constexpr int16_t kScrollStep = Theme::kContentItemHeight;
 
 		DirectX::XMFLOAT2 GetClientSize()
 		{
@@ -381,6 +388,28 @@ namespace YimMenu::Rendering
 			if (auto* item = g_MenuGrid.findItemAt(cursorX, cursorY))
 				item->onClick(cursorX, cursorY);
 
+			return;
+		}
+
+		if (msg == WM_MOUSEWHEEL)
+		{
+			// Scrolls whatever content Grid is currently showing - not
+			// gated on cursor position (unlike WM_LBUTTONDOWN's hit test
+			// above), since this menu has no other scrollable surface to
+			// disambiguate against. See Grid::ScrollBy()'s own doc
+			// comment for why this exists at all (a content Grid's own
+			// item list can be taller than fits on screen, with no
+			// pagination/windowing the way Stand's own GridItemList has).
+			if (auto* content = MenuNavigation::Current())
+			{
+				// HIWORD(wparam) is the signed wheel delta (Win32
+				// convention) - positive is away from the user (scrolled
+				// "up"), which conventionally moves the view toward
+				// earlier items, i.e. a negative offset.
+				const auto notches = static_cast<short>(HIWORD(wparam)) / WHEEL_DELTA;
+				const auto visibleHeight = static_cast<int16_t>(kHudHeight - content->origin.y - Theme::kContentBottomMargin);
+				content->ScrollBy(static_cast<int16_t>(-notches * kScrollStep), visibleHeight);
+			}
 			return;
 		}
 

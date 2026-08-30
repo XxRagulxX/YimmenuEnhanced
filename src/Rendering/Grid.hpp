@@ -75,6 +75,40 @@ namespace YimMenu::Rendering
 		// keypress/frame isn't worth the bookkeeping a cache would need.
 		[[nodiscard]] std::vector<GridItem*> getFocusableItems();
 
+		// This project's own addition, for the same reason getFocusableItems()
+		// is: Stand paginates/scrolls a whole GridItemList's own rows
+		// internally (via g_gui.command_rows and its own Command-tree
+		// cursor), a system this project doesn't have since - see
+		// GridItem.hpp's class comment - every row here is already its
+		// own top-level GridItem rather than sub-rows of one list widget.
+		// Scrolling the whole Grid's own item list vertically is the
+		// equivalent for that shape: draw()/drawText()/findItemAt() all
+		// apply the current scroll offset (by temporarily shifting each
+		// item's own y, calling through, then restoring it - so no
+		// widget needs to know scrolling exists at all) and skip drawing/
+		// hit-testing anything that scrolls above origin.y, so a scrolled
+		// item can never render on top of whatever sits above this Grid
+		// (MenuGrid's own header bar, for a content Grid). Nothing skips
+		// the bottom edge the same way - a row scrolled past the visible
+		// area's bottom just runs off the real screen's edge, which the
+		// GPU clips on its own.
+		//
+		// Scrolls by delta (H-space, positive = later items), clamped to
+		// [0, content height - visibleHeight] (content height from
+		// getBounds()). visibleHeight is how tall this Grid's own visible
+		// window is (H-space) - not stored on Grid itself, since that
+		// depends on where this Grid sits on screen (MenuGrid.cpp/
+		// GridRenderer.cpp work it out from Theme::kHudHeight and this
+		// Grid's own origin.y).
+		void ScrollBy(int16_t delta, int16_t visibleHeight);
+
+		// Scrolls (if needed, via ScrollBy's own clamping) so item's own
+		// row is fully within the visible window - MenuGrid::HandleKey()
+		// calls this after moving keyboard focus, so focus never lands on
+		// a row scrolled out of view without the view following it. A
+		// no-op if item is null (nothing focusable in this Grid at all).
+		void ScrollToShow(const GridItem* item, int16_t visibleHeight);
+
 	protected:
 		// Builds items_draft. Called once, lazily, on first draw()/
 		// drawText()/findItemAt() (whichever runs first) - see the class
@@ -113,5 +147,12 @@ namespace YimMenu::Rendering
 
 	private:
 		void ensurePopulated();
+
+		// Re-clamps m_ScrollOffset to [0, content height - visibleHeight]
+		// - shared by ScrollBy() and ScrollToShow(), both of which need
+		// it after adjusting m_ScrollOffset their own way.
+		void clampScroll(int16_t visibleHeight);
+
+		int16_t m_ScrollOffset = 0;
 	};
 }

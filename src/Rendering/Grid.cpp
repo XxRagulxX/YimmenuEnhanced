@@ -167,27 +167,65 @@ namespace YimMenu::Rendering
 		return nullptr;
 	}
 
+	// draw()/drawText()/findItemAt() all funnel through this: temporarily
+	// shift item->y by -m_ScrollOffset, run fn on it, then restore -
+	// applying the current scroll position (see ScrollBy()'s own doc
+	// comment in Grid.hpp) without any widget itself needing to know
+	// scrolling exists. Items that would scroll above origin.y (this
+	// Grid's own top edge - where whatever sits above it, e.g. MenuGrid's
+	// own header bar for a content Grid, starts) are skipped outright
+	// rather than partially drawn/hit-tested there - this project has no
+	// scissor-clipping to partially cut one off at that edge the way
+	// Stand's own GridItemList does (see its drawOnto()'d contentsTex),
+	// so a hard cut is the trade-off. Nothing does the equivalent for the
+	// bottom edge: a row scrolled past the visible window's bottom just
+	// runs off the real screen, which the GPU clips on its own.
+	template<typename Fn>
+	static void forEachVisibleItem(std::vector<std::unique_ptr<GridItem>>& items, const Position2d& origin, int16_t scrollOffset, Fn&& fn)
+	{
+		for (auto& item : items)
+		{
+			const auto shiftedY = static_cast<int16_t>(item->y - scrollOffset);
+			if (shiftedY < origin.y)
+				continue;
+
+			item->y = shiftedY;
+			fn(*item);
+			item->y = static_cast<int16_t>(item->y + scrollOffset);
+		}
+	}
+
 	void Grid::draw()
 	{
 		ensurePopulated();
 
-		for (auto& item : *items)
-			item->draw();
+		forEachVisibleItem(*items, origin, m_ScrollOffset, [](GridItem& item) {
+			item.draw();
+		});
 	}
 
 	void Grid::drawText()
 	{
 		ensurePopulated();
 
-		for (auto& item : *items)
-			item->drawText();
+		forEachVisibleItem(*items, origin, m_ScrollOffset, [](GridItem& item) {
+			item.drawText();
+		});
 	}
 
 	GridItem* Grid::findItemAt(int16_t cursor_x, int16_t cursor_y)
 	{
 		ensurePopulated();
 
-		return getOccupant(*items, cursor_x, cursor_y);
+		if (m_ScrollOffset == 0)
+			return getOccupant(*items, cursor_x, cursor_y);
+
+		GridItem* found = nullptr;
+		forEachVisibleItem(*items, origin, m_ScrollOffset, [&](GridItem& item) {
+			if (!found && item.occupies(cursor_x, cursor_y))
+				found = &item;
+		});
+		return found;
 	}
 
 	std::vector<GridItem*> Grid::getFocusableItems()
@@ -230,5 +268,41 @@ namespace YimMenu::Rendering
 		getBounds(x, y, width, height);
 		width -= x;
 		height -= y;
+	}
+
+	void Grid::clampScroll(int16_t visibleHeight)
+	{
+		int16_t x1, y1, x2, y2;
+		getBounds(x1, y1, x2, y2);
+
+		const int totalHeight = y2 - y1;
+		const int maxScroll = std::max(0, totalHeight - static_cast<int>(visibleHeight));
+		m_ScrollOffset = static_cast<int16_t>(std::clamp(static_cast<int>(m_ScrollOffset), 0, maxScroll));
+	}
+
+	void Grid::ScrollBy(int16_t delta, int16_t visibleHeight)
+	{
+		ensurePopulated();
+
+		m_ScrollOffset = static_cast<int16_t>(m_ScrollOffset + delta);
+		clampScroll(visibleHeight);
+	}
+
+	void Grid::ScrollToShow(const GridItem* item, int16_t visibleHeight)
+	{
+		if (!item)
+			return;
+
+		ensurePopulated();
+
+		const auto viewTop = static_cast<int16_t>(origin.y + m_ScrollOffset);
+		const auto viewBottom = static_cast<int16_t>(viewTop + visibleHeight);
+
+		if (item->y < viewTop)
+			m_ScrollOffset = static_cast<int16_t>(m_ScrollOffset - (viewTop - item->y));
+		else if (static_cast<int16_t>(item->y + item->height) > viewBottom)
+			m_ScrollOffset = static_cast<int16_t>(m_ScrollOffset + ((item->y + item->height) - viewBottom));
+
+		clampScroll(visibleHeight);
 	}
 }

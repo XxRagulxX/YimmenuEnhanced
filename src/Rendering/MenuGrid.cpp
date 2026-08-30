@@ -276,5 +276,17 @@ namespace YimMenu::Rendering
 		default:
 			break;
 		}
+
+		// Whatever just happened above (a focus move, a page switch, a
+		// Backspace pop, ...) may have left keyboard focus on a row
+		// that's scrolled out of view - bring it back into view rather
+		// than leaving focus on something invisible. Harmless/idempotent
+		// otherwise (an already-visible focused item, or no content at
+		// all). See Grid::ScrollToShow()'s own doc comment in Grid.hpp.
+		if (auto* content = MenuNavigation::Current())
+		{
+			const auto visibleHeight = static_cast<int16_t>(Theme::kHudHeight - content->origin.y - Theme::kContentBottomMargin);
+			content->ScrollToShow(MenuFocus::GetFocusedItem(content), visibleHeight);
+		}
 	}
 }
