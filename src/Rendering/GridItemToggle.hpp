@@ -23,6 +23,11 @@ namespace YimMenu::Rendering
 		void DrawText() override;
 		void OnClick(float cursorX, float cursorY) override;
 
+		bool GetState() const
+		{
+			return m_State;
+		}
+
 	private:
 		std::string m_Label;
 		bool m_State;

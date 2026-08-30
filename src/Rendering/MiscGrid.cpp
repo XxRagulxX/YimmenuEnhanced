@@ -5,14 +5,19 @@
 #include "GridItemCommandButton.hpp"
 #include "GridItemCommandToggle.hpp"
 #include "GridItemHeader.hpp"
+#include "GridItemIntStepper.hpp"
 #include "GridItemTabsHorizontal.hpp"
+#include "GridItemToggle.hpp"
 #include "Joaat.hpp"
 #include "Natives.hpp"
+#include "ScriptEvent.hpp"
+#include "ScriptFunction.hpp"
+#include "Self.hpp"
 
 namespace YimMenu::Rendering
 {
 	MiscGrid::MiscGrid() :
-	    Grid(20.f, 20.f, 260.f)
+	    Grid(20.f, 20.f, 300.f)
 	{
 	}
 
@@ -36,6 +41,54 @@ namespace YimMenu::Rendering
 
 		m_Items.push_back(std::make_unique<GridItemCommandButton>(28.f, "dumpdatahash"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(26.f, "standrenderertest"_J));
+
+		// DoTeleport: interiorIndex stepper + enterOwnerInterior toggle,
+		// same default values (0, false) as Misc.cpp's own function-local
+		// statics. The button reads both at click time and sends the
+		// exact same SCRIPT_EVENT_SEND_TO_INTERIOR Misc.cpp's DoTeleport
+		// button does.
+		auto interiorIndexStepper = std::make_unique<GridItemIntStepper>(26.f, "interiorIndex", 0, 0, 999);
+		m_InteriorIndexStepper = interiorIndexStepper.get();
+		m_Items.push_back(std::move(interiorIndexStepper));
+
+		auto enterOwnerInteriorToggle = std::make_unique<GridItemToggle>(26.f, "enterOwnerInterior", false);
+		m_EnterOwnerInteriorToggle = enterOwnerInteriorToggle.get();
+		m_Items.push_back(std::move(enterOwnerInteriorToggle));
+
+		m_Items.push_back(std::make_unique<GridItemButton>(28.f, "DoTeleport", [this] {
+			const int interiorIndex = m_InteriorIndexStepper ? m_InteriorIndexStepper->GetValue() : 0;
+			const bool enterOwnerInterior = m_EnterOwnerInteriorToggle && m_EnterOwnerInteriorToggle->GetState();
+
+			FiberPool::queueJob([interiorIndex, enterOwnerInterior] {
+				SCRIPT_EVENT_SEND_TO_INTERIOR message;
+				message.Interior = interiorIndex;
+				message.EnterOwnerInterior = enterOwnerInterior;
+				message.GoonsOnly = false;
+				message.InstanceId = 0;
+				message.SubInstanceId = -1;
+				message.Owner = Self::GetPlayer().GetId();
+				message.Distance = 99999;
+				message.Position = {0, 0, 0};
+
+				message.SetAllPlayers();
+				message.Send();
+			});
+		}));
+
+		// fm_mission_controller DoTeamSwap: Team stepper, same default (0)
+		// as Misc.cpp's own function-local static int team.
+		auto teamStepper = std::make_unique<GridItemIntStepper>(26.f, "Team", 0, 0, 8);
+		m_TeamStepper = teamStepper.get();
+		m_Items.push_back(std::move(teamStepper));
+
+		m_Items.push_back(std::make_unique<GridItemButton>(28.f, "fm_mission_controller DoTeamSwap", [this] {
+			const int team = m_TeamStepper ? m_TeamStepper->GetValue() : 0;
+
+			FiberPool::queueJob([team] {
+				static ScriptFunction DoTeamSwap("fm_mission_controller"_J, ScriptPointer("DoTeamSwap", "2D 02 04 00 00 38 00 50"));
+				DoTeamSwap.Call<void>(team, true);
+			});
+		}));
 
 		LOGF(INFO, "[GridRenderer] MiscGrid populated with {} items", m_Items.size());
 	}
