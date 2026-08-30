@@ -4,26 +4,20 @@
 namespace YimMenu::Rendering
 {
 	// Content grid for Self > Weapons: mirrors Weapons.cpp's
-	// BuildWeaponsMenu() Tools, Gun Van and Aimbot groups, wired the same
-	// way SelfGrid wires Self > Main.
+	// BuildWeaponsMenu() Globals, Tools, Gun Van, Aimbot and Custom
+	// Weapons groups in full, wired the same way SelfGrid wires Self >
+	// Main - see WeaponsGrid.cpp's own predicate functions
+	// (IsCustomWeaponEnabled()/CustomWeaponType()/IsGravityGunRow()/...)
+	// for how RenderCustomWeaponsMenu()'s several levels of nested
+	// ConditionalItem/Group flatten onto individual GridItemConditional
+	// rows.
 	//
-	// Deliberately NOT included (all need things this system doesn't have
-	// yet, so nothing here fakes them):
-	// - The whole Globals group - almost entirely ConditionalItem-gated
-	//   FloatCommandItems/ListCommandItems (explosion damage/camera
-	//   shake, weapon/melee damage scale, ...) - no float widget yet, and
-	//   the ConditionalItem gating itself isn't supported regardless
-	//   (same reasons SelfGrid's Movement group is skipped entirely).
-	// - Ammu-Nation - a hand-rolled ImGui UI (weapon search/stats/list
-	//   box), no Grid equivalent widgets yet.
-	// - aimbotaimforhead/aimbottargetdrivers/aimbotreleasedeadped - all
-	//   three are ConditionalItems gated on aimbot being on, skipped for
-	//   the same reason as every other ConditionalItem in this system.
-	// - RenderCustomWeaponsMenu()'s whole category - deeply nested
-	//   ConditionalItems (customweapon -> customweapontype -> per-type
-	//   options) plus a ColorCommandItem, none of which exist here yet.
-	// All of the above stay reachable via the existing ImGui Self >
-	// Weapons category, untouched.
+	// Deliberately NOT included: Ammu-Nation, a hand-rolled ImGui weapon
+	// search/stats/list-box UI - deferred to Phase 3 once the
+	// searchable-list primitive (GridItemSelectList) has a
+	// search-list-plus-detail-pane consumer to model it on. Stays
+	// reachable via the existing ImGui Self > Weapons category until
+	// then.
 	class WeaponsGrid : public Grid
 	{
 	public:
