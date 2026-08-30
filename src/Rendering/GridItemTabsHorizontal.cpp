@@ -43,6 +43,18 @@ namespace YimMenu::Rendering
 		}
 	}
 
+	float GridItemTabsHorizontal::GetTotalWidth() const
+	{
+		float width = 0.f;
+		for (size_t i = 0; i < m_Tabs.size(); ++i)
+		{
+			width += GridRenderer::MeasureText(m_Tabs[i].c_str()).x + kTabPaddingX * 2.f;
+			if (i + 1 < m_Tabs.size())
+				width += kTabGap;
+		}
+		return width;
+	}
+
 	void GridItemTabsHorizontal::OnClick(float cursorX, float)
 	{
 		// Recompute the same per-tab segment boundaries Draw() lays out,

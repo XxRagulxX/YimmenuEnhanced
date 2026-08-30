@@ -2,7 +2,7 @@
 
 #include "BoolCommand.hpp"
 #include "GUI.hpp"
-#include "MiscGrid.hpp"
+#include "MenuGrid.hpp"
 #include "Pointers.hpp"
 #include "Renderer.hpp"
 #include "font_bevietnamprolight.hpp"
@@ -36,11 +36,10 @@ namespace YimMenu::Rendering
 	}
 
 	// Master visibility toggle for the whole DirectXTK12/Grid renderer
-	// (MiscGrid below); doesn't touch the existing ImGui menu, which is
-	// still the only way to reach DoTeleport/DoTeamSwap (see MiscGrid.hpp).
-	// Kept the original internal name ("standrenderertest") so existing
-	// saved settings.json state isn't lost across the label/description
-	// change - it's still the same registered command.
+	// (MenuGrid below); doesn't touch the existing ImGui menu. Kept the
+	// original internal name ("standrenderertest") so existing saved
+	// settings.json state isn't lost across the label/description change -
+	// it's still the same registered command.
 	class StandRendererTest : public BoolCommand
 	{
 		using BoolCommand::BoolCommand;
@@ -62,11 +61,11 @@ namespace YimMenu::Rendering
 
 	static StandRendererTest _StandRendererTest{"standrenderertest",
 	    "Stand Renderer Test",
-	    "Shows a Stand-style rebuild of Debug > Misc (Network Bail, Dump Data Hash, and this "
-	    "toggle itself) using the new DirectXTK12/Grid draw pipeline. DoTeleport/DoTeamSwap "
-	    "aren't included yet (need numeric input widgets) - use the regular Misc category for those."};
+	    "Shows a Stand-style rebuild of the menu (sidebar + Debug > Misc content) using the new "
+	    "DirectXTK12/Grid draw pipeline. Only Debug > Misc has real content so far - everything "
+	    "else shows a placeholder. Use the regular menu for anything not yet migrated."};
 
-	static MiscGrid g_MiscGrid{};
+	static MenuGrid g_MenuGrid{};
 
 	void GridRenderer::EnsureDeviceResources(ID3D12Device* device)
 	{
@@ -178,7 +177,7 @@ namespace YimMenu::Rendering
 		if (GUI::IsOpen())
 		{
 			DirectX::XMFLOAT2 cursor;
-			if (TryGetCursorPos(cursor) && g_MiscGrid.FindItemAt(cursor.x, cursor.y))
+			if (TryGetCursorPos(cursor) && g_MenuGrid.FindItemAt(cursor.x, cursor.y))
 				ImGui::SetNextFrameWantCaptureMouse(true);
 		}
 
@@ -199,7 +198,7 @@ namespace YimMenu::Rendering
 			m_Effect->Apply(commandList);
 			m_Batch->Begin(commandList);
 
-			g_MiscGrid.Draw();
+			g_MenuGrid.Draw();
 
 			m_Batch->End();
 		}
@@ -216,7 +215,7 @@ namespace YimMenu::Rendering
 			m_SpriteBatch->SetViewport(viewport);
 			m_SpriteBatch->Begin(commandList);
 
-			g_MiscGrid.DrawText();
+			g_MenuGrid.DrawText();
 
 			m_SpriteBatch->End();
 		}
@@ -274,7 +273,7 @@ namespace YimMenu::Rendering
 		if (!TryGetCursorPos(cursor))
 			return;
 
-		if (auto* item = g_MiscGrid.FindItemAt(cursor.x, cursor.y))
+		if (auto* item = g_MenuGrid.FindItemAt(cursor.x, cursor.y))
 			item->OnClick(cursor.x, cursor.y);
 	}
 

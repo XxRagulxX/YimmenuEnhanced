@@ -6,9 +6,10 @@ namespace YimMenu::Rendering
 	class GridItemIntStepper;
 	class GridItemToggle;
 
-	// First real (non-decorative) menu grid: mirrors Debug > Misc's
-	// existing ImGui items (src/Misc.cpp), wired to their actual
-	// commands/actions rather than placeholder state.
+	// Content grid for Debug > Misc: mirrors Misc.cpp's existing ImGui
+	// items, wired to their actual commands/actions rather than
+	// placeholder state. Owned and shown/hidden by MenuGrid, which also
+	// owns the header/tab-strip chrome this used to include itself.
 	//
 	// Not a full replacement of Misc's ImGui rendering yet: there's no
 	// keyboard text-entry system, so interiorIndex/Team use stepper

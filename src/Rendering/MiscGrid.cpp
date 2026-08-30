@@ -4,9 +4,7 @@
 #include "GridItemButton.hpp"
 #include "GridItemCommandButton.hpp"
 #include "GridItemCommandToggle.hpp"
-#include "GridItemHeader.hpp"
 #include "GridItemIntStepper.hpp"
-#include "GridItemTabsHorizontal.hpp"
 #include "GridItemToggle.hpp"
 #include "Joaat.hpp"
 #include "Natives.hpp"
@@ -16,19 +14,16 @@
 
 namespace YimMenu::Rendering
 {
+	// Position (168, 94) matches MenuGrid.cpp's kContentX/kContentY exactly
+	// (no shared header for these yet - if more content grids need the same
+	// position, that's worth factoring out then).
 	MiscGrid::MiscGrid() :
-	    Grid(20.f, 20.f, 300.f)
+	    Grid(168.f, 94.f, 270.f)
 	{
 	}
 
 	void MiscGrid::Populate()
 	{
-		m_Items.push_back(std::make_unique<GridItemHeader>(30.f, "YimMenu (Stand-style)"));
-		m_Items.push_back(std::make_unique<GridItemTabsHorizontal>(
-		    28.f,
-		    std::vector<std::string>{"Misc", "Globals", "Locals", "Scripts"},
-		    0));
-
 		// "Network Bail" isn't a registered Command in src/Misc.cpp (it's
 		// an inline ImGui button + FiberPool job) - reused verbatim as a
 		// GridItemButton action callback rather than wrapping it in a
@@ -81,7 +76,11 @@ namespace YimMenu::Rendering
 		m_TeamStepper = teamStepper.get();
 		m_Items.push_back(std::move(teamStepper));
 
-		m_Items.push_back(std::make_unique<GridItemButton>(28.f, "fm_mission_controller DoTeamSwap", [this] {
+		// Display label shortened from Misc.cpp's literal button text
+		// ("fm_mission_controller DoTeamSwap") - it overflows this panel's
+		// width since GridItemButton has no text-wrapping yet. The action
+		// underneath (the ScriptFunction call below) is unchanged.
+		m_Items.push_back(std::make_unique<GridItemButton>(28.f, "DoTeamSwap", [this] {
 			const int team = m_TeamStepper ? m_TeamStepper->GetValue() : 0;
 
 			FiberPool::queueJob([team] {
