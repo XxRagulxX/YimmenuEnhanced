@@ -7,13 +7,14 @@ namespace YimMenu::Rendering
 	// generalGroup in full, wired the same way SelfGrid/VehicleGrid wire
 	// their own conditional items.
 	//
-	// The Heists/Daily Activities/Stat Editor/Transactions categories
-	// stay reachable via the existing ImGui Recovery submenu, untouched -
+	// The Daily Activities/Stat Editor/Transactions categories stay
+	// reachable via the existing ImGui Recovery submenu, untouched -
 	// Populate() still appends a GridItemFolder row for each, same as
-	// SelfGrid.hpp's note. Businesses/Casino/Unlocks' folders each point
-	// at a real content Grid (RecoveryBusinessesGrid/RecoveryCasinoGrid/
-	// RecoveryUnlocksGrid, owned here since nothing else reaches them);
-	// the other three still point at the shared placeholder.
+	// SelfGrid.hpp's note. Businesses/Heists/Casino/Unlocks' folders
+	// each point at a real content Grid (RecoveryBusinessesGrid/
+	// RecoveryHeistsGrid/RecoveryCasinoGrid/RecoveryUnlocksGrid, owned
+	// here since nothing else reaches them); the other two still point
+	// at the shared placeholder.
 	class RecoveryGrid : public Grid
 	{
 	public:
