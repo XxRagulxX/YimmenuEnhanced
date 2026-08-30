@@ -1,6 +1,7 @@
 #include "GridItemToggle.hpp"
 
 #include "GridRenderer.hpp"
+#include "Theme.hpp"
 
 #include <algorithm>
 
@@ -8,10 +9,6 @@ namespace YimMenu::Rendering
 {
 	namespace
 	{
-		constexpr DirectX::XMFLOAT4 kOnColour{0.2f, 0.75f, 0.35f, 1.f};
-		constexpr DirectX::XMFLOAT4 kOffColour{0.35f, 0.35f, 0.35f, 1.f};
-		constexpr DirectX::XMFLOAT4 kLabelColour{1.f, 1.f, 1.f, 1.f};
-
 		constexpr float kIndicatorSize = 16.f;
 		constexpr float kLabelGap = 10.f;
 	}
@@ -22,7 +19,7 @@ namespace YimMenu::Rendering
 		// this would otherwise centre to a negative offset, drawing above
 		// this item's own row into whatever's above it.
 		const float indicatorY = m_Y + std::max(0.f, (m_Height - kIndicatorSize) * 0.5f);
-		GridRenderer::DrawRect(m_X, indicatorY, kIndicatorSize, kIndicatorSize, m_State ? kOnColour : kOffColour);
+		GridRenderer::DrawRect(m_X, indicatorY, kIndicatorSize, kIndicatorSize, m_State ? Theme::kAccent : Theme::kToggleOff);
 	}
 
 	void GridItemToggle::DrawText()
@@ -30,7 +27,7 @@ namespace YimMenu::Rendering
 		// Clamped to 0 - see the comment in Draw(): a label taller than
 		// m_Height would otherwise centre upward out of this item's row.
 		const float textY = m_Y + std::max(0.f, (m_Height - GridRenderer::MeasureText(m_Label.c_str()).y) * 0.5f);
-		GridRenderer::DrawText(m_X + kIndicatorSize + kLabelGap, textY, m_Label.c_str(), kLabelColour);
+		GridRenderer::DrawText(m_X + kIndicatorSize + kLabelGap, textY, m_Label.c_str(), Theme::kText);
 	}
 
 	void GridItemToggle::OnClick(float, float)

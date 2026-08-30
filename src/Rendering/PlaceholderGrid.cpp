@@ -1,25 +1,21 @@
 #include "PlaceholderGrid.hpp"
 
 #include "GridItemText.hpp"
+#include "Theme.hpp"
 
 namespace YimMenu::Rendering
 {
-	namespace
-	{
-		constexpr DirectX::XMFLOAT4 kPlaceholderColour{0.7f, 0.7f, 0.7f, 1.f};
-	}
-
-	// Position matches MenuGrid.cpp's kContentX/kContentY exactly (same
-	// convention as every other content Grid - no shared header for
-	// these yet).
+	// Position matches every other content Grid's (140, 52) via Theme's
+	// layout constants - see the comment in MenuGrid.cpp's anonymous
+	// namespace for why (no shared header for these yet).
 	PlaceholderGrid::PlaceholderGrid() :
-	    Grid(168.f, 94.f, 300.f)
+	    Grid(140.f, 52.f, Theme::kContentWidth)
 	{
 	}
 
 	void PlaceholderGrid::Populate()
 	{
-		m_Items.push_back(std::make_unique<GridItemText>(20.f, "Not yet migrated.", kPlaceholderColour));
+		m_Items.push_back(std::make_unique<GridItemText>(20.f, "Not yet migrated.", Theme::kPlaceholderText));
 	}
 
 	Grid& GetPlaceholderGrid()

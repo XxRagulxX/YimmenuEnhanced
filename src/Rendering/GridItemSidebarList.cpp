@@ -1,18 +1,12 @@
 #include "GridItemSidebarList.hpp"
 
 #include "GridRenderer.hpp"
+#include "Theme.hpp"
 
 #include <algorithm>
 
 namespace YimMenu::Rendering
 {
-	namespace
-	{
-		constexpr DirectX::XMFLOAT4 kActiveBackground{0.16f, 0.42f, 0.83f, 0.9f};
-		constexpr DirectX::XMFLOAT4 kInactiveBackground{0.f, 0.f, 0.f, 0.4f};
-		constexpr DirectX::XMFLOAT4 kText{1.f, 1.f, 1.f, 1.f};
-	}
-
 	void GridItemSidebarList::Draw()
 	{
 		for (size_t i = 0; i < m_Entries.size(); ++i)
@@ -23,7 +17,7 @@ namespace YimMenu::Rendering
 			    y,
 			    m_Width,
 			    m_EntryHeight,
-			    i == m_ActiveIndex ? kActiveBackground : kInactiveBackground);
+			    i == m_ActiveIndex ? Theme::kAccent : Theme::kPanelBackground);
 		}
 	}
 
@@ -40,7 +34,7 @@ namespace YimMenu::Rendering
 			    m_X + 10.f,
 			    y + std::max(0.f, (m_EntryHeight - size.y) * 0.5f),
 			    m_Entries[i].c_str(),
-			    kText);
+			    Theme::kText);
 		}
 	}
 

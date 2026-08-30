@@ -3,20 +3,12 @@
 #include "Commands.hpp"
 #include "FiberPool.hpp"
 #include "GridRenderer.hpp"
+#include "Theme.hpp"
 
 #include <algorithm>
 
 namespace YimMenu::Rendering
 {
-	namespace
-	{
-		// See the note in GridItemHeader.cpp re: Stand's real theme accent
-		// not being recoverable from this snapshot.
-		constexpr DirectX::XMFLOAT4 kBackground{0.16f, 0.42f, 0.83f, 0.9f};
-		constexpr DirectX::XMFLOAT4 kUnknownBackground{0.5f, 0.15f, 0.15f, 0.9f};
-		constexpr DirectX::XMFLOAT4 kText{1.f, 1.f, 1.f, 1.f};
-	}
-
 	GridItemCommandButton::GridItemCommandButton(float height, joaat_t id, std::optional<std::string> labelOverride) :
 	    GridItem(height),
 	    m_Command(Commands::GetCommand<Command>(id)),
@@ -35,7 +27,7 @@ namespace YimMenu::Rendering
 
 	void GridItemCommandButton::Draw()
 	{
-		GridRenderer::DrawRect(m_X, m_Y, m_Width, m_Height, m_Command ? kBackground : kUnknownBackground);
+		GridRenderer::DrawRect(m_X, m_Y, m_Width, m_Height, m_Command ? Theme::kAccent : Theme::kError);
 	}
 
 	void GridItemCommandButton::DrawText()
@@ -47,7 +39,7 @@ namespace YimMenu::Rendering
 		const auto& label = Label();
 		const auto size = GridRenderer::MeasureText(label.c_str());
 		const float textY = m_Y + std::max(0.f, (m_Height - size.y) * 0.5f);
-		GridRenderer::DrawText(m_X + 10.f, textY, label.c_str(), kText);
+		GridRenderer::DrawText(m_X + 10.f, textY, label.c_str(), Theme::kText);
 	}
 
 	void GridItemCommandButton::OnClick(float, float)

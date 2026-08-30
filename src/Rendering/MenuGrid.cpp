@@ -11,6 +11,7 @@
 #include "SelfGrid.hpp"
 #include "SettingsGrid.hpp"
 #include "TeleportGrid.hpp"
+#include "Theme.hpp"
 #include "VehicleGrid.hpp"
 #include "WorldGrid.hpp"
 
@@ -22,27 +23,29 @@ namespace YimMenu::Rendering
 	{
 		constexpr float kHeaderX = 20.f;
 		constexpr float kHeaderY = 20.f;
-		// Must reach at least kContentX + the content grids' own width
-		// below (300 as of writing) - a real command label (e.g. "Skip
-		// Conversation") can be wider than expected, and there's no
-		// text-wrapping yet, so this needs real margin rather than an
-		// exact fit.
-		constexpr float kHeaderW = 460.f;
-		constexpr float kHeaderH = 30.f;
+		constexpr float kHeaderH = Theme::kHeaderHeight;
 		constexpr float kChromeGap = 8.f;
 
 		constexpr float kSidebarX = kHeaderX;
 		constexpr float kSidebarY = kHeaderY + kHeaderH + kChromeGap;
-		constexpr float kSidebarW = 140.f;
-		constexpr float kSidebarEntryH = 26.f;
+		constexpr float kSidebarW = Theme::kSidebarWidth;
+		constexpr float kSidebarEntryH = Theme::kSidebarEntryHeight;
+
+		// Wide enough to span the sidebar column plus every content
+		// grid's own width (Theme::kContentWidth, matching Stand's real
+		// command_width) - a real command label (e.g. "Skip
+		// Conversation") can be wider than expected, and there's no
+		// text-wrapping yet, so this needs real margin rather than an
+		// exact fit.
+		constexpr float kHeaderW = kSidebarX + kSidebarW + kChromeGap + Theme::kContentWidth;
 
 		// Every content grid's own constructor hardcodes its position to
-		// (kSidebarX + kSidebarW + kChromeGap, kSidebarY) - (168, 58) as
-		// of writing - since none of them are built via this file (no
-		// shared header for these yet - if that stops scaling, it's
-		// worth factoring out then). Content sits level with the
-		// sidebar, right under the header: there's no tab row to leave
-		// room for any more (see MenuGrid.hpp's class comment).
+		// (kSidebarX + kSidebarW + kChromeGap, kSidebarY) - since none of
+		// them are built via this file (no shared header for these yet -
+		// if that stops scaling, it's worth factoring out then). Content
+		// sits level with the sidebar, right under the header: there's
+		// no tab row to leave room for any more (see MenuGrid.hpp's
+		// class comment).
 
 		// Indices into the sidebar's entry list.
 		constexpr size_t kSelfIndex = 0;

@@ -2,6 +2,7 @@
 
 #include "Commands.hpp"
 #include "GridRenderer.hpp"
+#include "Theme.hpp"
 
 #include <algorithm>
 
@@ -9,11 +10,6 @@ namespace YimMenu::Rendering
 {
 	namespace
 	{
-		constexpr DirectX::XMFLOAT4 kButtonBackground{0.16f, 0.42f, 0.83f, 0.9f};
-		constexpr DirectX::XMFLOAT4 kValueBackground{0.f, 0.f, 0.f, 0.5f};
-		constexpr DirectX::XMFLOAT4 kText{1.f, 1.f, 1.f, 1.f};
-		constexpr DirectX::XMFLOAT4 kUnknownColour{0.6f, 0.2f, 0.2f, 1.f};
-
 		constexpr float kButtonSize = 22.f;
 		constexpr float kGap = 6.f;
 		constexpr float kLabelGap = 10.f;     // same left-aligned inset every other widget here uses
@@ -90,9 +86,9 @@ namespace YimMenu::Rendering
 	{
 		const auto layout = ComputeLayout();
 
-		GridRenderer::DrawRect(layout.valueX, m_Y, layout.valueWidth, m_Height, kValueBackground);
-		GridRenderer::DrawRect(layout.prevX, m_Y, layout.buttonSize, m_Height, kButtonBackground);
-		GridRenderer::DrawRect(layout.nextX, m_Y, layout.buttonSize, m_Height, kButtonBackground);
+		GridRenderer::DrawRect(layout.valueX, m_Y, layout.valueWidth, m_Height, Theme::kPanelBackground);
+		GridRenderer::DrawRect(layout.prevX, m_Y, layout.buttonSize, m_Height, Theme::kAccent);
+		GridRenderer::DrawRect(layout.nextX, m_Y, layout.buttonSize, m_Height, Theme::kAccent);
 	}
 
 	void GridItemCommandList::DrawText()
@@ -105,26 +101,26 @@ namespace YimMenu::Rendering
 
 		const auto& label = Label();
 		const auto labelSize = GridRenderer::MeasureText(label.c_str());
-		GridRenderer::DrawText(m_X, m_Y + std::max(0.f, (m_Height - labelSize.y) * 0.5f), label.c_str(), kText);
+		GridRenderer::DrawText(m_X, m_Y + std::max(0.f, (m_Height - labelSize.y) * 0.5f), label.c_str(), Theme::kText);
 
 		const auto* valueText = CurrentItemText();
 		const auto valueSize = GridRenderer::MeasureText(valueText);
 		GridRenderer::DrawText(layout.valueX + std::max(0.f, (layout.valueWidth - valueSize.x) * 0.5f),
 		    m_Y + std::max(0.f, (m_Height - valueSize.y) * 0.5f),
 		    valueText,
-		    m_Command ? kText : kUnknownColour);
+		    m_Command ? Theme::kText : Theme::kError);
 
 		const auto prevSize = GridRenderer::MeasureText("<");
 		GridRenderer::DrawText(layout.prevX + std::max(0.f, (layout.buttonSize - prevSize.x) * 0.5f),
 		    m_Y + std::max(0.f, (m_Height - prevSize.y) * 0.5f),
 		    "<",
-		    kText);
+		    Theme::kText);
 
 		const auto nextSize = GridRenderer::MeasureText(">");
 		GridRenderer::DrawText(layout.nextX + std::max(0.f, (layout.buttonSize - nextSize.x) * 0.5f),
 		    m_Y + std::max(0.f, (m_Height - nextSize.y) * 0.5f),
 		    ">",
-		    kText);
+		    Theme::kText);
 	}
 
 	void GridItemCommandList::OnClick(float cursorX, float)

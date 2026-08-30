@@ -5,8 +5,8 @@
 #include "GridItemCommandButton.hpp"
 #include "GridItemCommandToggle.hpp"
 #include "GridItemFolder.hpp"
-#include "GridItemHeader.hpp"
 #include "GridItemIntStepper.hpp"
+#include "GridItemText.hpp"
 #include "GridItemToggle.hpp"
 #include "Joaat.hpp"
 #include "Natives.hpp"
@@ -14,19 +14,20 @@
 #include "ScriptEvent.hpp"
 #include "ScriptFunction.hpp"
 #include "Self.hpp"
+#include "Theme.hpp"
 
 namespace YimMenu::Rendering
 {
 	namespace
 	{
-		constexpr float kSectionHeaderH = 26.f;
+		constexpr float kSectionHeaderH = Theme::kContentItemHeight;
 	}
 
-	// Position matches every other content Grid's (168, 58) - see the
-	// comment in MenuGrid.cpp's anonymous namespace for why (no shared
-	// header for these yet).
+	// Position matches every other content Grid's (140, 52) via Theme's
+	// layout constants - see the comment in MenuGrid.cpp's anonymous
+	// namespace for why (no shared header for these yet).
 	MiscGrid::MiscGrid() :
-	    Grid(168.f, 58.f, 300.f)
+	    Grid(140.f, 52.f, Theme::kContentWidth)
 	{
 	}
 
@@ -36,29 +37,29 @@ namespace YimMenu::Rendering
 		// an inline ImGui button + FiberPool job) - reused verbatim as a
 		// GridItemButton action callback rather than wrapping it in a
 		// Command just for this.
-		m_Items.push_back(std::make_unique<GridItemButton>(28.f, "Network Bail", [] {
+		m_Items.push_back(std::make_unique<GridItemButton>(Theme::kContentItemHeight, "Network Bail", [] {
 			FiberPool::queueJob([] {
 				NETWORK::NETWORK_BAIL(0, 24, 0);
 			});
 		}));
 
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(28.f, "dumpdatahash"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(26.f, "standrenderertest"_J));
+		m_Items.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentItemHeight, "dumpdatahash"_J));
+		m_Items.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentItemHeight, "standrenderertest"_J));
 
 		// DoTeleport: interiorIndex stepper + enterOwnerInterior toggle,
 		// same default values (0, false) as Misc.cpp's own function-local
 		// statics. The button reads both at click time and sends the
 		// exact same SCRIPT_EVENT_SEND_TO_INTERIOR Misc.cpp's DoTeleport
 		// button does.
-		auto interiorIndexStepper = std::make_unique<GridItemIntStepper>(26.f, "interiorIndex", 0, 0, 999);
+		auto interiorIndexStepper = std::make_unique<GridItemIntStepper>(Theme::kContentItemHeight, "interiorIndex", 0, 0, 999);
 		m_InteriorIndexStepper = interiorIndexStepper.get();
 		m_Items.push_back(std::move(interiorIndexStepper));
 
-		auto enterOwnerInteriorToggle = std::make_unique<GridItemToggle>(26.f, "enterOwnerInterior", false);
+		auto enterOwnerInteriorToggle = std::make_unique<GridItemToggle>(Theme::kContentItemHeight, "enterOwnerInterior", false);
 		m_EnterOwnerInteriorToggle = enterOwnerInteriorToggle.get();
 		m_Items.push_back(std::move(enterOwnerInteriorToggle));
 
-		m_Items.push_back(std::make_unique<GridItemButton>(28.f, "DoTeleport", [this] {
+		m_Items.push_back(std::make_unique<GridItemButton>(Theme::kContentItemHeight, "DoTeleport", [this] {
 			const int interiorIndex = m_InteriorIndexStepper ? m_InteriorIndexStepper->GetValue() : 0;
 			const bool enterOwnerInterior = m_EnterOwnerInteriorToggle && m_EnterOwnerInteriorToggle->GetState();
 
@@ -80,7 +81,7 @@ namespace YimMenu::Rendering
 
 		// fm_mission_controller DoTeamSwap: Team stepper, same default (0)
 		// as Misc.cpp's own function-local static int team.
-		auto teamStepper = std::make_unique<GridItemIntStepper>(26.f, "Team", 0, 0, 8);
+		auto teamStepper = std::make_unique<GridItemIntStepper>(Theme::kContentItemHeight, "Team", 0, 0, 8);
 		m_TeamStepper = teamStepper.get();
 		m_Items.push_back(std::move(teamStepper));
 
@@ -88,7 +89,7 @@ namespace YimMenu::Rendering
 		// ("fm_mission_controller DoTeamSwap") - it overflows this panel's
 		// width since GridItemButton has no text-wrapping yet. The action
 		// underneath (the ScriptFunction call below) is unchanged.
-		m_Items.push_back(std::make_unique<GridItemButton>(28.f, "DoTeamSwap", [this] {
+		m_Items.push_back(std::make_unique<GridItemButton>(Theme::kContentItemHeight, "DoTeamSwap", [this] {
 			const int team = m_TeamStepper ? m_TeamStepper->GetValue() : 0;
 
 			FiberPool::queueJob([team] {
@@ -99,10 +100,10 @@ namespace YimMenu::Rendering
 
 		// Debug's other categories (BuildGlobalsMenu()/BuildLocalsMenu()/
 		// BuildScriptsMenu()) - all three still placeholder-only.
-		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Categories"));
-		m_Items.push_back(std::make_unique<GridItemFolder>(28.f, "Globals", &GetPlaceholderGrid()));
-		m_Items.push_back(std::make_unique<GridItemFolder>(28.f, "Locals", &GetPlaceholderGrid()));
-		m_Items.push_back(std::make_unique<GridItemFolder>(28.f, "Scripts", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Categories", Theme::kText));
+		m_Items.push_back(std::make_unique<GridItemFolder>(Theme::kContentItemHeight, "Globals", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemFolder>(Theme::kContentItemHeight, "Locals", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemFolder>(Theme::kContentItemHeight, "Scripts", &GetPlaceholderGrid()));
 
 		LOGF(INFO, "[GridRenderer] MiscGrid populated with {} items", m_Items.size());
 	}

@@ -5,11 +5,16 @@
 
 namespace YimMenu::Rendering
 {
-	// A title bar: translucent dark background with a white label,
-	// mirroring stand-reference's src/Menu/GridItemHeader.* role (though
-	// this is a single concrete widget, not stand's abstract base class
-	// with animated/loading variants). Purely decorative for now - no
-	// collapse/drag behaviour yet (that needs the input pass).
+	// A title bar: solid accent-colour background with a white label -
+	// MenuGrid's own top breadcrumb bar ("YimMenu > Vehicle > Spawner"),
+	// matching Stand's real address bar (always shown in its one accent
+	// colour, since it's always showing "where you are"). NOT used for
+	// in-list section labels any more (a content Grid's own "Globals"/
+	// "Tools"/... group headings) - Stand's own screenshots show those
+	// as plain text with no background bar at all (see e.g. "Settings"
+	// midway down its Vehicle > Spawner list), so those use GridItemText
+	// instead now. Purely decorative for now - no collapse/drag
+	// behaviour yet (that needs the input pass).
 	class GridItemHeader : public GridItem
 	{
 	public:

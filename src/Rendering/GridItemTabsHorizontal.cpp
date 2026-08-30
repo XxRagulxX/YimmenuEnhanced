@@ -1,6 +1,7 @@
 #include "GridItemTabsHorizontal.hpp"
 
 #include "GridRenderer.hpp"
+#include "Theme.hpp"
 
 #include <algorithm>
 
@@ -8,10 +9,6 @@ namespace YimMenu::Rendering
 {
 	namespace
 	{
-		constexpr DirectX::XMFLOAT4 kActiveBackground{0.16f, 0.42f, 0.83f, 0.9f};
-		constexpr DirectX::XMFLOAT4 kInactiveBackground{0.f, 0.f, 0.f, 0.4f};
-		constexpr DirectX::XMFLOAT4 kText{1.f, 1.f, 1.f, 1.f};
-
 		constexpr float kTabPaddingX = 12.f;
 		constexpr float kTabGap = 6.f;
 	}
@@ -27,7 +24,7 @@ namespace YimMenu::Rendering
 			    m_Y,
 			    tabWidth,
 			    m_Height,
-			    i == m_ActiveIndex ? kActiveBackground : kInactiveBackground);
+			    i == m_ActiveIndex ? Theme::kAccent : Theme::kPanelBackground);
 			x += tabWidth + kTabGap;
 		}
 	}
@@ -43,7 +40,7 @@ namespace YimMenu::Rendering
 			// GridItemToggle.cpp: otherwise a label taller than m_Height
 			// centres upward out of this item's own row.
 			const float textY = m_Y + std::max(0.f, (m_Height - size.y) * 0.5f);
-			GridRenderer::DrawText(x + kTabPaddingX, textY, tab.c_str(), kText);
+			GridRenderer::DrawText(x + kTabPaddingX, textY, tab.c_str(), Theme::kText);
 			x += tabWidth + kTabGap;
 		}
 	}

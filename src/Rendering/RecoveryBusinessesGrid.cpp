@@ -3,22 +3,23 @@
 #include "GridItemCommandButton.hpp"
 #include "GridItemCommandList.hpp"
 #include "GridItemCommandToggle.hpp"
-#include "GridItemHeader.hpp"
+#include "GridItemText.hpp"
 #include "Joaat.hpp"
+#include "Theme.hpp"
 
 namespace YimMenu::Rendering
 {
 	namespace
 	{
-		constexpr float kSectionHeaderH = 26.f;
-		constexpr float kItemH = 28.f;
+		constexpr float kSectionHeaderH = Theme::kContentItemHeight;
+		constexpr float kItemH = Theme::kContentItemHeight;
 	}
 
-	// Position matches every other content Grid's (168, 58) - see the
-	// comment in MenuGrid.cpp's anonymous namespace for why (no shared
-	// header for these yet).
+	// Position matches every other content Grid's (140, 52) via Theme's
+	// layout constants - see the comment in MenuGrid.cpp's anonymous
+	// namespace for why (no shared header for these yet).
 	RecoveryBusinessesGrid::RecoveryBusinessesGrid() :
-	    Grid(168.f, 58.f, 300.f)
+	    Grid(140.f, 52.f, Theme::kContentWidth)
 	{
 	}
 
@@ -27,7 +28,7 @@ namespace YimMenu::Rendering
 		// Business Safe (businessSafe) - a ListCommandItem (now that
 		// GridItemCommandList exists) plus a plain CommandItem button,
 		// both unconditional.
-		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Business Safe"));
+		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Business Safe", Theme::kText));
 		m_Items.push_back(std::make_unique<GridItemCommandList>(kItemH, "businesssafe"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "claimsafeearnings"_J));
 
@@ -35,13 +36,13 @@ namespace YimMenu::Rendering
 		// toggle; showwarehouse/showhangar/showbusinesses/shownightclub
 		// are all ConditionalItems gated on it, skipped like every other
 		// ConditionalItem here.
-		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Business Overlay"));
+		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Business Overlay", Theme::kText));
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "businessoverlay"_J));
 
 		// Business Manager (businessManager) - every item here is
 		// unconditional, six plain CommandItem buttons plus two
 		// BoolCommandItems.
-		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Business Manager"));
+		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Business Manager", Theme::kText));
 		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "resupplybusiness"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "hangerresupply"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "warehouseresupply"_J));

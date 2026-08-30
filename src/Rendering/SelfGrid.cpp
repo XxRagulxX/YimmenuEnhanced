@@ -3,17 +3,18 @@
 #include "GridItemCommandButton.hpp"
 #include "GridItemCommandToggle.hpp"
 #include "GridItemFolder.hpp"
-#include "GridItemHeader.hpp"
+#include "GridItemText.hpp"
 #include "Joaat.hpp"
 #include "PlaceholderGrid.hpp"
+#include "Theme.hpp"
 #include "WeaponsGrid.hpp"
 
 namespace YimMenu::Rendering
 {
 	namespace
 	{
-		constexpr float kSectionHeaderH = 26.f;
-		constexpr float kItemH = 28.f;
+		constexpr float kSectionHeaderH = Theme::kContentItemHeight;
+		constexpr float kItemH = Theme::kContentItemHeight;
 
 		// Owned here rather than in MenuGrid.cpp: unlike SelfGrid itself
 		// (Self's root, registered in MenuGrid's sidebar table),
@@ -22,11 +23,11 @@ namespace YimMenu::Rendering
 		WeaponsGrid g_WeaponsContent{};
 	}
 
-	// Position matches every other content Grid's (168, 58) - see the
-	// comment in MenuGrid.cpp's anonymous namespace for why (no shared
-	// header for these yet).
+	// Position matches every other content Grid's (140, 52) via Theme's
+	// layout constants - see the comment in MenuGrid.cpp's anonymous
+	// namespace for why (no shared header for these yet).
 	SelfGrid::SelfGrid() :
-	    Grid(168.f, 58.f, 300.f)
+	    Grid(140.f, 52.f, Theme::kContentWidth)
 	{
 	}
 
@@ -37,7 +38,7 @@ namespace YimMenu::Rendering
 		// directly onto GridItemCommandToggle. localvis is skipped: it's a
 		// ConditionalItem gated on invis, and this system has no
 		// conditional-visibility widget yet.
-		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Globals"));
+		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Globals", Theme::kText));
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "godmode"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "invis"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "otr"_J));
@@ -49,7 +50,7 @@ namespace YimMenu::Rendering
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "disablecriticalhits"_J));
 
 		// Tools (toolsGroup) - all plain CommandItem buttons.
-		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Tools"));
+		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Tools", Theme::kText));
 		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "skipcutscene"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "skipconversation"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "suicide"_J));
@@ -62,14 +63,14 @@ namespace YimMenu::Rendering
 		// unconditional toggles; the ListCommandItem dropdown is gated
 		// behind a ConditionalItem on mpspecialability, skipped for the
 		// same reason as localvis above.
-		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Special Ability"));
+		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Special Ability", Theme::kText));
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "infspecialability"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "mpspecialability"_J, "Enable in MP"));
 
 		// Self's other categories (MenuSelf.cpp's BuildWeaponsMenu()/
 		// CreateOutfitsMenu()). Weapons now has its own content Grid
 		// (WeaponsGrid); Outfit Editor is still placeholder-only.
-		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Categories"));
+		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Categories", Theme::kText));
 		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Weapons", &g_WeaponsContent));
 		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Outfit Editor", &GetPlaceholderGrid()));
 

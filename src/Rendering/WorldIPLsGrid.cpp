@@ -3,19 +3,20 @@
 #include "GridItemCommandButton.hpp"
 #include "GridItemCommandList.hpp"
 #include "Joaat.hpp"
+#include "Theme.hpp"
 
 namespace YimMenu::Rendering
 {
 	namespace
 	{
-		constexpr float kItemH = 28.f;
+		constexpr float kItemH = Theme::kContentItemHeight;
 	}
 
-	// Position matches every other content Grid's (168, 58) - see the
-	// comment in MenuGrid.cpp's anonymous namespace for why (no shared
-	// header for these yet).
+	// Position matches every other content Grid's (140, 52) via Theme's
+	// layout constants - see the comment in MenuGrid.cpp's anonymous
+	// namespace for why (no shared header for these yet).
 	WorldIPLsGrid::WorldIPLsGrid() :
-	    Grid(168.f, 58.f, 300.f)
+	    Grid(140.f, 52.f, Theme::kContentWidth)
 	{
 	}
 

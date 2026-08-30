@@ -2,6 +2,7 @@
 
 #include "GridRenderer.hpp"
 #include "MenuNavigation.hpp"
+#include "Theme.hpp"
 
 #include <algorithm>
 
@@ -9,18 +10,16 @@ namespace YimMenu::Rendering
 {
 	namespace
 	{
-		// Same neutral row background GridItemSidebarList uses for an
-		// inactive entry - a folder row isn't an action (GridItemButton's
-		// bright accent) or a bare value, just another row in the list
-		// that happens to lead somewhere else.
-		constexpr DirectX::XMFLOAT4 kBackground{0.f, 0.f, 0.f, 0.4f};
-		constexpr DirectX::XMFLOAT4 kText{1.f, 1.f, 1.f, 1.f};
 		constexpr float kArrowGap = 10.f;
 	}
 
 	void GridItemFolder::Draw()
 	{
-		GridRenderer::DrawRect(m_X, m_Y, m_Width, m_Height, kBackground);
+		// Same neutral row background GridItemSidebarList uses for an
+		// inactive entry - a folder row isn't an action (GridItemButton's
+		// bright accent) or a bare value, just another row in the list
+		// that happens to lead somewhere else.
+		GridRenderer::DrawRect(m_X, m_Y, m_Width, m_Height, Theme::kPanelBackground);
 	}
 
 	void GridItemFolder::DrawText()
@@ -32,11 +31,11 @@ namespace YimMenu::Rendering
 		// item's own row.
 		const auto labelSize = GridRenderer::MeasureText(m_Label.c_str());
 		const float labelY = m_Y + std::max(0.f, (m_Height - labelSize.y) * 0.5f);
-		GridRenderer::DrawText(m_X + 10.f, labelY, m_Label.c_str(), kText);
+		GridRenderer::DrawText(m_X + 10.f, labelY, m_Label.c_str(), Theme::kText);
 
 		const auto arrowSize = GridRenderer::MeasureText(">");
 		const float arrowY = m_Y + std::max(0.f, (m_Height - arrowSize.y) * 0.5f);
-		GridRenderer::DrawText(m_X + m_Width - arrowSize.x - kArrowGap, arrowY, ">", kText);
+		GridRenderer::DrawText(m_X + m_Width - arrowSize.x - kArrowGap, arrowY, ">", Theme::kText);
 	}
 
 	void GridItemFolder::OnClick(float, float)
