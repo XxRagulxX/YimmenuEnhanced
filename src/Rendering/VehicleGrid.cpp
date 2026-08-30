@@ -1,7 +1,12 @@
 #include "VehicleGrid.hpp"
 
+#include "BoolCommand.hpp"
+#include "Commands.hpp"
 #include "GridItemCommandButton.hpp"
+#include "GridItemCommandInt.hpp"
+#include "GridItemCommandList.hpp"
 #include "GridItemCommandToggle.hpp"
+#include "GridItemConditional.hpp"
 #include "GridItemFolder.hpp"
 #include "GridItemText.hpp"
 #include "Joaat.hpp"
@@ -19,6 +24,18 @@ namespace YimMenu::Rendering
 		// Owned here rather than in MenuGrid.cpp - see SelfGrid.cpp's
 		// identical note about WeaponsGrid.
 		VehicleSpawnGrid g_SpawnContent{};
+
+		// autodrivespeed/autodrivestyle's own MenuVehicle.cpp gate reads
+		// two BoolCommands (autodrive OR npcautodrive), so - same as
+		// SelfGrid.cpp's ShouldClearOrSetWanted() - this needs
+		// GridItemConditional's std::function<bool()> overload rather
+		// than its plain joaat_t one.
+		bool IsAutoDriveEnabled()
+		{
+			auto* playerAutoDrive = Commands::GetCommand<BoolCommand>("autodrive"_J);
+			auto* npcAutoDrive = Commands::GetCommand<BoolCommand>("npcautodrive"_J);
+			return (playerAutoDrive && playerAutoDrive->GetState()) || (npcAutoDrive && npcAutoDrive->GetState());
+		}
 	}
 
 	// Origin (1438, 587) and spacer (3) match every other content Grid's -
@@ -33,21 +50,29 @@ namespace YimMenu::Rendering
 
 	void VehicleGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
-		// Globals (MenuVehicle.cpp's globalsGroup) - the two unconditional
-		// list items (autodrive/npcautodrive/autodrivehud) map directly
-		// onto GridItemCommandToggle; modifyboostbehavior's own toggle
-		// does too, but its ConditionalItem-gated boostbehavior dropdown
-		// is skipped (no list widget yet), as are autodrivespeed/
-		// autodrivestyle (IntCommandItem slider + ListCommandItem, both
-		// gated on autodrive/npcautodrive being on).
+		// Globals (MenuVehicle.cpp's globalsGroup) - boostbehavior is
+		// gated on modifyboostbehavior directly (GridItemConditional's
+		// plain joaat_t overload); autodrivespeed/autodrivestyle are
+		// gated on IsAutoDriveEnabled() above (its combined
+		// autodrive-OR-npcautodrive condition needs the
+		// std::function<bool()> overload instead).
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Globals", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "vehiclegodmode"_J, "Godmode"));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "keepfixed"_J, "Keep Fixed"));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "hornboost"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "modifyboostbehavior"_J));
+		items_draft.push_back(std::make_unique<GridItemConditional>(
+		    std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "boostbehavior"_J),
+		    "modifyboostbehavior"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "autodrive"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "npcautodrive"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "autodrivehud"_J));
+		items_draft.push_back(std::make_unique<GridItemConditional>(
+		    std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "autodrivespeed"_J),
+		    IsAutoDriveEnabled));
+		items_draft.push_back(std::make_unique<GridItemConditional>(
+		    std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "autodrivestyle"_J),
+		    IsAutoDriveEnabled));
 
 		// Tools (toolsGroup) - all plain CommandItem buttons.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Tools", Theme::kText));
