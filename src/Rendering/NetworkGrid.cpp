@@ -1,6 +1,7 @@
 #include "NetworkGrid.hpp"
 
 #include "GridItemCommandButton.hpp"
+#include "GridItemCommandInt.hpp"
 #include "GridItemCommandList.hpp"
 #include "GridItemCommandToggle.hpp"
 #include "GridItemFolder.hpp"
@@ -47,9 +48,11 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "joinsession"_J, "Join"));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "forcequittosp"_J));
 
-		// Bounty (bountyGroup) - only anonymousbounty; see the class
-		// comment for why bountyamount/setbountyall are skipped.
+		// Bounty (bountyGroup) - bountyamount now has a real widget
+		// (GridItemCommandInt); setbountyall is still skipped - see the
+		// class comment for why.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Bounty", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "bountyamount"_J, "Amount"));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "anonymousbounty"_J, "Anonymous"));
 
 		// Troll (trollGroup) - only harassplayers/spamkillfeed; see the

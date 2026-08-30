@@ -1,0 +1,136 @@
+#include "GridItemTextInput.hpp"
+
+#include "GridRenderer.hpp"
+#include "Theme.hpp"
+
+#include <algorithm>
+#include <windows.h>
+
+namespace YimMenu::Rendering
+{
+	namespace
+	{
+		constexpr float kLabelGap = 10.f;
+		constexpr float kValuePaddingX = 6.f;
+	}
+
+	GridItemTextInput::GridItemTextInput(int16_t width, int16_t height, std::string label, std::string initialValue, std::function<void(const std::string&)> onCommit) :
+	    GridItem(GRIDITEM_INDIFFERENT, width, height),
+	    m_Label(std::move(label)),
+	    m_Value(std::move(initialValue)),
+	    m_OnCommit(std::move(onCommit))
+	{
+	}
+
+	void GridItemTextInput::draw()
+	{
+		// Auto-commit if focus moved elsewhere while still editing - see
+		// the class comment in GridItemTextInput.hpp. Checked here since
+		// draw() already runs every frame this item is visible, and
+		// there's no separate "blur" event in this system to hook
+		// instead.
+		if (m_Editing && !isKeyboardFocused())
+			Commit();
+
+		if (isKeyboardFocused())
+			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
+
+		// Value box fills the rest of the row after the label, same
+		// left-to-right sequencing GridItemCommandList uses - see that
+		// widget's own class comment for why (a value box anchored to
+		// this item's own right edge would clip a long label instead).
+		const auto labelWidth = GridRenderer::MeasureText(m_Label.c_str()).x;
+		const auto valueX = x + labelWidth + kLabelGap;
+		const auto valueWidth = std::max(0.f, static_cast<float>(width) - (valueX - x));
+		GridRenderer::DrawRect(valueX, y, valueWidth, height, Theme::kPanelBackground);
+	}
+
+	void GridItemTextInput::drawText()
+	{
+		const auto labelSize = GridRenderer::MeasureText(m_Label.c_str());
+		GridRenderer::DrawText(x, y + std::max(0.f, (height - labelSize.y) * 0.5f), m_Label.c_str(), Theme::kText);
+
+		// A trailing "_" caret while editing - the simplest possible
+		// "you're typing here" indicator without real cursor placement
+		// (see the class comment in the header for why there isn't one).
+		const auto displayValue = m_Editing ? (m_Buffer + "_") : m_Value;
+		const auto valueSize = GridRenderer::MeasureText(displayValue.c_str());
+		const auto labelWidth = GridRenderer::MeasureText(m_Label.c_str()).x;
+		const auto valueX = x + labelWidth + kLabelGap;
+		GridRenderer::DrawText(valueX + kValuePaddingX, y + std::max(0.f, (height - valueSize.y) * 0.5f), displayValue.c_str(), Theme::kText);
+	}
+
+	void GridItemTextInput::onClick(int16_t, int16_t)
+	{
+		activate();
+	}
+
+	void GridItemTextInput::activate()
+	{
+		BeginEditing();
+	}
+
+	void GridItemTextInput::BeginEditing()
+	{
+		// A no-op if already editing - re-clicking (or pressing Enter
+		// on) a field mid-edit would otherwise reset m_Buffer back to
+		// the last committed value, discarding whatever's been typed
+		// since.
+		if (m_Editing)
+			return;
+
+		m_Buffer = m_Value;
+		m_Editing = true;
+	}
+
+	void GridItemTextInput::Commit()
+	{
+		m_Value = m_Buffer;
+		m_Editing = false;
+
+		if (m_OnCommit)
+			m_OnCommit(m_Value);
+	}
+
+	void GridItemTextInput::Cancel()
+	{
+		m_Editing = false;
+	}
+
+	void GridItemTextInput::onChar(wchar_t c)
+	{
+		if (!m_Editing)
+			return;
+
+		// Printable ASCII only - matches this project's existing
+		// StringCommandItem's own 256-byte narrow buffer (src/
+		// StringCommandItem.cpp), no wide-character/IME support.
+		if (c >= 0x20 && c < 0x7f && m_Buffer.size() < 255)
+			m_Buffer.push_back(static_cast<char>(c));
+	}
+
+	void GridItemTextInput::onEditKey(unsigned int vkCode)
+	{
+		if (!m_Editing)
+			return;
+
+		switch (vkCode)
+		{
+		case VK_BACK:
+			if (!m_Buffer.empty())
+				m_Buffer.pop_back();
+			break;
+
+		case VK_RETURN:
+			Commit();
+			break;
+
+		case VK_ESCAPE:
+			Cancel();
+			break;
+
+		default:
+			break;
+		}
+	}
+}

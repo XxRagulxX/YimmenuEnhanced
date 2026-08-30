@@ -145,5 +145,35 @@ namespace YimMenu::Rendering
 		// line (GridItem.cpp) so this header doesn't need to pull in
 		// MenuFocus.hpp/MenuNavigation.hpp itself.
 		[[nodiscard]] bool isKeyboardFocused() const;
+
+		// Whether this item is actively capturing free-text input right
+		// now (see GridItemTextInput) - this project's own addition, for
+		// the same reason isFocusable()/activate()/onArrow() are: Stand
+		// routes free-text entry through its own separate CommandboxInput
+		// system, a whole parallel input mode this project doesn't have.
+		// GridRenderer::WndProcImpl checks this on the keyboard-focused
+		// item (see isKeyboardFocused() above) to decide whether a
+		// keystroke is text being typed (onChar()/onEditKey() below)
+		// rather than list navigation (MenuGrid::HandleKey()). Default
+		// false: only GridItemTextInput (and anything built on it, like
+		// GridItemCommandString) ever returns true.
+		[[nodiscard]] virtual bool isEditingText() const
+		{
+			return false;
+		}
+
+		// A printable character typed while isEditingText() is true -
+		// WM_CHAR's own wParam, verbatim. Default no-op.
+		virtual void onChar(wchar_t)
+		{
+		}
+
+		// A control key pressed while isEditingText() is true (Backspace/
+		// Enter/Escape - see GridItemTextInput::onEditKey() for what each
+		// one does there) - a plain Win32 virtual-key code, same
+		// convention as MenuGrid::HandleKey()'s own vkCode. Default no-op.
+		virtual void onEditKey(unsigned int)
+		{
+		}
 	};
 }

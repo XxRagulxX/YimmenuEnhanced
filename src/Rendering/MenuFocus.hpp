@@ -51,6 +51,17 @@ namespace YimMenu::Rendering
 		// wrapped) to currentContent's own focusable item count.
 		static void MoveContent(Grid* currentContent, int delta);
 
+		// Moves focus directly onto item within currentContent (finds
+		// its index in getFocusableItems()) and switches region to
+		// Content - GridRenderer::WndProcImpl calls this right before
+		// dispatching a mouse click to whatever item was hit, so a click
+		// (not just Up/Down) updates isKeyboardFocused()'s own accent
+		// highlight too, and so a click on a GridItemTextInput is
+		// unambiguously "the" focused item when WndProcImpl later checks
+		// isEditingText() on it for WM_CHAR/WM_KEYDOWN. A no-op if item
+		// isn't actually one of currentContent's own focusable items.
+		static void SetFocusedItem(Grid* currentContent, const GridItem* item);
+
 	private:
 		static Region s_Region;
 		static Grid* s_LastContent;

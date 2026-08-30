@@ -2,6 +2,7 @@
 
 #include "BoolCommand.hpp"
 #include "GUI.hpp"
+#include "MenuFocus.hpp"
 #include "MenuGrid.hpp"
 #include "MenuNavigation.hpp"
 #include "Pointers.hpp"
@@ -146,10 +147,10 @@ namespace YimMenu::Rendering
 	    "The primary menu (sidebar + breadcrumb address bar, Backspace to go back out of a nested "
 	    "category), using the new DirectXTK12/Grid draw pipeline ported from stand-reference's own "
 	    "Menu/Grid.* and Menu/GridItem.* (alignment-relative layout and all). While this is on, the "
-	    "classic ImGui menu doesn't draw at all. Self, Vehicle, Teleport, Network, World, Recovery, "
-	    "Settings and Debug have real content so far - Players and everything else (including any "
-	    "nested category not called out above) shows a placeholder with nothing behind it yet. Turn "
-	    "this off to get the classic menu back for anything not ported here yet.",
+	    "classic ImGui menu doesn't draw at all. Self, Vehicle, Teleport, Network, Players, World, "
+	    "Recovery, Settings and Debug all have real content now - any nested category not covered yet "
+	    "(including Players > Info, still a placeholder) shows one instead. Turn this off to get the "
+	    "classic menu back for anything not ported here yet.",
 	    true};
 
 	static MenuGrid g_MenuGrid{};
@@ -377,6 +378,30 @@ namespace YimMenu::Rendering
 		if (!_StandRendererTest.GetState() || !GUI::IsOpen())
 			return;
 
+		// Text-edit interception: while the keyboard-focused item is a
+		// GridItemTextInput (or anything built on it) actively editing -
+		// see GridItem.hpp's own isEditingText()/onChar()/onEditKey() doc
+		// comments - every character/control key goes to it instead of
+		// MenuGrid::HandleKey()'s normal list navigation, the same way
+		// ImGui's own WantCaptureKeyboard steals input from the game
+		// while an ImGui text field has focus. Checked before anything
+		// else below (including WM_LBUTTONDOWN's own hit test) since
+		// typing shouldn't ever fall through to something else.
+		if (auto* focused = MenuFocus::GetFocusedItem(MenuNavigation::Current()); focused && focused->isEditingText())
+		{
+			if (msg == WM_CHAR)
+			{
+				focused->onChar(static_cast<wchar_t>(wparam));
+				return;
+			}
+
+			if (msg == WM_KEYDOWN)
+			{
+				focused->onEditKey(static_cast<unsigned int>(wparam));
+				return;
+			}
+		}
+
 		if (msg == WM_LBUTTONDOWN)
 		{
 			DirectX::XMFLOAT2 cursor;
@@ -386,7 +411,19 @@ namespace YimMenu::Rendering
 			const auto cursorX = static_cast<int16_t>(cursor.x);
 			const auto cursorY = static_cast<int16_t>(cursor.y);
 			if (auto* item = g_MenuGrid.findItemAt(cursorX, cursorY))
+			{
+				// Syncs MenuFocus to whatever was just clicked (not just
+				// Up/Down-driven navigation) - see SetFocusedItem()'s own
+				// doc comment in MenuFocus.hpp for why: it's what makes
+				// isKeyboardFocused()'s accent highlight track a mouse
+				// click too, and what the text-edit interception above
+				// relies on to know which item is "the" one being edited
+				// after a click starts editing it.
+				if (item->isFocusable())
+					MenuFocus::SetFocusedItem(MenuNavigation::Current(), item);
+
 				item->onClick(cursorX, cursorY);
+			}
 
 			return;
 		}

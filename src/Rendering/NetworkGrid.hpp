@@ -34,10 +34,9 @@ namespace YimMenu::Rendering
 	//
 	// Also NOT included, for the usual reasons:
 	// - joinGroup's raw ImGuiItem (a free-text username/RID joiner with
-	//   its own two buttons) - no text-entry system here yet.
-	// - bountyamount (IntCommandItem bound to a real IntCommand, a
-	//   different thing from GridItemIntStepper's locally-tracked value)
-	//   - no widget wired to a live IntCommand yet.
+	//   its own two buttons) - GridItemTextInput exists now, but nothing
+	//   here composes it with the "Join"/"Cancel" buttons that ImGuiItem
+	//   draws alongside it yet.
 	// All of the above stay reachable via the existing ImGui Network >
 	// Session category, untouched. Populate() also appends a
 	// GridItemFolder row for each of Network's other categories

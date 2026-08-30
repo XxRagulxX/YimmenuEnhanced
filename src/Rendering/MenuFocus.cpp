@@ -65,4 +65,22 @@ namespace YimMenu::Rendering
 		const auto clamped = std::clamp(static_cast<int>(s_ContentIndex) + delta, 0, count - 1);
 		s_ContentIndex = static_cast<size_t>(clamped);
 	}
+
+	void MenuFocus::SetFocusedItem(Grid* currentContent, const GridItem* item)
+	{
+		if (!currentContent || !item)
+			return;
+
+		const auto focusable = currentContent->getFocusableItems();
+		for (size_t i = 0; i < focusable.size(); ++i)
+		{
+			if (focusable[i] == item)
+			{
+				s_LastContent = currentContent;
+				s_ContentIndex = i;
+				s_Region = Region::Content;
+				return;
+			}
+		}
+	}
 }
