@@ -2,6 +2,7 @@
 
 #include "GridItemFolder.hpp"
 #include "GridItemText.hpp"
+#include "LuaScriptsGrid.hpp"
 #include "PlaceholderGrid.hpp"
 #include "SettingsGameGrid.hpp"
 #include "SettingsGuiGrid.hpp"
@@ -18,6 +19,7 @@ namespace YimMenu::Rendering
 		// identical note about WeaponsGrid.
 		SettingsGuiGrid g_GuiContent{};
 		SettingsGameGrid g_GameContent{};
+		LuaScriptsGrid g_LuaScriptsContent{};
 	}
 
 	// Origin (1438, 587) and spacer (3) match every other content Grid's -
@@ -37,7 +39,7 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "GUI", &g_GuiContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Game", &g_GameContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Customize", &GetPlaceholderGrid()));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Lua Scripts", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Lua Scripts", &g_LuaScriptsContent));
 
 		LOGF(INFO, "[GridRenderer] SettingsGrid populated with {} items", items_draft.size());
 	}
