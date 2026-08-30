@@ -22,15 +22,17 @@ namespace YimMenu::Rendering
 
 	void GridItemButton::DrawText()
 	{
+		// Left-aligned with the same ~10px inset every other widget here
+		// uses (GridItemHeader/GridItemToggle/GridItemSidebarList/
+		// GridItemTabsHorizontal) - centring text within a uniformly-wide
+		// button reads as inconsistent once label lengths vary a lot (a
+		// short label floats toward the middle, a long one sits near the
+		// edges), which is exactly what centring did here. Vertical
+		// centring is still clamped to 0: a label taller than m_Height
+		// would otherwise centre upward out of this item's own row.
 		const auto size = GridRenderer::MeasureText(m_Label.c_str());
-		// Clamped to 0: a label wider than m_Width would otherwise centre
-		// to a negative offset, starting to the left of the button itself
-		// (there's no text-wrapping yet, so an oversized label just
-		// overflows the right edge instead once clamped - still readable,
-		// unlike drifting off the left edge of the whole panel).
-		const float textX = m_X + std::max(0.f, (m_Width - size.x) * 0.5f);
 		const float textY = m_Y + std::max(0.f, (m_Height - size.y) * 0.5f);
-		GridRenderer::DrawText(textX, textY, m_Label.c_str(), kText);
+		GridRenderer::DrawText(m_X + 10.f, textY, m_Label.c_str(), kText);
 	}
 
 	void GridItemButton::OnClick(float, float)

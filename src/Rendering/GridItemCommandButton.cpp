@@ -40,14 +40,14 @@ namespace YimMenu::Rendering
 
 	void GridItemCommandButton::DrawText()
 	{
+		// Left-aligned - see the identical comment in GridItemButton.cpp:
+		// centring within a uniformly-wide button reads as inconsistent
+		// once label lengths vary a lot, and every other widget here is
+		// already left-aligned with this same ~10px inset.
 		const auto& label = Label();
 		const auto size = GridRenderer::MeasureText(label.c_str());
-		// Clamped to 0 - see the identical comment in GridItemButton.cpp:
-		// a label wider than m_Width would otherwise centre to a negative
-		// offset, starting left of the button itself.
-		const float textX = m_X + std::max(0.f, (m_Width - size.x) * 0.5f);
 		const float textY = m_Y + std::max(0.f, (m_Height - size.y) * 0.5f);
-		GridRenderer::DrawText(textX, textY, label.c_str(), kText);
+		GridRenderer::DrawText(m_X + 10.f, textY, label.c_str(), kText);
 	}
 
 	void GridItemCommandButton::OnClick(float, float)
