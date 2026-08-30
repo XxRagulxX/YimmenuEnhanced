@@ -43,6 +43,16 @@ namespace YimMenu::Rendering
 		// once from Main(), after Renderer::Init().
 		static void Init();
 
+		// Whether the Stand-style menu is the active UI right now - the
+		// registered BoolCommand's own state (still internally named
+		// "standrenderertest" for settings.json compatibility; see the
+		// note by its registration in GridRenderer.cpp). Menu.cpp checks
+		// this to skip drawing the classic ImGui menu entirely while
+		// this one is active, rather than drawing both on top of each
+		// other - see the note there for what that means for anything
+		// not ported to this renderer yet.
+		static bool IsActive();
+
 		// Draws a solid-colour rectangle in pixel space (top-left origin,
 		// Y down), converting to clip space (NDC) internally. Only valid to
 		// call while a batch is open, i.e. from a GridItem::Draw() invoked

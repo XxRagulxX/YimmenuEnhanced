@@ -15,6 +15,7 @@
 #include "Onboarding.hpp"
 #include "Themes.hpp"
 #include "GUI.hpp"
+#include "Rendering/GridRenderer.hpp"
 
 
 namespace YimMenu
@@ -37,6 +38,15 @@ namespace YimMenu
 		    [&] {
 			    ProcessOnboarding();
 			    if (!GUI::IsOpen())
+				    return;
+
+			    // Skip the classic ImGui menu entirely while the new
+			    // Stand-style renderer (Rendering/GridRenderer.cpp) is
+			    // the active UI, rather than drawing both on top of each
+			    // other - see GridRenderer::IsActive()'s own comment for
+			    // what isn't ported to that renderer yet (still reachable
+			    // by turning its "Stand-Style Menu" toggle off).
+			    if (Rendering::GridRenderer::IsActive())
 				    return;
 
 			    ImGui::PushFont(Menu::Font::g_DefaultFont);
