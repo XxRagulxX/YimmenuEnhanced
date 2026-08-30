@@ -18,13 +18,13 @@ namespace YimMenu::Rendering
 		SettingsGuiGrid g_GuiContent{};
 	}
 
-	// Origin (135, 47) and spacer (3) match every other content Grid's -
+	// Origin (1438, 587) and spacer (3) match every other content Grid's -
 	// see the comment in MenuGrid.cpp's anonymous namespace for why (no
 	// shared header for these yet). Each item below specifies its own
 	// width (Theme::kContentWidth) rather than the Grid itself, matching
 	// Stand's real Grid - see Grid.hpp's class comment.
 	SettingsGrid::SettingsGrid() :
-	    Grid(135, 47, 3)
+	    Grid(1438, 587, 3)
 	{
 	}
 

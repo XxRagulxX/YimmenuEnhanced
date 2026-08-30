@@ -27,6 +27,12 @@ namespace YimMenu::Rendering
 
 	void GridItemIntStepper::draw()
 	{
+		// Full-row keyboard-focus highlight, drawn first so the value box
+		// and buttons below layer on top of it - see the identical
+		// comment in GridItemCommandList.cpp.
+		if (isKeyboardFocused())
+			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
+
 		const auto layout = ComputeLayout();
 
 		GridRenderer::DrawRect(layout.valueX, y, layout.valueWidth, height, Theme::kPanelBackground);
@@ -77,5 +83,15 @@ namespace YimMenu::Rendering
 			m_Value = std::min(m_Max, m_Value + 1);
 		else if (cursorX >= layout.minusX && cursorX < layout.minusX + layout.buttonSize)
 			m_Value = std::max(m_Min, m_Value - 1);
+	}
+
+	bool GridItemIntStepper::onArrow(int delta)
+	{
+		if (delta > 0)
+			m_Value = std::min(m_Max, m_Value + 1);
+		else if (delta < 0)
+			m_Value = std::max(m_Min, m_Value - 1);
+
+		return true;
 	}
 }

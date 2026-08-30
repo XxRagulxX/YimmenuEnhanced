@@ -45,6 +45,17 @@ namespace YimMenu::Rendering
 		void drawText() override;
 		GridItem* findItemAt(int16_t cursorX, int16_t cursorY) override;
 
+		// All keyboard navigation lives here rather than split across
+		// GridRenderer/GridItemSidebarList/MenuFocus - see MenuFocus.hpp
+		// for the model (one of Sidebar/Content has focus at a time) and
+		// GridItem.hpp for why isFocusable()/activate()/onArrow() exist.
+		// vkCode is a plain Win32 virtual-key code (VK_UP, VK_RETURN,
+		// ...) - taken as an unsigned rather than WPARAM so this header
+		// doesn't need <windows.h>; GridRenderer::WndProcImpl (which
+		// already includes it for WM_KEYDOWN itself) casts wparam before
+		// calling this.
+		void HandleKey(unsigned int vkCode);
+
 	protected:
 		void populate(std::vector<std::unique_ptr<GridItem>>& items_draft) override;
 

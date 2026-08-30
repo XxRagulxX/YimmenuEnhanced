@@ -36,6 +36,12 @@ namespace YimMenu::Rendering
 			return m_ActiveIndex;
 		}
 
+		// Keyboard-navigation equivalent of onClick() - moves the active
+		// entry by delta (+1/-1), clamped (not wrapped) to the entry
+		// list's bounds. MenuGrid::HandleKey() calls this for Up/Down
+		// while MenuFocus::Region::Sidebar has focus - see MenuFocus.hpp.
+		void MoveActive(int delta);
+
 	private:
 		float m_EntryHeight;
 		std::vector<std::string> m_Entries;

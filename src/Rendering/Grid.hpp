@@ -65,6 +65,16 @@ namespace YimMenu::Rendering
 		// same underlying check getOccupant() uses.
 		virtual GridItem* findItemAt(int16_t cursor_x, int16_t cursor_y);
 
+		// This project's own addition (see the class comment above) -
+		// every item()->isFocusable() in this Grid, in populate() order,
+		// for MenuFocus (Up/Down keyboard navigation) to index into. A
+		// fresh vector every call rather than a cached one: this Grid's
+		// own item list only ever populates once (see ensurePopulated()),
+		// so there's no invalidation to track, and any single content
+		// Grid's item count is small enough that rebuilding this on every
+		// keypress/frame isn't worth the bookkeeping a cache would need.
+		[[nodiscard]] std::vector<GridItem*> getFocusableItems();
+
 	protected:
 		// Builds items_draft. Called once, lazily, on first draw()/
 		// drawText()/findItemAt() (whichever runs first) - see the class

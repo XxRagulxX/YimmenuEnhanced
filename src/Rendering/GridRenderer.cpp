@@ -3,24 +3,92 @@
 #include "BoolCommand.hpp"
 #include "GUI.hpp"
 #include "MenuGrid.hpp"
-#include "MenuNavigation.hpp"
 #include "Pointers.hpp"
 #include "Renderer.hpp"
+#include "Theme.hpp"
 #include "font_bevietnamprolight.hpp"
 
 #include <RenderTargetState.h>
 #include <ResourceUploadBatch.h>
+#include <algorithm>
 #include <imgui.h>
 
 namespace YimMenu::Rendering
 {
 	namespace
 	{
-		// Cursor position in the same pixel space (client-area, top-left
-		// origin) DrawRect/DrawText and Pointers.ScreenResX/Y already use.
+		// GridItem coordinates (and every Theme.hpp geometry constant)
+		// are defined in Stand's own virtual 1920x1080 "H" (HUD) canvas,
+		// exactly like stand-reference's own GridItem/Renderer classes
+		// (see Rendering/Renderer.hpp's client_size/hudCorrectionC and
+		// {size,pos}{H2C,C2H} in Renderer.cpp) - NOT literal client
+		// pixels, which is what this project treated them as before and
+		// is why the menu was both the wrong size and positioned wrong
+		// (MenuGrid's own default_origin only makes sense as an H-space
+		// coordinate - see the comment by kHeaderX/kHeaderY in
+		// MenuGrid.cpp). H2C below converts an H-space coordinate to a
+		// real client pixel for drawing; C2H does the reverse, for
+		// turning a real OS cursor position back into the same space
+		// GridItem::occupies() and friends compare against.
+		//
+		// hudCorrection lets a non-16:9 client area (ultrawide, or a
+		// window narrower than it is tall) black-bar the extra space
+		// instead of stretching the menu's aspect ratio - same as
+		// Stand's own hudCorrectionC.
+		constexpr float kHudWidth = 1920.f;
+		constexpr float kHudHeight = 1080.f;
+
+		DirectX::XMFLOAT2 GetClientSize()
+		{
+			return {static_cast<float>(*Pointers.ScreenResX), static_cast<float>(*Pointers.ScreenResY)};
+		}
+
+		DirectX::XMFLOAT2 GetHudCorrection(const DirectX::XMFLOAT2& clientSize)
+		{
+			const float expectedWidth = clientSize.y * (16.f / 9.f);
+			if (clientSize.x > expectedWidth)
+				return {(clientSize.x - expectedWidth) * 0.5f, 0.f};
+
+			const float expectedHeight = clientSize.x * (9.f / 16.f);
+			return {0.f, (clientSize.y - expectedHeight) * 0.5f};
+		}
+
+		// Stand's own resolution_text_scale - see Theme::kTextScale's own
+		// doc comment for why text needs this on top of that fixed scale.
+		float GetResolutionTextScale(const DirectX::XMFLOAT2& clientSize)
+		{
+			return std::min(clientSize.x / kHudWidth, clientSize.y / kHudHeight);
+		}
+
+		DirectX::XMFLOAT2 SizeH2C(float x, float y)
+		{
+			const auto clientSize = GetClientSize();
+			const auto correction = GetHudCorrection(clientSize);
+			return {(x / kHudWidth) * (clientSize.x - correction.x * 2.f), (y / kHudHeight) * (clientSize.y - correction.y * 2.f)};
+		}
+
+		DirectX::XMFLOAT2 PosH2C(float x, float y)
+		{
+			const auto clientSize = GetClientSize();
+			const auto correction = GetHudCorrection(clientSize);
+			const auto size = SizeH2C(x, y);
+			return {size.x + correction.x, size.y + correction.y};
+		}
+
+		DirectX::XMFLOAT2 PosC2H(float x, float y)
+		{
+			const auto clientSize = GetClientSize();
+			const auto correction = GetHudCorrection(clientSize);
+			const float cx = x - correction.x;
+			const float cy = y - correction.y;
+			return {(cx / (clientSize.x - correction.x * 2.f)) * kHudWidth, (cy / (clientSize.y - correction.y * 2.f)) * kHudHeight};
+		}
+
+		// Cursor position in H-space (see the block comment above) - what
+		// GridItem::occupies() and friends actually compare against.
 		// Nothing in the codebase already exposes this - GUI.cpp's own
 		// GetCursorPos/SetCursorPos calls only save/restore the OS cursor
-		// across a menu toggle, they don't convert it to this space.
+		// across a menu toggle, they don't convert it to any of this.
 		bool TryGetCursorPos(DirectX::XMFLOAT2& out)
 		{
 			if (!Pointers.Hwnd || !*Pointers.Hwnd)
@@ -31,7 +99,7 @@ namespace YimMenu::Rendering
 				return false;
 
 			ScreenToClient(*Pointers.Hwnd, &cursor);
-			out = {static_cast<float>(cursor.x), static_cast<float>(cursor.y)};
+			out = PosC2H(static_cast<float>(cursor.x), static_cast<float>(cursor.y));
 			return true;
 		}
 	}
@@ -239,6 +307,12 @@ namespace YimMenu::Rendering
 	{
 		using namespace DirectX;
 
+		// x/y/width/height are H-space (see the block comment by
+		// PosH2C/SizeH2C above) - convert to real client pixels before
+		// building NDC coordinates below.
+		const auto posC = PosH2C(x, y);
+		const auto sizeC = SizeH2C(width, height);
+
 		const float screenWidth = static_cast<float>(*Pointers.ScreenResX);
 		const float screenHeight = static_cast<float>(*Pointers.ScreenResY);
 
@@ -247,10 +321,10 @@ namespace YimMenu::Rendering
 			return XMFLOAT3((px / screenWidth) * 2.f - 1.f, 1.f - (py / screenHeight) * 2.f, 0.f);
 		};
 
-		VertexPositionColor v0(toNdc(x, y), colour);
-		VertexPositionColor v1(toNdc(x + width, y), colour);
-		VertexPositionColor v2(toNdc(x + width, y + height), colour);
-		VertexPositionColor v3(toNdc(x, y + height), colour);
+		VertexPositionColor v0(toNdc(posC.x, posC.y), colour);
+		VertexPositionColor v1(toNdc(posC.x + sizeC.x, posC.y), colour);
+		VertexPositionColor v2(toNdc(posC.x + sizeC.x, posC.y + sizeC.y), colour);
+		VertexPositionColor v3(toNdc(posC.x, posC.y + sizeC.y), colour);
 
 		m_Batch->DrawQuad(v0, v1, v2, v3);
 	}
@@ -260,7 +334,15 @@ namespace YimMenu::Rendering
 		if (!m_Font || !m_SpriteBatch)
 			return;
 
-		m_Font->DrawString(m_SpriteBatch.get(), text, DirectX::XMFLOAT2(x, y), DirectX::XMLoadFloat4(&colour));
+		// x/y are H-space, same as DrawRectImpl above. The font itself
+		// draws at Theme::kTextScale * resolution_text_scale - see
+		// Theme::kTextScale's own doc comment for why both factors are
+		// needed (the embedded font's native size vs. this project's row
+		// heights, and H-space vs. the real client resolution).
+		const auto posC = PosH2C(x, y);
+		const auto scale = Theme::kTextScale * GetResolutionTextScale(GetClientSize());
+
+		m_Font->DrawString(m_SpriteBatch.get(), text, DirectX::XMFLOAT2(posC.x, posC.y), DirectX::XMLoadFloat4(&colour), 0.f, DirectX::XMFLOAT2{0.f, 0.f}, DirectX::XMFLOAT2{scale, scale});
 	}
 
 	DirectX::XMFLOAT2 GridRenderer::MeasureTextImpl(const char* text) const
@@ -268,8 +350,18 @@ namespace YimMenu::Rendering
 		if (!m_Font)
 			return {};
 
+		// Deliberately NOT multiplied by resolution_text_scale (unlike
+		// DrawTextImpl's own scale) - this needs to return a size in the
+		// same H-space every GridItem's own x/y/width/height (and this
+		// measurement's callers' layout math) is in, and resolution_text_
+		// scale is exactly the factor that later converts H-space to the
+		// real client resolution. Matches Stand's own getTextWidth()/
+		// trimTextH(), which measure using just settings.scale (Theme::
+		// kTextScale here), never resolution_text_scale.
 		DirectX::XMFLOAT2 size;
 		DirectX::XMStoreFloat2(&size, m_Font->MeasureString(text));
+		size.x *= Theme::kTextScale;
+		size.y *= Theme::kTextScale;
 		return size;
 	}
 
@@ -292,13 +384,16 @@ namespace YimMenu::Rendering
 			return;
 		}
 
-		// Backspace pops MenuNavigation one level - the same "go back"
-		// gesture Stand's own address bar responds to. Guarded on
+		// Every other key this system responds to (Up/Down/Left/Right/
+		// Enter/Backspace - see MenuGrid::HandleKey()) - guarded on
 		// WantCaptureKeyboard so this doesn't fire while a text field
 		// elsewhere (the existing ImGui menu) has keyboard focus and the
-		// user is just backspacing over what they typed there.
-		if (msg == WM_KEYDOWN && wparam == VK_BACK && !ImGui::GetIO().WantCaptureKeyboard)
-			MenuNavigation::Pop();
+		// user is just typing there. WM_KEYDOWN repeats while a key is
+		// held (standard Win32 auto-repeat), which is exactly the "hold
+		// Down to keep moving" feel a menu like this should have -
+		// nothing extra needed here for that.
+		if (msg == WM_KEYDOWN && !ImGui::GetIO().WantCaptureKeyboard)
+			g_MenuGrid.HandleKey(static_cast<unsigned int>(wparam));
 	}
 
 	void GridRenderer::Init()

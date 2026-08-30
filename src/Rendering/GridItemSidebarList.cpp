@@ -47,4 +47,14 @@ namespace YimMenu::Rendering
 			LOGF(INFO, "[GridRenderer] Sidebar entry '{}' clicked", m_Entries[index]);
 		}
 	}
+
+	void GridItemSidebarList::MoveActive(int delta)
+	{
+		if (m_Entries.empty())
+			return;
+
+		const auto count = static_cast<int>(m_Entries.size());
+		const auto clamped = std::clamp(static_cast<int>(m_ActiveIndex) + delta, 0, count - 1);
+		m_ActiveIndex = static_cast<size_t>(clamped);
+	}
 }

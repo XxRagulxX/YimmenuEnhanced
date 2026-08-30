@@ -11,6 +11,7 @@ namespace YimMenu::Rendering
 	namespace
 	{
 		constexpr float kIndicatorSize = 16.f;
+		constexpr float kBorderWidth = 2.f;
 		constexpr float kLabelGap = 10.f;
 	}
 
@@ -32,11 +33,27 @@ namespace YimMenu::Rendering
 
 	void GridItemCommandToggle::draw()
 	{
+		// Full-row keyboard-focus highlight - see the identical comment
+		// in GridItemToggle.cpp.
+		if (isKeyboardFocused())
+			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
+
 		// Clamped to 0 - see the identical comment in GridItemToggle.cpp:
 		// otherwise a negative offset draws above this item's own row.
 		const float indicatorY = y + std::max(0.f, (height - kIndicatorSize) * 0.5f);
-		const auto colour = m_Command ? (m_Command->GetState() ? Theme::kAccent : Theme::kToggleOff) : Theme::kError;
-		GridRenderer::DrawRect(x, indicatorY, kIndicatorSize, kIndicatorSize, colour);
+
+		// A real checkbox (border + inset fill) - see the identical
+		// comment in GridItemToggle.cpp. An unresolved command (m_Command
+		// null) shows fully in Theme::kError, border included, same as
+		// this drew a single flat kError square before.
+		const auto borderColour = m_Command ? Theme::kText : Theme::kError;
+		const auto fillColour = !m_Command ? Theme::kError : (m_Command->GetState() ? Theme::kAccent : Theme::kPanelBackground);
+		GridRenderer::DrawRect(x, indicatorY, kIndicatorSize, kIndicatorSize, borderColour);
+		GridRenderer::DrawRect(x + kBorderWidth,
+		    indicatorY + kBorderWidth,
+		    kIndicatorSize - kBorderWidth * 2.f,
+		    kIndicatorSize - kBorderWidth * 2.f,
+		    fillColour);
 	}
 
 	void GridItemCommandToggle::drawText()
@@ -47,6 +64,11 @@ namespace YimMenu::Rendering
 	}
 
 	void GridItemCommandToggle::onClick(int16_t, int16_t)
+	{
+		activate();
+	}
+
+	void GridItemCommandToggle::activate()
 	{
 		if (!m_Command)
 			return;

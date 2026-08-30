@@ -3,6 +3,7 @@
 #include "GridItemHeader.hpp"
 #include "GridItemSidebarList.hpp"
 #include "GridRenderer.hpp"
+#include "MenuFocus.hpp"
 #include "MenuNavigation.hpp"
 #include "MiscGrid.hpp"
 #include "NetworkGrid.hpp"
@@ -16,13 +17,23 @@
 #include "WorldGrid.hpp"
 
 #include <utility>
+#include <windows.h>
 
 namespace YimMenu::Rendering
 {
 	namespace
 	{
-		constexpr int16_t kHeaderX = 20;
-		constexpr int16_t kHeaderY = 20;
+		// Stand's own real default_origin (src/Menu/MenuGrid.hpp's
+		// MenuGrid::default_origin, { 1323, 560 }), not an arbitrary
+		// top-left placement - Stand's menu opens on the right side of
+		// the screen, roughly vertically centred, and this was wrongly
+		// placed at (20, 20) (top-left) before. Both this and every
+		// Theme.hpp geometry constant are H-space coordinates (Stand's
+		// own virtual 1920x1080 canvas - see GridRenderer::PosH2C/
+		// SizeH2C for how that's mapped onto the real screen
+		// resolution), not literal screen pixels.
+		constexpr int16_t kHeaderX = 1323;
+		constexpr int16_t kHeaderY = 560;
 
 		// Same spacer_size Stand's own MenuGrid uses (Grid(default_origin,
 		// 3)) - the gap this Grid's own alignment engine (ported from
@@ -45,7 +56,7 @@ namespace YimMenu::Rendering
 		constexpr int16_t kContentX = kHeaderX + Theme::kSidebarWidth + kSpacer;
 
 		// Every content grid's own constructor hardcodes its origin to
-		// (kContentX, kContentY) - (135, 47) as of writing - since none
+		// (kContentX, kContentY) - (1438, 587) as of writing - since none
 		// of them are built via this file (no shared header for these
 		// yet - if that stops scaling, it's worth factoring out then).
 
@@ -183,5 +194,87 @@ namespace YimMenu::Rendering
 			return content->findItemAt(cursorX, cursorY);
 
 		return nullptr;
+	}
+
+	void MenuGrid::HandleKey(unsigned int vkCode)
+	{
+		// Keeps m_Sidebar/MenuNavigation::Current() in sync before we
+		// read either below - same call draw()/findItemAt() already
+		// make every frame, safe (and cheap) to call again here too.
+		SyncNavigation();
+
+		switch (vkCode)
+		{
+		case VK_BACK:
+			// Same "go back" gesture as before this method existed -
+			// moved here (from GridRenderer::WndProcImpl directly) so
+			// every key this system handles lives in one place. Content
+			// focus doesn't need resetting explicitly: MenuFocus detects
+			// MenuNavigation::Current() changing underneath it on its
+			// own - see MenuFocus.hpp's class comment.
+			MenuNavigation::Pop();
+			break;
+
+		case VK_UP:
+		case VK_DOWN:
+		{
+			const int delta = (vkCode == VK_DOWN) ? 1 : -1;
+			if (MenuFocus::GetRegion() == MenuFocus::Region::Sidebar)
+			{
+				if (m_Sidebar)
+					m_Sidebar->MoveActive(delta);
+			}
+			else if (auto* content = MenuNavigation::Current())
+			{
+				MenuFocus::MoveContent(content, delta);
+			}
+			break;
+		}
+
+		case VK_LEFT:
+			// Unhandled (nothing focused, or the focused item has no
+			// directly-adjustable value - see GridItem::onArrow()) falls
+			// back to moving focus back to the sidebar, the same
+			// direction Left points visually (sidebar sits to Content's
+			// left).
+			if (MenuFocus::GetRegion() == MenuFocus::Region::Content)
+			{
+				auto* focused = MenuNavigation::Current() ? MenuFocus::GetFocusedItem(MenuNavigation::Current()) : nullptr;
+				if (!focused || !focused->onArrow(-1))
+					MenuFocus::SetRegion(MenuFocus::Region::Sidebar);
+			}
+			break;
+
+		case VK_RIGHT:
+			if (MenuFocus::GetRegion() == MenuFocus::Region::Sidebar)
+			{
+				MenuFocus::SetRegion(MenuFocus::Region::Content);
+			}
+			else if (auto* content = MenuNavigation::Current())
+			{
+				if (auto* focused = MenuFocus::GetFocusedItem(content))
+					focused->onArrow(1);
+			}
+			break;
+
+		case VK_RETURN:
+			if (MenuFocus::GetRegion() == MenuFocus::Region::Sidebar)
+			{
+				// Selecting a sidebar entry already switches content -
+				// GridItemSidebarList::MoveActive() (Up/Down) does that
+				// live, same as Stand's own tab strip; Enter here just
+				// moves focus into what's already showing.
+				MenuFocus::SetRegion(MenuFocus::Region::Content);
+			}
+			else if (auto* content = MenuNavigation::Current())
+			{
+				if (auto* focused = MenuFocus::GetFocusedItem(content))
+					focused->activate();
+			}
+			break;
+
+		default:
+			break;
+		}
 	}
 }

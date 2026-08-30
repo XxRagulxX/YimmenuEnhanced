@@ -53,28 +53,35 @@ namespace YimMenu::Rendering
 		// not ported to this renderer yet.
 		static bool IsActive();
 
-		// Draws a solid-colour rectangle in pixel space (top-left origin,
-		// Y down), converting to clip space (NDC) internally. Only valid to
-		// call while a batch is open, i.e. from a GridItem::Draw() invoked
-		// via Grid::Draw() during our own Direct3DDrawCallBack.
+		// Draws a solid-colour rectangle at an H-space position/size
+		// (top-left origin, Y down - Stand's own virtual 1920x1080 HUD
+		// canvas, same as every GridItem's own x/y/width/height and every
+		// Theme.hpp geometry constant), converting to real client pixels
+		// and then clip space (NDC) internally - see the block comment by
+		// PosH2C/SizeH2C in GridRenderer.cpp. Only valid to call while a
+		// batch is open, i.e. from a GridItem::Draw() invoked via Grid::
+		// Draw() during our own Direct3DDrawCallBack.
 		static void DrawRect(float x, float y, float width, float height, const DirectX::XMFLOAT4& colour)
 		{
 			GetInstance().DrawRectImpl(x, y, width, height, colour);
 		}
 
-		// Draws a UTF-8 text string at a pixel-space position (top-left
-		// origin). Only valid to call from a GridItem::DrawText() invoked
-		// via Grid::DrawText(), i.e. the separate SpriteBatch pass in
-		// DrawImpl. No-ops silently if the embedded font failed to load.
+		// Draws a UTF-8 text string at an H-space position (top-left
+		// origin - see DrawRect's own doc comment above). Only valid to
+		// call from a GridItem::DrawText() invoked via Grid::DrawText(),
+		// i.e. the separate SpriteBatch pass in DrawImpl. No-ops silently
+		// if the embedded font failed to load.
 		static void DrawText(float x, float y, const char* text, const DirectX::XMFLOAT4& colour)
 		{
 			GetInstance().DrawTextImpl(x, y, text, colour);
 		}
 
-		// Measures a UTF-8 text string in pixels (x = width, y = height) for
-		// layout purposes (centering, tab widths, ...). Returns {0, 0} if
-		// the embedded font failed to load. Safe to call any time (does not
-		// require a batch to be open).
+		// Measures a UTF-8 text string in H-space units (x = width,
+		// y = height - see DrawRect's own doc comment above), for layout
+		// purposes (centering, tab widths, ...) against GridItem's own
+		// x/y/width/height. Returns {0, 0} if the embedded font failed to
+		// load. Safe to call any time (does not require a batch to be
+		// open).
 		static DirectX::XMFLOAT2 MeasureText(const char* text)
 		{
 			return GetInstance().MeasureTextImpl(text);

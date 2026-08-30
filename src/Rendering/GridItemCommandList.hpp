@@ -36,7 +36,23 @@ namespace YimMenu::Rendering
 		void drawText() override;
 		void onClick(int16_t cursorX, int16_t cursorY) override;
 
+		bool isFocusable() const override
+		{
+			return true;
+		}
+
+		// Left(-1)/Right(+1) cycles the value directly - same effect as
+		// clicking the "<"/">" buttons (Cycle() below is shared by both).
+		// Always returns true (handled) when a real command is behind
+		// this item with a non-empty list, so MenuGrid::HandleKey() never
+		// falls back to moving focus off this item on Left/Right - only
+		// Backspace/moving to another row does that, matching how a
+		// value like this behaves in Stand itself.
+		bool onArrow(int delta) override;
+
 	private:
+		void Cycle(int direction);
+
 		struct Layout
 		{
 			float valueX;

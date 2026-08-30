@@ -9,7 +9,15 @@ namespace YimMenu::Rendering
 {
 	void GridItemButton::draw()
 	{
-		GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
+		// Theme::kAccent only while keyboard-focused, Theme::kPanelBackground
+		// otherwise - matches Stand's own action-item rows (a plain
+		// translucent row, like any other, that turns its one accent
+		// colour only when the cursor is actually on it). Permanently
+		// accent-filled (this widget's own look before) doesn't match
+		// real Stand at all, and made every button row read as "selected"
+		// simultaneously - see GridItem.hpp's class comment for what
+		// isKeyboardFocused() is.
+		GridRenderer::DrawRect(x, y, width, height, isKeyboardFocused() ? Theme::kAccent : Theme::kPanelBackground);
 	}
 
 	void GridItemButton::drawText()
@@ -29,7 +37,12 @@ namespace YimMenu::Rendering
 
 	void GridItemButton::onClick(int16_t, int16_t)
 	{
-		LOGF(INFO, "[GridRenderer] Button '{}' clicked", m_Label);
+		activate();
+	}
+
+	void GridItemButton::activate()
+	{
+		LOGF(INFO, "[GridRenderer] Button '{}' activated", m_Label);
 
 		if (m_Action)
 			m_Action();

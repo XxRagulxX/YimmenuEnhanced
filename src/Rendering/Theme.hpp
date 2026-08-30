@@ -56,4 +56,20 @@ namespace YimMenu::Rendering::Theme
 	constexpr int16_t kSidebarEntryHeight = 32;
 	constexpr int16_t kContentWidth = 450;
 	constexpr int16_t kContentItemHeight = 32;
+
+	// Stand's own command_text/tabs_text/addressbar_text scale (they're
+	// all defined identically: float(15.0 * TEXT_HEIGHT_PX * 2.0), with
+	// TEXT_HEIGHT_PX = 0.021875 - see stand-reference's src/Rendering/
+	// dx_common.hpp and the TextSettings members in Renderer.hpp/Menu/
+	// MenuGrid.hpp). Stand's embedded SpriteFont (the same "Be Vietnam
+	// Pro" blob this project embeds - see font_bevietnamprolight.hpp) is
+	// baked much larger than any row here is meant to show it at, so
+	// every text draw needs this scale applied - drawing it at the
+	// font's native size (scale 1.0, what this project did before) is
+	// why text looked comically oversized for its row. GridRenderer
+	// applies this once, uniformly, in DrawText()/MeasureText() rather
+	// than per-widget, same as Stand applies command_text.scale/tabs_
+	// text.scale/addressbar_text.scale identically across the same three
+	// widget kinds.
+	constexpr float kTextScale = 0.65625f;
 }

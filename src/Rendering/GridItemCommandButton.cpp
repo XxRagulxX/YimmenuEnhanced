@@ -27,7 +27,12 @@ namespace YimMenu::Rendering
 
 	void GridItemCommandButton::draw()
 	{
-		GridRenderer::DrawRect(x, y, width, height, m_Command ? Theme::kAccent : Theme::kError);
+		// See the identical comment in GridItemButton.cpp - Theme::kAccent
+		// only while keyboard-focused, not permanently. An unresolved
+		// command (m_Command null) stays Theme::kError regardless of
+		// focus, same as it always has.
+		const auto colour = !m_Command ? Theme::kError : (isKeyboardFocused() ? Theme::kAccent : Theme::kPanelBackground);
+		GridRenderer::DrawRect(x, y, width, height, colour);
 	}
 
 	void GridItemCommandButton::drawText()
@@ -43,6 +48,11 @@ namespace YimMenu::Rendering
 	}
 
 	void GridItemCommandButton::onClick(int16_t, int16_t)
+	{
+		activate();
+	}
+
+	void GridItemCommandButton::activate()
 	{
 		if (!m_Command)
 			return;

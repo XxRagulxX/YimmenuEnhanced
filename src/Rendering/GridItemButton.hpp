@@ -24,6 +24,13 @@ namespace YimMenu::Rendering
 		void drawText() override;
 		void onClick(int16_t cursorX, int16_t cursorY) override;
 
+		bool isFocusable() const override
+		{
+			return true;
+		}
+
+		void activate() override;
+
 	private:
 		std::string m_Label;
 		std::function<void()> m_Action;

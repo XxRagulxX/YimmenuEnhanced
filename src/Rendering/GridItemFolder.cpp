@@ -16,10 +16,9 @@ namespace YimMenu::Rendering
 	void GridItemFolder::draw()
 	{
 		// Same neutral row background GridItemSidebarList uses for an
-		// inactive entry - a folder row isn't an action (GridItemButton's
-		// bright accent) or a bare value, just another row in the list
-		// that happens to lead somewhere else.
-		GridRenderer::DrawRect(x, y, width, height, Theme::kPanelBackground);
+		// inactive entry, swapping to Theme::kAccent while keyboard
+		// focus is on this row - see GridItem.hpp's class comment.
+		GridRenderer::DrawRect(x, y, width, height, isKeyboardFocused() ? Theme::kAccent : Theme::kPanelBackground);
 	}
 
 	void GridItemFolder::drawText()
@@ -40,7 +39,12 @@ namespace YimMenu::Rendering
 
 	void GridItemFolder::onClick(int16_t, int16_t)
 	{
-		LOGF(INFO, "[GridRenderer] Folder '{}' clicked", m_Label);
+		activate();
+	}
+
+	void GridItemFolder::activate()
+	{
+		LOGF(INFO, "[GridRenderer] Folder '{}' activated", m_Label);
 
 		MenuNavigation::Push(m_Label, m_Target);
 	}

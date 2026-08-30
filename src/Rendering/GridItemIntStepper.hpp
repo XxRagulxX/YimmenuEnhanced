@@ -27,6 +27,17 @@ namespace YimMenu::Rendering
 		void drawText() override;
 		void onClick(int16_t cursorX, int16_t cursorY) override;
 
+		bool isFocusable() const override
+		{
+			return true;
+		}
+
+		// Left(-1)/Right(+1) steps the value directly, clamped to
+		// [min, max] same as the +/- buttons - see the identical doc
+		// comment on GridItemCommandList::onArrow(). Always returns
+		// true (handled).
+		bool onArrow(int delta) override;
+
 		int GetValue() const
 		{
 			return m_Value;

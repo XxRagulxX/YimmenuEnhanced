@@ -30,6 +30,16 @@ namespace YimMenu::Rendering
 	//   click handling is this project's own addition, kept because
 	//   every widget built on this base still needs some way to react
 	//   to being clicked.
+	// - isFocusable()/activate()/onArrow()/isKeyboardFocused() are this
+	//   project's own addition too, for the same reason: Stand's own
+	//   keyboard navigation moves a cursor through its Command tree
+	//   (CommandList::m_cursor), which doesn't exist here. MenuFocus.hpp
+	//   is this project's flattened equivalent - one focused item at a
+	//   time within whatever content Grid MenuNavigation::Current()
+	//   currently is - and these hooks are how a widget opts into it
+	//   (isFocusable()), reacts to Enter (activate()) and to Left/Right
+	//   (onArrow(), for a value a widget can cycle/step directly instead
+	//   of just leaving focus - see e.g. GridItemCommandList::onArrow()).
 	class GridItem
 	{
 	public:
@@ -96,5 +106,44 @@ namespace YimMenu::Rendering
 		virtual void onClick(int16_t, int16_t)
 		{
 		}
+
+		// Whether this item takes part in keyboard navigation at all -
+		// see the class comment above. Default false: section labels
+		// and chrome (GridItemText, GridItemHeader, ...) aren't
+		// interactive and shouldn't ever receive focus.
+		[[nodiscard]] virtual bool isFocusable() const
+		{
+			return false;
+		}
+
+		// Enter/Space while this item is the keyboard-focused one -
+		// same effect as onClick() for most widgets (they share the
+		// same underlying action, just without a cursor position to
+		// derive which sub-element was hit - see e.g.
+		// GridItemToggle::activate()). Default no-op.
+		virtual void activate()
+		{
+		}
+
+		// Left(-1)/Right(+1) while this item is the keyboard-focused
+		// one, for a widget with its own directly-adjustable value
+		// (GridItemCommandList/GridItemIntStepper) - lets Left/Right
+		// step it in place instead of just leaving focus. Returns
+		// whether it was handled; MenuGrid::HandleKey() falls back to
+		// moving focus back to the sidebar on an unhandled Left, same
+		// as Backspace backing out of a nested category. Default
+		// no-op, returning false (unhandled).
+		virtual bool onArrow(int)
+		{
+			return false;
+		}
+
+		// Whether this item is the one keyboard focus currently sits
+		// on - see MenuFocus.hpp. Only meaningful for an item that's
+		// actually part of MenuNavigation::Current()'s own item list
+		// (true of every content-Grid widget above); defined out of
+		// line (GridItem.cpp) so this header doesn't need to pull in
+		// MenuFocus.hpp/MenuNavigation.hpp itself.
+		[[nodiscard]] bool isKeyboardFocused() const;
 	};
 }

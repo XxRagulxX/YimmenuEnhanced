@@ -190,6 +190,19 @@ namespace YimMenu::Rendering
 		return getOccupant(*items, cursor_x, cursor_y);
 	}
 
+	std::vector<GridItem*> Grid::getFocusableItems()
+	{
+		ensurePopulated();
+
+		std::vector<GridItem*> focusable;
+		for (auto& item : *items)
+		{
+			if (item->isFocusable())
+				focusable.push_back(item.get());
+		}
+		return focusable;
+	}
+
 	void Grid::getBounds(int16_t& x1, int16_t& y1, int16_t& x2, int16_t& y2) const
 	{
 		x1 = SHRT_MAX;

@@ -84,6 +84,12 @@ namespace YimMenu::Rendering
 
 	void GridItemCommandList::draw()
 	{
+		// Full-row keyboard-focus highlight, drawn first so the value box
+		// and buttons below layer on top of it - see GridItem.hpp's class
+		// comment and MenuFocus.hpp.
+		if (isKeyboardFocused())
+			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
+
 		const auto layout = ComputeLayout();
 
 		GridRenderer::DrawRect(layout.valueX, y, layout.valueWidth, height, Theme::kPanelBackground);
@@ -128,10 +134,6 @@ namespace YimMenu::Rendering
 		if (!m_Command)
 			return;
 
-		auto& list = m_Command->GetList();
-		if (list.empty())
-			return;
-
 		const auto layout = ComputeLayout();
 
 		int direction = 0;
@@ -140,6 +142,24 @@ namespace YimMenu::Rendering
 		else if (cursorX >= layout.prevX && cursorX < layout.prevX + layout.buttonSize)
 			direction = -1;
 		else
+			return;
+
+		Cycle(direction);
+	}
+
+	bool GridItemCommandList::onArrow(int delta)
+	{
+		if (!m_Command || m_Command->GetList().empty())
+			return false;
+
+		Cycle(delta > 0 ? 1 : -1);
+		return true;
+	}
+
+	void GridItemCommandList::Cycle(int direction)
+	{
+		auto& list = m_Command->GetList();
+		if (list.empty())
 			return;
 
 		const auto state = m_Command->GetState();
