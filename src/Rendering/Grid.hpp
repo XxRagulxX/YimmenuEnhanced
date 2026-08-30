@@ -2,24 +2,33 @@
 #include "GridItem.hpp"
 #include "Position2d.hpp"
 
+#include <soup/SharedPtr.hpp>
+
 #include <memory>
 #include <vector>
 
 namespace YimMenu::Rendering
 {
 	// Ported from stand-reference's src/Menu/Grid.hpp - same origin/
-	// spacer_size fields, same setPositions()/getOccupant()/
-	// getItemByType() contract. Differences from Stand's real class:
+	// spacer_size/items fields (items is a soup::SharedPtr-wrapped
+	// vector, same as Stand's own - this project already depends on
+	// soup elsewhere (src/PatternBatch.hpp, src/Pointers.cpp, ...), so
+	// porting Stand code that uses a soup:: type keeps using it rather
+	// than substituting something else), same setPositions()/
+	// getOccupant()/getItemByType() contract. Differences from Stand's
+	// real class:
 	//
-	// - items is a plain std::vector, not a soup::SharedPtr-wrapped one.
-	//   Stand swaps the whole vector out from under a still-drawing
-	//   frame because updateNow() runs on a background Worker thread and
-	//   repopulates the list live (e.g. a saved-locations list changing
-	//   while the menu is open); this project has no such background
-	//   refresh - Populate() runs exactly once, lazily, on first use
-	//   (EnsurePopulated() below), same one-shot model this project
-	//   already used before this port. If a content Grid ever needs to
-	//   repopulate itself live, that's the point to revisit this.
+	// - populate() is called once, lazily, on first use
+	//   (ensurePopulated() below) rather than Stand's own repeatable
+	//   update()/updateNow() (which reruns populate() on a background
+	//   Worker thread whenever a Grid's contents need to change live -
+	//   e.g. a saved-locations list changing while the menu is open).
+	//   This project has no Worker-driven live-repopulation model yet,
+	//   so there's nothing to swap items for after the first populate()
+	//   - if a content Grid ever needs to repopulate itself live,
+	//   that's the point to add update()/updateNow() for real, using the
+	//   FiberPool job queue this project already has instead of Stand's
+	//   own Worker.
 	// - draw() only does rects; drawText() is this project's own
 	//   addition, and findItemAt() too - see GridItem.hpp's class
 	//   comment for why (DirectXTK12's two-pass rendering, and this
@@ -85,11 +94,14 @@ namespace YimMenu::Rendering
 		void getDimensions(int16_t& x, int16_t& y, int16_t& width, int16_t& height) const;
 
 	protected:
-		std::vector<std::unique_ptr<GridItem>> items;
+		// Same soup::SharedPtr<std::vector<std::unique_ptr<GridItem>>>
+		// Stand's own Grid uses (see the class comment above for why this
+		// stays a soup type rather than a plain std::vector) - default-
+		// constructed (null) until ensurePopulated()'s first
+		// soup::make_shared call.
+		soup::SharedPtr<std::vector<std::unique_ptr<GridItem>>> items;
 
 	private:
 		void ensurePopulated();
-
-		bool populated = false;
 	};
 }

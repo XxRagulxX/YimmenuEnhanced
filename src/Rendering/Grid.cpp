@@ -7,12 +7,13 @@ namespace YimMenu::Rendering
 {
 	void Grid::ensurePopulated()
 	{
-		if (populated)
+		if (items)
 			return;
 
-		populate(items);
-		setPositions(items);
-		populated = true;
+		auto itemsDraft = soup::make_shared<std::vector<std::unique_ptr<GridItem>>>();
+		populate(*itemsDraft);
+		setPositions(*itemsDraft);
+		items = std::move(itemsDraft);
 	}
 
 	// Ported verbatim from Stand's own Grid::setPositions() (Menu/Grid.cpp).
@@ -153,7 +154,7 @@ namespace YimMenu::Rendering
 
 	GridItem* Grid::getItemByType(GridItemType target) const
 	{
-		return getItemByType(items, target);
+		return getItemByType(*items, target);
 	}
 
 	GridItem* Grid::getItemByType(const std::vector<std::unique_ptr<GridItem>>& items, GridItemType target)
@@ -170,7 +171,7 @@ namespace YimMenu::Rendering
 	{
 		ensurePopulated();
 
-		for (auto& item : items)
+		for (auto& item : *items)
 			item->draw();
 	}
 
@@ -178,7 +179,7 @@ namespace YimMenu::Rendering
 	{
 		ensurePopulated();
 
-		for (auto& item : items)
+		for (auto& item : *items)
 			item->drawText();
 	}
 
@@ -186,7 +187,7 @@ namespace YimMenu::Rendering
 	{
 		ensurePopulated();
 
-		return getOccupant(items, cursor_x, cursor_y);
+		return getOccupant(*items, cursor_x, cursor_y);
 	}
 
 	void Grid::getBounds(int16_t& x1, int16_t& y1, int16_t& x2, int16_t& y2) const
@@ -195,7 +196,7 @@ namespace YimMenu::Rendering
 		y1 = SHRT_MAX;
 		x2 = 0;
 		y2 = 0;
-		for (const auto& item : items)
+		for (const auto& item : *items)
 		{
 			if (item->x < x1)
 				x1 = item->x;
