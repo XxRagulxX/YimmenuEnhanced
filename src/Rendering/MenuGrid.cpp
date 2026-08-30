@@ -5,6 +5,7 @@
 #include "GridRenderer.hpp"
 #include "MenuNavigation.hpp"
 #include "MiscGrid.hpp"
+#include "NetworkGrid.hpp"
 #include "PlaceholderGrid.hpp"
 #include "RecoveryGrid.hpp"
 #include "SelfGrid.hpp"
@@ -60,6 +61,7 @@ namespace YimMenu::Rendering
 		SelfGrid g_SelfContent{};
 		VehicleGrid g_VehicleContent{};
 		TeleportGrid g_TeleportContent{};
+		NetworkGrid g_NetworkContent{};
 		RecoveryGrid g_RecoveryContent{};
 		WorldGrid g_WorldContent{};
 		SettingsGrid g_SettingsContent{};
@@ -105,7 +107,7 @@ namespace YimMenu::Rendering
 		    {kSelfIndex, "Self", &g_SelfContent},
 		    {kVehicleIndex, "Vehicle", &g_VehicleContent},
 		    {kTeleportIndex, "Teleport", &g_TeleportContent},
-		    {kNetworkIndex, "Network", &GetPlaceholderGrid()},
+		    {kNetworkIndex, "Network", &g_NetworkContent},
 		    {kPlayersIndex, "Players", &GetPlaceholderGrid()},
 		    {kWorldIndex, "World", &g_WorldContent},
 		    {kRecoveryIndex, "Recovery", &g_RecoveryContent},

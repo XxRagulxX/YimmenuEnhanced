@@ -24,11 +24,11 @@ namespace YimMenu::Rendering
 	// Backspace (MenuNavigation::Pop(), wired in GridRenderer.cpp).
 	//
 	// Every sidebar entry has a root Grid (m_Roots below) - real content
-	// where it exists (SelfGrid, VehicleGrid, ..., SettingsGrid), the
-	// shared PlaceholderGrid for anything not ported yet (Network,
-	// Players as of writing). There's no separate "nothing selected"
-	// placeholder path any more: MenuNavigation::Current() is always
-	// valid once Populate() has run once.
+	// where it exists (SelfGrid, VehicleGrid, ..., NetworkGrid,
+	// SettingsGrid), the shared PlaceholderGrid for anything not ported
+	// yet (Players as of writing). There's no separate "nothing
+	// selected" placeholder path any more: MenuNavigation::Current() is
+	// always valid once Populate() has run once.
 	class MenuGrid : public Grid
 	{
 	public:
