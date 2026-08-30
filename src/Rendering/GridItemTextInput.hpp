@@ -63,6 +63,29 @@ namespace YimMenu::Rendering
 		void onChar(wchar_t c) override;
 		void onEditKey(unsigned int vkCode) override;
 
+		// The last committed value (Enter, or auto-commit on blur) -
+		// what a caller needing "whatever's currently typed here" reads,
+		// same as onCommit's own argument. Not live while mid-edit (see
+		// onChange instead for that); a caller wanting the in-progress
+		// buffer itself has no way to reach it, matching how nothing
+		// else in this system reads a GridItemTextInput's state from
+		// outside the onCommit/onChange callbacks either.
+		const std::string& GetValue() const
+		{
+			return m_Value;
+		}
+
+		// Overwrites the committed value from outside (e.g. a "Populate
+		// Name" button copying some other live value in) - does not run
+		// onCommit and does not touch an in-progress edit's own buffer,
+		// so typing into the field mid-edit still works exactly as
+		// before; the new value only becomes visible once editing stops
+		// (or immediately, if not currently editing).
+		void SetValue(std::string value)
+		{
+			m_Value = std::move(value);
+		}
+
 	private:
 		void BeginEditing();
 		void Commit();
