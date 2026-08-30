@@ -1,5 +1,6 @@
 #include "WeaponsGrid.hpp"
 
+#include "AmmuNationGrid.hpp"
 #include "BoolCommand.hpp"
 #include "CommandCustomWeapon.hpp"
 #include "Commands.hpp"
@@ -137,11 +138,10 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "givemaxammo"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "opengunlocker"_J));
 
-		// Ammu-Nation (weaponsAmmuNationGroup) is a hand-rolled ImGui
-		// weapon search/stats/list-box UI with no Grid equivalent widgets
-		// yet - deferred to Phase 3 once the searchable-list primitive
-		// (GridItemSelectList) has a search-list-plus-detail-pane
-		// consumer to model it on.
+		// Ammu-Nation (weaponsAmmuNationGroup) - see AddAmmuNationRows()'s
+		// own doc comment for what it covers.
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Ammu-Nation", Theme::kText));
+		AddAmmuNationRows(items_draft, Theme::kContentWidth);
 
 		// Gun Van (weaponsGunVanGroup) - all three items are
 		// unconditional (two ListCommandItems, now that
