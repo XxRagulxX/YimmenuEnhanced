@@ -5,8 +5,11 @@
 #include "GridItemTabsHorizontal.hpp"
 #include "GridRenderer.hpp"
 #include "MiscGrid.hpp"
+#include "RecoveryGrid.hpp"
 #include "SelfGrid.hpp"
+#include "TeleportGrid.hpp"
 #include "VehicleGrid.hpp"
+#include "WorldGrid.hpp"
 
 #include <utility>
 
@@ -34,10 +37,9 @@ namespace YimMenu::Rendering
 		constexpr float kTabsY = kSidebarY;
 		constexpr float kTabsH = 28.f;
 
-		// SelfGrid.cpp's/VehicleGrid.cpp's/MiscGrid.cpp's constructors
-		// must match these exactly (no shared header for these yet - if
-		// a fourth content grid needs the same position, that's worth
-		// factoring out then).
+		// Every content grid's own constructor must match these exactly
+		// (no shared header for these yet - if that stops scaling, it's
+		// worth factoring out then).
 		constexpr float kContentX = kTabsX;
 		constexpr float kContentY = kTabsY + kTabsH + kChromeGap;
 
@@ -48,6 +50,9 @@ namespace YimMenu::Rendering
 		// decides when any of them is actually shown.
 		SelfGrid g_SelfContent{};
 		VehicleGrid g_VehicleContent{};
+		TeleportGrid g_TeleportContent{};
+		RecoveryGrid g_RecoveryContent{};
+		WorldGrid g_WorldContent{};
 		MiscGrid g_MiscContent{};
 	}
 
@@ -93,8 +98,26 @@ namespace YimMenu::Rendering
 		m_Items.push_back(std::move(sidebar));
 
 		m_Submenus.push_back(MakeSubmenu(kSelfIndex, {"Main", "Weapons", "Outfit Editor"}, {&g_SelfContent, nullptr, nullptr}));
-		m_Submenus.push_back(MakeSubmenu(kVehicleIndex, {"Main", "Spawn", "Edit", "Saved"}, {&g_VehicleContent, nullptr, nullptr, nullptr}));
+		// Tab labels are the actual Category names from MenuVehicle.cpp
+		// (Main, then BuildSpawnVehicleMenu()/BuildVehicleEditorMenu()/
+		// BuildSavedVehiclesMenu()'s own Category("Spawn")/("Vehicle
+		// Editor")/("Saved Vehicles")) - not guessed abbreviations.
+		m_Submenus.push_back(MakeSubmenu(kVehicleIndex, {"Main", "Spawn", "Vehicle Editor", "Saved Vehicles"}, {&g_VehicleContent, nullptr, nullptr, nullptr}));
 		m_Submenus.push_back(MakeSubmenu(kDebugIndex, {"Misc", "Globals", "Locals", "Scripts"}, {&g_MiscContent, nullptr, nullptr, nullptr}));
+		m_Submenus.push_back(MakeSubmenu(kTeleportIndex, {"Main", "Saved"}, {&g_TeleportContent, nullptr}));
+		// Tab labels are the actual Category names from MenuRecovery.cpp
+		// (Main, Businesses, then BuildHeistModifierMenu()/
+		// BuildDailyActivitiesMenu()/BuildStatEditorMenu()/
+		// BuildTransactionsMenu()'s own Category("Heists")/("Daily
+		// Activities")/("Stat Editor")/("Transactions"), Casino, then
+		// BuildUnlockerMenu()'s own Category("Unlocks")).
+		m_Submenus.push_back(MakeSubmenu(kRecoveryIndex,
+		    {"Main", "Businesses", "Heists", "Daily Activities", "Stat Editor", "Transactions", "Casino", "Unlocks"},
+		    {&g_RecoveryContent, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}));
+		// Tab labels are the actual Category names from MenuWorld.cpp
+		// (Main, then BuildSpawnPedMenu()'s own Category("Spawn Ped"),
+		// IPLs).
+		m_Submenus.push_back(MakeSubmenu(kWorldIndex, {"Main", "Spawn Ped", "IPLs"}, {&g_WorldContent, nullptr, nullptr}));
 
 		LOGF(INFO, "[GridRenderer] MenuGrid populated with {} chrome items", m_Items.size());
 	}

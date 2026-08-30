@@ -41,6 +41,9 @@ namespace YimMenu::Rendering
 		// Indices into the sidebar's entry list.
 		static constexpr size_t kSelfIndex = 0;
 		static constexpr size_t kVehicleIndex = 1;
+		static constexpr size_t kTeleportIndex = 2;
+		static constexpr size_t kWorldIndex = 5;
+		static constexpr size_t kRecoveryIndex = 6;
 		static constexpr size_t kDebugIndex = 8;
 
 		// One sidebar entry that has its own tab strip. Tabs owns the
