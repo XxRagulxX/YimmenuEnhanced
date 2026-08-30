@@ -16,8 +16,8 @@ namespace YimMenu::Rendering
 		constexpr float kValuePadding = 16.f; // left+right padding inside the value box
 	}
 
-	GridItemCommandList::GridItemCommandList(float height, joaat_t id, std::optional<std::string> labelOverride) :
-	    GridItem(height),
+	GridItemCommandList::GridItemCommandList(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride) :
+	    GridItem(GRIDITEM_INDIFFERENT, width, height),
 	    m_Command(Commands::GetCommand<ListCommand>(id)),
 	    m_LabelOverride(std::move(labelOverride))
 	{
@@ -76,22 +76,22 @@ namespace YimMenu::Rendering
 		// why (a wide option label would otherwise run back underneath
 		// the label text on the left).
 		const auto labelWidth = GridRenderer::MeasureText(Label().c_str()).x;
-		layout.valueX = m_X + labelWidth + kLabelGap;
+		layout.valueX = x + labelWidth + kLabelGap;
 		layout.prevX = layout.valueX + layout.valueWidth + kGap;
 		layout.nextX = layout.prevX + layout.buttonSize + kGap;
 		return layout;
 	}
 
-	void GridItemCommandList::Draw()
+	void GridItemCommandList::draw()
 	{
 		const auto layout = ComputeLayout();
 
-		GridRenderer::DrawRect(layout.valueX, m_Y, layout.valueWidth, m_Height, Theme::kPanelBackground);
-		GridRenderer::DrawRect(layout.prevX, m_Y, layout.buttonSize, m_Height, Theme::kAccent);
-		GridRenderer::DrawRect(layout.nextX, m_Y, layout.buttonSize, m_Height, Theme::kAccent);
+		GridRenderer::DrawRect(layout.valueX, y, layout.valueWidth, height, Theme::kPanelBackground);
+		GridRenderer::DrawRect(layout.prevX, y, layout.buttonSize, height, Theme::kAccent);
+		GridRenderer::DrawRect(layout.nextX, y, layout.buttonSize, height, Theme::kAccent);
 	}
 
-	void GridItemCommandList::DrawText()
+	void GridItemCommandList::drawText()
 	{
 		// Every centring offset below is clamped to 0 - see the identical
 		// comment in GridItemToggle.cpp: otherwise text taller/wider than
@@ -101,29 +101,29 @@ namespace YimMenu::Rendering
 
 		const auto& label = Label();
 		const auto labelSize = GridRenderer::MeasureText(label.c_str());
-		GridRenderer::DrawText(m_X, m_Y + std::max(0.f, (m_Height - labelSize.y) * 0.5f), label.c_str(), Theme::kText);
+		GridRenderer::DrawText(x, y + std::max(0.f, (height - labelSize.y) * 0.5f), label.c_str(), Theme::kText);
 
 		const auto* valueText = CurrentItemText();
 		const auto valueSize = GridRenderer::MeasureText(valueText);
 		GridRenderer::DrawText(layout.valueX + std::max(0.f, (layout.valueWidth - valueSize.x) * 0.5f),
-		    m_Y + std::max(0.f, (m_Height - valueSize.y) * 0.5f),
+		    y + std::max(0.f, (height - valueSize.y) * 0.5f),
 		    valueText,
 		    m_Command ? Theme::kText : Theme::kError);
 
 		const auto prevSize = GridRenderer::MeasureText("<");
 		GridRenderer::DrawText(layout.prevX + std::max(0.f, (layout.buttonSize - prevSize.x) * 0.5f),
-		    m_Y + std::max(0.f, (m_Height - prevSize.y) * 0.5f),
+		    y + std::max(0.f, (height - prevSize.y) * 0.5f),
 		    "<",
 		    Theme::kText);
 
 		const auto nextSize = GridRenderer::MeasureText(">");
 		GridRenderer::DrawText(layout.nextX + std::max(0.f, (layout.buttonSize - nextSize.x) * 0.5f),
-		    m_Y + std::max(0.f, (m_Height - nextSize.y) * 0.5f),
+		    y + std::max(0.f, (height - nextSize.y) * 0.5f),
 		    ">",
 		    Theme::kText);
 	}
 
-	void GridItemCommandList::OnClick(float cursorX, float)
+	void GridItemCommandList::onClick(int16_t cursorX, int16_t)
 	{
 		if (!m_Command)
 			return;

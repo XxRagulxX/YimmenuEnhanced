@@ -20,42 +20,44 @@ namespace YimMenu::Rendering
 		RecoveryBusinessesGrid g_BusinessesContent{};
 	}
 
-	// Position matches every other content Grid's (140, 52) via Theme's
-	// layout constants - see the comment in MenuGrid.cpp's anonymous
-	// namespace for why (no shared header for these yet).
+	// Origin (135, 47) and spacer (3) match every other content Grid's -
+	// see the comment in MenuGrid.cpp's anonymous namespace for why (no
+	// shared header for these yet). Each item below specifies its own
+	// width (Theme::kContentWidth) rather than the Grid itself, matching
+	// Stand's real Grid - see Grid.hpp's class comment.
 	RecoveryGrid::RecoveryGrid() :
-	    Grid(140.f, 52.f, Theme::kContentWidth)
+	    Grid(135, 47, 3)
 	{
 	}
 
-	void RecoveryGrid::Populate()
+	void RecoveryGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
 		// General (MenuRecovery.cpp's generalGroup) - every unconditional
 		// BoolCommandItem maps directly onto GridItemCommandToggle.
 		// rpmultiplierinput is skipped: it's a ConditionalItem gated on
 		// overriderpmultiplier, and this system has no float widget yet.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "General", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "playallmissionssolo"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "unlockgtaplus"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "overriderpmultiplier"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "freechangeappearance"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "nochangeappearancecooldown"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "allowgenderchange"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "General", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playallmissionssolo"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "unlockgtaplus"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "overriderpmultiplier"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "freechangeappearance"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "nochangeappearancecooldown"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "allowgenderchange"_J));
 
 		// Recovery's other categories (Businesses/Casino, plus
 		// BuildHeistModifierMenu()/BuildDailyActivitiesMenu()/
 		// BuildStatEditorMenu()/BuildTransactionsMenu()/
 		// BuildUnlockerMenu()). Businesses now has its own content Grid;
 		// the other six are still placeholder-only.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Categories", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Businesses", &g_BusinessesContent));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Heists", &GetPlaceholderGrid()));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Daily Activities", &GetPlaceholderGrid()));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Stat Editor", &GetPlaceholderGrid()));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Transactions", &GetPlaceholderGrid()));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Casino", &GetPlaceholderGrid()));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Unlocks", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Businesses", &g_BusinessesContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Heists", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Daily Activities", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Stat Editor", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Transactions", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Casino", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Unlocks", &GetPlaceholderGrid()));
 
-		LOGF(INFO, "[GridRenderer] RecoveryGrid populated with {} items", m_Items.size());
+		LOGF(INFO, "[GridRenderer] RecoveryGrid populated with {} items", items_draft.size());
 	}
 }

@@ -24,10 +24,10 @@ namespace YimMenu::Rendering
 		MiscGrid();
 
 	protected:
-		void Populate() override;
+		void populate(std::vector<std::unique_ptr<GridItem>>& items_draft) override;
 
 	private:
-		// Non-owning: m_Items owns the actual objects. Kept so the
+		// Non-owning: the Grid's own item list owns the actual objects. Kept so the
 		// DoTeleport/DoTeamSwap button callbacks can read their current
 		// values at click time - mirrors Misc.cpp's own function-local
 		// static int/bool captured by its ImGui button lambdas.

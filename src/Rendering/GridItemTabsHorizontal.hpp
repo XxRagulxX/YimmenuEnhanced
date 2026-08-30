@@ -21,30 +21,27 @@ namespace YimMenu::Rendering
 	{
 	public:
 		GridItemTabsHorizontal(float height, std::vector<std::string> tabs, size_t activeIndex) :
-		    GridItem(height),
+		    GridItem(GRIDITEM_TABS, static_cast<int16_t>(GetTotalWidth(tabs)), static_cast<int16_t>(height)),
 		    m_Tabs(std::move(tabs)),
 		    m_ActiveIndex(activeIndex)
 		{
 		}
 
-		void Draw() override;
-		void DrawText() override;
-		void OnClick(float cursorX, float cursorY) override;
+		void draw() override;
+		void drawText() override;
+		void onClick(int16_t cursorX, int16_t cursorY) override;
 
 		size_t GetActiveIndex() const
 		{
 			return m_ActiveIndex;
 		}
 
-		// Sum of every tab's rendered width + gaps - the actual bounds
-		// Draw() paints, unlike m_Width (unused by this widget's own
-		// Draw/DrawText/OnClick, which lay out from m_X using natural
-		// per-label widths). Callers that position this item manually
-		// (MenuGrid) should pass this to SetPosition()'s width parameter
-		// so GridItem::Contains() hit-tests the right region.
-		float GetTotalWidth() const;
-
 	private:
+		// Sum of every tab's rendered width + gaps - computed up front
+		// (GridItem now needs its width at construction, unlike before
+		// this port) rather than lazily after positioning.
+		static float GetTotalWidth(const std::vector<std::string>& tabs);
+
 		std::vector<std::string> m_Tabs;
 		size_t m_ActiveIndex;
 	};

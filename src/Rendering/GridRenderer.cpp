@@ -63,10 +63,11 @@ namespace YimMenu::Rendering
 	static StandRendererTest _StandRendererTest{"standrenderertest",
 	    "Stand Renderer Test",
 	    "Shows a Stand-style rebuild of the menu (sidebar + breadcrumb address bar, Backspace to go "
-	    "back out of a nested category) using the new DirectXTK12/Grid draw pipeline. Self, Vehicle, "
-	    "Teleport, World, Recovery and Debug have real content so far - everything else (including "
-	    "any nested category not called out above) shows a placeholder. Use the regular menu for "
-	    "anything not yet migrated."};
+	    "back out of a nested category) using the new DirectXTK12/Grid draw pipeline, itself ported "
+	    "from stand-reference's own Menu/Grid.* and Menu/GridItem.* (alignment-relative layout and "
+	    "all). Self, Vehicle, Teleport, Network, World, Recovery, Settings and Debug have real "
+	    "content so far - Players and everything else (including any nested category not called out "
+	    "above) shows a placeholder. Use the regular menu for anything not yet migrated."};
 
 	static MenuGrid g_MenuGrid{};
 
@@ -180,7 +181,7 @@ namespace YimMenu::Rendering
 		if (GUI::IsOpen())
 		{
 			DirectX::XMFLOAT2 cursor;
-			if (TryGetCursorPos(cursor) && g_MenuGrid.FindItemAt(cursor.x, cursor.y))
+			if (TryGetCursorPos(cursor) && g_MenuGrid.findItemAt(static_cast<int16_t>(cursor.x), static_cast<int16_t>(cursor.y)))
 				ImGui::SetNextFrameWantCaptureMouse(true);
 		}
 
@@ -201,7 +202,7 @@ namespace YimMenu::Rendering
 			m_Effect->Apply(commandList);
 			m_Batch->Begin(commandList);
 
-			g_MenuGrid.Draw();
+			g_MenuGrid.draw();
 
 			m_Batch->End();
 		}
@@ -218,7 +219,7 @@ namespace YimMenu::Rendering
 			m_SpriteBatch->SetViewport(viewport);
 			m_SpriteBatch->Begin(commandList);
 
-			g_MenuGrid.DrawText();
+			g_MenuGrid.drawText();
 
 			m_SpriteBatch->End();
 		}
@@ -275,8 +276,10 @@ namespace YimMenu::Rendering
 			if (!TryGetCursorPos(cursor))
 				return;
 
-			if (auto* item = g_MenuGrid.FindItemAt(cursor.x, cursor.y))
-				item->OnClick(cursor.x, cursor.y);
+			const auto cursorX = static_cast<int16_t>(cursor.x);
+			const auto cursorY = static_cast<int16_t>(cursor.y);
+			if (auto* item = g_MenuGrid.findItemAt(cursorX, cursorY))
+				item->onClick(cursorX, cursorY);
 
 			return;
 		}

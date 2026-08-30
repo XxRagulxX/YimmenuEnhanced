@@ -15,37 +15,39 @@ namespace YimMenu::Rendering
 		constexpr float kItemH = Theme::kContentItemHeight;
 	}
 
-	// Position matches every other content Grid's (140, 52) via Theme's
-	// layout constants - see the comment in MenuGrid.cpp's anonymous
-	// namespace for why (no shared header for these yet).
+	// Origin (135, 47) and spacer (3) match every other content Grid's -
+	// see the comment in MenuGrid.cpp's anonymous namespace for why (no
+	// shared header for these yet). Each item below specifies its own
+	// width (Theme::kContentWidth) rather than the Grid itself, matching
+	// Stand's real Grid - see Grid.hpp's class comment.
 	WeaponsGrid::WeaponsGrid() :
-	    Grid(140.f, 52.f, Theme::kContentWidth)
+	    Grid(135, 47, 3)
 	{
 	}
 
-	void WeaponsGrid::Populate()
+	void WeaponsGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
 		// Tools (weaponsToolsGroup) - all plain CommandItem buttons.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Tools", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "giveallweapons"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "givemaxammo"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "opengunlocker"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Tools", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "giveallweapons"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "givemaxammo"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "opengunlocker"_J));
 
 		// Gun Van (weaponsGunVanGroup) - all three items are
 		// unconditional (two ListCommandItems, now that
 		// GridItemCommandList exists, plus a plain CommandItem button).
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Gun Van", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandList>(kItemH, "gunvan_weapon"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandList>(kItemH, "gunvan_slot"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "gunvan_apply"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Gun Van", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "gunvan_weapon"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "gunvan_slot"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "gunvan_apply"_J));
 
 		// Aimbot (weaponsAimbotGroup) - only the one unconditional
 		// toggle; aimbotaimforhead/aimbottargetdrivers/
 		// aimbotreleasedeadped are all ConditionalItems gated on aimbot
 		// being on, skipped like every other ConditionalItem here.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Aimbot", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "aimbot"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Aimbot", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "aimbot"_J));
 
-		LOGF(INFO, "[GridRenderer] WeaponsGrid populated with {} items", m_Items.size());
+		LOGF(INFO, "[GridRenderer] WeaponsGrid populated with {} items", items_draft.size());
 	}
 }

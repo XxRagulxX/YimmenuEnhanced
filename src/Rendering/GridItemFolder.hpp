@@ -17,16 +17,16 @@ namespace YimMenu::Rendering
 	class GridItemFolder : public GridItem
 	{
 	public:
-		GridItemFolder(float height, std::string label, Grid* target) :
-		    GridItem(height),
+		GridItemFolder(int16_t width, int16_t height, std::string label, Grid* target) :
+		    GridItem(GRIDITEM_INDIFFERENT, width, height),
 		    m_Label(std::move(label)),
 		    m_Target(target)
 		{
 		}
 
-		void Draw() override;
-		void DrawText() override;
-		void OnClick(float cursorX, float cursorY) override;
+		void draw() override;
+		void drawText() override;
+		void onClick(int16_t cursorX, int16_t cursorY) override;
 
 	private:
 		std::string m_Label;

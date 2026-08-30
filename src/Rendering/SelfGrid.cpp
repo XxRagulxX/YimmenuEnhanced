@@ -23,57 +23,59 @@ namespace YimMenu::Rendering
 		WeaponsGrid g_WeaponsContent{};
 	}
 
-	// Position matches every other content Grid's (140, 52) via Theme's
-	// layout constants - see the comment in MenuGrid.cpp's anonymous
-	// namespace for why (no shared header for these yet).
+	// Origin (135, 47) and spacer (3) match every other content Grid's -
+	// see the comment in MenuGrid.cpp's anonymous namespace for why (no
+	// shared header for these yet). Each item below specifies its own
+	// width (Theme::kContentWidth) rather than the Grid itself, matching
+	// Stand's real Grid - see Grid.hpp's class comment.
 	SelfGrid::SelfGrid() :
-	    Grid(140.f, 52.f, Theme::kContentWidth)
+	    Grid(135, 47, 3)
 	{
 	}
 
-	void SelfGrid::Populate()
+	void SelfGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
 		// Globals (MenuSelf.cpp's globalsGroup) - every item here is an
 		// unconditional BoolCommandItem in the original, so all nine map
 		// directly onto GridItemCommandToggle. localvis is skipped: it's a
 		// ConditionalItem gated on invis, and this system has no
 		// conditional-visibility widget yet.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Globals", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "godmode"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "invis"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "otr"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "noragdoll"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "noidlekick"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "unlimitedoxygen"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "mobileradio"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "keepplayerclean"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "disablecriticalhits"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Globals", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "godmode"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "invis"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "otr"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "noragdoll"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "noidlekick"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "unlimitedoxygen"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mobileradio"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "keepplayerclean"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "disablecriticalhits"_J));
 
 		// Tools (toolsGroup) - all plain CommandItem buttons.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Tools", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "skipcutscene"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "skipconversation"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "suicide"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "heal"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "cleardamage"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "fillinventory"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "openwardrobe"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Tools", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "skipcutscene"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "skipconversation"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "suicide"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "heal"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "cleardamage"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "fillinventory"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "openwardrobe"_J));
 
 		// Special Ability (specialAbilityGroup) - only the two
 		// unconditional toggles; the ListCommandItem dropdown is gated
 		// behind a ConditionalItem on mpspecialability, skipped for the
 		// same reason as localvis above.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Special Ability", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "infspecialability"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "mpspecialability"_J, "Enable in MP"));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Special Ability", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "infspecialability"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mpspecialability"_J, "Enable in MP"));
 
 		// Self's other categories (MenuSelf.cpp's BuildWeaponsMenu()/
 		// CreateOutfitsMenu()). Weapons now has its own content Grid
 		// (WeaponsGrid); Outfit Editor is still placeholder-only.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Categories", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Weapons", &g_WeaponsContent));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Outfit Editor", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Weapons", &g_WeaponsContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Outfit Editor", &GetPlaceholderGrid()));
 
-		LOGF(INFO, "[GridRenderer] SelfGrid populated with {} items", m_Items.size());
+		LOGF(INFO, "[GridRenderer] SelfGrid populated with {} items", items_draft.size());
 	}
 }

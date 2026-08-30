@@ -14,8 +14,8 @@ namespace YimMenu::Rendering
 	class GridItemIntStepper : public GridItem
 	{
 	public:
-		GridItemIntStepper(float height, std::string label, int initialValue, int min, int max) :
-		    GridItem(height),
+		GridItemIntStepper(int16_t width, int16_t height, std::string label, int initialValue, int min, int max) :
+		    GridItem(GRIDITEM_INDIFFERENT, width, height),
 		    m_Label(std::move(label)),
 		    m_Value(initialValue),
 		    m_Min(min),
@@ -23,9 +23,9 @@ namespace YimMenu::Rendering
 		{
 		}
 
-		void Draw() override;
-		void DrawText() override;
-		void OnClick(float cursorX, float cursorY) override;
+		void draw() override;
+		void drawText() override;
+		void onClick(int16_t cursorX, int16_t cursorY) override;
 
 		int GetValue() const
 		{

@@ -28,20 +28,25 @@ namespace YimMenu::Rendering
 	// SettingsGrid), the shared PlaceholderGrid for anything not ported
 	// yet (Players as of writing). There's no separate "nothing
 	// selected" placeholder path any more: MenuNavigation::Current() is
-	// always valid once Populate() has run once.
+	// always valid once populate() has run once.
+	//
+	// header/sidebar are just two GRIDITEM_PRIMARYTEXT/GRIDITEM_TABS
+	// items in this Grid's own list now, positioned by the ported
+	// alignment engine (sidebar's default ALIGN_BOTTOM_LEFT stacks it
+	// under header, keeping header's own x) rather than hardcoded
+	// SetPosition() calls - see populate().
 	class MenuGrid : public Grid
 	{
 	public:
 		MenuGrid();
 		~MenuGrid() override;
 
-		void Draw() override;
-		void DrawText() override;
-		GridItem* FindItemAt(float cursorX, float cursorY) override;
+		void draw() override;
+		void drawText() override;
+		GridItem* findItemAt(int16_t cursorX, int16_t cursorY) override;
 
 	protected:
-		void Populate() override;
-		void SetPositions() override; // no-op: Populate() positions everything itself
+		void populate(std::vector<std::unique_ptr<GridItem>>& items_draft) override;
 
 	private:
 		struct SubmenuRoot
@@ -53,8 +58,8 @@ namespace YimMenu::Rendering
 
 		// Resets MenuNavigation to the sidebar's currently active entry's
 		// root, but only when that selection actually changed since the
-		// last call - cheap to call every frame (Draw()/DrawText()/
-		// FindItemAt() all do), and idempotent otherwise.
+		// last call - cheap to call every frame (draw()/drawText()/
+		// findItemAt() all do), and idempotent otherwise.
 		void SyncNavigation();
 
 		GridItemHeader* m_Header = nullptr;

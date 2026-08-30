@@ -13,65 +13,65 @@ namespace YimMenu::Rendering
 		constexpr float kTabGap = 6.f;
 	}
 
-	void GridItemTabsHorizontal::Draw()
+	void GridItemTabsHorizontal::draw()
 	{
-		float x = m_X;
+		float drawX = x;
 		for (size_t i = 0; i < m_Tabs.size(); ++i)
 		{
 			const float tabWidth = GridRenderer::MeasureText(m_Tabs[i].c_str()).x + kTabPaddingX * 2.f;
 			GridRenderer::DrawRect(
-			    x,
-			    m_Y,
+			    drawX,
+			    y,
 			    tabWidth,
-			    m_Height,
+			    height,
 			    i == m_ActiveIndex ? Theme::kAccent : Theme::kPanelBackground);
-			x += tabWidth + kTabGap;
+			drawX += tabWidth + kTabGap;
 		}
 	}
 
-	void GridItemTabsHorizontal::DrawText()
+	void GridItemTabsHorizontal::drawText()
 	{
-		float x = m_X;
+		float drawX = x;
 		for (const auto& tab : m_Tabs)
 		{
 			const auto size = GridRenderer::MeasureText(tab.c_str());
 			const float tabWidth = size.x + kTabPaddingX * 2.f;
 			// Clamped to 0 - see the identical comment in
-			// GridItemToggle.cpp: otherwise a label taller than m_Height
+			// GridItemToggle.cpp: otherwise a label taller than height
 			// centres upward out of this item's own row.
-			const float textY = m_Y + std::max(0.f, (m_Height - size.y) * 0.5f);
-			GridRenderer::DrawText(x + kTabPaddingX, textY, tab.c_str(), Theme::kText);
-			x += tabWidth + kTabGap;
+			const float textY = y + std::max(0.f, (height - size.y) * 0.5f);
+			GridRenderer::DrawText(drawX + kTabPaddingX, textY, tab.c_str(), Theme::kText);
+			drawX += tabWidth + kTabGap;
 		}
 	}
 
-	float GridItemTabsHorizontal::GetTotalWidth() const
+	float GridItemTabsHorizontal::GetTotalWidth(const std::vector<std::string>& tabs)
 	{
-		float width = 0.f;
-		for (size_t i = 0; i < m_Tabs.size(); ++i)
+		float totalWidth = 0.f;
+		for (size_t i = 0; i < tabs.size(); ++i)
 		{
-			width += GridRenderer::MeasureText(m_Tabs[i].c_str()).x + kTabPaddingX * 2.f;
-			if (i + 1 < m_Tabs.size())
-				width += kTabGap;
+			totalWidth += GridRenderer::MeasureText(tabs[i].c_str()).x + kTabPaddingX * 2.f;
+			if (i + 1 < tabs.size())
+				totalWidth += kTabGap;
 		}
-		return width;
+		return totalWidth;
 	}
 
-	void GridItemTabsHorizontal::OnClick(float cursorX, float)
+	void GridItemTabsHorizontal::onClick(int16_t cursorX, int16_t)
 	{
-		// Recompute the same per-tab segment boundaries Draw() lays out,
+		// Recompute the same per-tab segment boundaries draw() lays out,
 		// and find which one cursorX falls into.
-		float x = m_X;
+		float drawX = x;
 		for (size_t i = 0; i < m_Tabs.size(); ++i)
 		{
 			const float tabWidth = GridRenderer::MeasureText(m_Tabs[i].c_str()).x + kTabPaddingX * 2.f;
-			if (cursorX >= x && cursorX < x + tabWidth)
+			if (cursorX >= drawX && cursorX < drawX + tabWidth)
 			{
 				m_ActiveIndex = i;
 				LOGF(INFO, "[GridRenderer] Tab '{}' clicked", m_Tabs[i]);
 				return;
 			}
-			x += tabWidth + kTabGap;
+			drawX += tabWidth + kTabGap;
 		}
 	}
 }

@@ -14,7 +14,7 @@ namespace YimMenu::Rendering
 		PlaceholderGrid();
 
 	protected:
-		void Populate() override;
+		void populate(std::vector<std::unique_ptr<GridItem>>& items_draft) override;
 	};
 
 	// Meyer's singleton (function-local static) rather than a file-scope

@@ -7,40 +7,40 @@
 
 namespace YimMenu::Rendering
 {
-	void GridItemSidebarList::Draw()
+	void GridItemSidebarList::draw()
 	{
 		for (size_t i = 0; i < m_Entries.size(); ++i)
 		{
-			const float y = m_Y + m_EntryHeight * static_cast<float>(i);
+			const float rowY = y + m_EntryHeight * static_cast<float>(i);
 			GridRenderer::DrawRect(
-			    m_X,
-			    y,
-			    m_Width,
+			    x,
+			    rowY,
+			    width,
 			    m_EntryHeight,
 			    i == m_ActiveIndex ? Theme::kAccent : Theme::kPanelBackground);
 		}
 	}
 
-	void GridItemSidebarList::DrawText()
+	void GridItemSidebarList::drawText()
 	{
 		for (size_t i = 0; i < m_Entries.size(); ++i)
 		{
-			const float y = m_Y + m_EntryHeight * static_cast<float>(i);
+			const float rowY = y + m_EntryHeight * static_cast<float>(i);
 			const auto size = GridRenderer::MeasureText(m_Entries[i].c_str());
 			// Clamped to 0 - see the identical comment in
 			// GridItemToggle.cpp: otherwise a label taller than
 			// m_EntryHeight centres upward out of this entry's own row.
 			GridRenderer::DrawText(
-			    m_X + 10.f,
-			    y + std::max(0.f, (m_EntryHeight - size.y) * 0.5f),
+			    x + 10.f,
+			    rowY + std::max(0.f, (m_EntryHeight - size.y) * 0.5f),
 			    m_Entries[i].c_str(),
 			    Theme::kText);
 		}
 	}
 
-	void GridItemSidebarList::OnClick(float, float cursorY)
+	void GridItemSidebarList::onClick(int16_t, int16_t cursorY)
 	{
-		const auto index = static_cast<size_t>((cursorY - m_Y) / m_EntryHeight);
+		const auto index = static_cast<size_t>((cursorY - y) / m_EntryHeight);
 		if (index < m_Entries.size())
 		{
 			m_ActiveIndex = index;

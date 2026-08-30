@@ -13,32 +13,32 @@ namespace YimMenu::Rendering
 		constexpr float kArrowGap = 10.f;
 	}
 
-	void GridItemFolder::Draw()
+	void GridItemFolder::draw()
 	{
 		// Same neutral row background GridItemSidebarList uses for an
 		// inactive entry - a folder row isn't an action (GridItemButton's
 		// bright accent) or a bare value, just another row in the list
 		// that happens to lead somewhere else.
-		GridRenderer::DrawRect(m_X, m_Y, m_Width, m_Height, Theme::kPanelBackground);
+		GridRenderer::DrawRect(x, y, width, height, Theme::kPanelBackground);
 	}
 
-	void GridItemFolder::DrawText()
+	void GridItemFolder::drawText()
 	{
 		// Left-aligned label (same ~10px inset as every other row here),
 		// right-aligned ">" - both clamped to 0 the same way every other
 		// widget in this system is (see GridItemToggle.cpp's comment):
-		// otherwise text taller than m_Height centres upward out of this
+		// otherwise text taller than height centres upward out of this
 		// item's own row.
 		const auto labelSize = GridRenderer::MeasureText(m_Label.c_str());
-		const float labelY = m_Y + std::max(0.f, (m_Height - labelSize.y) * 0.5f);
-		GridRenderer::DrawText(m_X + 10.f, labelY, m_Label.c_str(), Theme::kText);
+		const float labelY = y + std::max(0.f, (height - labelSize.y) * 0.5f);
+		GridRenderer::DrawText(x + 10.f, labelY, m_Label.c_str(), Theme::kText);
 
 		const auto arrowSize = GridRenderer::MeasureText(">");
-		const float arrowY = m_Y + std::max(0.f, (m_Height - arrowSize.y) * 0.5f);
-		GridRenderer::DrawText(m_X + m_Width - arrowSize.x - kArrowGap, arrowY, ">", Theme::kText);
+		const float arrowY = y + std::max(0.f, (height - arrowSize.y) * 0.5f);
+		GridRenderer::DrawText(x + width - arrowSize.x - kArrowGap, arrowY, ">", Theme::kText);
 	}
 
-	void GridItemFolder::OnClick(float, float)
+	void GridItemFolder::onClick(int16_t, int16_t)
 	{
 		LOGF(INFO, "[GridRenderer] Folder '{}' clicked", m_Label);
 

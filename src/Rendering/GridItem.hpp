@@ -1,66 +1,100 @@
 #pragma once
+#include "Alignment.hpp"
+#include "GridItemType.hpp"
+
+#include <climits>
+#include <cstdint>
 
 namespace YimMenu::Rendering
 {
-	// Base for a single widget in a Grid. Mirrors stand-reference's
-	// src/Menu/GridItem.hpp/.cpp: a retained-mode leaf node whose
-	// position/size is assigned once by its owning Grid's layout pass, and
-	// whose virtual Draw() issues the actual draw calls (via GridRenderer)
-	// every frame - no rebuilding of the widget itself per frame.
+	// Ported from stand-reference's src/Menu/GridItem.hpp - same fields,
+	// same names, same alignment-relative positioning contract (Grid::
+	// setPositions() assigns x/y; onPositioned() is the hook a subclass
+	// overrides to react). Two differences from Stand's real class:
+	//
+	// - draw() is split into draw()/drawText(), not one draw(). Stand's
+	//   own D3D11 renderer defers every draw call into a sorted list and
+	//   flushes it in one pass at frame end, so a single draw() is free
+	//   to intermix rect and text calls in any order. This project's
+	//   DirectXTK12 renderer instead opens one PrimitiveBatch (rects)
+	//   and one SpriteBatch (text) per frame as two separate scopes -
+	//   see GridRenderer::DrawImpl - so every item's rect work has to
+	//   happen in one pass and its text work in another. Not a stylistic
+	//   choice; the two batch types are different pipeline states that
+	//   can't be freely interleaved within one Begin/End scope.
+	// - onClick() exists here; Stand's own GridItem has no such hook,
+	//   since Stand routes interactivity through its Command tree
+	//   instead (a GridItemList's rows each resolve back to a Command,
+	//   which is what actually reacts to a click) - a whole system this
+	//   project hasn't ported. Until it has, GridItem owning its own
+	//   click handling is this project's own addition, kept because
+	//   every widget built on this base still needs some way to react
+	//   to being clicked.
 	class GridItem
 	{
 	public:
-		explicit GridItem(float height) :
-		    m_Height(height)
+		const GridItemType type;
+		int16_t x = SHRT_MIN;
+		int16_t y = SHRT_MIN;
+		int16_t width;
+		int16_t height;
+		uint8_t priority;
+		Alignment alignment_relative_to_last;
+		GridItem* force_alignment_to;
+		bool keep_pos = false;
+
+		explicit GridItem(GridItemType type,
+		    int16_t width,
+		    int16_t height,
+		    uint8_t priority = 0,
+		    Alignment alignment_relative_to_last = ALIGN_BOTTOM_LEFT,
+		    GridItem* force_alignment_to = nullptr) :
+		    type(type),
+		    width(width),
+		    height(height),
+		    priority(priority),
+		    alignment_relative_to_last(alignment_relative_to_last),
+		    force_alignment_to(force_alignment_to)
 		{
 		}
 
 		virtual ~GridItem() = default;
 
-		// Solid-colour/background draws (PrimitiveBatch pass).
-		virtual void Draw() = 0;
+		// Pixel-space hit test against this item's assigned bounds -
+		// Stand's own occupies(), used both for click dispatch here and
+		// for Grid's own occupancy-conflict resolution during layout.
+		[[nodiscard]] bool occupies(int16_t px, int16_t py) const
+		{
+			return x <= px && px <= (x + width) && y <= py && py <= (y + height);
+		}
 
-		// Text draws (SpriteBatch pass, a separate batch type/pipeline
-		// state from Draw() above - see GridRenderer::DrawImpl). Default
-		// no-op: most items have no text of their own.
-		virtual void DrawText()
+		// Called by Grid::setPositions() right after it assigns x/y -
+		// Stand's own hook for a subclass that needs to react to being
+		// (re)positioned. Default no-op, same as Stand's.
+		virtual void onPositioned()
 		{
 		}
 
-		void SetPosition(float x, float y, float width)
-		{
-			m_X = x;
-			m_Y = y;
-			m_Width = width;
-		}
-
-		float GetHeight() const
-		{
-			return m_Height;
-		}
-
-		// Pixel-space hit test against this item's assigned bounds (same
-		// coordinate space as GridRenderer::DrawRect/DrawText - top-left
-		// origin, Y down). Mirrors stand-reference's own cursor-vs-bounds
-		// comparisons (e.g. GridItemList.cpp) rather than any OS hit-testing.
-		bool Contains(float cursorX, float cursorY) const
-		{
-			return cursorX >= m_X && cursorX < m_X + m_Width && cursorY >= m_Y && cursorY < m_Y + m_Height;
-		}
-
-		// Called when this item is clicked (cursor was inside Contains()
-		// bounds at the moment of a mouse-down). cursorX/Y are given in
-		// case a widget needs to know where within itself the click
-		// landed (e.g. which segment of a tab strip). Default no-op: most
-		// items don't respond to clicks (yet - no real command wiring).
-		virtual void OnClick(float cursorX, float cursorY)
+		// Solid-colour/background draws (PrimitiveBatch pass). Default
+		// no-op: most items look different enough (button fill, toggle
+		// indicator, ...) that there's no one shared "background" worth
+		// defaulting to, unlike Stand's own draw() (which always paints
+		// g_renderer.getBgRectColour() unless overridden).
+		virtual void draw()
 		{
 		}
 
-	protected:
-		float m_X{};
-		float m_Y{};
-		float m_Width{};
-		float m_Height{};
+		// Text draws (SpriteBatch pass) - see the class comment above
+		// for why this is separate from draw(). Default no-op: most
+		// chrome items have no text of their own.
+		virtual void drawText()
+		{
+		}
+
+		// This project's own addition - see the class comment above.
+		// Default no-op: most items don't respond to clicks.
+		virtual void onClick(int16_t, int16_t)
+		{
+		}
 	};
 }

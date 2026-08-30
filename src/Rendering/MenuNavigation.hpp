@@ -19,7 +19,7 @@ namespace YimMenu::Rendering
 	// A free-standing global (not a member of MenuGrid) on purpose:
 	// GridItemFolder - built inside content Grids like SelfGrid/
 	// VehicleGrid, which have no reference to MenuGrid itself - needs to
-	// push onto this directly from OnClick(). MenuGrid only reads it
+	// push onto this directly from onClick(). MenuGrid only reads it
 	// (Current()/BreadcrumbPath()) and resets it when the sidebar
 	// selection changes (Reset()).
 	class MenuNavigation
@@ -45,8 +45,8 @@ namespace YimMenu::Rendering
 		// at the root, which always stays on the stack.
 		static void Pop();
 
-		// The Grid currently on top of the stack - what MenuGrid::Draw()/
-		// DrawText()/FindItemAt() should actually delegate to. nullptr
+		// The Grid currently on top of the stack - what MenuGrid::draw()/
+		// drawText()/findItemAt() should actually delegate to. nullptr
 		// only before the first Reset() call.
 		static Grid* Current();
 

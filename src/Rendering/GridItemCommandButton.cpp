@@ -9,8 +9,8 @@
 
 namespace YimMenu::Rendering
 {
-	GridItemCommandButton::GridItemCommandButton(float height, joaat_t id, std::optional<std::string> labelOverride) :
-	    GridItem(height),
+	GridItemCommandButton::GridItemCommandButton(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride) :
+	    GridItem(GRIDITEM_INDIFFERENT, width, height),
 	    m_Command(Commands::GetCommand<Command>(id)),
 	    m_LabelOverride(std::move(labelOverride))
 	{
@@ -25,12 +25,12 @@ namespace YimMenu::Rendering
 		return m_LabelOverride.has_value() ? *m_LabelOverride : m_Command->GetLabel();
 	}
 
-	void GridItemCommandButton::Draw()
+	void GridItemCommandButton::draw()
 	{
-		GridRenderer::DrawRect(m_X, m_Y, m_Width, m_Height, m_Command ? Theme::kAccent : Theme::kError);
+		GridRenderer::DrawRect(x, y, width, height, m_Command ? Theme::kAccent : Theme::kError);
 	}
 
-	void GridItemCommandButton::DrawText()
+	void GridItemCommandButton::drawText()
 	{
 		// Left-aligned - see the identical comment in GridItemButton.cpp:
 		// centring within a uniformly-wide button reads as inconsistent
@@ -38,11 +38,11 @@ namespace YimMenu::Rendering
 		// already left-aligned with this same ~10px inset.
 		const auto& label = Label();
 		const auto size = GridRenderer::MeasureText(label.c_str());
-		const float textY = m_Y + std::max(0.f, (m_Height - size.y) * 0.5f);
-		GridRenderer::DrawText(m_X + 10.f, textY, label.c_str(), Theme::kText);
+		const float textY = y + std::max(0.f, (height - size.y) * 0.5f);
+		GridRenderer::DrawText(x + 10.f, textY, label.c_str(), Theme::kText);
 	}
 
-	void GridItemCommandButton::OnClick(float, float)
+	void GridItemCommandButton::onClick(int16_t, int16_t)
 	{
 		if (!m_Command)
 			return;

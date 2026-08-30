@@ -16,11 +16,11 @@ namespace YimMenu::Rendering
 	class GridItemCommandButton : public GridItem
 	{
 	public:
-		GridItemCommandButton(float height, joaat_t id, std::optional<std::string> labelOverride = std::nullopt);
+		GridItemCommandButton(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride = std::nullopt);
 
-		void Draw() override;
-		void DrawText() override;
-		void OnClick(float cursorX, float cursorY) override;
+		void draw() override;
+		void drawText() override;
+		void onClick(int16_t cursorX, int16_t cursorY) override;
 
 	private:
 		const std::string& Label() const;

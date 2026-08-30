@@ -14,8 +14,8 @@ namespace YimMenu::Rendering
 		constexpr float kLabelGap = 10.f;
 	}
 
-	GridItemCommandToggle::GridItemCommandToggle(float height, joaat_t id, std::optional<std::string> labelOverride) :
-	    GridItem(height),
+	GridItemCommandToggle::GridItemCommandToggle(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride) :
+	    GridItem(GRIDITEM_INDIFFERENT, width, height),
 	    m_Command(Commands::GetCommand<BoolCommand>(id)),
 	    m_LabelOverride(std::move(labelOverride))
 	{
@@ -30,23 +30,23 @@ namespace YimMenu::Rendering
 		return m_LabelOverride.has_value() ? *m_LabelOverride : m_Command->GetLabel();
 	}
 
-	void GridItemCommandToggle::Draw()
+	void GridItemCommandToggle::draw()
 	{
 		// Clamped to 0 - see the identical comment in GridItemToggle.cpp:
 		// otherwise a negative offset draws above this item's own row.
-		const float indicatorY = m_Y + std::max(0.f, (m_Height - kIndicatorSize) * 0.5f);
+		const float indicatorY = y + std::max(0.f, (height - kIndicatorSize) * 0.5f);
 		const auto colour = m_Command ? (m_Command->GetState() ? Theme::kAccent : Theme::kToggleOff) : Theme::kError;
-		GridRenderer::DrawRect(m_X, indicatorY, kIndicatorSize, kIndicatorSize, colour);
+		GridRenderer::DrawRect(x, indicatorY, kIndicatorSize, kIndicatorSize, colour);
 	}
 
-	void GridItemCommandToggle::DrawText()
+	void GridItemCommandToggle::drawText()
 	{
 		const auto& label = Label();
-		const float textY = m_Y + std::max(0.f, (m_Height - GridRenderer::MeasureText(label.c_str()).y) * 0.5f);
-		GridRenderer::DrawText(m_X + kIndicatorSize + kLabelGap, textY, label.c_str(), Theme::kText);
+		const float textY = y + std::max(0.f, (height - GridRenderer::MeasureText(label.c_str()).y) * 0.5f);
+		GridRenderer::DrawText(x + kIndicatorSize + kLabelGap, textY, label.c_str(), Theme::kText);
 	}
 
-	void GridItemCommandToggle::OnClick(float, float)
+	void GridItemCommandToggle::onClick(int16_t, int16_t)
 	{
 		if (!m_Command)
 			return;

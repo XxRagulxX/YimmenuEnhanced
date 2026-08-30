@@ -15,36 +15,38 @@ namespace YimMenu::Rendering
 		constexpr float kItemH = Theme::kContentItemHeight;
 	}
 
-	// Position matches every other content Grid's (140, 52) via Theme's
-	// layout constants - see the comment in MenuGrid.cpp's anonymous
-	// namespace for why (no shared header for these yet).
+	// Origin (135, 47) and spacer (3) match every other content Grid's -
+	// see the comment in MenuGrid.cpp's anonymous namespace for why (no
+	// shared header for these yet). Each item below specifies its own
+	// width (Theme::kContentWidth) rather than the Grid itself, matching
+	// Stand's real Grid - see Grid.hpp's class comment.
 	SettingsGuiGrid::SettingsGuiGrid() :
-	    Grid(140.f, 52.f, Theme::kContentWidth)
+	    Grid(135, 47, 3)
 	{
 	}
 
-	void SettingsGuiGrid::Populate()
+	void SettingsGuiGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
 		// General - unloadmenu is added directly to MenuSettings.cpp's
 		// gui Category with no wrapping Group of its own.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "General", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "unloadmenu"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "General", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "unloadmenu"_J));
 
 		// UI (uiStyle) - styleselector is an unconditional ListCommandItem,
 		// now that GridItemCommandList exists.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "UI", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandList>(kItemH, "styleselector"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "UI", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "styleselector"_J));
 
 		// Overlay - only the one unconditional toggle; overlayfps/
 		// overlaypos/overlaylock are all ConditionalItems gated on it,
 		// skipped like every other ConditionalItem here.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Overlay", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "overlay"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Overlay", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "overlay"_J));
 
 		// Chat - clearchat is a plain CommandItem button.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Chat", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "clearchat"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Chat", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "clearchat"_J));
 
-		LOGF(INFO, "[GridRenderer] SettingsGuiGrid populated with {} items", m_Items.size());
+		LOGF(INFO, "[GridRenderer] SettingsGuiGrid populated with {} items", items_draft.size());
 	}
 }

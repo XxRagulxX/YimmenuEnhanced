@@ -1,6 +1,8 @@
 #pragma once
 #include <DirectXMath.h>
 
+#include <cstdint>
+
 namespace YimMenu::Rendering::Theme
 {
 	// Stand's own default (unthemed) look - see stand-reference's src/
@@ -41,14 +43,17 @@ namespace YimMenu::Rendering::Theme
 	constexpr DirectX::XMFLOAT4 kError{0.6f, 0.2f, 0.2f, 1.f};
 	constexpr DirectX::XMFLOAT4 kPlaceholderText{0.7f, 0.7f, 0.7f, 1.f};
 
-	// Layout, matching stand-reference's Renderer defaults exactly:
-	// addressbar_height (the header/breadcrumb bar), tabs_width/
-	// tabs_height (the left-hand submenu list - "sidebar" everywhere
-	// else in this system), command_width/command_height (the main
-	// content list's own column width and each row's height).
-	constexpr float kHeaderHeight = 24.f;
-	constexpr float kSidebarWidth = 112.f;
-	constexpr float kSidebarEntryHeight = 32.f;
-	constexpr float kContentWidth = 450.f;
-	constexpr float kContentItemHeight = 32.f;
+	// Layout, matching stand-reference's Renderer defaults exactly -
+	// int16_t, same as Stand's own addressbar_height/tabs_width/
+	// tabs_height/command_width/command_height fields (and GridItem's
+	// own x/y/width/height, ported the same way - see GridItem.hpp).
+	// addressbar_height is the header/breadcrumb bar; tabs_width/
+	// tabs_height are the left-hand submenu list ("sidebar" everywhere
+	// else in this system); command_width/command_height are the main
+	// content list's own column width and each row's height.
+	constexpr int16_t kHeaderHeight = 24;
+	constexpr int16_t kSidebarWidth = 112;
+	constexpr int16_t kSidebarEntryHeight = 32;
+	constexpr int16_t kContentWidth = 450;
+	constexpr int16_t kContentItemHeight = 32;
 }

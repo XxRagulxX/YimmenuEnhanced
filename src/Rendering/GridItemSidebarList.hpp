@@ -12,20 +12,24 @@ namespace YimMenu::Rendering
 	// entry switches which one is active; GetActiveIndex() lets the owning
 	// Grid (MenuGrid) read the current selection to decide what content to
 	// draw.
+	//
+	// Typed GRIDITEM_TABS, matching Stand's own GridItemTabsVertical -
+	// this plays the exact same "submenu list" role Stand's own tabs_pos
+	// = LEFT vertical tab strip does.
 	class GridItemSidebarList : public GridItem
 	{
 	public:
-		GridItemSidebarList(float entryHeight, std::vector<std::string> entries, size_t activeIndex) :
-		    GridItem(entryHeight * static_cast<float>(entries.size())),
+		GridItemSidebarList(int16_t width, float entryHeight, std::vector<std::string> entries, size_t activeIndex) :
+		    GridItem(GRIDITEM_TABS, width, static_cast<int16_t>(entryHeight * static_cast<float>(entries.size()))),
 		    m_EntryHeight(entryHeight),
 		    m_Entries(std::move(entries)),
 		    m_ActiveIndex(activeIndex)
 		{
 		}
 
-		void Draw() override;
-		void DrawText() override;
-		void OnClick(float cursorX, float cursorY) override;
+		void draw() override;
+		void drawText() override;
+		void onClick(int16_t cursorX, int16_t cursorY) override;
 
 		size_t GetActiveIndex() const
 		{

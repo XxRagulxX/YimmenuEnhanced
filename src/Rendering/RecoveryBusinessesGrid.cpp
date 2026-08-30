@@ -15,43 +15,45 @@ namespace YimMenu::Rendering
 		constexpr float kItemH = Theme::kContentItemHeight;
 	}
 
-	// Position matches every other content Grid's (140, 52) via Theme's
-	// layout constants - see the comment in MenuGrid.cpp's anonymous
-	// namespace for why (no shared header for these yet).
+	// Origin (135, 47) and spacer (3) match every other content Grid's -
+	// see the comment in MenuGrid.cpp's anonymous namespace for why (no
+	// shared header for these yet). Each item below specifies its own
+	// width (Theme::kContentWidth) rather than the Grid itself, matching
+	// Stand's real Grid - see Grid.hpp's class comment.
 	RecoveryBusinessesGrid::RecoveryBusinessesGrid() :
-	    Grid(140.f, 52.f, Theme::kContentWidth)
+	    Grid(135, 47, 3)
 	{
 	}
 
-	void RecoveryBusinessesGrid::Populate()
+	void RecoveryBusinessesGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
 		// Business Safe (businessSafe) - a ListCommandItem (now that
 		// GridItemCommandList exists) plus a plain CommandItem button,
 		// both unconditional.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Business Safe", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandList>(kItemH, "businesssafe"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "claimsafeearnings"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Business Safe", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "businesssafe"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "claimsafeearnings"_J));
 
 		// Business Overlay (businessOverlay) - only the one unconditional
 		// toggle; showwarehouse/showhangar/showbusinesses/shownightclub
 		// are all ConditionalItems gated on it, skipped like every other
 		// ConditionalItem here.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Business Overlay", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "businessoverlay"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Business Overlay", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "businessoverlay"_J));
 
 		// Business Manager (businessManager) - every item here is
 		// unconditional, six plain CommandItem buttons plus two
 		// BoolCommandItems.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Business Manager", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "resupplybusiness"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "hangerresupply"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "warehouseresupply"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "nightclubpopularity"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "salvageyardpopularity"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "moneyfrontheatremove"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "removeresupplycooldown"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "enforceeasiestmission"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Business Manager", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "resupplybusiness"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "hangerresupply"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "warehouseresupply"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "nightclubpopularity"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "salvageyardpopularity"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "moneyfrontheatremove"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "removeresupplycooldown"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "enforceeasiestmission"_J));
 
-		LOGF(INFO, "[GridRenderer] RecoveryBusinessesGrid populated with {} items", m_Items.size());
+		LOGF(INFO, "[GridRenderer] RecoveryBusinessesGrid populated with {} items", items_draft.size());
 	}
 }

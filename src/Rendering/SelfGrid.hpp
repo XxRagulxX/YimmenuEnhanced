@@ -37,6 +37,6 @@ namespace YimMenu::Rendering
 		SelfGrid();
 
 	protected:
-		void Populate() override;
+		void populate(std::vector<std::unique_ptr<GridItem>>& items_draft) override;
 	};
 }

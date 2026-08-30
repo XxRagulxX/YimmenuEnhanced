@@ -19,22 +19,22 @@ namespace YimMenu::Rendering
 		Layout layout;
 		layout.buttonSize = kButtonSize;
 		layout.valueWidth = kValueWidth;
-		layout.plusX = m_X + m_Width - kButtonSize;
+		layout.plusX = x + width - kButtonSize;
 		layout.minusX = layout.plusX - kGap - kButtonSize;
 		layout.valueX = layout.minusX - kGap - kValueWidth;
 		return layout;
 	}
 
-	void GridItemIntStepper::Draw()
+	void GridItemIntStepper::draw()
 	{
 		const auto layout = ComputeLayout();
 
-		GridRenderer::DrawRect(layout.valueX, m_Y, layout.valueWidth, m_Height, Theme::kPanelBackground);
-		GridRenderer::DrawRect(layout.minusX, m_Y, layout.buttonSize, m_Height, Theme::kAccent);
-		GridRenderer::DrawRect(layout.plusX, m_Y, layout.buttonSize, m_Height, Theme::kAccent);
+		GridRenderer::DrawRect(layout.valueX, y, layout.valueWidth, height, Theme::kPanelBackground);
+		GridRenderer::DrawRect(layout.minusX, y, layout.buttonSize, height, Theme::kAccent);
+		GridRenderer::DrawRect(layout.plusX, y, layout.buttonSize, height, Theme::kAccent);
 	}
 
-	void GridItemIntStepper::DrawText()
+	void GridItemIntStepper::drawText()
 	{
 		// Every centring offset below is clamped to 0 - see the identical
 		// comment in GridItemToggle.cpp: otherwise text taller/wider than
@@ -44,32 +44,32 @@ namespace YimMenu::Rendering
 
 		const auto labelSize = GridRenderer::MeasureText(m_Label.c_str());
 		GridRenderer::DrawText(
-		    m_X,
-		    m_Y + std::max(0.f, (m_Height - labelSize.y) * 0.5f),
+		    x,
+		    y + std::max(0.f, (height - labelSize.y) * 0.5f),
 		    m_Label.c_str(),
 		    Theme::kText);
 
 		const auto valueStr = std::to_string(m_Value);
 		const auto valueSize = GridRenderer::MeasureText(valueStr.c_str());
 		GridRenderer::DrawText(layout.valueX + std::max(0.f, (layout.valueWidth - valueSize.x) * 0.5f),
-		    m_Y + std::max(0.f, (m_Height - valueSize.y) * 0.5f),
+		    y + std::max(0.f, (height - valueSize.y) * 0.5f),
 		    valueStr.c_str(),
 		    Theme::kText);
 
 		const auto minusSize = GridRenderer::MeasureText("-");
 		GridRenderer::DrawText(layout.minusX + std::max(0.f, (layout.buttonSize - minusSize.x) * 0.5f),
-		    m_Y + std::max(0.f, (m_Height - minusSize.y) * 0.5f),
+		    y + std::max(0.f, (height - minusSize.y) * 0.5f),
 		    "-",
 		    Theme::kText);
 
 		const auto plusSize = GridRenderer::MeasureText("+");
 		GridRenderer::DrawText(layout.plusX + std::max(0.f, (layout.buttonSize - plusSize.x) * 0.5f),
-		    m_Y + std::max(0.f, (m_Height - plusSize.y) * 0.5f),
+		    y + std::max(0.f, (height - plusSize.y) * 0.5f),
 		    "+",
 		    Theme::kText);
 	}
 
-	void GridItemIntStepper::OnClick(float cursorX, float)
+	void GridItemIntStepper::onClick(int16_t cursorX, int16_t)
 	{
 		const auto layout = ComputeLayout();
 

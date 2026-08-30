@@ -12,16 +12,16 @@ namespace YimMenu::Rendering
 	class GridItemToggle : public GridItem
 	{
 	public:
-		GridItemToggle(float height, std::string label, bool state) :
-		    GridItem(height),
+		GridItemToggle(int16_t width, int16_t height, std::string label, bool state) :
+		    GridItem(GRIDITEM_INDIFFERENT, width, height),
 		    m_Label(std::move(label)),
 		    m_State(state)
 		{
 		}
 
-		void Draw() override;
-		void DrawText() override;
-		void OnClick(float cursorX, float cursorY) override;
+		void draw() override;
+		void drawText() override;
+		void onClick(int16_t cursorX, int16_t cursorY) override;
 
 		bool GetState() const
 		{

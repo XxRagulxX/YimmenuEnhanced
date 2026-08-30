@@ -4,8 +4,8 @@
 
 namespace YimMenu::Rendering
 {
-	void GridItemRect::Draw()
+	void GridItemRect::draw()
 	{
-		GridRenderer::DrawRect(m_X, m_Y, m_Width, m_Height, m_Colour);
+		GridRenderer::DrawRect(x, y, width, height, m_Colour);
 	}
 }

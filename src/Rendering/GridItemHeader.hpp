@@ -15,17 +15,21 @@ namespace YimMenu::Rendering
 	// midway down its Vehicle > Spawner list), so those use GridItemText
 	// instead now. Purely decorative for now - no collapse/drag
 	// behaviour yet (that needs the input pass).
+	//
+	// Typed GRIDITEM_PRIMARYTEXT, matching Stand's own address bar
+	// (GridItemPrimaryText) - Stand's real MenuGrid::doUpdateAddress()
+	// looks it up by exactly this type.
 	class GridItemHeader : public GridItem
 	{
 	public:
-		GridItemHeader(float height, std::string title) :
-		    GridItem(height),
+		GridItemHeader(int16_t width, int16_t height, std::string title) :
+		    GridItem(GRIDITEM_PRIMARYTEXT, width, height),
 		    m_Title(std::move(title))
 		{
 		}
 
-		void Draw() override;
-		void DrawText() override;
+		void draw() override;
+		void drawText() override;
 
 		// Lets MenuGrid update the breadcrumb text every frame (e.g.
 		// "YimMenu > Vehicle > Spawner") without rebuilding this item -

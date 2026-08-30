@@ -18,23 +18,25 @@ namespace YimMenu::Rendering
 		SettingsGuiGrid g_GuiContent{};
 	}
 
-	// Position matches every other content Grid's (140, 52) via Theme's
-	// layout constants - see the comment in MenuGrid.cpp's anonymous
-	// namespace for why (no shared header for these yet).
+	// Origin (135, 47) and spacer (3) match every other content Grid's -
+	// see the comment in MenuGrid.cpp's anonymous namespace for why (no
+	// shared header for these yet). Each item below specifies its own
+	// width (Theme::kContentWidth) rather than the Grid itself, matching
+	// Stand's real Grid - see Grid.hpp's class comment.
 	SettingsGrid::SettingsGrid() :
-	    Grid(140.f, 52.f, Theme::kContentWidth)
+	    Grid(135, 47, 3)
 	{
 	}
 
-	void SettingsGrid::Populate()
+	void SettingsGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Categories", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Hotkeys", &GetPlaceholderGrid()));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "GUI", &g_GuiContent));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Game", &GetPlaceholderGrid()));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Customize", &GetPlaceholderGrid()));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Lua Scripts", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Hotkeys", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "GUI", &g_GuiContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Game", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Customize", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Lua Scripts", &GetPlaceholderGrid()));
 
-		LOGF(INFO, "[GridRenderer] SettingsGrid populated with {} items", m_Items.size());
+		LOGF(INFO, "[GridRenderer] SettingsGrid populated with {} items", items_draft.size());
 	}
 }

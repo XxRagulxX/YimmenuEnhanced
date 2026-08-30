@@ -13,16 +13,16 @@ namespace YimMenu::Rendering
 	class GridItemButton : public GridItem
 	{
 	public:
-		GridItemButton(float height, std::string label, std::function<void()> action = nullptr) :
-		    GridItem(height),
+		GridItemButton(int16_t width, int16_t height, std::string label, std::function<void()> action = nullptr) :
+		    GridItem(GRIDITEM_INDIFFERENT, width, height),
 		    m_Label(std::move(label)),
 		    m_Action(std::move(action))
 		{
 		}
 
-		void Draw() override;
-		void DrawText() override;
-		void OnClick(float cursorX, float cursorY) override;
+		void draw() override;
+		void drawText() override;
+		void onClick(int16_t cursorX, int16_t cursorY) override;
 
 	private:
 		std::string m_Label;

@@ -22,15 +22,17 @@ namespace YimMenu::Rendering
 		NetworkSpoofingGrid g_SpoofingContent{};
 	}
 
-	// Position matches every other content Grid's (140, 52) via Theme's
-	// layout constants - see the comment in MenuGrid.cpp's anonymous
-	// namespace for why (no shared header for these yet).
+	// Origin (135, 47) and spacer (3) match every other content Grid's -
+	// see the comment in MenuGrid.cpp's anonymous namespace for why (no
+	// shared header for these yet). Each item below specifies its own
+	// width (Theme::kContentWidth) rather than the Grid itself, matching
+	// Stand's real Grid - see Grid.hpp's class comment.
 	NetworkGrid::NetworkGrid() :
-	    Grid(140.f, 52.f, Theme::kContentWidth)
+	    Grid(135, 47, 3)
 	{
 	}
 
-	void NetworkGrid::Populate()
+	void NetworkGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
 		// Join (joinGroup's joinSession subgroup) - joinsessiontype is an
 		// unconditional ListCommandItem, now that GridItemCommandList
@@ -40,50 +42,50 @@ namespace YimMenu::Rendering
 		// Type"; "Join" instead of "Join##session" - the "##session"
 		// suffix is an ImGui widget-ID disambiguator with no equivalent
 		// need here).
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Join", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandList>(kItemH, "joinsessiontype"_J, "Session Type"));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "joinsession"_J, "Join"));
-		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "forcequittosp"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Join", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "joinsessiontype"_J, "Session Type"));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "joinsession"_J, "Join"));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "forcequittosp"_J));
 
 		// Bounty (bountyGroup) - only anonymousbounty; see the class
 		// comment for why bountyamount/setbountyall are skipped.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Bounty", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "anonymousbounty"_J, "Anonymous"));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Bounty", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "anonymousbounty"_J, "Anonymous"));
 
 		// Troll (trollGroup) - only harassplayers/spamkillfeed; see the
 		// class comment for why sendsextall/deletevehall are skipped.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Troll", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "harassplayers"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "spamkillfeed"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Troll", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "harassplayers"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "spamkillfeed"_J));
 
 		// Misc (miscGroup) - forcethunder is an unconditional
 		// BoolCommandItem.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Misc", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "forcethunder"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Misc", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "forcethunder"_J));
 
 		// Enhancements (enhancements) - every item here is an
 		// unconditional BoolCommandItem in the original, so all eight
 		// map directly onto GridItemCommandToggle.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Enhancements", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "notifyonplayerjoin"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "fastjoin"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "disabledeathbarriers"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "despawnbypass"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "bypasscasinogeoblock"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "forcescripthost"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "pausegame"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "nocalls"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Enhancements", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "notifyonplayerjoin"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "fastjoin"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "disabledeathbarriers"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "despawnbypass"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "bypasscasinogeoblock"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "forcescripthost"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "pausegame"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "nocalls"_J));
 
 		// Network's other categories (Spoofing, plus
 		// BuildSavedPlayersMenu()/BuildRandomEventsMenu()'s own
 		// Category("Saved Players")/("Random Events")). Spoofing now has
 		// its own content Grid; the other two are still
 		// placeholder-only.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Categories", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Spoofing", &g_SpoofingContent));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Saved Players", &GetPlaceholderGrid()));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Random Events", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Spoofing", &g_SpoofingContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Saved Players", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Random Events", &GetPlaceholderGrid()));
 
-		LOGF(INFO, "[GridRenderer] NetworkGrid populated with {} items", m_Items.size());
+		LOGF(INFO, "[GridRenderer] NetworkGrid populated with {} items", items_draft.size());
 	}
 }

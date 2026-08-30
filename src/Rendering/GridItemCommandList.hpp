@@ -30,11 +30,11 @@ namespace YimMenu::Rendering
 	class GridItemCommandList : public GridItem
 	{
 	public:
-		GridItemCommandList(float height, joaat_t id, std::optional<std::string> labelOverride = std::nullopt);
+		GridItemCommandList(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride = std::nullopt);
 
-		void Draw() override;
-		void DrawText() override;
-		void OnClick(float cursorX, float cursorY) override;
+		void draw() override;
+		void drawText() override;
+		void onClick(int16_t cursorX, int16_t cursorY) override;
 
 	private:
 		struct Layout

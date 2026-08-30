@@ -13,35 +13,37 @@ namespace YimMenu::Rendering
 		constexpr float kItemH = Theme::kContentItemHeight;
 	}
 
-	// Position matches every other content Grid's (140, 52) via Theme's
-	// layout constants - see the comment in MenuGrid.cpp's anonymous
-	// namespace for why (no shared header for these yet).
+	// Origin (135, 47) and spacer (3) match every other content Grid's -
+	// see the comment in MenuGrid.cpp's anonymous namespace for why (no
+	// shared header for these yet). Each item below specifies its own
+	// width (Theme::kContentWidth) rather than the Grid itself, matching
+	// Stand's real Grid - see Grid.hpp's class comment.
 	NetworkSpoofingGrid::NetworkSpoofingGrid() :
-	    Grid(140.f, 52.f, Theme::kContentWidth)
+	    Grid(135, 47, 3)
 	{
 	}
 
-	void NetworkSpoofingGrid::Populate()
+	void NetworkSpoofingGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
 		// Matchmaking (Client) (matchmakingGroup) - cheaterpool and
 		// spoofdatahash are both unconditional; the spoofMMRegion
 		// subgroup (spoofmmregion + a further-conditional mmregion list)
 		// is entirely wrapped in a ConditionalItem gated on cheaterpool
 		// being off, skipped whole.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Matchmaking (Client)", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "cheaterpool"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "spoofdatahash"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Matchmaking (Client)", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "cheaterpool"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "spoofdatahash"_J));
 
 		// Matchmaking (Server) (matchmakingSrvGroup) - all four toggles
 		// are unconditional; their paired mmregiontype/mmlanguage/
 		// mmplayercount/mmmultiplexsessioncount items are each a
 		// ConditionalItem gated on the toggle right next to it.
-		m_Items.push_back(std::make_unique<GridItemText>(kSectionHeaderH, "Matchmaking (Server)", Theme::kText));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "mmspoofregiontype"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "mmspooflanguage"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "mmspoofplayercount"_J));
-		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "mmmultiplexsession"_J));
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Matchmaking (Server)", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mmspoofregiontype"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mmspooflanguage"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mmspoofplayercount"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mmmultiplexsession"_J));
 
-		LOGF(INFO, "[GridRenderer] NetworkSpoofingGrid populated with {} items", m_Items.size());
+		LOGF(INFO, "[GridRenderer] NetworkSpoofingGrid populated with {} items", items_draft.size());
 	}
 }
