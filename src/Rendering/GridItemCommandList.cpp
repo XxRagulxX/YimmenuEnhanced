@@ -16,6 +16,7 @@ namespace YimMenu::Rendering
 
 		constexpr float kButtonSize = 22.f;
 		constexpr float kGap = 6.f;
+		constexpr float kLabelGap = 10.f;     // same left-aligned inset every other widget here uses
 		constexpr float kValuePadding = 16.f; // left+right padding inside the value box
 	}
 
@@ -73,9 +74,15 @@ namespace YimMenu::Rendering
 		Layout layout;
 		layout.buttonSize = kButtonSize;
 		layout.valueWidth = MaxItemWidth();
-		layout.nextX = m_X + m_Width - kButtonSize;
-		layout.prevX = layout.nextX - kGap - kButtonSize;
-		layout.valueX = layout.prevX - kGap - layout.valueWidth;
+
+		// Sequential from the label's own end, not anchored to the
+		// item's right edge - see the class comment in the header for
+		// why (a wide option label would otherwise run back underneath
+		// the label text on the left).
+		const auto labelWidth = GridRenderer::MeasureText(Label().c_str()).x;
+		layout.valueX = m_X + labelWidth + kLabelGap;
+		layout.prevX = layout.valueX + layout.valueWidth + kGap;
+		layout.nextX = layout.prevX + layout.buttonSize + kGap;
 		return layout;
 	}
 
