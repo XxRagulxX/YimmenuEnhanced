@@ -13,7 +13,9 @@ namespace YimMenu::Rendering
 	//     SelfGrid's Movement group is skipped entirely.
 	// All of Businesses/Casino and the Heists/Daily Activities/Stat
 	// Editor/Transactions/Unlocks categories stay reachable via the
-	// existing ImGui Recovery submenu, untouched.
+	// existing ImGui Recovery submenu, untouched - Populate() still
+	// appends a GridItemFolder row for each (pointing at the shared
+	// placeholder), same as SelfGrid.hpp's note.
 	class RecoveryGrid : public Grid
 	{
 	public:

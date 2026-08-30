@@ -22,6 +22,12 @@ namespace YimMenu::Rendering
 	//   yet) and more ConditionalItems (superrun/noclip/freecam-gated).
 	// All of the above stay reachable via the existing ImGui Self > Main
 	// category, untouched.
+	//
+	// Also the Self submenu's root as far as MenuGrid/MenuNavigation are
+	// concerned: Populate() appends a GridItemFolder row for each of
+	// Self's other categories (Weapons, Outfit Editor) after the items
+	// above, matching how Stand's own menu nests a category inside
+	// another's list instead of a tab/sidebar entry.
 	class SelfGrid : public Grid
 	{
 	public:

@@ -16,6 +16,11 @@ namespace YimMenu::Rendering
 	//   from GridItemIntStepper's buttons) and a ListCommandItem.
 	// All of the above stay reachable via the existing ImGui Vehicle > Main
 	// category, untouched.
+	//
+	// Also the Vehicle submenu's root as far as MenuGrid/MenuNavigation
+	// are concerned: Populate() appends a GridItemFolder row for each of
+	// Vehicle's other categories (Spawn, Vehicle Editor, Saved Vehicles)
+	// after the items above - see SelfGrid.hpp's identical note.
 	class VehicleGrid : public Grid
 	{
 	public:

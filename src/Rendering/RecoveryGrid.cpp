@@ -1,8 +1,10 @@
 #include "RecoveryGrid.hpp"
 
 #include "GridItemCommandToggle.hpp"
+#include "GridItemFolder.hpp"
 #include "GridItemHeader.hpp"
 #include "Joaat.hpp"
+#include "PlaceholderGrid.hpp"
 
 namespace YimMenu::Rendering
 {
@@ -12,11 +14,11 @@ namespace YimMenu::Rendering
 		constexpr float kItemH = 28.f;
 	}
 
-	// Position matches MenuGrid.cpp's kContentX/kContentY exactly (same
-	// convention as SelfGrid.cpp/VehicleGrid.cpp/TeleportGrid.cpp/
-	// MiscGrid.cpp - no shared header for these yet).
+	// Position matches every other content Grid's (168, 58) - see the
+	// comment in MenuGrid.cpp's anonymous namespace for why (no shared
+	// header for these yet).
 	RecoveryGrid::RecoveryGrid() :
-	    Grid(168.f, 94.f, 300.f)
+	    Grid(168.f, 58.f, 300.f)
 	{
 	}
 
@@ -33,6 +35,19 @@ namespace YimMenu::Rendering
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "freechangeappearance"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "nochangeappearancecooldown"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "allowgenderchange"_J));
+
+		// Recovery's other categories (Businesses/Casino, plus
+		// BuildHeistModifierMenu()/BuildDailyActivitiesMenu()/
+		// BuildStatEditorMenu()/BuildTransactionsMenu()/
+		// BuildUnlockerMenu()) - all seven still placeholder-only.
+		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Categories"));
+		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Businesses", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Heists", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Daily Activities", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Stat Editor", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Transactions", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Casino", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Unlocks", &GetPlaceholderGrid()));
 
 		LOGF(INFO, "[GridRenderer] RecoveryGrid populated with {} items", m_Items.size());
 	}

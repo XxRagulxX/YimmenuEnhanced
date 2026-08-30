@@ -17,8 +17,9 @@ namespace YimMenu::Rendering
 	//   MiscGrid) only tracks its own local value fed to a button click,
 	//   there's no stepper wired to a live IntCommand yet.
 	// Both stay reachable via the existing ImGui World > Main category,
-	// untouched, along with the Spawn Ped/IPLs categories (unrelated
-	// tabs, not touched by this grid at all).
+	// untouched. Populate() also appends a GridItemFolder row for each of
+	// World's other categories (Spawn Ped, IPLs), pointing at the shared
+	// placeholder - same as SelfGrid.hpp's note.
 	class WorldGrid : public Grid
 	{
 	public:

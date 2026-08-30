@@ -22,6 +22,15 @@ namespace YimMenu::Rendering
 		void Draw() override;
 		void DrawText() override;
 
+		// Lets MenuGrid update the breadcrumb text every frame (e.g.
+		// "YimMenu > Vehicle > Spawner") without rebuilding this item -
+		// same "don't rebuild the widget itself per frame" rule as the
+		// rest of this Grid/GridItem system.
+		void SetTitle(std::string title)
+		{
+			m_Title = std::move(title);
+		}
+
 	private:
 		std::string m_Title;
 	};

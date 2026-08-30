@@ -16,7 +16,8 @@ namespace YimMenu::Rendering
 	//   confirmation popup, double-click-to-teleport) with no Grid
 	//   equivalent widgets yet (list selection, text entry, popups). Stays
 	//   reachable via the existing ImGui Teleport > Saved category,
-	//   untouched.
+	//   untouched - Populate() still appends a GridItemFolder row for it
+	//   (pointing at the shared placeholder), same as SelfGrid.hpp's note.
 	class TeleportGrid : public Grid
 	{
 	public:

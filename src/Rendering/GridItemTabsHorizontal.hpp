@@ -8,8 +8,15 @@ namespace YimMenu::Rendering
 {
 	// A row of tab labels with one highlighted as active, mirroring
 	// stand-reference's src/Menu/GridItemTabsHorizontal.*. Clicking a tab
-	// switches which one is active; GetActiveIndex() lets the owning Grid
-	// (MenuGrid) read the current selection to decide what content to draw.
+	// switches which one is active; GetActiveIndex() lets the owning
+	// Grid read the current selection to decide what content to draw.
+	//
+	// Not currently used anywhere: MenuGrid used this for
+	// submenu-category navigation in an earlier version, but Stand's own
+	// menu doesn't use a tab strip there at all (see MenuNavigation.hpp/
+	// GridItemFolder.hpp for what replaced it) - kept as a working,
+	// self-contained widget in case something else genuinely needs a tab
+	// row later, same as stand-reference itself still carries the type.
 	class GridItemTabsHorizontal : public GridItem
 	{
 	public:

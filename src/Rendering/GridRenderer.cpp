@@ -3,6 +3,7 @@
 #include "BoolCommand.hpp"
 #include "GUI.hpp"
 #include "MenuGrid.hpp"
+#include "MenuNavigation.hpp"
 #include "Pointers.hpp"
 #include "Renderer.hpp"
 #include "font_bevietnamprolight.hpp"
@@ -61,9 +62,11 @@ namespace YimMenu::Rendering
 
 	static StandRendererTest _StandRendererTest{"standrenderertest",
 	    "Stand Renderer Test",
-	    "Shows a Stand-style rebuild of the menu (sidebar + Self > Main and Debug > Misc content) "
-	    "using the new DirectXTK12/Grid draw pipeline. Only those two pages have real content so "
-	    "far - everything else shows a placeholder. Use the regular menu for anything not yet migrated."};
+	    "Shows a Stand-style rebuild of the menu (sidebar + breadcrumb address bar, Backspace to go "
+	    "back out of a nested category) using the new DirectXTK12/Grid draw pipeline. Self, Vehicle, "
+	    "Teleport, World, Recovery and Debug have real content so far - everything else (including "
+	    "any nested category not called out above) shows a placeholder. Use the regular menu for "
+	    "anything not yet migrated."};
 
 	static MenuGrid g_MenuGrid{};
 
@@ -261,20 +264,30 @@ namespace YimMenu::Rendering
 		return size;
 	}
 
-	void GridRenderer::WndProcImpl(HWND, UINT msg, WPARAM, LPARAM)
+	void GridRenderer::WndProcImpl(HWND, UINT msg, WPARAM wparam, LPARAM)
 	{
-		if (msg != WM_LBUTTONDOWN)
-			return;
-
 		if (!_StandRendererTest.GetState() || !GUI::IsOpen())
 			return;
 
-		DirectX::XMFLOAT2 cursor;
-		if (!TryGetCursorPos(cursor))
-			return;
+		if (msg == WM_LBUTTONDOWN)
+		{
+			DirectX::XMFLOAT2 cursor;
+			if (!TryGetCursorPos(cursor))
+				return;
 
-		if (auto* item = g_MenuGrid.FindItemAt(cursor.x, cursor.y))
-			item->OnClick(cursor.x, cursor.y);
+			if (auto* item = g_MenuGrid.FindItemAt(cursor.x, cursor.y))
+				item->OnClick(cursor.x, cursor.y);
+
+			return;
+		}
+
+		// Backspace pops MenuNavigation one level - the same "go back"
+		// gesture Stand's own address bar responds to. Guarded on
+		// WantCaptureKeyboard so this doesn't fire while a text field
+		// elsewhere (the existing ImGui menu) has keyboard focus and the
+		// user is just backspacing over what they typed there.
+		if (msg == WM_KEYDOWN && wparam == VK_BACK && !ImGui::GetIO().WantCaptureKeyboard)
+			MenuNavigation::Pop();
 	}
 
 	void GridRenderer::Init()

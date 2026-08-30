@@ -2,9 +2,10 @@
 
 #include "GridItemHeader.hpp"
 #include "GridItemSidebarList.hpp"
-#include "GridItemTabsHorizontal.hpp"
 #include "GridRenderer.hpp"
+#include "MenuNavigation.hpp"
 #include "MiscGrid.hpp"
+#include "PlaceholderGrid.hpp"
 #include "RecoveryGrid.hpp"
 #include "SelfGrid.hpp"
 #include "TeleportGrid.hpp"
@@ -33,17 +34,24 @@ namespace YimMenu::Rendering
 		constexpr float kSidebarW = 140.f;
 		constexpr float kSidebarEntryH = 26.f;
 
-		constexpr float kTabsX = kSidebarX + kSidebarW + kChromeGap;
-		constexpr float kTabsY = kSidebarY;
-		constexpr float kTabsH = 28.f;
+		// Every content grid's own constructor hardcodes its position to
+		// (kSidebarX + kSidebarW + kChromeGap, kSidebarY) - (168, 58) as
+		// of writing - since none of them are built via this file (no
+		// shared header for these yet - if that stops scaling, it's
+		// worth factoring out then). Content sits level with the
+		// sidebar, right under the header: there's no tab row to leave
+		// room for any more (see MenuGrid.hpp's class comment).
 
-		// Every content grid's own constructor must match these exactly
-		// (no shared header for these yet - if that stops scaling, it's
-		// worth factoring out then).
-		constexpr float kContentX = kTabsX;
-		constexpr float kContentY = kTabsY + kTabsH + kChromeGap;
-
-		constexpr DirectX::XMFLOAT4 kPlaceholderColour{0.7f, 0.7f, 0.7f, 1.f};
+		// Indices into the sidebar's entry list.
+		constexpr size_t kSelfIndex = 0;
+		constexpr size_t kVehicleIndex = 1;
+		constexpr size_t kTeleportIndex = 2;
+		constexpr size_t kNetworkIndex = 3;
+		constexpr size_t kPlayersIndex = 4;
+		constexpr size_t kWorldIndex = 5;
+		constexpr size_t kRecoveryIndex = 6;
+		constexpr size_t kSettingsIndex = 7;
+		constexpr size_t kDebugIndex = 8;
 
 		// The only real content grids this system has so far. Live here
 		// (not in GridRenderer.cpp) since MenuGrid is the only thing that
@@ -63,20 +71,11 @@ namespace YimMenu::Rendering
 
 	MenuGrid::~MenuGrid() = default;
 
-	MenuGrid::SubmenuEntry MenuGrid::MakeSubmenu(size_t sidebarIndex, std::vector<std::string> tabNames, std::vector<Grid*> tabContent)
-	{
-		auto tabs = std::make_unique<GridItemTabsHorizontal>(kTabsH, std::move(tabNames), 0);
-		// GetTotalWidth() (not kTabsH/some fixed guess) so GridItem::Contains()
-		// hit-tests exactly the region Draw() actually paints.
-		tabs->SetPosition(kTabsX, kTabsY, tabs->GetTotalWidth());
-
-		return SubmenuEntry{sidebarIndex, std::move(tabs), std::move(tabContent)};
-	}
-
 	void MenuGrid::Populate()
 	{
-		auto header = std::make_unique<GridItemHeader>(kHeaderH, "YimMenu (Stand-style)");
+		auto header = std::make_unique<GridItemHeader>(kHeaderH, "YimMenu");
 		header->SetPosition(kHeaderX, kHeaderY, kHeaderW);
+		m_Header = header.get();
 		m_Items.push_back(std::move(header));
 
 		// Defaults to Self, the flagship/first page - matches how the
@@ -97,27 +96,20 @@ namespace YimMenu::Rendering
 		m_Sidebar = sidebar.get();
 		m_Items.push_back(std::move(sidebar));
 
-		m_Submenus.push_back(MakeSubmenu(kSelfIndex, {"Main", "Weapons", "Outfit Editor"}, {&g_SelfContent, nullptr, nullptr}));
-		// Tab labels are the actual Category names from MenuVehicle.cpp
-		// (Main, then BuildSpawnVehicleMenu()/BuildVehicleEditorMenu()/
-		// BuildSavedVehiclesMenu()'s own Category("Spawn")/("Vehicle
-		// Editor")/("Saved Vehicles")) - not guessed abbreviations.
-		m_Submenus.push_back(MakeSubmenu(kVehicleIndex, {"Main", "Spawn", "Vehicle Editor", "Saved Vehicles"}, {&g_VehicleContent, nullptr, nullptr, nullptr}));
-		m_Submenus.push_back(MakeSubmenu(kDebugIndex, {"Misc", "Globals", "Locals", "Scripts"}, {&g_MiscContent, nullptr, nullptr, nullptr}));
-		m_Submenus.push_back(MakeSubmenu(kTeleportIndex, {"Main", "Saved"}, {&g_TeleportContent, nullptr}));
-		// Tab labels are the actual Category names from MenuRecovery.cpp
-		// (Main, Businesses, then BuildHeistModifierMenu()/
-		// BuildDailyActivitiesMenu()/BuildStatEditorMenu()/
-		// BuildTransactionsMenu()'s own Category("Heists")/("Daily
-		// Activities")/("Stat Editor")/("Transactions"), Casino, then
-		// BuildUnlockerMenu()'s own Category("Unlocks")).
-		m_Submenus.push_back(MakeSubmenu(kRecoveryIndex,
-		    {"Main", "Businesses", "Heists", "Daily Activities", "Stat Editor", "Transactions", "Casino", "Unlocks"},
-		    {&g_RecoveryContent, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr}));
-		// Tab labels are the actual Category names from MenuWorld.cpp
-		// (Main, then BuildSpawnPedMenu()'s own Category("Spawn Ped"),
-		// IPLs).
-		m_Submenus.push_back(MakeSubmenu(kWorldIndex, {"Main", "Spawn Ped", "IPLs"}, {&g_WorldContent, nullptr, nullptr}));
+		// Every sidebar entry, real content or not - see the class
+		// comment in MenuGrid.hpp for why there's no separate "nothing
+		// migrated for this one" path any more.
+		m_Roots = {
+		    {kSelfIndex, "Self", &g_SelfContent},
+		    {kVehicleIndex, "Vehicle", &g_VehicleContent},
+		    {kTeleportIndex, "Teleport", &g_TeleportContent},
+		    {kNetworkIndex, "Network", &GetPlaceholderGrid()},
+		    {kPlayersIndex, "Players", &GetPlaceholderGrid()},
+		    {kWorldIndex, "World", &g_WorldContent},
+		    {kRecoveryIndex, "Recovery", &g_RecoveryContent},
+		    {kSettingsIndex, "Settings", &GetPlaceholderGrid()},
+		    {kDebugIndex, "Debug", &g_MiscContent},
+		};
 
 		LOGF(INFO, "[GridRenderer] MenuGrid populated with {} chrome items", m_Items.size());
 	}
@@ -129,72 +121,63 @@ namespace YimMenu::Rendering
 		// every item) doesn't fit a header + narrower sidebar column.
 	}
 
-	MenuGrid::SubmenuEntry* MenuGrid::ActiveSubmenu()
+	void MenuGrid::SyncNavigation()
 	{
 		if (!m_Sidebar)
-			return nullptr;
+			return;
 
 		const auto activeIndex = m_Sidebar->GetActiveIndex();
-		for (auto& submenu : m_Submenus)
+		if (activeIndex != m_LastSidebarIndex)
 		{
-			if (submenu.SidebarIndex == activeIndex)
-				return &submenu;
+			m_LastSidebarIndex = activeIndex;
+
+			for (auto& root : m_Roots)
+			{
+				if (root.SidebarIndex == activeIndex)
+				{
+					MenuNavigation::Reset(root.Label, root.Content);
+					break;
+				}
+			}
 		}
 
-		return nullptr;
-	}
-
-	Grid* MenuGrid::ActiveTabContent(SubmenuEntry& submenu)
-	{
-		const auto tabIndex = submenu.Tabs->GetActiveIndex();
-		return tabIndex < submenu.TabContent.size() ? submenu.TabContent[tabIndex] : nullptr;
+		// Unconditional (not just on a sidebar change): a GridItemFolder
+		// Push()/Backspace Pop() changes MenuNavigation's own path
+		// without touching the sidebar at all, and still needs the
+		// breadcrumb to catch up.
+		if (m_Header)
+			m_Header->SetTitle("YimMenu > " + MenuNavigation::BreadcrumbPath());
 	}
 
 	void MenuGrid::Draw()
 	{
-		Grid::Draw(); // chrome: header + sidebar
+		Grid::Draw(); // chrome rects: header background + sidebar (also populates on first call)
+		SyncNavigation();
 
-		if (auto* submenu = ActiveSubmenu())
-		{
-			submenu->Tabs->Draw();
-
-			if (auto* content = ActiveTabContent(*submenu))
-				content->Draw();
-		}
+		if (auto* content = MenuNavigation::Current())
+			content->Draw();
 	}
 
 	void MenuGrid::DrawText()
 	{
-		Grid::DrawText(); // chrome: header + sidebar labels
+		// Chrome text: header (title already refreshed by this frame's
+		// earlier Draw() call - see GridRenderer::DrawImpl, which always
+		// runs Draw() before DrawText() within the same frame) + sidebar
+		// labels.
+		Grid::DrawText();
 
-		if (auto* submenu = ActiveSubmenu())
-		{
-			submenu->Tabs->DrawText();
-
-			if (auto* content = ActiveTabContent(*submenu))
-				content->DrawText();
-			else
-				GridRenderer::DrawText(kContentX, kContentY, "Not yet migrated.", kPlaceholderColour);
-		}
-		else
-		{
-			GridRenderer::DrawText(kContentX, kContentY, "Not yet migrated.", kPlaceholderColour);
-		}
+		if (auto* content = MenuNavigation::Current())
+			content->DrawText();
 	}
 
 	GridItem* MenuGrid::FindItemAt(float cursorX, float cursorY)
 	{
-		if (auto* item = Grid::FindItemAt(cursorX, cursorY))
+		if (auto* item = Grid::FindItemAt(cursorX, cursorY)) // also populates on first call
 			return item;
 
-		auto* submenu = ActiveSubmenu();
-		if (!submenu)
-			return nullptr;
+		SyncNavigation();
 
-		if (submenu->Tabs->Contains(cursorX, cursorY))
-			return submenu->Tabs.get();
-
-		if (auto* content = ActiveTabContent(*submenu))
+		if (auto* content = MenuNavigation::Current())
 			return content->FindItemAt(cursorX, cursorY);
 
 		return nullptr;

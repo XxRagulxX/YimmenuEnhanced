@@ -2,8 +2,10 @@
 
 #include "GridItemCommandButton.hpp"
 #include "GridItemCommandToggle.hpp"
+#include "GridItemFolder.hpp"
 #include "GridItemHeader.hpp"
 #include "Joaat.hpp"
+#include "PlaceholderGrid.hpp"
 
 namespace YimMenu::Rendering
 {
@@ -13,11 +15,11 @@ namespace YimMenu::Rendering
 		constexpr float kItemH = 28.f;
 	}
 
-	// Position matches MenuGrid.cpp's kContentX/kContentY exactly (same
-	// convention as SelfGrid.cpp/MiscGrid.cpp - no shared header for these
-	// yet).
+	// Position matches every other content Grid's (168, 58) - see the
+	// comment in MenuGrid.cpp's anonymous namespace for why (no shared
+	// header for these yet).
 	VehicleGrid::VehicleGrid() :
-	    Grid(168.f, 94.f, 300.f)
+	    Grid(168.f, 58.f, 300.f)
 	{
 	}
 
@@ -59,6 +61,14 @@ namespace YimMenu::Rendering
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "allowhatsinvehicles"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "lsccustomsbypass"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "dlcvehicles"_J));
+
+		// Vehicle's other categories (BuildSpawnVehicleMenu()/
+		// BuildVehicleEditorMenu()/BuildSavedVehiclesMenu()) - all three
+		// still placeholder-only until they get their own content Grid.
+		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Categories"));
+		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Spawn", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Vehicle Editor", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Saved Vehicles", &GetPlaceholderGrid()));
 
 		LOGF(INFO, "[GridRenderer] VehicleGrid populated with {} items", m_Items.size());
 	}

@@ -4,21 +4,29 @@
 #include "GridItemButton.hpp"
 #include "GridItemCommandButton.hpp"
 #include "GridItemCommandToggle.hpp"
+#include "GridItemFolder.hpp"
+#include "GridItemHeader.hpp"
 #include "GridItemIntStepper.hpp"
 #include "GridItemToggle.hpp"
 #include "Joaat.hpp"
 #include "Natives.hpp"
+#include "PlaceholderGrid.hpp"
 #include "ScriptEvent.hpp"
 #include "ScriptFunction.hpp"
 #include "Self.hpp"
 
 namespace YimMenu::Rendering
 {
-	// Position (168, 94) matches MenuGrid.cpp's kContentX/kContentY exactly
-	// (no shared header for these yet - if more content grids need the same
-	// position, that's worth factoring out then).
+	namespace
+	{
+		constexpr float kSectionHeaderH = 26.f;
+	}
+
+	// Position matches every other content Grid's (168, 58) - see the
+	// comment in MenuGrid.cpp's anonymous namespace for why (no shared
+	// header for these yet).
 	MiscGrid::MiscGrid() :
-	    Grid(168.f, 94.f, 300.f)
+	    Grid(168.f, 58.f, 300.f)
 	{
 	}
 
@@ -88,6 +96,13 @@ namespace YimMenu::Rendering
 				DoTeamSwap.Call<void>(team, true);
 			});
 		}));
+
+		// Debug's other categories (BuildGlobalsMenu()/BuildLocalsMenu()/
+		// BuildScriptsMenu()) - all three still placeholder-only.
+		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Categories"));
+		m_Items.push_back(std::make_unique<GridItemFolder>(28.f, "Globals", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemFolder>(28.f, "Locals", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemFolder>(28.f, "Scripts", &GetPlaceholderGrid()));
 
 		LOGF(INFO, "[GridRenderer] MiscGrid populated with {} items", m_Items.size());
 	}

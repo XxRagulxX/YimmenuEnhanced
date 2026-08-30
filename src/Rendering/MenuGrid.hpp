@@ -2,27 +2,33 @@
 #include "Grid.hpp"
 
 #include <cstddef>
-#include <memory>
 #include <string>
 #include <vector>
 
 namespace YimMenu::Rendering
 {
+	class GridItemHeader;
 	class GridItemSidebarList;
-	class GridItemTabsHorizontal;
 
-	// Top-level chrome: header + sidebar (submenu list) + (for submenus
-	// that have one) a tab strip - real navigation, replacing the earlier
-	// fixed panel where the tab strip was decorative-only.
+	// Top-level chrome: a breadcrumb header + sidebar (submenu list) +
+	// whatever content MenuNavigation currently has on top of its stack.
 	//
-	// Which sidebar entries have a tab strip + real content is
-	// data-driven (m_Submenus) rather than per-submenu if/else branches -
-	// the refactor the previous (two-submenu) version of this file
-	// deferred "until a third needs its own tab strip", now that
-	// VehicleGrid is that third. A sidebar entry with no matching
-	// m_Submenus entry (Teleport, Network, Players, World, Recovery,
-	// Settings as of writing) just draws the "not yet migrated"
-	// placeholder with no tab strip at all, same as before this refactor.
+	// Real navigation, replacing the earlier fixed panel where the
+	// content area was decorative-only, and - as of this version - also
+	// replacing an even earlier horizontal-tab-strip design for
+	// switching between a submenu's categories. Stand's own menu has no
+	// tab strip: a submenu's "Main" category IS the top-level list, and
+	// every other category is just a GridItemFolder row within that same
+	// list ("Spawner >", "Garage >", ...) that replaces the content in
+	// place when clicked (MenuNavigation::Push()), poppable with
+	// Backspace (MenuNavigation::Pop(), wired in GridRenderer.cpp).
+	//
+	// Every sidebar entry has a root Grid (m_Roots below) - real content
+	// where it exists (SelfGrid, VehicleGrid, ...), the shared
+	// PlaceholderGrid for anything not ported yet (Network, Players,
+	// Settings as of writing). There's no separate "nothing selected"
+	// placeholder path any more: MenuNavigation::Current() is always
+	// valid once Populate() has run once.
 	class MenuGrid : public Grid
 	{
 	public:
@@ -38,36 +44,22 @@ namespace YimMenu::Rendering
 		void SetPositions() override; // no-op: Populate() positions everything itself
 
 	private:
-		// Indices into the sidebar's entry list.
-		static constexpr size_t kSelfIndex = 0;
-		static constexpr size_t kVehicleIndex = 1;
-		static constexpr size_t kTeleportIndex = 2;
-		static constexpr size_t kWorldIndex = 5;
-		static constexpr size_t kRecoveryIndex = 6;
-		static constexpr size_t kDebugIndex = 8;
-
-		// One sidebar entry that has its own tab strip. Tabs owns the
-		// strip; TabContent is parallel to Tabs' own entries and
-		// non-owning (the actual Grids are file-scope statics in
-		// MenuGrid.cpp, same lifetime/ownership as before this refactor)
-		// - nullptr means that particular tab has no content yet, so
-		// DrawText() falls back to the "not yet migrated" placeholder.
-		struct SubmenuEntry
+		struct SubmenuRoot
 		{
 			size_t SidebarIndex;
-			std::unique_ptr<GridItemTabsHorizontal> Tabs;
-			std::vector<Grid*> TabContent;
+			std::string Label; // breadcrumb root label, e.g. "Vehicle"
+			Grid* Content;     // non-owning - see the class comment above
 		};
 
-		static SubmenuEntry MakeSubmenu(size_t sidebarIndex, std::vector<std::string> tabNames, std::vector<Grid*> tabContent);
+		// Resets MenuNavigation to the sidebar's currently active entry's
+		// root, but only when that selection actually changed since the
+		// last call - cheap to call every frame (Draw()/DrawText()/
+		// FindItemAt() all do), and idempotent otherwise.
+		void SyncNavigation();
 
-		// Returns the SubmenuEntry matching the sidebar's current
-		// selection, or nullptr if the active sidebar entry has no tab
-		// strip of its own.
-		SubmenuEntry* ActiveSubmenu();
-		static Grid* ActiveTabContent(SubmenuEntry& submenu);
-
+		GridItemHeader* m_Header = nullptr;
 		GridItemSidebarList* m_Sidebar = nullptr;
-		std::vector<SubmenuEntry> m_Submenus;
+		std::vector<SubmenuRoot> m_Roots;
+		size_t m_LastSidebarIndex = static_cast<size_t>(-1);
 	};
 }
