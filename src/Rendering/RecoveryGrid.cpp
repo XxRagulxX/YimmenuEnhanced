@@ -7,6 +7,7 @@
 #include "GridItemText.hpp"
 #include "Joaat.hpp"
 #include "PlaceholderGrid.hpp"
+#include "DailyActivitiesGrid.hpp"
 #include "RecoveryBusinessesGrid.hpp"
 #include "RecoveryCasinoGrid.hpp"
 #include "RecoveryHeistsGrid.hpp"
@@ -24,6 +25,7 @@ namespace YimMenu::Rendering
 		// identical note about WeaponsGrid.
 		RecoveryBusinessesGrid g_BusinessesContent{};
 		RecoveryHeistsGrid g_HeistsContent{};
+		DailyActivitiesGrid g_DailyActivitiesContent{};
 		RecoveryCasinoGrid g_CasinoContent{};
 		RecoveryUnlocksGrid g_UnlocksContent{};
 	}
@@ -54,15 +56,15 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "nochangeappearancecooldown"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "allowgenderchange"_J));
 
-		// Recovery's other categories (Businesses/Heists/Casino/Unlocks,
-		// plus BuildDailyActivitiesMenu()/BuildStatEditorMenu()/
-		// BuildTransactionsMenu()). Businesses/Heists/Casino/Unlocks now
-		// have their own content Grids; the other two are still
-		// placeholder-only.
+		// Recovery's other categories (Businesses/Heists/Daily Activities/
+		// Casino/Unlocks, plus BuildStatEditorMenu()/
+		// BuildTransactionsMenu()). Businesses/Heists/Daily Activities/
+		// Casino/Unlocks now have their own content Grids; the other two
+		// are still placeholder-only.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Businesses", &g_BusinessesContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Heists", &g_HeistsContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Daily Activities", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Daily Activities", &g_DailyActivitiesContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Stat Editor", &GetPlaceholderGrid()));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Transactions", &GetPlaceholderGrid()));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Casino", &g_CasinoContent));
