@@ -2,13 +2,22 @@
 
 namespace YimMenu::Rendering
 {
+	namespace
+	{
+		// Without this, two adjacent items with the same full-width
+		// background colour (e.g. a run of GridItemButton/
+		// GridItemCommandButton rows) render as one indistinguishable
+		// merged block - there's no other visual boundary between rows.
+		constexpr float kItemGap = 3.f;
+	}
+
 	void Grid::SetPositions()
 	{
 		float y = m_Y;
 		for (auto& item : m_Items)
 		{
 			item->SetPosition(m_X, y, m_Width);
-			y += item->GetHeight();
+			y += item->GetHeight() + kItemGap;
 		}
 	}
 
