@@ -3,6 +3,8 @@
 
 #include <cstddef>
 #include <memory>
+#include <string>
+#include <vector>
 
 namespace YimMenu::Rendering
 {
@@ -13,16 +15,14 @@ namespace YimMenu::Rendering
 	// that have one) a tab strip - real navigation, replacing the earlier
 	// fixed panel where the tab strip was decorative-only.
 	//
-	// Only Self > Main (SelfGrid) and Debug > Misc (MiscGrid) have real
-	// content right now, both owned here. Every other sidebar/tab
-	// selection draws a "not yet migrated" placeholder instead of content
-	// that doesn't exist - nothing here fakes pages that haven't actually
-	// been built.
-	//
-	// The Self/Debug handling below is duplicated per-submenu rather than
-	// data-driven (a table of {sidebar index, tabs, content grids}) -
-	// fine at two submenus, worth refactoring once a third needs its own
-	// tab strip.
+	// Which sidebar entries have a tab strip + real content is
+	// data-driven (m_Submenus) rather than per-submenu if/else branches -
+	// the refactor the previous (two-submenu) version of this file
+	// deferred "until a third needs its own tab strip", now that
+	// VehicleGrid is that third. A sidebar entry with no matching
+	// m_Submenus entry (Teleport, Network, Players, World, Recovery,
+	// Settings as of writing) just draws the "not yet migrated"
+	// placeholder with no tab strip at all, same as before this refactor.
 	class MenuGrid : public Grid
 	{
 	public:
@@ -40,18 +40,31 @@ namespace YimMenu::Rendering
 	private:
 		// Indices into the sidebar's entry list.
 		static constexpr size_t kSelfIndex = 0;
+		static constexpr size_t kVehicleIndex = 1;
 		static constexpr size_t kDebugIndex = 8;
-		// Indices into m_SelfTabs'/m_DebugTabs' own tab lists.
-		static constexpr size_t kSelfMainTabIndex = 0;
-		static constexpr size_t kMiscTabIndex = 0;
 
-		bool IsSelfActive() const;
-		bool IsSelfMainActive() const;
-		bool IsDebugActive() const;
-		bool IsDebugMiscActive() const;
+		// One sidebar entry that has its own tab strip. Tabs owns the
+		// strip; TabContent is parallel to Tabs' own entries and
+		// non-owning (the actual Grids are file-scope statics in
+		// MenuGrid.cpp, same lifetime/ownership as before this refactor)
+		// - nullptr means that particular tab has no content yet, so
+		// DrawText() falls back to the "not yet migrated" placeholder.
+		struct SubmenuEntry
+		{
+			size_t SidebarIndex;
+			std::unique_ptr<GridItemTabsHorizontal> Tabs;
+			std::vector<Grid*> TabContent;
+		};
+
+		static SubmenuEntry MakeSubmenu(size_t sidebarIndex, std::vector<std::string> tabNames, std::vector<Grid*> tabContent);
+
+		// Returns the SubmenuEntry matching the sidebar's current
+		// selection, or nullptr if the active sidebar entry has no tab
+		// strip of its own.
+		SubmenuEntry* ActiveSubmenu();
+		static Grid* ActiveTabContent(SubmenuEntry& submenu);
 
 		GridItemSidebarList* m_Sidebar = nullptr;
-		std::unique_ptr<GridItemTabsHorizontal> m_SelfTabs;
-		std::unique_ptr<GridItemTabsHorizontal> m_DebugTabs;
+		std::vector<SubmenuEntry> m_Submenus;
 	};
 }

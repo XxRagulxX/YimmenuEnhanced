@@ -6,6 +6,9 @@
 #include "GridRenderer.hpp"
 #include "MiscGrid.hpp"
 #include "SelfGrid.hpp"
+#include "VehicleGrid.hpp"
+
+#include <utility>
 
 namespace YimMenu::Rendering
 {
@@ -31,9 +34,10 @@ namespace YimMenu::Rendering
 		constexpr float kTabsY = kSidebarY;
 		constexpr float kTabsH = 28.f;
 
-		// SelfGrid.cpp's/MiscGrid.cpp's constructors must match these
-		// exactly (no shared header for these yet - if a third content
-		// grid needs the same position, that's worth factoring out then).
+		// SelfGrid.cpp's/VehicleGrid.cpp's/MiscGrid.cpp's constructors
+		// must match these exactly (no shared header for these yet - if
+		// a fourth content grid needs the same position, that's worth
+		// factoring out then).
 		constexpr float kContentX = kTabsX;
 		constexpr float kContentY = kTabsY + kTabsH + kChromeGap;
 
@@ -41,8 +45,9 @@ namespace YimMenu::Rendering
 
 		// The only real content grids this system has so far. Live here
 		// (not in GridRenderer.cpp) since MenuGrid is the only thing that
-		// decides when either is actually shown.
+		// decides when any of them is actually shown.
 		SelfGrid g_SelfContent{};
+		VehicleGrid g_VehicleContent{};
 		MiscGrid g_MiscContent{};
 	}
 
@@ -52,6 +57,16 @@ namespace YimMenu::Rendering
 	}
 
 	MenuGrid::~MenuGrid() = default;
+
+	MenuGrid::SubmenuEntry MenuGrid::MakeSubmenu(size_t sidebarIndex, std::vector<std::string> tabNames, std::vector<Grid*> tabContent)
+	{
+		auto tabs = std::make_unique<GridItemTabsHorizontal>(kTabsH, std::move(tabNames), 0);
+		// GetTotalWidth() (not kTabsH/some fixed guess) so GridItem::Contains()
+		// hit-tests exactly the region Draw() actually paints.
+		tabs->SetPosition(kTabsX, kTabsY, tabs->GetTotalWidth());
+
+		return SubmenuEntry{sidebarIndex, std::move(tabs), std::move(tabContent)};
+	}
 
 	void MenuGrid::Populate()
 	{
@@ -77,19 +92,9 @@ namespace YimMenu::Rendering
 		m_Sidebar = sidebar.get();
 		m_Items.push_back(std::move(sidebar));
 
-		m_SelfTabs = std::make_unique<GridItemTabsHorizontal>(
-		    kTabsH,
-		    std::vector<std::string>{"Main", "Weapons", "Outfit Editor"},
-		    kSelfMainTabIndex);
-		m_SelfTabs->SetPosition(kTabsX, kTabsY, m_SelfTabs->GetTotalWidth());
-
-		m_DebugTabs = std::make_unique<GridItemTabsHorizontal>(
-		    kTabsH,
-		    std::vector<std::string>{"Misc", "Globals", "Locals", "Scripts"},
-		    kMiscTabIndex);
-		// GetTotalWidth() (not kTabsH/some fixed guess) so GridItem::Contains()
-		// hit-tests exactly the region Draw() actually paints.
-		m_DebugTabs->SetPosition(kTabsX, kTabsY, m_DebugTabs->GetTotalWidth());
+		m_Submenus.push_back(MakeSubmenu(kSelfIndex, {"Main", "Weapons", "Outfit Editor"}, {&g_SelfContent, nullptr, nullptr}));
+		m_Submenus.push_back(MakeSubmenu(kVehicleIndex, {"Main", "Spawn", "Edit", "Saved"}, {&g_VehicleContent, nullptr, nullptr, nullptr}));
+		m_Submenus.push_back(MakeSubmenu(kDebugIndex, {"Misc", "Globals", "Locals", "Scripts"}, {&g_MiscContent, nullptr, nullptr, nullptr}));
 
 		LOGF(INFO, "[GridRenderer] MenuGrid populated with {} chrome items", m_Items.size());
 	}
@@ -101,43 +106,37 @@ namespace YimMenu::Rendering
 		// every item) doesn't fit a header + narrower sidebar column.
 	}
 
-	bool MenuGrid::IsSelfActive() const
+	MenuGrid::SubmenuEntry* MenuGrid::ActiveSubmenu()
 	{
-		return m_Sidebar && m_Sidebar->GetActiveIndex() == kSelfIndex;
+		if (!m_Sidebar)
+			return nullptr;
+
+		const auto activeIndex = m_Sidebar->GetActiveIndex();
+		for (auto& submenu : m_Submenus)
+		{
+			if (submenu.SidebarIndex == activeIndex)
+				return &submenu;
+		}
+
+		return nullptr;
 	}
 
-	bool MenuGrid::IsSelfMainActive() const
+	Grid* MenuGrid::ActiveTabContent(SubmenuEntry& submenu)
 	{
-		return IsSelfActive() && m_SelfTabs && m_SelfTabs->GetActiveIndex() == kSelfMainTabIndex;
-	}
-
-	bool MenuGrid::IsDebugActive() const
-	{
-		return m_Sidebar && m_Sidebar->GetActiveIndex() == kDebugIndex;
-	}
-
-	bool MenuGrid::IsDebugMiscActive() const
-	{
-		return IsDebugActive() && m_DebugTabs && m_DebugTabs->GetActiveIndex() == kMiscTabIndex;
+		const auto tabIndex = submenu.Tabs->GetActiveIndex();
+		return tabIndex < submenu.TabContent.size() ? submenu.TabContent[tabIndex] : nullptr;
 	}
 
 	void MenuGrid::Draw()
 	{
 		Grid::Draw(); // chrome: header + sidebar
 
-		if (IsSelfActive())
+		if (auto* submenu = ActiveSubmenu())
 		{
-			m_SelfTabs->Draw();
+			submenu->Tabs->Draw();
 
-			if (IsSelfMainActive())
-				g_SelfContent.Draw();
-		}
-		else if (IsDebugActive())
-		{
-			m_DebugTabs->Draw();
-
-			if (IsDebugMiscActive())
-				g_MiscContent.Draw();
+			if (auto* content = ActiveTabContent(*submenu))
+				content->Draw();
 		}
 	}
 
@@ -145,21 +144,12 @@ namespace YimMenu::Rendering
 	{
 		Grid::DrawText(); // chrome: header + sidebar labels
 
-		if (IsSelfActive())
+		if (auto* submenu = ActiveSubmenu())
 		{
-			m_SelfTabs->DrawText();
+			submenu->Tabs->DrawText();
 
-			if (IsSelfMainActive())
-				g_SelfContent.DrawText();
-			else
-				GridRenderer::DrawText(kContentX, kContentY, "Not yet migrated.", kPlaceholderColour);
-		}
-		else if (IsDebugActive())
-		{
-			m_DebugTabs->DrawText();
-
-			if (IsDebugMiscActive())
-				g_MiscContent.DrawText();
+			if (auto* content = ActiveTabContent(*submenu))
+				content->DrawText();
 			else
 				GridRenderer::DrawText(kContentX, kContentY, "Not yet migrated.", kPlaceholderColour);
 		}
@@ -174,27 +164,15 @@ namespace YimMenu::Rendering
 		if (auto* item = Grid::FindItemAt(cursorX, cursorY))
 			return item;
 
-		if (IsSelfActive())
-		{
-			if (m_SelfTabs->Contains(cursorX, cursorY))
-				return m_SelfTabs.get();
-
-			if (IsSelfMainActive())
-				return g_SelfContent.FindItemAt(cursorX, cursorY);
-
+		auto* submenu = ActiveSubmenu();
+		if (!submenu)
 			return nullptr;
-		}
 
-		if (IsDebugActive())
-		{
-			if (m_DebugTabs->Contains(cursorX, cursorY))
-				return m_DebugTabs.get();
+		if (submenu->Tabs->Contains(cursorX, cursorY))
+			return submenu->Tabs.get();
 
-			if (IsDebugMiscActive())
-				return g_MiscContent.FindItemAt(cursorX, cursorY);
-
-			return nullptr;
-		}
+		if (auto* content = ActiveTabContent(*submenu))
+			return content->FindItemAt(cursorX, cursorY);
 
 		return nullptr;
 	}
