@@ -73,7 +73,11 @@ namespace YimMenu::Rendering
 		// so there's no invalidation to track, and any single content
 		// Grid's item count is small enough that rebuilding this on every
 		// keypress/frame isn't worth the bookkeeping a cache would need.
-		[[nodiscard]] std::vector<GridItem*> getFocusableItems();
+		// Virtual so GridTabbed can fold in its active tab's own
+		// focusable items too - MenuFocus always calls this through a
+		// bare Grid*, so a non-virtual override there would silently
+		// never run.
+		[[nodiscard]] virtual std::vector<GridItem*> getFocusableItems();
 
 		// This project's own addition, for the same reason getFocusableItems()
 		// is: Stand paginates/scrolls a whole GridItemList's own rows

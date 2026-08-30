@@ -74,4 +74,15 @@ namespace YimMenu::Rendering
 			drawX += tabWidth + kTabGap;
 		}
 	}
+
+	bool GridItemTabsHorizontal::onArrow(int delta)
+	{
+		if (m_Tabs.size() < 2)
+			return false;
+
+		const auto count = static_cast<int>(m_Tabs.size());
+		const auto clamped = std::clamp(static_cast<int>(m_ActiveIndex) + (delta > 0 ? 1 : -1), 0, count - 1);
+		m_ActiveIndex = static_cast<size_t>(clamped);
+		return true;
+	}
 }

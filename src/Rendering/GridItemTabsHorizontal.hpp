@@ -8,15 +8,19 @@ namespace YimMenu::Rendering
 {
 	// A row of tab labels with one highlighted as active, mirroring
 	// stand-reference's src/Menu/GridItemTabsHorizontal.*. Clicking a tab
-	// switches which one is active; GetActiveIndex() lets the owning
-	// Grid read the current selection to decide what content to draw.
+	// (or Left/Right while this item has keyboard focus) switches which
+	// one is active; GetActiveIndex() lets the owning Grid read the
+	// current selection to decide what content to draw - see GridTabbed,
+	// the Grid-level container built on top of this for exactly that.
 	//
-	// Not currently used anywhere: MenuGrid used this for
-	// submenu-category navigation in an earlier version, but Stand's own
-	// menu doesn't use a tab strip there at all (see MenuNavigation.hpp/
-	// GridItemFolder.hpp for what replaced it) - kept as a working,
-	// self-contained widget in case something else genuinely needs a tab
-	// row later, same as stand-reference itself still carries the type.
+	// Was unused for a while: MenuGrid used this for submenu-category
+	// navigation in an earlier version, but Stand's own menu doesn't use
+	// a tab strip there at all (see MenuNavigation.hpp/GridItemFolder.hpp
+	// for what replaced it there) - kept as a working, self-contained
+	// widget since stand-reference itself still carries the type, and
+	// now used for real by GridTabbed for the handful of pages that
+	// genuinely do have a tab strip in real Stand (Vehicle > Spawn's
+	// New/Personal split, Recovery > Heists' six heist types, ...).
 	class GridItemTabsHorizontal : public GridItem
 	{
 	public:
@@ -30,6 +34,16 @@ namespace YimMenu::Rendering
 		void draw() override;
 		void drawText() override;
 		void onClick(int16_t cursorX, int16_t cursorY) override;
+
+		bool isFocusable() const override
+		{
+			return true;
+		}
+
+		// Left(-1)/Right(+1) moves the active tab, clamped (not wrapped)
+		// to the tab list's bounds - always returns true (handled) while
+		// there's more than one tab.
+		bool onArrow(int delta) override;
 
 		size_t GetActiveIndex() const
 		{
