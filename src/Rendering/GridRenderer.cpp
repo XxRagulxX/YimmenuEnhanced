@@ -61,9 +61,9 @@ namespace YimMenu::Rendering
 
 	static StandRendererTest _StandRendererTest{"standrenderertest",
 	    "Stand Renderer Test",
-	    "Shows a Stand-style rebuild of the menu (sidebar + Debug > Misc content) using the new "
-	    "DirectXTK12/Grid draw pipeline. Only Debug > Misc has real content so far - everything "
-	    "else shows a placeholder. Use the regular menu for anything not yet migrated."};
+	    "Shows a Stand-style rebuild of the menu (sidebar + Self > Main and Debug > Misc content) "
+	    "using the new DirectXTK12/Grid draw pipeline. Only those two pages have real content so "
+	    "far - everything else shows a placeholder. Use the regular menu for anything not yet migrated."};
 
 	static MenuGrid g_MenuGrid{};
 

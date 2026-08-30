@@ -5,6 +5,7 @@
 #include "GridItemTabsHorizontal.hpp"
 #include "GridRenderer.hpp"
 #include "MiscGrid.hpp"
+#include "SelfGrid.hpp"
 
 namespace YimMenu::Rendering
 {
@@ -25,17 +26,18 @@ namespace YimMenu::Rendering
 		constexpr float kTabsY = kSidebarY;
 		constexpr float kTabsH = 28.f;
 
-		// MiscGrid.cpp's constructor must match these exactly (no shared
-		// header for these yet - if a second content grid needs the same
-		// position, that's worth factoring out then).
+		// SelfGrid.cpp's/MiscGrid.cpp's constructors must match these
+		// exactly (no shared header for these yet - if a third content
+		// grid needs the same position, that's worth factoring out then).
 		constexpr float kContentX = kTabsX;
 		constexpr float kContentY = kTabsY + kTabsH + kChromeGap;
 
 		constexpr DirectX::XMFLOAT4 kPlaceholderColour{0.7f, 0.7f, 0.7f, 1.f};
 
-		// The one real content grid this system has so far. Lives here
+		// The only real content grids this system has so far. Live here
 		// (not in GridRenderer.cpp) since MenuGrid is the only thing that
-		// decides when it's actually shown.
+		// decides when either is actually shown.
+		SelfGrid g_SelfContent{};
 		MiscGrid g_MiscContent{};
 	}
 
@@ -52,6 +54,8 @@ namespace YimMenu::Rendering
 		header->SetPosition(kHeaderX, kHeaderY, kHeaderW);
 		m_Items.push_back(std::move(header));
 
+		// Defaults to Self, the flagship/first page - matches how the
+		// real menu opens on Self by default.
 		auto sidebar = std::make_unique<GridItemSidebarList>(kSidebarEntryH,
 		    std::vector<std::string>{
 		        "Self",
@@ -63,10 +67,16 @@ namespace YimMenu::Rendering
 		        "Recovery",
 		        "Settings",
 		        "Debug"},
-		    kDebugIndex);
+		    kSelfIndex);
 		sidebar->SetPosition(kSidebarX, kSidebarY, kSidebarW);
 		m_Sidebar = sidebar.get();
 		m_Items.push_back(std::move(sidebar));
+
+		m_SelfTabs = std::make_unique<GridItemTabsHorizontal>(
+		    kTabsH,
+		    std::vector<std::string>{"Main", "Weapons", "Outfit Editor"},
+		    kSelfMainTabIndex);
+		m_SelfTabs->SetPosition(kTabsX, kTabsY, m_SelfTabs->GetTotalWidth());
 
 		m_DebugTabs = std::make_unique<GridItemTabsHorizontal>(
 		    kTabsH,
@@ -86,6 +96,16 @@ namespace YimMenu::Rendering
 		// every item) doesn't fit a header + narrower sidebar column.
 	}
 
+	bool MenuGrid::IsSelfActive() const
+	{
+		return m_Sidebar && m_Sidebar->GetActiveIndex() == kSelfIndex;
+	}
+
+	bool MenuGrid::IsSelfMainActive() const
+	{
+		return IsSelfActive() && m_SelfTabs && m_SelfTabs->GetActiveIndex() == kSelfMainTabIndex;
+	}
+
 	bool MenuGrid::IsDebugActive() const
 	{
 		return m_Sidebar && m_Sidebar->GetActiveIndex() == kDebugIndex;
@@ -100,31 +120,48 @@ namespace YimMenu::Rendering
 	{
 		Grid::Draw(); // chrome: header + sidebar
 
-		if (!IsDebugActive())
-			return;
+		if (IsSelfActive())
+		{
+			m_SelfTabs->Draw();
 
-		m_DebugTabs->Draw();
+			if (IsSelfMainActive())
+				g_SelfContent.Draw();
+		}
+		else if (IsDebugActive())
+		{
+			m_DebugTabs->Draw();
 
-		if (IsDebugMiscActive())
-			g_MiscContent.Draw();
+			if (IsDebugMiscActive())
+				g_MiscContent.Draw();
+		}
 	}
 
 	void MenuGrid::DrawText()
 	{
 		Grid::DrawText(); // chrome: header + sidebar labels
 
-		if (!IsDebugActive())
+		if (IsSelfActive())
+		{
+			m_SelfTabs->DrawText();
+
+			if (IsSelfMainActive())
+				g_SelfContent.DrawText();
+			else
+				GridRenderer::DrawText(kContentX, kContentY, "Not yet migrated.", kPlaceholderColour);
+		}
+		else if (IsDebugActive())
+		{
+			m_DebugTabs->DrawText();
+
+			if (IsDebugMiscActive())
+				g_MiscContent.DrawText();
+			else
+				GridRenderer::DrawText(kContentX, kContentY, "Not yet migrated.", kPlaceholderColour);
+		}
+		else
 		{
 			GridRenderer::DrawText(kContentX, kContentY, "Not yet migrated.", kPlaceholderColour);
-			return;
 		}
-
-		m_DebugTabs->DrawText();
-
-		if (IsDebugMiscActive())
-			g_MiscContent.DrawText();
-		else
-			GridRenderer::DrawText(kContentX, kContentY, "Not yet migrated.", kPlaceholderColour);
 	}
 
 	GridItem* MenuGrid::FindItemAt(float cursorX, float cursorY)
@@ -132,14 +169,27 @@ namespace YimMenu::Rendering
 		if (auto* item = Grid::FindItemAt(cursorX, cursorY))
 			return item;
 
-		if (!IsDebugActive())
+		if (IsSelfActive())
+		{
+			if (m_SelfTabs->Contains(cursorX, cursorY))
+				return m_SelfTabs.get();
+
+			if (IsSelfMainActive())
+				return g_SelfContent.FindItemAt(cursorX, cursorY);
+
 			return nullptr;
+		}
 
-		if (m_DebugTabs->Contains(cursorX, cursorY))
-			return m_DebugTabs.get();
+		if (IsDebugActive())
+		{
+			if (m_DebugTabs->Contains(cursorX, cursorY))
+				return m_DebugTabs.get();
 
-		if (IsDebugMiscActive())
-			return g_MiscContent.FindItemAt(cursorX, cursorY);
+			if (IsDebugMiscActive())
+				return g_MiscContent.FindItemAt(cursorX, cursorY);
+
+			return nullptr;
+		}
 
 		return nullptr;
 	}
