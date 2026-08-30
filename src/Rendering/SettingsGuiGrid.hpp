@@ -4,17 +4,10 @@
 namespace YimMenu::Rendering
 {
 	// Content grid for Settings > GUI: mirrors MenuSettings.cpp's gui
-	// Category - unloadmenu and clearchat (plain CommandItem buttons),
-	// uiStyle's styleselector (a ListCommandItem, now that
-	// GridItemCommandList exists), and overlay's own unconditional
-	// toggle.
-	//
-	// Deliberately NOT included:
-	// - overlayfps/overlaypos/overlaylock - all three are ConditionalItems
-	//   gated on overlay being on, skipped for the same reason as every
-	//   other ConditionalItem in this system.
-	// Stays reachable via the existing ImGui Settings > GUI category,
-	// untouched.
+	// Category in full - unloadmenu and clearchat (plain CommandItem
+	// buttons), uiStyle's styleselector (a ListCommandItem), overlay's
+	// own toggle, and overlayfps/overlaypos/overlaylock (all three
+	// ConditionalItems gated on it, now that GridItemConditional exists).
 	class SettingsGuiGrid : public Grid
 	{
 	public:

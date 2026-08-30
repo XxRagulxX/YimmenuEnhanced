@@ -3,6 +3,7 @@
 #include "GridItemCommandButton.hpp"
 #include "GridItemCommandList.hpp"
 #include "GridItemCommandToggle.hpp"
+#include "GridItemConditional.hpp"
 #include "GridItemText.hpp"
 #include "Joaat.hpp"
 #include "Theme.hpp"
@@ -37,11 +38,23 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "UI", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "styleselector"_J));
 
-		// Overlay - only the one unconditional toggle; overlayfps/
-		// overlaypos/overlaylock are all ConditionalItems gated on it,
-		// skipped like every other ConditionalItem here.
+		// Overlay - overlayfps/overlaypos/overlaylock are all
+		// ConditionalItems gated on the toggle below being on, now that
+		// GridItemConditional exists. A hidden one still reserves its own
+		// row (see GridItemConditional.hpp's class comment) - toggling
+		// "overlay" off leaves two blank rows here rather than the list
+		// shrinking to fit.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Overlay", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "overlay"_J));
+		items_draft.push_back(std::make_unique<GridItemConditional>(
+		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "overlayfps"_J),
+		    "overlay"_J));
+		items_draft.push_back(std::make_unique<GridItemConditional>(
+		    std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "overlaypos"_J),
+		    "overlay"_J));
+		items_draft.push_back(std::make_unique<GridItemConditional>(
+		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "overlaylock"_J),
+		    "overlay"_J));
 
 		// Chat - clearchat is a plain CommandItem button.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Chat", Theme::kText));

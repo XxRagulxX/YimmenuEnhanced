@@ -13,6 +13,10 @@ namespace YimMenu::Rendering
 		// itself doesn't need to pull in MenuFocus.hpp/MenuNavigation.hpp
 		// (and, transitively, Grid.hpp) for every widget header that
 		// includes it.
-		return MenuFocus::GetFocusedItem(MenuNavigation::Current()) == this;
+		//
+		// Checks m_FocusProxy instead of `this` when set - see
+		// setFocusProxy()'s own doc comment in GridItem.hpp for why
+		// (GridItemConditional).
+		return MenuFocus::GetFocusedItem(MenuNavigation::Current()) == (m_FocusProxy ? m_FocusProxy : this);
 	}
 }

@@ -175,5 +175,22 @@ namespace YimMenu::Rendering
 		virtual void onEditKey(unsigned int)
 		{
 		}
+
+		// Redirects isKeyboardFocused() to check proxy instead of this -
+		// this project's own hook for GridItemConditional, which wraps
+		// another GridItem without that item ever actually being the one
+		// Grid places in its own item list (see GridItemConditional's own
+		// class comment for why). Without this, the wrapped item's own
+		// internal isKeyboardFocused() checks (used by its own draw()/
+		// drawText() to decide when to show its own accent highlight)
+		// would never match, since only the wrapper ever appears in
+		// Grid::getFocusableItems()/MenuFocus. Pass nullptr to clear it.
+		void setFocusProxy(GridItem* proxy)
+		{
+			m_FocusProxy = proxy;
+		}
+
+	private:
+		GridItem* m_FocusProxy = nullptr;
 	};
 }

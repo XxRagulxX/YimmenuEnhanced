@@ -1,8 +1,10 @@
 #include "WorldGrid.hpp"
 
 #include "GridItemCommandButton.hpp"
+#include "GridItemCommandInt.hpp"
 #include "GridItemCommandList.hpp"
 #include "GridItemCommandToggle.hpp"
+#include "GridItemConditional.hpp"
 #include "GridItemFolder.hpp"
 #include "GridItemText.hpp"
 #include "Joaat.hpp"
@@ -52,14 +54,26 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "bringvehs"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "bringobjs"_J));
 
-		// Weather (weatherOpts) - weather is an unconditional
-		// ListCommandItem, now that GridItemCommandList exists; so is
-		// forceweather's own toggle. setweather is still skipped: it's a
-		// ConditionalItem only shown while forceweather is off, and this
-		// system has no conditional-visibility widget yet.
+		// Weather (weatherOpts) - setweather is a ConditionalItem shown
+		// only while forceweather is *off* (negate), now that
+		// GridItemConditional exists.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Weather", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "weather"_J));
+		items_draft.push_back(std::make_unique<GridItemConditional>(
+		    std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "setweather"_J),
+		    "forceweather"_J,
+		    true));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "forceweather"_J));
+
+		// Time (timeGroup) - hour/minute/second are all unconditional
+		// IntCommandItems, now that GridItemCommandInt exists; Set/Freeze
+		// are a plain button and toggle.
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Time", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "networktimehour"_J, "Hour"));
+		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "networktimeminute"_J, "Minute"));
+		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "networktimesecond"_J, "Second"));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "setnetworktime"_J, "Set"));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "freezenetworktime"_J, "Freeze"));
 
 		// Other (otherOpts) - every item here is an unconditional
 		// BoolCommandItem in the original, so all five map directly onto

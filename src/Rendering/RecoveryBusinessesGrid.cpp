@@ -3,6 +3,7 @@
 #include "GridItemCommandButton.hpp"
 #include "GridItemCommandList.hpp"
 #include "GridItemCommandToggle.hpp"
+#include "GridItemConditional.hpp"
 #include "GridItemText.hpp"
 #include "Joaat.hpp"
 #include "Theme.hpp"
@@ -34,12 +35,25 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "businesssafe"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "claimsafeearnings"_J));
 
-		// Business Overlay (businessOverlay) - only the one unconditional
-		// toggle; showwarehouse/showhangar/showbusinesses/shownightclub
-		// are all ConditionalItems gated on it, skipped like every other
-		// ConditionalItem here.
+		// Business Overlay (businessOverlay) - showwarehouse/showhangar/
+		// showbusinesses/shownightclub are all ConditionalItems gated on
+		// the toggle below being on, now that GridItemConditional exists
+		// (a hidden one still reserves its own row - see
+		// GridItemConditional.hpp's class comment).
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Business Overlay", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "businessoverlay"_J));
+		items_draft.push_back(std::make_unique<GridItemConditional>(
+		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "showwarehouse"_J),
+		    "businessoverlay"_J));
+		items_draft.push_back(std::make_unique<GridItemConditional>(
+		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "showhangar"_J),
+		    "businessoverlay"_J));
+		items_draft.push_back(std::make_unique<GridItemConditional>(
+		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "showbusinesses"_J),
+		    "businessoverlay"_J));
+		items_draft.push_back(std::make_unique<GridItemConditional>(
+		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "shownightclub"_J),
+		    "businessoverlay"_J));
 
 		// Business Manager (businessManager) - every item here is
 		// unconditional, six plain CommandItem buttons plus two
