@@ -8,6 +8,7 @@
 #include "PlaceholderGrid.hpp"
 #include "RecoveryGrid.hpp"
 #include "SelfGrid.hpp"
+#include "SettingsGrid.hpp"
 #include "TeleportGrid.hpp"
 #include "VehicleGrid.hpp"
 #include "WorldGrid.hpp"
@@ -61,6 +62,7 @@ namespace YimMenu::Rendering
 		TeleportGrid g_TeleportContent{};
 		RecoveryGrid g_RecoveryContent{};
 		WorldGrid g_WorldContent{};
+		SettingsGrid g_SettingsContent{};
 		MiscGrid g_MiscContent{};
 	}
 
@@ -107,7 +109,7 @@ namespace YimMenu::Rendering
 		    {kPlayersIndex, "Players", &GetPlaceholderGrid()},
 		    {kWorldIndex, "World", &g_WorldContent},
 		    {kRecoveryIndex, "Recovery", &g_RecoveryContent},
-		    {kSettingsIndex, "Settings", &GetPlaceholderGrid()},
+		    {kSettingsIndex, "Settings", &g_SettingsContent},
 		    {kDebugIndex, "Debug", &g_MiscContent},
 		};
 
