@@ -47,6 +47,23 @@ namespace YimMenu::Rendering
 		// offset, starting left of the button itself.
 		const float textX = m_X + std::max(0.f, (m_Width - size.x) * 0.5f);
 		const float textY = m_Y + std::max(0.f, (m_Height - size.y) * 0.5f);
+
+		if (!m_LoggedDebugInfo)
+		{
+			m_LoggedDebugInfo = true;
+			LOGF(INFO,
+			    "[GridRenderer] DEBUG '{}': m_X={} m_Y={} m_Width={} m_Height={} labelW={} labelH={} textX={} textY={}",
+			    label,
+			    m_X,
+			    m_Y,
+			    m_Width,
+			    m_Height,
+			    size.x,
+			    size.y,
+			    textX,
+			    textY);
+		}
+
 		GridRenderer::DrawText(textX, textY, label.c_str(), kText);
 	}
 

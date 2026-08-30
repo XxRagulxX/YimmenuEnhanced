@@ -27,5 +27,10 @@ namespace YimMenu::Rendering
 
 		Command* m_Command;
 		std::optional<std::string> m_LabelOverride;
+
+		// Temporary: logs computed position/size once per item the first
+		// time it draws, to diagnose a text-centring overflow report.
+		// Remove once that's resolved.
+		bool m_LoggedDebugInfo = false;
 	};
 }
