@@ -29,8 +29,9 @@ namespace YimMenu::Rendering
 	// tpToProperty/tpToInterior subgroups pair a real list selector with
 	// one of these dead "send all" buttons (a selector with nothing that
 	// acts on it isn't worth including on its own), on top of bringall
-	// itself and customPlayerTp (a Vector3CommandItem, unsupported
-	// regardless).
+	// itself and customPlayerTp (tpplayertocoordall, also one of these
+	// dead "act on everyone" commands - the Vector3 widget itself is no
+	// longer the blocker, see GridItemCommandVector3).
 	//
 	// Also NOT included, for the usual reasons:
 	// - joinGroup's raw ImGuiItem (a free-text username/RID joiner with
@@ -40,10 +41,10 @@ namespace YimMenu::Rendering
 	// All of the above stay reachable via the existing ImGui Network >
 	// Session category, untouched. Populate() also appends a
 	// GridItemFolder row for each of Network's other categories
-	// (Spoofing, Saved Players, Random Events). Spoofing's folder points
-	// at a real content Grid (NetworkSpoofingGrid, owned here since
-	// nothing else reaches it); the other two still point at the shared
-	// placeholder.
+	// (Spoofing, Saved Players, Random Events). Spoofing/Saved Players'
+	// folders each point at a real content Grid (NetworkSpoofingGrid/
+	// SavedPlayersGrid, owned here since nothing else reaches them);
+	// Random Events still points at the shared placeholder.
 	class NetworkGrid : public Grid
 	{
 	public:

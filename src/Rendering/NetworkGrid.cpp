@@ -9,6 +9,7 @@
 #include "Joaat.hpp"
 #include "NetworkSpoofingGrid.hpp"
 #include "PlaceholderGrid.hpp"
+#include "SavedPlayersGrid.hpp"
 #include "Theme.hpp"
 
 namespace YimMenu::Rendering
@@ -21,6 +22,7 @@ namespace YimMenu::Rendering
 		// Owned here rather than in MenuGrid.cpp - see SelfGrid.cpp's
 		// identical note about WeaponsGrid.
 		NetworkSpoofingGrid g_SpoofingContent{};
+		SavedPlayersGrid g_SavedPlayersContent{};
 	}
 
 	// Origin (1438, 587) and spacer (3) match every other content Grid's -
@@ -79,14 +81,13 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "pausegame"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "nocalls"_J));
 
-		// Network's other categories (Spoofing, plus
-		// BuildSavedPlayersMenu()/BuildRandomEventsMenu()'s own
-		// Category("Saved Players")/("Random Events")). Spoofing now has
-		// its own content Grid; the other two are still
-		// placeholder-only.
+		// Network's other categories (Spoofing/Saved Players, plus
+		// BuildRandomEventsMenu()'s own Category("Random Events")).
+		// Spoofing/Saved Players now have their own content Grids;
+		// Random Events is still placeholder-only.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Spoofing", &g_SpoofingContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Saved Players", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Saved Players", &g_SavedPlayersContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Random Events", &GetPlaceholderGrid()));
 
 		LOGF(INFO, "[GridRenderer] NetworkGrid populated with {} items", items_draft.size());
