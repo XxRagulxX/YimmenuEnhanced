@@ -2,6 +2,8 @@
 
 #include "GridRenderer.hpp"
 
+#include <algorithm>
+
 namespace YimMenu::Rendering
 {
 	namespace
@@ -16,13 +18,18 @@ namespace YimMenu::Rendering
 
 	void GridItemToggle::Draw()
 	{
-		const float indicatorY = m_Y + (m_Height - kIndicatorSize) * 0.5f;
+		// Clamped to 0: if the indicator were ever taller than m_Height
+		// this would otherwise centre to a negative offset, drawing above
+		// this item's own row into whatever's above it.
+		const float indicatorY = m_Y + std::max(0.f, (m_Height - kIndicatorSize) * 0.5f);
 		GridRenderer::DrawRect(m_X, indicatorY, kIndicatorSize, kIndicatorSize, m_State ? kOnColour : kOffColour);
 	}
 
 	void GridItemToggle::DrawText()
 	{
-		const float textY = m_Y + (m_Height - GridRenderer::MeasureText(m_Label.c_str()).y) * 0.5f;
+		// Clamped to 0 - see the comment in Draw(): a label taller than
+		// m_Height would otherwise centre upward out of this item's row.
+		const float textY = m_Y + std::max(0.f, (m_Height - GridRenderer::MeasureText(m_Label.c_str()).y) * 0.5f);
 		GridRenderer::DrawText(m_X + kIndicatorSize + kLabelGap, textY, m_Label.c_str(), kLabelColour);
 	}
 

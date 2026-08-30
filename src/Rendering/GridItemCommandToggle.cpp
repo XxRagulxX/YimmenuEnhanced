@@ -3,6 +3,8 @@
 #include "Commands.hpp"
 #include "GridRenderer.hpp"
 
+#include <algorithm>
+
 namespace YimMenu::Rendering
 {
 	namespace
@@ -34,7 +36,9 @@ namespace YimMenu::Rendering
 
 	void GridItemCommandToggle::Draw()
 	{
-		const float indicatorY = m_Y + (m_Height - kIndicatorSize) * 0.5f;
+		// Clamped to 0 - see the identical comment in GridItemToggle.cpp:
+		// otherwise a negative offset draws above this item's own row.
+		const float indicatorY = m_Y + std::max(0.f, (m_Height - kIndicatorSize) * 0.5f);
 		const auto colour = m_Command ? (m_Command->GetState() ? kOnColour : kOffColour) : kUnknownColour;
 		GridRenderer::DrawRect(m_X, indicatorY, kIndicatorSize, kIndicatorSize, colour);
 	}
@@ -42,7 +46,7 @@ namespace YimMenu::Rendering
 	void GridItemCommandToggle::DrawText()
 	{
 		const auto& label = Label();
-		const float textY = m_Y + (m_Height - GridRenderer::MeasureText(label.c_str()).y) * 0.5f;
+		const float textY = m_Y + std::max(0.f, (m_Height - GridRenderer::MeasureText(label.c_str()).y) * 0.5f);
 		GridRenderer::DrawText(m_X + kIndicatorSize + kLabelGap, textY, label.c_str(), kLabelColour);
 	}
 

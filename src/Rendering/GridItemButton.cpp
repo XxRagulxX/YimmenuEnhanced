@@ -2,6 +2,8 @@
 
 #include "GridRenderer.hpp"
 
+#include <algorithm>
+
 namespace YimMenu::Rendering
 {
 	namespace
@@ -21,8 +23,13 @@ namespace YimMenu::Rendering
 	void GridItemButton::DrawText()
 	{
 		const auto size = GridRenderer::MeasureText(m_Label.c_str());
-		const float textX = m_X + (m_Width - size.x) * 0.5f;
-		const float textY = m_Y + (m_Height - size.y) * 0.5f;
+		// Clamped to 0: a label wider than m_Width would otherwise centre
+		// to a negative offset, starting to the left of the button itself
+		// (there's no text-wrapping yet, so an oversized label just
+		// overflows the right edge instead once clamped - still readable,
+		// unlike drifting off the left edge of the whole panel).
+		const float textX = m_X + std::max(0.f, (m_Width - size.x) * 0.5f);
+		const float textY = m_Y + std::max(0.f, (m_Height - size.y) * 0.5f);
 		GridRenderer::DrawText(textX, textY, m_Label.c_str(), kText);
 	}
 

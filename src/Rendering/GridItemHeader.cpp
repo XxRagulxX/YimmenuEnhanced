@@ -2,6 +2,8 @@
 
 #include "GridRenderer.hpp"
 
+#include <algorithm>
+
 namespace YimMenu::Rendering
 {
 	namespace
@@ -25,7 +27,10 @@ namespace YimMenu::Rendering
 
 	void GridItemHeader::DrawText()
 	{
-		const float textY = m_Y + (m_Height - GridRenderer::MeasureText(m_Title.c_str()).y) * 0.5f;
+		// Clamped to 0 - see the identical comment in GridItemToggle.cpp:
+		// otherwise a title taller than m_Height centres upward out of
+		// this item's own row.
+		const float textY = m_Y + std::max(0.f, (m_Height - GridRenderer::MeasureText(m_Title.c_str()).y) * 0.5f);
 		GridRenderer::DrawText(m_X + 10.f, textY, m_Title.c_str(), kText);
 	}
 }

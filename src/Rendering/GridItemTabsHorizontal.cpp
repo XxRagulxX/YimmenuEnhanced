@@ -2,6 +2,8 @@
 
 #include "GridRenderer.hpp"
 
+#include <algorithm>
+
 namespace YimMenu::Rendering
 {
 	namespace
@@ -37,7 +39,10 @@ namespace YimMenu::Rendering
 		{
 			const auto size = GridRenderer::MeasureText(tab.c_str());
 			const float tabWidth = size.x + kTabPaddingX * 2.f;
-			const float textY = m_Y + (m_Height - size.y) * 0.5f;
+			// Clamped to 0 - see the identical comment in
+			// GridItemToggle.cpp: otherwise a label taller than m_Height
+			// centres upward out of this item's own row.
+			const float textY = m_Y + std::max(0.f, (m_Height - size.y) * 0.5f);
 			GridRenderer::DrawText(x + kTabPaddingX, textY, tab.c_str(), kText);
 			x += tabWidth + kTabGap;
 		}

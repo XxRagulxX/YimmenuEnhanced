@@ -39,27 +39,35 @@ namespace YimMenu::Rendering
 
 	void GridItemIntStepper::DrawText()
 	{
+		// Every centring offset below is clamped to 0 - see the identical
+		// comment in GridItemToggle.cpp: otherwise text taller/wider than
+		// its own box centres outside that box (upward, or into a
+		// neighbouring button/box for the horizontal ones).
 		const auto layout = ComputeLayout();
 
 		const auto labelSize = GridRenderer::MeasureText(m_Label.c_str());
-		GridRenderer::DrawText(m_X, m_Y + (m_Height - labelSize.y) * 0.5f, m_Label.c_str(), kText);
+		GridRenderer::DrawText(
+		    m_X,
+		    m_Y + std::max(0.f, (m_Height - labelSize.y) * 0.5f),
+		    m_Label.c_str(),
+		    kText);
 
 		const auto valueStr = std::to_string(m_Value);
 		const auto valueSize = GridRenderer::MeasureText(valueStr.c_str());
-		GridRenderer::DrawText(layout.valueX + (layout.valueWidth - valueSize.x) * 0.5f,
-		    m_Y + (m_Height - valueSize.y) * 0.5f,
+		GridRenderer::DrawText(layout.valueX + std::max(0.f, (layout.valueWidth - valueSize.x) * 0.5f),
+		    m_Y + std::max(0.f, (m_Height - valueSize.y) * 0.5f),
 		    valueStr.c_str(),
 		    kText);
 
 		const auto minusSize = GridRenderer::MeasureText("-");
-		GridRenderer::DrawText(layout.minusX + (layout.buttonSize - minusSize.x) * 0.5f,
-		    m_Y + (m_Height - minusSize.y) * 0.5f,
+		GridRenderer::DrawText(layout.minusX + std::max(0.f, (layout.buttonSize - minusSize.x) * 0.5f),
+		    m_Y + std::max(0.f, (m_Height - minusSize.y) * 0.5f),
 		    "-",
 		    kText);
 
 		const auto plusSize = GridRenderer::MeasureText("+");
-		GridRenderer::DrawText(layout.plusX + (layout.buttonSize - plusSize.x) * 0.5f,
-		    m_Y + (m_Height - plusSize.y) * 0.5f,
+		GridRenderer::DrawText(layout.plusX + std::max(0.f, (layout.buttonSize - plusSize.x) * 0.5f),
+		    m_Y + std::max(0.f, (m_Height - plusSize.y) * 0.5f),
 		    "+",
 		    kText);
 	}

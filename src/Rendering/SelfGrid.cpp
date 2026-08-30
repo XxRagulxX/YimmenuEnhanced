@@ -9,8 +9,8 @@ namespace YimMenu::Rendering
 {
 	namespace
 	{
-		constexpr float kSectionHeaderH = 22.f;
-		constexpr float kItemH = 24.f;
+		constexpr float kSectionHeaderH = 26.f;
+		constexpr float kItemH = 28.f;
 	}
 
 	// Position matches MenuGrid.cpp's kContentX/kContentY exactly (same
