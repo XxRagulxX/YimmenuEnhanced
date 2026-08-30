@@ -1,11 +1,13 @@
 #include "WorldGrid.hpp"
 
 #include "GridItemCommandButton.hpp"
+#include "GridItemCommandList.hpp"
 #include "GridItemCommandToggle.hpp"
 #include "GridItemFolder.hpp"
 #include "GridItemHeader.hpp"
 #include "Joaat.hpp"
 #include "PlaceholderGrid.hpp"
+#include "WorldIPLsGrid.hpp"
 
 namespace YimMenu::Rendering
 {
@@ -13,6 +15,10 @@ namespace YimMenu::Rendering
 	{
 		constexpr float kSectionHeaderH = 26.f;
 		constexpr float kItemH = 28.f;
+
+		// Owned here rather than in MenuGrid.cpp - see SelfGrid.cpp's
+		// identical note about WeaponsGrid.
+		WorldIPLsGrid g_IPLsContent{};
 	}
 
 	// Position matches every other content Grid's (168, 58) - see the
@@ -43,6 +49,15 @@ namespace YimMenu::Rendering
 		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "bringvehs"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "bringobjs"_J));
 
+		// Weather (weatherOpts) - weather is an unconditional
+		// ListCommandItem, now that GridItemCommandList exists; so is
+		// forceweather's own toggle. setweather is still skipped: it's a
+		// ConditionalItem only shown while forceweather is off, and this
+		// system has no conditional-visibility widget yet.
+		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Weather"));
+		m_Items.push_back(std::make_unique<GridItemCommandList>(kItemH, "weather"_J));
+		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "forceweather"_J));
+
 		// Other (otherOpts) - every item here is an unconditional
 		// BoolCommandItem in the original, so all five map directly onto
 		// GridItemCommandToggle.
@@ -54,10 +69,11 @@ namespace YimMenu::Rendering
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "infiniteboundary"_J));
 
 		// World's other categories (BuildSpawnPedMenu(), the IPLs
-		// Category) - both still placeholder-only.
+		// Category). IPLs now has its own content Grid; Spawn Ped is
+		// still placeholder-only.
 		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Categories"));
 		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Spawn Ped", &GetPlaceholderGrid()));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "IPLs", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "IPLs", &g_IPLsContent));
 
 		LOGF(INFO, "[GridRenderer] WorldGrid populated with {} items", m_Items.size());
 	}

@@ -14,8 +14,10 @@ namespace YimMenu::Rendering
 	// All of Businesses/Casino and the Heists/Daily Activities/Stat
 	// Editor/Transactions/Unlocks categories stay reachable via the
 	// existing ImGui Recovery submenu, untouched - Populate() still
-	// appends a GridItemFolder row for each (pointing at the shared
-	// placeholder), same as SelfGrid.hpp's note.
+	// appends a GridItemFolder row for each, same as SelfGrid.hpp's
+	// note. Businesses' folder points at a real content Grid
+	// (RecoveryBusinessesGrid, owned here since nothing else reaches it);
+	// the other six still point at the shared placeholder.
 	class RecoveryGrid : public Grid
 	{
 	public:

@@ -5,6 +5,7 @@
 #include "GridItemHeader.hpp"
 #include "Joaat.hpp"
 #include "PlaceholderGrid.hpp"
+#include "RecoveryBusinessesGrid.hpp"
 
 namespace YimMenu::Rendering
 {
@@ -12,6 +13,10 @@ namespace YimMenu::Rendering
 	{
 		constexpr float kSectionHeaderH = 26.f;
 		constexpr float kItemH = 28.f;
+
+		// Owned here rather than in MenuGrid.cpp - see SelfGrid.cpp's
+		// identical note about WeaponsGrid.
+		RecoveryBusinessesGrid g_BusinessesContent{};
 	}
 
 	// Position matches every other content Grid's (168, 58) - see the
@@ -39,9 +44,10 @@ namespace YimMenu::Rendering
 		// Recovery's other categories (Businesses/Casino, plus
 		// BuildHeistModifierMenu()/BuildDailyActivitiesMenu()/
 		// BuildStatEditorMenu()/BuildTransactionsMenu()/
-		// BuildUnlockerMenu()) - all seven still placeholder-only.
+		// BuildUnlockerMenu()). Businesses now has its own content Grid;
+		// the other six are still placeholder-only.
 		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Categories"));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Businesses", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Businesses", &g_BusinessesContent));
 		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Heists", &GetPlaceholderGrid()));
 		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Daily Activities", &GetPlaceholderGrid()));
 		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Stat Editor", &GetPlaceholderGrid()));

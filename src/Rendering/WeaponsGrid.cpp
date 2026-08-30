@@ -1,6 +1,7 @@
 #include "WeaponsGrid.hpp"
 
 #include "GridItemCommandButton.hpp"
+#include "GridItemCommandList.hpp"
 #include "GridItemCommandToggle.hpp"
 #include "GridItemHeader.hpp"
 #include "Joaat.hpp"
@@ -28,6 +29,14 @@ namespace YimMenu::Rendering
 		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "giveallweapons"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "givemaxammo"_J));
 		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "opengunlocker"_J));
+
+		// Gun Van (weaponsGunVanGroup) - all three items are
+		// unconditional (two ListCommandItems, now that
+		// GridItemCommandList exists, plus a plain CommandItem button).
+		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Gun Van"));
+		m_Items.push_back(std::make_unique<GridItemCommandList>(kItemH, "gunvan_weapon"_J));
+		m_Items.push_back(std::make_unique<GridItemCommandList>(kItemH, "gunvan_slot"_J));
+		m_Items.push_back(std::make_unique<GridItemCommandButton>(kItemH, "gunvan_apply"_J));
 
 		// Aimbot (weaponsAimbotGroup) - only the one unconditional
 		// toggle; aimbotaimforhead/aimbottargetdrivers/
