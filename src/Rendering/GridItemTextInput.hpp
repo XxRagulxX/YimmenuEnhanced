@@ -26,10 +26,23 @@ namespace YimMenu::Rendering
 	// while still editing - a mouse click on another row, or Up/Down
 	// navigating away - see draw()'s own isKeyboardFocused() check;
 	// there's no separate "blur" event in this system to hook instead.
+	//
+	// onChange (optional) fires on every edit to the in-progress buffer -
+	// each character typed, each Backspace - unlike onCommit, which only
+	// fires once on Enter/auto-commit with the final value. This is what
+	// a live-filtering search box needs (GridItemSelectList's search
+	// field re-filters its rows on every keystroke, not just once the
+	// user is done typing); a plain "type a value, press Enter" field
+	// (every other GridItemTextInput use so far) just leaves this null.
 	class GridItemTextInput : public GridItem
 	{
 	public:
-		GridItemTextInput(int16_t width, int16_t height, std::string label, std::string initialValue, std::function<void(const std::string&)> onCommit);
+		GridItemTextInput(int16_t width,
+		    int16_t height,
+		    std::string label,
+		    std::string initialValue,
+		    std::function<void(const std::string&)> onCommit,
+		    std::function<void(const std::string&)> onChange = nullptr);
 
 		void draw() override;
 		void drawText() override;
@@ -59,6 +72,7 @@ namespace YimMenu::Rendering
 		std::string m_Value;  // committed value, shown when not editing
 		std::string m_Buffer; // in-progress typed text, shown while editing
 		std::function<void(const std::string&)> m_OnCommit;
+		std::function<void(const std::string&)> m_OnChange;
 		bool m_Editing = false;
 	};
 }

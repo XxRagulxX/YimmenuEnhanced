@@ -14,11 +14,17 @@ namespace YimMenu::Rendering
 		constexpr float kValuePaddingX = 6.f;
 	}
 
-	GridItemTextInput::GridItemTextInput(int16_t width, int16_t height, std::string label, std::string initialValue, std::function<void(const std::string&)> onCommit) :
+	GridItemTextInput::GridItemTextInput(int16_t width,
+	    int16_t height,
+	    std::string label,
+	    std::string initialValue,
+	    std::function<void(const std::string&)> onCommit,
+	    std::function<void(const std::string&)> onChange) :
 	    GridItem(GRIDITEM_INDIFFERENT, width, height),
 	    m_Label(std::move(label)),
 	    m_Value(std::move(initialValue)),
-	    m_OnCommit(std::move(onCommit))
+	    m_OnCommit(std::move(onCommit)),
+	    m_OnChange(std::move(onChange))
 	{
 	}
 
@@ -106,7 +112,12 @@ namespace YimMenu::Rendering
 		// StringCommandItem's own 256-byte narrow buffer (src/
 		// StringCommandItem.cpp), no wide-character/IME support.
 		if (c >= 0x20 && c < 0x7f && m_Buffer.size() < 255)
+		{
 			m_Buffer.push_back(static_cast<char>(c));
+
+			if (m_OnChange)
+				m_OnChange(m_Buffer);
+		}
 	}
 
 	void GridItemTextInput::onEditKey(unsigned int vkCode)
@@ -118,7 +129,12 @@ namespace YimMenu::Rendering
 		{
 		case VK_BACK:
 			if (!m_Buffer.empty())
+			{
 				m_Buffer.pop_back();
+
+				if (m_OnChange)
+					m_OnChange(m_Buffer);
+			}
 			break;
 
 		case VK_RETURN:
