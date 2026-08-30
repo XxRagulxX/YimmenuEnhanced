@@ -14,8 +14,13 @@ namespace YimMenu::Rendering
 	{
 		// Player passed by value in the comparator (not const&) - same
 		// as MenuPlayers.cpp's own ComparePlayerNames, since Player::
-		// GetName() isn't const and Player itself is a plain 8-byte
-		// handle (see Player.hpp's own static_assert), cheap to copy.
+		// GetName()/operator==() aren't const and Player itself is a
+		// plain 8-byte handle (see Player.hpp's own static_assert),
+		// cheap to copy. For the same reason, every SortedPlayers()
+		// caller below keeps its own result in a non-const local (never
+		// `const auto players = ...`) - GetName()/operator==() can't be
+		// called on a Player reached through a const vector/pair
+		// otherwise.
 		std::vector<std::pair<uint8_t, Player>> SortedPlayers()
 		{
 			std::vector<std::pair<uint8_t, Player>> sorted(Players::GetPlayers().begin(), Players::GetPlayers().end());
@@ -33,7 +38,7 @@ namespace YimMenu::Rendering
 
 	void GridItemPlayerList::draw()
 	{
-		const auto players = SortedPlayers();
+		auto players = SortedPlayers();
 		auto selected = Players::GetSelected();
 
 		if (players.empty())
@@ -53,7 +58,7 @@ namespace YimMenu::Rendering
 
 	void GridItemPlayerList::drawText()
 	{
-		const auto players = SortedPlayers();
+		auto players = SortedPlayers();
 
 		if (players.empty())
 		{
@@ -73,7 +78,7 @@ namespace YimMenu::Rendering
 
 	void GridItemPlayerList::onClick(int16_t, int16_t cursorY)
 	{
-		const auto players = SortedPlayers();
+		auto players = SortedPlayers();
 		if (players.empty())
 			return;
 
@@ -84,7 +89,7 @@ namespace YimMenu::Rendering
 
 	bool GridItemPlayerList::onArrow(int delta)
 	{
-		const auto players = SortedPlayers();
+		auto players = SortedPlayers();
 		if (players.empty())
 			return false;
 
