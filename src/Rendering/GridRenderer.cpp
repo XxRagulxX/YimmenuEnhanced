@@ -5,6 +5,7 @@
 #include "MenuFocus.hpp"
 #include "MenuGrid.hpp"
 #include "MenuNavigation.hpp"
+#include "MenuPopup.hpp"
 #include "Pointers.hpp"
 #include "Renderer.hpp"
 #include "Theme.hpp"
@@ -110,6 +111,16 @@ namespace YimMenu::Rendering
 			out = PosC2H(static_cast<float>(cursor.x), static_cast<float>(cursor.y));
 			return true;
 		}
+
+		// Double-click tracking for GridItem::onClickEx() - same
+		// time+target test a real double-click needs (Win32's own
+		// GetDoubleClickTime(), same item hit both times). Deliberately
+		// not position-threshold-based on top of that: two clicks
+		// landing on the same GridItem within the system double-click
+		// interval already implies "the same spot" for anything sized
+		// like a menu row.
+		GridItem* g_LastClickedItem = nullptr;
+		ULONGLONG g_LastClickTimeMs = 0;
 	}
 
 	// Master visibility toggle for the whole DirectXTK12/Grid renderer
@@ -287,6 +298,10 @@ namespace YimMenu::Rendering
 			m_Batch->Begin(commandList);
 
 			g_MenuGrid.draw();
+			// Drawn last, on top of everything else - see MenuPopup's own
+			// class comment for why this is a free-standing overlay
+			// rather than a GridItem/Grid of its own.
+			MenuPopup::Draw();
 
 			m_Batch->End();
 		}
@@ -304,6 +319,7 @@ namespace YimMenu::Rendering
 			m_SpriteBatch->Begin(commandList);
 
 			g_MenuGrid.drawText();
+			MenuPopup::DrawText();
 
 			m_SpriteBatch->End();
 		}
@@ -378,6 +394,27 @@ namespace YimMenu::Rendering
 		if (!_StandRendererTest.GetState() || !GUI::IsOpen())
 			return;
 
+		// MenuPopup takes over every input while open, ahead of even the
+		// text-edit interception right below - a popup open on top of a
+		// text field mid-edit still wins. See MenuPopup's own class
+		// comment for why it always swallows regardless of what it
+		// matched.
+		if (MenuPopup::IsOpen())
+		{
+			if (msg == WM_LBUTTONDOWN)
+			{
+				DirectX::XMFLOAT2 cursor;
+				if (TryGetCursorPos(cursor))
+					MenuPopup::HandleClick(static_cast<int16_t>(cursor.x), static_cast<int16_t>(cursor.y));
+			}
+			else if (msg == WM_KEYDOWN)
+			{
+				MenuPopup::HandleKey(static_cast<unsigned int>(wparam));
+			}
+
+			return;
+		}
+
 		// Text-edit interception: while the keyboard-focused item is a
 		// GridItemTextInput (or anything built on it) actively editing -
 		// see GridItem.hpp's own isEditingText()/onChar()/onEditKey() doc
@@ -422,7 +459,19 @@ namespace YimMenu::Rendering
 				if (item->isFocusable())
 					MenuFocus::SetFocusedItem(MenuNavigation::Current(), item);
 
-				item->onClick(cursorX, cursorY);
+				// Same item, within the system double-click interval - see
+				// g_LastClickedItem's own doc comment above for why that's
+				// the whole test. Ctrl/Shift read at click time, same as
+				// ImGui::IsKeyDown(ImGuiMod_Ctrl/Shift) would in the
+				// classic menu's own click handlers.
+				const auto nowMs = GetTickCount64();
+				const bool doubleClick = item == g_LastClickedItem && (nowMs - g_LastClickTimeMs) <= GetDoubleClickTime();
+				g_LastClickedItem = item;
+				g_LastClickTimeMs = nowMs;
+
+				const bool ctrlHeld = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+				const bool shiftHeld = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+				item->onClickEx(cursorX, cursorY, ctrlHeld, shiftHeld, doubleClick);
 			}
 
 			return;

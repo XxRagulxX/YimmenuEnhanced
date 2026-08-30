@@ -43,6 +43,7 @@ namespace YimMenu::Rendering
 		void draw() override;
 		void drawText() override;
 		void onClick(int16_t cursorX, int16_t cursorY) override;
+		void onClickEx(int16_t x, int16_t y, bool ctrl, bool shift, bool doubleClick) override;
 
 		bool isFocusable() const override;
 		void activate() override;

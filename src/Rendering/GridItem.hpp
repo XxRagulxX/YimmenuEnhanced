@@ -107,6 +107,23 @@ namespace YimMenu::Rendering
 		{
 		}
 
+		// The real entry point GridRenderer::WndProcImpl calls on
+		// WM_LBUTTONDOWN, carrying the modifier keys held and whether
+		// this is a double-click (time+target threshold, tracked in
+		// GridRenderer) - Ctrl/Shift-click and double-click gestures used
+		// throughout the classic menu (World > Spawn Ped's Ctrl+Click to
+		// set player model, Teleport > Saved's double-click-to-teleport/
+		// Shift-click-to-delete) that a plain onClick() has no way to
+		// express. Default just calls onClick(x, y), ignoring every
+		// gesture - every existing widget that only overrides onClick()
+		// keeps behaving exactly as before; a widget that actually cares
+		// about a gesture overrides this instead (and can still call
+		// onClick(x, y) itself for the plain-click case).
+		virtual void onClickEx(int16_t x, int16_t y, bool /*ctrl*/, bool /*shift*/, bool /*doubleClick*/)
+		{
+			onClick(x, y);
+		}
+
 		// Whether this item takes part in keyboard navigation at all -
 		// see the class comment above. Default false: section labels
 		// and chrome (GridItemText, GridItemHeader, ...) aren't

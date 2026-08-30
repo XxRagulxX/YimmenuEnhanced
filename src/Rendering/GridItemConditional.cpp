@@ -70,6 +70,12 @@ namespace YimMenu::Rendering
 			m_Item->onClick(cursorX, cursorY);
 	}
 
+	void GridItemConditional::onClickEx(int16_t x, int16_t y, bool ctrl, bool shift, bool doubleClick)
+	{
+		if (CanDraw())
+			m_Item->onClickEx(x, y, ctrl, shift, doubleClick);
+	}
+
 	bool GridItemConditional::isFocusable() const
 	{
 		// Hidden (CanDraw() false) means not focusable either - keeps
