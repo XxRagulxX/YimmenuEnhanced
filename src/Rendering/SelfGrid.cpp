@@ -6,6 +6,7 @@
 #include "GridItemHeader.hpp"
 #include "Joaat.hpp"
 #include "PlaceholderGrid.hpp"
+#include "WeaponsGrid.hpp"
 
 namespace YimMenu::Rendering
 {
@@ -13,6 +14,12 @@ namespace YimMenu::Rendering
 	{
 		constexpr float kSectionHeaderH = 26.f;
 		constexpr float kItemH = 28.f;
+
+		// Owned here rather than in MenuGrid.cpp: unlike SelfGrid itself
+		// (Self's root, registered in MenuGrid's sidebar table),
+		// WeaponsGrid is only ever reached through the "Weapons" folder
+		// row below - nothing else needs to know it exists.
+		WeaponsGrid g_WeaponsContent{};
 	}
 
 	// Position matches every other content Grid's (168, 58) - see the
@@ -60,10 +67,10 @@ namespace YimMenu::Rendering
 		m_Items.push_back(std::make_unique<GridItemCommandToggle>(kItemH, "mpspecialability"_J, "Enable in MP"));
 
 		// Self's other categories (MenuSelf.cpp's BuildWeaponsMenu()/
-		// CreateOutfitsMenu()) - both still placeholder-only until they
-		// get their own content Grid.
+		// CreateOutfitsMenu()). Weapons now has its own content Grid
+		// (WeaponsGrid); Outfit Editor is still placeholder-only.
 		m_Items.push_back(std::make_unique<GridItemHeader>(kSectionHeaderH, "Categories"));
-		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Weapons", &GetPlaceholderGrid()));
+		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Weapons", &g_WeaponsContent));
 		m_Items.push_back(std::make_unique<GridItemFolder>(kItemH, "Outfit Editor", &GetPlaceholderGrid()));
 
 		LOGF(INFO, "[GridRenderer] SelfGrid populated with {} items", m_Items.size());

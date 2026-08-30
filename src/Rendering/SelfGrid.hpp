@@ -27,7 +27,10 @@ namespace YimMenu::Rendering
 	// concerned: Populate() appends a GridItemFolder row for each of
 	// Self's other categories (Weapons, Outfit Editor) after the items
 	// above, matching how Stand's own menu nests a category inside
-	// another's list instead of a tab/sidebar entry.
+	// another's list instead of a tab/sidebar entry. Weapons' folder
+	// points at a real content Grid (WeaponsGrid, owned here since
+	// nothing else reaches it) - see WeaponsGrid.hpp for what it covers.
+	// Outfit Editor still points at the shared placeholder.
 	class SelfGrid : public Grid
 	{
 	public:
