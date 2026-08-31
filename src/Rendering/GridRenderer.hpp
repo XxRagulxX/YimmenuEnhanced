@@ -1,4 +1,6 @@
 #pragma once
+#include "Theme.hpp"
+
 #include <CommonStates.h>
 #include <Effects.h>
 #include <GraphicsMemory.h>
@@ -71,9 +73,9 @@ namespace YimMenu::Rendering
 		// call from a GridItem::DrawText() invoked via Grid::DrawText(),
 		// i.e. the separate SpriteBatch pass in DrawImpl. No-ops silently
 		// if the embedded font failed to load.
-		static void DrawText(float x, float y, const char* text, const DirectX::XMFLOAT4& colour)
+		static void DrawText(float x, float y, const char* text, const DirectX::XMFLOAT4& colour, float scale = Theme::kTextScale)
 		{
-			GetInstance().DrawTextImpl(x, y, text, colour);
+			GetInstance().DrawTextImpl(x, y, text, colour, scale);
 		}
 
 		// Measures a UTF-8 text string in H-space units (x = width,
@@ -82,9 +84,9 @@ namespace YimMenu::Rendering
 		// x/y/width/height. Returns {0, 0} if the embedded font failed to
 		// load. Safe to call any time (does not require a batch to be
 		// open).
-		static DirectX::XMFLOAT2 MeasureText(const char* text)
+		static DirectX::XMFLOAT2 MeasureText(const char* text, float scale = Theme::kTextScale)
 		{
-			return GetInstance().MeasureTextImpl(text);
+			return GetInstance().MeasureTextImpl(text, scale);
 		}
 
 	private:
@@ -97,8 +99,8 @@ namespace YimMenu::Rendering
 		void DrawImpl(ID3D12GraphicsCommandList* commandList);
 		void WndProcImpl(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 		void DrawRectImpl(float x, float y, float width, float height, const DirectX::XMFLOAT4& colour);
-		void DrawTextImpl(float x, float y, const char* text, const DirectX::XMFLOAT4& colour);
-		DirectX::XMFLOAT2 MeasureTextImpl(const char* text) const;
+		void DrawTextImpl(float x, float y, const char* text, const DirectX::XMFLOAT4& colour, float scale);
+		DirectX::XMFLOAT2 MeasureTextImpl(const char* text, float scale) const;
 
 		void EnsureDeviceResources(ID3D12Device* device);
 		void ReleaseDeviceResources();

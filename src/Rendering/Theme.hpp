@@ -72,6 +72,7 @@ namespace YimMenu::Rendering::Theme
 	// text.scale/addressbar_text.scale identically across the same three
 	// widget kinds.
 	constexpr float kTextScale = 0.65625f;
+	constexpr float kSmallTextScale = kTextScale * (12.f / 15.f);
 
 	// Stand's own virtual HUD canvas dimensions (see GridRenderer::
 	// PosH2C/SizeH2C's own doc comment for what "H-space" means) - shared

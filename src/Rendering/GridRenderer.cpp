@@ -355,39 +355,26 @@ namespace YimMenu::Rendering
 		m_Batch->DrawQuad(v0, v1, v2, v3);
 	}
 
-	void GridRenderer::DrawTextImpl(float x, float y, const char* text, const DirectX::XMFLOAT4& colour)
+	void GridRenderer::DrawTextImpl(float x, float y, const char* text, const DirectX::XMFLOAT4& colour, float scale)
 	{
 		if (!m_Font || !m_SpriteBatch)
 			return;
 
-		// x/y are H-space, same as DrawRectImpl above. The font itself
-		// draws at Theme::kTextScale * resolution_text_scale - see
-		// Theme::kTextScale's own doc comment for why both factors are
-		// needed (the embedded font's native size vs. this project's row
-		// heights, and H-space vs. the real client resolution).
 		const auto posC = PosH2C(x, y);
-		const auto scale = Theme::kTextScale * GetResolutionTextScale(GetClientSize());
+		const auto finalScale = scale * GetResolutionTextScale(GetClientSize());
 
-		m_Font->DrawString(m_SpriteBatch.get(), text, DirectX::XMFLOAT2(posC.x, posC.y), DirectX::XMLoadFloat4(&colour), 0.f, DirectX::XMFLOAT2{0.f, 0.f}, DirectX::XMFLOAT2{scale, scale});
+		m_Font->DrawString(m_SpriteBatch.get(), text, DirectX::XMFLOAT2(posC.x, posC.y), DirectX::XMLoadFloat4(&colour), 0.f, DirectX::XMFLOAT2{0.f, 0.f}, DirectX::XMFLOAT2{finalScale, finalScale});
 	}
 
-	DirectX::XMFLOAT2 GridRenderer::MeasureTextImpl(const char* text) const
+	DirectX::XMFLOAT2 GridRenderer::MeasureTextImpl(const char* text, float scale) const
 	{
 		if (!m_Font)
 			return {};
 
-		// Deliberately NOT multiplied by resolution_text_scale (unlike
-		// DrawTextImpl's own scale) - this needs to return a size in the
-		// same H-space every GridItem's own x/y/width/height (and this
-		// measurement's callers' layout math) is in, and resolution_text_
-		// scale is exactly the factor that later converts H-space to the
-		// real client resolution. Matches Stand's own getTextWidth()/
-		// trimTextH(), which measure using just settings.scale (Theme::
-		// kTextScale here), never resolution_text_scale.
 		DirectX::XMFLOAT2 size;
 		DirectX::XMStoreFloat2(&size, m_Font->MeasureString(text));
-		size.x *= Theme::kTextScale;
-		size.y *= Theme::kTextScale;
+		size.x *= scale;
+		size.y *= scale;
 		return size;
 	}
 
