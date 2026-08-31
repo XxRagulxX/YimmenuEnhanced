@@ -1,11 +1,13 @@
 #include "MenuGrid.hpp"
 
+#include "FiberPool.hpp"
 #include "GridItemAddressbar.hpp"
 #include "GridItemTabsVertical.hpp"
 #include "GridRenderer.hpp"
 #include "MenuFocus.hpp"
 #include "MenuNavigation.hpp"
 #include "MiscGrid.hpp"
+#include "Natives.hpp"
 #include "NetworkGrid.hpp"
 #include "PlayersGrid.hpp"
 #include "RecoveryGrid.hpp"
@@ -83,6 +85,13 @@ namespace YimMenu::Rendering
 		WorldGrid g_WorldContent{};
 		SettingsGrid g_SettingsContent{};
 		MiscGrid g_MiscContent{};
+
+		void PlayMenuSound(const char* soundName)
+		{
+			FiberPool::queueJob([soundName] {
+				AUDIO::PLAY_SOUND_FRONTEND(-1, soundName, "HUD_FRONTEND_DEFAULT_SOUNDSET", true);
+			});
+		}
 	}
 
 	MenuGrid::MenuGrid() :
@@ -223,6 +232,7 @@ namespace YimMenu::Rendering
 			// focus doesn't need resetting explicitly: MenuFocus detects
 			// MenuNavigation::Current() changing underneath it on its
 			// own - see MenuFocus.hpp's class comment.
+			PlayMenuSound("BACK");
 			MenuNavigation::Pop();
 			break;
 
@@ -232,6 +242,7 @@ namespace YimMenu::Rendering
 		case VK_NUMPAD2:
 		{
 			const int delta = (vkCode == VK_DOWN || vkCode == VK_NUMPAD2) ? 1 : -1;
+			PlayMenuSound("NAV_UP_DOWN");
 			if (MenuFocus::GetRegion() == MenuFocus::Region::Sidebar)
 			{
 				if (m_Sidebar)
@@ -251,6 +262,7 @@ namespace YimMenu::Rendering
 			// back to moving focus back to the sidebar, the same
 			// direction Left points visually (sidebar sits to Content's
 			// left).
+			PlayMenuSound("NAV_LEFT_RIGHT");
 			if (MenuFocus::GetRegion() == MenuFocus::Region::Content)
 			{
 				auto* focused = MenuNavigation::Current() ? MenuFocus::GetFocusedItem(MenuNavigation::Current()) : nullptr;
@@ -261,6 +273,7 @@ namespace YimMenu::Rendering
 
 		case VK_RIGHT:
 		case VK_NUMPAD6:
+			PlayMenuSound("NAV_LEFT_RIGHT");
 			if (MenuFocus::GetRegion() == MenuFocus::Region::Sidebar)
 			{
 				MenuFocus::SetRegion(MenuFocus::Region::Content);
@@ -274,6 +287,7 @@ namespace YimMenu::Rendering
 
 		case VK_RETURN:
 		case VK_NUMPAD5:
+			PlayMenuSound("SELECT");
 			if (MenuFocus::GetRegion() == MenuFocus::Region::Sidebar)
 			{
 				// Selecting a sidebar entry already switches content -
