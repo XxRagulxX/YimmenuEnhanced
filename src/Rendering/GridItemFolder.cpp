@@ -30,7 +30,7 @@ namespace YimMenu::Rendering
 		// item's own row.
 		const auto labelSize = GridRenderer::MeasureText(m_Label.c_str());
 		const float labelY = y + std::max(0.f, (height - labelSize.y) * 0.5f);
-		GridRenderer::DrawText(x + 10.f, labelY, m_Label.c_str(), Theme::kText);
+		GridRenderer::DrawText(x + 5.f, labelY, m_Label.c_str(), Theme::kText);
 
 		const auto arrowSize = GridRenderer::MeasureText(">");
 		const float arrowY = y + std::max(0.f, (height - arrowSize.y) * 0.5f);

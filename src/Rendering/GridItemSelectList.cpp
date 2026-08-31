@@ -83,14 +83,14 @@ namespace YimMenu::Rendering
 		const auto displaySearch = m_Editing ? (m_SearchBuffer + "_") : (m_SearchBuffer.empty() ? m_Placeholder : m_SearchBuffer);
 		const auto searchColor = (!m_Editing && m_SearchBuffer.empty()) ? Theme::kPlaceholderText : Theme::kText;
 		const auto searchSize = GridRenderer::MeasureText(displaySearch.c_str());
-		GridRenderer::DrawText(x + 10.f, y + std::max(0.f, (Theme::kContentItemHeight - searchSize.y) * 0.5f), displaySearch.c_str(), searchColor);
+		GridRenderer::DrawText(x + 5.f, y + std::max(0.f, (Theme::kContentItemHeight - searchSize.y) * 0.5f), displaySearch.c_str(), searchColor);
 
 		auto filtered = FilteredRows();
 		if (filtered.empty())
 		{
 			const auto noResultsSize = GridRenderer::MeasureText("No results");
 			const auto textY = y + Theme::kContentItemHeight + std::max(0.f, (Theme::kContentItemHeight - noResultsSize.y) * 0.5f);
-			GridRenderer::DrawText(x + 10.f, textY, "No results", Theme::kPlaceholderText);
+			GridRenderer::DrawText(x + 5.f, textY, "No results", Theme::kPlaceholderText);
 			return;
 		}
 
@@ -100,7 +100,7 @@ namespace YimMenu::Rendering
 			const auto rowY = y + Theme::kContentItemHeight * static_cast<float>(i + 1);
 			const auto textSize = GridRenderer::MeasureText(filtered[i].value.c_str());
 			const auto textY = rowY + std::max(0.f, (Theme::kContentItemHeight - textSize.y) * 0.5f);
-			GridRenderer::DrawText(x + 10.f, textY, filtered[i].value.c_str(), Theme::kText);
+			GridRenderer::DrawText(x + 5.f, textY, filtered[i].value.c_str(), Theme::kText);
 		}
 	}
 

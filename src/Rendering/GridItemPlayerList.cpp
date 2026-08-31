@@ -63,7 +63,7 @@ namespace YimMenu::Rendering
 		if (players.empty())
 		{
 			const auto textY = y + std::max(0.f, (Theme::kContentItemHeight - GridRenderer::MeasureText("No players").y) * 0.5f);
-			GridRenderer::DrawText(x + 10.f, textY, "No players", Theme::kPlaceholderText);
+			GridRenderer::DrawText(x + 5.f, textY, "No players", Theme::kPlaceholderText);
 			return;
 		}
 
@@ -72,7 +72,7 @@ namespace YimMenu::Rendering
 		{
 			const auto rowY = y + Theme::kContentItemHeight * static_cast<float>(i);
 			const auto textY = rowY + std::max(0.f, (Theme::kContentItemHeight - GridRenderer::MeasureText(players[i].second.GetName()).y) * 0.5f);
-			GridRenderer::DrawText(x + 10.f, textY, players[i].second.GetName(), Theme::kText);
+			GridRenderer::DrawText(x + 5.f, textY, players[i].second.GetName(), Theme::kText);
 		}
 	}
 

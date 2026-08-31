@@ -39,7 +39,7 @@ namespace YimMenu::Rendering
 		const auto& label = Label();
 		const auto size = GridRenderer::MeasureText(label.c_str());
 		const float textY = y + std::max(0.f, (height - size.y) * 0.5f);
-		GridRenderer::DrawText(x + 10.f, textY, label.c_str(), Theme::kText);
+		GridRenderer::DrawText(x + 5.f, textY, label.c_str(), Theme::kText);
 	}
 
 	void GridItemCommandPlayer::onClick(int16_t, int16_t)

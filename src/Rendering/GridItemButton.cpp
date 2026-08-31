@@ -32,7 +32,7 @@ namespace YimMenu::Rendering
 		// would otherwise centre upward out of this item's own row.
 		const auto size = GridRenderer::MeasureText(m_Label.c_str());
 		const float textY = y + std::max(0.f, (height - size.y) * 0.5f);
-		GridRenderer::DrawText(x + 10.f, textY, m_Label.c_str(), Theme::kText);
+		GridRenderer::DrawText(x + 5.f, textY, m_Label.c_str(), Theme::kText);
 	}
 
 	void GridItemButton::onClick(int16_t, int16_t)

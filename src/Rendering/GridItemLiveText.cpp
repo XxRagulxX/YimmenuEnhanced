@@ -23,6 +23,6 @@ namespace YimMenu::Rendering
 		const auto text = m_Text();
 		const auto size = GridRenderer::MeasureText(text.c_str());
 		const float textY = y + std::max(0.f, (height - size.y) * 0.5f);
-		GridRenderer::DrawText(x + 10.f, textY, text.c_str(), m_Colour);
+		GridRenderer::DrawText(x + 5.f, textY, text.c_str(), m_Colour);
 	}
 }
