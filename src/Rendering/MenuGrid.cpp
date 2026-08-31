@@ -1,6 +1,6 @@
 #include "MenuGrid.hpp"
 
-#include "GridItemPrimaryText.hpp"
+#include "GridItemAddressbar.hpp"
 #include "GridItemTabsVertical.hpp"
 #include "GridRenderer.hpp"
 #include "MenuFocus.hpp"
@@ -94,7 +94,7 @@ namespace YimMenu::Rendering
 
 	void MenuGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
-		auto header = std::make_unique<GridItemPrimaryText>(kHeaderW, Theme::kHeaderHeight, "YimMenu");
+		auto header = std::make_unique<GridItemAddressbar>(kHeaderW, Theme::kHeaderHeight, "YimMenu");
 		m_Header = header.get();
 		items_draft.push_back(std::move(header));
 

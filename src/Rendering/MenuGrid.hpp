@@ -8,7 +8,7 @@
 
 namespace YimMenu::Rendering
 {
-	class GridItemPrimaryText;
+	class GridItemAddressbar;
 	class GridItemTabsVertical;
 
 	// Top-level chrome: a breadcrumb header + sidebar (submenu list) +
@@ -74,7 +74,7 @@ namespace YimMenu::Rendering
 		// findItemAt() all do), and idempotent otherwise.
 		void SyncNavigation();
 
-		GridItemPrimaryText* m_Header = nullptr;
+		GridItemAddressbar* m_Header = nullptr;
 		GridItemTabsVertical* m_Sidebar = nullptr;
 		GridItemScrollbar m_ContentScrollbar;
 		std::vector<SubmenuRoot> m_Roots;

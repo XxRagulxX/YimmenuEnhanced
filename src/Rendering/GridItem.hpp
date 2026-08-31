@@ -126,7 +126,7 @@ namespace YimMenu::Rendering
 
 		// Whether this item takes part in keyboard navigation at all -
 		// see the class comment above. Default false: section labels
-		// and chrome (GridItemText, GridItemPrimaryText, ...) aren't
+		// and chrome (GridItemText, GridItemAddressbar, ...) aren't
 		// interactive and shouldn't ever receive focus.
 		[[nodiscard]] virtual bool isFocusable() const
 		{

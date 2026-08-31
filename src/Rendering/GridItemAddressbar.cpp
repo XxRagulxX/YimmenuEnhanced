@@ -1,4 +1,4 @@
-#include "GridItemPrimaryText.hpp"
+#include "GridItemAddressbar.hpp"
 
 #include "GridRenderer.hpp"
 #include "Theme.hpp"
@@ -7,12 +7,12 @@
 
 namespace YimMenu::Rendering
 {
-	void GridItemPrimaryText::draw()
+	void GridItemAddressbar::draw()
 	{
 		GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
 	}
 
-	void GridItemPrimaryText::drawText()
+	void GridItemAddressbar::drawText()
 	{
 		const float textY = y + std::max(0.f, (height - GridRenderer::MeasureText(m_Title.c_str(), Theme::kSmallTextScale).y) * 0.5f);
 		GridRenderer::DrawText(x + 5.f, textY, m_Title.c_str(), Theme::kText, Theme::kSmallTextScale);
