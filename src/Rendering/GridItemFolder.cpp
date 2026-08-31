@@ -10,7 +10,7 @@ namespace YimMenu::Rendering
 {
 	namespace
 	{
-		constexpr float kArrowGap = 10.f;
+		constexpr float kArrowGap = 5.f;
 	}
 
 	void GridItemFolder::draw()
