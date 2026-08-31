@@ -146,16 +146,41 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemConditional>(
 		    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "freecamspeed"_J),
 		    "freecam"_J));
+		// Levitation - flat here rather than its own nested folder page
+		// (like MenuSelf.cpp's CollapsingHeaderItem gives it), since the
+		// Grid renderer is still the opt-in debug-only alternate UI - a
+		// dedicated LevitationGrid folder page is a reasonable follow-up
+		// once more of this system's content gets its own nested pages.
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "levitate"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "levitatespeed"_J),
-		    "levitate"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "levitatesprintmultiplier"_J),
-		    "levitate"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "levitateaccel"_J),
-		    "levitate"_J));
+		for (auto hash : {"levitateignorepitch"_J,
+		         "keepmomentum"_J,
+		         "levitateapplypitch"_J,
+		         "levitaterotate"_J,
+		         "levitatebuttoninstructions"_J})
+		{
+			items_draft.push_back(std::make_unique<GridItemConditional>(
+			    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, hash),
+			    "levitate"_J));
+		}
+		for (auto hash : {"levitatespeed"_J,
+		         "levitatesprintmultiplier"_J,
+		         "levitateaccel"_J,
+		         "levitatepassivemin"_J,
+		         "levitatepassivemax"_J,
+		         "levitateassistup"_J,
+		         "levitateassistdown"_J,
+		         "levitateassistsnap"_J})
+		{
+			items_draft.push_back(std::make_unique<GridItemConditional>(
+			    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, hash),
+			    "levitate"_J));
+		}
+		for (auto hash : {"levitatepassivespeed"_J, "levitateassistdeadzone"_J})
+		{
+			items_draft.push_back(std::make_unique<GridItemConditional>(
+			    std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, hash),
+			    "levitate"_J));
+		}
 
 		// Self's other categories (MenuSelf.cpp's BuildWeaponsMenu()/
 		// CreateOutfitsMenu()). Weapons now has its own content Grid

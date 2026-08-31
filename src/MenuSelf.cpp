@@ -57,10 +57,25 @@ namespace YimMenu::Submenus
 		movementGroup->AddItem(std::make_shared<ConditionalItem>("noclip"_J, std::make_shared<FloatCommandItem>("noclipspeed"_J)));
 		movementGroup->AddItem(std::make_shared<BoolCommandItem>("freecam"_J));
 		movementGroup->AddItem(std::make_shared<ConditionalItem>("freecam"_J, std::make_shared<FloatCommandItem>("freecamspeed"_J)));
-		movementGroup->AddItem(std::make_shared<BoolCommandItem>("levitate"_J));
-		movementGroup->AddItem(std::make_shared<ConditionalItem>("levitate"_J, std::make_shared<FloatCommandItem>("levitatespeed"_J)));
-		movementGroup->AddItem(std::make_shared<ConditionalItem>("levitate"_J, std::make_shared<FloatCommandItem>("levitatesprintmultiplier"_J)));
-		movementGroup->AddItem(std::make_shared<ConditionalItem>("levitate"_J, std::make_shared<FloatCommandItem>("levitateaccel"_J)));
+
+		auto levitateTab = std::make_shared<CollapsingHeaderItem>("Levitation");
+		levitateTab->AddItem(std::make_shared<BoolCommandItem>("levitate"_J));
+		levitateTab->AddItem(std::make_shared<FloatCommandItem>("levitatespeed"_J));
+		levitateTab->AddItem(std::make_shared<FloatCommandItem>("levitatesprintmultiplier"_J));
+		levitateTab->AddItem(std::make_shared<FloatCommandItem>("levitateaccel"_J));
+		levitateTab->AddItem(std::make_shared<BoolCommandItem>("levitateignorepitch"_J));
+		levitateTab->AddItem(std::make_shared<BoolCommandItem>("keepmomentum"_J));
+		levitateTab->AddItem(std::make_shared<BoolCommandItem>("levitateapplypitch"_J));
+		levitateTab->AddItem(std::make_shared<BoolCommandItem>("levitaterotate"_J));
+		levitateTab->AddItem(std::make_shared<BoolCommandItem>("levitatebuttoninstructions"_J));
+		levitateTab->AddItem(std::make_shared<FloatCommandItem>("levitatepassivemin"_J));
+		levitateTab->AddItem(std::make_shared<FloatCommandItem>("levitatepassivemax"_J));
+		levitateTab->AddItem(std::make_shared<IntCommandItem>("levitatepassivespeed"_J));
+		levitateTab->AddItem(std::make_shared<FloatCommandItem>("levitateassistup"_J));
+		levitateTab->AddItem(std::make_shared<FloatCommandItem>("levitateassistdown"_J));
+		levitateTab->AddItem(std::make_shared<IntCommandItem>("levitateassistdeadzone"_J));
+		levitateTab->AddItem(std::make_shared<FloatCommandItem>("levitateassistsnap"_J));
+		movementGroup->AddItem(std::move(levitateTab));
 
 		specialAbilityGroup->AddItem(std::make_shared<BoolCommandItem>("infspecialability"_J));
 		auto specialInMp = std::make_shared<Group>("", 1);
