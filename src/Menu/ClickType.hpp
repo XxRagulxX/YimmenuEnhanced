@@ -1,0 +1,25 @@
+#pragma once
+#include <cstdint>
+
+namespace Stand
+{
+	enum ClickType : uint8_t
+	{
+		CLICK_MENU = 0b00000,
+		CLICK_COMMAND = 0b00001,
+		CLICK_HOTKEY = 0b00010,
+
+		CLICK_FLAG_AUTO = 0b00100,
+		CLICK_BULK = 0b00100,
+		CLICK_AUTO = 0b00101,
+		CLICK_SCRIPTED = 0b00111,
+
+		CLICK_FLAG_CHAT = 0b01000,
+		CLICK_CHAT_ALL = 0b01000,
+		CLICK_CHAT_TEAM = 0b01001,
+
+		CLICK_FLAG_WEB = 0b10000,
+		CLICK_WEB = 0b10000,
+		CLICK_WEB_COMMAND = 0b10001,
+	};
+}
