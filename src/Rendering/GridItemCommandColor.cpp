@@ -160,7 +160,7 @@ namespace YimMenu::Rendering
 				const auto* channelLabel = ChannelLabel(m_Channel);
 
 				const auto labelSize = GridRenderer::MeasureText(channelLabel);
-				GridRenderer::DrawText(x, y + std::max(0.f, (height - labelSize.y) * 0.5f), channelLabel, Theme::kText);
+				GridRenderer::DrawText(x + 5.f, y + std::max(0.f, (height - labelSize.y) * 0.5f), channelLabel, Theme::kText);
 
 				const auto valueStr = m_Command ? std::to_string(Value255()) : std::string("?");
 				const auto valueSize = GridRenderer::MeasureText(valueStr.c_str());

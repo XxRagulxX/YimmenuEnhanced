@@ -11,7 +11,6 @@ namespace YimMenu::Rendering
 	{
 		constexpr float kIndicatorSize = 16.f;
 		constexpr float kBorderWidth = 2.f;
-		constexpr float kLabelGap = 10.f;
 	}
 
 	GridItemBoundToggle::GridItemBoundToggle(int16_t width, int16_t height, std::string label, std::function<bool()> getter, std::function<void(bool)> setter) :
@@ -27,12 +26,13 @@ namespace YimMenu::Rendering
 		if (isKeyboardFocused())
 			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
 
+		const float indicatorX = x + width - kIndicatorSize;
 		const float indicatorY = y + std::max(0.f, (height - kIndicatorSize) * 0.5f);
 
 		const auto borderColour = m_Getter ? Theme::kText : Theme::kError;
 		const auto fillColour = !m_Getter ? Theme::kError : (m_Getter() ? Theme::kAccent : Theme::kPanelBackground);
-		GridRenderer::DrawRect(x, indicatorY, kIndicatorSize, kIndicatorSize, borderColour);
-		GridRenderer::DrawRect(x + kBorderWidth,
+		GridRenderer::DrawRect(indicatorX, indicatorY, kIndicatorSize, kIndicatorSize, borderColour);
+		GridRenderer::DrawRect(indicatorX + kBorderWidth,
 		    indicatorY + kBorderWidth,
 		    kIndicatorSize - kBorderWidth * 2.f,
 		    kIndicatorSize - kBorderWidth * 2.f,
@@ -42,7 +42,7 @@ namespace YimMenu::Rendering
 	void GridItemBoundToggle::drawText()
 	{
 		const float textY = y + std::max(0.f, (height - GridRenderer::MeasureText(m_Label.c_str()).y) * 0.5f);
-		GridRenderer::DrawText(x + kIndicatorSize + kLabelGap, textY, m_Label.c_str(), Theme::kText);
+		GridRenderer::DrawText(x + 5.f, textY, m_Label.c_str(), Theme::kText);
 	}
 
 	void GridItemBoundToggle::onClick(int16_t, int16_t)

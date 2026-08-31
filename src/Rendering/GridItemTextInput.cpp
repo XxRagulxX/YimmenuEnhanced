@@ -46,7 +46,7 @@ namespace YimMenu::Rendering
 		// widget's own class comment for why (a value box anchored to
 		// this item's own right edge would clip a long label instead).
 		const auto labelWidth = GridRenderer::MeasureText(m_Label.c_str()).x;
-		const auto valueX = x + labelWidth + kLabelGap;
+		const auto valueX = x + 5.f + labelWidth + kLabelGap;
 		const auto valueWidth = std::max(0.f, static_cast<float>(width) - (valueX - x));
 		GridRenderer::DrawRect(valueX, y, valueWidth, height, Theme::kPanelBackground);
 	}
@@ -54,7 +54,7 @@ namespace YimMenu::Rendering
 	void GridItemTextInput::drawText()
 	{
 		const auto labelSize = GridRenderer::MeasureText(m_Label.c_str());
-		GridRenderer::DrawText(x, y + std::max(0.f, (height - labelSize.y) * 0.5f), m_Label.c_str(), Theme::kText);
+		GridRenderer::DrawText(x + 5.f, y + std::max(0.f, (height - labelSize.y) * 0.5f), m_Label.c_str(), Theme::kText);
 
 		// A trailing "_" caret while editing - the simplest possible
 		// "you're typing here" indicator without real cursor placement
@@ -62,7 +62,7 @@ namespace YimMenu::Rendering
 		const auto displayValue = m_Editing ? (m_Buffer + "_") : m_Value;
 		const auto valueSize = GridRenderer::MeasureText(displayValue.c_str());
 		const auto labelWidth = GridRenderer::MeasureText(m_Label.c_str()).x;
-		const auto valueX = x + labelWidth + kLabelGap;
+		const auto valueX = x + 5.f + labelWidth + kLabelGap;
 		GridRenderer::DrawText(valueX + kValuePaddingX, y + std::max(0.f, (height - valueSize.y) * 0.5f), displayValue.c_str(), Theme::kText);
 	}
 

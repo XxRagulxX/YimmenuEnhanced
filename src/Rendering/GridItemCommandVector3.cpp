@@ -120,7 +120,7 @@ namespace YimMenu::Rendering
 				const auto* axisLabel = AxisLabel(m_Axis);
 
 				const auto labelSize = GridRenderer::MeasureText(axisLabel);
-				GridRenderer::DrawText(x, y + std::max(0.f, (height - labelSize.y) * 0.5f), axisLabel, Theme::kText);
+				GridRenderer::DrawText(x + 5.f, y + std::max(0.f, (height - labelSize.y) * 0.5f), axisLabel, Theme::kText);
 
 				const auto valueStr = m_Command ? std::format("{:.2f}", GetAxis(m_Command->GetState(), m_Axis)) : std::string("?");
 				const auto valueSize = GridRenderer::MeasureText(valueStr.c_str());

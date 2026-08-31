@@ -64,7 +64,7 @@ namespace YimMenu::Rendering
 
 		const auto& label = Label();
 		const auto labelSize = GridRenderer::MeasureText(label.c_str());
-		GridRenderer::DrawText(x, y + std::max(0.f, (height - labelSize.y) * 0.5f), label.c_str(), Theme::kText);
+		GridRenderer::DrawText(x + 5.f, y + std::max(0.f, (height - labelSize.y) * 0.5f), label.c_str(), Theme::kText);
 
 		const auto valueStr = m_Command ? std::format("{:.2f}", m_Command->GetState()) : std::string("?");
 		const auto valueSize = GridRenderer::MeasureText(valueStr.c_str());

@@ -12,8 +12,8 @@ namespace YimMenu::Rendering
 	{
 		constexpr float kButtonSize = 22.f;
 		constexpr float kGap = 6.f;
-		constexpr float kLabelGap = 10.f;     // same left-aligned inset every other widget here uses
-		constexpr float kValuePadding = 16.f; // left+right padding inside the value box
+		constexpr float kLabelGap = 10.f;
+		constexpr float kValuePadding = 16.f;
 	}
 
 	GridItemCommandList::GridItemCommandList(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride) :
@@ -76,7 +76,7 @@ namespace YimMenu::Rendering
 		// why (a wide option label would otherwise run back underneath
 		// the label text on the left).
 		const auto labelWidth = GridRenderer::MeasureText(Label().c_str()).x;
-		layout.valueX = x + labelWidth + kLabelGap;
+		layout.valueX = x + 5.f + labelWidth + kLabelGap;
 		layout.prevX = layout.valueX + layout.valueWidth + kGap;
 		layout.nextX = layout.prevX + layout.buttonSize + kGap;
 		return layout;
@@ -107,7 +107,7 @@ namespace YimMenu::Rendering
 
 		const auto& label = Label();
 		const auto labelSize = GridRenderer::MeasureText(label.c_str());
-		GridRenderer::DrawText(x, y + std::max(0.f, (height - labelSize.y) * 0.5f), label.c_str(), Theme::kText);
+		GridRenderer::DrawText(x + 5.f, y + std::max(0.f, (height - labelSize.y) * 0.5f), label.c_str(), Theme::kText);
 
 		const auto* valueText = CurrentItemText();
 		const auto valueSize = GridRenderer::MeasureText(valueText);
