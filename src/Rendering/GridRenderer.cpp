@@ -124,13 +124,16 @@ namespace YimMenu::Rendering
 	}
 
 	// Master visibility toggle for the whole DirectXTK12/Grid renderer
-	// (MenuGrid below). ON by default: this is now the primary menu, not
-	// an optional overlay - Menu.cpp's own renderer callback checks
+	// (MenuGrid below). OFF by default while this is still being built
+	// out to match stand-reference's real Menu/Grid.*/GridItem.* classes
+	// 1:1 - the classic ImGui menu is the primary UI for now, and this
+	// is an opt-in way to check the Grid port's progress (Debug > Misc's
+	// "Stand-Style Menu" toggle, in both the classic menu and this
+	// renderer's own Debug > Misc page) without losing the working menu
+	// underneath it. Menu.cpp's own renderer callback checks
 	// GridRenderer::IsActive() and skips UIManager::Draw() (the classic
 	// ImGui menu) entirely while this is true, rather than drawing both
-	// on top of each other. Flip it off (still a normal settings.json
-	// toggle) to fall back to the classic menu for anything below that
-	// isn't ported here yet. Kept the original internal name
+	// on top of each other. Kept the original internal name
 	// ("standrenderertest") so existing saved settings.json state isn't
 	// lost across the label/description/default change - it's still the
 	// same registered command.
@@ -155,14 +158,13 @@ namespace YimMenu::Rendering
 
 	static StandRendererTest _StandRendererTest{"standrenderertest",
 	    "Stand-Style Menu",
-	    "The primary menu (sidebar + breadcrumb address bar, Backspace to go back out of a nested "
-	    "category), using the new DirectXTK12/Grid draw pipeline ported from stand-reference's own "
-	    "Menu/Grid.* and Menu/GridItem.* (alignment-relative layout and all). While this is on, the "
-	    "classic ImGui menu doesn't draw at all. Self, Vehicle, Teleport, Network, Players, World, "
-	    "Recovery, Settings and Debug all have real content now - any nested category not covered yet "
-	    "(including Players > Info, still a placeholder) shows one instead. Turn this off to get the "
-	    "classic menu back for anything not ported here yet.",
-	    true};
+	    "The DirectXTK12/Grid draw pipeline being ported from stand-reference's own Menu/Grid.* and "
+	    "Menu/GridItem.* (alignment-relative layout and all), still under active development - OFF by "
+	    "default, with the classic ImGui menu as the primary UI. Turn this on to check the Grid port's "
+	    "progress (sidebar + breadcrumb address bar, Backspace to go back out of a nested category) "
+	    "alongside the classic menu; while it's on, the classic ImGui menu doesn't draw at all, so turn "
+	    "it back off to get it back for anything not ported here yet.",
+	    false};
 
 	static MenuGrid g_MenuGrid{};
 
