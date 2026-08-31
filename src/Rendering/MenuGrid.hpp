@@ -1,5 +1,6 @@
 #pragma once
 #include "Grid.hpp"
+#include "GridItemScrollbar.hpp"
 
 #include <cstddef>
 #include <string>
@@ -75,6 +76,7 @@ namespace YimMenu::Rendering
 
 		GridItemPrimaryText* m_Header = nullptr;
 		GridItemTabsVertical* m_Sidebar = nullptr;
+		GridItemScrollbar m_ContentScrollbar;
 		std::vector<SubmenuRoot> m_Roots;
 		size_t m_LastSidebarIndex = static_cast<size_t>(-1);
 	};

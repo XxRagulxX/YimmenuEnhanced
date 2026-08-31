@@ -169,7 +169,16 @@ namespace YimMenu::Rendering
 		SyncNavigation();
 
 		if (auto* content = MenuNavigation::Current())
+		{
 			content->draw();
+
+			m_ContentScrollbar.SetView(content);
+			m_ContentScrollbar.x = static_cast<int16_t>(content->origin.x + Theme::kContentWidth + Theme::kScrollbarGap);
+			m_ContentScrollbar.y = content->origin.y;
+			m_ContentScrollbar.width = Theme::kScrollbarWidth;
+			m_ContentScrollbar.height = static_cast<int16_t>(Theme::kHudHeight - content->origin.y - Theme::kContentBottomMargin);
+			m_ContentScrollbar.draw();
+		}
 	}
 
 	void MenuGrid::drawText()

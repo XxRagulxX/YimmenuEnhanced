@@ -87,4 +87,7 @@ namespace YimMenu::Rendering::Theme
 	// kHeaderX/kHeaderY's own 20px margins elsewhere in this system, just
 	// for the opposite edge.
 	constexpr int16_t kContentBottomMargin = 20;
+
+	constexpr int16_t kScrollbarWidth = 4;
+	constexpr int16_t kScrollbarGap = 4;
 }

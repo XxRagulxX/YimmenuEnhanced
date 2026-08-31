@@ -157,6 +157,11 @@ namespace YimMenu::Rendering
 		void getBounds(int16_t& x1, int16_t& y1, int16_t& x2, int16_t& y2) const;
 		void getDimensions(int16_t& x, int16_t& y, int16_t& width, int16_t& height) const;
 
+		[[nodiscard]] int16_t GetScrollOffset() const
+		{
+			return m_ScrollOffset;
+		}
+
 	protected:
 		// Same soup::SharedPtr<std::vector<std::unique_ptr<GridItem>>>
 		// Stand's own Grid uses (see the class comment above for why this
