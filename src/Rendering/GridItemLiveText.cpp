@@ -18,8 +18,6 @@ namespace YimMenu::Rendering
 		if (!m_Text)
 			return;
 
-		// Same ~10px left inset + vertical centring GridItemText uses -
-		// see that class's identical drawText().
 		const auto text = m_Text();
 		const auto size = GridRenderer::MeasureText(text.c_str());
 		const float textY = y + std::max(0.f, (height - size.y) * 0.5f);

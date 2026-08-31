@@ -27,20 +27,12 @@ namespace YimMenu::Rendering
 
 	void GridItemCommandButton::draw()
 	{
-		// See the identical comment in GridItemButton.cpp - Theme::kAccent
-		// only while keyboard-focused, not permanently. An unresolved
-		// command (m_Command null) stays Theme::kError regardless of
-		// focus, same as it always has.
 		const auto colour = !m_Command ? Theme::kError : (isKeyboardFocused() ? Theme::kAccent : Theme::kPanelBackground);
 		GridRenderer::DrawRect(x, y, width, height, colour);
 	}
 
 	void GridItemCommandButton::drawText()
 	{
-		// Left-aligned - see the identical comment in GridItemButton.cpp:
-		// centring within a uniformly-wide button reads as inconsistent
-		// once label lengths vary a lot, and every other widget here is
-		// already left-aligned with this same ~10px inset.
 		const auto& label = Label();
 		const auto size = GridRenderer::MeasureText(label.c_str());
 		const float textY = y + std::max(0.f, (height - size.y) * 0.5f);

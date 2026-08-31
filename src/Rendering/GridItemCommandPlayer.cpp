@@ -28,8 +28,6 @@ namespace YimMenu::Rendering
 
 	void GridItemCommandPlayer::draw()
 	{
-		// See the identical comment in GridItemButton.cpp - Theme::kAccent
-		// only while keyboard-focused, not permanently.
 		const auto colour = !m_Command ? Theme::kError : (isKeyboardFocused() ? Theme::kAccent : Theme::kPanelBackground);
 		GridRenderer::DrawRect(x, y, width, height, colour);
 	}
