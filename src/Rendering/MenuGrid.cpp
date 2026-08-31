@@ -216,6 +216,7 @@ namespace YimMenu::Rendering
 		switch (vkCode)
 		{
 		case VK_BACK:
+		case VK_NUMPAD0:
 			// Same "go back" gesture as before this method existed -
 			// moved here (from GridRenderer::WndProcImpl directly) so
 			// every key this system handles lives in one place. Content
@@ -226,9 +227,11 @@ namespace YimMenu::Rendering
 			break;
 
 		case VK_UP:
+		case VK_NUMPAD8:
 		case VK_DOWN:
+		case VK_NUMPAD2:
 		{
-			const int delta = (vkCode == VK_DOWN) ? 1 : -1;
+			const int delta = (vkCode == VK_DOWN || vkCode == VK_NUMPAD2) ? 1 : -1;
 			if (MenuFocus::GetRegion() == MenuFocus::Region::Sidebar)
 			{
 				if (m_Sidebar)
@@ -242,6 +245,7 @@ namespace YimMenu::Rendering
 		}
 
 		case VK_LEFT:
+		case VK_NUMPAD4:
 			// Unhandled (nothing focused, or the focused item has no
 			// directly-adjustable value - see GridItem::onArrow()) falls
 			// back to moving focus back to the sidebar, the same
@@ -256,6 +260,7 @@ namespace YimMenu::Rendering
 			break;
 
 		case VK_RIGHT:
+		case VK_NUMPAD6:
 			if (MenuFocus::GetRegion() == MenuFocus::Region::Sidebar)
 			{
 				MenuFocus::SetRegion(MenuFocus::Region::Content);
@@ -268,6 +273,7 @@ namespace YimMenu::Rendering
 			break;
 
 		case VK_RETURN:
+		case VK_NUMPAD5:
 			if (MenuFocus::GetRegion() == MenuFocus::Region::Sidebar)
 			{
 				// Selecting a sidebar entry already switches content -
