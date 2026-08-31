@@ -8,7 +8,7 @@
 // use, so that's the only one ported here.
 #define COMPACT_COMMAND_NAMES true
 
-namespace YimMenu
+namespace Stand
 {
 #if COMPACT_COMMAND_NAMES
 	using CommandName = std::string;

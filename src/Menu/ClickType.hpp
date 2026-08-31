@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace YimMenu
+namespace Stand
 {
 	// Verbatim port of stand-reference's src/Menu/ClickType.hpp - what
 	// kind of input produced a Click (Menu/Click.hpp). Kept complete

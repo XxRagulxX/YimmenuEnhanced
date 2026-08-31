@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace YimMenu
+namespace Stand
 {
 	// Verbatim port of stand-reference's src/Core/ThreadContext.hpp -
 	// which execution context a Command call is happening on. Stand's
