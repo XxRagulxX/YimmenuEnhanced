@@ -1,4 +1,4 @@
-#include "GridItemHeader.hpp"
+#include "GridItemPrimaryText.hpp"
 
 #include "GridRenderer.hpp"
 #include "Theme.hpp"
@@ -7,7 +7,7 @@
 
 namespace YimMenu::Rendering
 {
-	void GridItemHeader::draw()
+	void GridItemPrimaryText::draw()
 	{
 		// Stand's own focusRectColour (the one accent) - its address bar
 		// always shows in this, unlike a plain list row's translucent
@@ -16,7 +16,7 @@ namespace YimMenu::Rendering
 		GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
 	}
 
-	void GridItemHeader::drawText()
+	void GridItemPrimaryText::drawText()
 	{
 		// x+5 (not the usual x+10 elsewhere in this system) - confirmed
 		// against stand-reference's own GridItemPrimaryText::draw(),

@@ -7,8 +7,8 @@
 
 namespace YimMenu::Rendering
 {
-	class GridItemHeader;
-	class GridItemSidebarList;
+	class GridItemPrimaryText;
+	class GridItemTabsVertical;
 
 	// Top-level chrome: a breadcrumb header + sidebar (submenu list) +
 	// whatever content MenuNavigation currently has on top of its stack.
@@ -46,7 +46,7 @@ namespace YimMenu::Rendering
 		GridItem* findItemAt(int16_t cursorX, int16_t cursorY) override;
 
 		// All keyboard navigation lives here rather than split across
-		// GridRenderer/GridItemSidebarList/MenuFocus - see MenuFocus.hpp
+		// GridRenderer/GridItemTabsVertical/MenuFocus - see MenuFocus.hpp
 		// for the model (one of Sidebar/Content has focus at a time) and
 		// GridItem.hpp for why isFocusable()/activate()/onArrow() exist.
 		// vkCode is a plain Win32 virtual-key code (VK_UP, VK_RETURN,
@@ -73,8 +73,8 @@ namespace YimMenu::Rendering
 		// findItemAt() all do), and idempotent otherwise.
 		void SyncNavigation();
 
-		GridItemHeader* m_Header = nullptr;
-		GridItemSidebarList* m_Sidebar = nullptr;
+		GridItemPrimaryText* m_Header = nullptr;
+		GridItemTabsVertical* m_Sidebar = nullptr;
 		std::vector<SubmenuRoot> m_Roots;
 		size_t m_LastSidebarIndex = static_cast<size_t>(-1);
 	};

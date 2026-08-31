@@ -13,10 +13,10 @@ namespace YimMenu::Rendering
 	// CommandList m_cursor plus a root_cursor for its tab strip), a
 	// whole system this project doesn't have. This is the flattened
 	// equivalent that fits what this project does have instead - one
-	// sidebar (MenuGrid's own GridItemSidebarList) and one active
+	// sidebar (MenuGrid's own GridItemTabsVertical) and one active
 	// content Grid (MenuNavigation::Current()) at a time:
 	//
-	// - Sidebar: GridItemSidebarList owns its own active index
+	// - Sidebar: GridItemTabsVertical owns its own active index
 	//   directly (GetActiveIndex()/MoveActive()) - MenuFocus only
 	//   tracks whether the sidebar or the content Grid currently has
 	//   focus, not which sidebar entry.

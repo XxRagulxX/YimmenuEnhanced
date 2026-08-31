@@ -23,7 +23,7 @@ namespace YimMenu::Rendering
 	void GridItemButton::drawText()
 	{
 		// Left-aligned with the same ~10px inset every other widget here
-		// uses (GridItemHeader/GridItemToggle/GridItemSidebarList/
+		// uses (GridItemPrimaryText/GridItemToggle/GridItemTabsVertical/
 		// GridItemTabsHorizontal) - centring text within a uniformly-wide
 		// button reads as inconsistent once label lengths vary a lot (a
 		// short label floats toward the middle, a long one sits near the

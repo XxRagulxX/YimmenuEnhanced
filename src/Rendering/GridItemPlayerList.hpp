@@ -11,7 +11,7 @@ namespace YimMenu::Rendering
 	// Clicking a row (or Left/Right while this item has keyboard focus -
 	// see onArrow()'s own doc comment for why not Up/Down) selects that
 	// player (Players::SetSelected()); the selected row highlights the
-	// same way GridItemSidebarList's active entry does.
+	// same way GridItemTabsVertical's active entry does.
 	// GridItemCommandPlayer rows elsewhere act on whoever is selected
 	// here.
 	//

@@ -16,13 +16,18 @@ namespace YimMenu::Rendering
 	// instead now. Purely decorative for now - no collapse/drag
 	// behaviour yet (that needs the input pass).
 	//
-	// Typed GRIDITEM_PRIMARYTEXT, matching Stand's own address bar
-	// (GridItemPrimaryText) - Stand's real MenuGrid::doUpdateAddress()
-	// looks it up by exactly this type.
-	class GridItemHeader : public GridItem
+	// Typed GRIDITEM_PRIMARYTEXT and named to match stand-reference's own
+	// src/Menu/GridItemPrimaryText.hpp/.cpp (Stand's real address bar
+	// widget, looked up by MenuGrid::doUpdateAddress() by exactly this
+	// type) - this project's own GridItemHeader is unrelated: real
+	// Stand's GridItemHeader (src/Menu/GridItemHeader.hpp) is a pure
+	// abstract base (`draw() override = 0`) with no text/label content of
+	// its own at all, so it has nothing in common with this widget beyond
+	// the name.
+	class GridItemPrimaryText : public GridItem
 	{
 	public:
-		GridItemHeader(int16_t width, int16_t height, std::string title) :
+		GridItemPrimaryText(int16_t width, int16_t height, std::string title) :
 		    GridItem(GRIDITEM_PRIMARYTEXT, width, height),
 		    m_Title(std::move(title))
 		{

@@ -15,7 +15,7 @@ namespace YimMenu::Rendering
 
 	void GridItemFolder::draw()
 	{
-		// Same neutral row background GridItemSidebarList uses for an
+		// Same neutral row background GridItemTabsVertical uses for an
 		// inactive entry, swapping to Theme::kAccent while keyboard
 		// focus is on this row - see GridItem.hpp's class comment.
 		GridRenderer::DrawRect(x, y, width, height, isKeyboardFocused() ? Theme::kAccent : Theme::kPanelBackground);

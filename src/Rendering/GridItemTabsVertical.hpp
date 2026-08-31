@@ -13,13 +13,15 @@ namespace YimMenu::Rendering
 	// Grid (MenuGrid) read the current selection to decide what content to
 	// draw.
 	//
-	// Typed GRIDITEM_TABS, matching Stand's own GridItemTabsVertical -
-	// this plays the exact same "submenu list" role Stand's own tabs_pos
-	// = LEFT vertical tab strip does.
-	class GridItemSidebarList : public GridItem
+	// Typed GRIDITEM_TABS and named to match stand-reference's own
+	// src/Menu/GridItemTabsVertical.hpp/.cpp - this plays the exact same
+	// "submenu list" role Stand's own tabs_pos = LEFT vertical tab strip
+	// does, just bound to this project's own sidebar entries instead of a
+	// live CommandTab list.
+	class GridItemTabsVertical : public GridItem
 	{
 	public:
-		GridItemSidebarList(int16_t width, float entryHeight, std::vector<std::string> entries, size_t activeIndex) :
+		GridItemTabsVertical(int16_t width, float entryHeight, std::vector<std::string> entries, size_t activeIndex) :
 		    GridItem(GRIDITEM_TABS, width, static_cast<int16_t>(entryHeight * static_cast<float>(entries.size()))),
 		    m_EntryHeight(entryHeight),
 		    m_Entries(std::move(entries)),

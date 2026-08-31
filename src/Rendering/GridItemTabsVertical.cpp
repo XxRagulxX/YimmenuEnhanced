@@ -1,4 +1,4 @@
-#include "GridItemSidebarList.hpp"
+#include "GridItemTabsVertical.hpp"
 
 #include "GridRenderer.hpp"
 #include "Theme.hpp"
@@ -7,7 +7,7 @@
 
 namespace YimMenu::Rendering
 {
-	void GridItemSidebarList::draw()
+	void GridItemTabsVertical::draw()
 	{
 		for (size_t i = 0; i < m_Entries.size(); ++i)
 		{
@@ -21,7 +21,7 @@ namespace YimMenu::Rendering
 		}
 	}
 
-	void GridItemSidebarList::drawText()
+	void GridItemTabsVertical::drawText()
 	{
 		for (size_t i = 0; i < m_Entries.size(); ++i)
 		{
@@ -33,7 +33,7 @@ namespace YimMenu::Rendering
 			// ALIGN_TOP_LEFT (`text_x += 5.0f`, its own real
 			// tabs_alignment default). Vertically centred within
 			// m_EntryHeight rather than Stand's own plain `tab_y` - see
-			// the identical note in GridItemHeader.cpp's drawText().
+			// the identical note in GridItemPrimaryText.cpp's drawText().
 			GridRenderer::DrawText(
 			    x + 5.f,
 			    rowY + std::max(0.f, (m_EntryHeight - size.y) * 0.5f),
@@ -42,7 +42,7 @@ namespace YimMenu::Rendering
 		}
 	}
 
-	void GridItemSidebarList::onClick(int16_t, int16_t cursorY)
+	void GridItemTabsVertical::onClick(int16_t, int16_t cursorY)
 	{
 		const auto index = static_cast<size_t>((cursorY - y) / m_EntryHeight);
 		if (index < m_Entries.size())
@@ -52,7 +52,7 @@ namespace YimMenu::Rendering
 		}
 	}
 
-	void GridItemSidebarList::MoveActive(int delta)
+	void GridItemTabsVertical::MoveActive(int delta)
 	{
 		if (m_Entries.empty())
 			return;

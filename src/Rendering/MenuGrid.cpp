@@ -1,7 +1,7 @@
 #include "MenuGrid.hpp"
 
-#include "GridItemHeader.hpp"
-#include "GridItemSidebarList.hpp"
+#include "GridItemPrimaryText.hpp"
+#include "GridItemTabsVertical.hpp"
 #include "GridRenderer.hpp"
 #include "MenuFocus.hpp"
 #include "MenuNavigation.hpp"
@@ -94,14 +94,14 @@ namespace YimMenu::Rendering
 
 	void MenuGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
-		auto header = std::make_unique<GridItemHeader>(kHeaderW, Theme::kHeaderHeight, "YimMenu");
+		auto header = std::make_unique<GridItemPrimaryText>(kHeaderW, Theme::kHeaderHeight, "YimMenu");
 		m_Header = header.get();
 		items_draft.push_back(std::move(header));
 
 		// Defaults to Self, the flagship/first page - matches how the
 		// real menu opens on Self by default. ALIGN_BOTTOM_LEFT (the
 		// default) stacks this under header, keeping header's own x.
-		auto sidebar = std::make_unique<GridItemSidebarList>(Theme::kSidebarWidth,
+		auto sidebar = std::make_unique<GridItemTabsVertical>(Theme::kSidebarWidth,
 		    Theme::kSidebarEntryHeight,
 		    std::vector<std::string>{
 		        "Self",
@@ -262,7 +262,7 @@ namespace YimMenu::Rendering
 			if (MenuFocus::GetRegion() == MenuFocus::Region::Sidebar)
 			{
 				// Selecting a sidebar entry already switches content -
-				// GridItemSidebarList::MoveActive() (Up/Down) does that
+				// GridItemTabsVertical::MoveActive() (Up/Down) does that
 				// live, same as Stand's own tab strip; Enter here just
 				// moves focus into what's already showing.
 				MenuFocus::SetRegion(MenuFocus::Region::Content);
