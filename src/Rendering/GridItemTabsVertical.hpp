@@ -6,18 +6,6 @@
 
 namespace YimMenu::Rendering
 {
-	// A vertical list of labels with one highlighted as active - the
-	// sidebar equivalent of GridItemTabsHorizontal (submenu names: Self,
-	// Vehicle, Teleport, ... instead of a horizontal tab row). Clicking an
-	// entry switches which one is active; GetActiveIndex() lets the owning
-	// Grid (MenuGrid) read the current selection to decide what content to
-	// draw.
-	//
-	// Typed GRIDITEM_TABS and named to match stand-reference's own
-	// src/Menu/GridItemTabsVertical.hpp/.cpp - this plays the exact same
-	// "submenu list" role Stand's own tabs_pos = LEFT vertical tab strip
-	// does, just bound to this project's own sidebar entries instead of a
-	// live CommandTab list.
 	class GridItemTabsVertical : public GridItem
 	{
 	public:
@@ -38,10 +26,6 @@ namespace YimMenu::Rendering
 			return m_ActiveIndex;
 		}
 
-		// Keyboard-navigation equivalent of onClick() - moves the active
-		// entry by delta (+1/-1), clamped (not wrapped) to the entry
-		// list's bounds. MenuGrid::HandleKey() calls this for Up/Down
-		// while MenuFocus::Region::Sidebar has focus - see MenuFocus.hpp.
 		void MoveActive(int delta);
 
 	private:

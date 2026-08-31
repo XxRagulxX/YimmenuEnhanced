@@ -27,13 +27,6 @@ namespace YimMenu::Rendering
 		{
 			const float rowY = y + m_EntryHeight * static_cast<float>(i);
 			const auto size = GridRenderer::MeasureText(m_Entries[i].c_str());
-			// x+5 (not the usual x+10 elsewhere in this system) -
-			// confirmed against stand-reference's own
-			// GridItemTabsVertical::draw(), which does exactly this for
-			// ALIGN_TOP_LEFT (`text_x += 5.0f`, its own real
-			// tabs_alignment default). Vertically centred within
-			// m_EntryHeight rather than Stand's own plain `tab_y` - see
-			// the identical note in GridItemPrimaryText.cpp's drawText().
 			GridRenderer::DrawText(
 			    x + 5.f,
 			    rowY + std::max(0.f, (m_EntryHeight - size.y) * 0.5f),
