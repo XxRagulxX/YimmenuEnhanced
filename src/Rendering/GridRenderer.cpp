@@ -441,6 +441,20 @@ namespace YimMenu::Rendering
 			}
 		}
 
+		if (msg == WM_MOUSEMOVE)
+		{
+			DirectX::XMFLOAT2 cursor;
+			if (TryGetCursorPos(cursor))
+			{
+				const auto cursorX = static_cast<int16_t>(cursor.x);
+				const auto cursorY = static_cast<int16_t>(cursor.y);
+				if (auto* item = g_MenuGrid.findItemAt(cursorX, cursorY); item && item->isFocusable())
+					MenuFocus::SetFocusedItem(MenuNavigation::Current(), item);
+			}
+
+			return;
+		}
+
 		if (msg == WM_LBUTTONDOWN)
 		{
 			DirectX::XMFLOAT2 cursor;
