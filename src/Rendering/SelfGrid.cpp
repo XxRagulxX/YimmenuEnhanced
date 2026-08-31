@@ -146,6 +146,16 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemConditional>(
 		    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "freecamspeed"_J),
 		    "freecam"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "levitate"_J));
+		items_draft.push_back(std::make_unique<GridItemConditional>(
+		    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "levitatespeed"_J),
+		    "levitate"_J));
+		items_draft.push_back(std::make_unique<GridItemConditional>(
+		    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "levitatesprintmultiplier"_J),
+		    "levitate"_J));
+		items_draft.push_back(std::make_unique<GridItemConditional>(
+		    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "levitateaccel"_J),
+		    "levitate"_J));
 
 		// Self's other categories (MenuSelf.cpp's BuildWeaponsMenu()/
 		// CreateOutfitsMenu()). Weapons now has its own content Grid
