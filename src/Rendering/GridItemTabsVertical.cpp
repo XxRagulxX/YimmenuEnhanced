@@ -51,7 +51,9 @@ namespace YimMenu::Rendering
 			return;
 
 		const auto count = static_cast<int>(m_Entries.size());
-		const auto clamped = std::clamp(static_cast<int>(m_ActiveIndex) + delta, 0, count - 1);
-		m_ActiveIndex = static_cast<size_t>(clamped);
+		auto index = (static_cast<int>(m_ActiveIndex) + delta) % count;
+		if (index < 0)
+			index += count;
+		m_ActiveIndex = static_cast<size_t>(index);
 	}
 }

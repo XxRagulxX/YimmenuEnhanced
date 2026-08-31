@@ -3,8 +3,6 @@
 #include "Grid.hpp"
 #include "GridItem.hpp"
 
-#include <algorithm>
-
 namespace YimMenu::Rendering
 {
 	MenuFocus::Region MenuFocus::s_Region = MenuFocus::Region::Sidebar;
@@ -62,8 +60,10 @@ namespace YimMenu::Rendering
 			return;
 
 		const auto count = static_cast<int>(focusable.size());
-		const auto clamped = std::clamp(static_cast<int>(s_ContentIndex) + delta, 0, count - 1);
-		s_ContentIndex = static_cast<size_t>(clamped);
+		auto index = (static_cast<int>(s_ContentIndex) + delta) % count;
+		if (index < 0)
+			index += count;
+		s_ContentIndex = static_cast<size_t>(index);
 	}
 
 	void MenuFocus::SetFocusedItem(Grid* currentContent, const GridItem* item)

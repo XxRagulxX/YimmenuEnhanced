@@ -81,8 +81,10 @@ namespace YimMenu::Rendering
 			return false;
 
 		const auto count = static_cast<int>(m_Tabs.size());
-		const auto clamped = std::clamp(static_cast<int>(m_ActiveIndex) + (delta > 0 ? 1 : -1), 0, count - 1);
-		m_ActiveIndex = static_cast<size_t>(clamped);
+		auto index = (static_cast<int>(m_ActiveIndex) + (delta > 0 ? 1 : -1)) % count;
+		if (index < 0)
+			index += count;
+		m_ActiveIndex = static_cast<size_t>(index);
 		return true;
 	}
 }
