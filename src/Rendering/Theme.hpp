@@ -74,6 +74,9 @@ namespace YimMenu::Rendering::Theme
 	constexpr float kTextScale = 0.65625f;
 	constexpr float kSmallTextScale = kTextScale * (12.f / 15.f);
 
+	constexpr float kTextOffsetX = -2.f;
+	constexpr float kTextOffsetY = 2.f;
+
 	// Stand's own virtual HUD canvas dimensions (see GridRenderer::
 	// PosH2C/SizeH2C's own doc comment for what "H-space" means) - shared
 	// here since both GridRenderer.cpp (H-space <-> client-pixel

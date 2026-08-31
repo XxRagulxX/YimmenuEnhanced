@@ -360,7 +360,7 @@ namespace YimMenu::Rendering
 		if (!m_Font || !m_SpriteBatch)
 			return;
 
-		const auto posC = PosH2C(x, y);
+		const auto posC = PosH2C(x + Theme::kTextOffsetX, y + Theme::kTextOffsetY);
 		const auto finalScale = scale * GetResolutionTextScale(GetClientSize());
 
 		m_Font->DrawString(m_SpriteBatch.get(), text, DirectX::XMFLOAT2(posC.x, posC.y), DirectX::XMLoadFloat4(&colour), 0.f, DirectX::XMFLOAT2{0.f, 0.f}, DirectX::XMFLOAT2{finalScale, finalScale});
