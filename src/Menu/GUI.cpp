@@ -108,17 +108,14 @@ namespace YimMenu
 			{
 				if (Rendering::GridRenderer::IsActive())
 				{
-					// The Stand-style menu is keyboard-only and means to
-					// fully own input while it's open (Up/Down/Left/Right/
-					// Ctrl/Shift/Enter/Backspace - see MenuGrid::HandleKey)
-					// - several of those are also real default game
-					// bindings (Left Shift is Sprint, Up Arrow opens the
-					// phone, ...), so unlike the classic ImGui menu below
-					// there's no partial "still let some controls through"
-					// case to preserve here: disable everything, same as
-					// the classic menu already does while actively typing
-					// text.
-					PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
+					// Real Stand feel: the menu doesn't take over the game's
+					// input at all while it's open (driving, aiming, ... all
+					// keep working) - it only needs to stop the one control
+					// that would otherwise fire alongside its own key
+					// reads: Up Arrow (INPUT_PHONE) is what was popping the
+					// cell phone open every time Up/Down was used to
+					// navigate. Nothing else gets touched here.
+					PAD::DISABLE_CONTROL_ACTION(0, static_cast<int>(ControllerInputs::INPUT_PHONE), true);
 				}
 				else if (UIManager::ShowingContentWindow())
 				{
