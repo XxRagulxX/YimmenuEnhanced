@@ -8,7 +8,7 @@
 #include <string>
 #include <utility>
 
-#include "Core/Pattern.hpp"
+#include <soup/Pattern.hpp>
 #include <soup/Range.hpp>
 
 #include "Core/PatternHash.hpp"

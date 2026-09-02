@@ -7,7 +7,7 @@
 #include "Util/Joaat.hpp"
 #include "Core/Pointers.hpp"
 
-#include "Core/Pattern.hpp"
+#include <soup/Pattern.hpp>
 #include <soup/Range.hpp>
 
 namespace YimMenu::Lua
