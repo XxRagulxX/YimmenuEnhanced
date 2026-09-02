@@ -231,18 +231,40 @@ namespace YimMenu::Rendering
 		case VK_DOWN:
 		case VK_NUMPAD2:
 		{
-			const int delta = (vkCode == VK_DOWN || vkCode == VK_NUMPAD2) ? 1 : -1;
-			if (MenuFocus::GetRegion() == MenuFocus::Region::Sidebar)
+			// Real Stand feel: Up/Down only ever drive the currently-shown
+			// submenu's own item list, never the main menu (sidebar) - see
+			// VK_CONTROL/VK_SHIFT below for that. Also claims Content focus
+			// outright, same as SetFocusedItem() already does for a mouse
+			// move/click, so a follow-up Enter activates the item just
+			// moved to instead of needing a separate "enter Content" press
+			// first.
+			if (auto* content = MenuNavigation::Current())
 			{
-				if (m_Sidebar)
-					m_Sidebar->MoveActive(delta);
-			}
-			else if (auto* content = MenuNavigation::Current())
-			{
+				const int delta = (vkCode == VK_DOWN || vkCode == VK_NUMPAD2) ? 1 : -1;
 				MenuFocus::MoveContent(content, delta);
+				MenuFocus::SetRegion(MenuFocus::Region::Content);
 			}
 			break;
 		}
+
+		case VK_CONTROL:
+		case VK_SHIFT:
+			// Real Stand feel: the main menu (sidebar) isn't Up/Down-driven -
+			// Left Ctrl moves it down, Left Shift moves it up, from
+			// anywhere (not just while focus is already on the sidebar),
+			// same as Stand's own scheme. WM_KEYDOWN reports the generic
+			// VK_CONTROL/VK_SHIFT for either side, so GetKeyState() (not
+			// vkCode) is what tells Left apart from Right here - same
+			// pattern GUI::WndProc already uses for its own modifier
+			// checks.
+			if (m_Sidebar)
+			{
+				if (vkCode == VK_CONTROL && (GetKeyState(VK_LCONTROL) & 0x8000) != 0)
+					m_Sidebar->MoveActive(1);
+				else if (vkCode == VK_SHIFT && (GetKeyState(VK_LSHIFT) & 0x8000) != 0)
+					m_Sidebar->MoveActive(-1);
+			}
+			break;
 
 		case VK_LEFT:
 		case VK_NUMPAD4:
@@ -276,10 +298,9 @@ namespace YimMenu::Rendering
 		case VK_NUMPAD5:
 			if (MenuFocus::GetRegion() == MenuFocus::Region::Sidebar)
 			{
-				// Selecting a sidebar entry already switches content -
-				// GridItemTabsVertical::MoveActive() (Up/Down) does that
-				// live, same as Stand's own tab strip; Enter here just
-				// moves focus into what's already showing.
+				// Selecting a sidebar entry (Ctrl/Shift - see above) already
+				// switches content live, same as Stand's own tab strip;
+				// Enter here just moves focus into what's already showing.
 				MenuFocus::SetRegion(MenuFocus::Region::Content);
 			}
 			else if (auto* content = MenuNavigation::Current())

@@ -8,6 +8,7 @@
 #include "Rendering/Renderer.hpp"
 #include "Rendering/Notifications.hpp"
 #include "Rendering/ChatDisplay.hpp"
+#include "Rendering/GridRenderer.hpp"
 #include "Scripting/Natives.hpp"
 #include "Game/ControllerInputs.hpp"
 #include "Config/Themes.hpp"
@@ -60,11 +61,16 @@ namespace YimMenu
 
 	void GUI::ToggleMouse()
 	{
+		// Real Stand feel: its menu is keyboard-only, no mouse cursor
+		// ever shown for it (see GridRenderer::WndProcImpl's own
+		// Up/Down/Ctrl/Shift handling) - only the classic ImGui menu
+		// (still ImGui-driven, needs a real cursor) and onboarding
+		// should ever turn the cursor on.
+		const bool want_mouse = (GUI::IsOpen() && !Rendering::GridRenderer::IsActive()) || GUI::IsOnboarding();
+
 		auto& io = ImGui::GetIO();
-		io.MouseDrawCursor = GUI::IsOpen() || GUI::IsOnboarding();
-		GUI::IsOpen() || GUI::IsOnboarding() 
-			? io.ConfigFlags &= ~ImGuiConfigFlags_NoMouse :
-			  io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
+		io.MouseDrawCursor = want_mouse;
+		want_mouse ? io.ConfigFlags &= ~ImGuiConfigFlags_NoMouse : io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
 	}
 
 	void GUI::WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

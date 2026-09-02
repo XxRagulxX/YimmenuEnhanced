@@ -256,7 +256,12 @@ namespace YimMenu::Rendering
 
 	void GridRenderer::DrawImpl(ID3D12GraphicsCommandList* commandList)
 	{
-		if (!_StandRendererTest.GetState())
+		// Same gate WndProcImpl already applies to input - drawing has to
+		// respect GUI::IsOpen() too, or the menu stays on screen (and
+		// stays the active UI, since Menu.cpp skips the classic ImGui
+		// menu entirely while this is active) regardless of the Insert
+		// toggle.
+		if (!_StandRendererTest.GetState() || !GUI::IsOpen())
 			return;
 
 		if (Renderer::IsResizing())
