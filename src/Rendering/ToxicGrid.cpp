@@ -34,7 +34,5 @@ namespace YimMenu::Rendering
 		// Griefing (griefing Group) - one PlayerCommandItem.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Griefing", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandPlayer>(Theme::kContentWidth, kItemH, "ceokick"_J));
-
-		LOGF(INFO, "[GridRenderer] ToxicGrid populated with {} items", items_draft.size());
 	}
 }

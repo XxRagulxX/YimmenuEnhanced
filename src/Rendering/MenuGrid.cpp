@@ -131,8 +131,6 @@ namespace YimMenu::Rendering
 		    {kSettingsIndex, "Settings", &g_SettingsContent},
 		    {kDebugIndex, "Debug", &g_MiscContent},
 		};
-
-		LOGF(INFO, "[GridRenderer] MenuGrid populated with {} chrome items", items_draft.size());
 	}
 
 	void MenuGrid::SyncNavigation()

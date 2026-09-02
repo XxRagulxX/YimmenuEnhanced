@@ -321,7 +321,5 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemConditional>(
 		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotifyonjoblobby"_J),
 		    "playerdbnotify"_J));
-
-		LOGF(INFO, "[GridRenderer] SavedPlayersGrid populated with {} items", items_draft.size());
 	}
 }

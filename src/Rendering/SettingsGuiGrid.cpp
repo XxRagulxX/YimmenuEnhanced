@@ -59,7 +59,5 @@ namespace YimMenu::Rendering
 		// Chat - clearchat is a plain CommandItem button.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Chat", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "clearchat"_J));
-
-		LOGF(INFO, "[GridRenderer] SettingsGuiGrid populated with {} items", items_draft.size());
 	}
 }

@@ -156,7 +156,5 @@ namespace YimMenu::Rendering
 				    });
 			    }
 		    }));
-
-		LOGF(INFO, "[GridRenderer] TeleportSavedGrid populated with {} items", items_draft.size());
 	}
 }

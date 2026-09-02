@@ -323,7 +323,5 @@ namespace YimMenu::Rendering
 
 		AddVector3CommandRows(items_draft, Theme::kContentWidth, "playertpcoord"_J);
 		items_draft.push_back(std::make_unique<GridItemCommandPlayer>(Theme::kContentWidth, kItemH, "tpplayertocoord"_J, "Teleport"));
-
-		LOGF(INFO, "[GridRenderer] InfoGrid populated with {} items", items_draft.size());
 	}
 }

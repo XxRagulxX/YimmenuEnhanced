@@ -57,7 +57,5 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "unlockflightschool"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "bunkerresearch"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "fastrunreloadunlock"_J));
-
-		LOGF(INFO, "[GridRenderer] RecoveryUnlocksGrid populated with {} items", items_draft.size());
 	}
 }

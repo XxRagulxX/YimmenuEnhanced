@@ -121,7 +121,5 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Golden Clover", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "tptogoldenclover"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "collectgoldenclover"_J));
-
-		LOGF(INFO, "[GridRenderer] DailyActivitiesGrid populated with {} items", items_draft.size());
 	}
 }

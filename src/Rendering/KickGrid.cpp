@@ -35,7 +35,5 @@ namespace YimMenu::Rendering
 		// Other (other Group) - one PlayerCommandItem.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Other", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandPlayer>(Theme::kContentWidth, kItemH, "blackscreen"_J));
-
-		LOGF(INFO, "[GridRenderer] KickGrid populated with {} items", items_draft.size());
 	}
 }

@@ -32,7 +32,5 @@ namespace YimMenu::Rendering
 		    static_cast<int16_t>(Theme::kContentItemHeight),
 		    {"New Vehicle", "Personal Vehicle"},
 		    {&g_NewVehicleContent, &g_PersonalVehicleContent});
-
-		LOGF(INFO, "[GridRenderer] VehicleSpawnGrid populated with {} items", items_draft.size());
 	}
 }

@@ -67,7 +67,5 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "moneyfrontheatremove"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "removeresupplycooldown"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "enforceeasiestmission"_J));
-
-		LOGF(INFO, "[GridRenderer] RecoveryBusinessesGrid populated with {} items", items_draft.size());
 	}
 }

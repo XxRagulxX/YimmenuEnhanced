@@ -109,7 +109,5 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemConditional>(
 		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "espdistanceobjects"_J, "Object Distance"),
 		    "espdrawobjects"_J));
-
-		LOGF(INFO, "[GridRenderer] SettingsGameGrid populated with {} items", items_draft.size());
 	}
 }

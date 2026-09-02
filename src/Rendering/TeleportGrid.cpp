@@ -47,7 +47,5 @@ namespace YimMenu::Rendering
 		// UI) - now has its own content Grid.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Saved", &g_SavedContent));
-
-		LOGF(INFO, "[GridRenderer] TeleportGrid populated with {} items", items_draft.size());
 	}
 }

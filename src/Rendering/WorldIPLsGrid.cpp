@@ -28,7 +28,5 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "loadipl"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "unloadipl"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "ipltp"_J));
-
-		LOGF(INFO, "[GridRenderer] WorldIPLsGrid populated with {} items", items_draft.size());
 	}
 }

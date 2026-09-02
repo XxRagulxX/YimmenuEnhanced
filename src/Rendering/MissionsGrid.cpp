@@ -81,7 +81,5 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Savage Yard", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "missionsavageyard"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "missionsavageyardrobberysetup"_J, "Setup"));
-
-		LOGF(INFO, "[GridRenderer] MissionsGrid populated with {} items", items_draft.size());
 	}
 }

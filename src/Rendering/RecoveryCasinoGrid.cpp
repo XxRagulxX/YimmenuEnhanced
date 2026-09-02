@@ -28,7 +28,5 @@ namespace YimMenu::Rendering
 		// Slot Machines (casinoSlots)
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Slot Machines", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "casinomanipulaterigslotmachines"_J));
-
-		LOGF(INFO, "[GridRenderer] RecoveryCasinoGrid populated with {} items", items_draft.size());
 	}
 }

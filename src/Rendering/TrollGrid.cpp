@@ -45,7 +45,5 @@ namespace YimMenu::Rendering
 		// Vehicle (vehicle Group) - one PlayerCommandItem.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Vehicle", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandPlayer>(Theme::kContentWidth, kItemH, "deleteveh"_J));
-
-		LOGF(INFO, "[GridRenderer] TrollGrid populated with {} items", items_draft.size());
 	}
 }

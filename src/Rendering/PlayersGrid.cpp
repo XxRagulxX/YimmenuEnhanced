@@ -62,8 +62,6 @@ namespace YimMenu::Rendering
 			items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Toxic", &g_ToxicContent));
 			items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Kick", &g_KickContent));
 		}
-
-		LOGF(INFO, "[GridRenderer] PlayersGrid populated with {} items ({} a selection)", items_draft.size(), m_LastHasSelection ? "with" : "without");
 	}
 
 	void PlayersGrid::SyncSelection()

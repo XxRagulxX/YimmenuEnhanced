@@ -97,7 +97,5 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Settings", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "spawninsidepv"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "spawnclonepv"_J));
-
-		LOGF(INFO, "[GridRenderer] VehicleSpawnPersonalGrid populated with {} items", items_draft.size());
 	}
 }

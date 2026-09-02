@@ -87,7 +87,5 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemConditional>(
 		    std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "mmmultiplexsessioncount"_J),
 		    "mmmultiplexsession"_J));
-
-		LOGF(INFO, "[GridRenderer] NetworkSpoofingGrid populated with {} items", items_draft.size());
 	}
 }

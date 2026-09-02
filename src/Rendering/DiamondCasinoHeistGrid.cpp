@@ -77,7 +77,5 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Teleport", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "diamondcasinoheistteleportlist"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "diamondcasinoheistteleport"_J));
-
-		LOGF(INFO, "[GridRenderer] DiamondCasinoHeistGrid populated with {} items", items_draft.size());
 	}
 }

@@ -158,7 +158,5 @@ namespace YimMenu::Rendering
 			        });
 		        }),
 		    HasValidVehicle));
-
-		LOGF(INFO, "[GridRenderer] SavedVehiclesGrid populated with {} items", items_draft.size());
 	}
 }

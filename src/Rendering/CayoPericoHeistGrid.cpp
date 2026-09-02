@@ -73,7 +73,5 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Teleport", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "cayopericoteleportlist"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "cayopericoheistteleportcayo"_J));
-
-		LOGF(INFO, "[GridRenderer] CayoPericoHeistGrid populated with {} items", items_draft.size());
 	}
 }

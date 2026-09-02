@@ -69,7 +69,5 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Misc", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "kortzcenterheisttakeprimary"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "kortzcenterheisttakesecondary"_J));
-
-		LOGF(INFO, "[GridRenderer] KortzCenterHeistGrid populated with {} items", items_draft.size());
 	}
 }

@@ -40,7 +40,5 @@ namespace YimMenu::Rendering
 		    static_cast<int16_t>(Theme::kContentItemHeight),
 		    {"Apartment Heist", "Diamond Casino Heist", "Cayo Perico Heist", "Doomsday Heist", "Missions", "Kortz Center Heist"},
 		    {&g_ApartmentContent, &g_DiamondCasinoContent, &g_CayoPericoContent, &g_DoomsdayContent, &g_MissionsContent, &g_KortzCenterContent});
-
-		LOGF(INFO, "[GridRenderer] RecoveryHeistsGrid populated with {} items", items_draft.size());
 	}
 }

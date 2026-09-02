@@ -177,7 +177,5 @@ namespace YimMenu::Rendering
 				        m_SelectedScript->Unload();
 		        }),
 		    isSelectionValid));
-
-		LOGF(INFO, "[GridRenderer] LuaScriptsGrid populated with {} items", items_draft.size());
 	}
 }
