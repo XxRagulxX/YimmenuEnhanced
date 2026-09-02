@@ -18,10 +18,11 @@ namespace YimMenu::Rendering
 	// A free-standing global (not a GridItem, not owned by any Grid),
 	// same shape as MenuFocus/MenuNavigation: GridRenderer::DrawImpl
 	// draws it last (after MenuGrid, in the same rect/text passes) while
-	// open, and GridRenderer::WndProcImpl routes every click/key to it
-	// first while open, swallowing them all rather than letting them
-	// reach whatever's underneath - a popup being open always takes over
-	// every input, matching ImGui's own modal-popup behaviour.
+	// open, and GridRenderer::WndProcImpl routes every key to it first
+	// while open, swallowing all of them rather than letting them reach
+	// whatever's underneath - a popup being open always takes over
+	// input, matching ImGui's own modal-popup behaviour. Keyboard-only,
+	// same as the rest of this menu - see HandleKey() below.
 	class MenuPopup
 	{
 	public:
@@ -37,19 +38,12 @@ namespace YimMenu::Rendering
 		static void Draw();
 		static void DrawText();
 
-		// Hit-tests Yes/No against an H-space cursor position (same
-		// space GridItem::occupies() and friends use) and runs whichever
-		// callback matched. Always call this whenever IsOpen() is true
-		// and swallow the click regardless of what it returns - even a
-		// click on the dimmed background outside the dialog itself
-		// should never reach whatever's underneath.
-		static void HandleClick(int16_t cursorX, int16_t cursorY);
-
 		// Handles VK_RETURN (Yes) and VK_ESCAPE (No/dismiss) while open;
-		// any other key is a no-op. Same "always swallow while open"
-		// contract as HandleClick() - call this for every WM_KEYDOWN
-		// while IsOpen() is true and don't forward the key anywhere else
-		// regardless of which key it was.
+		// any other key is a no-op. Call this for every WM_KEYDOWN while
+		// IsOpen() is true and don't forward the key anywhere else
+		// regardless of which key it was - a popup being open always
+		// swallows input rather than letting it reach whatever's
+		// underneath.
 		static void HandleKey(unsigned int vkCode);
 
 	private:

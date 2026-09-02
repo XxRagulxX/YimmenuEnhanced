@@ -68,9 +68,7 @@ namespace YimMenu::Rendering
 		const auto layout = ComputeLayout();
 
 		// Full-screen dim behind the dialog, same spirit as ImGui's own
-		// modal dimming - also what makes clicking anywhere outside the
-		// dialog itself land on nothing, since HandleClick() swallows
-		// every click unconditionally while open regardless of position.
+		// modal dimming.
 		GridRenderer::DrawRect(0.f, 0.f, Theme::kHudWidth, Theme::kHudHeight, DirectX::XMFLOAT4{0.f, 0.f, 0.f, 0.5f});
 
 		GridRenderer::DrawRect(layout.x, layout.y, layout.width, layout.height, Theme::kPanelBackground);
@@ -99,34 +97,6 @@ namespace YimMenu::Rendering
 		    layout.buttonY + (layout.buttonHeight - noSize.y) * 0.5f,
 		    "No",
 		    Theme::kText);
-	}
-
-	void MenuPopup::HandleClick(int16_t cursorX, int16_t cursorY)
-	{
-		if (!s_Open)
-			return;
-
-		const auto layout = ComputeLayout();
-		const auto px = static_cast<float>(cursorX);
-		const auto py = static_cast<float>(cursorY);
-
-		if (px >= layout.yesX && px < layout.yesX + layout.buttonWidth && py >= layout.buttonY && py < layout.buttonY + layout.buttonHeight)
-		{
-			auto onYes = std::move(s_OnYes);
-			Close();
-			if (onYes)
-				onYes();
-		}
-		else if (px >= layout.noX && px < layout.noX + layout.buttonWidth && py >= layout.buttonY && py < layout.buttonY + layout.buttonHeight)
-		{
-			auto onNo = std::move(s_OnNo);
-			Close();
-			if (onNo)
-				onNo();
-		}
-		// Every other click while open (including the dimmed background)
-		// is still swallowed by the caller regardless of what happens
-		// here - see this method's own doc comment in the header.
 	}
 
 	void MenuPopup::HandleKey(unsigned int vkCode)

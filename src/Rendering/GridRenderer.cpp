@@ -24,15 +24,16 @@ namespace YimMenu::Rendering
 		// are defined in Stand's own virtual 1920x1080 "H" (HUD) canvas,
 		// exactly like stand-reference's own GridItem/Renderer classes
 		// (see Rendering/Renderer.hpp's client_size/hudCorrectionC and
-		// {size,pos}{H2C,C2H} in Renderer.cpp) - NOT literal client
-		// pixels, which is what this project treated them as before and
-		// is why the menu was both the wrong size and positioned wrong
+		// {size,pos}H2C in Renderer.cpp) - NOT literal client pixels,
+		// which is what this project treated them as before and is why
+		// the menu was both the wrong size and positioned wrong
 		// (MenuGrid's own default_origin only makes sense as an H-space
 		// coordinate - see the comment by kHeaderX/kHeaderY in
 		// MenuGrid.cpp). H2C below converts an H-space coordinate to a
-		// real client pixel for drawing; C2H does the reverse, for
-		// turning a real OS cursor position back into the same space
-		// GridItem::occupies() and friends compare against.
+		// real client pixel for drawing. There's deliberately no C2H
+		// (OS cursor position -> H-space) any more - this menu is
+		// keyboard-only, no mouse, so nothing ever needs to convert a
+		// cursor position at all.
 		//
 		// hudCorrection lets a non-16:9 client area (ultrawide, or a
 		// window narrower than it is tall) black-bar the extra space
@@ -42,10 +43,6 @@ namespace YimMenu::Rendering
 		// its own scroll-window math.
 		using Theme::kHudHeight;
 		using Theme::kHudWidth;
-
-		// One row's worth of scroll per wheel notch (WHEEL_DELTA, 120,
-		// per Win32 convention).
-		constexpr int16_t kScrollStep = Theme::kContentItemHeight;
 
 		DirectX::XMFLOAT2 GetClientSize()
 		{
@@ -83,44 +80,6 @@ namespace YimMenu::Rendering
 			const auto size = SizeH2C(x, y);
 			return {size.x + correction.x, size.y + correction.y};
 		}
-
-		DirectX::XMFLOAT2 PosC2H(float x, float y)
-		{
-			const auto clientSize = GetClientSize();
-			const auto correction = GetHudCorrection(clientSize);
-			const float cx = x - correction.x;
-			const float cy = y - correction.y;
-			return {(cx / (clientSize.x - correction.x * 2.f)) * kHudWidth, (cy / (clientSize.y - correction.y * 2.f)) * kHudHeight};
-		}
-
-		// Cursor position in H-space (see the block comment above) - what
-		// GridItem::occupies() and friends actually compare against.
-		// Nothing in the codebase already exposes this - GUI.cpp's own
-		// GetCursorPos/SetCursorPos calls only save/restore the OS cursor
-		// across a menu toggle, they don't convert it to any of this.
-		bool TryGetCursorPos(DirectX::XMFLOAT2& out)
-		{
-			if (!Pointers.Hwnd || !*Pointers.Hwnd)
-				return false;
-
-			POINT cursor;
-			if (!GetCursorPos(&cursor))
-				return false;
-
-			ScreenToClient(*Pointers.Hwnd, &cursor);
-			out = PosC2H(static_cast<float>(cursor.x), static_cast<float>(cursor.y));
-			return true;
-		}
-
-		// Double-click tracking for GridItem::onClickEx() - same
-		// time+target test a real double-click needs (Win32's own
-		// GetDoubleClickTime(), same item hit both times). Deliberately
-		// not position-threshold-based on top of that: two clicks
-		// landing on the same GridItem within the system double-click
-		// interval already implies "the same spot" for anything sized
-		// like a menu row.
-		GridItem* g_LastClickedItem = nullptr;
-		ULONGLONG g_LastClickTimeMs = 0;
 	}
 
 	// Master visibility toggle for the whole DirectXTK12/Grid renderer
@@ -273,19 +232,10 @@ namespace YimMenu::Rendering
 
 		EnsureDeviceResources(device);
 
-		// Hover suppression: if the cursor is over one of our own items
-		// while the menu is open, tell ImGui to claim the mouse for this
-		// frame anyway (even though it isn't hovering any ImGui window of
-		// its own here) - RawInput.cpp's GetRawInputData hook already
-		// suppresses clicks from reaching the game whenever
-		// io.WantCaptureMouse is true, so this piggybacks on that existing
-		// mechanism instead of building a parallel one.
-		if (GUI::IsOpen())
-		{
-			DirectX::XMFLOAT2 cursor;
-			if (TryGetCursorPos(cursor) && g_MenuGrid.findItemAt(static_cast<int16_t>(cursor.x), static_cast<int16_t>(cursor.y)))
-				ImGui::SetNextFrameWantCaptureMouse(true);
-		}
+		// No mouse-hover suppression here any more - this menu is
+		// keyboard-only, nothing in it ever reacts to the cursor (see
+		// WndProcImpl below), so there's nothing that would need to
+		// steal ImGui's mouse capture on its behalf.
 
 		// ImGui's DX12 backend leaves the viewport/scissor rect set to
 		// whatever its last recorded draw command needed, which may be a
@@ -392,19 +342,12 @@ namespace YimMenu::Rendering
 		// text-edit interception right below - a popup open on top of a
 		// text field mid-edit still wins. See MenuPopup's own class
 		// comment for why it always swallows regardless of what it
-		// matched.
+		// matched. Keyboard-only, same as everything else here - no
+		// mouse click path.
 		if (MenuPopup::IsOpen())
 		{
-			if (msg == WM_LBUTTONDOWN)
-			{
-				DirectX::XMFLOAT2 cursor;
-				if (TryGetCursorPos(cursor))
-					MenuPopup::HandleClick(static_cast<int16_t>(cursor.x), static_cast<int16_t>(cursor.y));
-			}
-			else if (msg == WM_KEYDOWN)
-			{
+			if (msg == WM_KEYDOWN)
 				MenuPopup::HandleKey(static_cast<unsigned int>(wparam));
-			}
 
 			return;
 		}
@@ -416,8 +359,8 @@ namespace YimMenu::Rendering
 		// MenuGrid::HandleKey()'s normal list navigation, the same way
 		// ImGui's own WantCaptureKeyboard steals input from the game
 		// while an ImGui text field has focus. Checked before anything
-		// else below (including WM_LBUTTONDOWN's own hit test) since
-		// typing shouldn't ever fall through to something else.
+		// else below since typing shouldn't ever fall through to
+		// something else.
 		if (auto* focused = MenuFocus::GetFocusedItem(MenuNavigation::Current()); focused && focused->isEditingText())
 		{
 			if (msg == WM_CHAR)
@@ -433,79 +376,14 @@ namespace YimMenu::Rendering
 			}
 		}
 
-		if (msg == WM_MOUSEMOVE)
-		{
-			DirectX::XMFLOAT2 cursor;
-			if (TryGetCursorPos(cursor))
-			{
-				const auto cursorX = static_cast<int16_t>(cursor.x);
-				const auto cursorY = static_cast<int16_t>(cursor.y);
-				if (auto* item = g_MenuGrid.findItemAt(cursorX, cursorY); item && item->isFocusable())
-					MenuFocus::SetFocusedItem(MenuNavigation::Current(), item);
-			}
-
-			return;
-		}
-
-		if (msg == WM_LBUTTONDOWN)
-		{
-			DirectX::XMFLOAT2 cursor;
-			if (!TryGetCursorPos(cursor))
-				return;
-
-			const auto cursorX = static_cast<int16_t>(cursor.x);
-			const auto cursorY = static_cast<int16_t>(cursor.y);
-			if (auto* item = g_MenuGrid.findItemAt(cursorX, cursorY))
-			{
-				// Syncs MenuFocus to whatever was just clicked (not just
-				// Up/Down-driven navigation) - see SetFocusedItem()'s own
-				// doc comment in MenuFocus.hpp for why: it's what makes
-				// isKeyboardFocused()'s accent highlight track a mouse
-				// click too, and what the text-edit interception above
-				// relies on to know which item is "the" one being edited
-				// after a click starts editing it.
-				if (item->isFocusable())
-					MenuFocus::SetFocusedItem(MenuNavigation::Current(), item);
-
-				// Same item, within the system double-click interval - see
-				// g_LastClickedItem's own doc comment above for why that's
-				// the whole test. Ctrl/Shift read at click time, same as
-				// ImGui::IsKeyDown(ImGuiMod_Ctrl/Shift) would in the
-				// classic menu's own click handlers.
-				const auto nowMs = GetTickCount64();
-				const bool doubleClick = item == g_LastClickedItem && (nowMs - g_LastClickTimeMs) <= GetDoubleClickTime();
-				g_LastClickedItem = item;
-				g_LastClickTimeMs = nowMs;
-
-				const bool ctrlHeld = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
-				const bool shiftHeld = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-				item->onClickEx(cursorX, cursorY, ctrlHeld, shiftHeld, doubleClick);
-			}
-
-			return;
-		}
-
-		if (msg == WM_MOUSEWHEEL)
-		{
-			// Scrolls whatever content Grid is currently showing - not
-			// gated on cursor position (unlike WM_LBUTTONDOWN's hit test
-			// above), since this menu has no other scrollable surface to
-			// disambiguate against. See Grid::ScrollBy()'s own doc
-			// comment for why this exists at all (a content Grid's own
-			// item list can be taller than fits on screen, with no
-			// pagination/windowing the way Stand's own GridItemList has).
-			if (auto* content = MenuNavigation::Current())
-			{
-				// HIWORD(wparam) is the signed wheel delta (Win32
-				// convention) - positive is away from the user (scrolled
-				// "up"), which conventionally moves the view toward
-				// earlier items, i.e. a negative offset.
-				const auto notches = static_cast<short>(HIWORD(wparam)) / WHEEL_DELTA;
-				const auto visibleHeight = static_cast<int16_t>(kHudHeight - content->origin.y - Theme::kContentBottomMargin);
-				content->ScrollBy(static_cast<int16_t>(-notches * kScrollStep), visibleHeight);
-			}
-			return;
-		}
+		// No WM_MOUSEMOVE/WM_LBUTTONDOWN/WM_MOUSEWHEEL handling - this
+		// menu is keyboard-only by design (real Stand feel: no mouse
+		// cursor, no click-to-select, no wheel-scroll). Keyboard focus
+		// moves via MenuGrid::HandleKey()'s Up/Down (content) and Left
+		// Ctrl/Shift (sidebar) below, which already calls
+		// Grid::ScrollToShow() to keep the focused row in view, so
+		// there's no scrollable surface a wheel would even be needed
+		// for.
 
 		// Every other key this system responds to (Up/Down/Left/Right/
 		// Enter/Backspace - see MenuGrid::HandleKey()) - guarded on
