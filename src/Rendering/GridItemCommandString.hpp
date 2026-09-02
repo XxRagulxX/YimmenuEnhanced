@@ -1,6 +1,6 @@
 #pragma once
-#include "GridItemTextInput.hpp"
-#include "Joaat.hpp"
+#include "Rendering/GridItemTextInput.hpp"
+#include "Util/Joaat.hpp"
 
 #include <optional>
 #include <string>

@@ -1,7 +1,7 @@
 #pragma once
-#include "BoolCommand.hpp"
-#include "GridItem.hpp"
-#include "Joaat.hpp"
+#include "Commands/BoolCommand.hpp"
+#include "Rendering/GridItem.hpp"
+#include "Util/Joaat.hpp"
 
 #include <functional>
 #include <memory>

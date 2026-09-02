@@ -1,7 +1,7 @@
-#include "MenuFocus.hpp"
+#include "Rendering/MenuFocus.hpp"
 
-#include "Grid.hpp"
-#include "GridItem.hpp"
+#include "Rendering/Grid.hpp"
+#include "Rendering/GridItem.hpp"
 
 namespace YimMenu::Rendering
 {

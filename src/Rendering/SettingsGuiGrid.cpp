@@ -1,12 +1,12 @@
-#include "SettingsGuiGrid.hpp"
+#include "Rendering/SettingsGuiGrid.hpp"
 
-#include "GridItemCommandButton.hpp"
-#include "GridItemCommandList.hpp"
-#include "GridItemCommandToggle.hpp"
-#include "GridItemConditional.hpp"
-#include "GridItemText.hpp"
-#include "Joaat.hpp"
-#include "Theme.hpp"
+#include "Rendering/GridItemCommandButton.hpp"
+#include "Rendering/GridItemCommandList.hpp"
+#include "Rendering/GridItemCommandToggle.hpp"
+#include "Rendering/GridItemConditional.hpp"
+#include "Rendering/GridItemText.hpp"
+#include "Util/Joaat.hpp"
+#include "Rendering/Theme.hpp"
 
 namespace YimMenu::Rendering
 {

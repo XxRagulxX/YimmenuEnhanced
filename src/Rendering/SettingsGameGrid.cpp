@@ -1,13 +1,13 @@
-#include "SettingsGameGrid.hpp"
+#include "Rendering/SettingsGameGrid.hpp"
 
-#include "BoolCommand.hpp"
-#include "Commands.hpp"
-#include "GridItemCommandColor.hpp"
-#include "GridItemCommandToggle.hpp"
-#include "GridItemConditional.hpp"
-#include "GridItemText.hpp"
-#include "Joaat.hpp"
-#include "Theme.hpp"
+#include "Commands/BoolCommand.hpp"
+#include "Commands/Commands.hpp"
+#include "Rendering/GridItemCommandColor.hpp"
+#include "Rendering/GridItemCommandToggle.hpp"
+#include "Rendering/GridItemConditional.hpp"
+#include "Rendering/GridItemText.hpp"
+#include "Util/Joaat.hpp"
+#include "Rendering/Theme.hpp"
 
 namespace YimMenu::Rendering
 {

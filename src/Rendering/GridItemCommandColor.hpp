@@ -1,6 +1,6 @@
 #pragma once
-#include "GridItem.hpp"
-#include "Joaat.hpp"
+#include "Rendering/GridItem.hpp"
+#include "Util/Joaat.hpp"
 
 #include <functional>
 #include <memory>

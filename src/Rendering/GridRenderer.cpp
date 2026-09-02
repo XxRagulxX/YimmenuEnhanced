@@ -1,15 +1,15 @@
-#include "GridRenderer.hpp"
+#include "Rendering/GridRenderer.hpp"
 
-#include "BoolCommand.hpp"
-#include "GUI.hpp"
-#include "MenuFocus.hpp"
-#include "MenuGrid.hpp"
-#include "MenuNavigation.hpp"
-#include "MenuPopup.hpp"
-#include "Pointers.hpp"
-#include "Renderer.hpp"
-#include "Theme.hpp"
-#include "font_bevietnamprolight.hpp"
+#include "Commands/BoolCommand.hpp"
+#include "Menu/GUI.hpp"
+#include "Rendering/MenuFocus.hpp"
+#include "Rendering/MenuGrid.hpp"
+#include "Rendering/MenuNavigation.hpp"
+#include "Rendering/MenuPopup.hpp"
+#include "Core/Pointers.hpp"
+#include "Rendering/Renderer.hpp"
+#include "Rendering/Theme.hpp"
+#include "Rendering/font_bevietnamprolight.hpp"
 
 #include <RenderTargetState.h>
 #include <ResourceUploadBatch.h>

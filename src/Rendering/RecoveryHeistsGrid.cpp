@@ -1,12 +1,12 @@
-#include "RecoveryHeistsGrid.hpp"
+#include "Rendering/RecoveryHeistsGrid.hpp"
 
-#include "ApartmentHeistGrid.hpp"
-#include "CayoPericoHeistGrid.hpp"
-#include "DiamondCasinoHeistGrid.hpp"
-#include "DoomsdayHeistGrid.hpp"
-#include "KortzCenterHeistGrid.hpp"
-#include "MissionsGrid.hpp"
-#include "Theme.hpp"
+#include "Rendering/ApartmentHeistGrid.hpp"
+#include "Rendering/CayoPericoHeistGrid.hpp"
+#include "Rendering/DiamondCasinoHeistGrid.hpp"
+#include "Rendering/DoomsdayHeistGrid.hpp"
+#include "Rendering/KortzCenterHeistGrid.hpp"
+#include "Rendering/MissionsGrid.hpp"
+#include "Rendering/Theme.hpp"
 
 namespace YimMenu::Rendering
 {

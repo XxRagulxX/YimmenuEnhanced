@@ -1,8 +1,8 @@
-#include "GridItemPlayerList.hpp"
+#include "Rendering/GridItemPlayerList.hpp"
 
-#include "GridRenderer.hpp"
-#include "Players.hpp"
-#include "Theme.hpp"
+#include "Rendering/GridRenderer.hpp"
+#include "Network/Players.hpp"
+#include "Rendering/Theme.hpp"
 
 #include <algorithm>
 #include <utility>

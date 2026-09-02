@@ -1,12 +1,12 @@
-#include "LuaScriptsGrid.hpp"
+#include "Rendering/LuaScriptsGrid.hpp"
 
-#include "GridItemButton.hpp"
-#include "GridItemConditional.hpp"
-#include "GridItemLiveText.hpp"
-#include "GridItemSelectList.hpp"
-#include "GridItemText.hpp"
-#include "LuaManager.hpp"
-#include "Theme.hpp"
+#include "Rendering/GridItemButton.hpp"
+#include "Rendering/GridItemConditional.hpp"
+#include "Rendering/GridItemLiveText.hpp"
+#include "Rendering/GridItemSelectList.hpp"
+#include "Rendering/GridItemText.hpp"
+#include "Scripting/LuaManager.hpp"
+#include "Rendering/Theme.hpp"
 
 #include <format>
 #include <string>

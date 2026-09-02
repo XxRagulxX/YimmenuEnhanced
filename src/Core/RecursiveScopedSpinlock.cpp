@@ -1,6 +1,6 @@
 #include "Core/RecursiveScopedSpinlock.hpp"
 
-#include "ExceptionHandler.hpp"
+#include "Core/ExceptionHandler.hpp"
 
 #include <windows.h>
 

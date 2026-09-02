@@ -1,7 +1,7 @@
-#include "PlaceholderGrid.hpp"
+#include "Rendering/PlaceholderGrid.hpp"
 
-#include "GridItemText.hpp"
-#include "Theme.hpp"
+#include "Rendering/GridItemText.hpp"
+#include "Rendering/Theme.hpp"
 
 namespace YimMenu::Rendering
 {

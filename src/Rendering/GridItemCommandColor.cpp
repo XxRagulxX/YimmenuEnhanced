@@ -1,10 +1,10 @@
-#include "GridItemCommandColor.hpp"
+#include "Rendering/GridItemCommandColor.hpp"
 
-#include "ColorCommand.hpp"
-#include "Commands.hpp"
-#include "GridItemConditional.hpp"
-#include "GridRenderer.hpp"
-#include "Theme.hpp"
+#include "Commands/ColorCommand.hpp"
+#include "Commands/Commands.hpp"
+#include "Rendering/GridItemConditional.hpp"
+#include "Rendering/GridRenderer.hpp"
+#include "Rendering/Theme.hpp"
 
 #include <algorithm>
 #include <utility>

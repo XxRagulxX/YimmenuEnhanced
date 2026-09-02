@@ -1,8 +1,8 @@
-#include "GridItemScrollbar.hpp"
+#include "Rendering/GridItemScrollbar.hpp"
 
-#include "Grid.hpp"
-#include "GridRenderer.hpp"
-#include "Theme.hpp"
+#include "Rendering/Grid.hpp"
+#include "Rendering/GridRenderer.hpp"
+#include "Rendering/Theme.hpp"
 
 #include <algorithm>
 

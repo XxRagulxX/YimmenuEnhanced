@@ -1,16 +1,16 @@
-#include "PlayersGrid.hpp"
+#include "Rendering/PlayersGrid.hpp"
 
-#include "GridItemCommandToggle.hpp"
-#include "GridItemFolder.hpp"
-#include "GridItemPlayerList.hpp"
-#include "GridItemText.hpp"
-#include "InfoGrid.hpp"
-#include "Joaat.hpp"
-#include "KickGrid.hpp"
-#include "Players.hpp"
-#include "Theme.hpp"
-#include "ToxicGrid.hpp"
-#include "TrollGrid.hpp"
+#include "Rendering/GridItemCommandToggle.hpp"
+#include "Rendering/GridItemFolder.hpp"
+#include "Rendering/GridItemPlayerList.hpp"
+#include "Rendering/GridItemText.hpp"
+#include "Rendering/InfoGrid.hpp"
+#include "Util/Joaat.hpp"
+#include "Rendering/KickGrid.hpp"
+#include "Network/Players.hpp"
+#include "Rendering/Theme.hpp"
+#include "Rendering/ToxicGrid.hpp"
+#include "Rendering/TrollGrid.hpp"
 
 namespace YimMenu::Rendering
 {

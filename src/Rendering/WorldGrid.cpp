@@ -1,16 +1,16 @@
-#include "WorldGrid.hpp"
+#include "Rendering/WorldGrid.hpp"
 
-#include "GridItemCommandButton.hpp"
-#include "GridItemCommandInt.hpp"
-#include "GridItemCommandList.hpp"
-#include "GridItemCommandToggle.hpp"
-#include "GridItemConditional.hpp"
-#include "GridItemFolder.hpp"
-#include "GridItemText.hpp"
-#include "Joaat.hpp"
-#include "PlaceholderGrid.hpp"
-#include "Theme.hpp"
-#include "WorldIPLsGrid.hpp"
+#include "Rendering/GridItemCommandButton.hpp"
+#include "Rendering/GridItemCommandInt.hpp"
+#include "Rendering/GridItemCommandList.hpp"
+#include "Rendering/GridItemCommandToggle.hpp"
+#include "Rendering/GridItemConditional.hpp"
+#include "Rendering/GridItemFolder.hpp"
+#include "Rendering/GridItemText.hpp"
+#include "Util/Joaat.hpp"
+#include "Rendering/PlaceholderGrid.hpp"
+#include "Rendering/Theme.hpp"
+#include "Rendering/WorldIPLsGrid.hpp"
 
 namespace YimMenu::Rendering
 {

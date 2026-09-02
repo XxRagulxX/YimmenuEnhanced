@@ -1,7 +1,7 @@
 #pragma once
-#include "FloatCommand.hpp"
-#include "GridItem.hpp"
-#include "Joaat.hpp"
+#include "Commands/FloatCommand.hpp"
+#include "Rendering/GridItem.hpp"
+#include "Util/Joaat.hpp"
 
 #include <optional>
 #include <string>

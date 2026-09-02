@@ -1,8 +1,8 @@
-#include "GridItemCommandToggle.hpp"
+#include "Rendering/GridItemCommandToggle.hpp"
 
-#include "Commands.hpp"
-#include "GridRenderer.hpp"
-#include "Theme.hpp"
+#include "Commands/Commands.hpp"
+#include "Rendering/GridRenderer.hpp"
+#include "Rendering/Theme.hpp"
 
 #include <algorithm>
 

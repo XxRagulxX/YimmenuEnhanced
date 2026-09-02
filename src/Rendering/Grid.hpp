@@ -1,6 +1,6 @@
 #pragma once
-#include "GridItem.hpp"
-#include "Position2d.hpp"
+#include "Rendering/GridItem.hpp"
+#include "Rendering/Position2d.hpp"
 
 #include <soup/SharedPtr.hpp>
 

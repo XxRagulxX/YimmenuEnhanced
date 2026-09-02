@@ -1,13 +1,13 @@
-#include "TeleportGrid.hpp"
+#include "Rendering/TeleportGrid.hpp"
 
-#include "GridItemCommandButton.hpp"
-#include "GridItemCommandToggle.hpp"
-#include "GridItemConditional.hpp"
-#include "GridItemFolder.hpp"
-#include "GridItemText.hpp"
-#include "Joaat.hpp"
-#include "Theme.hpp"
-#include "TeleportSavedGrid.hpp"
+#include "Rendering/GridItemCommandButton.hpp"
+#include "Rendering/GridItemCommandToggle.hpp"
+#include "Rendering/GridItemConditional.hpp"
+#include "Rendering/GridItemFolder.hpp"
+#include "Rendering/GridItemText.hpp"
+#include "Util/Joaat.hpp"
+#include "Rendering/Theme.hpp"
+#include "Rendering/TeleportSavedGrid.hpp"
 
 namespace YimMenu::Rendering
 {

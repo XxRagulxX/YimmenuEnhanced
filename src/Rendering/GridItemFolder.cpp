@@ -1,8 +1,8 @@
-#include "GridItemFolder.hpp"
+#include "Rendering/GridItemFolder.hpp"
 
-#include "GridRenderer.hpp"
-#include "MenuNavigation.hpp"
-#include "Theme.hpp"
+#include "Rendering/GridRenderer.hpp"
+#include "Rendering/MenuNavigation.hpp"
+#include "Rendering/Theme.hpp"
 
 #include <algorithm>
 

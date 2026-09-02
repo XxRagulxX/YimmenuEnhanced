@@ -49,8 +49,8 @@ if(MSVC)
     enable_language(ASM_MASM)
 
     set(EXCEPTION_ASM_FILES
-        "${SRC_DIR}/exceptional_helper.asm"
-        "${SRC_DIR}/get_stack_pointer.asm"
+        "${SRC_DIR}/Core/exceptional_helper.asm"
+        "${SRC_DIR}/Core/get_stack_pointer.asm"
     )
 
     set_source_files_properties(
@@ -71,7 +71,7 @@ endif()
 target_precompile_headers(
     ${PROJECT_NAME}
     PUBLIC
-        "${SRC_DIR}/common.hpp"
+        "${SRC_DIR}/Core/common.hpp"
 )
 
 # Compile definitions

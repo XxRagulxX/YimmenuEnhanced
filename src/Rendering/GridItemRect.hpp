@@ -1,5 +1,5 @@
 #pragma once
-#include "GridItem.hpp"
+#include "Rendering/GridItem.hpp"
 
 #include <DirectXMath.h>
 

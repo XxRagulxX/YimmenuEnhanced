@@ -1,6 +1,6 @@
-#include "GridTabbed.hpp"
+#include "Rendering/GridTabbed.hpp"
 
-#include "GridItemTabsHorizontal.hpp"
+#include "Rendering/GridItemTabsHorizontal.hpp"
 
 namespace YimMenu::Rendering
 {

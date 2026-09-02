@@ -1,5 +1,5 @@
 #pragma once
-#include "Theme.hpp"
+#include "Rendering/Theme.hpp"
 
 #include <CommonStates.h>
 #include <Effects.h>

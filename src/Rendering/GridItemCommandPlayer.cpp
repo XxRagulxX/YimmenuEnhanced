@@ -1,10 +1,10 @@
-#include "GridItemCommandPlayer.hpp"
+#include "Rendering/GridItemCommandPlayer.hpp"
 
-#include "Commands.hpp"
-#include "FiberPool.hpp"
-#include "GridRenderer.hpp"
-#include "Players.hpp"
-#include "Theme.hpp"
+#include "Commands/Commands.hpp"
+#include "Scripting/FiberPool.hpp"
+#include "Rendering/GridRenderer.hpp"
+#include "Network/Players.hpp"
+#include "Rendering/Theme.hpp"
 
 #include <algorithm>
 

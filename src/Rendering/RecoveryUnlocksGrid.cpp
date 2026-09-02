@@ -1,11 +1,11 @@
-#include "RecoveryUnlocksGrid.hpp"
+#include "Rendering/RecoveryUnlocksGrid.hpp"
 
-#include "GridItemCommandButton.hpp"
-#include "GridItemCommandInt.hpp"
-#include "GridItemCommandToggle.hpp"
-#include "GridItemText.hpp"
-#include "Joaat.hpp"
-#include "Theme.hpp"
+#include "Rendering/GridItemCommandButton.hpp"
+#include "Rendering/GridItemCommandInt.hpp"
+#include "Rendering/GridItemCommandToggle.hpp"
+#include "Rendering/GridItemText.hpp"
+#include "Util/Joaat.hpp"
+#include "Rendering/Theme.hpp"
 
 namespace YimMenu::Rendering
 {

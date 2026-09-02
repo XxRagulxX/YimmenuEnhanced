@@ -1,11 +1,11 @@
-#include "TrollGrid.hpp"
+#include "Rendering/TrollGrid.hpp"
 
-#include "GridItemCommandInt.hpp"
-#include "GridItemCommandPlayer.hpp"
-#include "GridItemCommandToggle.hpp"
-#include "GridItemText.hpp"
-#include "Joaat.hpp"
-#include "Theme.hpp"
+#include "Rendering/GridItemCommandInt.hpp"
+#include "Rendering/GridItemCommandPlayer.hpp"
+#include "Rendering/GridItemCommandToggle.hpp"
+#include "Rendering/GridItemText.hpp"
+#include "Util/Joaat.hpp"
+#include "Rendering/Theme.hpp"
 
 namespace YimMenu::Rendering
 {

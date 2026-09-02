@@ -1,6 +1,6 @@
-#include "GridItemLiveText.hpp"
+#include "Rendering/GridItemLiveText.hpp"
 
-#include "GridRenderer.hpp"
+#include "Rendering/GridRenderer.hpp"
 
 #include <algorithm>
 

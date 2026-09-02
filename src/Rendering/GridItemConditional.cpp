@@ -1,6 +1,6 @@
-#include "GridItemConditional.hpp"
+#include "Rendering/GridItemConditional.hpp"
 
-#include "Commands.hpp"
+#include "Commands/Commands.hpp"
 
 namespace YimMenu::Rendering
 {

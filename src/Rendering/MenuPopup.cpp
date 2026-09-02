@@ -1,7 +1,7 @@
-#include "MenuPopup.hpp"
+#include "Rendering/MenuPopup.hpp"
 
-#include "GridRenderer.hpp"
-#include "Theme.hpp"
+#include "Rendering/GridRenderer.hpp"
+#include "Rendering/Theme.hpp"
 
 #include <algorithm>
 #include <windows.h>

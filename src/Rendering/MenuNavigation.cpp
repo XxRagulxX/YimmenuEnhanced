@@ -1,4 +1,4 @@
-#include "MenuNavigation.hpp"
+#include "Rendering/MenuNavigation.hpp"
 
 namespace YimMenu::Rendering
 {

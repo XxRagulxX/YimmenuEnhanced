@@ -1,8 +1,8 @@
-#include "VehicleSpawnGrid.hpp"
+#include "Rendering/VehicleSpawnGrid.hpp"
 
-#include "Theme.hpp"
-#include "VehicleSpawnNewGrid.hpp"
-#include "VehicleSpawnPersonalGrid.hpp"
+#include "Rendering/Theme.hpp"
+#include "Rendering/VehicleSpawnNewGrid.hpp"
+#include "Rendering/VehicleSpawnPersonalGrid.hpp"
 
 namespace YimMenu::Rendering
 {

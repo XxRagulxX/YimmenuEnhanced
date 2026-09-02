@@ -1,6 +1,6 @@
-#include "GridItemRect.hpp"
+#include "Rendering/GridItemRect.hpp"
 
-#include "GridRenderer.hpp"
+#include "Rendering/GridRenderer.hpp"
 
 namespace YimMenu::Rendering
 {

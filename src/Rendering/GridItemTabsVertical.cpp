@@ -1,7 +1,7 @@
-#include "GridItemTabsVertical.hpp"
+#include "Rendering/GridItemTabsVertical.hpp"
 
-#include "GridRenderer.hpp"
-#include "Theme.hpp"
+#include "Rendering/GridRenderer.hpp"
+#include "Rendering/Theme.hpp"
 
 #include <algorithm>
 

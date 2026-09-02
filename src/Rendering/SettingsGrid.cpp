@@ -1,12 +1,12 @@
-#include "SettingsGrid.hpp"
+#include "Rendering/SettingsGrid.hpp"
 
-#include "GridItemFolder.hpp"
-#include "GridItemText.hpp"
-#include "LuaScriptsGrid.hpp"
-#include "PlaceholderGrid.hpp"
-#include "SettingsGameGrid.hpp"
-#include "SettingsGuiGrid.hpp"
-#include "Theme.hpp"
+#include "Rendering/GridItemFolder.hpp"
+#include "Rendering/GridItemText.hpp"
+#include "Rendering/LuaScriptsGrid.hpp"
+#include "Rendering/PlaceholderGrid.hpp"
+#include "Rendering/SettingsGameGrid.hpp"
+#include "Rendering/SettingsGuiGrid.hpp"
+#include "Rendering/Theme.hpp"
 
 namespace YimMenu::Rendering
 {

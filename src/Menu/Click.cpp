@@ -1,7 +1,7 @@
 #include "Menu/Click.hpp"
 
-#include "FiberPool.hpp"
-#include "Notifications.hpp"
+#include "Scripting/FiberPool.hpp"
+#include "Rendering/Notifications.hpp"
 
 namespace Stand
 {

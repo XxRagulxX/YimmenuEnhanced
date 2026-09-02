@@ -1,6 +1,6 @@
 #pragma once
-#include "Grid.hpp"
-#include "GridItemScrollbar.hpp"
+#include "Rendering/Grid.hpp"
+#include "Rendering/GridItemScrollbar.hpp"
 
 #include <cstddef>
 #include <string>

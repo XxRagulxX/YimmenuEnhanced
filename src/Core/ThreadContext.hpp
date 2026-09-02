@@ -1,7 +1,8 @@
 #pragma once
+
 #include <cstdint>
 
-namespace Stand
+namespace YimMenu
 {
 	enum ThreadContext : uint8_t
 	{

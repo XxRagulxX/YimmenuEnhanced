@@ -1,0 +1,18 @@
+#include "Menu/MenuDebug.hpp"
+#include "World/Misc.hpp"
+#include "Core/Globals.hpp"
+#include "Scripting/Locals.hpp"
+#include "Menu/MenuScripts.hpp"
+
+namespace YimMenu::Submenus
+{
+	Debug::Debug() :
+		#define ICON_FA_ARROW_RIGHT "\xef\x84\xa0"
+	    Submenu::Submenu("Debug", ICON_FA_ARROW_RIGHT)
+	{
+		AddCategory(BuildMiscMenu());
+		AddCategory(BuildGlobalsMenu());
+		AddCategory(BuildLocalsMenu());
+		AddCategory(BuildScriptsMenu());
+	}
+}

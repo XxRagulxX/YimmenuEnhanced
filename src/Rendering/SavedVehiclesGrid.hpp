@@ -1,5 +1,5 @@
 #pragma once
-#include "Grid.hpp"
+#include "Rendering/Grid.hpp"
 
 #include <string>
 #include <vector>

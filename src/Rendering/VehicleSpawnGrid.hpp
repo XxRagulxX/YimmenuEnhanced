@@ -1,5 +1,5 @@
 #pragma once
-#include "GridTabbed.hpp"
+#include "Rendering/GridTabbed.hpp"
 
 namespace YimMenu::Rendering
 {

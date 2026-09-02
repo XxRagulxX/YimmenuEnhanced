@@ -1,7 +1,7 @@
-#include "GridItemTextInput.hpp"
+#include "Rendering/GridItemTextInput.hpp"
 
-#include "GridRenderer.hpp"
-#include "Theme.hpp"
+#include "Rendering/GridRenderer.hpp"
+#include "Rendering/Theme.hpp"
 
 #include <algorithm>
 #include <windows.h>

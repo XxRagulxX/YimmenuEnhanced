@@ -1,7 +1,7 @@
-#include "GridItemCommandString.hpp"
+#include "Rendering/GridItemCommandString.hpp"
 
-#include "Commands.hpp"
-#include "StringCommand.hpp"
+#include "Commands/Commands.hpp"
+#include "Commands/StringCommand.hpp"
 
 namespace YimMenu::Rendering
 {

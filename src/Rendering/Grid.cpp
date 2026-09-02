@@ -1,4 +1,4 @@
-#include "Grid.hpp"
+#include "Rendering/Grid.hpp"
 
 #include <algorithm>
 #include <climits>

@@ -1,14 +1,14 @@
-#include "GridItemCommandVector3.hpp"
+#include "Rendering/GridItemCommandVector3.hpp"
 
-#include "Commands.hpp"
-#include "GridItemButton.hpp"
-#include "GridItemConditional.hpp"
-#include "GridItemText.hpp"
-#include "GridRenderer.hpp"
-#include "Self.hpp"
-#include "Theme.hpp"
-#include "Vector3Command.hpp"
-#include "vector.hpp"
+#include "Commands/Commands.hpp"
+#include "Rendering/GridItemButton.hpp"
+#include "Rendering/GridItemConditional.hpp"
+#include "Rendering/GridItemText.hpp"
+#include "Rendering/GridRenderer.hpp"
+#include "World/Self.hpp"
+#include "Rendering/Theme.hpp"
+#include "Commands/Vector3Command.hpp"
+#include "Game/vector.hpp"
 
 #include <algorithm>
 #include <format>
