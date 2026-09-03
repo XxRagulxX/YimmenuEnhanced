@@ -248,18 +248,18 @@ namespace YimMenu::Rendering
 		case VK_CONTROL:
 		case VK_SHIFT:
 			// Real Stand feel: the main menu (sidebar) isn't Up/Down-driven -
-			// Left Ctrl moves it down, Left Shift moves it up, from
+			// Right Ctrl moves it down, Right Shift moves it up, from
 			// anywhere (not just while focus is already on the sidebar),
 			// same as Stand's own scheme. WM_KEYDOWN reports the generic
 			// VK_CONTROL/VK_SHIFT for either side, so GetKeyState() (not
-			// vkCode) is what tells Left apart from Right here - same
+			// vkCode) is what tells Right apart from Left here - same
 			// pattern GUI::WndProc already uses for its own modifier
 			// checks.
 			if (m_Sidebar)
 			{
-				if (vkCode == VK_CONTROL && (GetKeyState(VK_LCONTROL) & 0x8000) != 0)
+				if (vkCode == VK_CONTROL && (GetKeyState(VK_RCONTROL) & 0x8000) != 0)
 					m_Sidebar->MoveActive(1);
-				else if (vkCode == VK_SHIFT && (GetKeyState(VK_LSHIFT) & 0x8000) != 0)
+				else if (vkCode == VK_SHIFT && (GetKeyState(VK_RSHIFT) & 0x8000) != 0)
 					m_Sidebar->MoveActive(-1);
 			}
 			break;
