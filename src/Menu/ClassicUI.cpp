@@ -16,11 +16,25 @@ namespace YimMenu::ClassicUI
 
 		constexpr DirectX::XMFLOAT4 kText{1.f, 1.f, 1.f, 1.f};
 		constexpr DirectX::XMFLOAT4 kTextDisabled{0.6f, 0.6f, 0.6f, 1.f};
-		constexpr DirectX::XMFLOAT4 kRowBg{1.f, 1.f, 1.f, 0.05f};
-		constexpr DirectX::XMFLOAT4 kRowBgHovered{1.f, 1.f, 1.f, 0.12f};
+
+		// Premultiplied alpha (rgb already multiplied by a), NOT the
+		// straight/"unassociated" alpha these read as at a glance -
+		// GridRenderer's rect PrimitiveBatch uses DirectX::CommonStates::
+		// AlphaBlend (SrcBlend=ONE, DestBlend=INV_SRC_ALPHA), which
+		// expects that. Every existing Theme.hpp colour elsewhere in
+		// this codebase happens to be either fully opaque (alpha 1, so
+		// straight vs. premultiplied is the same) or pure black (0 rgb
+		// times anything is still 0), so this never mattered until now -
+		// these are the first colours here with both a non-black rgb
+		// and alpha < 1. Passing them straight (rgb un-multiplied)
+		// would blend as roughly rgb*1 + dst*(1-a) - i.e. nearly the
+		// full, undimmed colour laid over the background, barely
+		// affected by how low a actually is.
+		constexpr DirectX::XMFLOAT4 kRowBg{0.05f, 0.05f, 0.05f, 0.05f};
+		constexpr DirectX::XMFLOAT4 kRowBgHovered{0.12f, 0.12f, 0.12f, 0.12f};
 		constexpr DirectX::XMFLOAT4 kAccent{0.36f, 0.85f, 0.56f, 1.f};
 		constexpr DirectX::XMFLOAT4 kToggleOff{0.35f, 0.35f, 0.35f, 1.f};
-		constexpr DirectX::XMFLOAT4 kSeparator{1.f, 1.f, 1.f, 0.15f};
+		constexpr DirectX::XMFLOAT4 kSeparator{0.15f, 0.15f, 0.15f, 0.15f};
 
 		float s_PanelX = 0.f;
 		float s_PanelWidth = 0.f;
@@ -223,7 +237,15 @@ namespace YimMenu::ClassicUI
 		const auto swatchSize = s_RowHeight - 6.f * s_Scale;
 		const auto swatchX = s_PanelX + s_PanelWidth - swatchSize - 6.f * s_Scale;
 		const auto swatchY = rowY + 3.f * s_Scale;
-		GridRenderer::DrawRectFilledScreen(swatchX, swatchY, swatchX + swatchSize, swatchY + swatchSize, colour);
+
+		// colour is a caller-authored straight-alpha value (e.g. a
+		// ColorCommand's own state) - premultiply before handing it to
+		// DrawRectFilledScreen, same reasoning as kRowBg/kRowBgHovered/
+		// kSeparator above. A fully-opaque colour is unaffected either
+		// way, but this swatch exists specifically to show whatever
+		// alpha the command actually holds.
+		const DirectX::XMFLOAT4 premultiplied{colour.x * colour.w, colour.y * colour.w, colour.z * colour.w, colour.w};
+		GridRenderer::DrawRectFilledScreen(swatchX, swatchY, swatchX + swatchSize, swatchY + swatchSize, premultiplied);
 	}
 
 	std::string TextField(const std::string& id, const std::string& label, std::string value)
