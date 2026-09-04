@@ -1,12 +1,160 @@
 #include "Rendering/Notifications.hpp"
-#include "Scripting/Natives.hpp"
+
+#include "Rendering/GridRenderer.hpp"
+#include "Rendering/Theme.hpp"
 #include "Scripting/FiberPool.hpp"
+#include "Scripting/Natives.hpp"
 #include "Util/Joaat.hpp"
 
+#include <algorithm>
 #include <mutex>
+#include <sstream>
 
 namespace YimMenu
 {
+	namespace
+	{
+		constexpr float kMargin = 10.f;
+		constexpr float kPadding = 8.f;
+		constexpr float kProgressBarHeight = 3.5f;
+		constexpr float kSeparatorHeight = 1.f;
+		constexpr float kTitleScale = Rendering::Theme::kTextScale;
+		constexpr float kMessageScale = Rendering::Theme::kSmallTextScale;
+
+		// Not part of Theme.hpp's own six customizable colours (see that
+		// header's own comment on why only those six are) - Success/
+		// Warning have no existing slot there, same as the original's own
+		// hardcoded ImVec4s for them.
+		constexpr DirectX::XMFLOAT4 kSuccessColour{0.f, 1.f, 0.f, 1.f};
+		constexpr DirectX::XMFLOAT4 kWarningColour{1.f, 0.5f, 0.f, 1.f};
+
+		const DirectX::XMFLOAT4& GetTypeColour(NotificationType type)
+		{
+			switch (type)
+			{
+			case NotificationType::Success:
+				return kSuccessColour;
+			case NotificationType::Warning:
+				return kWarningColour;
+			case NotificationType::Error:
+				return Rendering::Theme::kError;
+			case NotificationType::Info:
+			default:
+				return Rendering::Theme::kText;
+			}
+		}
+
+		// Greedy word-wrap against MeasureText - GridRenderer's DrawText
+		// has no built-in wrapping (unlike ImGui::TextWrapped, which the
+		// pre-port version of this relied on), so this replaces it.
+		// Same "simplest thing that still works" trade-off as everywhere
+		// else in this system without a real text-layout engine: no
+		// hyphenation, and a single word wider than maxWidth on its own
+		// just overflows rather than being split mid-word.
+		std::vector<std::string> WrapText(const std::string& text, float maxWidth, float scale)
+		{
+			std::vector<std::string> lines;
+			std::string currentLine;
+
+			std::istringstream words(text);
+			std::string word;
+			while (words >> word)
+			{
+				std::string candidate = currentLine.empty() ? word : currentLine + " " + word;
+				if (!currentLine.empty() && Rendering::GridRenderer::MeasureText(candidate.c_str(), scale).x > maxWidth)
+				{
+					lines.push_back(currentLine);
+					currentLine = word;
+				}
+				else
+				{
+					currentLine = candidate;
+				}
+			}
+
+			if (!currentLine.empty())
+				lines.push_back(currentLine);
+
+			return lines;
+		}
+
+		// Every position/size Draw()'s rect pass and DrawText()'s text
+		// pass both need, computed identically (and independently) by
+		// each rather than shared/cached across the two - see
+		// Notifications.hpp's own class comment for why each pass has to
+		// stand on its own (PrimitiveBatch vs SpriteBatch), and
+		// MeasureText's own doc comment for why calling it here (outside
+		// either open batch) is safe.
+		struct Layout
+		{
+			float cardX, cardY;
+			float progressBarWidth;
+			float separatorY;
+			float titleY;
+			float messageStartY;
+			float lineHeight;
+			std::vector<std::string> messageLines;
+			float contextY;
+		};
+
+		Layout ComputeLayout(const Notification& notification, int position)
+		{
+			Layout layout{};
+			layout.cardX = kMargin + notification.m_AnimationOffset;
+			layout.cardY = kMargin + position * m_CardSizeY;
+
+			const auto timeElapsed = static_cast<float>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - notification.m_CreatedOn).count());
+			const float depletionProgress = std::clamp(1.f - (timeElapsed / static_cast<float>(notification.m_Duration)), 0.f, 1.f);
+			layout.progressBarWidth = m_CardSizeX * depletionProgress;
+
+			const float titleHeight = Rendering::GridRenderer::MeasureText(notification.m_Title.c_str(), kTitleScale).y;
+			layout.titleY = layout.cardY + kProgressBarHeight + kPadding;
+			layout.separatorY = layout.titleY + titleHeight + kPadding * 0.5f;
+			layout.messageStartY = layout.separatorY + kSeparatorHeight + kPadding * 0.5f;
+
+			layout.messageLines = WrapText(notification.m_Message, m_CardSizeX - kPadding * 2.f, kMessageScale);
+			layout.lineHeight = Rendering::GridRenderer::MeasureText("Ag", kMessageScale).y;
+
+			layout.contextY = layout.messageStartY + layout.messageLines.size() * layout.lineHeight + kPadding * 0.5f;
+
+			return layout;
+		}
+
+		void DrawNotificationRect(const Notification& notification, int position)
+		{
+			using Rendering::GridRenderer;
+
+			const auto layout = ComputeLayout(notification, position);
+
+			GridRenderer::DrawRect(layout.cardX, layout.cardY, m_CardSizeX, m_CardSizeY, Rendering::Theme::kPanelBackground);
+			GridRenderer::DrawRect(layout.cardX, layout.cardY, layout.progressBarWidth, kProgressBarHeight, Rendering::Theme::kAccent);
+			GridRenderer::DrawRect(layout.cardX + kPadding, layout.separatorY, m_CardSizeX - kPadding * 2.f, kSeparatorHeight, Rendering::Theme::kToggleOff);
+		}
+
+		void DrawNotificationText(const Notification& notification, int position)
+		{
+			using Rendering::GridRenderer;
+
+			const auto layout = ComputeLayout(notification, position);
+			const float textX = layout.cardX + kPadding;
+
+			GridRenderer::DrawText(textX, layout.titleY, notification.m_Title.c_str(), GetTypeColour(notification.m_Type), kTitleScale);
+
+			float y = layout.messageStartY;
+			for (auto& line : layout.messageLines)
+			{
+				GridRenderer::DrawText(textX, y, line.c_str(), Rendering::Theme::kText, kMessageScale);
+				y += layout.lineHeight;
+			}
+
+			// No click to bind this to any more (this overlay is
+			// mouseless, same as the rest of the new renderer) - see
+			// this class's own header comment - so this is informational
+			// only.
+			if (notification.m_ContextFunc)
+				GridRenderer::DrawText(textX, layout.contextY, notification.m_ContextFuncName.c_str(), Rendering::Theme::kPlaceholderText, kMessageScale);
+		}
+	}
 
 	Notification Notifications::ShowImpl(std::string title, std::string message, NotificationType type, int duration, std::function<void()> context_function, std::string context_function_name)
 	{
@@ -60,64 +208,6 @@ namespace YimMenu
 		return false;
 	}
 
-	static void DrawNotification(Notification& notification, int position)
-	{
-		float y_pos = position * 100;
-		float x_pos = 10;
-		ImVec2 cardSize(m_CardSizeX, m_CardSizeY);
-
-		ImGui::SetNextWindowSize(cardSize, ImGuiCond_Always);
-		ImGui::SetNextWindowPos(ImVec2(x_pos + notification.m_AnimationOffset, y_pos + 10), ImGuiCond_Always);
-
-		std::string windowTitle = std::to_string(position);
-		ImGui::Begin(windowTitle.c_str(), nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoFocusOnAppearing);
-
-		auto timeElapsed = (float)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - notification.m_CreatedOn).count();
-
-		auto depletionProgress = 1.0f - (timeElapsed / (float)notification.m_Duration);
-
-		ImGui::ProgressBar(depletionProgress, ImVec2(-1, 3.5f), "");
-
-		// TODO: Add icon for type instead of colored text
-		if (notification.m_Type == NotificationType::Info)
-		{
-			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-			ImGui::Text("%s", notification.m_Title.c_str());
-		}
-		else if (notification.m_Type == NotificationType::Success)
-		{
-			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
-			ImGui::Text("%s", notification.m_Title.c_str());
-		}
-		else if (notification.m_Type == NotificationType::Warning)
-		{
-			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.5f, 0.0f, 1.0f));
-			ImGui::Text("%s", notification.m_Title.c_str());
-		}
-		else if (notification.m_Type == NotificationType::Error)
-		{
-			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
-			ImGui::Text("%s", notification.m_Title.c_str());
-		}
-
-		ImGui::PopStyleColor();
-
-		ImGui::Separator();
-
-		ImGui::TextWrapped("%s", notification.m_Message.c_str());
-
-		if (notification.m_ContextFunc)
-		{
-			ImGui::Spacing();
-			if (ImGui::Selectable(notification.m_ContextFuncName.c_str()))
-				FiberPool::queueJob([notification] {
-					notification.m_ContextFunc();
-				});
-		}
-
-		ImGui::End();
-	}
-
 	void Notifications::DrawImpl()
 	{
 		std::vector<std::string> keys_to_erase;
@@ -127,14 +217,14 @@ namespace YimMenu
 
 			for (auto& [id, notification] : m_Notifications)
 			{
-				DrawNotification(notification, position);
+				DrawNotificationRect(notification, position);
 
 				if (!notification.m_Erasing)
 				{
 					if (notification.m_AnimationOffset < 0)
 						notification.m_AnimationOffset += m_CardAnimationSpeed;
 
-					//Need this to account for changes in card size (x dimension), custom increments might result in odd numbers
+					// Need this to account for changes in card size (x dimension), custom increments might result in odd numbers
 					if (notification.m_AnimationOffset > 0)
 						notification.m_AnimationOffset = 0.f;
 				}
@@ -156,6 +246,18 @@ namespace YimMenu
 		for (const auto& key : keys_to_erase)
 		{
 			m_Notifications.erase(key);
+		}
+	}
+
+	void Notifications::DrawTextImpl()
+	{
+		std::lock_guard<std::mutex> lock(m_mutex);
+		int position = 0;
+
+		for (auto& [id, notification] : m_Notifications)
+		{
+			DrawNotificationText(notification, position);
+			position++;
 		}
 	}
 

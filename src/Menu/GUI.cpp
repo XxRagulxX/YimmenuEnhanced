@@ -6,7 +6,6 @@
 #include "Rendering/AutoDriveHUD.hpp"
 #include "Scripting/ScriptMgr.hpp"
 #include "Rendering/Renderer.hpp"
-#include "Rendering/Notifications.hpp"
 #include "Rendering/ChatDisplay.hpp"
 #include "Rendering/GridRenderer.hpp"
 #include "Scripting/Natives.hpp"
@@ -26,11 +25,6 @@ namespace YimMenu
 			GUI::WndProc(hwnd, msg, wparam, lparam);
 		});
 
-		Renderer::AddRendererCallBack(
-		    [&] {
-			    Notifications::Draw();
-		    },
-		    -2);
 		Renderer::AddRendererCallBack(
 		    [&] {
 			    ESP::Draw();

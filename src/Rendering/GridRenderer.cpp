@@ -7,6 +7,7 @@
 #include "Rendering/MenuNavigation.hpp"
 #include "Rendering/MenuPopup.hpp"
 #include "Core/Pointers.hpp"
+#include "Rendering/Notifications.hpp"
 #include "Rendering/Renderer.hpp"
 #include "Rendering/Theme.hpp"
 #include "Rendering/font_bevietnamprolight.hpp"
@@ -215,14 +216,12 @@ namespace YimMenu::Rendering
 
 	void GridRenderer::DrawImpl(ID3D12GraphicsCommandList* commandList)
 	{
-		// Same gate WndProcImpl already applies to input - drawing has to
-		// respect GUI::IsOpen() too, or the menu stays on screen (and
-		// stays the active UI, since Menu.cpp skips the classic ImGui
-		// menu entirely while this is active) regardless of the Insert
-		// toggle.
-		if (!_StandRendererTest.GetState() || !GUI::IsOpen())
-			return;
-
+		// No menu/Insert-toggle gate up here any more, unlike before
+		// Notifications moved onto this pipeline - toasts have to draw
+		// every frame regardless of whether the Stand-style menu is even
+		// open (see Notifications.hpp's own class comment), so resource
+		// setup and the two batches below always run now; menuActive
+		// below is what still gates the menu/popup content specifically.
 		if (Renderer::IsResizing())
 			return;
 
@@ -249,16 +248,31 @@ namespace YimMenu::Rendering
 		commandList->RSSetViewports(1, &viewport);
 		commandList->RSSetScissorRects(1, &scissorRect);
 
+		// Same gate WndProcImpl already applies to input - the menu/popup
+		// content stays tied to GUI::IsOpen()/the Insert toggle, or the
+		// menu stays on screen (and stays the active UI, since Menu.cpp
+		// skips the classic ImGui menu entirely while this is active)
+		// regardless of it. Notifications below are deliberately outside
+		// this gate.
+		const bool menuActive = _StandRendererTest.GetState() && GUI::IsOpen();
+
 		if (m_Effect && m_Batch)
 		{
 			m_Effect->Apply(commandList);
 			m_Batch->Begin(commandList);
 
-			g_MenuGrid.draw();
-			// Drawn last, on top of everything else - see MenuPopup's own
-			// class comment for why this is a free-standing overlay
-			// rather than a GridItem/Grid of its own.
-			MenuPopup::Draw();
+			if (menuActive)
+			{
+				g_MenuGrid.draw();
+				// Drawn last, on top of everything else - see MenuPopup's
+				// own class comment for why this is a free-standing
+				// overlay rather than a GridItem/Grid of its own.
+				MenuPopup::Draw();
+			}
+
+			// Always drawn, regardless of menuActive above - see
+			// Notifications.hpp's own class comment.
+			Notifications::Draw();
 
 			m_Batch->End();
 		}
@@ -275,8 +289,13 @@ namespace YimMenu::Rendering
 			m_SpriteBatch->SetViewport(viewport);
 			m_SpriteBatch->Begin(commandList);
 
-			g_MenuGrid.drawText();
-			MenuPopup::DrawText();
+			if (menuActive)
+			{
+				g_MenuGrid.drawText();
+				MenuPopup::DrawText();
+			}
+
+			Notifications::DrawText();
 
 			m_SpriteBatch->End();
 		}
