@@ -4,7 +4,6 @@
 #include "Rendering/GridItemCommandInt.hpp"
 #include "Rendering/GridItemCommandList.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
-#include "Rendering/GridItemConditional.hpp"
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Util/Joaat.hpp"
@@ -36,6 +35,15 @@ namespace YimMenu::Rendering
 
 	void WorldGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
+		// World's other categories (BuildSpawnPedMenu(), the IPLs
+		// Category) - grouped at the very top of the whole list rather
+		// than at the bottom, so a category is always reachable before
+		// the plain items below. IPLs has its own content Grid; Spawn Ped
+		// is still placeholder-only.
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Spawn Ped", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "IPLs", &g_IPLsContent));
+
 		// Kill (killPeds) - both plain CommandItem buttons.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Kill", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "killallpeds"_J));
@@ -54,15 +62,14 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "bringvehs"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "bringobjs"_J));
 
-		// Weather (weatherOpts) - setweather is a ConditionalItem shown
-		// only while forceweather is *off* (negate), now that
-		// GridItemConditional exists.
+		// Weather (weatherOpts) - setweather is shown only while
+		// forceweather is *off* (negate); watchCondition() (not
+		// GridItemConditional) so it doesn't reserve its own layout slot
+		// while hidden.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Weather", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "weather"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "setweather"_J),
-		    "forceweather"_J,
-		    true));
+		if (watchCondition("forceweather"_J, true))
+			items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "setweather"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "forceweather"_J));
 
 		// Time (timeGroup) - hour/minute/second are all unconditional
@@ -84,12 +91,5 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "CopsDispatch"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "enablecreatordevmode"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "infiniteboundary"_J));
-
-		// World's other categories (BuildSpawnPedMenu(), the IPLs
-		// Category). IPLs now has its own content Grid; Spawn Ped is
-		// still placeholder-only.
-		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Spawn Ped", &GetPlaceholderGrid()));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "IPLs", &g_IPLsContent));
 	}
 }

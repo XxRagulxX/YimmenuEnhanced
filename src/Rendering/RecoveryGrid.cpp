@@ -2,7 +2,6 @@
 
 #include "Rendering/GridItemCommandFloat.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
-#include "Rendering/GridItemConditional.hpp"
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Util/Joaat.hpp"
@@ -42,25 +41,14 @@ namespace YimMenu::Rendering
 
 	void RecoveryGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
-		// General (MenuRecovery.cpp's generalGroup) - rpmultiplierinput is
-		// gated on overriderpmultiplier directly, now that
-		// GridItemCommandFloat/GridItemConditional both exist.
-		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "General", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playallmissionssolo"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "unlockgtaplus"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "overriderpmultiplier"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "rpmultiplierinput"_J),
-		    "overriderpmultiplier"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "freechangeappearance"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "nochangeappearancecooldown"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "allowgenderchange"_J));
-
-		// Recovery's other categories (Businesses/Heists/Daily Activities/
-		// Casino/Unlocks, plus BuildStatEditorMenu()/
-		// BuildTransactionsMenu()). Businesses/Heists/Daily Activities/
-		// Casino/Unlocks now have their own content Grids; the other two
-		// are still placeholder-only.
+		// Categories (MenuRecovery.cpp's Businesses/Heists/Daily
+		// Activities/Casino/Unlocks, plus BuildStatEditorMenu()/
+		// BuildTransactionsMenu()) - every GridItemFolder this page has,
+		// grouped at the very top of the whole list rather than at the
+		// bottom, so a category is always reachable before General's
+		// plain toggles below. Businesses/Heists/Daily Activities/Casino/
+		// Unlocks have their own content Grids; the other two are still
+		// placeholder-only.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Businesses", &g_BusinessesContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Heists", &g_HeistsContent));
@@ -69,5 +57,19 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Transactions", &GetPlaceholderGrid()));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Casino", &g_CasinoContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Unlocks", &g_UnlocksContent));
+
+		// General (MenuRecovery.cpp's generalGroup) - watchCondition()
+		// (not GridItemConditional) so rpmultiplierinput doesn't reserve
+		// its own layout slot while overriderpmultiplier is off - see
+		// Grid::watchCondition()'s own doc comment for why.
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "General", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playallmissionssolo"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "unlockgtaplus"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "overriderpmultiplier"_J));
+		if (watchCondition("overriderpmultiplier"_J))
+			items_draft.push_back(std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "rpmultiplierinput"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "freechangeappearance"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "nochangeappearancecooldown"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "allowgenderchange"_J));
 	}
 }

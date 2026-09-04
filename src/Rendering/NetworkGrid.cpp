@@ -37,6 +37,17 @@ namespace YimMenu::Rendering
 
 	void NetworkGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
+		// Network's other categories (Spoofing/Saved Players, plus
+		// BuildRandomEventsMenu()'s own Category("Random Events")) -
+		// grouped at the very top of the whole list rather than at the
+		// bottom, so a category is always reachable before the plain
+		// toggles below. Spoofing/Saved Players have their own content
+		// Grids; Random Events is still placeholder-only.
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Spoofing", &g_SpoofingContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Saved Players", &g_SavedPlayersContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Random Events", &GetPlaceholderGrid()));
+
 		// Join (joinGroup's joinSession subgroup) - joinsessiontype is an
 		// unconditional ListCommandItem, now that GridItemCommandList
 		// exists; joinsession/forcequittosp are both unconditional
@@ -80,14 +91,5 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "forcescripthost"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "pausegame"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "nocalls"_J));
-
-		// Network's other categories (Spoofing/Saved Players, plus
-		// BuildRandomEventsMenu()'s own Category("Random Events")).
-		// Spoofing/Saved Players now have their own content Grids;
-		// Random Events is still placeholder-only.
-		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Spoofing", &g_SpoofingContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Saved Players", &g_SavedPlayersContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Random Events", &GetPlaceholderGrid()));
 	}
 }

@@ -6,7 +6,6 @@
 #include "Rendering/GridItemCommandInt.hpp"
 #include "Rendering/GridItemCommandList.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
-#include "Rendering/GridItemConditional.hpp"
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Util/Joaat.hpp"
@@ -52,29 +51,38 @@ namespace YimMenu::Rendering
 
 	void VehicleGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
-		// Globals (MenuVehicle.cpp's globalsGroup) - boostbehavior is
-		// gated on modifyboostbehavior directly (GridItemConditional's
-		// plain joaat_t overload); autodrivespeed/autodrivestyle are
-		// gated on IsAutoDriveEnabled() above (its combined
+		// Vehicle's other categories (BuildSpawnVehicleMenu()/
+		// BuildVehicleEditorMenu()/BuildSavedVehiclesMenu()) - grouped at
+		// the very top of the whole list rather than at the bottom, so a
+		// category is always reachable before the plain toggles below.
+		// Spawn/Saved Vehicles have their own content Grids; Vehicle
+		// Editor is still placeholder-only (bespoke Phase 4 work).
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Spawn", &g_SpawnContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Vehicle Editor", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Saved Vehicles", &g_SavedVehiclesContent));
+
+		// Globals (MenuVehicle.cpp's globalsGroup) - watchCondition()
+		// (not GridItemConditional) so boostbehavior/autodrivespeed/
+		// autodrivestyle don't reserve their own layout slot while
+		// hidden - see Grid::watchCondition()'s own doc comment. Combined
 		// autodrive-OR-npcautodrive condition needs the
-		// std::function<bool()> overload instead).
+		// std::function<bool()> overload (IsAutoDriveEnabled() above),
+		// same as before.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Globals", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "vehiclegodmode"_J, "Godmode"));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "keepfixed"_J, "Keep Fixed"));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "hornboost"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "modifyboostbehavior"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "boostbehavior"_J),
-		    "modifyboostbehavior"_J));
+		if (watchCondition("modifyboostbehavior"_J))
+			items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "boostbehavior"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "autodrive"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "npcautodrive"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "autodrivehud"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "autodrivespeed"_J),
-		    IsAutoDriveEnabled));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "autodrivestyle"_J),
-		    IsAutoDriveEnabled));
+		if (watchCondition(IsAutoDriveEnabled))
+			items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "autodrivespeed"_J));
+		if (watchCondition(IsAutoDriveEnabled))
+			items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "autodrivestyle"_J));
 
 		// Tools (toolsGroup) - all plain CommandItem buttons.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Tools", Theme::kText));
@@ -96,14 +104,5 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "allowhatsinvehicles"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "lsccustomsbypass"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "dlcvehicles"_J));
-
-		// Vehicle's other categories (BuildSpawnVehicleMenu()/
-		// BuildVehicleEditorMenu()/BuildSavedVehiclesMenu()). Spawn/Saved
-		// Vehicles now have their own content Grids; Vehicle Editor is
-		// still placeholder-only (bespoke Phase 4 work).
-		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Spawn", &g_SpawnContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Vehicle Editor", &GetPlaceholderGrid()));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Saved Vehicles", &g_SavedVehiclesContent));
 	}
 }

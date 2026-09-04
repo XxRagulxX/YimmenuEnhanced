@@ -35,6 +35,15 @@ namespace YimMenu::Rendering
 
 	void MiscGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
+		// Debug's other categories (BuildGlobalsMenu()/BuildLocalsMenu()/
+		// BuildScriptsMenu()) - all three still placeholder-only, grouped
+		// at the very top of the whole list rather than at the bottom, so
+		// a category is always reachable before the plain items below.
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Globals", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Locals", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Scripts", &GetPlaceholderGrid()));
+
 		// "Network Bail" isn't a registered Command in src/Misc.cpp (it's
 		// an inline ImGui button + FiberPool job) - reused verbatim as a
 		// GridItemButton action callback rather than wrapping it in a
@@ -99,12 +108,5 @@ namespace YimMenu::Rendering
 				DoTeamSwap.Call<void>(team, true);
 			});
 		}));
-
-		// Debug's other categories (BuildGlobalsMenu()/BuildLocalsMenu()/
-		// BuildScriptsMenu()) - all three still placeholder-only.
-		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Globals", &GetPlaceholderGrid()));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Locals", &GetPlaceholderGrid()));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Scripts", &GetPlaceholderGrid()));
 	}
 }
