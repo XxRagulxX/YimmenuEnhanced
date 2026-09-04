@@ -1,6 +1,7 @@
 #include "Rendering/ThreadsGrid.hpp"
 
 #include "Core/Pointers.hpp"
+#include "Network/CNetGamePlayer.hpp"
 #include "Rendering/GridItemButton.hpp"
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/GridItemLiveText.hpp"
@@ -8,6 +9,7 @@
 #include "Rendering/GridItemSelectList.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Rendering/Theme.hpp"
+#include "Scripting/CGameScriptHandlerNetComponent.hpp"
 #include "Scripting/FiberPool.hpp"
 #include "Scripting/GtaThread.hpp"
 #include "Scripting/Natives.hpp"
