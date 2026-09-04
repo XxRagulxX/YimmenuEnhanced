@@ -155,7 +155,21 @@ namespace YimMenu::Rendering
 
 		m_HighlightedIndex = static_cast<size_t>(next);
 		if (m_OnSelect)
-			m_OnSelect(filtered[static_cast<size_t>(next)].index, filtered[static_cast<size_t>(next)].value, false, false, false);
+		{
+			// ctrl reads live Left Ctrl state (same GetKeyState() pattern
+			// MenuGrid's own sidebar navigation uses) so a consumer that
+			// needs a keyboard equivalent of Ctrl+Click (World > Spawn
+			// Ped's "hold Ctrl to set player model" instead of spawning)
+			// has one - Left Ctrl specifically, distinct from MenuGrid's
+			// own Right Ctrl/Shift sidebar-navigation chord. shift/
+			// doubleClick stay false: there's no keyboard equivalent for
+			// a double-click, and changing shift here would also affect
+			// every other GridItemSelectList consumer's own shift-gated
+			// behaviour (e.g. Teleport > Saved's delete) as an
+			// unrelated side effect.
+			const bool ctrl = (GetKeyState(VK_LCONTROL) & 0x8000) != 0;
+			m_OnSelect(filtered[static_cast<size_t>(next)].index, filtered[static_cast<size_t>(next)].value, ctrl, false, false);
+		}
 
 		return true;
 	}

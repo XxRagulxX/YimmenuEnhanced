@@ -7,7 +7,7 @@
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Util/Joaat.hpp"
-#include "Rendering/PlaceholderGrid.hpp"
+#include "Rendering/SpawnPedGrid.hpp"
 #include "Rendering/Theme.hpp"
 #include "Rendering/WorldIPLsGrid.hpp"
 
@@ -21,6 +21,7 @@ namespace YimMenu::Rendering
 		// Owned here rather than in MenuGrid.cpp - see SelfGrid.cpp's
 		// identical note about WeaponsGrid.
 		WorldIPLsGrid g_IPLsContent{};
+		SpawnPedGrid g_SpawnPedContent{};
 	}
 
 	// Origin (1438, 587) and spacer (3) match every other content Grid's -
@@ -38,10 +39,9 @@ namespace YimMenu::Rendering
 		// World's other categories (BuildSpawnPedMenu(), the IPLs
 		// Category) - grouped at the very top of the whole list rather
 		// than at the bottom, so a category is always reachable before
-		// the plain items below. IPLs has its own content Grid; Spawn Ped
-		// is still placeholder-only.
+		// the plain items below. Both now have their own content Grid.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Spawn Ped", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Spawn Ped", &g_SpawnPedContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "IPLs", &g_IPLsContent));
 
 		// Kill (killPeds) - both plain CommandItem buttons.

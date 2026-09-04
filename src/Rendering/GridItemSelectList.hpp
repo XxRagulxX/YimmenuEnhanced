@@ -41,14 +41,19 @@ namespace YimMenu::Rendering
 	// onSelect fires immediately on every click or Left/Right move (not
 	// on some separate "confirm" step) - same immediate-effect contract
 	// as GridItemPlayerList's onClick/onArrow - carrying whatever
-	// gesture produced it (Ctrl/Shift/double-click, all false for a
-	// keyboard-driven Left/Right move) so a consumer can tell Vehicle
-	// Spawn's plain click-to-spawn apart from World > Spawn Ped's
-	// Ctrl+Click-to-set-model or Teleport > Saved's double-click-to-
-	// teleport/Shift-click-to-delete without this widget needing to
-	// know what any of those mean. index is into rows()'s *own* result
-	// for this call, not the filtered list - what a caller actually
-	// needs to act on the right underlying entry.
+	// gesture produced it so a consumer can tell Vehicle Spawn's plain
+	// click-to-spawn apart from World > Spawn Ped's Ctrl+Click-to-set-
+	// model or Teleport > Saved's double-click-to-teleport/Shift-click-
+	// to-delete without this widget needing to know what any of those
+	// mean. A keyboard-driven Left/Right move reads live Left Ctrl state
+	// for ctrl (same GetKeyState() pattern MenuGrid's own sidebar
+	// navigation uses), so Spawn Ped's Ctrl-gated variant has a keyboard
+	// path too; shift/double-click stay false there - no keyboard
+	// equivalent for a double-click, and shift would ripple into every
+	// other consumer's own shift-gated behaviour as an unrelated side
+	// effect. index is into rows()'s *own* result for this call, not the
+	// filtered list - what a caller actually needs to act on the right
+	// underlying entry.
 	//
 	// Self-sizing to a fixed maximum number of visible result rows
 	// (maxRows) plus the search box itself - with more matches than
