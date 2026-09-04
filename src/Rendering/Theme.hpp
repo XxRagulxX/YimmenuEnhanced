@@ -5,17 +5,17 @@
 
 namespace YimMenu::Rendering::Theme
 {
-	// Stand's own default (unthemed) look - see stand-reference's src/
-	// Rendering/Renderer.hpp, the Renderer class's own default member
-	// values (focusRectColour/bgRectColour/bgTextColour and friends,
-	// tabs_width/tabs_height/command_width/command_height/
-	// addressbar_height). Earlier comments in this system called
-	// magenta a "placeholder standing in for Stand's real (theme-loaded)
-	// accent" - that was wrong. Stand loads a theme.json at runtime, but
-	// these ARE the values it falls back to without one, and they're
-	// exactly the neon-pink-on-black look real, unthemed Stand actually
-	// has (compare any stock screenshot) - not a stand-in for something
-	// else.
+	// Stand's own default (unthemed) look. Real Stand is closed-source
+	// (a compiled binary, no public repo) - earlier comments throughout
+	// this file claimed these values were ported from a "stand-reference"
+	// source tree (focusRectColour/bgRectColour/bgTextColour, tabs_width/
+	// tabs_height/command_width/command_height/addressbar_height), but
+	// nothing by that name is a real, checkable source, and there's no
+	// way to verify that claim now. What every value in this file is
+	// actually grounded in: real Stand's own neon-pink-on-black unthemed
+	// look, as directly visible in screenshots (both stock ones and
+	// side-by-sides a user of this project has shared) - not a ported
+	// source value, whatever it was called before.
 
 	// The one accent colour: whatever's currently active, on, selected,
 	// or otherwise the thing that matters right now - a sidebar/tab's
@@ -44,19 +44,22 @@ namespace YimMenu::Rendering::Theme
 	// to only have this one, and how that read as "very transparent").
 	inline DirectX::XMFLOAT4 kPanelBackground{0.f, 0.f, 0.f, 0.3019f};
 
-	// The solid backdrop MenuGrid draws once behind the whole menu
-	// (header + sidebar + content column), before any row/highlight on
-	// top of it. Real Stand's menu reads as one solid panel, not a set
-	// of separately translucent rows each floating over the game world
-	// on their own - kPanelBackground's 30% alpha is a highlight meant to
-	// sit on top of an already-solid backdrop like this one, not carry
+	// The backdrop MenuGrid draws once behind the sidebar and (separately)
+	// the content column, before any row/highlight on top of it - so the
+	// menu reads as one panel, not a set of separately translucent rows
+	// each floating over the game world on their own. kPanelBackground's
+	// 30% alpha is a highlight meant to sit on top of this, not carry
 	// full-page opacity by itself (which is what this project did before
 	// this constant existed, and why every unfocused row looked like it
-	// was barely there at all against a bright scene). Not part of
-	// Stand's own six-colour palette by name, but the same idea as its
-	// menu_background - added here since nothing else in this project's
-	// port covered it.
-	inline DirectX::XMFLOAT4 kBackdropBackground{0.f, 0.f, 0.f, 0.85f};
+	// was barely there at all against a bright scene).
+	//
+	// Real Stand is closed-source - there is no actual source to port
+	// this value from, whatever an earlier comment here claimed. 0.85
+	// (tried first) read as a heavy black slab, well past what Stand's
+	// own screenshots actually show - this is tuned down from that
+	// against those screenshots directly, the only real reference
+	// available, not derived from anything else.
+	inline DirectX::XMFLOAT4 kBackdropBackground{0.f, 0.f, 0.f, 0.55f};
 
 	// White text/foreground, used everywhere. Stand's own
 	// bgTextColour/focusTextColour (identical in both states there).

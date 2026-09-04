@@ -55,7 +55,7 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemButton>(Theme::kContentWidth, kItemH, "Reset to Defaults", [this] {
 			Theme::kAccent = {1.f, 0.f, 1.f, 1.f};
 			Theme::kPanelBackground = {0.f, 0.f, 0.f, 0.3019f};
-			Theme::kBackdropBackground = {0.f, 0.f, 0.f, 0.85f};
+			Theme::kBackdropBackground = {0.f, 0.f, 0.f, 0.55f};
 			Theme::kText = {1.f, 1.f, 1.f, 1.f};
 			Theme::kToggleOff = {0.35f, 0.35f, 0.35f, 1.f};
 			Theme::kError = {0.6f, 0.2f, 0.2f, 1.f};
