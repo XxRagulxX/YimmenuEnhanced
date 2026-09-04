@@ -175,31 +175,34 @@ namespace YimMenu::Rendering
 		if (content)
 			content->EnsurePopulated(); // ditto, for getDimensions() below
 
-		// Solid backdrop spanning the whole menu (header + sidebar +
-		// content column), drawn first so everything else - Grid::draw()'s
-		// header/sidebar rects and content->draw()'s own rows below, all
-		// still using kPanelBackground/kAccent for their own per-row
+		// Solid backdrop behind the sidebar and (separately) the content
+		// column, drawn first so everything else - Grid::draw()'s header/
+		// sidebar rects and content->draw()'s own rows below, all still
+		// using kPanelBackground/kAccent for their own per-row
 		// highlighting - layers on top of it. See Theme::
 		// kBackdropBackground's own doc comment for why this exists
 		// separately from kPanelBackground: without it, every unfocused
 		// row was only ever as opaque as its own 30%-alpha highlight,
 		// which read as "the whole menu is transparent" over a bright
 		// scene rather than the solid panel real Stand's own menu is.
+		//
+		// Two separate rects, not one spanning both columns at whichever
+		// is taller: the sidebar only ever has this system's fixed 9 root
+		// entries, while content can run much longer - one shared rect
+		// sized to the taller of the two left an ugly, empty black slab
+		// hanging below the sidebar's own last entry whenever content had
+		// more rows than the sidebar did (which is most pages).
 		if (m_Sidebar)
+			GridRenderer::DrawRect(m_Sidebar->x, m_Sidebar->y, m_Sidebar->width, m_Sidebar->height, Theme::kBackdropBackground);
+
+		if (content)
 		{
-			auto backdropBottom = static_cast<int16_t>(m_Sidebar->y + m_Sidebar->height);
+			int16_t contentX, contentY, contentWidth, contentHeight;
+			content->getDimensions(contentX, contentY, contentWidth, contentHeight);
 
-			if (content)
-			{
-				int16_t contentX, contentY, contentWidth, contentHeight;
-				content->getDimensions(contentX, contentY, contentWidth, contentHeight);
-
-				const auto visibleHeight = static_cast<int16_t>(Theme::kHudHeight - content->origin.y - Theme::kContentBottomMargin);
-				const auto contentBottom = static_cast<int16_t>(content->origin.y + std::min(visibleHeight, contentHeight));
-				backdropBottom = std::max(backdropBottom, contentBottom);
-			}
-
-			GridRenderer::DrawRect(kHeaderX, kHeaderY, kHeaderW, static_cast<int16_t>(backdropBottom - kHeaderY), Theme::kBackdropBackground);
+			const auto visibleHeight = static_cast<int16_t>(Theme::kHudHeight - content->origin.y - Theme::kContentBottomMargin);
+			const auto backdropHeight = std::max(int16_t{0}, std::min(visibleHeight, contentHeight));
+			GridRenderer::DrawRect(content->origin.x, content->origin.y, Theme::kContentWidth, backdropHeight, Theme::kBackdropBackground);
 		}
 
 		Grid::draw(); // chrome rects: header background + sidebar (already populated above)
