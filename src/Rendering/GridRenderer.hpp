@@ -120,6 +120,36 @@ namespace YimMenu::Rendering
 			GetInstance().DrawTextScreenImpl(x, y, text, colour, scale);
 		}
 
+		// Screen-space filled rect between two corner points (rather
+		// than DrawRect's origin+size), for AutoDriveHUD's own
+		// screen-space panel/entity-icon drawing - same PrimitiveBatch,
+		// same "valid while a batch is open" rule as DrawRect/
+		// DrawLineScreen above.
+		static void DrawRectFilledScreen(float x1, float y1, float x2, float y2, const DirectX::XMFLOAT4& colour)
+		{
+			GetInstance().DrawRectFilledScreenImpl(x1, y1, x2, y2, colour);
+		}
+
+		// Screen-space filled convex polygon (fan-triangulated around
+		// points[0]) - only valid for a convex point set, same
+		// restriction ImGui's own AddConvexPolyFilled has (AutoDriveHUD's
+		// vehicle/cone icons are the only current callers, both convex
+		// by construction).
+		static void DrawPolygonFilledScreen(const DirectX::XMFLOAT2* points, int count, const DirectX::XMFLOAT4& colour)
+		{
+			GetInstance().DrawPolygonFilledScreenImpl(points, count, colour);
+		}
+
+		// Screen-space filled circle, approximated as a regular polygon
+		// (segments sides) via DrawPolygonFilledScreen above - no true
+		// curve rendering in this pipeline, same "simplest thing that
+		// still looks right" trade-off as everywhere else in this system
+		// without a real vector-graphics layer.
+		static void DrawCircleFilledScreen(float centerX, float centerY, float radius, const DirectX::XMFLOAT4& colour, int segments = 16)
+		{
+			GetInstance().DrawCircleFilledScreenImpl(centerX, centerY, radius, colour, segments);
+		}
+
 	private:
 		static GridRenderer& GetInstance()
 		{
@@ -134,6 +164,9 @@ namespace YimMenu::Rendering
 		DirectX::XMFLOAT2 MeasureTextImpl(const char* text, float scale) const;
 		void DrawLineScreenImpl(float x1, float y1, float x2, float y2, const DirectX::XMFLOAT4& colour, float thickness);
 		void DrawTextScreenImpl(float x, float y, const char* text, const DirectX::XMFLOAT4& colour, float scale);
+		void DrawRectFilledScreenImpl(float x1, float y1, float x2, float y2, const DirectX::XMFLOAT4& colour);
+		void DrawPolygonFilledScreenImpl(const DirectX::XMFLOAT2* points, int count, const DirectX::XMFLOAT4& colour);
+		void DrawCircleFilledScreenImpl(float centerX, float centerY, float radius, const DirectX::XMFLOAT4& colour, int segments);
 
 		void EnsureDeviceResources(ID3D12Device* device);
 		void ReleaseDeviceResources();

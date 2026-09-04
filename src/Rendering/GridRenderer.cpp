@@ -2,6 +2,7 @@
 
 #include "Commands/BoolCommand.hpp"
 #include "Menu/GUI.hpp"
+#include "Rendering/AutoDriveHUD.hpp"
 #include "Rendering/ChatDisplay.hpp"
 #include "Rendering/ESP.hpp"
 #include "Rendering/Onboarding.hpp"
@@ -21,6 +22,7 @@
 #include <algorithm>
 #include <cmath>
 #include <imgui.h>
+#include <vector>
 
 namespace YimMenu::Rendering
 {
@@ -289,13 +291,14 @@ namespace YimMenu::Rendering
 			// Always drawn, regardless of menuActive above - see
 			// Notifications.hpp's own class comment (Overlay.cpp's own
 			// watermark-style FPS/business overlay, ESP, ChatDisplay,
-			// and Onboarding are the same shape: always visible,
-			// independent of any menu).
+			// Onboarding, and AutoDriveHUD are the same shape: always
+			// visible, independent of any menu).
 			Notifications::Draw();
 			Overlay::Draw();
 			ESP::Draw();
 			ChatDisplay::Draw();
 			Onboarding::Draw();
+			AutoDriveHUD::Draw();
 
 			m_Batch->End();
 		}
@@ -323,6 +326,7 @@ namespace YimMenu::Rendering
 			ESP::DrawText();
 			ChatDisplay::DrawText();
 			Onboarding::DrawText();
+			AutoDriveHUD::DrawText();
 
 			m_SpriteBatch->End();
 		}
@@ -375,6 +379,56 @@ namespace YimMenu::Rendering
 		VertexPositionColor v3(PixelToNdc(x1 - nx, y1 - ny), colour);
 
 		m_Batch->DrawQuad(v0, v1, v2, v3);
+	}
+
+	void GridRenderer::DrawRectFilledScreenImpl(float x1, float y1, float x2, float y2, const DirectX::XMFLOAT4& colour)
+	{
+		using namespace DirectX;
+
+		if (!m_Batch)
+			return;
+
+		VertexPositionColor v0(PixelToNdc(x1, y1), colour);
+		VertexPositionColor v1(PixelToNdc(x2, y1), colour);
+		VertexPositionColor v2(PixelToNdc(x2, y2), colour);
+		VertexPositionColor v3(PixelToNdc(x1, y2), colour);
+
+		m_Batch->DrawQuad(v0, v1, v2, v3);
+	}
+
+	void GridRenderer::DrawPolygonFilledScreenImpl(const DirectX::XMFLOAT2* points, int count, const DirectX::XMFLOAT4& colour)
+	{
+		using namespace DirectX;
+
+		if (!m_Batch || count < 3)
+			return;
+
+		// Fan triangulation around points[0] - only correct for a convex
+		// point set, same restriction this mirrors from ImGui's own
+		// AddConvexPolyFilled (see GridRenderer.hpp's own doc comment).
+		const VertexPositionColor anchor(PixelToNdc(points[0].x, points[0].y), colour);
+		for (int i = 1; i + 1 < count; i++)
+		{
+			VertexPositionColor v1(PixelToNdc(points[i].x, points[i].y), colour);
+			VertexPositionColor v2(PixelToNdc(points[i + 1].x, points[i + 1].y), colour);
+			m_Batch->DrawTriangle(anchor, v1, v2);
+		}
+	}
+
+	void GridRenderer::DrawCircleFilledScreenImpl(float centerX, float centerY, float radius, const DirectX::XMFLOAT4& colour, int segments)
+	{
+		if (!m_Batch || segments < 3)
+			return;
+
+		std::vector<DirectX::XMFLOAT2> points;
+		points.reserve(segments);
+		for (int i = 0; i < segments; i++)
+		{
+			const float angle = (DirectX::XM_2PI * i) / static_cast<float>(segments);
+			points.push_back({centerX + std::cos(angle) * radius, centerY + std::sin(angle) * radius});
+		}
+
+		DrawPolygonFilledScreenImpl(points.data(), static_cast<int>(points.size()), colour);
 	}
 
 	void GridRenderer::DrawTextImpl(float x, float y, const char* text, const DirectX::XMFLOAT4& colour, float scale)

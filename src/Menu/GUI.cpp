@@ -1,7 +1,6 @@
 #include "Menu/UIManager.hpp"
 #include "Menu/GUI.hpp"
 #include "Menu/Menu.hpp"
-#include "Rendering/AutoDriveHUD.hpp"
 #include "Scripting/ScriptMgr.hpp"
 #include "Rendering/Renderer.hpp"
 #include "Rendering/GridRenderer.hpp"
@@ -21,12 +20,6 @@ namespace YimMenu
 		Renderer::AddWindowProcedureCallback([this](HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 			GUI::WndProc(hwnd, msg, wparam, lparam);
 		});
-
-		Renderer::AddRendererCallBack(
-		    [&] {
-			    AutoDriveHUD::Draw();
-		    },
-		    -7);
 
 		Renderer::SetSafeToRender();
 	}

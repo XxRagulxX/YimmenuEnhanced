@@ -1,11 +1,14 @@
 #include "Rendering/AutoDriveHUD.hpp"
 
 #include "Commands/Vehicle/CommandAutoDriveHudTelemetry.hpp"
+#include "Core/Pointers.hpp"
+#include "Rendering/GridRenderer.hpp"
 
 #include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <cstdio>
+#include <memory>
 #include <unordered_map>
 #include <vector>
 
@@ -16,13 +19,29 @@ namespace YimMenu
 
 	namespace
 	{
-		constexpr ImU32 kPanel = IM_COL32(15, 22, 31, 224);
-		constexpr ImU32 kPanelBorder = IM_COL32(93, 120, 143, 140);
-		constexpr ImU32 kBlue = IM_COL32(35, 144, 255, 255);
-		constexpr ImU32 kBlueShadow = IM_COL32(3, 25, 48, 230);
-		constexpr ImU32 kLane = IM_COL32(176, 195, 210, 118);
-		constexpr ImU32 kText = IM_COL32(235, 244, 250, 255);
-		constexpr ImU32 kMuted = IM_COL32(143, 163, 178, 255);
+		// Named colours, and every inline colour literal below, are
+		// DirectX::XMFLOAT4 now rather than ImU32/IM_COL32(...) - Col()
+		// is the same 0-255-per-channel shorthand IM_COL32 was, just
+		// producing this renderer's own colour type instead. This whole
+		// file no longer touches ImGui for drawing at all (see
+		// AutoDriveHUD.hpp's own class comment) - only ImVec2 stays, as
+		// a plain math vector type for the projection/geometry work
+		// below, same as every other overlay ported this session kept
+		// ImVec4/ImColor/ImVec2 at their own data-model boundaries
+		// rather than rewriting unrelated math.
+		constexpr DirectX::XMFLOAT4 Col(int r, int g, int b, int a = 255)
+		{
+			return {r / 255.f, g / 255.f, b / 255.f, a / 255.f};
+		}
+
+		constexpr DirectX::XMFLOAT4 kPanel = Col(15, 22, 31, 224);
+		constexpr DirectX::XMFLOAT4 kPanelBorder = Col(93, 120, 143, 140);
+		constexpr DirectX::XMFLOAT4 kBlue = Col(35, 144, 255, 255);
+		constexpr DirectX::XMFLOAT4 kBlueShadow = Col(3, 25, 48, 230);
+		constexpr DirectX::XMFLOAT4 kLane = Col(176, 195, 210, 118);
+		constexpr DirectX::XMFLOAT4 kText = Col(235, 244, 250, 255);
+		constexpr DirectX::XMFLOAT4 kMuted = Col(143, 163, 178, 255);
+
 		struct Projection
 		{
 			ImVec2 m_PanelMin{};
@@ -64,11 +83,25 @@ namespace YimMenu
 			std::chrono::steady_clock::time_point m_LastSeen{};
 		};
 
-		ImU32 WithAlpha(ImU32 color, float alpha)
+		// This frame's layout, computed once in Draw() (the rect pass)
+		// and read back by DrawText() afterward - same "compute once,
+		// two passes read/apply" contract as every other overlay ported
+		// this session (see e.g. Overlay.cpp's own OverlayState). Keeps
+		// the snapshot's shared_ptr alive across both passes, since only
+		// Draw() calls AutoDriveHudTelemetry::GetSnapshot() itself.
+		struct FrameState
 		{
-			const auto original = static_cast<float>((color >> IM_COL32_A_SHIFT) & 0xFF) / 255.0f;
-			const auto value = static_cast<ImU32>(std::clamp(original * alpha, 0.0f, 1.0f) * 255.0f);
-			return (color & ~IM_COL32_A_MASK) | (value << IM_COL32_A_SHIFT);
+			bool m_Visible = false;
+			std::shared_ptr<const AutoDriveHudSnapshot> m_Snapshot;
+			Projection m_Projection{};
+			float m_Scale = 1.0f;
+		};
+		FrameState g_Frame;
+
+		DirectX::XMFLOAT4 WithAlpha(DirectX::XMFLOAT4 colour, float alpha)
+		{
+			colour.w = std::clamp(colour.w * alpha, 0.0f, 1.0f);
+			return colour;
 		}
 
 		const char* PhaseLabel(const AutoDriveHudSnapshot& snapshot)
@@ -85,8 +118,34 @@ namespace YimMenu
 			}
 		}
 
-		void DrawPolyline(ImDrawList* drawList, const Projection& projection, const std::vector<HudPoint>& points, ImU32 color, float thickness)
+		// Same "no real curve/absolute-pixel-size rendering in this
+		// pipeline" trade-off DrawCircleFilledScreen already makes -
+		// converts an ImGui-style "desired pixel height" into the plain
+		// scale multiplier DrawTextScreen actually takes, by measuring
+		// the embedded font's own native size once.
+		float PixelScale(float desiredHeightPx)
 		{
+			using Rendering::GridRenderer;
+			static const float nativeHeight = GridRenderer::MeasureText("Ag", 1.0f).y;
+			return nativeHeight > 0.0f ? desiredHeightPx / nativeHeight : 1.0f;
+		}
+
+		// Replaces the original's own borrowed ImGui::GetTime() - this
+		// file no longer touches ImGui for anything but ImVec2's own
+		// math operators (see this namespace's own comment above), so
+		// the lane-change pulse animation can't quietly need ImGui's
+		// clock to keep running either, same reasoning as Overlay.cpp's
+		// own TickFps().
+		float ElapsedSeconds()
+		{
+			static const auto start = std::chrono::steady_clock::now();
+			return std::chrono::duration<float>(std::chrono::steady_clock::now() - start).count();
+		}
+
+		void DrawPolylineScreen(const Projection& projection, const std::vector<HudPoint>& points, const DirectX::XMFLOAT4& colour, float thickness)
+		{
+			using Rendering::GridRenderer;
+
 			std::vector<ImVec2> projected;
 			projected.reserve(points.size());
 			for (const auto& point : points)
@@ -94,19 +153,22 @@ namespace YimMenu
 				if (point.m_Y >= -30.0f && point.m_Y <= 170.0f)
 					projected.push_back(projection.Project(point));
 			}
-			if (projected.size() >= 2)
-				drawList->AddPolyline(projected.data(), static_cast<int>(projected.size()), color, ImDrawFlags_None, thickness);
+
+			for (std::size_t index = 1; index < projected.size(); ++index)
+				GridRenderer::DrawLineScreen(projected[index - 1].x, projected[index - 1].y, projected[index].x, projected[index].y, colour, thickness);
 		}
 
-		void DrawRoute(ImDrawList* drawList, const Projection& projection, const AutoDriveHudSnapshot& snapshot, float scale)
+		void DrawRoute(const Projection& projection, const AutoDriveHudSnapshot& snapshot, float scale)
 		{
+			using Rendering::GridRenderer;
+
 			if (!snapshot.m_RouteReliable || snapshot.m_RoutePoints.size() < 2)
 				return;
 
 			if (!snapshot.m_RoutePredicted)
 			{
-				DrawPolyline(drawList, projection, snapshot.m_RoutePoints, kBlueShadow, 8.0f * scale);
-				DrawPolyline(drawList, projection, snapshot.m_RoutePoints, kBlue, 4.0f * scale);
+				DrawPolylineScreen(projection, snapshot.m_RoutePoints, kBlueShadow, 8.0f * scale);
+				DrawPolylineScreen(projection, snapshot.m_RoutePoints, kBlue, 4.0f * scale);
 				return;
 			}
 
@@ -116,13 +178,15 @@ namespace YimMenu
 					continue;
 				const auto from = projection.Project(snapshot.m_RoutePoints[index - 1]);
 				const auto to = projection.Project(snapshot.m_RoutePoints[index]);
-				drawList->AddLine(from, to, kBlueShadow, 7.0f * scale);
-				drawList->AddLine(from, to, WithAlpha(kBlue, 0.85f), 3.5f * scale);
+				GridRenderer::DrawLineScreen(from.x, from.y, to.x, to.y, kBlueShadow, 7.0f * scale);
+				GridRenderer::DrawLineScreen(from.x, from.y, to.x, to.y, WithAlpha(kBlue, 0.85f), 3.5f * scale);
 			}
 		}
 
-		void DrawVehicle(ImDrawList* drawList, const Projection& projection, const HudEntitySnapshot& entity, float alpha)
+		void DrawVehicle(const Projection& projection, const HudEntitySnapshot& entity, float alpha)
 		{
+			using Rendering::GridRenderer;
+
 			const auto center = projection.Project(entity.m_Position);
 			const auto pxPerMeter = projection.HorizontalScale(entity.m_Position.m_Y);
 			const auto halfWidth = std::clamp(entity.m_Footprint.m_X * pxPerMeter * 0.5f, 2.5f, 15.0f);
@@ -134,34 +198,43 @@ namespace YimMenu
 			    center + direction * halfLength - right * halfWidth,
 			    center - direction * halfLength - right * halfWidth,
 			    center - direction * halfLength + right * halfWidth};
-			drawList->AddConvexPolyFilled(corners, 4, WithAlpha(IM_COL32(166, 181, 193, 245), alpha));
-			drawList->AddPolyline(corners, 4, WithAlpha(IM_COL32(233, 241, 246, 235), alpha), ImDrawFlags_Closed, 1.0f);
-			drawList->AddLine(corners[0], corners[1], WithAlpha(IM_COL32(235, 248, 255, 245), alpha), 2.0f);
+
+			const DirectX::XMFLOAT2 points[4] = {{corners[0].x, corners[0].y}, {corners[1].x, corners[1].y}, {corners[2].x, corners[2].y}, {corners[3].x, corners[3].y}};
+			GridRenderer::DrawPolygonFilledScreen(points, 4, WithAlpha(Col(166, 181, 193, 245), alpha));
+
+			for (int index = 0; index < 4; ++index)
+				GridRenderer::DrawLineScreen(corners[index].x, corners[index].y, corners[(index + 1) % 4].x, corners[(index + 1) % 4].y, WithAlpha(Col(233, 241, 246, 235), alpha), 1.0f);
+
+			GridRenderer::DrawLineScreen(corners[0].x, corners[0].y, corners[1].x, corners[1].y, WithAlpha(Col(235, 248, 255, 245), alpha), 2.0f);
 		}
 
-		void DrawPedestrian(ImDrawList* drawList, const Projection& projection, const HudEntitySnapshot& entity, float alpha)
+		void DrawPedestrian(const Projection& projection, const HudEntitySnapshot& entity, float alpha)
 		{
+			using Rendering::GridRenderer;
+
 			const auto center = projection.Project(entity.m_Position);
 			const auto size = std::clamp(projection.HorizontalScale(entity.m_Position.m_Y) * 0.42f, 2.5f, 7.0f);
-			const auto color = WithAlpha(IM_COL32(255, 184, 88, 255), alpha);
-			drawList->AddCircleFilled({center.x, center.y - size}, size * 0.45f, color);
-			drawList->AddLine({center.x, center.y - size * 0.45f}, {center.x, center.y + size}, color, std::max(1.0f, size * 0.35f));
+			const auto colour = WithAlpha(Col(255, 184, 88, 255), alpha);
+			GridRenderer::DrawCircleFilledScreen(center.x, center.y - size, size * 0.45f, colour);
+			GridRenderer::DrawLineScreen(center.x, center.y - size * 0.45f, center.x, center.y + size, colour, std::max(1.0f, size * 0.35f));
 		}
 
-		void DrawTrafficLight(ImDrawList* drawList, const Projection& projection, const HudEntitySnapshot& entity, float alpha)
+		void DrawTrafficLight(const Projection& projection, const HudEntitySnapshot& entity, float alpha)
 		{
+			using Rendering::GridRenderer;
+
 			const auto center = projection.Project(entity.m_Position);
 			const auto size = std::clamp(projection.HorizontalScale(entity.m_Position.m_Y) * 0.55f, 3.0f, 9.0f);
-			drawList->AddLine({center.x, center.y + size * 2.5f}, {center.x, center.y}, WithAlpha(IM_COL32(126, 139, 148, 255), alpha), 1.5f);
-			drawList->AddRectFilled({center.x - size * 0.55f, center.y - size * 1.7f}, {center.x + size * 0.55f, center.y}, WithAlpha(IM_COL32(35, 41, 46, 255), alpha), 2.0f);
-			const auto lamp = entity.m_TrafficLightState == TrafficLightState::RedInferred
-			    ? IM_COL32(255, 65, 65, 255)
-			    : IM_COL32(132, 142, 150, 255);
-			drawList->AddCircleFilled({center.x, center.y - size * 1.15f}, size * 0.31f, WithAlpha(lamp, alpha));
+			GridRenderer::DrawLineScreen(center.x, center.y + size * 2.5f, center.x, center.y, WithAlpha(Col(126, 139, 148, 255), alpha), 1.5f);
+			GridRenderer::DrawRectFilledScreen(center.x - size * 0.55f, center.y - size * 1.7f, center.x + size * 0.55f, center.y, WithAlpha(Col(35, 41, 46, 255), alpha));
+			const auto lamp = entity.m_TrafficLightState == TrafficLightState::RedInferred ? Col(255, 65, 65, 255) : Col(132, 142, 150, 255);
+			GridRenderer::DrawCircleFilledScreen(center.x, center.y - size * 1.15f, size * 0.31f, WithAlpha(lamp, alpha));
 		}
 
-		void DrawObject(ImDrawList* drawList, const Projection& projection, const HudEntitySnapshot& entity, float alpha)
+		void DrawObject(const Projection& projection, const HudEntitySnapshot& entity, float alpha)
 		{
+			using Rendering::GridRenderer;
+
 			const auto center = projection.Project(entity.m_Position);
 			const auto pxPerMeter = projection.HorizontalScale(entity.m_Position.m_Y);
 			const auto size = std::clamp(pxPerMeter * std::max(0.5f, entity.m_Footprint.m_X), 3.0f, 22.0f);
@@ -169,45 +242,47 @@ namespace YimMenu
 			{
 			case HudEntityKind::Cone:
 			{
-				const ImVec2 points[3] = {{center.x, center.y - size}, {center.x - size * 0.65f, center.y + size * 0.55f}, {center.x + size * 0.65f, center.y + size * 0.55f}};
-				drawList->AddConvexPolyFilled(points, 3, WithAlpha(IM_COL32(255, 126, 35, 255), alpha));
+				const DirectX::XMFLOAT2 points[3] = {{center.x, center.y - size}, {center.x - size * 0.65f, center.y + size * 0.55f}, {center.x + size * 0.65f, center.y + size * 0.55f}};
+				GridRenderer::DrawPolygonFilledScreen(points, 3, WithAlpha(Col(255, 126, 35, 255), alpha));
 				break;
 			}
 			case HudEntityKind::Barrier:
-				drawList->AddRectFilled({center.x - size, center.y - size * 0.28f}, {center.x + size, center.y + size * 0.28f}, WithAlpha(IM_COL32(242, 153, 53, 255), alpha), 1.0f);
-				drawList->AddLine({center.x - size * 0.7f, center.y + size * 0.25f}, {center.x - size * 0.3f, center.y - size * 0.25f}, WithAlpha(IM_COL32(244, 244, 235, 255), alpha), 2.0f);
-				drawList->AddLine({center.x + size * 0.1f, center.y + size * 0.25f}, {center.x + size * 0.5f, center.y - size * 0.25f}, WithAlpha(IM_COL32(244, 244, 235, 255), alpha), 2.0f);
+				GridRenderer::DrawRectFilledScreen(center.x - size, center.y - size * 0.28f, center.x + size, center.y + size * 0.28f, WithAlpha(Col(242, 153, 53, 255), alpha));
+				GridRenderer::DrawLineScreen(center.x - size * 0.7f, center.y + size * 0.25f, center.x - size * 0.3f, center.y - size * 0.25f, WithAlpha(Col(244, 244, 235, 255), alpha), 2.0f);
+				GridRenderer::DrawLineScreen(center.x + size * 0.1f, center.y + size * 0.25f, center.x + size * 0.5f, center.y - size * 0.25f, WithAlpha(Col(244, 244, 235, 255), alpha), 2.0f);
 				break;
 			case HudEntityKind::Barrel:
-				drawList->AddCircleFilled(center, size * 0.55f, WithAlpha(IM_COL32(210, 116, 46, 255), alpha));
+				GridRenderer::DrawCircleFilledScreen(center.x, center.y, size * 0.55f, WithAlpha(Col(210, 116, 46, 255), alpha));
 				break;
 			case HudEntityKind::Bollard:
-				drawList->AddRectFilled({center.x - size * 0.22f, center.y - size}, {center.x + size * 0.22f, center.y + size * 0.35f}, WithAlpha(IM_COL32(224, 208, 93, 255), alpha), size * 0.18f);
+				GridRenderer::DrawRectFilledScreen(center.x - size * 0.22f, center.y - size, center.x + size * 0.22f, center.y + size * 0.35f, WithAlpha(Col(224, 208, 93, 255), alpha));
 				break;
 			case HudEntityKind::Tree:
-				drawList->AddLine({center.x, center.y + size * 0.7f}, {center.x, center.y}, WithAlpha(IM_COL32(113, 82, 51, 255), alpha), std::max(1.0f, size * 0.2f));
-				drawList->AddCircleFilled({center.x, center.y - size * 0.45f}, size * 0.72f, WithAlpha(IM_COL32(67, 151, 99, 235), alpha));
+				GridRenderer::DrawLineScreen(center.x, center.y + size * 0.7f, center.x, center.y, WithAlpha(Col(113, 82, 51, 255), alpha), std::max(1.0f, size * 0.2f));
+				GridRenderer::DrawCircleFilledScreen(center.x, center.y - size * 0.45f, size * 0.72f, WithAlpha(Col(67, 151, 99, 235), alpha));
 				break;
 			default:
-				drawList->AddRectFilled({center.x - size * 0.45f, center.y - size * 0.45f}, {center.x + size * 0.45f, center.y + size * 0.45f}, WithAlpha(IM_COL32(152, 162, 169, 220), alpha), 2.0f);
+				GridRenderer::DrawRectFilledScreen(center.x - size * 0.45f, center.y - size * 0.45f, center.x + size * 0.45f, center.y + size * 0.45f, WithAlpha(Col(152, 162, 169, 220), alpha));
 				break;
 			}
 		}
 
-		void DrawEntity(ImDrawList* drawList, const Projection& projection, const HudEntitySnapshot& entity, float alpha)
+		void DrawEntity(const Projection& projection, const HudEntitySnapshot& entity, float alpha)
 		{
 			alpha *= projection.DepthFade(entity.m_Position.m_Y);
 			switch (entity.m_Kind)
 			{
-			case HudEntityKind::Vehicle: DrawVehicle(drawList, projection, entity, alpha); break;
-			case HudEntityKind::Pedestrian: DrawPedestrian(drawList, projection, entity, alpha); break;
-			case HudEntityKind::TrafficLight: DrawTrafficLight(drawList, projection, entity, alpha); break;
-			default: DrawObject(drawList, projection, entity, alpha); break;
+			case HudEntityKind::Vehicle: DrawVehicle(projection, entity, alpha); break;
+			case HudEntityKind::Pedestrian: DrawPedestrian(projection, entity, alpha); break;
+			case HudEntityKind::TrafficLight: DrawTrafficLight(projection, entity, alpha); break;
+			default: DrawObject(projection, entity, alpha); break;
 			}
 		}
 
-		void DrawEgoVehicle(ImDrawList* drawList, const Projection& projection, float scale)
+		void DrawEgoVehicle(const Projection& projection, float scale)
 		{
+			using Rendering::GridRenderer;
+
 			const auto center = projection.Project({0.0f, 0.0f});
 			const auto halfWidth = 12.0f * scale;
 			const auto halfLength = 22.0f * scale;
@@ -216,53 +291,80 @@ namespace YimMenu
 			    {center.x + halfWidth * 0.7f, center.y - halfLength},
 			    {center.x + halfWidth, center.y + halfLength},
 			    {center.x - halfWidth, center.y + halfLength}};
-			drawList->AddConvexPolyFilled(points, 4, IM_COL32(235, 242, 247, 255));
-			drawList->AddPolyline(points, 4, IM_COL32(35, 144, 255, 255), ImDrawFlags_Closed, 2.0f * scale);
-			drawList->AddRectFilled({center.x - halfWidth * 0.55f, center.y - halfLength * 0.45f}, {center.x + halfWidth * 0.55f, center.y + halfLength * 0.1f}, IM_COL32(78, 104, 125, 255), 3.0f * scale);
+
+			const DirectX::XMFLOAT2 fillPoints[4] = {{points[0].x, points[0].y}, {points[1].x, points[1].y}, {points[2].x, points[2].y}, {points[3].x, points[3].y}};
+			GridRenderer::DrawPolygonFilledScreen(fillPoints, 4, Col(235, 242, 247, 255));
+
+			for (int index = 0; index < 4; ++index)
+				GridRenderer::DrawLineScreen(points[index].x, points[index].y, points[(index + 1) % 4].x, points[(index + 1) % 4].y, kBlue, 2.0f * scale);
+
+			GridRenderer::DrawRectFilledScreen(center.x - halfWidth * 0.55f, center.y - halfLength * 0.45f, center.x + halfWidth * 0.55f, center.y + halfLength * 0.1f, Col(78, 104, 125, 255));
 		}
 
-		void DrawHeader(ImDrawList* drawList, const Projection& projection, const AutoDriveHudSnapshot& snapshot, float scale)
+		// Divider line + pulsing lane-change arrows only - the header's
+		// own text labels are DrawHeaderText() below, since this runs
+		// from Draw()'s own rect pass.
+		void DrawHeaderLines(const Projection& projection, const AutoDriveHudSnapshot& snapshot, float scale)
 		{
-			const auto font = ImGui::GetFont();
-			char speed[16]{};
-			std::snprintf(speed, sizeof(speed), "%d", snapshot.m_SpeedKph);
-			drawList->AddText(font, 30.0f * scale, {projection.m_PanelMin.x + 20.0f * scale, projection.m_PanelMin.y + 14.0f * scale}, kText, speed);
-			drawList->AddText(font, 12.0f * scale, {projection.m_PanelMin.x + 22.0f * scale, projection.m_PanelMin.y + 47.0f * scale}, kMuted, "km/h");
+			using Rendering::GridRenderer;
 
-			char target[32]{};
-			std::snprintf(target, sizeof(target), "TARGET %d", snapshot.m_TargetSpeedKph);
-			drawList->AddText(font, 12.0f * scale, {projection.m_PanelMin.x + 88.0f * scale, projection.m_PanelMin.y + 21.0f * scale}, kMuted, target);
-			drawList->AddText(font, 13.0f * scale, {projection.m_PanelMin.x + 88.0f * scale, projection.m_PanelMin.y + 42.0f * scale}, kText, PhaseLabel(snapshot));
-
-			const auto owner = snapshot.m_Owner == Owner::Npc ? "NPC AUTO" : "AUTO";
-			const auto ownerSize = ImGui::CalcTextSize(owner);
-			drawList->AddText({projection.m_PanelMax.x - ownerSize.x - 18.0f * scale, projection.m_PanelMin.y + 22.0f * scale}, kBlue, owner);
-			drawList->AddLine({projection.m_PanelMin.x + 16.0f * scale, projection.m_PanelMin.y + 70.0f * scale}, {projection.m_PanelMax.x - 16.0f * scale, projection.m_PanelMin.y + 70.0f * scale}, IM_COL32(112, 139, 158, 80), 1.0f);
+			GridRenderer::DrawLineScreen(projection.m_PanelMin.x + 16.0f * scale, projection.m_PanelMin.y + 70.0f * scale, projection.m_PanelMax.x - 16.0f * scale, projection.m_PanelMin.y + 70.0f * scale, Col(112, 139, 158, 80), 1.0f);
 
 			if (snapshot.m_Maneuver == HudManeuver::None)
 				return;
+
 			const auto changingRight = snapshot.m_Maneuver == HudManeuver::LaneChangeRight;
-			const auto label = changingRight ? "CHANGING LANE RIGHT" : "CHANGING LANE LEFT";
-			const auto labelSize = ImGui::CalcTextSize(label);
 			const auto labelY = projection.m_PanelMin.y + 78.0f * scale;
-			drawList->AddText({projection.m_CenterX - labelSize.x * 0.5f, labelY}, kBlue, label);
-			const auto pulse = static_cast<int>(ImGui::GetTime() * 4.0) % 3;
+			const auto pulse = static_cast<int>(ElapsedSeconds() * 4.0f) % 3;
 			for (int index = 0; index < 3; ++index)
 			{
 				const auto x = projection.m_CenterX + (index - 1) * 12.0f * scale;
 				const auto alpha = index == pulse ? 1.0f : 0.38f;
 				const auto direction = changingRight ? 1.0f : -1.0f;
 				const ImVec2 tip{x + direction * 5.0f * scale, labelY + 23.0f * scale};
-				drawList->AddLine({x - direction * 3.0f * scale, tip.y - 5.0f * scale}, tip, WithAlpha(kBlue, alpha), 2.0f * scale);
-				drawList->AddLine(tip, {x - direction * 3.0f * scale, tip.y + 5.0f * scale}, WithAlpha(kBlue, alpha), 2.0f * scale);
+				GridRenderer::DrawLineScreen(x - direction * 3.0f * scale, tip.y - 5.0f * scale, tip.x, tip.y, WithAlpha(kBlue, alpha), 2.0f * scale);
+				GridRenderer::DrawLineScreen(tip.x, tip.y, x - direction * 3.0f * scale, tip.y + 5.0f * scale, WithAlpha(kBlue, alpha), 2.0f * scale);
 			}
+		}
+
+		void DrawHeaderText(const Projection& projection, const AutoDriveHudSnapshot& snapshot, float scale)
+		{
+			using Rendering::GridRenderer;
+
+			char speed[16]{};
+			std::snprintf(speed, sizeof(speed), "%d", snapshot.m_SpeedKph);
+			GridRenderer::DrawTextScreen(projection.m_PanelMin.x + 20.0f * scale, projection.m_PanelMin.y + 14.0f * scale, speed, kText, PixelScale(30.0f * scale));
+			GridRenderer::DrawTextScreen(projection.m_PanelMin.x + 22.0f * scale, projection.m_PanelMin.y + 47.0f * scale, "km/h", kMuted, PixelScale(12.0f * scale));
+
+			char target[32]{};
+			std::snprintf(target, sizeof(target), "TARGET %d", snapshot.m_TargetSpeedKph);
+			GridRenderer::DrawTextScreen(projection.m_PanelMin.x + 88.0f * scale, projection.m_PanelMin.y + 21.0f * scale, target, kMuted, PixelScale(12.0f * scale));
+			GridRenderer::DrawTextScreen(projection.m_PanelMin.x + 88.0f * scale, projection.m_PanelMin.y + 42.0f * scale, PhaseLabel(snapshot), kText, PixelScale(13.0f * scale));
+
+			const auto owner = snapshot.m_Owner == Owner::Npc ? "NPC AUTO" : "AUTO";
+			const auto ownerScale = PixelScale(13.0f * scale);
+			const auto ownerSize = GridRenderer::MeasureText(owner, ownerScale);
+			GridRenderer::DrawTextScreen(projection.m_PanelMax.x - ownerSize.x - 18.0f * scale, projection.m_PanelMin.y + 22.0f * scale, owner, kBlue, ownerScale);
+
+			if (snapshot.m_Maneuver == HudManeuver::None)
+				return;
+
+			const auto changingRight = snapshot.m_Maneuver == HudManeuver::LaneChangeRight;
+			const auto label = changingRight ? "CHANGING LANE RIGHT" : "CHANGING LANE LEFT";
+			const auto labelScale = PixelScale(13.0f * scale);
+			const auto labelSize = GridRenderer::MeasureText(label, labelScale);
+			GridRenderer::DrawTextScreen(projection.m_CenterX - labelSize.x * 0.5f, projection.m_PanelMin.y + 78.0f * scale, label, kBlue, labelScale);
 		}
 	}
 
 	void AutoDriveHUD::Draw()
 	{
+		using Rendering::GridRenderer;
+
 		static std::unordered_map<std::uint32_t, RenderEntity> renderEntities;
 		static std::chrono::steady_clock::time_point lastSnapshotTime{};
+
+		g_Frame = {};
 
 		const auto snapshot = AutoDriveHudTelemetry::GetSnapshot();
 		const auto now = std::chrono::steady_clock::now();
@@ -288,36 +390,35 @@ namespace YimMenu
 				++iterator;
 		}
 
-		const auto viewport = ImGui::GetMainViewport();
-		const auto workWidth = viewport->WorkSize.x;
-		const auto workHeight = viewport->WorkSize.y;
+		// Real client pixels (top-left origin), same "targets the real
+		// screen directly" reasoning as ESP's own world-to-screen
+		// primitives - see GridRenderer.hpp's own DrawLineScreen doc
+		// comment. This is a fullscreen game, so the work area is just
+		// the whole client area (no OS taskbar/etc. to inset for, unlike
+		// ImGui::GetMainViewport()'s own WorkPos/WorkSize this replaces).
+		const auto workWidth = static_cast<float>(*Pointers.ScreenResX);
+		const auto workHeight = static_cast<float>(*Pointers.ScreenResY);
 		const auto scale = std::clamp(std::min(workWidth / 1920.0f, workHeight / 1080.0f), 0.70f, 1.25f);
 		const auto width = std::clamp(420.0f * scale, 280.0f, 480.0f);
 		const auto maximumHeight = std::max(240.0f, std::min(680.0f, workHeight - 40.0f));
 		const auto height = std::clamp(600.0f * scale, std::min(360.0f, maximumHeight), maximumHeight);
-		const ImVec2 position{
-		    viewport->WorkPos.x + workWidth - width - 20.0f * scale,
-		    viewport->WorkPos.y + (workHeight - height) * 0.5f};
+		const ImVec2 panelMin{workWidth - width - 20.0f * scale, (workHeight - height) * 0.5f};
+		const ImVec2 panelMax = panelMin + ImVec2{width, height};
 
-		ImGui::SetNextWindowPos(position, ImGuiCond_Always);
-		ImGui::SetNextWindowSize({width, height}, ImGuiCond_Always);
-		ImGui::SetNextWindowBgAlpha(0.0f);
-		const auto flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove
-		    | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollbar
-		    | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoInputs
-		    | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoBringToFrontOnFocus;
-		if (!ImGui::Begin("##autodrive-fsd-hud", nullptr, flags))
-		{
-			ImGui::End();
-			return;
-		}
-
-		auto drawList = ImGui::GetWindowDrawList();
-		const ImVec2 panelMin = ImGui::GetWindowPos();
-		const ImVec2 panelMax = panelMin + ImGui::GetWindowSize();
-		drawList->AddRectFilled(panelMin, panelMax, kPanel, 16.0f * scale);
-		drawList->AddRect(panelMin, panelMax, kPanelBorder, 16.0f * scale, ImDrawFlags_None, 1.0f);
-		drawList->PushClipRect(panelMin, panelMax, true);
+		// Plain rect/border - no rounded corners (the original's own
+		// AddRectFilled/AddRect rounding param) without a real vector-
+		// graphics layer to tessellate arcs with; same "simplest thing
+		// that still looks right" trade-off DrawCircleFilledScreen's own
+		// doc comment already covers. No clip rect either (the
+		// original's own PushClipRect/PopClipRect) - everything here is
+		// already projected to stay within the panel by construction,
+		// same as every other overlay ported this session not bothering
+		// to clip.
+		GridRenderer::DrawRectFilledScreen(panelMin.x, panelMin.y, panelMax.x, panelMax.y, kPanel);
+		GridRenderer::DrawLineScreen(panelMin.x, panelMin.y, panelMax.x, panelMin.y, kPanelBorder, 1.0f);
+		GridRenderer::DrawLineScreen(panelMax.x, panelMin.y, panelMax.x, panelMax.y, kPanelBorder, 1.0f);
+		GridRenderer::DrawLineScreen(panelMax.x, panelMax.y, panelMin.x, panelMax.y, kPanelBorder, 1.0f);
+		GridRenderer::DrawLineScreen(panelMin.x, panelMax.y, panelMin.x, panelMin.y, kPanelBorder, 1.0f);
 
 		const Projection projection{
 		    panelMin,
@@ -328,8 +429,8 @@ namespace YimMenu
 		    width};
 
 		for (const auto& boundary : snapshot->m_LaneBoundaries)
-			DrawPolyline(drawList, projection, boundary, kLane, std::max(1.0f, 1.25f * scale));
-		DrawRoute(drawList, projection, *snapshot, scale);
+			DrawPolylineScreen(projection, boundary, kLane, std::max(1.0f, 1.25f * scale));
+		DrawRoute(projection, *snapshot, scale);
 
 		std::vector<std::pair<float, RenderEntity*>> sorted;
 		sorted.reserve(renderEntities.size());
@@ -345,12 +446,23 @@ namespace YimMenu
 			entity.m_Position.m_X += entity.m_Velocity.m_X * extrapolation;
 			entity.m_Position.m_Y += entity.m_Velocity.m_Y * extrapolation;
 			const auto fade = 1.0f - std::clamp(std::chrono::duration<float>(now - renderEntity->m_LastSeen - 50ms).count() / 0.1f, 0.0f, 1.0f);
-			DrawEntity(drawList, projection, entity, fade);
+			DrawEntity(projection, entity, fade);
 		}
 
-		DrawEgoVehicle(drawList, projection, scale);
-		DrawHeader(drawList, projection, *snapshot, scale);
-		drawList->PopClipRect();
-		ImGui::End();
+		DrawEgoVehicle(projection, scale);
+		DrawHeaderLines(projection, *snapshot, scale);
+
+		g_Frame.m_Visible = true;
+		g_Frame.m_Snapshot = snapshot;
+		g_Frame.m_Projection = projection;
+		g_Frame.m_Scale = scale;
+	}
+
+	void AutoDriveHUD::DrawText()
+	{
+		if (!g_Frame.m_Visible || !g_Frame.m_Snapshot)
+			return;
+
+		DrawHeaderText(g_Frame.m_Projection, *g_Frame.m_Snapshot, g_Frame.m_Scale);
 	}
 }
