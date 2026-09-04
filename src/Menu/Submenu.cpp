@@ -1,7 +1,5 @@
 #include "Menu/Submenu.hpp"
 
-#include "Menu/ClassicUI.hpp"
-
 namespace YimMenu
 {
 	void Submenu::SetActiveCategory(const std::shared_ptr<Category> category)
@@ -24,30 +22,16 @@ namespace YimMenu
 			m_ActiveCategory = m_Categories.empty() ? nullptr : m_Categories.front();
 	}
 
+	// No-op - neither of these is reachable from Lua at all any more
+	// (unlike Group::Draw(), see its own comment) now that nothing
+	// renders this tree - kept only so Category/Submenu still work as a
+	// plain data model for Lua's own add_category()/find_category()/etc.
+	// API (see Menu/UIManager.hpp's class comment).
 	void Submenu::DrawCategorySelectors()
 	{
-		// GetLength()'s own tab-width sizing no longer applies - every row
-		// is full-width now (see Menu/ClassicUI.hpp's own class comment) -
-		// so this is just one row per category instead of the original's
-		// horizontal button strip.
-		for (auto& category : m_Categories)
-		{
-			if (!category)
-				continue;
-
-			const auto active = category == GetActiveCategory();
-			if (active)
-				ClassicUI::Text("> " + category->m_Name);
-			else if (ClassicUI::Button(category->m_Name))
-				SetActiveCategory(category);
-		}
 	}
 
 	void Submenu::Draw()
 	{
-		if (m_ActiveCategory)
-		{
-			m_ActiveCategory->Draw();
-		}
 	}
 }

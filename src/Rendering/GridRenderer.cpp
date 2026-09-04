@@ -1,8 +1,6 @@
 #include "Rendering/GridRenderer.hpp"
 
-#include "Menu/ClassicUI.hpp"
 #include "Menu/GUI.hpp"
-#include "Menu/UIManager.hpp"
 #include "Rendering/AutoDriveHUD.hpp"
 #include "Rendering/ChatDisplay.hpp"
 #include "Rendering/ESP.hpp"
@@ -207,11 +205,9 @@ namespace YimMenu::Rendering
 
 		EnsureDeviceResources(device);
 
-		// No mouse-hover suppression here any more for Grid itself - it's
-		// keyboard-only, nothing in it ever reacts to the cursor (see
-		// WndProcImpl below). The classic pipeline drawn below it in the
-		// same pass (RenderClassicTheme(), Menu/ClassicUI.hpp) is the one
-		// mouse-driven thing left on this whole render path.
+		// No mouse-hover suppression here any more - this menu is
+		// keyboard-only by design, nothing in it ever reacts to the
+		// cursor (see WndProcImpl below).
 
 		// Reset the viewport/scissor rect to the full backbuffer every
 		// frame - nothing else on this D3D12 device is guaranteed to
@@ -227,12 +223,8 @@ namespace YimMenu::Rendering
 		commandList->RSSetScissorRects(1, &scissorRect);
 
 		// Same gate WndProcImpl already applies to input - the menu/popup
-		// content stays tied to GUI::IsOpen() (the Insert toggle). This is
-		// the sole native menu now - the classic pipeline (UIManager::
-		// Draw(), Menu/ClassicUI.hpp) draws alongside it whenever
-		// GUI::IsOpen(), but only ever contains whatever a Lua script has
-		// added; see Menu/UIManager.hpp's own class comment. Notifications
-		// below are deliberately outside this gate.
+		// content stays tied to GUI::IsOpen() (the Insert toggle).
+		// Notifications below are deliberately outside this gate.
 		const bool menuActive = GUI::IsOpen();
 
 		if (m_Effect && m_Batch)
@@ -247,15 +239,6 @@ namespace YimMenu::Rendering
 				// own class comment for why this is a free-standing
 				// overlay rather than a GridItem/Grid of its own.
 				MenuPopup::Draw();
-
-				// The classic pipeline (Category/Submenu/Items.hpp,
-				// UIManager::Draw() -> RenderClassicTheme()) draws
-				// alongside Grid now rather than being mutually exclusive
-				// with it - see Menu/UIManager.hpp's own class comment.
-				// Rect pass only; RenderClassicTheme() queues its own
-				// text rather than drawing it - see Menu/ClassicUI.hpp's
-				// class comment on why.
-				UIManager::Draw();
 			}
 
 			// Always drawn, regardless of menuActive above - see
@@ -288,7 +271,6 @@ namespace YimMenu::Rendering
 			{
 				g_MenuGrid.drawText();
 				MenuPopup::DrawText();
-				UIManager::DrawText();
 			}
 
 			Notifications::DrawText();
@@ -476,27 +458,6 @@ namespace YimMenu::Rendering
 				return;
 			}
 		}
-		// Same interception for the classic pipeline's own text field
-		// (Menu/ClassicUI.hpp's TextField) - it isn't a GridItem, so it
-		// can't be MenuFocus's own focused item, but InputCapture's
-		// shared flag (see Rendering/InputCapture.hpp) is set the same
-		// way while it's being edited. The branch above already returned
-		// if a *Grid* field claimed this keystroke, so reaching here with
-		// the flag set means it's this one instead.
-		else if (Rendering::InputCapture::IsTextInputActive())
-		{
-			if (msg == WM_CHAR)
-			{
-				ClassicUI::OnChar(static_cast<wchar_t>(wparam));
-				return;
-			}
-
-			if (msg == WM_KEYDOWN)
-			{
-				ClassicUI::OnKeyDown(static_cast<unsigned int>(wparam));
-				return;
-			}
-		}
 
 		// No WM_MOUSEMOVE/WM_LBUTTONDOWN/WM_MOUSEWHEEL handling - this
 		// menu is keyboard-only by design (real Stand feel: no mouse
@@ -508,12 +469,13 @@ namespace YimMenu::Rendering
 		// for.
 
 		// Every other key this system responds to (Up/Down/Left/Right/
-		// Enter/Backspace - see MenuGrid::HandleKey()) - guarded on
-		// InputCapture so this doesn't fire while a text field elsewhere
-		// (the classic pipeline's own ClassicUI::TextField) has keyboard
-		// focus and the user is just typing there. WM_KEYDOWN repeats
-		// while a key is held (standard Win32 auto-repeat), which is
-		// exactly the "hold Down to keep moving" feel a menu like this
+		// Enter/Backspace - see MenuGrid::HandleKey()) - the InputCapture
+		// check here is largely defensive at this point (the branch
+		// above already returns for WM_CHAR/WM_KEYDOWN while a GridItem
+		// text field is focused and editing), but keeps this from firing
+		// on the same frame such a field starts/stops editing. WM_KEYDOWN
+		// repeats while a key is held (standard Win32 auto-repeat), which
+		// is exactly the "hold Down to keep moving" feel a menu like this
 		// should have - nothing extra needed here for that.
 		if (msg == WM_KEYDOWN && !Rendering::InputCapture::IsTextInputActive())
 			g_MenuGrid.HandleKey(static_cast<unsigned int>(wparam));

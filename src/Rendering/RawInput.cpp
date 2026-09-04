@@ -1,31 +1,17 @@
 #include "Core/DetourHook.hpp"
-#include "Menu/GUI.hpp"
-#include "Menu/UIManager.hpp"
 #include "Core/Hooks.hpp"
 #include "Core/Hooking.hpp"
 
 namespace YimMenu::Hooks
 {
+	// No longer swallows anything - the Grid menu (this project's only
+	// native menu now, see Menu/UIManager.hpp's own class comment) is
+	// keyboard-only by design and never wanted mouse capture; the
+	// classic pipeline that used to need it doesn't draw anything for
+	// there to be mouse capture over any more either. Kept installed as
+	// a plain pass-through rather than unregistering the hook outright.
 	UINT RawInput::GetRawInputData(HRAWINPUT hRawInput, UINT uiCommand, LPVOID pData, PUINT pcbSize, UINT cbSizeHeader)
 	{
-		auto result = Hooking::Get<RawInput::GetRawInputData>()->Original<decltype(&RawInput::GetRawInputData)>()(hRawInput, uiCommand, pData, pcbSize, cbSizeHeader);
-
-		// Real Stand feel: the DirectXTK12/Grid menu never wants mouse
-		// capture (it's keyboard-only - see GUI::ToggleMouse()'s own
-		// comment), so this only swallows clicks while the classic
-		// pipeline actually has real (Lua-added) content on screen
-		// needing mouse interaction - same condition GUI::ToggleMouse()
-		// uses to decide whether the cursor itself should even be shown.
-		if (result > 0 && pData && uiCommand == RID_INPUT && GUI::IsOpen() && UIManager::HasAnyContent())
-		{
-			auto& raw = *(RAWINPUT*)pData;
-			if (raw.header.dwType == RIM_TYPEMOUSE && raw.data.mouse.usButtonFlags)
-			{
-				// Zero out button flags to prevent game from seeing clicks while menu is open
-				raw.data.mouse.usButtonFlags = 0;
-			}
-		}
-
-		return result;
+		return Hooking::Get<RawInput::GetRawInputData>()->Original<decltype(&RawInput::GetRawInputData)>()(hRawInput, uiCommand, pData, pcbSize, cbSizeHeader);
 	}
 }

@@ -4,15 +4,15 @@ namespace YimMenu::Rendering
 {
 	// Global "is some on-screen text field currently capturing keyboard
 	// input" flag - the DirectXTK-era equivalent of ImGui's own
-	// GetIO().WantTextInput. Every text-editing widget in this project
-	// (Grid's own GridItemTextInput/GridItemSelectList/GridItemHexRow,
-	// and the classic pipeline's own text field - see Menu/ClassicUI.hpp)
-	// flips this on while actively editing and off again on commit/
-	// cancel/blur, so GUI::IsUsingKeyboard() (hotkey suppression while
-	// typing) and GridRenderer::WndProcImpl (skip Grid's own Up/Down
-	// navigation while a *different* text field elsewhere has focus) have
-	// one shared source of truth instead of each needing to know about
-	// every widget type directly.
+	// GetIO().WantTextInput. GridItemTextInput flips this on while
+	// actively editing and off again on commit/cancel/blur, so
+	// GUI::IsUsingKeyboard() (hotkey suppression while typing) has a
+	// source of truth without needing to know about GridItem internals
+	// directly. GridItemSelectList/GridItemHexRow have their own
+	// isEditingText() the same way, but don't set this flag - their
+	// text-edit interception in GridRenderer::WndProcImpl is already
+	// handled via MenuFocus before this flag would even be checked, so
+	// nothing currently needs them to.
 	class InputCapture
 	{
 	public:

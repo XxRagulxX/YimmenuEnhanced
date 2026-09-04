@@ -1,4 +1,3 @@
-#include "Menu/ClassicUI.hpp"
 #include "Menu/Items.hpp"
 #include "Commands/BoolCommand.hpp"
 #include "Commands/Commands.hpp"
@@ -11,23 +10,15 @@ namespace YimMenu
 	{
 	}
 
+	// No-op - this whole classic tree no longer has any renderer of its
+	// own (ClassicUI, the DirectXTK widget kit that used to draw it, was
+	// removed once the project moved fully onto the Stand-style Grid
+	// menu - see Menu/UIManager.hpp's own class comment). Still reachable
+	// from Lua via a Group's own :draw() method (Scripting/LuaMenu.cpp's
+	// GroupDraw), which recurses into every child item's Draw() - kept
+	// as a harmless no-op rather than deleted so that call doesn't need
+	// its own special-casing.
 	void BoolCommandItem::Draw()
 	{
-		if (!m_Command)
-		{
-			ClassicUI::Text("Unknown!");
-			return;
-		}
-
-		const auto label = m_LabelOverride.has_value() ? m_LabelOverride.value() : m_Command->GetLabel();
-		const bool enabled = ClassicUI::Toggle(label, m_Command->GetState());
-		if (enabled != m_Command->GetState())
-			m_Command->SetState(enabled);
-
-		// The original's own hotkey-capture popup (hover + Caps Lock to
-		// bind a key) isn't ported - see Menu/ClassicUI.hpp's own class
-		// comment on why full interactive polish is out of scope for
-		// this pass. The Grid equivalent (Settings > Hotkeys) still
-		// covers real hotkey assignment.
 	}
 }

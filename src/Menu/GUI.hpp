@@ -59,7 +59,6 @@ namespace YimMenu
 		void SetOnboardingImpl(bool state);
 		void RunScriptImpl();
 
-		static void ToggleMouse();
 		static GUI& GetInstance()
 		{
 			static GUI i{};

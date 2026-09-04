@@ -1,6 +1,4 @@
-#include "Menu/ClassicUI.hpp"
 #include "Menu/Items.hpp"
-#include "Scripting/FiberPool.hpp"
 
 namespace YimMenu
 {
@@ -12,18 +10,8 @@ namespace YimMenu
 	{
 	}
 
+	// No-op - see BoolCommandItem.cpp's own comment on why.
 	void Button::Draw()
 	{
-		// m_Size no longer means anything - see Menu/ClassicUI.hpp's own
-		// class comment on why every row in this tree is full-width now.
-		if (ClassicUI::Button(std::string(m_Name)))
-		{
-			if (m_OnClick != nullptr)
-			{
-				FiberPool::queueJob([&] {
-					m_OnClick();
-				});
-			}
-		}
 	}
 }

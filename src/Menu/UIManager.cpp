@@ -1,5 +1,4 @@
 #include "Menu/UIManager.hpp"
-#include "Config/Themes.hpp"
 
 namespace YimMenu
 {
@@ -24,19 +23,6 @@ namespace YimMenu
 		m_ActiveSubmenu = submenu;
 	}
 
-	void UIManager::DrawImpl()
-	{
-		// Only one theme renderer left (Classic) - see UIManager.hpp's
-		// own class comment for why the others (and the style-selector
-		// choice between them) are gone.
-		RenderClassicTheme();
-	}
-
-	void UIManager::DrawTextImpl()
-	{
-		RenderClassicThemeText();
-	}
-
 	std::shared_ptr<Submenu> UIManager::GetActiveSubmenuImpl()
 	{
 		return m_ActiveSubmenu;
@@ -50,14 +36,5 @@ namespace YimMenu
 		}
 
 		return nullptr;
-	}
-
-	bool UIManager::HasAnyContentImpl() const
-	{
-		for (auto& submenu : m_Submenus)
-			if (!submenu->m_Categories.empty())
-				return true;
-
-		return false;
 	}
 }

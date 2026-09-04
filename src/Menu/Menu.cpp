@@ -12,14 +12,9 @@
 
 namespace YimMenu
 {
-	// Drawing this tree is no longer this file's job at all - it now
-	// happens directly from Rendering/GridRenderer.cpp's own DrawImpl,
-	// alongside every other always-on overlay it already draws
-	// (Notifications, ESP, ChatDisplay, ...), via UIManager::Draw()/
-	// DrawText() (see Config/Themes.hpp's own RenderClassicTheme()/
-	// RenderClassicThemeText() and Menu/ClassicUI.hpp's class comment for
-	// the two-pass contract that requires). This file's only remaining
-	// job is building the tree itself once, at startup.
+	// Nothing draws this tree at all any more - see Menu/UIManager.hpp's
+	// own class comment for why it still gets built regardless. This
+	// file's only job is building it once, at startup.
 	void Menu::Init()
 	{
 		// Arguably the only place this file should be edited at for more menus

@@ -1,4 +1,3 @@
-#include "Menu/ClassicUI.hpp"
 #include "Menu/Items.hpp"
 
 namespace YimMenu
@@ -9,17 +8,14 @@ namespace YimMenu
 	{
 	}
 
+	// Draws nothing of its own any more (see BoolCommandItem.cpp's own
+	// comment on why) - still recurses into every child item's Draw(),
+	// since this is the one reachable-from-Lua entry point into the
+	// whole tree (Scripting/LuaMenu.cpp's group:draw()) and every child
+	// item is itself a harmless no-op now, not because anything here
+	// still needs walking.
 	void Group::Draw()
 	{
-		// m_ItemsPerColumn no longer means anything - the original's own
-		// multi-column layout isn't ported (see Menu/ClassicUI.hpp's own
-		// class comment on why); every item just flows top-to-bottom.
-		if (!m_Name.empty())
-		{
-			ClassicUI::Text(m_Name);
-			ClassicUI::Separator();
-		}
-
 		for (auto& item : m_Items)
 		{
 			if (item->CanDraw())
