@@ -321,7 +321,7 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandPlayer>(Theme::kContentWidth, kItemH, "tptoplayer"_J, "Teleport To"));
 		items_draft.push_back(std::make_unique<GridItemCommandPlayer>(Theme::kContentWidth, kItemH, "bring"_J));
 
-		AddVector3CommandRows(items_draft, Theme::kContentWidth, "playertpcoord"_J);
+		AddVector3CommandRows(*this, items_draft, Theme::kContentWidth, "playertpcoord"_J);
 		items_draft.push_back(std::make_unique<GridItemCommandPlayer>(Theme::kContentWidth, kItemH, "tpplayertocoord"_J, "Teleport"));
 	}
 }

@@ -3,7 +3,6 @@
 #include "Rendering/GridItemCommandButton.hpp"
 #include "Rendering/GridItemCommandList.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
-#include "Rendering/GridItemConditional.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Util/Joaat.hpp"
 #include "Rendering/Theme.hpp"
@@ -36,24 +35,19 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "claimsafeearnings"_J));
 
 		// Business Overlay (businessOverlay) - showwarehouse/showhangar/
-		// showbusinesses/shownightclub are all ConditionalItems gated on
-		// the toggle below being on, now that GridItemConditional exists
-		// (a hidden one still reserves its own row - see
-		// GridItemConditional.hpp's class comment).
+		// showbusinesses/shownightclub are all gated on the toggle below
+		// being on. watchCondition() (not GridItemConditional) so a
+		// hidden row doesn't reserve its own layout slot - see
+		// Grid::watchCondition()'s own doc comment.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Business Overlay", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "businessoverlay"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "showwarehouse"_J),
-		    "businessoverlay"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "showhangar"_J),
-		    "businessoverlay"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "showbusinesses"_J),
-		    "businessoverlay"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "shownightclub"_J),
-		    "businessoverlay"_J));
+		if (watchCondition("businessoverlay"_J))
+		{
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "showwarehouse"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "showhangar"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "showbusinesses"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "shownightclub"_J));
+		}
 
 		// Business Manager (businessManager) - every item here is
 		// unconditional, six plain CommandItem buttons plus two

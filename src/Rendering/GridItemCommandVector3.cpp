@@ -1,8 +1,8 @@
 #include "Rendering/GridItemCommandVector3.hpp"
 
 #include "Commands/Commands.hpp"
+#include "Rendering/Grid.hpp"
 #include "Rendering/GridItemButton.hpp"
-#include "Rendering/GridItemConditional.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Rendering/GridRenderer.hpp"
 #include "World/Self.hpp"
@@ -187,7 +187,7 @@ namespace YimMenu::Rendering
 		};
 	}
 
-	void AddVector3CommandRows(std::vector<std::unique_ptr<GridItem>>& items_draft, int16_t width, joaat_t id, std::optional<std::string> labelOverride)
+	void AddVector3CommandRows(Grid& grid, std::vector<std::unique_ptr<GridItem>>& items_draft, int16_t width, joaat_t id, std::optional<std::string> labelOverride)
 	{
 		auto* command = Commands::GetCommand<Vector3Command>(id);
 
@@ -198,17 +198,15 @@ namespace YimMenu::Rendering
 			label = command->GetLabel();
 
 		items_draft.push_back(std::make_unique<GridItemText>(width, Theme::kContentItemHeight, std::move(label), command ? Theme::kText : Theme::kError));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemButton>(width,
-		        Theme::kContentItemHeight,
-		        "Current",
-		        [command] {
-			        if (command && Self::GetPed())
-				        command->SetState(Self::GetPed().GetPosition());
-		        }),
-		    [] {
+		if (grid.watchCondition([] {
 			    return static_cast<bool>(Self::GetPed());
-		    }));
+		    }))
+		{
+			items_draft.push_back(std::make_unique<GridItemButton>(width, Theme::kContentItemHeight, "Current", [command] {
+				if (command && Self::GetPed())
+					command->SetState(Self::GetPed().GetPosition());
+			}));
+		}
 		items_draft.push_back(std::make_unique<GridItemVector3Axis>(width, Theme::kContentItemHeight, AXIS_X, command));
 		items_draft.push_back(std::make_unique<GridItemVector3Axis>(width, Theme::kContentItemHeight, AXIS_Y, command));
 		items_draft.push_back(std::make_unique<GridItemVector3Axis>(width, Theme::kContentItemHeight, AXIS_Z, command));

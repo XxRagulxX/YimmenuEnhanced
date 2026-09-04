@@ -9,6 +9,8 @@
 
 namespace YimMenu::Rendering
 {
+	class Grid;
+
 	// Pushes a label + "Current" row followed by X/Y/Z stepper rows into
 	// items_draft, all bound to the same real YimMenu::Vector3Command,
 	// looked up by joaat hash - the Grid equivalent of Vector3CommandItem
@@ -16,9 +18,11 @@ namespace YimMenu::Rendering
 	// "Saved..." popup (a categorized saved-locations picker with
 	// search) - this project has no popup/floating-overlay primitive
 	// yet, so v1 here is InputFloat3 + "Current" only. "Current" only
-	// does anything while Self::GetPed() is valid - wrapped in
-	// GridItemConditional on that predicate, same as the original hiding
-	// the button entirely otherwise.
+	// does anything while Self::GetPed() is valid - registered with
+	// grid.watchCondition() on that predicate and only pushed when true,
+	// same as the original hiding the button entirely otherwise, but
+	// without reserving its row's layout space while hidden (see
+	// Grid::watchCondition()'s own doc comment).
 	//
 	// Four separate GridItem rows, not one, for the same reason
 	// AddColorCommandRows() is - see GridItemCommandColor.hpp's class
@@ -26,5 +30,5 @@ namespace YimMenu::Rendering
 	// Grid::getFocusableItems() individually, which one mega-widget
 	// covering all three axes couldn't do without its own separate
 	// sub-focus concept).
-	void AddVector3CommandRows(std::vector<std::unique_ptr<GridItem>>& items_draft, int16_t width, joaat_t id, std::optional<std::string> labelOverride = std::nullopt);
+	void AddVector3CommandRows(Grid& grid, std::vector<std::unique_ptr<GridItem>>& items_draft, int16_t width, joaat_t id, std::optional<std::string> labelOverride = std::nullopt);
 }
