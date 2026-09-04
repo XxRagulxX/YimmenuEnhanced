@@ -1,6 +1,7 @@
 #include "Rendering/MiscGrid.hpp"
 
 #include "Scripting/FiberPool.hpp"
+#include "Rendering/GlobalsGrid.hpp"
 #include "Rendering/GridItemButton.hpp"
 #include "Rendering/GridItemCommandButton.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
@@ -9,6 +10,7 @@
 #include "Rendering/GridItemText.hpp"
 #include "Rendering/GridItemToggle.hpp"
 #include "Util/Joaat.hpp"
+#include "Rendering/LocalsGrid.hpp"
 #include "Scripting/Natives.hpp"
 #include "Rendering/PlaceholderGrid.hpp"
 #include "Network/ScriptEvent.hpp"
@@ -21,6 +23,11 @@ namespace YimMenu::Rendering
 	namespace
 	{
 		constexpr float kSectionHeaderH = Theme::kContentItemHeight;
+
+		// Owned here rather than in MenuGrid.cpp - see SelfGrid.cpp's
+		// identical note about WeaponsGrid.
+		GlobalsGrid g_GlobalsContent{};
+		LocalsGrid g_LocalsContent{};
 	}
 
 	// Origin (1438, 587) and spacer (3) match every other content Grid's -
@@ -36,12 +43,12 @@ namespace YimMenu::Rendering
 	void MiscGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
 		// Debug's other categories (BuildGlobalsMenu()/BuildLocalsMenu()/
-		// BuildScriptsMenu()) - all three still placeholder-only, grouped
+		// BuildScriptsMenu()) - Scripts is still placeholder-only, grouped
 		// at the very top of the whole list rather than at the bottom, so
 		// a category is always reachable before the plain items below.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Globals", &GetPlaceholderGrid()));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Locals", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Globals", &g_GlobalsContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Locals", &g_LocalsContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Scripts", &GetPlaceholderGrid()));
 
 		// "Network Bail" isn't a registered Command in src/Misc.cpp (it's
