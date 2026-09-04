@@ -54,11 +54,15 @@ namespace YimMenu::Rendering
 	LocalsGrid::LocalsGrid() :
 	    Grid(1438, 587, 3)
 	{
-		SavedVariables::Init();
 	}
 
 	void LocalsGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
+		// Deliberately not in the constructor - see GlobalsGrid.cpp's
+		// identical note for why (this Grid is also a file-scope static,
+		// constructed before FileMgr::Init() has run).
+		SavedVariables::Init();
+
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Script", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemTextInput>(Theme::kContentWidth,
 		    kItemH,

@@ -51,11 +51,22 @@ namespace YimMenu::Rendering
 	GlobalsGrid::GlobalsGrid() :
 	    Grid(1438, 587, 3)
 	{
-		SavedVariables::Init();
 	}
 
 	void GlobalsGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
+		// Deliberately not in the constructor: this Grid is a file-scope
+		// static (see MiscGrid.cpp's own instance), so its constructor
+		// runs during C++ static initialization, before main() calls
+		// FileMgr::Init() - SavedVariables::Init() reading
+		// saved_variables.json through FileMgr that early would resolve
+		// against FileMgr's still-default-constructed (empty) root
+		// folder, silently loading nothing. populate() only runs lazily,
+		// on this Grid's first real draw - long after FileMgr::Init()
+		// has already run - so it belongs here instead; still only-once
+		// thanks to SavedVariables::Init()'s own m_Initialized guard.
+		SavedVariables::Init();
+
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Editor", Theme::kText));
 		AddSavedVariableDefinitionRows(items_draft, Theme::kContentWidth, m_CurGlobal, [this] {
 			invalidate();

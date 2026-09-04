@@ -21,16 +21,29 @@ namespace YimMenu::Rendering::Theme
 	// or otherwise the thing that matters right now - a sidebar/tab's
 	// active entry, a toggle's ON state, a button's fill. Stand's own
 	// focusRectColour.
-	constexpr DirectX::XMFLOAT4 kAccent{1.f, 0.f, 1.f, 1.f};
+	//
+	// This and the five colours below are `inline` (mutable), not
+	// `constexpr`, specifically so Settings > Customize (CustomizeGrid)
+	// can edit them at runtime - see its own class comment for why this
+	// project's actual theme editor lives there instead of the classic
+	// menu's own ImGui-style Customize page (which edited ImGuiStyle/
+	// ImGuiCol_*, meaningless once this Grid renderer is primary). Every
+	// existing `Theme::kAccent`-style reference elsewhere in this
+	// codebase keeps working unchanged either way - dropping `constexpr`
+	// doesn't change how the name is used at any call site, only that it
+	// can now change after startup. LoadFromDisk()/SaveToDisk() persist
+	// these six; nothing else in this file is user-editable (layout/
+	// scale constants stay `constexpr`).
+	inline DirectX::XMFLOAT4 kAccent{1.f, 0.f, 1.f, 1.f};
 
 	// The translucent panel background every non-active row uses -
 	// toggle/folder rows, inactive sidebar/tab entries, a stepper/list's
 	// value box. Stand's own bgRectColour.
-	constexpr DirectX::XMFLOAT4 kPanelBackground{0.f, 0.f, 0.f, 0.3019f};
+	inline DirectX::XMFLOAT4 kPanelBackground{0.f, 0.f, 0.f, 0.3019f};
 
 	// White text/foreground, used everywhere. Stand's own
 	// bgTextColour/focusTextColour (identical in both states there).
-	constexpr DirectX::XMFLOAT4 kText{1.f, 1.f, 1.f, 1.f};
+	inline DirectX::XMFLOAT4 kText{1.f, 1.f, 1.f, 1.f};
 
 	// NOT part of Stand's own palette - its Renderer only exposes one
 	// accent (focusRectColour) and one panel colour (bgRectColour), with
@@ -39,9 +52,23 @@ namespace YimMenu::Rendering::Theme
 	// say about: a toggle's OFF state, a command hash that didn't
 	// resolve to anything registered, this system's own "not yet
 	// migrated" placeholder text.
-	constexpr DirectX::XMFLOAT4 kToggleOff{0.35f, 0.35f, 0.35f, 1.f};
-	constexpr DirectX::XMFLOAT4 kError{0.6f, 0.2f, 0.2f, 1.f};
-	constexpr DirectX::XMFLOAT4 kPlaceholderText{0.7f, 0.7f, 0.7f, 1.f};
+	inline DirectX::XMFLOAT4 kToggleOff{0.35f, 0.35f, 0.35f, 1.f};
+	inline DirectX::XMFLOAT4 kError{0.6f, 0.2f, 0.2f, 1.f};
+	inline DirectX::XMFLOAT4 kPlaceholderText{0.7f, 0.7f, 0.7f, 1.f};
+
+	// Loads the six colours above from disk (a no-op, keeping the
+	// defaults above, if nothing's been saved yet) - called once, lazily,
+	// from CustomizeGrid's own populate() (not its constructor - see
+	// GlobalsGrid.cpp's identical note on why a file-scope static Grid's
+	// constructor runs too early, before FileMgr::Init(), to safely
+	// touch disk). Safe to call more than once; only the first call
+	// actually reads anything.
+	void LoadFromDisk();
+
+	// Saves the six colours above to disk - called after every edit
+	// CustomizeGrid makes, same as the classic Customize page's own
+	// GUISettings.cpp calling SaveSettings() after each change.
+	void SaveToDisk();
 
 	// Layout, matching stand-reference's Renderer defaults exactly -
 	// int16_t, same as Stand's own addressbar_height/tabs_width/

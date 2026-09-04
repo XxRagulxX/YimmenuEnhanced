@@ -8,15 +8,16 @@ namespace YimMenu::Rendering
 	// Settings' five categories (Hotkeys, GUI, Game, Customize, Lua
 	// Scripts), same as every other root's "Categories" section.
 	//
-	// Hotkeys/GUI/Game/Lua Scripts each point at a real content Grid
-	// (HotkeysGrid/SettingsGuiGrid/SettingsGameGrid/LuaScriptsGrid, owned
-	// here since nothing else reaches them) - see their own class
-	// comments for what each covers (Hotkeys' own, in particular, for
-	// how it replaces the original's single hand-rolled ImGui widget and
-	// its mouse-hold capture gesture). Customize still points at the
-	// shared placeholder - it edits ImGuiStyle/ImGuiCol_*, meaningless
-	// once the Grid renderer is primary, and needs a real redesign
-	// rather than a straight port.
+	// Every one of Settings' five categories now points at a real
+	// content Grid (HotkeysGrid/SettingsGuiGrid/SettingsGameGrid/
+	// CustomizeGrid/LuaScriptsGrid, owned here since nothing else
+	// reaches them) - see each one's own class comment for what it
+	// covers. Hotkeys' and Customize's are both replacements rather
+	// than straight ports: Hotkeys for how it replaces the original's
+	// single hand-rolled ImGui widget and its mouse-hold capture
+	// gesture; Customize for how it replaces the original's ImGuiStyle/
+	// ImGuiCol_* editor (meaningless once this Grid renderer is
+	// primary) with Theme.hpp's own six colours instead.
 	class SettingsGrid : public Grid
 	{
 	public:
