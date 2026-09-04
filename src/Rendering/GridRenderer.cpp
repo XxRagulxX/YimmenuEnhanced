@@ -2,6 +2,7 @@
 
 #include "Commands/BoolCommand.hpp"
 #include "Menu/GUI.hpp"
+#include "Rendering/ChatDisplay.hpp"
 #include "Rendering/ESP.hpp"
 #include "Rendering/MenuFocus.hpp"
 #include "Rendering/MenuGrid.hpp"
@@ -286,11 +287,13 @@ namespace YimMenu::Rendering
 
 			// Always drawn, regardless of menuActive above - see
 			// Notifications.hpp's own class comment (Overlay.cpp's own
-			// watermark-style FPS/business overlay, and ESP, are the
-			// same shape: always visible, independent of any menu).
+			// watermark-style FPS/business overlay, ESP, and ChatDisplay
+			// are the same shape: always visible, independent of any
+			// menu).
 			Notifications::Draw();
 			Overlay::Draw();
 			ESP::Draw();
+			ChatDisplay::Draw();
 
 			m_Batch->End();
 		}
@@ -316,6 +319,7 @@ namespace YimMenu::Rendering
 			Notifications::DrawText();
 			Overlay::DrawText();
 			ESP::DrawText();
+			ChatDisplay::DrawText();
 
 			m_SpriteBatch->End();
 		}

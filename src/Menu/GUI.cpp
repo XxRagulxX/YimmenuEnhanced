@@ -4,7 +4,6 @@
 #include "Rendering/AutoDriveHUD.hpp"
 #include "Scripting/ScriptMgr.hpp"
 #include "Rendering/Renderer.hpp"
-#include "Rendering/ChatDisplay.hpp"
 #include "Rendering/GridRenderer.hpp"
 #include "Scripting/Natives.hpp"
 #include "Game/ControllerInputs.hpp"
@@ -23,11 +22,6 @@ namespace YimMenu
 			GUI::WndProc(hwnd, msg, wparam, lparam);
 		});
 
-		Renderer::AddRendererCallBack(
-		    [&] {
-			    ChatDisplay::Draw();
-		    },
-		    -5);
 		Renderer::AddRendererCallBack(
 		    [&] {
 			    AutoDriveHUD::Draw();

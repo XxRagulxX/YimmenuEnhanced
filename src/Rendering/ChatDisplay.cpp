@@ -1,10 +1,29 @@
 #include "Rendering/ChatDisplay.hpp"
 #include "Menu/Menu.hpp"
 #include "Core/Pointers.hpp"
-
+#include "Rendering/GridRenderer.hpp"
+#include "Rendering/TextWrap.hpp"
+#include "Rendering/Theme.hpp"
 
 namespace YimMenu
 {
+	namespace
+	{
+		// Original position/width (x_pos = ScreenResX - 470, width 460,
+		// y_pos = 200) were real client pixels - now H-space units (see
+		// GridRenderer.hpp's own class comment for what that means),
+		// same reasoning as every other overlay ported this way this
+		// session: since Stand's virtual canvas is also 1920x1080, the
+		// same numbers still mean the same thing at 1080p and now
+		// actually scale on every other resolution too.
+		constexpr float kX = Rendering::Theme::kHudWidth - 470.f;
+		constexpr float kMaxWidth = 460.f;
+		constexpr float kY = 200.f;
+		constexpr float kLineSpacing = 2.f;
+		constexpr float kEntryGap = 6.f;
+		constexpr float kScale = Rendering::Theme::kSmallTextScale;
+	}
+
 	void ChatDisplay::ShowImpl(std::string sender, std::string message, ImColor color)
 	{
 		if (sender.empty() || message.empty())
@@ -32,40 +51,6 @@ namespace YimMenu
 	void ChatDisplay::DrawImpl()
 	{
 		std::lock_guard<std::mutex> lock(m_Mutex);
-		int position = 0;
-
-		static const float y_pos = position * 100 + 200;
-		static const float x_pos = *Pointers.ScreenResX - 470;
-
-		if (m_Messages.size() && m_Opacity >= 0.011f)
-		{
-			ImGui::SetNextWindowSize(ImVec2(*Pointers.ScreenResX - x_pos - 10, *Pointers.ScreenResY - y_pos), ImGuiCond_Always);
-			ImGui::SetNextWindowPos(ImVec2(x_pos, y_pos), ImGuiCond_Always);
-
-			if (ImGui::Begin("##chatwin", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoInputs))
-			{
-				ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-				ImGui::PushFont(Menu::Font::g_ChatFont);
-
-				for (auto& message : m_Messages)
-				{
-					auto color = message.m_Color;
-					color.Value.w = m_Opacity;
-					ImGui::PushStyleColor(ImGuiCol_Text, color.Value);
-					ImGui::TextWrapped("%s:", message.m_Sender.data());
-					ImGui::PopStyleColor();
-					ImGui::SameLine();
-					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, m_Opacity));
-					ImGui::TextWrapped("%s", message.m_Message.data());
-					ImGui::PopStyleColor();
-				}
-
-				ImGui::PopFont();
-				ImGui::PopStyleColor();
-			}
-
-			ImGui::End();
-		}
 
 		// TODO: unlink fade speed with FPS
 		if (std::chrono::system_clock::now() - m_LastAccessTime > 15s && m_Opacity != 0.0f)
@@ -73,6 +58,42 @@ namespace YimMenu
 			m_Opacity -= 0.01f;
 			if (m_Opacity <= 0.011f)
 				m_Opacity = 0.0f;
+		}
+	}
+
+	void ChatDisplay::DrawTextImpl()
+	{
+		using Rendering::GridRenderer;
+
+		std::lock_guard<std::mutex> lock(m_Mutex);
+
+		if (m_Messages.empty() || m_Opacity < 0.011f)
+			return;
+
+		float y = kY;
+		for (auto& message : m_Messages)
+		{
+			const DirectX::XMFLOAT4 senderColour{message.m_Color.Value.x, message.m_Color.Value.y, message.m_Color.Value.z, m_Opacity};
+			const DirectX::XMFLOAT4 messageColour{1.f, 1.f, 1.f, m_Opacity};
+
+			// Sender and message draw as their own separate wrapped
+			// blocks rather than continuing on the same line the way
+			// the original's own ImGui::SameLine() did - a deliberate
+			// simplification (see Rendering/TextWrap.hpp's own comment
+			// on why this system's own wrapping is greedy-and-plain, no
+			// real text-layout engine), not an attempt to reproduce
+			// that exact continuation.
+			const std::string senderLine = message.m_Sender + ":";
+			GridRenderer::DrawText(kX, y, senderLine.c_str(), senderColour, kScale);
+			y += GridRenderer::MeasureText(senderLine.c_str(), kScale).y + kLineSpacing;
+
+			for (auto& line : Rendering::WrapText(message.m_Message, kMaxWidth, kScale))
+			{
+				GridRenderer::DrawText(kX, y, line.c_str(), messageColour, kScale);
+				y += GridRenderer::MeasureText(line.c_str(), kScale).y + kLineSpacing;
+			}
+
+			y += kEntryGap;
 		}
 	}
 

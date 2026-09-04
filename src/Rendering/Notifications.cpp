@@ -1,6 +1,7 @@
 #include "Rendering/Notifications.hpp"
 
 #include "Rendering/GridRenderer.hpp"
+#include "Rendering/TextWrap.hpp"
 #include "Rendering/Theme.hpp"
 #include "Scripting/FiberPool.hpp"
 #include "Scripting/Natives.hpp"
@@ -8,7 +9,6 @@
 
 #include <algorithm>
 #include <mutex>
-#include <sstream>
 
 namespace YimMenu
 {
@@ -42,40 +42,6 @@ namespace YimMenu
 			default:
 				return Rendering::Theme::kText;
 			}
-		}
-
-		// Greedy word-wrap against MeasureText - GridRenderer's DrawText
-		// has no built-in wrapping (unlike ImGui::TextWrapped, which the
-		// pre-port version of this relied on), so this replaces it.
-		// Same "simplest thing that still works" trade-off as everywhere
-		// else in this system without a real text-layout engine: no
-		// hyphenation, and a single word wider than maxWidth on its own
-		// just overflows rather than being split mid-word.
-		std::vector<std::string> WrapText(const std::string& text, float maxWidth, float scale)
-		{
-			std::vector<std::string> lines;
-			std::string currentLine;
-
-			std::istringstream words(text);
-			std::string word;
-			while (words >> word)
-			{
-				std::string candidate = currentLine.empty() ? word : currentLine + " " + word;
-				if (!currentLine.empty() && Rendering::GridRenderer::MeasureText(candidate.c_str(), scale).x > maxWidth)
-				{
-					lines.push_back(currentLine);
-					currentLine = word;
-				}
-				else
-				{
-					currentLine = candidate;
-				}
-			}
-
-			if (!currentLine.empty())
-				lines.push_back(currentLine);
-
-			return lines;
 		}
 
 		// Every position/size Draw()'s rect pass and DrawText()'s text
@@ -112,7 +78,7 @@ namespace YimMenu
 			layout.separatorY = layout.titleY + titleHeight + kPadding * 0.5f;
 			layout.messageStartY = layout.separatorY + kSeparatorHeight + kPadding * 0.5f;
 
-			layout.messageLines = WrapText(notification.m_Message, m_CardSizeX - kPadding * 2.f, kMessageScale);
+			layout.messageLines = Rendering::WrapText(notification.m_Message, m_CardSizeX - kPadding * 2.f, kMessageScale);
 			layout.lineHeight = Rendering::GridRenderer::MeasureText("Ag", kMessageScale).y;
 
 			layout.contextY = layout.messageStartY + layout.messageLines.size() * layout.lineHeight + kPadding * 0.5f;
