@@ -3,6 +3,7 @@
 #include "Network/CNetGamePlayer.hpp"
 #include "Commands/Extra/CommandSavedPlayers.hpp"
 #include "Scripting/FiberPool.hpp"
+#include "Rendering/Clipboard.hpp"
 #include "Rendering/GridItemButton.hpp"
 #include "Rendering/GridItemCommandList.hpp"
 #include "Rendering/GridItemCommandPlayer.hpp"
@@ -16,9 +17,7 @@
 #include "Rendering/Theme.hpp"
 
 #include <cstdint>
-#include <cstring>
 #include <format>
-#include <windows.h>
 
 namespace YimMenu::Rendering
 {
@@ -30,38 +29,6 @@ namespace YimMenu::Rendering
 		std::string BuildIPStr(int field1, int field2, int field3, int field4)
 		{
 			return std::format("{}.{}.{}.{}", field1, field2, field3, field4);
-		}
-
-		// Win32 clipboard copy, standing in for ImGui::SetClipboardText()
-		// (what Info.cpp's own classic widgets use) - this is new Grid
-		// code, so it goes straight to the platform API instead of
-		// picking up a dependency on ImGui this project is working to
-		// remove entirely (see this repo's own phased ImGui-removal
-		// plan). Hoist this out to somewhere shared if a second Grid
-		// widget ever needs it too.
-		void CopyToClipboard(const std::string& text)
-		{
-			if (!OpenClipboard(nullptr))
-				return;
-
-			EmptyClipboard();
-
-			const auto size = text.size() + 1;
-			if (HGLOBAL mem = GlobalAlloc(GMEM_MOVEABLE, size))
-			{
-				if (void* dst = GlobalLock(mem))
-				{
-					std::memcpy(dst, text.c_str(), size);
-					GlobalUnlock(mem);
-					SetClipboardData(CF_TEXT, mem);
-				}
-				else
-				{
-					GlobalFree(mem);
-				}
-			}
-
-			CloseClipboard();
 		}
 
 		// Every live-text callback below re-fetches Players::GetSelected()
@@ -264,15 +231,15 @@ namespace YimMenu::Rendering
 		// two rows here instead of one.
 		items_draft.push_back(std::make_unique<GridItemLiveText>(Theme::kContentWidth, kItemH, SelectedRID, Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemButton>(Theme::kContentWidth, kItemH, "Copy RID", [] {
-			CopyToClipboard(PlainRID());
+			Clipboard::SetText(PlainRID());
 		}));
 		items_draft.push_back(std::make_unique<GridItemLiveText>(Theme::kContentWidth, kItemH, SelectedPlatformId, Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemButton>(Theme::kContentWidth, kItemH, "Copy Platform ID", [] {
-			CopyToClipboard(PlainPlatformId());
+			Clipboard::SetText(PlainPlatformId());
 		}));
 		items_draft.push_back(std::make_unique<GridItemLiveText>(Theme::kContentWidth, kItemH, SelectedIP, Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemButton>(Theme::kContentWidth, kItemH, "Copy IP Address", [] {
-			CopyToClipboard(PlainIP());
+			Clipboard::SetText(PlainIP());
 		}));
 
 		// Folds in "More Info"'s own latency/packet-loss readout directly
