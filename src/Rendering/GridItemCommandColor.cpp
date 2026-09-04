@@ -2,7 +2,7 @@
 
 #include "Commands/ColorCommand.hpp"
 #include "Commands/Commands.hpp"
-#include "Rendering/GridItemConditional.hpp"
+#include "Rendering/Grid.hpp"
 #include "Rendering/GridRenderer.hpp"
 #include "Rendering/Theme.hpp"
 
@@ -251,16 +251,14 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemColorChannel>(width, Theme::kContentItemHeight, CHANNEL_A, command));
 	}
 
-	void AddConditionalColorCommandRows(std::vector<std::unique_ptr<GridItem>>& items_draft,
+	void AddConditionalColorCommandRows(Grid& grid,
+	    std::vector<std::unique_ptr<GridItem>>& items_draft,
 	    int16_t width,
 	    joaat_t id,
 	    std::function<bool()> condition,
 	    std::optional<std::string> labelOverride)
 	{
-		std::vector<std::unique_ptr<GridItem>> rows;
-		AddColorCommandRows(rows, width, id, std::move(labelOverride));
-
-		for (auto& row : rows)
-			items_draft.push_back(std::make_unique<GridItemConditional>(std::move(row), condition));
+		if (grid.watchCondition(condition))
+			AddColorCommandRows(items_draft, width, id, std::move(labelOverride));
 	}
 }

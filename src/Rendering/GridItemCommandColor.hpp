@@ -10,6 +10,8 @@
 
 namespace YimMenu::Rendering
 {
+	class Grid;
+
 	// Pushes a coloured swatch preview row followed by four R/G/B/A
 	// channel stepper rows (0-255 each) into items_draft, all bound to
 	// the same real YimMenu::ColorCommand, looked up by joaat hash - the
@@ -33,14 +35,18 @@ namespace YimMenu::Rendering
 
 	// AddColorCommandRows() above with no gating parameter of its own -
 	// unlike a single-GridItem widget, there's nothing to hand a
-	// GridItemConditional directly. Builds the five rows into a scratch
-	// vector instead and wraps each one individually in a
-	// GridItemConditional sharing the same condition before moving it
-	// into items_draft - needed wherever a ColorCommand swatch is itself
-	// behind a ConditionalItem in the original ImGui menu (Weapons >
-	// Custom Weapons' paintguncolor, Settings > Game's ESP name/skeleton/
-	// hash colour swatches, ...).
-	void AddConditionalColorCommandRows(std::vector<std::unique_ptr<GridItem>>& items_draft,
+	// condition directly. Registers condition with grid.watchCondition()
+	// (see its own doc comment in Grid.hpp) and only builds/pushes the
+	// five rows when it's true, rather than always building them and
+	// wrapping each in GridItemConditional - so hidden rows don't reserve
+	// any layout space, and the caller's own Grid (not this free
+	// function) is what needs repopulating live when condition changes.
+	// Needed wherever a ColorCommand swatch is itself behind a
+	// ConditionalItem in the original ImGui menu (Weapons > Custom
+	// Weapons' paintguncolor, Settings > Game's ESP name/skeleton/hash
+	// colour swatches, ...).
+	void AddConditionalColorCommandRows(Grid& grid,
+	    std::vector<std::unique_ptr<GridItem>>& items_draft,
 	    int16_t width,
 	    joaat_t id,
 	    std::function<bool()> condition,

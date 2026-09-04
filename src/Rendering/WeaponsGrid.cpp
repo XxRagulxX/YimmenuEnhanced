@@ -11,7 +11,6 @@
 #include "Rendering/GridItemCommandList.hpp"
 #include "Rendering/GridItemCommandString.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
-#include "Rendering/GridItemConditional.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Util/Joaat.hpp"
 #include "Commands/ListCommand.hpp"
@@ -110,27 +109,21 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "rapidfire"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "infiniteparachutes"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "ExplosiveAmmo"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "selectedexplosion"_J),
-		    "ExplosiveAmmo"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "explosiondamage"_J),
-		    "ExplosiveAmmo"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "explosioncamerashake"_J),
-		    "ExplosiveAmmo"_J));
+		if (watchCondition("ExplosiveAmmo"_J))
+		{
+			items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "selectedexplosion"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "explosiondamage"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "explosioncamerashake"_J));
+		}
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "weapondamage"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "weapondamagescale"_J),
-		    "weapondamage"_J));
+		if (watchCondition("weapondamage"_J))
+			items_draft.push_back(std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "weapondamagescale"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "meleedamage"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "meleedamagescale"_J),
-		    "meleedamage"_J));
+		if (watchCondition("meleedamage"_J))
+			items_draft.push_back(std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "meleedamagescale"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "explosionradius"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "explosionradiusscale"_J),
-		    "explosionradius"_J));
+		if (watchCondition("explosionradius"_J))
+			items_draft.push_back(std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "explosionradiusscale"_J));
 
 		// Tools (weaponsToolsGroup) - all plain CommandItem buttons.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Tools", Theme::kText));
@@ -155,15 +148,12 @@ namespace YimMenu::Rendering
 		// toggles are all gated on aimbot directly.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Aimbot", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "aimbot"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "aimbotaimforhead"_J),
-		    "aimbot"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "aimbottargetdrivers"_J),
-		    "aimbot"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "aimbotreleasedeadped"_J),
-		    "aimbot"_J));
+		if (watchCondition("aimbot"_J))
+		{
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "aimbotaimforhead"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "aimbottargetdrivers"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "aimbotreleasedeadped"_J));
+		}
 
 		// Custom Weapons (RenderCustomWeaponsMenu()) - see this file's own
 		// IsCustomWeaponEnabled()/CustomWeaponType()/IsGravityGunRow()/
@@ -173,27 +163,20 @@ namespace YimMenu::Rendering
 		// predicates.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Custom Weapons", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "customweapon"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "customweaponenabledonweaponout"_J),
-		    IsCustomWeaponEnabled));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "customweapontype"_J),
-		    IsCustomWeaponEnabled));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "gravitygunlaunchonrelease"_J),
-		    IsGravityGunRow));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandString>(Theme::kContentWidth, kItemH, "vehiclegunmodel"_J),
-		    IsVehicleGunRow));
-		AddConditionalColorCommandRows(items_draft, Theme::kContentWidth, "paintguncolor"_J, IsPaintGunColorRow);
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "paintgunrainbowcolorenabled"_J),
-		    IsPaintGunTypeRow));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "paintgunrainbowcolorstyle"_J),
-		    IsPaintGunRainbowRow));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "paintgunrainbowcolorspeed"_J),
-		    IsPaintGunRainbowRow));
+		if (watchCondition(IsCustomWeaponEnabled))
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "customweaponenabledonweaponout"_J));
+		if (watchCondition(IsCustomWeaponEnabled))
+			items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "customweapontype"_J));
+		if (watchCondition(IsGravityGunRow))
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "gravitygunlaunchonrelease"_J));
+		if (watchCondition(IsVehicleGunRow))
+			items_draft.push_back(std::make_unique<GridItemCommandString>(Theme::kContentWidth, kItemH, "vehiclegunmodel"_J));
+		AddConditionalColorCommandRows(*this, items_draft, Theme::kContentWidth, "paintguncolor"_J, IsPaintGunColorRow);
+		if (watchCondition(IsPaintGunTypeRow))
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "paintgunrainbowcolorenabled"_J));
+		if (watchCondition(IsPaintGunRainbowRow))
+			items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "paintgunrainbowcolorstyle"_J));
+		if (watchCondition(IsPaintGunRainbowRow))
+			items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "paintgunrainbowcolorspeed"_J));
 	}
 }

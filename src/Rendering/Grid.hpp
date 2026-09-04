@@ -146,6 +146,7 @@ namespace YimMenu::Rendering
 		// sense against the rebuilt content.
 		void invalidate();
 
+	public:
 		// Registers hash (a BoolCommand looked up via Commands::GetCommand,
 		// same as GridItemConditional's own joaat_t overload; negate
 		// flips it the same way too) as a condition this Grid's own
@@ -166,14 +167,18 @@ namespace YimMenu::Rendering
 		// draw()/drawText()/findItemAt() overrides. Every watch
 		// registered here is forgotten and re-registered from scratch the
 		// next time populate() runs (see ensurePopulated()), so this is
-		// only ever meaningful called from inside populate() itself.
+		// only ever meaningful called from inside populate() itself - or
+		// from a free function populate() delegates row-building to (e.g.
+		// AddConditionalColorCommandRows()), which is why this is public
+		// rather than protected like populate()/invalidate() above: such
+		// a function only ever has a Grid& to call through, not a
+		// derived-class this.
 		bool watchCondition(joaat_t hash, bool negate = false);
 
 		// Same as above, for an arbitrary predicate instead of a single
 		// BoolCommand - same two ways GridItemConditional itself offers.
 		bool watchCondition(std::function<bool()> conditionFn, bool negate = false);
 
-	public:
 		// Positions every item in-place: walks the list applying each
 		// item's alignment_relative_to_last against whatever came before
 		// it (or force_alignment_to, if set), then makes a second pass
