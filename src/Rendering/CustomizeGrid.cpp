@@ -55,6 +55,7 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemButton>(Theme::kContentWidth, kItemH, "Reset to Defaults", [this] {
 			Theme::kAccent = {1.f, 0.f, 1.f, 1.f};
 			Theme::kPanelBackground = {0.f, 0.f, 0.f, 0.3019f};
+			Theme::kBackdropBackground = {0.f, 0.f, 0.f, 0.85f};
 			Theme::kText = {1.f, 1.f, 1.f, 1.f};
 			Theme::kToggleOff = {0.35f, 0.35f, 0.35f, 1.f};
 			Theme::kError = {0.6f, 0.2f, 0.2f, 1.f};
@@ -65,6 +66,7 @@ namespace YimMenu::Rendering
 
 		AddColorRows(items_draft, "Accent", Theme::kAccent);
 		AddColorRows(items_draft, "Panel Background", Theme::kPanelBackground);
+		AddColorRows(items_draft, "Backdrop Background", Theme::kBackdropBackground);
 		AddColorRows(items_draft, "Text", Theme::kText);
 		AddColorRows(items_draft, "Toggle Off", Theme::kToggleOff);
 		AddColorRows(items_draft, "Error", Theme::kError);

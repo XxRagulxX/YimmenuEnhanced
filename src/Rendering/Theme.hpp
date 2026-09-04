@@ -38,8 +38,25 @@ namespace YimMenu::Rendering::Theme
 
 	// The translucent panel background every non-active row uses -
 	// toggle/folder rows, inactive sidebar/tab entries, a stepper/list's
-	// value box. Stand's own bgRectColour.
+	// value box. Stand's own bgRectColour - a highlight tint layered on
+	// top of kBackdropBackground below, not the menu's only source of
+	// opacity (see that constant's own comment for why this project used
+	// to only have this one, and how that read as "very transparent").
 	inline DirectX::XMFLOAT4 kPanelBackground{0.f, 0.f, 0.f, 0.3019f};
+
+	// The solid backdrop MenuGrid draws once behind the whole menu
+	// (header + sidebar + content column), before any row/highlight on
+	// top of it. Real Stand's menu reads as one solid panel, not a set
+	// of separately translucent rows each floating over the game world
+	// on their own - kPanelBackground's 30% alpha is a highlight meant to
+	// sit on top of an already-solid backdrop like this one, not carry
+	// full-page opacity by itself (which is what this project did before
+	// this constant existed, and why every unfocused row looked like it
+	// was barely there at all against a bright scene). Not part of
+	// Stand's own six-colour palette by name, but the same idea as its
+	// menu_background - added here since nothing else in this project's
+	// port covered it.
+	inline DirectX::XMFLOAT4 kBackdropBackground{0.f, 0.f, 0.f, 0.85f};
 
 	// White text/foreground, used everywhere. Stand's own
 	// bgTextColour/focusTextColour (identical in both states there).
@@ -70,19 +87,30 @@ namespace YimMenu::Rendering::Theme
 	// GUISettings.cpp calling SaveSettings() after each change.
 	void SaveToDisk();
 
-	// Layout, matching stand-reference's Renderer defaults exactly -
-	// int16_t, same as Stand's own addressbar_height/tabs_width/
+	// Layout - int16_t, same as Stand's own addressbar_height/tabs_width/
 	// tabs_height/command_width/command_height fields (and GridItem's
 	// own x/y/width/height, ported the same way - see GridItem.hpp).
 	// addressbar_height is the header/breadcrumb bar; tabs_width/
 	// tabs_height are the left-hand submenu list ("sidebar" everywhere
 	// else in this system); command_width/command_height are the main
 	// content list's own column width and each row's height.
+	//
+	// kSidebarEntryHeight/kContentItemHeight were 32 (an exact port,
+	// this file used to claim, of stand-reference's own Renderer
+	// defaults) - side-by-side screenshots of real Stand next to this
+	// project's menu showed real Stand's rows sitting noticeably
+	// tighter than that, with far less empty padding around each row's
+	// text than 32 leaves here. Nothing in this project can re-check
+	// that old claim against Stand's actual source any more, so this
+	// takes the direct screenshot comparison as the more reliable
+	// signal and tightens both to 26 - still comfortably above the
+	// embedded font's own text height at kTextScale (rows had generous
+	// padding to spare at 32), just less of it.
 	constexpr int16_t kHeaderHeight = 24;
 	constexpr int16_t kSidebarWidth = 112;
-	constexpr int16_t kSidebarEntryHeight = 32;
+	constexpr int16_t kSidebarEntryHeight = 26;
 	constexpr int16_t kContentWidth = 450;
-	constexpr int16_t kContentItemHeight = 32;
+	constexpr int16_t kContentItemHeight = 26;
 
 	// Stand's own command_text/tabs_text/addressbar_text scale (they're
 	// all defined identically: float(15.0 * TEXT_HEIGHT_PX * 2.0), with
