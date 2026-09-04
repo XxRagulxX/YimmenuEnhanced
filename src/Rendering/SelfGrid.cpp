@@ -12,9 +12,9 @@
 #include "Rendering/LevitationGrid.hpp"
 #include "Rendering/MpSpecialAbilityGrid.hpp"
 #include "Rendering/NoclipGrid.hpp"
+#include "Rendering/OutfitEditorGrid.hpp"
 #include "Rendering/SuperRunGrid.hpp"
 #include "Util/Joaat.hpp"
-#include "Rendering/PlaceholderGrid.hpp"
 #include "Rendering/Theme.hpp"
 #include "Rendering/WeaponsGrid.hpp"
 
@@ -30,6 +30,7 @@ namespace YimMenu::Rendering
 		// are only ever reached through their own folder row below -
 		// nothing else needs to know they exist.
 		WeaponsGrid g_WeaponsContent{};
+		OutfitEditorGrid g_OutfitEditorContent{};
 		InvisibilityGrid g_InvisibilityContent{};
 		MpSpecialAbilityGrid g_MpSpecialAbilityContent{};
 		SuperRunGrid g_SuperRunContent{};
@@ -81,7 +82,7 @@ namespace YimMenu::Rendering
 		// Ability, Super Run, Noclip, Freecam, Levitation.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Weapons", &g_WeaponsContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Outfit Editor", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Outfit Editor", &g_OutfitEditorContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Invisibility", &g_InvisibilityContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "MP Special Ability", &g_MpSpecialAbilityContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Super Run", &g_SuperRunContent));

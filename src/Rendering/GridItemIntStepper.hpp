@@ -1,6 +1,7 @@
 #pragma once
 #include "Rendering/GridItem.hpp"
 
+#include <functional>
 #include <string>
 
 namespace YimMenu::Rendering
@@ -11,15 +12,24 @@ namespace YimMenu::Rendering
 	// text entry, which needs its own separate input system this project
 	// doesn't have yet. Value is clamped to [min, max], stepping by 1 per
 	// click.
+	//
+	// onChange is optional - Misc.cpp's own interiorIndex/Team fields
+	// just poll GetValue() on demand (a button click reads it directly),
+	// with nothing needing to react the instant it changes. A consumer
+	// that does (e.g. Outfit Editor's drawable/texture id fields, each
+	// applying its new value via a native call as soon as it steps) can
+	// supply one instead, same shape as GridItemBoundToggle's own
+	// setter.
 	class GridItemIntStepper : public GridItem
 	{
 	public:
-		GridItemIntStepper(int16_t width, int16_t height, std::string label, int initialValue, int min, int max) :
+		GridItemIntStepper(int16_t width, int16_t height, std::string label, int initialValue, int min, int max, std::function<void(int)> onChange = nullptr) :
 		    GridItem(GRIDITEM_INDIFFERENT, width, height),
 		    m_Label(std::move(label)),
 		    m_Value(initialValue),
 		    m_Min(min),
-		    m_Max(max)
+		    m_Max(max),
+		    m_OnChange(std::move(onChange))
 		{
 		}
 
@@ -58,5 +68,6 @@ namespace YimMenu::Rendering
 		int m_Value;
 		int m_Min;
 		int m_Max;
+		std::function<void(int)> m_OnChange;
 	};
 }

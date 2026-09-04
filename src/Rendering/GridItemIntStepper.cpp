@@ -78,19 +78,28 @@ namespace YimMenu::Rendering
 	void GridItemIntStepper::onClick(int16_t cursorX, int16_t)
 	{
 		const auto layout = ComputeLayout();
+		const auto previous = m_Value;
 
 		if (cursorX >= layout.plusX && cursorX < layout.plusX + layout.buttonSize)
 			m_Value = std::min(m_Max, m_Value + 1);
 		else if (cursorX >= layout.minusX && cursorX < layout.minusX + layout.buttonSize)
 			m_Value = std::max(m_Min, m_Value - 1);
+
+		if (m_OnChange && m_Value != previous)
+			m_OnChange(m_Value);
 	}
 
 	bool GridItemIntStepper::onArrow(int delta)
 	{
+		const auto previous = m_Value;
+
 		if (delta > 0)
 			m_Value = std::min(m_Max, m_Value + 1);
 		else if (delta < 0)
 			m_Value = std::max(m_Min, m_Value - 1);
+
+		if (m_OnChange && m_Value != previous)
+			m_OnChange(m_Value);
 
 		return true;
 	}
