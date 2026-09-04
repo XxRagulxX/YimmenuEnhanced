@@ -73,8 +73,7 @@ namespace YimMenu
 
 		Layout ComputeLayout()
 		{
-			using Rendering::GridRenderer;
-			using Rendering::Theme;
+			using namespace Rendering;
 
 			Layout layout;
 			layout.open = !_OnboardingComplete.GetState();
@@ -134,8 +133,7 @@ namespace YimMenu
 
 	void Onboarding::Draw()
 	{
-		using Rendering::GridRenderer;
-		using Rendering::Theme;
+		using namespace Rendering;
 
 		// Mirrors the original's own static-lambda-runs-once idiom -
 		// fires GUI::SetOnboarding(true) exactly once, the first time
@@ -166,8 +164,7 @@ namespace YimMenu
 
 	void Onboarding::DrawText()
 	{
-		using Rendering::GridRenderer;
-		using Rendering::Theme;
+		using namespace Rendering;
 
 		const auto layout = ComputeLayout();
 		if (!layout.open)
