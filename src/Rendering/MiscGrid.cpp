@@ -12,8 +12,8 @@
 #include "Util/Joaat.hpp"
 #include "Rendering/LocalsGrid.hpp"
 #include "Scripting/Natives.hpp"
-#include "Rendering/PlaceholderGrid.hpp"
 #include "Network/ScriptEvent.hpp"
+#include "Rendering/ScriptsGrid.hpp"
 #include "Scripting/ScriptFunction.hpp"
 #include "World/Self.hpp"
 #include "Rendering/Theme.hpp"
@@ -28,6 +28,7 @@ namespace YimMenu::Rendering
 		// identical note about WeaponsGrid.
 		GlobalsGrid g_GlobalsContent{};
 		LocalsGrid g_LocalsContent{};
+		ScriptsGrid g_ScriptsContent{};
 	}
 
 	// Origin (1438, 587) and spacer (3) match every other content Grid's -
@@ -43,13 +44,14 @@ namespace YimMenu::Rendering
 	void MiscGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
 		// Debug's other categories (BuildGlobalsMenu()/BuildLocalsMenu()/
-		// BuildScriptsMenu()) - Scripts is still placeholder-only, grouped
-		// at the very top of the whole list rather than at the bottom, so
-		// a category is always reachable before the plain items below.
+		// BuildScriptsMenu()) - all three now have their own content
+		// Grid, grouped at the very top of the whole list rather than at
+		// the bottom, so a category is always reachable before the plain
+		// items below.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Globals", &g_GlobalsContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Locals", &g_LocalsContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Scripts", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Scripts", &g_ScriptsContent));
 
 		// "Network Bail" isn't a registered Command in src/Misc.cpp (it's
 		// an inline ImGui button + FiberPool job) - reused verbatim as a

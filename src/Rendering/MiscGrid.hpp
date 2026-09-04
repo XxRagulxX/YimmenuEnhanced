@@ -8,9 +8,9 @@ namespace YimMenu::Rendering
 
 	// Content grid for Debug's root (its Misc category's items, plus a
 	// GridItemFolder row for each of Debug's other categories - Globals/
-	// Locals (both now their own real content Grid)/Scripts (still
-	// PlaceholderGrid)): mirrors Misc.cpp's existing ImGui items, wired to
-	// their actual commands/actions rather than placeholder state. Owned
+	// Locals/Scripts, each now its own real content Grid): mirrors
+	// Misc.cpp's existing ImGui items, wired to their actual commands/
+	// actions rather than placeholder state. Owned
 	// and shown by MenuGrid (via MenuNavigation), which also owns the
 	// header/sidebar chrome this used to include itself.
 	//
