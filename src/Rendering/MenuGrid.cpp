@@ -324,4 +324,76 @@ namespace YimMenu::Rendering
 			content->ScrollToShow(MenuFocus::GetFocusedItem(content), visibleHeight);
 		}
 	}
+
+	void MenuGrid::HandleMouseMove(int16_t hx, int16_t hy)
+	{
+		SyncNavigation();
+
+		// Hovering the sidebar just claims Region - unlike a content
+		// item, GridItemTabsVertical is one GridItem for the whole list
+		// (see its own class comment), so there's no per-entry focus to
+		// set here the way MenuFocus::SetFocusedItem gives content rows.
+		if (m_Sidebar && m_Sidebar->occupies(hx, hy))
+		{
+			MenuFocus::SetRegion(MenuFocus::Region::Sidebar);
+			return;
+		}
+
+		if (auto* content = MenuNavigation::Current())
+		{
+			if (auto* item = content->findItemAt(hx, hy))
+				MenuFocus::SetFocusedItem(content, item);
+		}
+	}
+
+	void MenuGrid::HandleMouseClick(int16_t hx, int16_t hy, bool ctrl, bool shift, bool doubleClick)
+	{
+		SyncNavigation();
+
+		if (m_Sidebar && m_Sidebar->occupies(hx, hy))
+		{
+			MenuFocus::SetRegion(MenuFocus::Region::Sidebar);
+			// GridItemTabsVertical::onClick already works out which row
+			// was hit from hy itself and switches its own active index -
+			// no ctrl/shift/doubleClick gesture applies to the sidebar.
+			m_Sidebar->onClick(hx, hy);
+			return;
+		}
+
+		if (auto* content = MenuNavigation::Current())
+		{
+			if (auto* item = content->findItemAt(hx, hy))
+			{
+				MenuFocus::SetFocusedItem(content, item);
+				item->onClickEx(hx, hy, ctrl, shift, doubleClick);
+			}
+
+			// Same "keep focus in view" reasoning as HandleKey()'s own
+			// tail - a click can change what content shows (a
+			// GridItemFolder push) or scroll position indirectly.
+			const auto visibleHeight = static_cast<int16_t>(Theme::kHudHeight - content->origin.y - Theme::kContentBottomMargin);
+			content->ScrollToShow(MenuFocus::GetFocusedItem(content), visibleHeight);
+		}
+	}
+
+	void MenuGrid::HandleMouseWheel(int16_t hx, int16_t hy, int delta)
+	{
+		// Real Stand feel: the wheel only scrolls the content list, and
+		// only while the cursor is actually over it - not the sidebar or
+		// header, and not content scrolled out from under a cursor that
+		// didn't move.
+		auto* content = MenuNavigation::Current();
+		if (!content)
+			return;
+
+		if (hx < content->origin.x || hx > content->origin.x + Theme::kContentWidth || hy < content->origin.y)
+			return;
+
+		const auto visibleHeight = static_cast<int16_t>(Theme::kHudHeight - content->origin.y - Theme::kContentBottomMargin);
+
+		// Wheel-up (positive delta) reveals earlier content, same as
+		// every other scrollable view - the opposite sign from
+		// ScrollBy's own "positive = later items" convention.
+		content->ScrollBy(static_cast<int16_t>(-delta * Theme::kContentItemHeight), visibleHeight);
+	}
 }

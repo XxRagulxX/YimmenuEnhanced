@@ -40,6 +40,22 @@ namespace YimMenu
 			}
 			if (!GUI::IsOnboarding())
 				Toggle();
+			ToggleMouse();
+		}
+	}
+
+	void GUI::ToggleMouse()
+	{
+		// ShowCursor() maintains an internal display counter rather than
+		// a plain on/off flag, so this only calls it on an actual change
+		// to avoid that counter drifting if ToggleMouse() is ever called
+		// more than once for the same state.
+		static bool cursorShown = false;
+		const bool want_mouse = GUI::IsOpen();
+		if (want_mouse != cursorShown)
+		{
+			ShowCursor(want_mouse);
+			cursorShown = want_mouse;
 		}
 	}
 

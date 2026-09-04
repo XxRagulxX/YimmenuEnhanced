@@ -20,8 +20,10 @@
 #include <RenderTargetState.h>
 #include <ResourceUploadBatch.h>
 #include <algorithm>
+#include <climits>
 #include <cmath>
 #include <vector>
+#include <windowsx.h>
 
 namespace YimMenu::Rendering
 {
@@ -86,6 +88,26 @@ namespace YimMenu::Rendering
 			const auto correction = GetHudCorrection(clientSize);
 			const auto size = SizeH2C(x, y);
 			return {size.x + correction.x, size.y + correction.y};
+		}
+
+		// Inverse of PosH2C above - real client pixel (top-left origin,
+		// as WM_MOUSEMOVE/WM_LBUTTONDOWN's own lParam already gives, once
+		// ScreenToClient()'d for messages that arrive in screen space)
+		// -> H-space, for hit-testing a live cursor position against
+		// GridItem::occupies()'s own H-space x/y/width/height. Nothing
+		// needed this while the menu was keyboard-only; real mouse
+		// support (MenuGrid::HandleMouseMove/HandleMouseClick/
+		// HandleMouseWheel) does.
+		DirectX::XMFLOAT2 PosC2H(float px, float py)
+		{
+			const auto clientSize = GetClientSize();
+			const auto correction = GetHudCorrection(clientSize);
+			const auto usableWidth = clientSize.x - correction.x * 2.f;
+			const auto usableHeight = clientSize.y - correction.y * 2.f;
+			if (usableWidth <= 0.f || usableHeight <= 0.f)
+				return {0.f, 0.f};
+
+			return {(px - correction.x) / usableWidth * kHudWidth, (py - correction.y) / usableHeight * kHudHeight};
 		}
 
 		// Real client pixel space (top-left origin, Y down) -> clip
@@ -416,7 +438,7 @@ namespace YimMenu::Rendering
 		return size;
 	}
 
-	void GridRenderer::WndProcImpl(HWND, UINT msg, WPARAM wparam, LPARAM)
+	void GridRenderer::WndProcImpl(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	{
 		if (!GUI::IsOpen())
 			return;
@@ -425,8 +447,9 @@ namespace YimMenu::Rendering
 		// text-edit interception right below - a popup open on top of a
 		// text field mid-edit still wins. See MenuPopup's own class
 		// comment for why it always swallows regardless of what it
-		// matched. Keyboard-only, same as everything else here - no
-		// mouse click path.
+		// matched. Keyboard-only, same as everything else here - the
+		// unconditional return below swallows mouse messages too, same
+		// as any other message type this doesn't explicitly act on.
 		if (MenuPopup::IsOpen())
 		{
 			if (msg == WM_KEYDOWN)
@@ -459,14 +482,59 @@ namespace YimMenu::Rendering
 			}
 		}
 
-		// No WM_MOUSEMOVE/WM_LBUTTONDOWN/WM_MOUSEWHEEL handling - this
-		// menu is keyboard-only by design (real Stand feel: no mouse
-		// cursor, no click-to-select, no wheel-scroll). Keyboard focus
-		// moves via MenuGrid::HandleKey()'s Up/Down (content) and Left
-		// Ctrl/Shift (sidebar) below, which already calls
-		// Grid::ScrollToShow() to keep the focused row in view, so
-		// there's no scrollable surface a wheel would even be needed
-		// for.
+		// Real mouse support, same as real Stand has (moving/clicking
+		// also drives MenuFocus - see MenuFocus::SetFocusedItem's own
+		// doc comment, which anticipated this before it was actually
+		// wired up here). All three convert the message's own coordinate
+		// into H-space via PosC2H before handing it to MenuGrid, so
+		// every widget's onClick()/onClickEx() keeps working against the
+		// same H-space x/y it already gets from Grid::setPositions() -
+		// no widget needed to change for this.
+		if (msg == WM_MOUSEMOVE)
+		{
+			const auto h = PosC2H(static_cast<float>(GET_X_LPARAM(lparam)), static_cast<float>(GET_Y_LPARAM(lparam)));
+			g_MenuGrid.HandleMouseMove(static_cast<int16_t>(h.x), static_cast<int16_t>(h.y));
+			return;
+		}
+
+		if (msg == WM_LBUTTONDOWN)
+		{
+			const auto h = PosC2H(static_cast<float>(GET_X_LPARAM(lparam)), static_cast<float>(GET_Y_LPARAM(lparam)));
+			const auto hx = static_cast<int16_t>(h.x);
+			const auto hy = static_cast<int16_t>(h.y);
+
+			// Double-click detection: GetDoubleClickTime()'s own window,
+			// same target item, no real vector-graphics/window-manager
+			// double-click event to lean on here (this is one HWND's
+			// worth of raw WM_LBUTTONDOWN, not per-control messages) -
+			// tracked here rather than in MenuGrid since it's purely a
+			// property of the raw click stream, not menu navigation
+			// state.
+			static ULONGLONG s_LastClickTime = 0;
+			static int16_t s_LastClickX = SHRT_MIN;
+			static int16_t s_LastClickY = SHRT_MIN;
+
+			const auto now = GetTickCount64();
+			const bool doubleClick = (now - s_LastClickTime) <= GetDoubleClickTime() && hx == s_LastClickX && hy == s_LastClickY;
+			s_LastClickTime = doubleClick ? 0 : now; // a triple-click isn't a second double-click
+			s_LastClickX = hx;
+			s_LastClickY = hy;
+
+			const bool ctrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+			const bool shift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+			g_MenuGrid.HandleMouseClick(hx, hy, ctrl, shift, doubleClick);
+			return;
+		}
+
+		if (msg == WM_MOUSEWHEEL)
+		{
+			POINT pt{GET_X_LPARAM(lparam), GET_Y_LPARAM(lparam)}; // WM_MOUSEWHEEL's own lParam is screen-space, unlike every other mouse message
+			ScreenToClient(hwnd, &pt);
+			const auto h = PosC2H(static_cast<float>(pt.x), static_cast<float>(pt.y));
+			const auto delta = GET_WHEEL_DELTA_WPARAM(wparam) / WHEEL_DELTA;
+			g_MenuGrid.HandleMouseWheel(static_cast<int16_t>(h.x), static_cast<int16_t>(h.y), delta);
+			return;
+		}
 
 		// Every other key this system responds to (Up/Down/Left/Right/
 		// Enter/Backspace - see MenuGrid::HandleKey()) - the InputCapture

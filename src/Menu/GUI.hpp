@@ -59,6 +59,16 @@ namespace YimMenu
 		void SetOnboardingImpl(bool state);
 		void RunScriptImpl();
 
+		// Shows/hides the real OS cursor to match GUI::IsOpen() - the
+		// Grid menu (this project's only native menu now) supports real
+		// mouse interaction, same as Stand's own does, so a visible
+		// cursor is needed while it's open. See Rendering/RawInput.cpp
+		// for the other half of this: raw input still has to keep
+		// reporting movement to the game underneath (so the camera isn't
+		// dead while the menu is up), just not left-click, or clicking a
+		// menu row would also fire whatever's equipped.
+		static void ToggleMouse();
+
 		static GUI& GetInstance()
 		{
 			static GUI i{};

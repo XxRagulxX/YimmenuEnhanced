@@ -57,6 +57,15 @@ namespace YimMenu::Rendering
 		// calling this.
 		void HandleKey(unsigned int vkCode);
 
+		// Real mouse support, same as real Stand has - GridRenderer::
+		// WndProcImpl converts the raw WM_MOUSEMOVE/WM_LBUTTONDOWN/
+		// WM_MOUSEWHEEL coordinate into H-space (PosC2H) before calling
+		// any of these, so hx/hy are already in the same space every
+		// GridItem's own x/y/width/height is.
+		void HandleMouseMove(int16_t hx, int16_t hy);
+		void HandleMouseClick(int16_t hx, int16_t hy, bool ctrl, bool shift, bool doubleClick);
+		void HandleMouseWheel(int16_t hx, int16_t hy, int delta);
+
 	protected:
 		void populate(std::vector<std::unique_ptr<GridItem>>& items_draft) override;
 
