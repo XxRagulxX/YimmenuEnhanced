@@ -41,10 +41,9 @@ namespace YimMenu::Rendering
 	// All of the above stay reachable via the existing ImGui Network >
 	// Session category, untouched. Populate() also appends a
 	// GridItemFolder row for each of Network's other categories
-	// (Spoofing, Saved Players, Random Events). Spoofing/Saved Players'
-	// folders each point at a real content Grid (NetworkSpoofingGrid/
-	// SavedPlayersGrid, owned here since nothing else reaches them);
-	// Random Events still points at the shared placeholder.
+	// (Spoofing, Saved Players, Random Events), each pointing at a real
+	// content Grid (NetworkSpoofingGrid/SavedPlayersGrid/
+	// RandomEventsGrid, owned here since nothing else reaches them).
 	class NetworkGrid : public Grid
 	{
 	public:

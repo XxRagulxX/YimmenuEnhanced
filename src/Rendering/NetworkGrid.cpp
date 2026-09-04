@@ -8,7 +8,7 @@
 #include "Rendering/GridItemText.hpp"
 #include "Util/Joaat.hpp"
 #include "Rendering/NetworkSpoofingGrid.hpp"
-#include "Rendering/PlaceholderGrid.hpp"
+#include "Rendering/RandomEventsGrid.hpp"
 #include "Rendering/SavedPlayersGrid.hpp"
 #include "Rendering/Theme.hpp"
 
@@ -23,6 +23,7 @@ namespace YimMenu::Rendering
 		// identical note about WeaponsGrid.
 		NetworkSpoofingGrid g_SpoofingContent{};
 		SavedPlayersGrid g_SavedPlayersContent{};
+		RandomEventsGrid g_RandomEventsContent{};
 	}
 
 	// Origin (1438, 587) and spacer (3) match every other content Grid's -
@@ -41,12 +42,12 @@ namespace YimMenu::Rendering
 		// BuildRandomEventsMenu()'s own Category("Random Events")) -
 		// grouped at the very top of the whole list rather than at the
 		// bottom, so a category is always reachable before the plain
-		// toggles below. Spoofing/Saved Players have their own content
-		// Grids; Random Events is still placeholder-only.
+		// toggles below. Every one of these now has its own real content
+		// Grid.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Spoofing", &g_SpoofingContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Saved Players", &g_SavedPlayersContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Random Events", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Random Events", &g_RandomEventsContent));
 
 		// Join (joinGroup's joinSession subgroup) - joinsessiontype is an
 		// unconditional ListCommandItem, now that GridItemCommandList
