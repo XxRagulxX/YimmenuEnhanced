@@ -3,7 +3,6 @@
 #include "Menu/Menu.hpp"
 #include "Scripting/ScriptMgr.hpp"
 #include "Rendering/Renderer.hpp"
-#include "Rendering/GridRenderer.hpp"
 #include "Scripting/Natives.hpp"
 #include "Game/ControllerInputs.hpp"
 #include "Config/Themes.hpp"
@@ -30,16 +29,23 @@ namespace YimMenu
 
 	void GUI::ToggleMouse()
 	{
-		// Real Stand feel: its menu is keyboard-only, no mouse cursor
-		// ever shown for it (see GridRenderer::WndProcImpl's own
-		// Up/Down/Ctrl/Shift handling) - only the classic ImGui menu
-		// (still ImGui-driven, needs a real cursor) should ever turn the
-		// cursor on. Onboarding used to force this on too, back when it
-		// was its own ImGui popup with radio buttons/clickable links -
-		// now it's a GridRenderer overlay navigated the same keyboard-
-		// only way as everything else there (see Onboarding.hpp's own
-		// class comment), so it no longer needs a cursor either.
-		const bool want_mouse = GUI::IsOpen() && !Rendering::GridRenderer::IsActive();
+		// Real Stand feel: the DirectXTK12/Grid menu is keyboard-only, no
+		// mouse cursor ever shown for it (see GridRenderer::WndProcImpl's
+		// own Up/Down/Ctrl/Shift handling). It's the sole native menu now
+		// (see Menu/UIManager.hpp's class comment), so the cursor should
+		// stay off in the common case - but the classic ImGui pipeline
+		// still draws alongside it purely to serve Lua, and a script's
+		// own menu content genuinely needs mouse interaction the way this
+		// project's own native content never will any more. So the
+		// cursor comes back only once a Lua script has actually added
+		// something to draw (UIManager::HasAnyContent()), not just
+		// because the menu is open. Onboarding used to force this on too,
+		// back when it was its own ImGui popup with radio buttons/
+		// clickable links - now it's a GridRenderer overlay navigated the
+		// same keyboard-only way as everything else there (see
+		// Onboarding.hpp's own class comment), so it no longer needs a
+		// cursor either.
+		const bool want_mouse = GUI::IsOpen() && UIManager::HasAnyContent();
 
 		auto& io = ImGui::GetIO();
 		io.MouseDrawCursor = want_mouse;
@@ -79,18 +85,22 @@ namespace YimMenu
 		{
 			if (GUI::IsOpen())
 			{
-				if (Rendering::GridRenderer::IsActive())
-				{
-					// Real Stand feel: the menu doesn't take over the game's
-					// input at all while it's open (driving, aiming, ... all
-					// keep working) - it only needs to stop the one control
-					// that would otherwise fire alongside its own key
-					// reads: Up Arrow (INPUT_PHONE) is what was popping the
-					// cell phone open every time Up/Down was used to
-					// navigate. Nothing else gets touched here.
-					PAD::DISABLE_CONTROL_ACTION(0, static_cast<int>(ControllerInputs::INPUT_PHONE), true);
-				}
-				else if (UIManager::ShowingContentWindow())
+				// Real Stand feel: the DirectXTK12/Grid menu doesn't take
+				// over the game's input at all while it's open (driving,
+				// aiming, ... all keep working) - it only needs to stop
+				// the one control that would otherwise fire alongside its
+				// own key reads: Up Arrow (INPUT_PHONE) is what was
+				// popping the cell phone open every time Up/Down was used
+				// to navigate. It's the sole native menu now (see
+				// Menu/UIManager.hpp's class comment), so this runs
+				// unconditionally whenever the menu is open, rather than
+				// only when nothing else claims the input below - the
+				// classic ImGui pipeline drawing alongside it (Lua
+				// content only) isn't mutually exclusive with this any
+				// more.
+				PAD::DISABLE_CONTROL_ACTION(0, static_cast<int>(ControllerInputs::INPUT_PHONE), true);
+
+				if (UIManager::ShowingContentWindow())
 				{
 					if (GUI::IsUsingKeyboard() && PAD::IS_USING_KEYBOARD_AND_MOUSE(0))
 					{

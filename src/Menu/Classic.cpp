@@ -1,13 +1,10 @@
 #include "Core/Pointers.hpp"
 #include "Menu/UIManager.hpp"
-#include "Config/GUISettings.hpp"
 
 namespace YimMenu
 {
 	void RenderClassicTheme()
 	{
-		YimMenu::SyncColorCommandsToStyle();
-
 		float windowWidth = *YimMenu::Pointers.ScreenResX / 2.5f;
 		float centerX = (*YimMenu::Pointers.ScreenResX - windowWidth) / 2.0f;
 		float centerY = *YimMenu::Pointers.ScreenResY / 5.0f;

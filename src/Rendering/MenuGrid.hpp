@@ -24,12 +24,12 @@ namespace YimMenu::Rendering
 	// place when clicked (MenuNavigation::Push()), poppable with
 	// Backspace (MenuNavigation::Pop(), wired in GridRenderer.cpp).
 	//
-	// Every sidebar entry has a root Grid (m_Roots below) - real content
-	// where it exists (SelfGrid, VehicleGrid, ..., NetworkGrid,
-	// SettingsGrid), the shared PlaceholderGrid for anything not ported
-	// yet (Players as of writing). There's no separate "nothing
-	// selected" placeholder path any more: MenuNavigation::Current() is
-	// always valid once populate() has run once.
+	// Every sidebar entry has a root Grid (m_Roots below) - real
+	// content in every case now (SelfGrid, VehicleGrid, ...,
+	// NetworkGrid, SettingsGrid); there is no placeholder fallback
+	// left to fall back to. There's no separate "nothing selected"
+	// placeholder path any more: MenuNavigation::Current() is always
+	// valid once populate() has run once.
 	//
 	// header/sidebar are just two GRIDITEM_PRIMARYTEXT/GRIDITEM_TABS
 	// items in this Grid's own list now, positioned by the ported

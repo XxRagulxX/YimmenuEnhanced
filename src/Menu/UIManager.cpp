@@ -1,24 +1,5 @@
 #include "Menu/UIManager.hpp"
-#include "Commands/ListCommand.hpp"
 #include "Config/Themes.hpp"
-
-namespace YimMenu::Features
-{
-	static const std::vector<std::pair<int, const char*>> g_StyleOptions = {
-		{0, "Classic"},
-		{1, "Modern"},
-		{2, "Modern (Vertical)"},
-	    {3, "Modern (Modular)"},
-	};
-
-	// Expose as global reference so other code can use it
-	static ListCommand _StyleSelector{
-		"styleselector",
-		"UI Style",
-		"Choose the UI style",
-		g_StyleOptions,
-		0};
-}
 
 namespace YimMenu
 {
@@ -45,27 +26,10 @@ namespace YimMenu
 
 	void UIManager::DrawImpl()
 	{
-		int selectedIndex = Features::_StyleSelector.GetState();
-
-		// Render the selected theme based on the index, append when adding new themes
-		switch (static_cast<UITheme>(selectedIndex))
-		{
-		case UITheme::Classic:
-			RenderClassicTheme();
-			break;
-		case UITheme::Modern:
-			RenderModernTheme();
-			break;
-		case UITheme::ModernV:
-			RenderModernVTheme();
-			break;
-		case UITheme::Modular:
-			RenderModularTheme();
-			break;
-		default:
-			RenderClassicTheme(); // Default theme
-			break;
-		}
+		// Only one theme renderer left (Classic) - see UIManager.hpp's
+		// own class comment for why the others (and the style-selector
+		// choice between them) are gone.
+		RenderClassicTheme();
 	}
 
 	std::shared_ptr<Submenu> UIManager::GetActiveSubmenuImpl()
@@ -81,5 +45,14 @@ namespace YimMenu
 		}
 
 		return nullptr;
+	}
+
+	bool UIManager::HasAnyContentImpl() const
+	{
+		for (auto& submenu : m_Submenus)
+			if (!submenu->m_Categories.empty())
+				return true;
+
+		return false;
 	}
 }

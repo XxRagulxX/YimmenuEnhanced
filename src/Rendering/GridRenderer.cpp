@@ -1,6 +1,5 @@
 #include "Rendering/GridRenderer.hpp"
 
-#include "Commands/BoolCommand.hpp"
 #include "Menu/GUI.hpp"
 #include "Rendering/AutoDriveHUD.hpp"
 #include "Rendering/ChatDisplay.hpp"
@@ -100,49 +99,6 @@ namespace YimMenu::Rendering
 			return {(px / clientSize.x) * 2.f - 1.f, 1.f - (py / clientSize.y) * 2.f, 0.f};
 		}
 	}
-
-	// Master visibility toggle for the whole DirectXTK12/Grid renderer
-	// (MenuGrid below). OFF by default while this is still being built
-	// out to match stand-reference's real Menu/Grid.*/GridItem.* classes
-	// 1:1 - the classic ImGui menu is the primary UI for now, and this
-	// is an opt-in way to check the Grid port's progress (Debug > Misc's
-	// "Stand-Style Menu" toggle, in both the classic menu and this
-	// renderer's own Debug > Misc page) without losing the working menu
-	// underneath it. Menu.cpp's own renderer callback checks
-	// GridRenderer::IsActive() and skips UIManager::Draw() (the classic
-	// ImGui menu) entirely while this is true, rather than drawing both
-	// on top of each other. Kept the original internal name
-	// ("standrenderertest") so existing saved settings.json state isn't
-	// lost across the label/description/default change - it's still the
-	// same registered command.
-	class StandRendererTest : public BoolCommand
-	{
-		using BoolCommand::BoolCommand;
-
-		// Log lines here are the easiest way to confirm the toggle itself
-		// fired (BoolCommand::SetState runs OnEnable/OnDisable via
-		// FiberPool, not the render thread, so this also proves that path
-		// works independently of anything DX12-related).
-		void OnEnable() override
-		{
-			LOG(INFO) << "[GridRenderer] Stand-style menu enabled - classic ImGui menu now hidden while this is open";
-		}
-
-		void OnDisable() override
-		{
-			LOG(INFO) << "[GridRenderer] Stand-style menu disabled - classic ImGui menu is back";
-		}
-	};
-
-	static StandRendererTest _StandRendererTest{"standrenderertest",
-	    "Stand-Style Menu",
-	    "The DirectXTK12/Grid draw pipeline being ported from stand-reference's own Menu/Grid.* and "
-	    "Menu/GridItem.* (alignment-relative layout and all), still under active development - OFF by "
-	    "default, with the classic ImGui menu as the primary UI. Turn this on to check the Grid port's "
-	    "progress (sidebar + breadcrumb address bar, Backspace to go back out of a nested category) "
-	    "alongside the classic menu; while it's on, the classic ImGui menu doesn't draw at all, so turn "
-	    "it back off to get it back for anything not ported here yet.",
-	    false};
 
 	static MenuGrid g_MenuGrid{};
 
@@ -267,12 +223,13 @@ namespace YimMenu::Rendering
 		commandList->RSSetScissorRects(1, &scissorRect);
 
 		// Same gate WndProcImpl already applies to input - the menu/popup
-		// content stays tied to GUI::IsOpen()/the Insert toggle, or the
-		// menu stays on screen (and stays the active UI, since Menu.cpp
-		// skips the classic ImGui menu entirely while this is active)
-		// regardless of it. Notifications below are deliberately outside
-		// this gate.
-		const bool menuActive = _StandRendererTest.GetState() && GUI::IsOpen();
+		// content stays tied to GUI::IsOpen() (the Insert toggle). This is
+		// the sole native menu now - the classic ImGui pipeline
+		// (UIManager::Draw()) draws alongside it whenever GUI::IsOpen(),
+		// but only ever contains whatever a Lua script has added; see
+		// Menu/UIManager.hpp's own class comment. Notifications below are
+		// deliberately outside this gate.
+		const bool menuActive = GUI::IsOpen();
 
 		if (m_Effect && m_Batch)
 		{
@@ -466,7 +423,7 @@ namespace YimMenu::Rendering
 
 	void GridRenderer::WndProcImpl(HWND, UINT msg, WPARAM wparam, LPARAM)
 	{
-		if (!_StandRendererTest.GetState() || !GUI::IsOpen())
+		if (!GUI::IsOpen())
 			return;
 
 		// MenuPopup takes over every input while open, ahead of even the
@@ -540,18 +497,13 @@ namespace YimMenu::Rendering
 			GetInstance().WndProcImpl(hwnd, msg, wparam, lparam);
 		});
 
-		// Deliberately separate from WndProcImpl above (and ungated by
-		// its own GUI::IsOpen()/_StandRendererTest checks) - see
-		// Onboarding.hpp's own class comment for why: it has to be
-		// interactable even before the menu has ever been opened.
+		// Deliberately separate from WndProcImpl above (and ungated by its
+		// own GUI::IsOpen() check) - see Onboarding.hpp's own class
+		// comment for why: it has to be interactable even before the menu
+		// has ever been opened.
 		Renderer::AddWindowProcedureCallback([](HWND, UINT msg, WPARAM wparam, LPARAM) {
 			if (msg == WM_KEYDOWN)
 				Onboarding::HandleKey(static_cast<unsigned int>(wparam));
 		});
-	}
-
-	bool GridRenderer::IsActive()
-	{
-		return _StandRendererTest.GetState();
 	}
 }

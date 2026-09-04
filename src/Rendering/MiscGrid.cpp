@@ -4,7 +4,6 @@
 #include "Rendering/GlobalsGrid.hpp"
 #include "Rendering/GridItemButton.hpp"
 #include "Rendering/GridItemCommandButton.hpp"
-#include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/GridItemIntStepper.hpp"
 #include "Rendering/GridItemText.hpp"
@@ -64,7 +63,6 @@ namespace YimMenu::Rendering
 		}));
 
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, Theme::kContentItemHeight, "dumpdatahash"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, Theme::kContentItemHeight, "standrenderertest"_J));
 
 		// DoTeleport: interiorIndex stepper + enterOwnerInterior toggle,
 		// same default values (0, false) as Misc.cpp's own function-local

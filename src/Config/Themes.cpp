@@ -1,5 +1,4 @@
 #include "Config/Themes.hpp"
-#include "Config/GUISettings.hpp"
 
 namespace YimMenu
 {
@@ -91,13 +90,13 @@ namespace YimMenu
 
 	void SetupStyle()
 	{
-		// Apply default style first
+		// Used to also call InitializeColorCommands()/ApplyThemeToImGui()
+		// (Config/GUISettings.cpp, now removed) to load and apply a
+		// user-customized style on top of the default one. The classic
+		// theme is now Lua-serving infrastructure only (see
+		// Menu/UIManager.hpp's class comment) with no settings page of
+		// its own left to drive that customization, so it just gets the
+		// default style.
 		DefaultStyle();
-
-		// Initialize the color/rounding commands and load saved settings
-		InitializeColorCommands(); // This will call LoadSettings internally
-
-		// Apply loaded colors/rounding to ImGui
-		ApplyThemeToImGui();
 	}
 }

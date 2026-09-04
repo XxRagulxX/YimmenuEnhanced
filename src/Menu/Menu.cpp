@@ -14,7 +14,6 @@
 #include "Menu/MenuWorld.hpp"
 #include "Config/Themes.hpp"
 #include "Menu/GUI.hpp"
-#include "Rendering/GridRenderer.hpp"
 
 
 namespace YimMenu
@@ -42,15 +41,15 @@ namespace YimMenu
 			    if (!GUI::IsOpen())
 				    return;
 
-			    // Skip the classic ImGui menu entirely while the new
-			    // Stand-style renderer (Rendering/GridRenderer.cpp) is
-			    // the active UI, rather than drawing both on top of each
-			    // other - see GridRenderer::IsActive()'s own comment for
-			    // what isn't ported to that renderer yet (still reachable
-			    // by turning its "Stand-Style Menu" toggle off).
-			    if (Rendering::GridRenderer::IsActive())
-				    return;
-
+			    // Draws alongside the DirectXTK12/Grid renderer (the sole
+			    // native menu now) rather than being mutually exclusive
+			    // with it - this pipeline no longer has any native
+			    // content of its own to draw (every Submenus::X above is
+			    // an intentionally empty shell), it stays alive purely so
+			    // Lua scripts can still build and see a menu through the
+			    // classic add_category()/add_group()/etc. API. See
+			    // Menu/UIManager.hpp's own class comment for the full
+			    // picture.
 			    ImGui::PushFont(Menu::Font::g_DefaultFont);
 			    ImGui::PushStyleColor(ImGuiCol_WindowBg, ImU32(ImColor(15, 15, 15)));
 

@@ -73,11 +73,8 @@ namespace YimMenu
 	namespace
 	{
 		// Palette - plain DirectX::XMFLOAT4 now rather than ImVec4/
-		// ImColor (these are pure local constants, not read/written by
-		// the classic ImGui Settings page the way Overlay's own
-		// g_OverlayTextColor still is - see Overlay.hpp's own comment on
-		// that distinction - so there's no reason to keep them as an
-		// ImGui type at all here).
+		// ImColor (these are pure local constants, so there's no
+		// reason to keep them as an ImGui type at all here).
 		constexpr DirectX::XMFLOAT4 death_bg{0.117f, 0.113f, 0.172f, .75f};
 		constexpr DirectX::XMFLOAT4 armor_blue_bg{0.36f, 0.71f, 0.89f, .75f};
 		constexpr DirectX::XMFLOAT4 armor_blue{0.36f, 0.71f, 0.89f, 1.f};

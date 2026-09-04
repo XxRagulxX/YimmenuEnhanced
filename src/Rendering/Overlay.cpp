@@ -73,10 +73,9 @@ namespace YimMenu
 		OverlayState g_State;
 
 		// Replaces the original's own borrowed ImGui::GetIO().Framerate -
-		// this file no longer touches ImGui for anything but
-		// g_OverlayTextColor's stored type (see Overlay.hpp's own
-		// comment on that), so its FPS counter can't lean on ImGui's
-		// frame-time tracking continuing to exist either. A simple EMA
+		// this file no longer touches ImGui for anything, so its FPS
+		// counter can't lean on ImGui's frame-time tracking continuing
+		// to exist either. A simple EMA
 		// over real frame deltas, same smoothing feel ImGui's own
 		// counter has. Ticked unconditionally at the very top of Draw()
 		// every real frame (this callback already runs every frame
@@ -123,7 +122,7 @@ namespace YimMenu
 			return;
 
 		const auto posMode = static_cast<OverlayPosition>(Features::_OverlayPositionCmd.GetState());
-		g_State.scale = kBaseScale * std::clamp(g_OverlayTextScale, 0.5f, 2.5f);
+		g_State.scale = kBaseScale;
 
 		float totalHeight = 0.f;
 		for (auto& line : g_State.lines)
@@ -165,7 +164,12 @@ namespace YimMenu
 	{
 		using namespace Rendering;
 
-		const DirectX::XMFLOAT4 textColour{g_OverlayTextColor.x, g_OverlayTextColor.y, g_OverlayTextColor.z, g_OverlayTextColor.w};
+		// Overlay Text Color/Scale used to be user-customizable from the
+		// classic Customize page (Config/GUISettings.cpp, now removed) -
+		// dropped along with it rather than ported, since Grid has no
+		// equivalent settings page for them. Fixed to the original's own
+		// default (red, no scaling) instead.
+		constexpr DirectX::XMFLOAT4 textColour{1.f, 0.f, 0.f, 1.f};
 
 		float y = g_State.y;
 		for (auto& line : g_State.lines)
