@@ -1,5 +1,8 @@
 #include "Rendering/Grid.hpp"
 
+#include "Commands/BoolCommand.hpp"
+#include "Commands/Commands.hpp"
+
 #include <algorithm>
 #include <climits>
 
@@ -9,6 +12,11 @@ namespace YimMenu::Rendering
 	{
 		if (items)
 			return;
+
+		// Forgotten and re-registered from scratch every time populate()
+		// runs - see watchCondition()'s own doc comment in Grid.hpp.
+		m_Watches.clear();
+		m_WatchLastValues.clear();
 
 		auto itemsDraft = soup::make_shared<std::vector<std::unique_ptr<GridItem>>>();
 		populate(*itemsDraft);
@@ -22,6 +30,46 @@ namespace YimMenu::Rendering
 		// equivalent (see stand-reference's src/lib/soup/SharedPtr.hpp).
 		items.reset();
 		m_ScrollOffset = 0;
+	}
+
+	bool Grid::watchCondition(joaat_t hash, bool negate)
+	{
+		auto* cmd = Commands::GetCommand<BoolCommand>(hash);
+		auto conditionFn = [cmd] {
+			return cmd && cmd->GetState();
+		};
+		return watchCondition(conditionFn, negate);
+	}
+
+	bool Grid::watchCondition(std::function<bool()> conditionFn, bool negate)
+	{
+		if (negate)
+		{
+			auto positiveFn = std::move(conditionFn);
+			conditionFn = [positiveFn] {
+				return !positiveFn();
+			};
+		}
+
+		const bool value = conditionFn();
+		m_Watches.push_back(conditionFn);
+		m_WatchLastValues.push_back(value);
+		return value;
+	}
+
+	void Grid::checkWatchedConditions()
+	{
+		if (!items)
+			return;
+
+		for (size_t i = 0; i < m_Watches.size(); ++i)
+		{
+			if (m_Watches[i]() != m_WatchLastValues[i])
+			{
+				invalidate();
+				return;
+			}
+		}
 	}
 
 	// Ported verbatim from Stand's own Grid::setPositions() (Menu/Grid.cpp).
@@ -205,6 +253,7 @@ namespace YimMenu::Rendering
 
 	void Grid::draw()
 	{
+		checkWatchedConditions();
 		ensurePopulated();
 
 		forEachVisibleItem(*items, origin, m_ScrollOffset, [](GridItem& item) {
@@ -214,6 +263,7 @@ namespace YimMenu::Rendering
 
 	void Grid::drawText()
 	{
+		checkWatchedConditions();
 		ensurePopulated();
 
 		forEachVisibleItem(*items, origin, m_ScrollOffset, [](GridItem& item) {
@@ -223,6 +273,7 @@ namespace YimMenu::Rendering
 
 	GridItem* Grid::findItemAt(int16_t cursor_x, int16_t cursor_y)
 	{
+		checkWatchedConditions();
 		ensurePopulated();
 
 		if (m_ScrollOffset == 0)

@@ -6,7 +6,6 @@
 #include "Rendering/GridItemCommandButton.hpp"
 #include "Rendering/GridItemCommandInt.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
-#include "Rendering/GridItemConditional.hpp"
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Rendering/InvisibilityGrid.hpp"
@@ -71,17 +70,28 @@ namespace YimMenu::Rendering
 
 	void SelfGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
-		// Globals (MenuSelf.cpp's globalsGroup) - every item here is an
-		// unconditional BoolCommandItem in the original except invis,
-		// which owns a dependent option of its own (localvis) and so
-		// gets a real folder page instead (see InvisibilityGrid.hpp) -
-		// listed first, ahead of the plain toggles, same as every other
-		// section here (folders first, then checkboxes - a hidden
-		// GridItemConditional row still reserves its own layout slot, so
-		// a toggle's own dependent options are better off on their own
-		// page than left flat and blank here while off).
-		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Globals", Theme::kText));
+		// Categories - every GridItemFolder this page has, grouped
+		// together at the very top of the whole list rather than
+		// scattered one per section: MenuSelf.cpp's BuildWeaponsMenu()/
+		// CreateOutfitsMenu() (Weapons/Outfit Editor) plus every toggle
+		// below that owns dependent options of its own and so got a real
+		// folder page instead of leaving them flat as GridItemConditional
+		// rows (a hidden conditional row still reserves its own layout
+		// slot - see its own class comment) - Invisibility, MP Special
+		// Ability, Super Run, Noclip, Freecam, Levitation.
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Weapons", &g_WeaponsContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Outfit Editor", &GetPlaceholderGrid()));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Invisibility", &g_InvisibilityContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "MP Special Ability", &g_MpSpecialAbilityContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Super Run", &g_SuperRunContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Noclip", &g_NoclipContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Freecam", &g_FreecamContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Levitation", &g_LevitationContent));
+
+		// Globals (MenuSelf.cpp's globalsGroup) - invis moved into the
+		// Categories folder above (see its own comment).
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Globals", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "godmode"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "otr"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "noragdoll"_J));
@@ -101,57 +111,37 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "fillinventory"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "openwardrobe"_J));
 
-		// Special Ability (specialAbilityGroup) - mpspecialability owns a
-		// dependent option (the selspecialability dropdown), so it gets
-		// its own folder page (MpSpecialAbilityGrid), listed first;
+		// Special Ability (specialAbilityGroup) - mpspecialability moved
+		// into the Categories folder above (see its own comment);
 		// infspecialability has no dependent option of its own and stays
-		// a plain toggle after it.
+		// a plain toggle here.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Special Ability", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "MP Special Ability", &g_MpSpecialAbilityContent));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "infspecialability"_J));
 
 		// Wanted (wantedGroup) - see ShouldClearOrSetWanted()'s own
 		// comment above for how the original's nested ConditionalItem
-		// groups flatten onto individual rows.
+		// groups flatten onto individual rows. watchCondition() (not
+		// GridItemConditional) so a hidden row here doesn't reserve its
+		// own layout slot - see its own doc comment in Grid.hpp.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Wanted", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "clearwanted"_J),
-		    ShouldClearOrSetWanted));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "neverwanted"_J),
-		    "freezewanted"_J,
-		    true));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "wantedslider"_J, "Level"),
-		    "neverwanted"_J,
-		    true));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "setwanted"_J),
-		    ShouldClearOrSetWanted));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "freezewanted"_J),
-		    "neverwanted"_J,
-		    true));
+		if (watchCondition(ShouldClearOrSetWanted))
+			items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "clearwanted"_J));
+		if (watchCondition("freezewanted"_J, true))
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "neverwanted"_J));
+		if (watchCondition("neverwanted"_J, true))
+			items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "wantedslider"_J, "Level"));
+		if (watchCondition(ShouldClearOrSetWanted))
+			items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "setwanted"_J));
+		if (watchCondition("neverwanted"_J, true))
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "freezewanted"_J));
 
 		// Movement (movementGroup) - superrun/noclip/freecam/levitate
-		// each own one or more dependent options, so each gets its own
-		// folder page, listed first; standonvehicles/disableactionmode/
-		// superjump have no dependent options of their own and stay
-		// plain toggles after them.
+		// moved into the Categories folder above (see its own comment);
+		// standonvehicles/disableactionmode/superjump have no dependent
+		// options of their own and stay plain toggles here.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Movement", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Super Run", &g_SuperRunContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Noclip", &g_NoclipContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Freecam", &g_FreecamContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Levitation", &g_LevitationContent));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "standonvehicles"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "disableactionmode"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "superjump"_J));
-
-		// Self's other categories (MenuSelf.cpp's BuildWeaponsMenu()/
-		// CreateOutfitsMenu()). Weapons now has its own content Grid
-		// (WeaponsGrid); Outfit Editor is still placeholder-only.
-		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Weapons", &g_WeaponsContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Outfit Editor", &GetPlaceholderGrid()));
 	}
 }

@@ -2,7 +2,6 @@
 
 #include "Rendering/GridItemCommandFloat.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
-#include "Rendering/GridItemConditional.hpp"
 #include "Rendering/Theme.hpp"
 #include "Util/Joaat.hpp"
 
@@ -21,8 +20,8 @@ namespace YimMenu::Rendering
 	void NoclipGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "noclip"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "noclipspeed"_J),
-		    "noclip"_J));
+
+		if (watchCondition("noclip"_J))
+			items_draft.push_back(std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "noclipspeed"_J));
 	}
 }

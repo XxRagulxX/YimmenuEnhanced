@@ -16,20 +16,25 @@ namespace YimMenu::Rendering
 	// gets a real folder page instead of leaving them flat as
 	// GridItemConditional rows in this list - a hidden conditional row
 	// still reserves its own layout slot (see GridItemConditional's own
-	// class comment), so a toggle with dependent options left blank
-	// gaps here while off. Each such folder is listed first within its
-	// section, ahead of the plain checkbox toggles that follow - see
-	// InvisibilityGrid/MpSpecialAbilityGrid/SuperRunGrid/NoclipGrid/
-	// FreecamGrid/LevitationGrid.hpp for what each one covers.
+	// class comment), so a toggle with dependent options left blank gaps
+	// here while off. See InvisibilityGrid/MpSpecialAbilityGrid/
+	// SuperRunGrid/NoclipGrid/FreecamGrid/LevitationGrid.hpp for what
+	// each one covers.
 	//
 	// Also the Self submenu's root as far as MenuGrid/MenuNavigation are
 	// concerned: Populate() appends a GridItemFolder row for each of
-	// Self's other categories (Weapons, Outfit Editor) after the items
-	// above, matching how Stand's own menu nests a category inside
-	// another's list instead of a tab/sidebar entry. Weapons' folder
-	// points at a real content Grid (WeaponsGrid, owned here since
-	// nothing else reaches it) - see WeaponsGrid.hpp for what it covers.
-	// Outfit Editor still points at the shared placeholder.
+	// Self's other categories (Weapons, Outfit Editor) too, matching how
+	// Stand's own menu nests a category inside another's list instead of
+	// a tab/sidebar entry. Weapons' folder points at a real content Grid
+	// (WeaponsGrid, owned here since nothing else reaches it) - see
+	// WeaponsGrid.hpp for what it covers. Outfit Editor still points at
+	// the shared placeholder.
+	//
+	// Every one of the above (Weapons, Outfit Editor, and each toggle's
+	// own folder) is grouped together into one "Categories" section at
+	// the very top of the whole list, ahead of every other section -
+	// not just within its own section - so a feature that has a folder
+	// is always reachable before any of this page's plain checkboxes.
 	class SelfGrid : public Grid
 	{
 	public:

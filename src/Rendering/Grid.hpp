@@ -1,9 +1,11 @@
 #pragma once
 #include "Rendering/GridItem.hpp"
 #include "Rendering/Position2d.hpp"
+#include "Util/Joaat.hpp"
 
 #include <soup/SharedPtr.hpp>
 
+#include <functional>
 #include <memory>
 #include <vector>
 
@@ -23,12 +25,17 @@ namespace YimMenu::Rendering
 	//   update()/updateNow() (which reruns populate() on a background
 	//   Worker thread whenever a Grid's contents need to change live -
 	//   e.g. a saved-locations list changing while the menu is open).
-	//   This project has no Worker-driven live-repopulation model yet,
-	//   so there's nothing to swap items for after the first populate()
-	//   - if a content Grid ever needs to repopulate itself live,
-	//   that's the point to add update()/updateNow() for real, using the
-	//   FiberPool job queue this project already has instead of Stand's
-	//   own Worker.
+	//   This project has no Worker-driven live-repopulation model yet -
+	//   invalidate()/watchCondition() below cover the common case
+	//   (a row's own existence depending on a BoolCommand/predicate) by
+	//   just re-running populate() synchronously the next time draw()/
+	//   drawText()/findItemAt() notices one changed, same as
+	//   PlayersGrid's own hand-written repopulation-on-change already
+	//   did before this generalized it. Something like an actual saved-
+	//   locations list changing size while showing is still nothing this
+	//   covers - that's the point to add update()/updateNow() for real,
+	//   using the FiberPool job queue this project already has instead
+	//   of Stand's own Worker.
 	// - draw() only does rects; drawText() is this project's own
 	//   addition, and findItemAt() too - see GridItem.hpp's class
 	//   comment for why (DirectXTK12's two-pass rendering, and this
@@ -128,13 +135,43 @@ namespace YimMenu::Rendering
 		// genuinely needs to change while it's showing (e.g. PlayersGrid,
 		// which reruns populate() to show/hide its own category folders
 		// depending on whether a player is selected) rather than a
-		// one-off populate() ever needing to change. Nothing calls this
-		// automatically - a subclass that needs it calls it itself, from
+		// one-off populate() ever needing to change. A subclass that
+		// needs to decide this for itself still calls this directly, from
 		// its own draw()/drawText()/findItemAt() override, the same way
-		// MenuGrid::SyncNavigation() is called from all three there.
-		// Resets the current scroll position along with it, since it no
-		// longer necessarily makes sense against the rebuilt content.
+		// MenuGrid::SyncNavigation() is called from all three there - see
+		// watchCondition() below for the common case (a row's own
+		// visibility depending on a single BoolCommand/predicate) this
+		// now handles automatically instead. Resets the current scroll
+		// position along with it, since it no longer necessarily makes
+		// sense against the rebuilt content.
 		void invalidate();
+
+		// Registers hash (a BoolCommand looked up via Commands::GetCommand,
+		// same as GridItemConditional's own joaat_t overload; negate
+		// flips it the same way too) as a condition this Grid's own
+		// populate() depends on, and returns its current value - call
+		// this from populate() and only push_back a row when it returns
+		// true, instead of always pushing it wrapped in
+		// GridItemConditional. A hidden GridItemConditional row still
+		// reserves its own layout slot (its own class comment covers
+		// why, and how big a gap that leaves for a toggle with several
+		// dependent rows) - skipping the push_back entirely instead
+		// avoids that, and draw()/drawText()/findItemAt() below now
+		// automatically call invalidate() the moment any watched
+		// condition's value differs from what it returned the last time
+		// populate() ran, so the row still appears/disappears live, the
+		// same way PlayersGrid's own hand-written SyncSelection() already
+		// made its own category folders do - just generalized so every
+		// Grid gets it for free instead of needing its own
+		// draw()/drawText()/findItemAt() overrides. Every watch
+		// registered here is forgotten and re-registered from scratch the
+		// next time populate() runs (see ensurePopulated()), so this is
+		// only ever meaningful called from inside populate() itself.
+		bool watchCondition(joaat_t hash, bool negate = false);
+
+		// Same as above, for an arbitrary predicate instead of a single
+		// BoolCommand - same two ways GridItemConditional itself offers.
+		bool watchCondition(std::function<bool()> conditionFn, bool negate = false);
 
 	public:
 		// Positions every item in-place: walks the list applying each
@@ -178,6 +215,20 @@ namespace YimMenu::Rendering
 		// it after adjusting m_ScrollOffset their own way.
 		void clampScroll(int16_t visibleHeight);
 
+		// Calls invalidate() the moment any m_Watches entry's current
+		// value no longer matches its m_WatchLastValues counterpart -
+		// see watchCondition()'s own doc comment above. draw()/
+		// drawText()/findItemAt() each call this before ensurePopulated()
+		// runs. A no-op before the first populate() (items still null -
+		// nothing registered yet to compare against).
+		void checkWatchedConditions();
+
 		int16_t m_ScrollOffset = 0;
+
+		// Rebuilt from scratch every time populate() runs (cleared in
+		// ensurePopulated() right before calling it) - see
+		// watchCondition()'s own doc comment above.
+		std::vector<std::function<bool()>> m_Watches;
+		std::vector<bool> m_WatchLastValues;
 	};
 }
