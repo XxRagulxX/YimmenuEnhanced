@@ -40,9 +40,13 @@ namespace YimMenu
 		// Real Stand feel: its menu is keyboard-only, no mouse cursor
 		// ever shown for it (see GridRenderer::WndProcImpl's own
 		// Up/Down/Ctrl/Shift handling) - only the classic ImGui menu
-		// (still ImGui-driven, needs a real cursor) and onboarding
-		// should ever turn the cursor on.
-		const bool want_mouse = (GUI::IsOpen() && !Rendering::GridRenderer::IsActive()) || GUI::IsOnboarding();
+		// (still ImGui-driven, needs a real cursor) should ever turn the
+		// cursor on. Onboarding used to force this on too, back when it
+		// was its own ImGui popup with radio buttons/clickable links -
+		// now it's a GridRenderer overlay navigated the same keyboard-
+		// only way as everything else there (see Onboarding.hpp's own
+		// class comment), so it no longer needs a cursor either.
+		const bool want_mouse = GUI::IsOpen() && !Rendering::GridRenderer::IsActive();
 
 		auto& io = ImGui::GetIO();
 		io.MouseDrawCursor = want_mouse;

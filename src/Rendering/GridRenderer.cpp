@@ -4,6 +4,7 @@
 #include "Menu/GUI.hpp"
 #include "Rendering/ChatDisplay.hpp"
 #include "Rendering/ESP.hpp"
+#include "Rendering/Onboarding.hpp"
 #include "Rendering/MenuFocus.hpp"
 #include "Rendering/MenuGrid.hpp"
 #include "Rendering/MenuNavigation.hpp"
@@ -287,13 +288,14 @@ namespace YimMenu::Rendering
 
 			// Always drawn, regardless of menuActive above - see
 			// Notifications.hpp's own class comment (Overlay.cpp's own
-			// watermark-style FPS/business overlay, ESP, and ChatDisplay
-			// are the same shape: always visible, independent of any
-			// menu).
+			// watermark-style FPS/business overlay, ESP, ChatDisplay,
+			// and Onboarding are the same shape: always visible,
+			// independent of any menu).
 			Notifications::Draw();
 			Overlay::Draw();
 			ESP::Draw();
 			ChatDisplay::Draw();
+			Onboarding::Draw();
 
 			m_Batch->End();
 		}
@@ -320,6 +322,7 @@ namespace YimMenu::Rendering
 			Overlay::DrawText();
 			ESP::DrawText();
 			ChatDisplay::DrawText();
+			Onboarding::DrawText();
 
 			m_SpriteBatch->End();
 		}
@@ -481,6 +484,15 @@ namespace YimMenu::Rendering
 
 		Renderer::AddWindowProcedureCallback([](HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 			GetInstance().WndProcImpl(hwnd, msg, wparam, lparam);
+		});
+
+		// Deliberately separate from WndProcImpl above (and ungated by
+		// its own GUI::IsOpen()/_StandRendererTest checks) - see
+		// Onboarding.hpp's own class comment for why: it has to be
+		// interactable even before the menu has ever been opened.
+		Renderer::AddWindowProcedureCallback([](HWND, UINT msg, WPARAM wparam, LPARAM) {
+			if (msg == WM_KEYDOWN)
+				Onboarding::HandleKey(static_cast<unsigned int>(wparam));
 		});
 	}
 

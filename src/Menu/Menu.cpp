@@ -12,7 +12,6 @@
 #include "Menu/MenuSettings.hpp"
 #include "Menu/MenuDebug.hpp"
 #include "Menu/MenuWorld.hpp"
-#include "Rendering/Onboarding.hpp"
 #include "Config/Themes.hpp"
 #include "Menu/GUI.hpp"
 #include "Rendering/GridRenderer.hpp"
@@ -36,7 +35,10 @@ namespace YimMenu
 
 		Renderer::AddRendererCallBack(
 		    [&] {
-			    ProcessOnboarding();
+			    // Onboarding now draws via GridRenderer::DrawImpl instead
+			    // (see Onboarding.hpp's own class comment) - it needs to
+			    // show even when GUI::IsOpen() is false, which is exactly
+			    // the case the very first time this ever runs.
 			    if (!GUI::IsOpen())
 				    return;
 
