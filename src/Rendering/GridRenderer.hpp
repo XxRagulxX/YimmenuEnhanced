@@ -89,6 +89,37 @@ namespace YimMenu::Rendering
 			return GetInstance().MeasureTextImpl(text, scale);
 		}
 
+		// Screen-space counterparts of DrawRect/DrawText, for ESP (and
+		// anything else projecting a 3D world position onto the screen
+		// via GET_SCREEN_COORD_FROM_WORLD_COORD) - deliberately separate
+		// from DrawRect/DrawText rather than an overload: those take
+		// H-space coordinates and go through PosH2C/SizeH2C's own
+		// hudCorrection letterboxing (right for menu/HUD content meant
+		// to stay inside Stand's virtual 16:9 canvas), but a world-space
+		// projection already targets the real screen directly and would
+		// be shifted wrong by that same letterboxing on a non-16:9
+		// display - these take real client pixels (top-left origin) and
+		// skip H2C entirely instead. Same "only valid while a batch is
+		// open" rule as DrawRect/DrawText above; DrawLineScreen shares
+		// DrawRect's own PrimitiveBatch (drawn as a thin quad along the
+		// line for real thickness control, not a 1px GPU line primitive -
+		// see GridRenderer.cpp's own DrawLineScreenImpl), so it's valid
+		// in the same window DrawRect is. scale for DrawTextScreen is a
+		// plain multiplier on the embedded font's own native size - no
+		// automatic resolution scaling the way DrawText's own scale
+		// parameter gets (see DrawTextImpl's GetResolutionTextScale) -
+		// callers already work in real screen pixels, so there's no
+		// separate "virtual canvas" resolution to correct for.
+		static void DrawLineScreen(float x1, float y1, float x2, float y2, const DirectX::XMFLOAT4& colour, float thickness = 1.5f)
+		{
+			GetInstance().DrawLineScreenImpl(x1, y1, x2, y2, colour, thickness);
+		}
+
+		static void DrawTextScreen(float x, float y, const char* text, const DirectX::XMFLOAT4& colour, float scale = 1.f)
+		{
+			GetInstance().DrawTextScreenImpl(x, y, text, colour, scale);
+		}
+
 	private:
 		static GridRenderer& GetInstance()
 		{
@@ -101,6 +132,8 @@ namespace YimMenu::Rendering
 		void DrawRectImpl(float x, float y, float width, float height, const DirectX::XMFLOAT4& colour);
 		void DrawTextImpl(float x, float y, const char* text, const DirectX::XMFLOAT4& colour, float scale);
 		DirectX::XMFLOAT2 MeasureTextImpl(const char* text, float scale) const;
+		void DrawLineScreenImpl(float x1, float y1, float x2, float y2, const DirectX::XMFLOAT4& colour, float thickness);
+		void DrawTextScreenImpl(float x, float y, const char* text, const DirectX::XMFLOAT4& colour, float scale);
 
 		void EnsureDeviceResources(ID3D12Device* device);
 		void ReleaseDeviceResources();

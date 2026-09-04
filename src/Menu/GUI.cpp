@@ -1,7 +1,6 @@
 #include "Menu/UIManager.hpp"
 #include "Menu/GUI.hpp"
 #include "Menu/Menu.hpp"
-#include "Rendering/ESP.hpp"
 #include "Rendering/AutoDriveHUD.hpp"
 #include "Scripting/ScriptMgr.hpp"
 #include "Rendering/Renderer.hpp"
@@ -24,11 +23,6 @@ namespace YimMenu
 			GUI::WndProc(hwnd, msg, wparam, lparam);
 		});
 
-		Renderer::AddRendererCallBack(
-		    [&] {
-			    ESP::Draw();
-		    },
-		    -3);
 		Renderer::AddRendererCallBack(
 		    [&] {
 			    ChatDisplay::Draw();

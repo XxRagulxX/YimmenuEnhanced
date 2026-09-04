@@ -2,6 +2,7 @@
 
 #include "Commands/BoolCommand.hpp"
 #include "Menu/GUI.hpp"
+#include "Rendering/ESP.hpp"
 #include "Rendering/MenuFocus.hpp"
 #include "Rendering/MenuGrid.hpp"
 #include "Rendering/MenuNavigation.hpp"
@@ -16,6 +17,7 @@
 #include <RenderTargetState.h>
 #include <ResourceUploadBatch.h>
 #include <algorithm>
+#include <cmath>
 #include <imgui.h>
 
 namespace YimMenu::Rendering
@@ -81,6 +83,17 @@ namespace YimMenu::Rendering
 			const auto correction = GetHudCorrection(clientSize);
 			const auto size = SizeH2C(x, y);
 			return {size.x + correction.x, size.y + correction.y};
+		}
+
+		// Real client pixel space (top-left origin, Y down) -> clip
+		// space / NDC (Y up) - shared by DrawRectImpl and
+		// DrawLineScreenImpl (the only two consumers of raw NDC quads;
+		// DrawTextImpl/DrawTextScreenImpl hand SpriteFont pixel
+		// coordinates directly and never need this).
+		DirectX::XMFLOAT3 PixelToNdc(float px, float py)
+		{
+			const auto clientSize = GetClientSize();
+			return {(px / clientSize.x) * 2.f - 1.f, 1.f - (py / clientSize.y) * 2.f, 0.f};
 		}
 	}
 
@@ -273,10 +286,11 @@ namespace YimMenu::Rendering
 
 			// Always drawn, regardless of menuActive above - see
 			// Notifications.hpp's own class comment (Overlay.cpp's own
-			// watermark-style FPS/business overlay is the same shape:
-			// always visible, independent of any menu).
+			// watermark-style FPS/business overlay, and ESP, are the
+			// same shape: always visible, independent of any menu).
 			Notifications::Draw();
 			Overlay::Draw();
+			ESP::Draw();
 
 			m_Batch->End();
 		}
@@ -301,6 +315,7 @@ namespace YimMenu::Rendering
 
 			Notifications::DrawText();
 			Overlay::DrawText();
+			ESP::DrawText();
 
 			m_SpriteBatch->End();
 		}
@@ -318,18 +333,39 @@ namespace YimMenu::Rendering
 		const auto posC = PosH2C(x, y);
 		const auto sizeC = SizeH2C(width, height);
 
-		const float screenWidth = static_cast<float>(*Pointers.ScreenResX);
-		const float screenHeight = static_cast<float>(*Pointers.ScreenResY);
+		VertexPositionColor v0(PixelToNdc(posC.x, posC.y), colour);
+		VertexPositionColor v1(PixelToNdc(posC.x + sizeC.x, posC.y), colour);
+		VertexPositionColor v2(PixelToNdc(posC.x + sizeC.x, posC.y + sizeC.y), colour);
+		VertexPositionColor v3(PixelToNdc(posC.x, posC.y + sizeC.y), colour);
 
-		// Pixel space (top-left origin, Y down) -> clip space / NDC (Y up).
-		auto toNdc = [&](float px, float py) {
-			return XMFLOAT3((px / screenWidth) * 2.f - 1.f, 1.f - (py / screenHeight) * 2.f, 0.f);
-		};
+		m_Batch->DrawQuad(v0, v1, v2, v3);
+	}
 
-		VertexPositionColor v0(toNdc(posC.x, posC.y), colour);
-		VertexPositionColor v1(toNdc(posC.x + sizeC.x, posC.y), colour);
-		VertexPositionColor v2(toNdc(posC.x + sizeC.x, posC.y + sizeC.y), colour);
-		VertexPositionColor v3(toNdc(posC.x, posC.y + sizeC.y), colour);
+	void GridRenderer::DrawLineScreenImpl(float x1, float y1, float x2, float y2, const DirectX::XMFLOAT4& colour, float thickness)
+	{
+		using namespace DirectX;
+
+		if (!m_Batch)
+			return;
+
+		// A thin quad along the line rather than a real GPU line
+		// primitive - see GridRenderer.hpp's own DrawLineScreen doc
+		// comment for why (reuses this same PrimitiveBatch/PSO, and
+		// gives real thickness control ImGui's own AddLine had that a
+		// 1px D3D12 line primitive wouldn't).
+		const float dx = x2 - x1;
+		const float dy = y2 - y1;
+		const float length = std::sqrt(dx * dx + dy * dy);
+		if (length < 0.0001f)
+			return;
+
+		const float nx = -dy / length * (thickness * 0.5f);
+		const float ny = dx / length * (thickness * 0.5f);
+
+		VertexPositionColor v0(PixelToNdc(x1 + nx, y1 + ny), colour);
+		VertexPositionColor v1(PixelToNdc(x2 + nx, y2 + ny), colour);
+		VertexPositionColor v2(PixelToNdc(x2 - nx, y2 - ny), colour);
+		VertexPositionColor v3(PixelToNdc(x1 - nx, y1 - ny), colour);
 
 		m_Batch->DrawQuad(v0, v1, v2, v3);
 	}
@@ -343,6 +379,16 @@ namespace YimMenu::Rendering
 		const auto finalScale = scale * GetResolutionTextScale(GetClientSize());
 
 		m_Font->DrawString(m_SpriteBatch.get(), text, DirectX::XMFLOAT2(posC.x, posC.y), DirectX::XMLoadFloat4(&colour), 0.f, DirectX::XMFLOAT2{0.f, 0.f}, DirectX::XMFLOAT2{finalScale, finalScale});
+	}
+
+	void GridRenderer::DrawTextScreenImpl(float x, float y, const char* text, const DirectX::XMFLOAT4& colour, float scale)
+	{
+		if (!m_Font || !m_SpriteBatch)
+			return;
+
+		// Real client pixels, no PosH2C/resolution-scale correction -
+		// see GridRenderer.hpp's own DrawTextScreen doc comment for why.
+		m_Font->DrawString(m_SpriteBatch.get(), text, DirectX::XMFLOAT2(x, y), DirectX::XMLoadFloat4(&colour), 0.f, DirectX::XMFLOAT2{0.f, 0.f}, DirectX::XMFLOAT2{scale, scale});
 	}
 
 	DirectX::XMFLOAT2 GridRenderer::MeasureTextImpl(const char* text, float scale) const
