@@ -4,17 +4,23 @@
 namespace YimMenu::Rendering
 {
 	// Content grid for Self > Main: mirrors MenuSelf.cpp's Globals, Tools,
-	// Special Ability, Wanted and Movement groups in full. localvis and
-	// the Special Ability list dropdown are each a single GridItemConditional
-	// gated on invis/mpspecialability directly (matching ConditionalItem's
-	// own single-BoolCommand gate). Wanted's two-level ConditionalItem
-	// nesting (clearWanted/setWanted groups, each itself containing a
-	// further-conditional row) is flattened into per-row conditions - see
-	// SelfGrid.cpp's own comment on ShouldClearOrSetWanted() for the
-	// combined-AND case neither BoolCommand alone can express. Movement's
-	// four speed multipliers (moverateoverride/runsprintswimmultiplier/
-	// noclipspeed/freecamspeed) are plain single-BoolCommand
-	// GridItemConditionals (superrun/superrun/noclip/freecam).
+	// Special Ability, Wanted and Movement groups in full. Wanted's
+	// two-level ConditionalItem nesting (clearWanted/setWanted groups,
+	// each itself containing a further-conditional row) is flattened
+	// into per-row conditions - see SelfGrid.cpp's own comment on
+	// ShouldClearOrSetWanted() for the combined-AND case neither
+	// BoolCommand alone can express.
+	//
+	// Any toggle that owns one or more dependent options of its own
+	// (invis, mpspecialability, superrun, noclip, freecam, levitate)
+	// gets a real folder page instead of leaving them flat as
+	// GridItemConditional rows in this list - a hidden conditional row
+	// still reserves its own layout slot (see GridItemConditional's own
+	// class comment), so a toggle with dependent options left blank
+	// gaps here while off. Each such folder is listed first within its
+	// section, ahead of the plain checkbox toggles that follow - see
+	// InvisibilityGrid/MpSpecialAbilityGrid/SuperRunGrid/NoclipGrid/
+	// FreecamGrid/LevitationGrid.hpp for what each one covers.
 	//
 	// Also the Self submenu's root as far as MenuGrid/MenuNavigation are
 	// concerned: Populate() appends a GridItemFolder row for each of
