@@ -4,6 +4,9 @@
 #include "Commands/BoolCommand.hpp"
 #include "World/Self.hpp"
 #include "Network/CNetGamePlayer.hpp"
+#include "Rendering/Overlay.hpp"
+
+#include <format>
 
 namespace YimMenu::Features
 {
@@ -289,7 +292,15 @@ namespace YimMenu::Features
 			g_NightclubStock.push_back({static_cast<NightclubProduct>(i), GetNightclubStock(i)});
 	}
 
-	void DrawBusinessOverlay()
+	// Was direct ImGui::Text()/ImGui::TextDisabled() calls into the same
+	// window Overlay::Draw() opened around this - now appends its own
+	// lines (dimmed mirroring TextDisabled's grayed-out look) onto
+	// Overlay's shared list instead, so Overlay.cpp can lay out and draw
+	// them itself alongside the FPS line via GridRenderer. All the data
+	// reads below (ScriptGlobal/Stats::GetInt) are unchanged - pure
+	// memory reads, same as every other place in this codebase that
+	// reads them synchronously without a FiberPool job.
+	void DrawBusinessOverlay(std::vector<OverlayLine>& lines)
 	{
 		if (!_BusinessOverlay.GetState())
 			return;
@@ -299,53 +310,47 @@ namespace YimMenu::Features
 			UpdateWarehouses();
 
 			if (g_Warehouses.empty())
-				ImGui::TextDisabled("No active Warehouse");
+				lines.push_back({"No active Warehouse", true});
 
 			for (auto& w : g_Warehouses)
-				ImGui::Text("Warehouse | %d / %d crates",
-				    // w.info->name,
-				    w.crates,
-				    w.info->capacity);
+				lines.push_back({std::format("Warehouse | {} / {} crates", w.crates, w.info->capacity), false});
 		}
 
 		if (_ShowHangar.GetState())
 		{
 			int hangarStock = GetHangarStock();
-			ImGui::Text("Hangar | %d / 50", hangarStock);
+			lines.push_back({std::format("Hangar | {} / 50", hangarStock), false});
 		}
 
 		if (_ShowBusinesses.GetState())
 		{
-			ImGui::Text("Businesses:");
+			lines.push_back({"Businesses:", false});
 			UpdateBusinesses();
 
 			if (g_Businesses.empty())
-				ImGui::TextDisabled("No active businesses");
+				lines.push_back({"No active businesses", true});
 
 			for (auto& b : g_Businesses)
-				ImGui::Text("%s | Stock %d | Supplies %d",
-				    TypeName(b.type),
-				    b.product,
-				    b.supplies);
+				lines.push_back({std::format("{} | Stock {} | Supplies {}", TypeName(b.type), b.product, b.supplies), false});
 		}
 
 		if (_ShowNightclub.GetState())
 		{
-			ImGui::Text("Nightclub Hub:");
+			lines.push_back({"Nightclub Hub:", false});
 
 			UpdateNightclubStock();
 
 			if (g_OwnedNightclubId <= 0)
 			{
-				ImGui::TextDisabled("No active Nightclub");
+				lines.push_back({"No active Nightclub", true});
 				return;
 			}
 
 			auto it = g_NightclubMap.find(g_OwnedNightclubId);
-			ImGui::Text("Club: %s", it != g_NightclubMap.end() ? it->second.name : "Unknown");
+			lines.push_back({std::format("Club: {}", it != g_NightclubMap.end() ? it->second.name : "Unknown"), false});
 
 			for (auto& p : g_NightclubStock)
-				ImGui::Text("%s : %d", NightclubName(p.type), p.amount);
+				lines.push_back({std::format("{} : {}", NightclubName(p.type), p.amount), false});
 		}
 	}
 

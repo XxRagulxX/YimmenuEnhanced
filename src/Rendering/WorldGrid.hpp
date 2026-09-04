@@ -9,10 +9,10 @@ namespace YimMenu::Rendering
 	// ConditionalItem, and Time's three IntCommand-bound steppers).
 	//
 	// Populate() also appends a GridItemFolder row for each of
-	// World's other categories (Spawn Ped, IPLs). IPLs' folder points at
-	// a real content Grid (WorldIPLsGrid, owned here since nothing else
-	// reaches it) - see WorldIPLsGrid.hpp for what it covers. Spawn Ped
-	// still points at the shared placeholder.
+	// World's other categories (Spawn Ped, IPLs), each pointing at a
+	// real content Grid (SpawnPedGrid/WorldIPLsGrid, owned here since
+	// nothing else reaches them) - see each one's own header for what it
+	// covers.
 	class WorldGrid : public Grid
 	{
 	public:

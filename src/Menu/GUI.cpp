@@ -2,7 +2,6 @@
 #include "Menu/GUI.hpp"
 #include "Menu/Menu.hpp"
 #include "Rendering/ESP.hpp"
-#include "Rendering/Overlay.hpp"
 #include "Rendering/AutoDriveHUD.hpp"
 #include "Scripting/ScriptMgr.hpp"
 #include "Rendering/Renderer.hpp"
@@ -40,11 +39,6 @@ namespace YimMenu
 			    AutoDriveHUD::Draw();
 		    },
 		    -7);
-		Renderer::AddRendererCallBack(
-		    [&] {
-			    Overlay::Draw();
-		    },
-		    -6);
 
 		Renderer::SetSafeToRender();
 	}

@@ -8,6 +8,7 @@
 #include "Rendering/MenuPopup.hpp"
 #include "Core/Pointers.hpp"
 #include "Rendering/Notifications.hpp"
+#include "Rendering/Overlay.hpp"
 #include "Rendering/Renderer.hpp"
 #include "Rendering/Theme.hpp"
 #include "Rendering/font_bevietnamprolight.hpp"
@@ -271,8 +272,11 @@ namespace YimMenu::Rendering
 			}
 
 			// Always drawn, regardless of menuActive above - see
-			// Notifications.hpp's own class comment.
+			// Notifications.hpp's own class comment (Overlay.cpp's own
+			// watermark-style FPS/business overlay is the same shape:
+			// always visible, independent of any menu).
 			Notifications::Draw();
+			Overlay::Draw();
 
 			m_Batch->End();
 		}
@@ -296,6 +300,7 @@ namespace YimMenu::Rendering
 			}
 
 			Notifications::DrawText();
+			Overlay::DrawText();
 
 			m_SpriteBatch->End();
 		}

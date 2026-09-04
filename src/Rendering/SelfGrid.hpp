@@ -25,10 +25,9 @@ namespace YimMenu::Rendering
 	// concerned: Populate() appends a GridItemFolder row for each of
 	// Self's other categories (Weapons, Outfit Editor) too, matching how
 	// Stand's own menu nests a category inside another's list instead of
-	// a tab/sidebar entry. Weapons' folder points at a real content Grid
-	// (WeaponsGrid, owned here since nothing else reaches it) - see
-	// WeaponsGrid.hpp for what it covers. Outfit Editor still points at
-	// the shared placeholder.
+	// a tab/sidebar entry. Both folders point at a real content Grid
+	// (WeaponsGrid/OutfitEditorGrid, owned here since nothing else
+	// reaches them) - see each one's own header for what it covers.
 	//
 	// Every one of the above (Weapons, Outfit Editor, and each toggle's
 	// own folder) is grouped together into one "Categories" section at

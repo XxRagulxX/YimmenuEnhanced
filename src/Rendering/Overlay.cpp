@@ -1,13 +1,18 @@
 #include "Rendering/Overlay.hpp"
-#include "Menu/Menu.hpp"
-#include "Commands/ListCommand.hpp"
+
 #include "Commands/BoolCommand.hpp"
-#include "Core/Pointers.hpp"
+#include "Commands/ListCommand.hpp"
+#include "Rendering/GridRenderer.hpp"
+#include "Rendering/Theme.hpp"
 #include "Scripting/Invoker.hpp"
+
+#include <algorithm>
+#include <chrono>
+#include <format>
 
 namespace YimMenu::Features
 {
-	void DrawBusinessOverlay();
+	void DrawBusinessOverlay(std::vector<OverlayLine>& lines);
 	BoolCommand _OverlayEnabled("overlay", "Overlay Enabled", "Show an info overlay at the top left corner of the screen");
 	BoolCommand _OverlayShowFPS("overlayfps", "Overlay Show FPS", "Show frame rate in the info overlay");
 	BoolCommand _OverlayLock("overlaylock", "Lock Overlay Position", "Lock the overlay so it cannot be moved in free mode");
@@ -24,79 +29,152 @@ namespace YimMenu::Features
 
 namespace YimMenu
 {
-	static ImVec2 g_FreeOverlayPos = ImVec2(50.f, 50.f);
+	namespace
+	{
+		constexpr float kPadding = 10.f;
+		constexpr float kLineSpacing = 2.f;
+		constexpr float kBaseScale = Rendering::Theme::kTextScale;
+
+		// Original default (was ImVec2(50.f, 50.f), client pixels) - now
+		// an H-space position (see GridRenderer.hpp's own class comment
+		// for what that means), same reasoning as Notifications.hpp's
+		// own card geometry: since Stand's virtual canvas is also
+		// 1920x1080, the same numbers still mean the same thing at
+		// 1080p and now actually scale on every other resolution too.
+		//
+		// The original could drag this around in free mode via
+		// ImGui::GetWindowPos() while the window was being moved with
+		// the mouse - this renderer has no mouse at all (see
+		// GridRenderer::WndProcImpl's own comment on why), so Free mode
+		// just draws at this fixed point instead. No keyboard
+		// equivalent exists yet for repositioning it - same "no click to
+		// bind this to any more" trade-off as Notifications' own
+		// context-function line.
+		DirectX::XMFLOAT2 g_FreeOverlayPos{50.f, 50.f};
+
+		// Computed once per frame in Draw() (called first - see
+		// Overlay.hpp's own comment on the Draw()/DrawText() split) from
+		// the FPS counter and Features::DrawBusinessOverlay()'s own
+		// lines, then just read back by DrawText(). Draw() itself has no
+		// rect pass content to draw (this overlay has no background),
+		// but still owns computing this, same "whoever the pipeline
+		// happens to call first owns advancing frame state" contract
+		// Notifications.cpp's own Draw() has (there rects and state-
+		// advance genuinely share the pass; here it's simply nowhere
+		// else more natural to put it).
+		struct OverlayState
+		{
+			std::vector<OverlayLine> lines;
+			float x = 0.f, y = 0.f; // top-left of the whole text block
+			float width = 0.f;      // widest line - needed for right-aligned modes
+			float scale = kBaseScale;
+			bool rightAlign = false;
+		};
+		OverlayState g_State;
+
+		// Replaces the original's own borrowed ImGui::GetIO().Framerate -
+		// this file no longer touches ImGui for anything but
+		// g_OverlayTextColor's stored type (see Overlay.hpp's own
+		// comment on that), so its FPS counter can't lean on ImGui's
+		// frame-time tracking continuing to exist either. A simple EMA
+		// over real frame deltas, same smoothing feel ImGui's own
+		// counter has. Ticked unconditionally at the very top of Draw()
+		// every real frame (this callback already runs every frame
+		// regardless of whether the overlay is even shown - see
+		// GridRenderer::DrawImpl's own call site), not just while the
+		// overlay/FPS line is actually enabled - otherwise re-enabling
+		// either after a while would see one huge stale-delta spike.
+		float TickFps()
+		{
+			static auto lastTime = std::chrono::steady_clock::now();
+			static float fps = 0.f;
+
+			const auto now = std::chrono::steady_clock::now();
+			const float delta = std::chrono::duration<float>(now - lastTime).count();
+			lastTime = now;
+
+			if (delta > 0.f)
+			{
+				const float instant = 1.f / delta;
+				fps = fps <= 0.f ? instant : fps * 0.9f + instant * 0.1f;
+			}
+
+			return fps;
+		}
+	}
 
 	void Overlay::Draw()
 	{
+		using namespace Rendering;
+
+		const float fps = TickFps();
+
+		g_State = {};
+
 		if (!Features::_OverlayEnabled.GetState() || !NativeInvoker::AreHandlersCached())
 			return;
 
-		auto posMode = (OverlayPosition)Features::_OverlayPositionCmd.GetState();
+		if (Features::_OverlayShowFPS.GetState())
+			g_State.lines.push_back({std::format("FPS: {}", static_cast<int>(fps)), false});
 
-		ImVec2 screen(*Pointers.ScreenResX, *Pointers.ScreenResY);
-		ImVec2 padding(10.f, 10.f);
+		Features::DrawBusinessOverlay(g_State.lines);
 
-		ImVec2 pos = padding;
+		if (g_State.lines.empty())
+			return;
+
+		const auto posMode = static_cast<OverlayPosition>(Features::_OverlayPositionCmd.GetState());
+		g_State.scale = kBaseScale * std::clamp(g_OverlayTextScale, 0.5f, 2.5f);
+
+		float totalHeight = 0.f;
+		for (auto& line : g_State.lines)
+		{
+			const auto size = GridRenderer::MeasureText(line.text.c_str(), g_State.scale);
+			g_State.width = std::max(g_State.width, size.x);
+			totalHeight += size.y + kLineSpacing;
+		}
+
+		g_State.rightAlign = (posMode == OverlayPosition::TopRight || posMode == OverlayPosition::BottomRight);
 
 		switch (posMode)
 		{
 		case OverlayPosition::TopLeft:
-			pos = padding;
+			g_State.x = kPadding;
+			g_State.y = kPadding;
 			break;
-
 		case OverlayPosition::TopRight:
-			pos = ImVec2(screen.x - padding.x, padding.y);
+			g_State.x = Theme::kHudWidth - kPadding - g_State.width;
+			g_State.y = kPadding;
 			break;
-
 		case OverlayPosition::BottomLeft:
-			pos = ImVec2(padding.x, screen.y - padding.y);
+			g_State.x = kPadding;
+			g_State.y = Theme::kHudHeight - kPadding - totalHeight;
 			break;
-
 		case OverlayPosition::BottomRight:
-			pos = ImVec2(screen.x - padding.x, screen.y - padding.y);
+			g_State.x = Theme::kHudWidth - kPadding - g_State.width;
+			g_State.y = Theme::kHudHeight - kPadding - totalHeight;
 			break;
-
 		case OverlayPosition::Free:
-			pos = g_FreeOverlayPos;
+		default:
+			g_State.x = g_FreeOverlayPos.x;
+			g_State.y = g_FreeOverlayPos.y;
 			break;
 		}
+	}
 
-		ImGuiCond cond = (posMode == OverlayPosition::Free) ? ImGuiCond_Once : ImGuiCond_Always;
+	void Overlay::DrawText()
+	{
+		using namespace Rendering;
 
-		ImGui::SetNextWindowPos(pos, cond);
+		const DirectX::XMFLOAT4 textColour{g_OverlayTextColor.x, g_OverlayTextColor.y, g_OverlayTextColor.z, g_OverlayTextColor.w};
 
-		ImGuiWindowFlags flags =
-		    ImGuiWindowFlags_NoTitleBar |
-		    ImGuiWindowFlags_NoCollapse |
-		    ImGuiWindowFlags_NoSavedSettings |
-		    ImGuiWindowFlags_NoScrollbar |
-		    ImGuiWindowFlags_NoScrollWithMouse |
-		    ImGuiWindowFlags_NoBackground |
-		    ImGuiWindowFlags_AlwaysAutoResize;
-
-		if (posMode != OverlayPosition::Free || Features::_OverlayLock.GetState())
-			flags |= ImGuiWindowFlags_NoMove;
-
-		ImGui::PushFont(Menu::Font::g_OverlayFont);
-
-		ImGui::PushStyleColor(ImGuiCol_Text, YimMenu::g_OverlayTextColor);
-
-		ImGui::Begin("##overlay", nullptr, flags);
-		ImGui::SetWindowFontScale(YimMenu::g_OverlayTextScale);
-
-		if (posMode == OverlayPosition::Free && !Features::_OverlayLock.GetState())
+		float y = g_State.y;
+		for (auto& line : g_State.lines)
 		{
-			g_FreeOverlayPos = ImGui::GetWindowPos();
+			const auto size = GridRenderer::MeasureText(line.text.c_str(), g_State.scale);
+			const float x = g_State.rightAlign ? (g_State.x + g_State.width - size.x) : g_State.x;
+
+			GridRenderer::DrawText(x, y, line.text.c_str(), line.dimmed ? Theme::kPlaceholderText : textColour, g_State.scale);
+			y += size.y + kLineSpacing;
 		}
-
-		if (Features::_OverlayShowFPS.GetState())
-			ImGui::Text("FPS: %d", (int)(ImGui::GetIO().Framerate));
-		
-		Features::DrawBusinessOverlay();
-
-		ImGui::End();
-
-		ImGui::PopStyleColor();
-		ImGui::PopFont();
 	}
 }
