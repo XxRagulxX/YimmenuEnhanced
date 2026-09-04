@@ -14,11 +14,11 @@ namespace YimMenu::Rendering
 	// Also the Vehicle submenu's root as far as MenuGrid/MenuNavigation
 	// are concerned: Populate() appends a GridItemFolder row for each of
 	// Vehicle's other categories (Spawn, Vehicle Editor, Saved Vehicles)
-	// after the items above - see SelfGrid.hpp's identical note. Spawn's
-	// folder points at a real content Grid (VehicleSpawnGrid, owned here
-	// since nothing else reaches it) - see VehicleSpawnGrid.hpp for what
-	// it covers. Vehicle Editor/Saved Vehicles still point at the shared
-	// placeholder.
+	// after the items above - see SelfGrid.hpp's identical note. Each
+	// folder points at a real content Grid (VehicleSpawnGrid/
+	// VehicleEditorGrid/SavedVehiclesGrid, owned here since nothing else
+	// reaches them) - see each one's own class comment for what it
+	// covers.
 	class VehicleGrid : public Grid
 	{
 	public:

@@ -9,9 +9,9 @@
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Util/Joaat.hpp"
-#include "Rendering/PlaceholderGrid.hpp"
 #include "Rendering/SavedVehiclesGrid.hpp"
 #include "Rendering/Theme.hpp"
+#include "Rendering/VehicleEditorGrid.hpp"
 #include "Rendering/VehicleSpawnGrid.hpp"
 
 namespace YimMenu::Rendering
@@ -24,6 +24,7 @@ namespace YimMenu::Rendering
 		// Owned here rather than in MenuGrid.cpp - see SelfGrid.cpp's
 		// identical note about WeaponsGrid.
 		VehicleSpawnGrid g_SpawnContent{};
+		VehicleEditorGrid g_VehicleEditorContent{};
 		SavedVehiclesGrid g_SavedVehiclesContent{};
 
 		// autodrivespeed/autodrivestyle's own MenuVehicle.cpp gate reads
@@ -55,11 +56,10 @@ namespace YimMenu::Rendering
 		// BuildVehicleEditorMenu()/BuildSavedVehiclesMenu()) - grouped at
 		// the very top of the whole list rather than at the bottom, so a
 		// category is always reachable before the plain toggles below.
-		// Spawn/Saved Vehicles have their own content Grids; Vehicle
-		// Editor is still placeholder-only (bespoke Phase 4 work).
+		// All three now have their own content Grid.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Spawn", &g_SpawnContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Vehicle Editor", &GetPlaceholderGrid()));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Vehicle Editor", &g_VehicleEditorContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Saved Vehicles", &g_SavedVehiclesContent));
 
 		// Globals (MenuVehicle.cpp's globalsGroup) - watchCondition()
