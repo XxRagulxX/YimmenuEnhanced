@@ -1,5 +1,5 @@
+#include "Menu/ClassicUI.hpp"
 #include "Menu/Items.hpp"
-#include "Menu/Menu.hpp"
 
 namespace YimMenu
 {
@@ -11,33 +11,19 @@ namespace YimMenu
 
 	void Group::Draw()
 	{
+		// m_ItemsPerColumn no longer means anything - the original's own
+		// multi-column layout isn't ported (see Menu/ClassicUI.hpp's own
+		// class comment on why); every item just flows top-to-bottom.
 		if (!m_Name.empty())
 		{
-			ImGui::PushFont(Menu::Font::g_ChildTitleFont);
-			ImGui::Text("%s", m_Name.c_str());
-			ImGui::PopFont();
-			ImGui::Separator();
-			ImGui::Spacing();
+			ClassicUI::Text(m_Name);
+			ClassicUI::Separator();
 		}
 
-		int item_count = 0;
-
-		ImGui::BeginGroup();
 		for (auto& item : m_Items)
 		{
-			if (!item->CanDraw())
-				continue;
-
-			item->Draw();
-			item_count++;
-
-			if (m_ItemsPerColumn != -1 && item_count % m_ItemsPerColumn == 0)
-			{
-				ImGui::EndGroup();
-				ImGui::SameLine();
-				ImGui::BeginGroup();
-			}
+			if (item->CanDraw())
+				item->Draw();
 		}
-		ImGui::EndGroup();
 	}
 }

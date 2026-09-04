@@ -1,6 +1,7 @@
 #include "Rendering/GridItemTextInput.hpp"
 
 #include "Rendering/GridRenderer.hpp"
+#include "Rendering/InputCapture.hpp"
 #include "Rendering/Theme.hpp"
 
 #include <algorithm>
@@ -87,12 +88,14 @@ namespace YimMenu::Rendering
 
 		m_Buffer = m_Value;
 		m_Editing = true;
+		InputCapture::SetTextInputActive(true);
 	}
 
 	void GridItemTextInput::Commit()
 	{
 		m_Value = m_Buffer;
 		m_Editing = false;
+		InputCapture::SetTextInputActive(false);
 
 		if (m_OnCommit)
 			m_OnCommit(m_Value);
@@ -101,6 +104,7 @@ namespace YimMenu::Rendering
 	void GridItemTextInput::Cancel()
 	{
 		m_Editing = false;
+		InputCapture::SetTextInputActive(false);
 	}
 
 	void GridItemTextInput::onChar(wchar_t c)

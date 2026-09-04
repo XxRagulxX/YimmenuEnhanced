@@ -17,7 +17,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Libraries
 
 include(cmake/async-logger.cmake)
-include(cmake/imgui.cmake)
 include(cmake/json.cmake)
 include(cmake/minhook.cmake)
 include(cmake/luajit.cmake)
@@ -82,7 +81,6 @@ target_compile_definitions(
         _CRT_SECURE_NO_WARNINGS
         WIN32_LEAN_AND_MEAN
         NOMINMAX
-        IMGUI_DEFINE_MATH_OPERATORS
 )
 
 # fmt
@@ -113,7 +111,6 @@ target_include_directories(
     ${PROJECT_NAME}
     PRIVATE
         "${SRC_DIR}"
-        "${imgui_SOURCE_DIR}"
         "${minhook_SOURCE_DIR}/include"
         "${minhook_SOURCE_DIR}/src/hde"
         "${luajit_SOURCE_DIR}/src"
@@ -131,13 +128,16 @@ target_link_libraries(
 
         # Project dependencies
         AsyncLogger
-        imgui
         minhook
         nlohmann_json::nlohmann_json
         DirectXTK12
         dbghelp
 
-        # ImGui dependencies
+        # Windows/D3D system libraries (originally pulled in alongside
+        # ImGui's own DX12/Win32 backends - kept even after ImGui's
+        # removal since DirectXTK12/the game's own window handling may
+        # still depend on some of these; not worth the risk of pruning
+        # blind with no compiler available to verify against)
         d3dcompiler
         dwmapi
         gdi32

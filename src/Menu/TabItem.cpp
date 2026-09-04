@@ -9,14 +9,13 @@ namespace YimMenu
 
 	void TabItem::Draw()
 	{
-		if (ImGui::BeginTabItem(m_Name.c_str()))
+		// No tab strip of its own to draw any more - TabBarItem now owns
+		// deciding which tab is active and only calls into this one's
+		// items when it is (see TabBarItem.cpp's own class comment).
+		for (auto& item : m_Items)
 		{
-			for (auto& item : m_Items)
-			{
-				if (item->CanDraw())
-					item->Draw();
-			}
-			ImGui::EndTabItem();
+			if (item->CanDraw())
+				item->Draw();
 		}
 	}
 }

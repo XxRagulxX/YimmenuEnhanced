@@ -1,7 +1,10 @@
+#include "Menu/ClassicUI.hpp"
 #include "Menu/Items.hpp"
 #include "Commands/Commands.hpp"
 #include "Commands/StringCommand.hpp"
-#include "imgui.h"
+
+#include <cstdint>
+#include <format>
 
 namespace YimMenu
 {
@@ -15,19 +18,14 @@ namespace YimMenu
 	{
 		if (!m_Command)
 		{
-			ImGui::Text("Unknown string command!");
+			ClassicUI::Text("Unknown string command!");
 			return;
 		}
 
-		std::string current_value = m_Command->GetString();
-		char buffer[256];
-		memset(buffer, 0, sizeof(buffer));
-		memcpy(buffer, current_value.c_str(), current_value.size());
-
-		ImGui::SetNextItemWidth(300.0f);
-		if (ImGui::InputText(m_LabelOverride.value_or(m_Command->GetLabel()).c_str(), buffer, sizeof(buffer)))
-		{
-			m_Command->SetStringValue(buffer);
-		}
+		const auto id = std::format("strcmd{}", reinterpret_cast<std::uintptr_t>(m_Command));
+		const auto label = m_LabelOverride.value_or(m_Command->GetLabel());
+		const auto newValue = ClassicUI::TextField(id, label, m_Command->GetString());
+		if (newValue != m_Command->GetString())
+			m_Command->SetStringValue(newValue);
 	}
 }

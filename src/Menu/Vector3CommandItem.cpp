@@ -1,9 +1,8 @@
+#include "Menu/ClassicUI.hpp"
 #include "Menu/Items.hpp"
 #include "Commands/Commands.hpp"
 #include "Commands/Vector3Command.hpp"
-#include "Commands/Extra/CommandSavedLocations.hpp"
 #include "World/Self.hpp"
-#include "Core/Pointers.hpp"
 
 namespace YimMenu
 {
@@ -17,105 +16,28 @@ namespace YimMenu
 	{
 		if (!m_Command)
 		{
-			ImGui::Text("Unknown!");
+			ClassicUI::Text("Unknown!");
 			return;
 		}
 
+		// The original's own "Saved..." popup (browse Teleport > Saved's
+		// own locations from here) isn't ported - see Menu/ClassicUI.hpp's
+		// own class comment on why full interactive polish is out of
+		// scope for this pass. X/Y/Z steppers + a "Current" button cover
+		// the same functionality this item's own callers actually need
+		// (setting a coordinate).
 		auto value = m_Command->GetState();
-		ImGui::PushID(m_Command);
-		ImGui::SetNextItemWidth(180);
-		if (ImGui::InputFloat3("##coord_inp", &value.x, "%.1f"))
+		const auto& label = m_LabelOverride.has_value() ? m_LabelOverride.value() : m_Command->GetLabel();
+		if (!label.empty())
+			ClassicUI::Text(label);
+
+		value.x = ClassicUI::FloatStepper("X", value.x, 1.0f);
+		value.y = ClassicUI::FloatStepper("Y", value.y, 1.0f);
+		value.z = ClassicUI::FloatStepper("Z", value.z, 1.0f);
+		if (value.x != m_Command->GetState().x || value.y != m_Command->GetState().y || value.z != m_Command->GetState().z)
 			m_Command->SetState(value);
 
-		if (Self::GetPed())
-		{
-			ImGui::SameLine();
-			if (ImGui::Button("Current"))
-				m_Command->SetState(Self::GetPed().GetPosition());
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Saved..."))
-			ImGui::OpenPopup("##saved");
-
-		if (ImGui::BeginPopup("##saved", ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize))
-		{
-			ImGui::Text("Click on a location to select it. Add more at Teleport > Saved");
-			InputTextWithHint("##filter", "Search", &m_CurrentFilter).Draw();
-
-			const float max_length = *Pointers.ScreenResY / 3.2;
-
-			// TODO: duplicated code
-			ImGui::BeginGroup();
-			ImGui::Text("Categories");
-
-			if (ImGui::BeginListBox("##categories", {200, max_length}))
-			{
-				for (auto& l : SavedLocations::GetAllSavedLocations() | std::ranges::views::keys)
-				{
-					if (ImGui::Selectable(l.data(), l == m_CurrentCategory))
-					{
-						m_CurrentCategory = l;
-					}
-
-					if (m_CurrentCategory.empty())
-					{
-						m_CurrentCategory = l;
-					}
-				}
-				ImGui::EndListBox();
-			}
-			ImGui::EndGroup();
-			ImGui::SameLine();
-			ImGui::BeginGroup();
-			ImGui::Text("Locations");
-			if (ImGui::BeginListBox("##saved_locs", {200, max_length}))
-			{
-				if (SavedLocations::GetAllSavedLocations().find(m_CurrentCategory) != SavedLocations::GetAllSavedLocations().end())
-				{
-					std::vector<SavedLocation> current_list{};
-
-					if (!m_CurrentFilter.empty())
-						current_list = SavedLocations::SavedLocationsFilteredList(m_CurrentFilter);
-					else
-						current_list = SavedLocations::GetAllSavedLocations().at(m_CurrentCategory);
-
-					for (const auto& l : current_list)
-					{
-						if (ImGui::Selectable(l.name.data(), false, ImGuiSelectableFlags_AllowDoubleClick))
-						{
-							m_Command->SetState({l.x, l.y, l.z});
-							ImGui::CloseCurrentPopup();
-						}
-
-						if (ImGui::IsItemHovered() && l.name.length() > 27)
-						{
-							ImGui::BeginTooltip();
-							ImGui::Text("%s", l.name.data());
-							ImGui::EndTooltip();
-						}
-					}
-				}
-
-				ImGui::EndListBox();
-			}
-
-			ImGui::EndGroup();
-
-			if (ImGui::Button("Close"))
-			{
-				ImGui::CloseCurrentPopup();
-			}
-
-			ImGui::EndPopup();
-		}
-
-		auto& label = m_LabelOverride.has_value() ? m_LabelOverride.value() : m_Command->GetLabel();
-		if (!label.empty())
-		{
-			ImGui::SameLine();
-			ImGui::Text("%s", label.c_str());
-		}
-
-		ImGui::PopID();
+		if (Self::GetPed() && ClassicUI::Button("Current"))
+			m_Command->SetState(Self::GetPed().GetPosition());
 	}
 }

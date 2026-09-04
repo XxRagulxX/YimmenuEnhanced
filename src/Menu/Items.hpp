@@ -13,7 +13,6 @@ namespace YimMenu
 	class Command;
 	class ColorCommand;
 	class StringCommand;
-	class CommandLink;
 
 	class Button : public UIItem
 	{
@@ -94,8 +93,6 @@ namespace YimMenu
 	private:
 		Vector3Command* m_Command;
 		std::optional<std::string> m_LabelOverride;
-		std::string m_CurrentCategory{};
-		std::string m_CurrentFilter{};
 	};
 
 	class ListCommandItem : public UIItem
@@ -107,8 +104,6 @@ namespace YimMenu
 	private:
 		ListCommand* m_Command;
 		std::optional<std::string> m_LabelOverride;
-		std::optional<int> m_ItemWidth = std::nullopt;
-		std::optional<std::string> m_SelectedItem = std::nullopt;
 	};
 
 	class ConditionalItem : public UIItem
@@ -166,16 +161,14 @@ namespace YimMenu
 	class InputTextWithHint : public UIItem
 	{
 	public:
-		explicit InputTextWithHint(std::string label, std::string hint, std::string* buf, int flags = ImGuiInputTextFlags_None, std::function<void()> cb = nullptr, ImGuiInputTextCallback inputCallback = nullptr);
+		explicit InputTextWithHint(std::string label, std::string hint, std::string* buf, std::function<void()> cb = nullptr);
 		void Draw() override;
 
 	private:
 		std::string m_Id;
 		std::string m_Hint;
 		std::string* m_Buf;
-		int m_Flags;
 		std::function<void()> m_Callback;
-		ImGuiInputTextCallback m_ImGuiInputTextCallback;
 	};
 
 	class ColorCommandItem : public UIItem
@@ -198,7 +191,6 @@ namespace YimMenu
 	private:
 		StringCommand* m_Command;
 		std::optional<std::string> m_LabelOverride;
-		std::optional<std::string> m_CurrentInput = std::nullopt;
 	};
 
 	class TabItem : public UIItem
@@ -210,6 +202,14 @@ namespace YimMenu
 		void AddItem(std::shared_ptr<UIItem>&& item)
 		{
 			m_Items.push_back(std::move(item));
+		}
+
+		// Needed by TabBarItem to draw this tab's own header button - see
+		// TabBarItem.cpp's own class comment for why it now owns the
+		// active/inactive switch that used to be real ImGui tab state.
+		const std::string& GetName() const
+		{
+			return m_Name;
 		}
 
 	private:
@@ -231,6 +231,11 @@ namespace YimMenu
 	private:
 		std::string m_Id;
 		std::vector<std::shared_ptr<TabItem>> m_Tabs;
+
+		// Real ImGui tab bars own which tab is selected internally - this
+		// tree has no such state of its own any more, so TabBarItem keeps
+		// it here instead (see TabBarItem.cpp's own class comment).
+		int m_ActiveIndex = 0;
 	};
 
 	class CollapsingHeaderItem : public UIItem
@@ -247,5 +252,10 @@ namespace YimMenu
 	private:
 		std::string m_Name;
 		std::vector<std::shared_ptr<UIItem>> m_Items;
+
+		// Real ImGui CollapsingHeader owns its own expanded/collapsed
+		// state internally, keyed off m_Name - this tree has no such
+		// state of its own any more, so this keeps it here instead.
+		bool m_Expanded = false;
 	};
 }

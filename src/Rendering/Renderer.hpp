@@ -1,7 +1,6 @@
 #pragma once
 #include "Util/Joaat.hpp"
 
-#include <backends/imgui_impl_dx12.h>
 #include <comdef.h>
 #include <d3d12.h>
 #include <dxgi1_4.h>
@@ -21,12 +20,12 @@
 namespace YimMenu
 {
 	using namespace Microsoft::WRL;
-	using RendererCallBack = std::function<void()>;
 	using WindowProcedureCallback = std::function<void(HWND, UINT, WPARAM, LPARAM)>;
-	// Runs after ImGui has recorded its draw data but before the command list
-	// is closed, so a callback can record its own D3D12 draw calls (e.g. the
-	// DirectXTK12-based Stand-style renderer in src/Rendering/) into the same
-	// per-frame command list ImGui already uses.
+	// Runs after this frame's D3D12 resource setup is done, so a callback
+	// can record its own D3D12 draw calls (the DirectXTK12-based
+	// Stand-style renderer in src/Rendering/, the sole draw pipeline this
+	// project has now - see GridRenderer.hpp's own class comment) into
+	// the same per-frame command list.
 	using Direct3DDrawCallBack = std::function<void(ID3D12GraphicsCommandList*)>;
 
 	struct FrameContext
@@ -35,50 +34,6 @@ namespace YimMenu
 		ID3D12Resource* Resource;
 		D3D12_CPU_DESCRIPTOR_HANDLE Descriptor;
 		UINT64 FenceValue;
-	};
-
-	struct ExampleDescriptorHeapAllocator
-	{
-		ID3D12DescriptorHeap* Heap = nullptr;
-		D3D12_DESCRIPTOR_HEAP_TYPE HeapType = D3D12_DESCRIPTOR_HEAP_TYPE_NUM_TYPES;
-		D3D12_CPU_DESCRIPTOR_HANDLE HeapStartCpu;
-		D3D12_GPU_DESCRIPTOR_HANDLE HeapStartGpu;
-		UINT HeapHandleIncrement;
-		ImVector<int> FreeIndices;
-
-		void Create(ID3D12Device* device, ID3D12DescriptorHeap* heap)
-		{
-			IM_ASSERT(Heap == nullptr && FreeIndices.empty());
-			Heap = heap;
-			D3D12_DESCRIPTOR_HEAP_DESC desc = heap->GetDesc();
-			HeapType = desc.Type;
-			HeapStartCpu = Heap->GetCPUDescriptorHandleForHeapStart();
-			HeapStartGpu = Heap->GetGPUDescriptorHandleForHeapStart();
-			HeapHandleIncrement = device->GetDescriptorHandleIncrementSize(HeapType);
-			FreeIndices.reserve((int)desc.NumDescriptors);
-			for (int n = desc.NumDescriptors; n > 0; n--)
-				FreeIndices.push_back(n - 1);
-		}
-		void Destroy()
-		{
-			Heap = nullptr;
-			FreeIndices.clear();
-		}
-		void Alloc(D3D12_CPU_DESCRIPTOR_HANDLE* out_cpu_desc_handle, D3D12_GPU_DESCRIPTOR_HANDLE* out_gpu_desc_handle)
-		{
-			IM_ASSERT(FreeIndices.Size > 0);
-			int idx = FreeIndices.back();
-			FreeIndices.pop_back();
-			out_cpu_desc_handle->ptr = HeapStartCpu.ptr + (idx * HeapHandleIncrement);
-			out_gpu_desc_handle->ptr = HeapStartGpu.ptr + (idx * HeapHandleIncrement);
-		}
-		void Free(D3D12_CPU_DESCRIPTOR_HANDLE out_cpu_desc_handle, D3D12_GPU_DESCRIPTOR_HANDLE out_gpu_desc_handle)
-		{
-			int cpu_idx = (int)((out_cpu_desc_handle.ptr - HeapStartCpu.ptr) / HeapHandleIncrement);
-			int gpu_idx = (int)((out_gpu_desc_handle.ptr - HeapStartGpu.ptr) / HeapHandleIncrement);
-			IM_ASSERT(cpu_idx == gpu_idx);
-			FreeIndices.push_back(cpu_idx);
-		}
 	};
 
 	class Renderer final
@@ -104,20 +59,8 @@ namespace YimMenu
 		}
 
 		/**
-		 * @brief Add a callback function to draw using ImGui
-		 * 
-		 * @param callback Callback function
-		 * @param priority Low values will be drawn before higher values.
-		 * @return true Successfully added callback.
-		 * @return false Duplicate render priority was given.
-		 */
-		static bool AddRendererCallBack(RendererCallBack&& callback, std::uint32_t priority)
-		{
-			return GetInstance().AddRendererCallBackImpl(std::move(callback), priority);
-		}
-		/**
 		 * @brief Add a callback function to handle Windows WindowProcedure
-		 * 
+		 *
 		 * @param callback Callback function
 		 */
 		static void AddWindowProcedureCallback(WindowProcedureCallback&& callback)
@@ -127,7 +70,7 @@ namespace YimMenu
 
 		/**
 		 * @brief Add a callback function to record raw D3D12 draw calls
-		 * (e.g. DirectXTK12) into the same command list ImGui renders into.
+		 * (e.g. DirectXTK12) into this frame's own command list.
 		 *
 		 * @param callback Callback function
 		 * @param priority Low values will be drawn before higher values.
@@ -180,23 +123,12 @@ namespace YimMenu
 			GetInstance().m_Resizing = status;
 		}
 
-		static void Resize(float scale)
-		{
-			GetInstance().ResizeImpl(scale);
-		}
-
-		static void SetFontsUpdated()
-		{
-			GetInstance().m_FontsUpdated = true;
-		}
-
 		static void SetSafeToRender()
 		{
 			GetInstance().m_SafeToRender = true;
 		}
 
 	private:
-		static void DX12NewFrame();
 		static void DX12EndFrame();
 
 	private:
@@ -205,11 +137,8 @@ namespace YimMenu
 
 		bool InitDX12();
 
-		void ResizeImpl(float scale);
-
-		bool AddRendererCallBackImpl(RendererCallBack&& callback, std::uint32_t priority);
-		void AddWindowProcedureCallbackImpl(WindowProcedureCallback&& callback);
 		bool AddDirect3DDrawCallBackImpl(Direct3DDrawCallBack&& callback, std::uint32_t priority);
+		void AddWindowProcedureCallbackImpl(WindowProcedureCallback&& callback);
 
 		void DX12OnPresentImpl();
 
@@ -222,16 +151,10 @@ namespace YimMenu
 			return i;
 		}
 
-	public:
-		ExampleDescriptorHeapAllocator m_HeapAllocator;
-
 	private:
 		bool m_Initialized;
 		bool m_Resizing;
 		bool m_SafeToRender;
-
-		// Shared
-		ImFontAtlas m_FontAtlas;
 
 		//DX12
 		std::vector<FrameContext> m_FrameContext;
@@ -244,7 +167,6 @@ namespace YimMenu
 		ComPtr<ID3D12CommandAllocator> m_CommandAllocator;
 		ComPtr<ID3D12GraphicsCommandList> m_CommandList;
 		ComPtr<ID3D12DescriptorHeap> m_BackbufferDescriptorHeap;
-		ComPtr<ID3D12DescriptorHeap> m_DescriptorHeap;
 
 		ComPtr<ID3D12Fence> m_Fence;
 		HANDLE m_FenceEvent{};
@@ -252,15 +174,9 @@ namespace YimMenu
 		HANDLE m_SwapchainWaitableObject{};
 		UINT64 m_FrameIndex{};
 
-		bool m_FontsUpdated;
-
 	private:
 		//Other
-		std::map<joaat_t, RendererCallBack> m_RendererCallBacks;
 		std::map<joaat_t, Direct3DDrawCallBack> m_Direct3DDrawCallBacks;
 		std::vector<WindowProcedureCallback> m_WindowProcedureCallbacks;
 	};
 }
-
-// Make our linker aware of the ImGui WndProcHandler
-extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);

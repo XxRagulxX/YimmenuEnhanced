@@ -1,68 +1,63 @@
 #include "Core/Pointers.hpp"
+#include "Menu/ClassicUI.hpp"
 #include "Menu/UIManager.hpp"
 
 namespace YimMenu
 {
+	// Real ImGui window/child panels are gone (see Menu/ClassicUI.hpp's
+	// own class comment) - a single fixed on-screen panel instead,
+	// proportioned the same way the original ImGui window was
+	// (*Pointers.ScreenResX/2.5 wide, centred, starting a fifth of the
+	// way down). No background rect of its own is drawn for the panel as
+	// a whole (ClassicUI's own per-row backgrounds already read fine
+	// against the game underneath, same "no backing window" look several
+	// of this project's other always-on overlays share).
 	void RenderClassicTheme()
 	{
-		float windowWidth = *YimMenu::Pointers.ScreenResX / 2.5f;
-		float centerX = (*YimMenu::Pointers.ScreenResX - windowWidth) / 2.0f;
-		float centerY = *YimMenu::Pointers.ScreenResY / 5.0f;
-		ImVec2 windowSize(windowWidth, *YimMenu::Pointers.ScreenResY / 2.5f);
+		const float screenW = static_cast<float>(*Pointers.ScreenResX);
+		const float screenH = static_cast<float>(*Pointers.ScreenResY);
 
-		ImGui::SetNextWindowSize(windowSize, ImGuiCond_FirstUseEver);
-		ImGui::SetNextWindowPos(ImVec2(centerX, centerY), ImGuiCond_FirstUseEver);
+		const float panelWidth = screenW / 2.5f;
+		const float panelX = (screenW - panelWidth) / 2.0f;
+		const float panelY = screenH / 5.0f;
 
-		ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoCollapse;
-		auto pos = ImGui::GetCursorPos();
-		if(ImGui::Begin("##ClassicInputWindow", nullptr, flags))
+		ClassicUI::BeginFrame(panelX, panelY, panelWidth);
+
+		ClassicUI::Text("YimMenuV2");
+		ClassicUI::Separator();
+
+		const auto& submenus = UIManager::GetSubmenus();
+		auto activeSubmenu = UIManager::GetActiveSubmenu();
+
+		for (auto& submenu : submenus)
 		{
-			if (ImGui::BeginChild("##submenus", ImVec2(120, ImGui::GetContentRegionAvail().y - 20), true, ImGuiWindowFlags_NoTitleBar))
+			if (!submenu)
+				continue;
+
+			if (submenu == activeSubmenu)
+				ClassicUI::Text("> " + submenu->m_Name);
+			else if (ClassicUI::Button(submenu->m_Name))
 			{
-				const auto& submenus = YimMenu::UIManager::GetSubmenus();
-				auto activeSubmenu = YimMenu::UIManager::GetActiveSubmenu();
-
-				for (auto& submenu : submenus)
-				{
-					if (ImGui::Selectable(submenu->m_Name.data(), (submenu == activeSubmenu)))
-					{
-						YimMenu::UIManager::SetActiveSubmenu(submenu);
-						YimMenu::UIManager::SetShowContentWindow(true);
-					}
-				}
+				UIManager::SetActiveSubmenu(submenu);
+				UIManager::SetShowContentWindow(true);
 			}
-			ImGui::EndChild();
-
-			ImGui::Text("YimMenuV2");
-
-			pos.y -= 28;
-			ImGui::SetCursorPos(ImVec2(pos.x + 130, pos.y));
-
-			if (ImGui::BeginChild("##minisubmenus", ImVec2(0, 50), true, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse))
-			{
-				auto activeSubmenu = YimMenu::UIManager::GetActiveSubmenu();
-				if (activeSubmenu)
-					activeSubmenu->DrawCategorySelectors();
-			}
-			ImGui::EndChild();
-
-			ImGui::SetCursorPos(ImVec2(pos.x + 130, pos.y + 60));
-
-			if (ImGui::BeginChild("##options", ImVec2(0, 0), true))
-			{
-				auto optionsFont = YimMenu::UIManager::GetOptionsFont();
-				if (optionsFont)
-					ImGui::PushFont(optionsFont);
-
-				auto activeSubmenu = YimMenu::UIManager::GetActiveSubmenu();
-				if (activeSubmenu)
-					activeSubmenu->Draw();
-
-				if (optionsFont)
-					ImGui::PopFont();
-			}
-			ImGui::EndChild();
 		}
-		ImGui::End();
+
+		ClassicUI::Separator();
+
+		if (activeSubmenu)
+		{
+			activeSubmenu->DrawCategorySelectors();
+			ClassicUI::Spacing();
+			activeSubmenu->Draw();
+		}
+	}
+
+	// Text pass - flushes whatever RenderClassicTheme() above queued this
+	// same frame. Must run after it, same two-pass contract as everywhere
+	// else in this system (see Menu/ClassicUI.hpp's own class comment).
+	void RenderClassicThemeText()
+	{
+		ClassicUI::DrawQueuedText();
 	}
 }

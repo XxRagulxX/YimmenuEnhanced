@@ -1,3 +1,4 @@
+#include "Menu/ClassicUI.hpp"
 #include "Menu/Items.hpp"
 #include "Scripting/FiberPool.hpp"
 
@@ -13,7 +14,9 @@ namespace YimMenu
 
 	void Button::Draw()
 	{
-		if (ImGui::Button(m_Name.data(), m_Size))
+		// m_Size no longer means anything - see Menu/ClassicUI.hpp's own
+		// class comment on why every row in this tree is full-width now.
+		if (ClassicUI::Button(std::string(m_Name)))
 		{
 			if (m_OnClick != nullptr)
 			{

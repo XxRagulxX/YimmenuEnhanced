@@ -1,5 +1,7 @@
 #include "Menu/Submenu.hpp"
 
+#include "Menu/ClassicUI.hpp"
+
 namespace YimMenu
 {
 	void Submenu::SetActiveCategory(const std::shared_ptr<Category> category)
@@ -24,30 +26,20 @@ namespace YimMenu
 
 	void Submenu::DrawCategorySelectors()
 	{
+		// GetLength()'s own tab-width sizing no longer applies - every row
+		// is full-width now (see Menu/ClassicUI.hpp's own class comment) -
+		// so this is just one row per category instead of the original's
+		// horizontal button strip.
 		for (auto& category : m_Categories)
 		{
-			if (category)
-			{
-				auto& style = ImGui::GetStyle();
-				auto color = style.Colors[ImGuiCol_Button];
-				color.w -= 0.5;
+			if (!category)
+				continue;
 
-				auto active = category == GetActiveCategory();
-
-				if (!active)
-					ImGui::PushStyleColor(ImGuiCol_Button, color);
-
-				if (ImGui::Button(category->m_Name.data(), ImVec2(category->GetLength(), 35)))
-				{
-					SetActiveCategory(category);
-				}
-
-				if (!active)
-					ImGui::PopStyleColor();
-
-				if (m_Categories.back() != category)
-					ImGui::SameLine();
-			}
+			const auto active = category == GetActiveCategory();
+			if (active)
+				ClassicUI::Text("> " + category->m_Name);
+			else if (ClassicUI::Button(category->m_Name))
+				SetActiveCategory(category);
 		}
 	}
 

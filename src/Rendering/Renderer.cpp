@@ -2,18 +2,12 @@
 
 #include "Core/Pointers.hpp"
 
-#include <backends/imgui_impl_dx12.h>
-#include <backends/imgui_impl_win32.h>
-#include <imgui.h>
-
-
 namespace YimMenu
 {
 	Renderer::Renderer() :
 	    m_Initialized(false),
 	    m_Resizing(false),
-	    m_FontsUpdated(false),
-		m_SafeToRender(false)
+	    m_SafeToRender(false)
 	{
 	}
 
@@ -26,21 +20,12 @@ namespace YimMenu
 		if (!m_Initialized)
 			return;
 
-		// TODO: we aren't destroying resources properly
-		ImGui_ImplWin32_Shutdown();
-
-
 		WaitForLastFrame();
-		ImGui_ImplDX12_InvalidateDeviceObjects();
 
 		for (size_t i{}; i != GetInstance().m_SwapChainDesc.BufferCount; ++i)
 		{
 			REL(GetInstance().m_FrameContext[i].Resource);
 		}
-
-		ImGui_ImplDX12_Shutdown();
-
-		ImGui::DestroyContext();
 
 #if 0
 		// manually destroy the allocators we created for the rest of the frame contexts
@@ -113,16 +98,6 @@ namespace YimMenu
 
 		m_FrameContext.resize(m_SwapChainDesc.BufferCount);
 
-		D3D12_DESCRIPTOR_HEAP_DESC DescriptorDesc{D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, m_SwapChainDesc.BufferCount, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE};
-		if (const auto result =
-		        m_Device->CreateDescriptorHeap(&DescriptorDesc, __uuidof(ID3D12DescriptorHeap), (void**)m_DescriptorHeap.GetAddressOf());
-		    result < 0)
-		{
-			LOG(WARNING) << "Failed to create Descriptor Heap with result: [" << result << "]";
-
-			return false;
-		}
-
 		if (const auto result = m_Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT,
 		        __uuidof(ID3D12CommandAllocator),
 		        (void**)m_CommandAllocator.GetAddressOf());
@@ -183,31 +158,6 @@ namespace YimMenu
 			RTVHandle.ptr += RTVDescriptorSize;
 		}
 
-		m_HeapAllocator.Create(m_Device.Get(), m_DescriptorHeap.Get());
-
-		// never returns false, useless to check return
-		ImGui::CreateContext();
-		ImGui_ImplWin32_Init(*Pointers.Hwnd);
-
-		ImGui_ImplDX12_InitInfo init_info = {};
-		init_info.Device = m_Device.Get();
-		init_info.CommandQueue = m_CommandQueue.Get();
-		init_info.NumFramesInFlight = m_SwapChainDesc.BufferCount;
-		init_info.RTVFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
-		init_info.DSVFormat = DXGI_FORMAT_UNKNOWN;
-		// Allocating SRV descriptors (for textures) is up to the application, so we provide callbacks.
-		// (current version of the backend will only allocate one descriptor, future versions will need to allocate more)
-		init_info.SrvDescriptorHeap = m_DescriptorHeap.Get();
-		init_info.SrvDescriptorAllocFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE* out_cpu_handle, D3D12_GPU_DESCRIPTOR_HANDLE* out_gpu_handle) {
-			return GetInstance().m_HeapAllocator.Alloc(out_cpu_handle, out_gpu_handle);
-		};
-		init_info.SrvDescriptorFreeFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE cpu_handle, D3D12_GPU_DESCRIPTOR_HANDLE gpu_handle) {
-			return GetInstance().m_HeapAllocator.Free(cpu_handle, gpu_handle);
-		};
-		ImGui_ImplDX12_Init(&init_info);
-
-		ImGui::StyleColorsDark();
-
 		LOG(INFO) << "DirectX 12 renderer has finished initializing.";
 		m_Initialized = true;
 		return true;
@@ -222,11 +172,6 @@ namespace YimMenu
 
 		LOG(INFO) << "Using DX12, clear shader cache if you're having issues.";
 		return InitDX12();
-	}
-
-	bool Renderer::AddRendererCallBackImpl(RendererCallBack&& callback, std::uint32_t priority)
-	{
-		return m_RendererCallBacks.insert({priority, callback}).second;
 	}
 
 	void Renderer::AddWindowProcedureCallbackImpl(WindowProcedureCallback&& callback)
@@ -244,9 +189,6 @@ namespace YimMenu
 		if (!m_SafeToRender)
 			return;
 
-		Renderer::DX12NewFrame();
-		for (const auto& callback : m_RendererCallBacks | std::views::values)
-			callback();
 		Renderer::DX12EndFrame();
 	}
 
@@ -255,18 +197,7 @@ namespace YimMenu
 		for (const auto& callback : m_WindowProcedureCallbacks)
 			callback(hwnd, msg, wparam, lparam);
 
-		return ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam);
-	}
-
-	void Renderer::ResizeImpl(float scale)
-	{
-		DX12PreResize();
-
-		if (scale != 1.0f)
-			ImGui::GetStyle().ScaleAllSizes(scale);
-		ImGui::GetStyle().MouseCursorScale = 1.0f;
-		ImGui::GetIO().FontGlobalScale = scale;
-		DX12PostResize();
+		return 0;
 	}
 
 	void Renderer::WaitForLastFrame()
@@ -319,8 +250,6 @@ namespace YimMenu
 
 		WaitForLastFrame();
 
-		ImGui_ImplDX12_InvalidateDeviceObjects();
-
 		for (size_t i{}; i != GetInstance().m_SwapChainDesc.BufferCount; ++i)
 		{
 			REL(GetInstance().m_FrameContext[i].Resource);
@@ -329,8 +258,7 @@ namespace YimMenu
 
 	void Renderer::DX12PostResize()
 	{
-		//Recreate our pointers and ImGui's
-		ImGui_ImplDX12_CreateDeviceObjects();
+		//Recreate our own backbuffer render target views
 		const auto RTVDescriptorSize{GetInstance().m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)};
 		D3D12_CPU_DESCRIPTOR_HANDLE RTVHandle{GetInstance().m_BackbufferDescriptorHeap->GetCPUDescriptorHandleForHeapStart()};
 		for (size_t i{}; i != GetInstance().m_SwapChainDesc.BufferCount; ++i)
@@ -346,20 +274,6 @@ namespace YimMenu
 		SetResizing(false);
 	}
 
-	void Renderer::DX12NewFrame()
-	{
-		if (GetInstance().m_FontsUpdated)
-		{
-			DX12PreResize();
-			DX12PostResize();
-			GetInstance().m_FontsUpdated = false;
-		}
-
-		ImGui_ImplDX12_NewFrame();
-		ImGui_ImplWin32_NewFrame();
-		ImGui::NewFrame();
-	}
-
 	void Renderer::DX12EndFrame()
 	{
 		WaitForNextFrame();
@@ -373,11 +287,6 @@ namespace YimMenu
 		GetInstance().m_CommandList->Reset(CurrentFrameContext.CommandAllocator, nullptr);
 		GetInstance().m_CommandList->ResourceBarrier(1, &Barrier);
 		GetInstance().m_CommandList->OMSetRenderTargets(1, &CurrentFrameContext.Descriptor, FALSE, nullptr);
-		GetInstance().m_CommandList->SetDescriptorHeaps(1, GetInstance().m_DescriptorHeap.GetAddressOf());
-
-		ImGui::Render();
-
-		ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), GetInstance().m_CommandList.Get());
 
 		for (const auto& callback : GetInstance().m_Direct3DDrawCallBacks | std::views::values)
 			callback(GetInstance().m_CommandList.Get());

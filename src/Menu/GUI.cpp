@@ -5,15 +5,12 @@
 #include "Rendering/Renderer.hpp"
 #include "Scripting/Natives.hpp"
 #include "Game/ControllerInputs.hpp"
-#include "Config/Themes.hpp"
 
 namespace YimMenu
 {
 	GUI::GUI() :
 	    m_IsOpen(false)
 	{
-		Menu::SetupFonts();
-		SetupStyle();
 		Menu::Init();
 
 		Renderer::AddWindowProcedureCallback([this](HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
@@ -33,8 +30,8 @@ namespace YimMenu
 		// mouse cursor ever shown for it (see GridRenderer::WndProcImpl's
 		// own Up/Down/Ctrl/Shift handling). It's the sole native menu now
 		// (see Menu/UIManager.hpp's class comment), so the cursor should
-		// stay off in the common case - but the classic ImGui pipeline
-		// still draws alongside it purely to serve Lua, and a script's
+		// stay off in the common case - but the classic pipeline still
+		// draws alongside it purely to serve Lua, and a script's
 		// own menu content genuinely needs mouse interaction the way this
 		// project's own native content never will any more. So the
 		// cursor comes back only once a Lua script has actually added
@@ -47,15 +44,23 @@ namespace YimMenu
 		// cursor either.
 		const bool want_mouse = GUI::IsOpen() && UIManager::HasAnyContent();
 
-		auto& io = ImGui::GetIO();
-		io.MouseDrawCursor = want_mouse;
-		want_mouse ? io.ConfigFlags &= ~ImGuiConfigFlags_NoMouse : io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
+		// Real Win32 cursor now instead of ImGui's own software-drawn one
+		// (io.MouseDrawCursor) - ShowCursor() maintains an internal
+		// display counter rather than a plain on/off flag, so this only
+		// calls it on an actual change to avoid that counter drifting if
+		// ToggleMouse() is ever called more than once for the same state.
+		static bool cursorShown = false;
+		if (want_mouse != cursorShown)
+		{
+			ShowCursor(want_mouse);
+			cursorShown = want_mouse;
+		}
 	}
 
 	void GUI::WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	{
-		if (msg == WM_KEYUP 
-			&& (wparam == VK_INSERT || (wparam == VK_OEM_5 && (GetKeyState(VK_CONTROL) & 0x8000) != 0)))
+		if (msg == WM_KEYUP
+		    && (wparam == VK_INSERT || (wparam == VK_OEM_5 && (GetKeyState(VK_CONTROL) & 0x8000) != 0)))
 		{
 			// Persist and restore the cursor position between menu instances
 			static POINT CursorCoords{};
@@ -69,10 +74,10 @@ namespace YimMenu
 			}
 			if (!GUI::IsOnboarding())
 				Toggle();
-			ToggleMouse(); 
+			ToggleMouse();
 		}
 	}
-	
+
 	void GUI::SetOnboardingImpl(bool state)
 	{
 		m_Onboarding = state;
@@ -95,9 +100,8 @@ namespace YimMenu
 				// Menu/UIManager.hpp's class comment), so this runs
 				// unconditionally whenever the menu is open, rather than
 				// only when nothing else claims the input below - the
-				// classic ImGui pipeline drawing alongside it (Lua
-				// content only) isn't mutually exclusive with this any
-				// more.
+				// classic pipeline drawing alongside it (Lua content
+				// only) isn't mutually exclusive with this any more.
 				PAD::DISABLE_CONTROL_ACTION(0, static_cast<int>(ControllerInputs::INPUT_PHONE), true);
 
 				if (UIManager::ShowingContentWindow())

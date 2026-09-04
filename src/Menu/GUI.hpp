@@ -1,4 +1,6 @@
 #pragma once
+#include "Rendering/InputCapture.hpp"
+
 #include <windows.h>
 
 namespace YimMenu
@@ -33,7 +35,7 @@ namespace YimMenu
 
 		static bool IsUsingKeyboard()
 		{
-			return ImGui::GetIO().WantTextInput;
+			return Rendering::InputCapture::IsTextInputActive();
 		}
 
 		static void RunScript()

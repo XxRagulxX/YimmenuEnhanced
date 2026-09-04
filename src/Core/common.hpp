@@ -3,7 +3,8 @@
 #include <MinHook.h>
 #include <windows.h>
 #include <atomic>
-#include <imgui.h>
+
+#include "Core/ImTypes.hpp"
 
 
 #include <nlohmann/json.hpp>

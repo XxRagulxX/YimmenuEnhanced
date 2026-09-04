@@ -1,6 +1,9 @@
+#include "Menu/ClassicUI.hpp"
 #include "Menu/Items.hpp"
 #include "Commands/Commands.hpp"
 #include "Commands/IntCommand.hpp"
+
+#include <algorithm>
 
 namespace YimMenu
 {
@@ -15,27 +18,21 @@ namespace YimMenu
 	{
 		if (!m_Command)
 		{
-			ImGui::Text("Unknown!");
+			ClassicUI::Text("Unknown!");
 			return;
 		}
 
-		int value = m_Command->GetState();
-		auto label = m_LabelOverride.has_value() ? m_LabelOverride.value().c_str() : m_Command->GetLabel().c_str();
-		if (!m_Command->GetMinimum().has_value() || !m_Command->GetMaximum().has_value() || !m_useSlider)
+		// m_useSlider only chose between two real ImGui widget shapes
+		// (SliderInt vs InputInt) - both are the same "- value +" stepper
+		// row here (see Menu/ClassicUI.hpp's own class comment on why
+		// full interactive polish, drag sliders included, is out of
+		// scope for this pass), so it no longer changes anything.
+		const auto label = m_LabelOverride.has_value() ? m_LabelOverride.value() : m_Command->GetLabel();
+		const auto value = ClassicUI::IntStepper(label, m_Command->GetState());
+		if (value != m_Command->GetState())
 		{
-			ImGui::SetNextItemWidth(150);
-			if (ImGui::InputInt(label, &value))
-			{
-				m_Command->SetState(value);
-			}
-		}
-		else
-		{
-			ImGui::SetNextItemWidth(150);
-			if (ImGui::SliderInt(label, &value, m_Command->GetMinimum().value(), m_Command->GetMaximum().value()))
-			{
-				m_Command->SetState(value);
-			}
+			const auto clamped = std::clamp(value, m_Command->GetMinimum().value_or(value), m_Command->GetMaximum().value_or(value));
+			m_Command->SetState(clamped);
 		}
 	}
 }

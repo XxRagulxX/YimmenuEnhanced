@@ -4,12 +4,16 @@
 
 namespace YimMenu
 {
-	// The classic ImGui menu tree - Category/Submenu/UIManager/Items.hpp's
-	// own *Item classes, drawn through RenderClassicTheme() (Classic.cpp,
-	// the only theme renderer left - Modern/ModernV/Modular were deleted
+	// The classic menu tree - Category/Submenu/UIManager/Items.hpp's own
+	// *Item classes, drawn through RenderClassicTheme() (Classic.cpp, the
+	// only theme renderer left - Modern/ModernV/Modular were deleted
 	// alongside every other native ImGui page, all covered by the real
 	// Grid/DirectXTK12 menu now instead - see Rendering/GridRenderer.hpp's
-	// own class comment).
+	// own class comment). ImGui itself is gone from this project entirely
+	// now - RenderClassicTheme() and every *Item::Draw() below it draw
+	// through Menu/ClassicUI.hpp's own small DirectXTK widget kit instead
+	// (see its class comment for the "reduced interactive polish, kept
+	// working" trade-off that whole conversion made).
 	//
 	// This whole pipeline is no longer fed any native content at all: all
 	// nine of Self/Vehicle/Teleport/Network/Players/World/Recovery/
@@ -26,11 +30,15 @@ namespace YimMenu
 	// call - only ever shows something when a Lua script has actually
 	// added a category/group/item to it (or a submenu it created itself),
 	// including the raw cat:imgui()/group:imgui() escape hatch (see
-	// Scripting/LuaMenu.cpp). Porting that Lua-facing API onto the Grid
-	// renderer is out of scope for now (explicitly deferred) - this is
-	// the minimal thing that keeps every existing Lua menu script working
-	// unchanged while no longer drawing any of this project's own native
-	// menu content through ImGui.
+	// Scripting/LuaMenu.cpp) - though that hatch itself is now a no-op,
+	// since it hands scripts the real ImGui API (Scripting/LuaImGui.cpp),
+	// which no longer exists either; see that file's own comment. Porting
+	// Lua's menu-building API onto the Grid renderer for real is out of
+	// scope for now (explicitly deferred) - this is the minimal thing
+	// that keeps every existing Lua menu script's structural calls
+	// (add_category/add_group/add_bool_command/...) working without
+	// erroring, while no longer drawing any of this project's own native
+	// menu content through ImGui, which is gone.
 	enum class UITheme
 	{
 		Classic = 0,
@@ -59,6 +67,15 @@ namespace YimMenu
 			GetInstance().DrawImpl();
 		}
 
+		// Text pass - flushes whatever Draw() above queued this same
+		// frame (RenderClassicThemeText()). Must run after it, same
+		// two-pass contract as everywhere else in this system - see
+		// Menu/ClassicUI.hpp's own class comment.
+		static void DrawText()
+		{
+			GetInstance().DrawTextImpl();
+		}
+
 		static std::shared_ptr<Submenu> GetActiveSubmenu()
 		{
 			return GetInstance().GetActiveSubmenuImpl();
@@ -67,11 +84,6 @@ namespace YimMenu
 		static std::shared_ptr<Category> GetActiveCategory()
 		{
 			return GetInstance().GetActiveCategoryImpl();
-		}
-
-		static void SetOptionsFont(ImFont* font)
-		{
-			GetInstance().m_OptionsFont = font;
 		}
 
 		static bool ShowingContentWindow()
@@ -89,19 +101,14 @@ namespace YimMenu
 			return GetInstance().m_Submenus;
 		}
 
-		static ImFont* GetOptionsFont()
-		{
-			return GetInstance().m_OptionsFont;
-		}
-
 		// Whether any submenu (native-but-now-empty, or one Lua created
 		// itself) actually has a category in it - i.e. whether a Lua
 		// script has added anything to this tree at all. GUI::ToggleMouse()
 		// uses this to decide whether the mouse cursor needs to come back
-		// (Lua-drawn content generally needs one - real ImGui widgets,
-		// unlike the Grid menu's own keyboard-only rows) without showing
-		// one just for opening the native, keyboard-only Grid menu on its
-		// own.
+		// (the classic pipeline's own Menu/ClassicUI.hpp widgets are
+		// mouse-driven, unlike the Grid menu's own keyboard-only rows)
+		// without showing one just for opening the native, keyboard-only
+		// Grid menu on its own.
 		static bool HasAnyContent()
 		{
 			return GetInstance().HasAnyContentImpl();
@@ -118,6 +125,7 @@ namespace YimMenu
 		void RemoveSubmenuImpl(const std::shared_ptr<Submenu>& submenu);
 		void SetActiveSubmenuImpl(const std::shared_ptr<Submenu> submenu);
 		void DrawImpl();
+		void DrawTextImpl();
 		std::shared_ptr<Submenu> GetActiveSubmenuImpl();
 		std::shared_ptr<Category> GetActiveCategoryImpl();
 		bool HasAnyContentImpl() const;
@@ -125,7 +133,6 @@ namespace YimMenu
 		std::shared_ptr<Submenu> m_ActiveSubmenu;
 		std::vector<std::shared_ptr<Submenu>> m_Submenus;
 
-		ImFont* m_OptionsFont = nullptr;
 		bool m_ShowContentWindow = true;
 	};
 }

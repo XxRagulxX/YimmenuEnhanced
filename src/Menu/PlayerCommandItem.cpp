@@ -1,3 +1,4 @@
+#include "Menu/ClassicUI.hpp"
 #include "Menu/Items.hpp"
 #include "Commands/PlayerCommand.hpp"
 #include "Commands/Commands.hpp"
@@ -16,11 +17,11 @@ namespace YimMenu
 	{
 		if (!m_Command)
 		{
-			ImGui::Text("Unknown!");
+			ClassicUI::Text("Unknown!");
 			return;
 		}
 
-		if (ImGui::Button(m_LabelOverride.has_value() ? m_LabelOverride.value().data() : m_Command->GetLabel().data()))
+		if (ClassicUI::Button(m_LabelOverride.has_value() ? m_LabelOverride.value() : m_Command->GetLabel()))
 		{
 			FiberPool::queueJob([this] {
 				if (Players::GetSelected().IsValid())
@@ -28,9 +29,7 @@ namespace YimMenu
 			});
 		}
 
-		if (ImGui::IsItemHovered())
-		{
-			ImGui::SetTooltip("%s", m_Command->GetDescription().data());
-		}
+		// The original's own hover tooltip isn't ported - see
+		// Menu/ClassicUI.hpp's own class comment.
 	}
 }

@@ -32,6 +32,11 @@ namespace YimMenu
 		RenderClassicTheme();
 	}
 
+	void UIManager::DrawTextImpl()
+	{
+		RenderClassicThemeText();
+	}
+
 	std::shared_ptr<Submenu> UIManager::GetActiveSubmenuImpl()
 	{
 		return m_ActiveSubmenu;

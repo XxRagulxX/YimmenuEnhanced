@@ -1,7 +1,7 @@
+#include "Menu/ClassicUI.hpp"
 #include "Menu/Items.hpp"
 #include "Commands/BoolCommand.hpp"
 #include "Commands/Commands.hpp"
-#include "Rendering/imgui_toggle.hpp"
 
 namespace YimMenu
 {
@@ -15,38 +15,19 @@ namespace YimMenu
 	{
 		if (!m_Command)
 		{
-			ImGui::Text("Unknown!");
+			ClassicUI::Text("Unknown!");
 			return;
 		}
 
-		bool enabled = m_Command->GetState();
-		if (ImGui::Toggle(m_LabelOverride.has_value() ? m_LabelOverride.value().data() : m_Command->GetLabel().data(), &enabled))
+		const auto label = m_LabelOverride.has_value() ? m_LabelOverride.value() : m_Command->GetLabel();
+		const bool enabled = ClassicUI::Toggle(label, m_Command->GetState());
+		if (enabled != m_Command->GetState())
 			m_Command->SetState(enabled);
 
-		// TODO: refactor this
-
-		auto windowLabel = std::format("{} Hotkey", m_Command->GetLabel());
-
-		if (ImGui::IsItemHovered())
-		{
-			ImGui::SetTooltip("%s", m_Command->GetDescription().data());
-			if (GetAsyncKeyState(VK_OEM_3) & 0x8000)
-				ImGui::OpenPopup(std::format("{} Hotkey", m_Command->GetLabel()).data());
-		}
-
-		ImGui::SetNextWindowSize(ImVec2(500, 120));
-		if (ImGui::BeginPopupModal(windowLabel.data(), nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar))
-		{
-			ImGui::BulletText("Hover over the command name to change its hotkey");
-			ImGui::BulletText("Press any registered key to remove");
-			ImGui::Separator();
-
-
-			ImGui::Spacing();
-			if (ImGui::Button("Close") || ((!ImGui::IsWindowHovered() && !ImGui::IsAnyItemHovered()) && ImGui::IsMouseClicked(ImGuiMouseButton_Left)))
-				ImGui::CloseCurrentPopup();
-
-			ImGui::EndPopup();
-		}
+		// The original's own hotkey-capture popup (hover + Caps Lock to
+		// bind a key) isn't ported - see Menu/ClassicUI.hpp's own class
+		// comment on why full interactive polish is out of scope for
+		// this pass. The Grid equivalent (Settings > Hotkeys) still
+		// covers real hotkey assignment.
 	}
 }
