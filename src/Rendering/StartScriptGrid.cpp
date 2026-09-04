@@ -84,13 +84,13 @@ namespace YimMenu::Rendering
 		}
 	}
 
-	// Origin (1438, 622) and spacer (3) - offset further down than every
-	// other content Grid's usual (1438, 587) origin to clear ScriptsGrid's
-	// own tab strip, same as every other GridTabbed target does (see
+	// Origin (1438, 622) - offset further down than every other content
+	// Grid's usual (1438, 587) origin to clear ScriptsGrid's own tab
+	// strip, same as every other GridTabbed target does (see
 	// GridTabbed.hpp's own class comment and VehicleSpawnNewGrid's
 	// identical offset).
 	StartScriptGrid::StartScriptGrid() :
-	    Grid(1438, 622, 3),
+	    Grid(1438, 622, 0),
 	    m_StackSize(kStackSizes[0].second)
 	{
 	}

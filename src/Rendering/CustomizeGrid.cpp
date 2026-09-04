@@ -13,13 +13,18 @@ namespace YimMenu::Rendering
 		constexpr float kItemH = Theme::kContentItemHeight;
 	}
 
-	// Origin (1438, 587) and spacer (3) match every other content Grid's -
-	// see the comment in MenuGrid.cpp's anonymous namespace for why (no
-	// shared header for these yet). Each item below specifies its own
-	// width (Theme::kContentWidth) rather than the Grid itself, matching
-	// Stand's real Grid - see Grid.hpp's class comment.
+	// Origin (1438, 587) matches every other content Grid's - see the
+	// comment in MenuGrid.cpp's anonymous namespace for why (no shared
+	// header for these yet). Spacer is 0, not 3: confirmed against real
+	// Stand's own source (origin/stand-reference) that individual list
+	// rows have zero gap between them - the 3-unit spacer real Stand
+	// does use is only ever between distinct chrome pieces (addressbar/
+	// tabs/list), never between rows within one list, which is what every
+	// item in this Grid's own list actually is. Each item below specifies
+	// its own width (Theme::kContentWidth) rather than the Grid itself,
+	// matching Stand's real Grid - see Grid.hpp's class comment.
 	CustomizeGrid::CustomizeGrid() :
-	    Grid(1438, 587, 3)
+	    Grid(1438, 587, 0)
 	{
 	}
 
@@ -55,7 +60,6 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemButton>(Theme::kContentWidth, kItemH, "Reset to Defaults", [this] {
 			Theme::kAccent = {1.f, 0.f, 1.f, 1.f};
 			Theme::kPanelBackground = {0.f, 0.f, 0.f, 0.3019f};
-			Theme::kBackdropBackground = {0.f, 0.f, 0.f, 0.55f};
 			Theme::kText = {1.f, 1.f, 1.f, 1.f};
 			Theme::kToggleOff = {0.35f, 0.35f, 0.35f, 1.f};
 			Theme::kError = {0.6f, 0.2f, 0.2f, 1.f};
@@ -66,7 +70,6 @@ namespace YimMenu::Rendering
 
 		AddColorRows(items_draft, "Accent", Theme::kAccent);
 		AddColorRows(items_draft, "Panel Background", Theme::kPanelBackground);
-		AddColorRows(items_draft, "Backdrop Background", Theme::kBackdropBackground);
 		AddColorRows(items_draft, "Text", Theme::kText);
 		AddColorRows(items_draft, "Toggle Off", Theme::kToggleOff);
 		AddColorRows(items_draft, "Error", Theme::kError);

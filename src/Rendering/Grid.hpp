@@ -204,18 +204,6 @@ namespace YimMenu::Rendering
 			return m_ScrollOffset;
 		}
 
-		// Forces this Grid's own populate()/invalidate() bookkeeping to
-		// run now, rather than waiting for draw()/drawText()/findItemAt()
-		// to trigger it - MenuGrid's own backdrop (see its class comment)
-		// needs a content Grid's real getDimensions() before it draws,
-		// which needs items populated first, not whenever content->draw()
-		// would otherwise get around to it.
-		void EnsurePopulated()
-		{
-			checkWatchedConditions();
-			ensurePopulated();
-		}
-
 	protected:
 		// Same soup::SharedPtr<std::vector<std::unique_ptr<GridItem>>>
 		// Stand's own Grid uses (see the class comment above for why this

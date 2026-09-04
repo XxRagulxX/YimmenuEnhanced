@@ -5,17 +5,16 @@
 
 namespace YimMenu::Rendering::Theme
 {
-	// Stand's own default (unthemed) look. Real Stand is closed-source
-	// (a compiled binary, no public repo) - earlier comments throughout
-	// this file claimed these values were ported from a "stand-reference"
-	// source tree (focusRectColour/bgRectColour/bgTextColour, tabs_width/
-	// tabs_height/command_width/command_height/addressbar_height), but
-	// nothing by that name is a real, checkable source, and there's no
-	// way to verify that claim now. What every value in this file is
-	// actually grounded in: real Stand's own neon-pink-on-black unthemed
-	// look, as directly visible in screenshots (both stock ones and
-	// side-by-sides a user of this project has shared) - not a ported
-	// source value, whatever it was called before.
+	// Stand's own default (unthemed) look - genuinely verified this time
+	// against origin/stand-reference (a branch of this same repo, not
+	// something fetchable from the open internet - a previous pass here
+	// wrongly assumed it didn't exist and edited several comments to hedge
+	// that; that hedge was itself wrong). See that branch's own src/
+	// Rendering/Renderer.hpp, the Renderer class's own default member
+	// values: focusRectColour = {1,0,1,1}, bgRectColour = {0,0,0,0.3019},
+	// bgTextColour = {1,1,1,1}, addressbar_height = 24, tabs_width = 112,
+	// tabs_height = 32, command_width = 450, command_height = 32 - every
+	// one matches what this file already had.
 
 	// The one accent colour: whatever's currently active, on, selected,
 	// or otherwise the thing that matters right now - a sidebar/tab's
@@ -38,28 +37,31 @@ namespace YimMenu::Rendering::Theme
 
 	// The translucent panel background every non-active row uses -
 	// toggle/folder rows, inactive sidebar/tab entries, a stepper/list's
-	// value box. Stand's own bgRectColour - a highlight tint layered on
-	// top of kBackdropBackground below, not the menu's only source of
-	// opacity (see that constant's own comment for why this project used
-	// to only have this one, and how that read as "very transparent").
-	inline DirectX::XMFLOAT4 kPanelBackground{0.f, 0.f, 0.f, 0.3019f};
-
-	// The backdrop MenuGrid draws once behind the sidebar and (separately)
-	// the content column, before any row/highlight on top of it - so the
-	// menu reads as one panel, not a set of separately translucent rows
-	// each floating over the game world on their own. kPanelBackground's
-	// 30% alpha is a highlight meant to sit on top of this, not carry
-	// full-page opacity by itself (which is what this project did before
-	// this constant existed, and why every unfocused row looked like it
-	// was barely there at all against a bright scene).
+	// value box. Stand's own bgRectColour, confirmed 0.3019 alpha exactly
+	// (see this file's own top comment).
 	//
-	// Real Stand is closed-source - there is no actual source to port
-	// this value from, whatever an earlier comment here claimed. 0.85
-	// (tried first) read as a heavy black slab, well past what Stand's
-	// own screenshots actually show - this is tuned down from that
-	// against those screenshots directly, the only real reference
-	// available, not derived from anything else.
-	inline DirectX::XMFLOAT4 kBackdropBackground{0.f, 0.f, 0.f, 0.55f};
+	// A previous pass here invented a second, more-opaque "backdrop"
+	// constant on top of this one, on the theory that real Stand must be
+	// compositing some separate solid panel underneath its rows - it
+	// isn't. Checked against origin/stand-reference's own src/Menu/
+	// GridItemList.cpp: real Stand draws bgRectColour exactly once, as a
+	// single rect spanning the whole (unfocused) list - not per row - and
+	// its rows have zero gap between them (no separate spacer; they're
+	// just offsets inside one GridItemList, not individually positioned
+	// GridItems). The reason this project's own rows read as "very
+	// transparent" was never that 0.3019 was too low - it's that every
+	// row here IS its own separate top-level GridItem, positioned through
+	// Grid::setPositions() using this content Grid's own spacer_size,
+	// which every content Grid's own constructor set to 3 - the same gap
+	// real Stand only ever uses between distinct chrome pieces
+	// (addressbar/tabs/list), never between individual rows within one.
+	// That left a real, unrendered 3-unit seam of bare game world between
+	// every single row. Fixed at the source instead: every content Grid's
+	// own spacer_size is 0 now (see each one's own constructor comment),
+	// so rows pack edge to edge the same way Stand's own list does, and
+	// bgRectColour's existing 30% alpha reads as one continuous panel
+	// rather than a stack of separately-transparent strips.
+	inline DirectX::XMFLOAT4 kPanelBackground{0.f, 0.f, 0.f, 0.3019f};
 
 	// White text/foreground, used everywhere. Stand's own
 	// bgTextColour/focusTextColour (identical in both states there).
@@ -96,39 +98,39 @@ namespace YimMenu::Rendering::Theme
 	// addressbar_height is the header/breadcrumb bar; tabs_width/
 	// tabs_height are the left-hand submenu list ("sidebar" everywhere
 	// else in this system); command_width/command_height are the main
-	// content list's own column width and each row's height.
-	//
-	// kSidebarEntryHeight/kContentItemHeight were 32 (an exact port,
-	// this file used to claim, of stand-reference's own Renderer
-	// defaults) - side-by-side screenshots of real Stand next to this
-	// project's menu showed real Stand's rows sitting noticeably
-	// tighter than that, with far less empty padding around each row's
-	// text than 32 leaves here. Nothing in this project can re-check
-	// that old claim against Stand's actual source any more, so this
-	// takes the direct screenshot comparison as the more reliable
-	// signal and tightens both to 26 - still comfortably above the
-	// embedded font's own text height at kTextScale (rows had generous
-	// padding to spare at 32), just less of it.
+	// content list's own column width and each row's height. Confirmed
+	// exact against origin/stand-reference's own Renderer.hpp (see this
+	// file's own top comment) - a previous pass here shrank
+	// kSidebarEntryHeight/kContentItemHeight to 26 on the mistaken belief
+	// that no real source existed to check them against; reverted back
+	// to the confirmed-correct 32. The actual, source-backed reason
+	// real Stand's rows still look tighter is the zero-gap fix on every
+	// content Grid's own spacer_size below, not a shorter row.
 	constexpr int16_t kHeaderHeight = 24;
 	constexpr int16_t kSidebarWidth = 112;
-	constexpr int16_t kSidebarEntryHeight = 26;
+	constexpr int16_t kSidebarEntryHeight = 32;
 	constexpr int16_t kContentWidth = 450;
-	constexpr int16_t kContentItemHeight = 26;
+	constexpr int16_t kContentItemHeight = 32;
 
-	// Stand's own command_text/tabs_text/addressbar_text scale (they're
-	// all defined identically: float(15.0 * TEXT_HEIGHT_PX * 2.0), with
-	// TEXT_HEIGHT_PX = 0.021875 - see stand-reference's src/Rendering/
-	// dx_common.hpp and the TextSettings members in Renderer.hpp/Menu/
-	// MenuGrid.hpp). Stand's embedded SpriteFont (the same "Be Vietnam
-	// Pro" blob this project embeds - see font_bevietnamprolight.hpp) is
-	// baked much larger than any row here is meant to show it at, so
-	// every text draw needs this scale applied - drawing it at the
-	// font's native size (scale 1.0, what this project did before) is
-	// why text looked comically oversized for its row. GridRenderer
-	// applies this once, uniformly, in DrawText()/MeasureText() rather
-	// than per-widget, same as Stand applies command_text.scale/tabs_
-	// text.scale/addressbar_text.scale identically across the same three
-	// widget kinds.
+	// Stand's own command_text/tabs_text scale: float(15.0 *
+	// TEXT_HEIGHT_PX * 2.0), TEXT_HEIGHT_PX = 0.021875 - both confirmed
+	// exact against origin/stand-reference's src/Rendering/dx_common.hpp
+	// and the TextSettings members in Renderer.hpp. Stand's embedded
+	// SpriteFont (the same "Be Vietnam Pro" blob this project embeds -
+	// see font_bevietnamprolight.hpp) is baked much larger than any row
+	// here is meant to show it at, so every text draw needs this scale
+	// applied - drawing it at the font's native size (scale 1.0, what
+	// this project did before) is why text looked comically oversized
+	// for its row. GridRenderer applies this once, uniformly, in
+	// DrawText()/MeasureText() rather than per-widget.
+	//
+	// NOT the same scale addressbar_text uses in real Stand, though -
+	// its own TextSettings is 12.0-based (Menu/MenuGrid.hpp), not 15.0
+	// like tabs_text/command_text. This project applies kTextScale to
+	// header text too (no separate scale plumbed through yet), a real,
+	// disclosed gap from real Stand rather than a verified match - left
+	// alone here since fixing it means threading a second scale through
+	// GridRenderer's text path, out of scope for this pass.
 	constexpr float kTextScale = 0.65625f;
 	constexpr float kSmallTextScale = kTextScale * (12.f / 15.f);
 

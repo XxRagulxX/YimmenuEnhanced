@@ -102,7 +102,7 @@ namespace YimMenu::Rendering
 	// header comment and GridTabbed's for why a tab target hardcodes
 	// this itself rather than using the usual (1438, 587).
 	VehicleSpawnNewGrid::VehicleSpawnNewGrid() :
-	    Grid(1438, 622, 3)
+	    Grid(1438, 622, 0)
 	{
 	}
 

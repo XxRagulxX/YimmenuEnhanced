@@ -15,7 +15,7 @@ namespace YimMenu::Rendering
 	// comment for why) - this one's just reached via a GridItemFolder
 	// row instead of the sidebar.
 	InvisibilityGrid::InvisibilityGrid() :
-	    Grid(1438, 587, 3)
+	    Grid(1438, 587, 0)
 	{
 	}
 

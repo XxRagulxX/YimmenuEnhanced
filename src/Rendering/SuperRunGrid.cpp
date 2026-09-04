@@ -13,7 +13,7 @@ namespace YimMenu::Rendering
 	}
 
 	SuperRunGrid::SuperRunGrid() :
-	    Grid(1438, 587, 3)
+	    Grid(1438, 587, 0)
 	{
 	}
 

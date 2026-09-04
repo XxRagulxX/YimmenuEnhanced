@@ -55,8 +55,6 @@ namespace YimMenu::Rendering::Theme
 			JsonToColor(*it, kAccent);
 		if (auto it = j.find("PanelBackground"); it != j.end())
 			JsonToColor(*it, kPanelBackground);
-		if (auto it = j.find("BackdropBackground"); it != j.end())
-			JsonToColor(*it, kBackdropBackground);
 		if (auto it = j.find("Text"); it != j.end())
 			JsonToColor(*it, kText);
 		if (auto it = j.find("ToggleOff"); it != j.end())
@@ -72,7 +70,6 @@ namespace YimMenu::Rendering::Theme
 		nlohmann::json j;
 		j["Accent"] = ColorToJson(kAccent);
 		j["PanelBackground"] = ColorToJson(kPanelBackground);
-		j["BackdropBackground"] = ColorToJson(kBackdropBackground);
 		j["Text"] = ColorToJson(kText);
 		j["ToggleOff"] = ColorToJson(kToggleOff);
 		j["Error"] = ColorToJson(kError);

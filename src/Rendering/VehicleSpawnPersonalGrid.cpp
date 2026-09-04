@@ -83,7 +83,7 @@ namespace YimMenu::Rendering
 	// why a tab target hardcodes this itself rather than the usual
 	// (1438, 587).
 	VehicleSpawnPersonalGrid::VehicleSpawnPersonalGrid() :
-	    Grid(1438, 622, 3)
+	    Grid(1438, 622, 0)
 	{
 	}
 

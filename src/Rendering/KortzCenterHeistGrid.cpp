@@ -19,7 +19,7 @@ namespace YimMenu::Rendering
 	// draws (587 + 32-tall strip + 3 spacer) - see this class's own
 	// header comment.
 	KortzCenterHeistGrid::KortzCenterHeistGrid() :
-	    Grid(1438, 622, 3)
+	    Grid(1438, 622, 0)
 	{
 	}
 
