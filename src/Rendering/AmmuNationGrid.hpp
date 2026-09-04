@@ -7,6 +7,8 @@
 
 namespace YimMenu::Rendering
 {
+	class Grid;
+
 	// Pushes Weapons.cpp's own weaponsAmmuNationGroup rows into
 	// items_draft - a free function, not a Grid of its own, since the
 	// original has this as just another inline Group inside Self >
@@ -28,5 +30,5 @@ namespace YimMenu::Rendering
 	// showing the *selected* weapon's description instead - there's no
 	// hover-tracking primitive in this system yet, and GridItemSelectList
 	// only renders plain text rows regardless.
-	void AddAmmuNationRows(std::vector<std::unique_ptr<GridItem>>& items_draft, int16_t width);
+	void AddAmmuNationRows(Grid& grid, std::vector<std::unique_ptr<GridItem>>& items_draft, int16_t width);
 }

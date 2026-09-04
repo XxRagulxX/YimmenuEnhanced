@@ -101,6 +101,16 @@ namespace YimMenu::Rendering
 		// class's own header comment for why, unlike the original which
 		// hides New Folder outside Root), Populate Name/Save both gated
 		// on HasValidVehicle() like the original's shared early-return.
+		// Deliberately still GridItemConditional, not watchCondition():
+		// m_FileNameInput/m_NewFolderInput below cache their own live-
+		// edited text, and watchCondition()'s repopulate-on-change
+		// rebuilds this whole populate() call - including those two
+		// fields - the moment HasValidVehicle() flips (e.g. getting out
+		// of the vehicle mid-edit), discarding whatever the user had
+		// typed. Leaving the reserved-blank-space tradeoff here (see
+		// GridItemConditional's own class comment) is safer than a real
+		// data-loss bug - same reasoning as SavedPlayersGrid's own
+		// Player Editor section.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Save", Theme::kText));
 
 		auto fileNameInput = std::make_unique<GridItemTextInput>(Theme::kContentWidth, kItemH, "File Name", "", nullptr);

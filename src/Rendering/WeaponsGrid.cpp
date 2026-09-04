@@ -134,7 +134,7 @@ namespace YimMenu::Rendering
 		// Ammu-Nation (weaponsAmmuNationGroup) - see AddAmmuNationRows()'s
 		// own doc comment for what it covers.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Ammu-Nation", Theme::kText));
-		AddAmmuNationRows(items_draft, Theme::kContentWidth);
+		AddAmmuNationRows(*this, items_draft, Theme::kContentWidth);
 
 		// Gun Van (weaponsGunVanGroup) - all three items are
 		// unconditional (two ListCommandItems, now that

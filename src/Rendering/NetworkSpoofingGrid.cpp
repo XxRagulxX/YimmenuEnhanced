@@ -5,7 +5,6 @@
 #include "Rendering/GridItemCommandInt.hpp"
 #include "Rendering/GridItemCommandList.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
-#include "Rendering/GridItemConditional.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Util/Joaat.hpp"
 #include "Rendering/Theme.hpp"
@@ -45,47 +44,37 @@ namespace YimMenu::Rendering
 		// Matchmaking (Client) (matchmakingGroup) - cheaterpool and
 		// spoofdatahash are unconditional. The spoofMMRegion subgroup
 		// (spoofmmregion + its own further-conditional mmregion list) is
-		// wrapped in a ConditionalItem gated on cheaterpool being *off*
-		// (negate) in the original - spoofmmregion below carries that
-		// same condition directly (there's no single GridItem standing in
-		// for "the subgroup" here to wrap once, unlike ConditionalItem's
-		// own model - see GridItemConditional.hpp's class comment on why
-		// a hidden row still reserves its own space either way), and
-		// mmregion's own condition composes both checks via
-		// ShouldShowMmRegion() above.
+		// gated on cheaterpool being *off* (negate) in the original -
+		// spoofmmregion below carries that same condition directly
+		// (there's no single GridItem standing in for "the subgroup"
+		// here to wrap once), and mmregion's own condition composes both
+		// checks via ShouldShowMmRegion() above. watchCondition() (not
+		// GridItemConditional) so a hidden row doesn't reserve its own
+		// layout slot - see Grid::watchCondition()'s own doc comment.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Matchmaking (Client)", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "cheaterpool"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "spoofmmregion"_J, "Spoof Region"),
-		    "cheaterpool"_J,
-		    true));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "mmregion"_J),
-		    &ShouldShowMmRegion));
+		if (watchCondition("cheaterpool"_J, true))
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "spoofmmregion"_J, "Spoof Region"));
+		if (watchCondition(ShouldShowMmRegion))
+			items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "mmregion"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "spoofdatahash"_J));
 
 		// Matchmaking (Server) (matchmakingSrvGroup) - all four toggles
 		// are unconditional; their paired mmregiontype/mmlanguage/
-		// mmplayercount/mmmultiplexsessioncount items are each a
-		// ConditionalItem gated on the toggle right next to it, now that
-		// GridItemConditional exists (mmplayercount/mmmultiplexsessioncount
-		// also needed GridItemCommandInt, which exists now too).
+		// mmplayercount/mmmultiplexsessioncount items are each gated on
+		// the toggle right next to it.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Matchmaking (Server)", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mmspoofregiontype"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "mmregiontype"_J),
-		    "mmspoofregiontype"_J));
+		if (watchCondition("mmspoofregiontype"_J))
+			items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "mmregiontype"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mmspooflanguage"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "mmlanguage"_J),
-		    "mmspooflanguage"_J));
+		if (watchCondition("mmspooflanguage"_J))
+			items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "mmlanguage"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mmspoofplayercount"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "mmplayercount"_J),
-		    "mmspoofplayercount"_J));
+		if (watchCondition("mmspoofplayercount"_J))
+			items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "mmplayercount"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mmmultiplexsession"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "mmmultiplexsessioncount"_J),
-		    "mmmultiplexsession"_J));
+		if (watchCondition("mmmultiplexsession"_J))
+			items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "mmmultiplexsessioncount"_J));
 	}
 }

@@ -102,7 +102,18 @@ namespace YimMenu::Rendering
 
 		// Player Editor (RenderPlayerEditor()) - every row gated on a
 		// selection existing, matching the original's own "return early
-		// with nothing selected" guard.
+		// with nothing selected" guard. Deliberately still
+		// GridItemConditional here, not watchCondition(): nameInput/
+		// ridInput cache their own live-edited text (SetValue()'d from
+		// the select callback above, read back by their own change
+		// callback), not backed by a Command the way every
+		// GridItemCommandToggle/Float/Int/List/String/Button elsewhere
+		// is - watchCondition()'s repopulate-on-change would recreate
+		// them from their default (empty) constructor value on the very
+		// next frame after a selection, discarding whatever the select
+		// callback just wrote in. Leaving the reserved-blank-space
+		// tradeoff here (see GridItemConditional's own class comment) is
+		// safer than a real data-loss bug.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Player Editor", Theme::kText));
 
 		auto nameInput = std::make_unique<GridItemTextInput>(Theme::kContentWidth, kItemH, "Name", "", [this](const std::string& value) {
@@ -300,26 +311,19 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotify"_J, "Tracking Notifications"));
 
 		// Notifications (notifications Group) - gated on playerdbnotify.
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotifywhenjoinable"_J),
-		    "playerdbnotify"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotifywhenunjoinable"_J),
-		    "playerdbnotify"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotifywhenonline"_J),
-		    "playerdbnotify"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotifywhenoffline"_J),
-		    "playerdbnotify"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotifyonseschange"_J),
-		    "playerdbnotify"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotifyonmischange"_J),
-		    "playerdbnotify"_J));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotifyonjoblobby"_J),
-		    "playerdbnotify"_J));
+		// watchCondition() (not GridItemConditional) is safe here, unlike
+		// the Player Editor section above: every one of these is a plain
+		// Command-backed GridItemCommandToggle with no cached value of
+		// its own to lose on repopulation.
+		if (watchCondition("playerdbnotify"_J))
+		{
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotifywhenjoinable"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotifywhenunjoinable"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotifywhenonline"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotifywhenoffline"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotifyonseschange"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotifyonmischange"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "playerdbnotifyonjoblobby"_J));
+		}
 	}
 }

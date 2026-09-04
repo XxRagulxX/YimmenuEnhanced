@@ -1,7 +1,6 @@
 #include "Rendering/LuaScriptsGrid.hpp"
 
 #include "Rendering/GridItemButton.hpp"
-#include "Rendering/GridItemConditional.hpp"
 #include "Rendering/GridItemLiveText.hpp"
 #include "Rendering/GridItemSelectList.hpp"
 #include "Rendering/GridItemText.hpp"
@@ -125,57 +124,53 @@ namespace YimMenu::Rendering
 			return m_SelectedScript && m_SelectedScript->GetLoadState() != LuaScript::LoadState::UNLOADED;
 		};
 
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemLiveText>(
-		        Theme::kContentWidth,
-		        kItemH,
-		        [this] {
-			        return m_SelectedScript ? std::format("Selected: {}", m_SelectedScript->GetName()) : std::string();
-		        },
-		        Theme::kText),
-		    isSelectionValid));
+		// watchCondition() (not GridItemConditional) so a hidden row
+		// below doesn't reserve its own layout slot - see
+		// Grid::watchCondition()'s own doc comment.
+		if (watchCondition(isSelectionValid))
+		{
+			items_draft.push_back(std::make_unique<GridItemLiveText>(
+			    Theme::kContentWidth,
+			    kItemH,
+			    [this] {
+				    return m_SelectedScript ? std::format("Selected: {}", m_SelectedScript->GetName()) : std::string();
+			    },
+			    Theme::kText));
+		}
 
 		// Pause/Resume are two separately-gated buttons rather than one
 		// relabelled one - see this class's own header comment for why.
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemButton>(Theme::kContentWidth,
-		        kItemH,
-		        "Pause",
-		        [this] {
-			        if (m_SelectedScript)
-				        m_SelectedScript->Pause();
-		        }),
-		    [this] {
+		if (watchCondition([this] {
 			    return m_SelectedScript && m_SelectedScript->GetLoadState() == LuaScript::LoadState::RUNNING;
-		    }));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemButton>(Theme::kContentWidth,
-		        kItemH,
-		        "Resume",
-		        [this] {
-			        if (m_SelectedScript)
-				        m_SelectedScript->Resume();
-		        }),
-		    [this] {
+		    }))
+		{
+			items_draft.push_back(std::make_unique<GridItemButton>(Theme::kContentWidth, kItemH, "Pause", [this] {
+				if (m_SelectedScript)
+					m_SelectedScript->Pause();
+			}));
+		}
+		if (watchCondition([this] {
 			    return m_SelectedScript && m_SelectedScript->GetLoadState() == LuaScript::LoadState::PAUSED;
-		    }));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemButton>(Theme::kContentWidth,
-		        kItemH,
-		        "Reload",
-		        [this] {
-			        if (m_SelectedScript)
-				        m_SelectedScript->Reload();
-		        }),
-		    isSelectionValid));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemButton>(Theme::kContentWidth,
-		        kItemH,
-		        "Unload",
-		        [this] {
-			        if (m_SelectedScript)
-				        m_SelectedScript->Unload();
-		        }),
-		    isSelectionValid));
+		    }))
+		{
+			items_draft.push_back(std::make_unique<GridItemButton>(Theme::kContentWidth, kItemH, "Resume", [this] {
+				if (m_SelectedScript)
+					m_SelectedScript->Resume();
+			}));
+		}
+		if (watchCondition(isSelectionValid))
+		{
+			items_draft.push_back(std::make_unique<GridItemButton>(Theme::kContentWidth, kItemH, "Reload", [this] {
+				if (m_SelectedScript)
+					m_SelectedScript->Reload();
+			}));
+		}
+		if (watchCondition(isSelectionValid))
+		{
+			items_draft.push_back(std::make_unique<GridItemButton>(Theme::kContentWidth, kItemH, "Unload", [this] {
+				if (m_SelectedScript)
+					m_SelectedScript->Unload();
+			}));
+		}
 	}
 }

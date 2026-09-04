@@ -1,8 +1,8 @@
 #include "Rendering/AmmuNationGrid.hpp"
 
 #include "Scripting/FiberPool.hpp"
+#include "Rendering/Grid.hpp"
 #include "Rendering/GridItemButton.hpp"
-#include "Rendering/GridItemConditional.hpp"
 #include "Rendering/GridItemLiveText.hpp"
 #include "Rendering/GridItemSelectList.hpp"
 #include "Util/Joaat.hpp"
@@ -116,7 +116,7 @@ namespace YimMenu::Rendering
 		float g_KdRatio{};
 	}
 
-	void AddAmmuNationRows(std::vector<std::unique_ptr<GridItem>>& items_draft, int16_t width)
+	void AddAmmuNationRows(Grid& grid, std::vector<std::unique_ptr<GridItem>>& items_draft, int16_t width)
 	{
 		items_draft.push_back(std::make_unique<GridItemSelectList>(
 		    width,
@@ -172,50 +172,46 @@ namespace YimMenu::Rendering
 			return *Pointers.IsSessionStarted && g_SelectedWeaponHash != 0;
 		};
 
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemLiveText>(
-		        width,
-		        kItemH,
-		        [] {
-			        return std::format("Kills With: {}", g_Kills);
-		        },
-		        Theme::kText),
-		    hasStats));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemLiveText>(
-		        width,
-		        kItemH,
-		        [] {
-			        return std::format("Deaths By: {}", g_Deaths);
-		        },
-		        Theme::kText),
-		    hasStats));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemLiveText>(
-		        width,
-		        kItemH,
-		        [] {
-			        return std::format("K/D Ratio: {:.2f}", g_KdRatio);
-		        },
-		        Theme::kText),
-		    hasStats));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemLiveText>(
-		        width,
-		        kItemH,
-		        [] {
-			        return std::format("Headshots: {}", g_Headshots);
-		        },
-		        Theme::kText),
-		    hasStats));
-		items_draft.push_back(std::make_unique<GridItemConditional>(
-		    std::make_unique<GridItemLiveText>(
-		        width,
-		        kItemH,
-		        [] {
-			        return std::format("Accuracy: {}%", g_Accuracy);
-		        },
-		        Theme::kText),
-		    hasStats));
+		// watchCondition() (not GridItemConditional) so these five rows
+		// don't reserve their own layout slot while hidden - see
+		// Grid::watchCondition()'s own doc comment.
+		if (grid.watchCondition(hasStats))
+		{
+			items_draft.push_back(std::make_unique<GridItemLiveText>(
+			    width,
+			    kItemH,
+			    [] {
+				    return std::format("Kills With: {}", g_Kills);
+			    },
+			    Theme::kText));
+			items_draft.push_back(std::make_unique<GridItemLiveText>(
+			    width,
+			    kItemH,
+			    [] {
+				    return std::format("Deaths By: {}", g_Deaths);
+			    },
+			    Theme::kText));
+			items_draft.push_back(std::make_unique<GridItemLiveText>(
+			    width,
+			    kItemH,
+			    [] {
+				    return std::format("K/D Ratio: {:.2f}", g_KdRatio);
+			    },
+			    Theme::kText));
+			items_draft.push_back(std::make_unique<GridItemLiveText>(
+			    width,
+			    kItemH,
+			    [] {
+				    return std::format("Headshots: {}", g_Headshots);
+			    },
+			    Theme::kText));
+			items_draft.push_back(std::make_unique<GridItemLiveText>(
+			    width,
+			    kItemH,
+			    [] {
+				    return std::format("Accuracy: {}%", g_Accuracy);
+			    },
+			    Theme::kText));
+		}
 	}
 }
