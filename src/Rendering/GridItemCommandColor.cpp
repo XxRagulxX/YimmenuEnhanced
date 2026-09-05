@@ -210,8 +210,8 @@ namespace YimMenu::Rendering
 				layout.buttonSize = kButtonSize;
 				layout.valueWidth = kValueWidth;
 				layout.plusX = x + width - kButtonSize;
-				layout.minusX = layout.plusX - kGap - kButtonSize;
-				layout.valueX = layout.minusX - kGap - kValueWidth;
+				layout.valueX = layout.plusX - kGap - kValueWidth;
+				layout.minusX = layout.valueX - kGap - kButtonSize;
 				return layout;
 			}
 
