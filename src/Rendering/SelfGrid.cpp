@@ -5,6 +5,7 @@
 #include "Rendering/FreecamGrid.hpp"
 #include "Rendering/GridItemCommandButton.hpp"
 #include "Rendering/GridItemCommandInt.hpp"
+#include "Rendering/GridItemCommandList.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/GridItemText.hpp"
@@ -94,24 +95,59 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Freecam", &g_FreecamContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Levitation", &g_LevitationContent));
 
-		// Globals (MenuSelf.cpp's globalsGroup) - invis moved into the
-		// Categories folder above (see its own comment).
-		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Globals", Theme::kText));
+		// Real Stand's own "Self" tab loose top-level rows (everything
+		// after its 4 categories - Movement/Appearance/Weapons/
+		// Bodyguards, not yet ported here; see the Categories folder
+		// above for what's covered so far instead) - verified against
+		// origin/stand-reference's own src/Commands/Self/CommandTabSelf.cpp,
+		// in its exact order. Three are aliases of commands this project
+		// already had under its own name (godmode, noragdoll, suicide) -
+		// labelOverride matches Stand's own label without touching the
+		// underlying command or its internal name, so nothing else
+		// referencing them (Lua scripts, saved config, the sections
+		// below) breaks. Still missing from this list: No Roll Cooldown
+		// (real Stand's own version NOPs a private engine function found
+		// by address pattern-scanning - not safe to guess an offset for
+		// here), Respawn Delay (pokes a raw script-global bitset - same
+		// "wrong offset breaks something real" risk), and Regeneration
+		// Rate (needs its own CommandSliderRegenerationRate, a Stand
+		// class not yet looked at) - flagged rather than guessed at.
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Self", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "godmode"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "autoheal"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "maxhealth"_J, std::nullopt, 25));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "noragdoll"_J, "Gracefulness"));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "seatglue"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "wantedslider"_J, "Set Wanted Level"));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "freezewanted"_J, "Lock Wanted Level"));
+		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "fakewanted"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "infinitestamina"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "paralock"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "clumsiness"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "respawnrecall"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "refillhealth"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "refillarmour"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "suicide"_J, "End It All"));
+
+		// Globals (MenuSelf.cpp's globalsGroup) - invis moved into the
+		// Categories folder above, godmode/noragdoll moved into the real
+		// Stand "Self" section above (see its own comment) - the rest
+		// have no Stand equivalent found yet, kept as this project's own
+		// extras rather than dropped.
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Globals", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "otr"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "noragdoll"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "noidlekick"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "unlimitedoxygen"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mobileradio"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "keepplayerclean"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "disablecriticalhits"_J));
 
-		// Tools (toolsGroup) - all plain CommandItem buttons.
+		// Tools (toolsGroup) - all plain CommandItem buttons. suicide/heal
+		// moved into the real Stand "Self" section above (End It All/
+		// Refill Health+Armour) - the rest are this project's own extras.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Tools", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "skipcutscene"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "skipconversation"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "suicide"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "heal"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "cleardamage"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "fillinventory"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "openwardrobe"_J));
@@ -128,17 +164,21 @@ namespace YimMenu::Rendering
 		// groups flatten onto individual rows. watchCondition() (not
 		// GridItemConditional) so a hidden row here doesn't reserve its
 		// own layout slot - see its own doc comment in Grid.hpp.
+		// wantedslider/freezewanted's own rows moved into the real Stand
+		// "Self" section above (Set/Lock Wanted Level) - the remaining
+		// three (clearwanted/neverwanted/setwanted) have no Stand
+		// equivalent in its own top-level list and stay here as this
+		// project's own extras. Still watching both flags below even
+		// with those two rows gone: ShouldClearOrSetWanted() (clearwanted/
+		// setwanted's own gate) and neverwanted's own gate between them
+		// already cover every case that mattered for invalidation.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Wanted", Theme::kText));
 		if (watchCondition(ShouldClearOrSetWanted))
 			items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "clearwanted"_J));
 		if (watchCondition("freezewanted"_J, true))
 			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "neverwanted"_J));
-		if (watchCondition("neverwanted"_J, true))
-			items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "wantedslider"_J, "Level"));
 		if (watchCondition(ShouldClearOrSetWanted))
 			items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "setwanted"_J));
-		if (watchCondition("neverwanted"_J, true))
-			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "freezewanted"_J));
 
 		// Movement (movementGroup) - superrun/noclip/freecam/levitate
 		// moved into the Categories folder above (see its own comment);
