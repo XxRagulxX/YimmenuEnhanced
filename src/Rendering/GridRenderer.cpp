@@ -5,6 +5,7 @@
 #include "Rendering/ChatDisplay.hpp"
 #include "Rendering/ESP.hpp"
 #include "Rendering/Onboarding.hpp"
+#include "Rendering/MenuCommandBox.hpp"
 #include "Rendering/MenuFocus.hpp"
 #include "Rendering/MenuGrid.hpp"
 #include "Rendering/MenuNavigation.hpp"
@@ -261,6 +262,7 @@ namespace YimMenu::Rendering
 				// own class comment for why this is a free-standing
 				// overlay rather than a GridItem/Grid of its own.
 				MenuPopup::Draw();
+				MenuCommandBox::Draw();
 			}
 
 			// Always drawn, regardless of menuActive above - see
@@ -293,6 +295,7 @@ namespace YimMenu::Rendering
 			{
 				g_MenuGrid.drawText();
 				MenuPopup::DrawText();
+				MenuCommandBox::DrawText();
 			}
 
 			Notifications::DrawText();
@@ -442,6 +445,24 @@ namespace YimMenu::Rendering
 	{
 		if (!GUI::IsOpen())
 			return;
+
+		// MenuCommandBox takes over every input while open, same
+		// precedence MenuPopup already has (see its own comment right
+		// below) and checked first for the same reason - nothing in
+		// this system ever opens both at once, but a command box open
+		// on top of a focused text field mid-edit should still win.
+		// Unlike MenuPopup it also needs WM_CHAR (typed digits/letters),
+		// not just WM_KEYDOWN (Enter/Escape/Backspace) - see MenuCommandBox::
+		// HandleChar()/HandleKey()'s own doc comments for the split.
+		if (MenuCommandBox::IsOpen())
+		{
+			if (msg == WM_CHAR)
+				MenuCommandBox::HandleChar(static_cast<wchar_t>(wparam));
+			else if (msg == WM_KEYDOWN)
+				MenuCommandBox::HandleKey(static_cast<unsigned int>(wparam));
+
+			return;
+		}
 
 		// MenuPopup takes over every input while open, ahead of even the
 		// text-edit interception right below - a popup open on top of a

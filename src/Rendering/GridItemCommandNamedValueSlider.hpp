@@ -33,8 +33,22 @@ namespace YimMenu::Rendering
 
 		bool onArrow(int delta) override;
 
+		// Enter while this item is keyboard-focused - opens the Stand-
+		// style command box for typing a value directly instead of only
+		// stepping it. See OpenCommandBox()'s own comment.
+		void activate() override;
+
 	private:
 		void Step(int direction);
+
+		// Opens MenuCommandBox prefilled with this command's own name
+		// and current raw numeric state (not GetDisplayText() - typing
+		// "Don't Override" back in would be a mismatch; the plain number
+		// still works to move off it, same as -"/"+" already do),
+		// clamped to [GetMinimum(), GetMaximum()] on submit the same way
+		// Step() already is - shared by activate() (Enter) and onClick()
+		// (clicking the value box itself, not the "-"/"+" buttons).
+		void OpenCommandBox();
 
 		struct Layout
 		{

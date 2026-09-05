@@ -2,10 +2,13 @@
 
 #include "Commands/Commands.hpp"
 #include "Rendering/GridRenderer.hpp"
+#include "Rendering/MenuCommandBox.hpp"
 #include "Rendering/Theme.hpp"
 
 #include <algorithm>
+#include <cctype>
 #include <format>
+#include <stdexcept>
 
 namespace YimMenu::Rendering
 {
@@ -97,6 +100,8 @@ namespace YimMenu::Rendering
 			Step(1);
 		else if (cursorX >= layout.minusX && cursorX < layout.minusX + layout.buttonSize)
 			Step(-1);
+		else if (cursorX >= layout.valueX && cursorX < layout.valueX + layout.valueWidth)
+			OpenCommandBox();
 	}
 
 	bool GridItemCommandFloat::onArrow(int delta)
@@ -106,6 +111,11 @@ namespace YimMenu::Rendering
 
 		Step(delta > 0 ? 1 : -1);
 		return true;
+	}
+
+	void GridItemCommandFloat::activate()
+	{
+		OpenCommandBox();
 	}
 
 	void GridItemCommandFloat::Step(int direction)
@@ -118,5 +128,67 @@ namespace YimMenu::Rendering
 			value = std::min(*max, value);
 
 		m_Command->SetState(value);
+	}
+
+	void GridItemCommandFloat::OpenCommandBox()
+	{
+		if (!m_Command)
+			return;
+
+		auto min = m_Command->GetMinimum();
+		auto max = m_Command->GetMaximum();
+
+		std::string rangeText;
+		if (min && max)
+			rangeText = std::format("Range: {:.2f} to {:.2f}", *min, *max);
+		else if (min)
+			rangeText = std::format("Min: {:.2f}", *min);
+		else if (max)
+			rangeText = std::format("Max: {:.2f}", *max);
+
+		MenuCommandBox::Open(m_Command->GetName(),
+		    Label(),
+		    rangeText,
+		    std::format("{:.2f}", m_Command->GetState()),
+		    [this](const std::string& valueToken) {
+			    if (!m_Command)
+				    return false;
+
+			    auto min = m_Command->GetMinimum();
+			    auto max = m_Command->GetMaximum();
+
+			    std::string lower = valueToken;
+			    std::transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char c) {
+				    return std::tolower(c);
+			    });
+
+			    float value;
+			    if (lower == "min" && min)
+				    value = *min;
+			    else if (lower == "max" && max)
+				    value = *max;
+			    else
+			    {
+				    try
+				    {
+					    size_t consumed = 0;
+					    value = std::stof(valueToken, &consumed);
+					    if (consumed == 0)
+						    return false;
+				    }
+				    catch (const std::exception&)
+				    {
+					    return false;
+				    }
+			    }
+
+			    if (min)
+				    value = std::max(*min, value);
+			    if (max)
+				    value = std::min(*max, value);
+
+			    m_Command->SetState(value);
+			    return true;
+		    });
 	}
 }
