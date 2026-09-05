@@ -107,9 +107,6 @@ namespace YimMenu::Rendering
 			{
 				if (isKeyboardFocused())
 					GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
-
-				const auto layout = ComputeLayout();
-				GridRenderer::DrawRect(layout.valueX, y, layout.valueWidth, height, Theme::kPanelBackground);
 			}
 
 			void drawText() override

@@ -27,15 +27,13 @@ namespace YimMenu::Rendering
 
 	void GridItemIntStepper::draw()
 	{
-		// Full-row keyboard-focus highlight, drawn first so the value box
-		// and buttons below layer on top of it - see the identical
-		// comment in GridItemCommandList.cpp.
+		// Full-row keyboard-focus highlight - the only rect this item
+		// itself draws now (the value box and "<"/">" arrows are plain
+		// text, no background of their own - matches real Stand's own
+		// look, which draws no button fill behind its step arrows
+		// either, only ever a per-row highlight).
 		if (isKeyboardFocused())
 			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
-
-		const auto layout = ComputeLayout();
-
-		GridRenderer::DrawRect(layout.valueX, y, layout.valueWidth, height, Theme::kPanelBackground);
 	}
 
 	void GridItemIntStepper::drawText()
