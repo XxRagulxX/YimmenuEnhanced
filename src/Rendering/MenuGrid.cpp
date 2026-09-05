@@ -168,13 +168,35 @@ namespace YimMenu::Rendering
 
 		if (auto* content = MenuNavigation::Current())
 		{
+			// One shared panel background behind the whole content list -
+			// matches real Stand's own GridItemList::draw() (confirmed
+			// against origin/stand-reference): it paints exactly one
+			// bgRectColour rect spanning its own full bounds (split
+			// around the focused row's own accent rect, or a single rect
+			// covering everything if nothing in it is focused), never a
+			// separate fill per row. This project's content Grid had no
+			// equivalent - each row only ever draws its own focused-row
+			// highlight (see e.g. GridItemFolder::draw()), leaving every
+			// unfocused row fully transparent over the game world, unlike
+			// the sidebar (GridItemTabsVertical, which does paint a
+			// background on every entry regardless of focus - already
+			// confirmed correct against Stand's own source, see that
+			// class's own comment) - the whole menu reading as one
+			// consistent panel means the content side needs this same
+			// backdrop, just drawn once instead of per entry. Drawn here,
+			// before content->draw(), so every row's own focused-only
+			// highlight still layers on top of it exactly like Stand's
+			// own focusRectColour rect does over its own bgRectColour.
+			const auto visibleHeight = static_cast<int16_t>(Theme::kHudHeight - content->origin.y - Theme::kContentBottomMargin);
+			GridRenderer::DrawRect(content->origin.x, content->origin.y, Theme::kContentWidth, visibleHeight, Theme::kPanelBackground);
+
 			content->draw();
 
 			m_ContentScrollbar.SetView(content);
 			m_ContentScrollbar.x = static_cast<int16_t>(content->origin.x + Theme::kContentWidth + Theme::kScrollbarGap);
 			m_ContentScrollbar.y = content->origin.y;
 			m_ContentScrollbar.width = Theme::kScrollbarWidth;
-			m_ContentScrollbar.height = static_cast<int16_t>(Theme::kHudHeight - content->origin.y - Theme::kContentBottomMargin);
+			m_ContentScrollbar.height = visibleHeight;
 			m_ContentScrollbar.draw();
 		}
 	}
