@@ -76,16 +76,16 @@ namespace YimMenu::Rendering
 		    valueStr.c_str(),
 		    m_Command ? Theme::kText : Theme::kError);
 
-		const auto minusSize = GridRenderer::MeasureText("-");
+		const auto minusSize = GridRenderer::MeasureText("<");
 		GridRenderer::DrawText(layout.minusX + std::max(0.f, (layout.buttonSize - minusSize.x) * 0.5f),
 		    y + std::max(0.f, (height - minusSize.y) * 0.5f),
-		    "-",
+		    "<",
 		    Theme::kText);
 
-		const auto plusSize = GridRenderer::MeasureText("+");
+		const auto plusSize = GridRenderer::MeasureText(">");
 		GridRenderer::DrawText(layout.plusX + std::max(0.f, (layout.buttonSize - plusSize.x) * 0.5f),
 		    y + std::max(0.f, (height - plusSize.y) * 0.5f),
-		    "+",
+		    ">",
 		    Theme::kText);
 	}
 
