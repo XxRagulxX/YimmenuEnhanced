@@ -102,7 +102,12 @@ namespace YimMenu::Rendering
 		// "wrong offset breaks something real" risk), and Regeneration
 		// Rate (needs its own CommandSliderRegenerationRate, a Stand
 		// class not yet looked at) - flagged rather than guessed at.
-		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Self", Theme::kText));
+		//
+		// No section header of its own here (unlike every other section
+		// in this file) - one repeating "Self" while already inside the
+		// Self tab (MenuGrid's own breadcrumb already reads "... > Self")
+		// is a redundant label, not a distinguishing one; the loose rows
+		// below read fine directly following "Categories" above.
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "godmode"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "autoheal"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "maxhealth"_J, std::nullopt, 25));

@@ -47,8 +47,11 @@ namespace YimMenu::Rendering
 
 		// DrawPlayerList()'s own spectate toggle + player list - always
 		// shown, regardless of selection (this is how you select someone
-		// in the first place).
-		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Players", Theme::kText));
+		// in the first place). No section header of its own - one
+		// repeating "Players" while already inside the Players tab
+		// (MenuGrid's own breadcrumb already reads "... > Players") is a
+		// redundant label, not a distinguishing one - see SelfGrid.cpp's
+		// identical comment on its own former "Self" header.
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "spectate"_J));
 		items_draft.push_back(std::make_unique<GridItemPlayerList>(Theme::kContentWidth));
 
