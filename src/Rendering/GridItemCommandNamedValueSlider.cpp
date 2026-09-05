@@ -1,0 +1,124 @@
+#include "Rendering/GridItemCommandNamedValueSlider.hpp"
+
+#include "Commands/Commands.hpp"
+#include "Rendering/GridRenderer.hpp"
+#include "Rendering/Theme.hpp"
+
+#include <algorithm>
+
+namespace YimMenu::Rendering
+{
+	namespace
+	{
+		constexpr float kButtonSize = 22.f;
+		constexpr float kValueWidth = 40.f;
+		constexpr float kGap = 6.f;
+	}
+
+	GridItemCommandNamedValueSlider::GridItemCommandNamedValueSlider(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride, int step) :
+	    GridItem(GRIDITEM_INDIFFERENT, width, height),
+	    m_Command(Commands::GetCommand<StandWidgets::NamedValueSlider>(id)),
+	    m_LabelOverride(std::move(labelOverride)),
+	    m_Step(step)
+	{
+	}
+
+	const std::string& GridItemCommandNamedValueSlider::Label() const
+	{
+		static const std::string unknown = "Unknown!";
+		if (!m_Command)
+			return unknown;
+
+		return m_LabelOverride.has_value() ? *m_LabelOverride : m_Command->GetLabel();
+	}
+
+	GridItemCommandNamedValueSlider::Layout GridItemCommandNamedValueSlider::ComputeLayout() const
+	{
+		Layout layout;
+		layout.buttonSize = kButtonSize;
+		layout.valueWidth = kValueWidth;
+		layout.plusX = x + width - kButtonSize;
+		layout.minusX = layout.plusX - kGap - kButtonSize;
+		layout.valueX = layout.minusX - kGap - kValueWidth;
+		return layout;
+	}
+
+	void GridItemCommandNamedValueSlider::draw()
+	{
+		if (isKeyboardFocused())
+			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
+
+		const auto layout = ComputeLayout();
+
+		GridRenderer::DrawRect(layout.valueX, y, layout.valueWidth, height, Theme::kPanelBackground);
+		GridRenderer::DrawRect(layout.minusX, y, layout.buttonSize, height, Theme::kAccent);
+		GridRenderer::DrawRect(layout.plusX, y, layout.buttonSize, height, Theme::kAccent);
+	}
+
+	void GridItemCommandNamedValueSlider::drawText()
+	{
+		// Every centring offset below is clamped to 0 - see the identical
+		// comment in GridItemToggle.cpp.
+		const auto layout = ComputeLayout();
+
+		const auto& label = Label();
+		const auto labelSize = GridRenderer::MeasureText(label.c_str());
+		GridRenderer::DrawText(x + 5.f, y + std::max(0.f, (height - labelSize.y) * 0.5f), label.c_str(), Theme::kText);
+
+		// The one difference from GridItemCommandInt: GetDisplayText()
+		// instead of a raw std::to_string() - see NamedValueSlider.hpp's
+		// own doc comment.
+		const auto valueStr = m_Command ? m_Command->GetDisplayText() : std::string("?");
+		const auto valueSize = GridRenderer::MeasureText(valueStr.c_str());
+		GridRenderer::DrawText(layout.valueX + std::max(0.f, (layout.valueWidth - valueSize.x) * 0.5f),
+		    y + std::max(0.f, (height - valueSize.y) * 0.5f),
+		    valueStr.c_str(),
+		    m_Command ? Theme::kText : Theme::kError);
+
+		const auto minusSize = GridRenderer::MeasureText("-");
+		GridRenderer::DrawText(layout.minusX + std::max(0.f, (layout.buttonSize - minusSize.x) * 0.5f),
+		    y + std::max(0.f, (height - minusSize.y) * 0.5f),
+		    "-",
+		    Theme::kText);
+
+		const auto plusSize = GridRenderer::MeasureText("+");
+		GridRenderer::DrawText(layout.plusX + std::max(0.f, (layout.buttonSize - plusSize.x) * 0.5f),
+		    y + std::max(0.f, (height - plusSize.y) * 0.5f),
+		    "+",
+		    Theme::kText);
+	}
+
+	void GridItemCommandNamedValueSlider::onClick(int16_t cursorX, int16_t)
+	{
+		if (!m_Command)
+			return;
+
+		const auto layout = ComputeLayout();
+
+		if (cursorX >= layout.plusX && cursorX < layout.plusX + layout.buttonSize)
+			Step(1);
+		else if (cursorX >= layout.minusX && cursorX < layout.minusX + layout.buttonSize)
+			Step(-1);
+	}
+
+	bool GridItemCommandNamedValueSlider::onArrow(int delta)
+	{
+		if (!m_Command)
+			return false;
+
+		Step(delta > 0 ? 1 : -1);
+		return true;
+	}
+
+	void GridItemCommandNamedValueSlider::Step(int direction)
+	{
+		auto value = m_Command->GetState() + direction * m_Step;
+
+		if (auto min = m_Command->GetMinimum())
+			value = std::max(*min, value);
+		if (auto max = m_Command->GetMaximum())
+			value = std::min(*max, value);
+
+		m_Command->SetState(value);
+	}
+}

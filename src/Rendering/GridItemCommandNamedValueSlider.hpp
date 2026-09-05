@@ -1,0 +1,55 @@
+#pragma once
+#include "Commands/stand_widgets/NamedValueSlider.hpp"
+#include "Rendering/GridItem.hpp"
+#include "Util/Joaat.hpp"
+
+#include <optional>
+#include <string>
+
+namespace YimMenu::Rendering
+{
+	// GridItemCommandInt's own twin, bound to a StandWidgets::
+	// NamedValueSlider instead of a plain IntCommand - identical in
+	// every other respect (same layout, same step/clamp behaviour), but
+	// reads the command's own GetDisplayText() for the value box instead
+	// of a raw std::to_string(), so the one value the command names
+	// (usually its own floor - "Don't Override") shows as that name
+	// instead of a number. A separate widget rather than a change to
+	// GridItemCommandInt itself - see NamedValueSlider.hpp's own doc
+	// comment for why.
+	class GridItemCommandNamedValueSlider : public GridItem
+	{
+	public:
+		GridItemCommandNamedValueSlider(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride = std::nullopt, int step = 1);
+
+		void draw() override;
+		void drawText() override;
+		void onClick(int16_t cursorX, int16_t cursorY) override;
+
+		bool isFocusable() const override
+		{
+			return true;
+		}
+
+		bool onArrow(int delta) override;
+
+	private:
+		void Step(int direction);
+
+		struct Layout
+		{
+			float valueX;
+			float valueWidth;
+			float minusX;
+			float plusX;
+			float buttonSize;
+		};
+		Layout ComputeLayout() const;
+
+		const std::string& Label() const;
+
+		StandWidgets::NamedValueSlider* m_Command;
+		std::optional<std::string> m_LabelOverride;
+		int m_Step;
+	};
+}
