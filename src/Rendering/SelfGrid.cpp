@@ -2,6 +2,7 @@
 
 #include "Commands/BoolCommand.hpp"
 #include "Commands/Commands.hpp"
+#include "Rendering/AppearanceGrid.hpp"
 #include "Rendering/FreecamGrid.hpp"
 #include "Rendering/GridItemCommandButton.hpp"
 #include "Rendering/GridItemCommandInt.hpp"
@@ -9,15 +10,12 @@
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/GridItemText.hpp"
-#include "Rendering/InvisibilityGrid.hpp"
-#include "Rendering/LevitationGrid.hpp"
+#include "Rendering/MovementGrid.hpp"
 #include "Rendering/MpSpecialAbilityGrid.hpp"
 #include "Rendering/NoclipGrid.hpp"
-#include "Rendering/OutfitEditorGrid.hpp"
-#include "Rendering/SuperRunGrid.hpp"
-#include "Util/Joaat.hpp"
 #include "Rendering/Theme.hpp"
 #include "Rendering/WeaponsGrid.hpp"
+#include "Util/Joaat.hpp"
 
 namespace YimMenu::Rendering
 {
@@ -30,14 +28,12 @@ namespace YimMenu::Rendering
 		// (Self's root, registered in MenuGrid's sidebar table), these
 		// are only ever reached through their own folder row below -
 		// nothing else needs to know they exist.
+		MovementGrid g_MovementContent{};
+		AppearanceGrid g_AppearanceContent{};
 		WeaponsGrid g_WeaponsContent{};
-		OutfitEditorGrid g_OutfitEditorContent{};
-		InvisibilityGrid g_InvisibilityContent{};
 		MpSpecialAbilityGrid g_MpSpecialAbilityContent{};
-		SuperRunGrid g_SuperRunContent{};
 		NoclipGrid g_NoclipContent{};
 		FreecamGrid g_FreecamContent{};
-		LevitationGrid g_LevitationContent{};
 
 		// Wanted group: MenuSelf.cpp nests clearWanted (visible when NOT
 		// freezewanted) and setWanted (visible when NOT neverwanted) as
@@ -76,31 +72,25 @@ namespace YimMenu::Rendering
 
 	void SelfGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
-		// Categories - every GridItemFolder this page has, grouped
-		// together at the very top of the whole list rather than
-		// scattered one per section: MenuSelf.cpp's BuildWeaponsMenu()/
-		// CreateOutfitsMenu() (Weapons/Outfit Editor) plus every toggle
-		// below that owns dependent options of its own and so got a real
-		// folder page instead of leaving them flat as GridItemConditional
-		// rows (a hidden conditional row still reserves its own layout
-		// slot - see its own class comment) - Invisibility, MP Special
-		// Ability, Super Run, Noclip, Freecam, Levitation.
+		// Categories - real Stand's own 4 top-level categories under
+		// Self (CommandTabSelf.cpp), in its own order - Movement/
+		// Appearance/Weapons are each their own folder page now
+		// (MovementGrid/AppearanceGrid/WeaponsGrid), matching Stand's
+		// real tree instead of this project's old flat grouping (a
+		// leftover of the classic YimMenu menu's own categories,
+		// unrelated to Stand's). Bodyguards omitted: nothing's ported
+		// there yet, and an empty folder that opens to nothing is worse
+		// than no row at all - same reasoning this project already
+		// applies to every other not-yet-ported category.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Movement", &g_MovementContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Appearance", &g_AppearanceContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Weapons", &g_WeaponsContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Outfit Editor", &g_OutfitEditorContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Invisibility", &g_InvisibilityContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "MP Special Ability", &g_MpSpecialAbilityContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Super Run", &g_SuperRunContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Noclip", &g_NoclipContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Freecam", &g_FreecamContent));
-		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Levitation", &g_LevitationContent));
 
 		// Real Stand's own "Self" tab loose top-level rows (everything
-		// after its 4 categories - Movement/Appearance/Weapons/
-		// Bodyguards, not yet ported here; see the Categories folder
-		// above for what's covered so far instead) - verified against
-		// origin/stand-reference's own src/Commands/Self/CommandTabSelf.cpp,
-		// in its exact order. Three are aliases of commands this project
+		// after its 4 categories) - verified against origin/stand-
+		// reference's own src/Commands/Self/CommandTabSelf.cpp, in its
+		// exact order. Three are aliases of commands this project
 		// already had under its own name (godmode, noragdoll, suicide) -
 		// labelOverride matches Stand's own label without touching the
 		// underlying command or its internal name, so nothing else
@@ -129,11 +119,22 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "refillarmour"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "suicide"_J, "End It All"));
 
-		// Globals (MenuSelf.cpp's globalsGroup) - invis moved into the
-		// Categories folder above, godmode/noragdoll moved into the real
-		// Stand "Self" section above (see its own comment) - the rest
-		// have no Stand equivalent found yet, kept as this project's own
-		// extras rather than dropped.
+		// Not part of Stand's own Self tab at all - MP Special Ability/
+		// Noclip/Freecam actually belong to a different Stand tab
+		// entirely (confirmed: CommandTabGame.cpp, not CommandTabSelf.cpp,
+		// via origin/stand-reference). Kept reachable here rather than
+		// deleted or hidden - moving them to wherever that tab maps to in
+		// this project's own sidebar is its own separate piece of work,
+		// not done yet.
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Other (not Self in Stand)", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "MP Special Ability", &g_MpSpecialAbilityContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Noclip", &g_NoclipContent));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Freecam", &g_FreecamContent));
+
+		// Globals (MenuSelf.cpp's globalsGroup) - godmode/noragdoll moved
+		// into the real Stand "Self" section above (see its own
+		// comment) - the rest have no Stand equivalent found yet, kept
+		// as this project's own extras rather than dropped.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Globals", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "otr"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "noidlekick"_J));
@@ -153,7 +154,7 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "openwardrobe"_J));
 
 		// Special Ability (specialAbilityGroup) - mpspecialability moved
-		// into the Categories folder above (see its own comment);
+		// into the "Other" section above (see its own comment);
 		// infspecialability has no dependent option of its own and stays
 		// a plain toggle here.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Special Ability", Theme::kText));
@@ -180,35 +181,13 @@ namespace YimMenu::Rendering
 		if (watchCondition(ShouldClearOrSetWanted))
 			items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "setwanted"_J));
 
-		// Movement (movementGroup) - superrun/noclip/freecam/levitate
-		// moved into the Categories folder above (see its own comment).
-		// The next 9 rows (Walk Speed through Self Freeze) are real
-		// Stand's own Movement category (CommandTabSelf.cpp), in its own
-		// order, each backed by a genuinely new command - see each one's
-		// own file (src/Commands/Self/) for what it does and, where it
-		// applies, what's simplified from Stand's real version and why.
-		// Still missing from Stand's own Movement, deliberately (not
-		// guessed at - see each new command file's own sibling notes on
-		// this same gap): Friction (needs camera-relative input
-		// directions this project has no equivalent Input:: helpers
-		// for), Graceful Landing/Move Freedom (both need Stand's own
-		// hooking/ControlMgr infrastructure), Drunk Mode (steering-drift
-		// timer logic not yet ported), and the Fly/Floppy Mode
-		// subcategories (each needs its own folder page, same treatment
-		// as Self's own 4 categories). standonvehicles/disableactionmode
-		// have no Stand equivalent found yet and stay as this project's
-		// own extras at the end.
-		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Movement", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "walkspeed"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "superjump"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "waterwalk"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "swimspeed"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "airwalk"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "airswim"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "tennismode"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "ghostmode"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "nocollision"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "selffreeze"_J));
+		// Movement Extras - standonvehicles/disableactionmode have no
+		// confirmed Stand equivalent (unlike MP Special Ability/Noclip/
+		// Freecam above, nothing's turned up showing these belong to a
+		// specific other tab either) - kept here rather than folded into
+		// the real Movement folder above, since that one's meant to
+		// mirror Stand's own content exactly.
+		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Movement Extras", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "standonvehicles"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "disableactionmode"_J));
 	}
