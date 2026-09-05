@@ -182,29 +182,27 @@ namespace YimMenu::Rendering
 
 		// Movement (movementGroup) - superrun/noclip/freecam/levitate
 		// moved into the Categories folder above (see its own comment).
-		// The next 7 rows (Water Walk through Self Freeze) are real
+		// The next 9 rows (Walk Speed through Self Freeze) are real
 		// Stand's own Movement category (CommandTabSelf.cpp), in its own
 		// order, each backed by a genuinely new command - see each one's
 		// own file (src/Commands/Self/) for what it does and, where it
 		// applies, what's simplified from Stand's real version and why.
 		// Still missing from Stand's own Movement, deliberately (not
 		// guessed at - see each new command file's own sibling notes on
-		// this same gap): Walk Speed/Swim Speed (need a slider that
-		// keeps re-applying every tick, not just on change - the same
-		// gap already disclosed for Maximum Health/Fake Wanted, worse
-		// here since it's not even optional - Stand's own version has to
-		// re-assert every tick or the game's default speed wins back),
-		// Friction (needs camera-relative input directions this project
-		// has no equivalent Input:: helpers for), Graceful Landing/Move
-		// Freedom (both need Stand's own hooking/ControlMgr
-		// infrastructure), Drunk Mode (steering-drift timer logic not
-		// yet ported), and the Fly/Floppy Mode subcategories (each needs
-		// its own folder page, same treatment as Self's own 4 categories).
-		// standonvehicles/disableactionmode have no Stand equivalent
-		// found yet and stay as this project's own extras at the end.
+		// this same gap): Friction (needs camera-relative input
+		// directions this project has no equivalent Input:: helpers
+		// for), Graceful Landing/Move Freedom (both need Stand's own
+		// hooking/ControlMgr infrastructure), Drunk Mode (steering-drift
+		// timer logic not yet ported), and the Fly/Floppy Mode
+		// subcategories (each needs its own folder page, same treatment
+		// as Self's own 4 categories). standonvehicles/disableactionmode
+		// have no Stand equivalent found yet and stay as this project's
+		// own extras at the end.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Movement", Theme::kText));
+		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "walkspeed"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "superjump"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "waterwalk"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "swimspeed"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "airwalk"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "airswim"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "tennismode"_J));
