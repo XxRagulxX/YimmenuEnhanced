@@ -13,6 +13,7 @@
 #include "Scripting/Natives.hpp"
 #include "Network/ScriptEvent.hpp"
 #include "Rendering/ScriptsGrid.hpp"
+#include "Rendering/StandWidgetsTestGrid2.hpp"
 #include "Scripting/ScriptFunction.hpp"
 #include "World/Self.hpp"
 #include "Rendering/Theme.hpp"
@@ -28,6 +29,7 @@ namespace YimMenu::Rendering
 		GlobalsGrid g_GlobalsContent{};
 		LocalsGrid g_LocalsContent{};
 		ScriptsGrid g_ScriptsContent{};
+		StandWidgetsTestGrid2 g_StandWidgetsTest2Content{};
 	}
 
 	// Origin (1438, 587) matches every other content Grid's. Spacer is
@@ -55,6 +57,12 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Globals", &g_GlobalsContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Locals", &g_LocalsContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Scripts", &g_ScriptsContent));
+
+		// Test-only page for ListPointer/SliderRainbow (see
+		// CommandStandWidgetsTest2.cpp's own class comment) - delete
+		// this row (and everything it references) once both are
+		// confirmed working in-game.
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Stand Widgets Test 2", &g_StandWidgetsTest2Content));
 
 		// "Network Bail" isn't a registered Command in src/Misc.cpp (it's
 		// an inline ImGui button + FiberPool job) - reused verbatim as a
