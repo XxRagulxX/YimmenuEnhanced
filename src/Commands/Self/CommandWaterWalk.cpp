@@ -26,7 +26,7 @@ namespace YimMenu::Features
 			const auto pos = Self::GetPed().GetPosition();
 
 			float waterHeight = 0.0f;
-			if (!MISC::GET_WATER_HEIGHT(pos.x, pos.y, pos.z, &waterHeight))
+			if (!WATER::GET_WATER_HEIGHT(pos.x, pos.y, pos.z, &waterHeight))
 				return;
 
 			if (pos.z < waterHeight)
