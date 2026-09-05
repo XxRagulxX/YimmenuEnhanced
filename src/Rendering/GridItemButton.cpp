@@ -9,7 +9,11 @@ namespace YimMenu::Rendering
 {
 	void GridItemButton::draw()
 	{
-		GridRenderer::DrawRect(x, y, width, height, isKeyboardFocused() ? Theme::kAccent : Theme::kPanelBackground);
+		// Focused-only highlight, no fill otherwise - see
+		// GridItemFolder.cpp's identical comment for why (confirmed
+		// against real Stand's own row-rendering source).
+		if (isKeyboardFocused())
+			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
 	}
 
 	void GridItemButton::drawText()

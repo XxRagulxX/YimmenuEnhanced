@@ -84,17 +84,13 @@ namespace YimMenu::Rendering
 
 	void GridItemCommandList::draw()
 	{
-		// Full-row keyboard-focus highlight, drawn first so the value box
-		// and buttons below layer on top of it - see GridItem.hpp's class
-		// comment and MenuFocus.hpp.
+		// The only rect this item draws now - real Stand's own list-select
+		// row has no background of its own either (no per-row fill, no
+		// button fill behind its "<"/">" - see GridItemCommandInt.cpp's
+		// own comment for the confirmed-against-source reasoning, which
+		// applies identically here).
 		if (isKeyboardFocused())
 			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
-
-		const auto layout = ComputeLayout();
-
-		GridRenderer::DrawRect(layout.valueX, y, layout.valueWidth, height, Theme::kPanelBackground);
-		GridRenderer::DrawRect(layout.prevX, y, layout.buttonSize, height, Theme::kAccent);
-		GridRenderer::DrawRect(layout.nextX, y, layout.buttonSize, height, Theme::kAccent);
 	}
 
 	void GridItemCommandList::drawText()

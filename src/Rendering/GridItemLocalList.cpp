@@ -64,14 +64,11 @@ namespace YimMenu::Rendering
 
 	void GridItemLocalList::draw()
 	{
+		// The only rect this item draws now - see GridItemCommandList.cpp's
+		// identical comment for why (no per-row fill, no button fill
+		// behind "<"/">" - matches real Stand's own list-select row).
 		if (isKeyboardFocused())
 			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
-
-		const auto layout = ComputeLayout();
-
-		GridRenderer::DrawRect(layout.valueX, y, layout.valueWidth, height, Theme::kPanelBackground);
-		GridRenderer::DrawRect(layout.prevX, y, layout.buttonSize, height, Theme::kAccent);
-		GridRenderer::DrawRect(layout.nextX, y, layout.buttonSize, height, Theme::kAccent);
 	}
 
 	void GridItemLocalList::drawText()

@@ -38,21 +38,24 @@ namespace YimMenu::Rendering
 
 	void GridItemPlayerList::draw()
 	{
+		// Selected-only fill, nothing otherwise - see GridItemFolder.cpp's
+		// identical comment for why (confirmed against real Stand's own
+		// row-rendering source: only the one row with the cursor ever
+		// gets a rect, not every row just for being present).
 		auto players = SortedPlayers();
 		auto selected = Players::GetSelected();
 
 		if (players.empty())
-		{
-			GridRenderer::DrawRect(x, y, width, Theme::kContentItemHeight, Theme::kPanelBackground);
 			return;
-		}
 
 		const auto rowCount = std::min<size_t>(players.size(), static_cast<size_t>(kMaxRows));
 		for (size_t i = 0; i < rowCount; ++i)
 		{
+			if (!(selected.IsValid() && selected == players[i].second))
+				continue;
+
 			const auto rowY = y + Theme::kContentItemHeight * static_cast<float>(i);
-			const bool isSelected = selected.IsValid() && selected == players[i].second;
-			GridRenderer::DrawRect(x, rowY, width, Theme::kContentItemHeight, isSelected ? Theme::kAccent : Theme::kPanelBackground);
+			GridRenderer::DrawRect(x, rowY, width, Theme::kContentItemHeight, Theme::kAccent);
 		}
 	}
 

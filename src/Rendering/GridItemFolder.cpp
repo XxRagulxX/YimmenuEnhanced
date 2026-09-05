@@ -15,7 +15,19 @@ namespace YimMenu::Rendering
 
 	void GridItemFolder::draw()
 	{
-		GridRenderer::DrawRect(x, y, width, height, isKeyboardFocused() ? Theme::kAccent : Theme::kPanelBackground);
+		// Focused-only highlight, no fill otherwise - confirmed against
+		// origin/stand-reference's own src/Menu/GridItemList.cpp: a
+		// content-list row (this project's own GridItem base draws no
+		// rect at all by default) only ever gets one background rect
+		// drawn for it, the focused row's own focusRectColour
+		// (GridItemList.cpp's own drawRectC(..., focusRectColour) call) -
+		// an unfocused row gets nothing beyond the list's own single
+		// shared backdrop, not a second per-row fill. The unconditional
+		// "else: kPanelBackground" this used to fall back to was this
+		// project's own invention, not something real Stand's row
+		// rendering ever does.
+		if (isKeyboardFocused())
+			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
 	}
 
 	void GridItemFolder::drawText()

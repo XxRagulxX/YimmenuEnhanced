@@ -61,20 +61,26 @@ namespace YimMenu::Rendering
 
 	void GridItemSelectList::draw()
 	{
-		GridRenderer::DrawRect(x, y, width, Theme::kContentItemHeight, isKeyboardFocused() ? Theme::kAccent : Theme::kPanelBackground);
+		// Focused/highlighted-only fill, nothing otherwise - same
+		// reasoning as GridItemFolder.cpp's identical comment: real
+		// Stand's own row rendering only ever draws one rect for
+		// whichever row currently has the cursor, never a second fill
+		// for every other row just for being present.
+		if (isKeyboardFocused())
+			GridRenderer::DrawRect(x, y, width, Theme::kContentItemHeight, Theme::kAccent);
 
 		auto filtered = FilteredRows();
 		if (filtered.empty())
-		{
-			GridRenderer::DrawRect(x, y + Theme::kContentItemHeight, width, Theme::kContentItemHeight, Theme::kPanelBackground);
 			return;
-		}
 
 		const auto rowCount = std::min<size_t>(filtered.size(), static_cast<size_t>(m_MaxRows));
 		for (size_t i = 0; i < rowCount; ++i)
 		{
+			if (i != m_HighlightedIndex)
+				continue;
+
 			const auto rowY = y + Theme::kContentItemHeight * static_cast<float>(i + 1);
-			GridRenderer::DrawRect(x, rowY, width, Theme::kContentItemHeight, i == m_HighlightedIndex ? Theme::kAccent : Theme::kPanelBackground);
+			GridRenderer::DrawRect(x, rowY, width, Theme::kContentItemHeight, Theme::kAccent);
 		}
 	}
 

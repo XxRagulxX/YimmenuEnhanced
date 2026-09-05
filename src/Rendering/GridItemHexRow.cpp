@@ -59,12 +59,12 @@ namespace YimMenu::Rendering
 			const float cellX = layout.firstCellX + i * (layout.cellWidth + layout.cellGap);
 
 			// The selected cell gets an accent box of its own (on top of
-			// the row's own highlight, if focused) so it's visible which
-			// byte Left/Right/Enter will act on - same "highlight, then
-			// layer the real content on top" order as every other
-			// widget's own draw().
-			const bool isSelected = isKeyboardFocused() && i == m_SelectedCell;
-			GridRenderer::DrawRect(cellX, y, layout.cellWidth, height, isSelected ? Theme::kAccent : Theme::kPanelBackground);
+			// the row's own highlight, if focused); every other cell gets
+			// no fill at all - see GridItemFolder.cpp's identical comment
+			// for why (confirmed against real Stand's own row-rendering
+			// source).
+			if (isKeyboardFocused() && i == m_SelectedCell)
+				GridRenderer::DrawRect(cellX, y, layout.cellWidth, height, Theme::kAccent);
 		}
 	}
 

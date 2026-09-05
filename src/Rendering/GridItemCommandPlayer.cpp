@@ -28,8 +28,15 @@ namespace YimMenu::Rendering
 
 	void GridItemCommandPlayer::draw()
 	{
-		const auto colour = !m_Command ? Theme::kError : (isKeyboardFocused() ? Theme::kAccent : Theme::kPanelBackground);
-		GridRenderer::DrawRect(x, y, width, height, colour);
+		// Unresolved-command error fill stays (a real problem worth
+		// flagging, unrelated to the question below) - but otherwise,
+		// focused-only highlight, no fill when merely unfocused - see
+		// GridItemFolder.cpp's identical comment for why (confirmed
+		// against real Stand's own row-rendering source).
+		if (!m_Command)
+			GridRenderer::DrawRect(x, y, width, height, Theme::kError);
+		else if (isKeyboardFocused())
+			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
 	}
 
 	void GridItemCommandPlayer::drawText()
