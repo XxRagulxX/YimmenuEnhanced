@@ -1,5 +1,4 @@
 #include "Core/DetourHook.hpp"
-#include "Menu/GUI.hpp"
 #include "Core/Hooks.hpp"
 #include "Core/Hooking.hpp"
 
@@ -7,28 +6,25 @@ namespace YimMenu::Hooks
 {
 	UINT RawInput::GetRawInputData(HRAWINPUT hRawInput, UINT uiCommand, LPVOID pData, PUINT pcbSize, UINT cbSizeHeader)
 	{
-		auto result = Hooking::Get<RawInput::GetRawInputData>()->Original<decltype(&RawInput::GetRawInputData)>()(hRawInput, uiCommand, pData, pcbSize, cbSizeHeader);
-
-		// The Grid menu (this project's only native menu now) supports
-		// real mouse interaction, same as Stand's own does - GetRawInputData
-		// is the actual choke point for what the game itself sees (window
-		// messages pass through to the game's own WndProc unconditionally
-		// regardless of what GridRenderer::WndProcImpl does with them -
-		// see Window.cpp - so raw input is the only place this can act).
-		// Movement deltas are left alone (the game's own camera/aim stays
-		// live while the menu is open, same "doesn't take over input"
-		// feel as everything else in this system - see GUI::RunScriptImpl's
-		// own comment) - only the click flags are zeroed, so clicking a
-		// menu row doesn't also fire whatever's equipped.
-		if (result > 0 && pData && uiCommand == RID_INPUT && GUI::IsOpen())
-		{
-			auto& raw = *(RAWINPUT*)pData;
-			if (raw.header.dwType == RIM_TYPEMOUSE && raw.data.mouse.usButtonFlags)
-			{
-				raw.data.mouse.usButtonFlags = 0;
-			}
-		}
-
-		return result;
+		// Reported bug, fixed: this used to zero every mouse click's raw
+		// button flags for as long as GUI::IsOpen() was true, regardless
+		// of where the click actually landed - shooting, aiming, and any
+		// other click-driven action were all silently eaten the entire
+		// time the menu was open, not just while actually clicking a menu
+		// row. The Grid menu no longer routes mouse clicks to itself at
+		// all (see GridRenderer::WndProcImpl's own comment - keyboard-
+		// only navigation now, matching the bug report), so there's
+		// nothing left needing protection from a click "meant for the
+		// menu" firing in-game instead - checked against real Stand's own
+		// input-blocking too (origin/stand-reference's src/AntiCheat/
+		// NativeTableHooksBuiltin.cpp): it never touches raw mouse input
+		// at all, and only ever suppresses game input while its own
+		// command box is actively capturing keystrokes
+		// (Commandbox::shouldBlockGameInputs()), never merely because its
+		// menu is open. This hook is kept only as the real detour target
+		// (Hooking::Get<RawInput::GetRawInputData>() still needs
+		// somewhere to call through to) - it now does nothing beyond
+		// that.
+		return Hooking::Get<RawInput::GetRawInputData>()->Original<decltype(&RawInput::GetRawInputData)>()(hRawInput, uiCommand, pData, pcbSize, cbSizeHeader);
 	}
 }
