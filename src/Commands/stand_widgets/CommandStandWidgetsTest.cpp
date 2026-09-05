@@ -81,12 +81,19 @@ namespace YimMenu::Features
 	    0,
 	    100};
 
+	// def_val (5) deliberately different from both min (0) and namedValue
+	// (0, "Don't Override") - starting AT the named value made "-"
+	// (already clamped at the floor) look like a dead button, since the
+	// display read "Don't Override" both before and after clicking it.
+	// Starting away from it means both "+" and "-" visibly change the
+	// display, and clicking "-" down to 0 is what actually exercises the
+	// name substitution.
 	static StandWidgets::NamedValueSlider _TestNamedValueSlider{"standwidgets_testnamedvalue",
 	    "Test: Named Value Slider",
-	    "Confirms 0 displays as \"Don't Override\" instead of the number",
+	    "Confirms 0 displays as \"Don't Override\" instead of the number - click \"-\" down to 0",
 	    0,
 	    100,
-	    0,
+	    5,
 	    0,
 	    "Don't Override"};
 
