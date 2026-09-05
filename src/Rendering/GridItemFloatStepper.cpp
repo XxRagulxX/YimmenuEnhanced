@@ -37,8 +37,6 @@ namespace YimMenu::Rendering
 		const auto layout = ComputeLayout();
 
 		GridRenderer::DrawRect(layout.valueX, y, layout.valueWidth, height, Theme::kPanelBackground);
-		GridRenderer::DrawRect(layout.minusX, y, layout.buttonSize, height, Theme::kAccent);
-		GridRenderer::DrawRect(layout.plusX, y, layout.buttonSize, height, Theme::kAccent);
 	}
 
 	void GridItemFloatStepper::drawText()
