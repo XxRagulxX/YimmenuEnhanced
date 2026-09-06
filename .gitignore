@@ -4,3 +4,6 @@ build/
 .lastcommit
 out/
 src/soup/
+
+# Local Claude Code settings (machine/session-specific, not project config)
+.claude/settings.local.json

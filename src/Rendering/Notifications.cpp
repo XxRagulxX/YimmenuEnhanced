@@ -211,15 +211,42 @@ namespace YimMenu
 		Layout ComputeLayout(const Notification& notification, float stackOffset, const ContentMetrics& metrics)
 		{
 			using Rendering::NotifySettings::kInvertFlow;
+			using Rendering::NotifySettings::kType;
+			using Rendering::NotifySettings::Type;
 
 			float anchorX, anchorY;
 			GetAnchor(anchorX, anchorY);
 
+			// Real Stand's own GridItemNotify/Grid::setPositions()
+			// (Menu/GridItemNotify.cpp + Menu/Grid.cpp on origin/
+			// stand-reference) - "Stand, Next To Map" ALWAYS grows
+			// upward from anchorY regardless of Invert Flow (that
+			// setting "only takes effect with type set to Stand, Custom
+			// Position" - see CommandNotifyInvertFlow.cpp's own
+			// description), because real Stand's own GridItemNotify ctor
+			// picks ALIGN_TOP_CENTRE unconditionally whenever next_to_map
+			// is true, and only respects invert_flow's own
+			// ALIGN_BOTTOM_LEFT while it's false. "Stand, Custom
+			// Position" instead grows downward by default (Invert Flow
+			// off) and only grows upward when the user turns it on.
+			const bool growUpward = (kType == Type::StandNextToMap) || kInvertFlow;
+
 			Layout layout{};
 			layout.cardX = anchorX + notification.m_AnimationOffset;
-			// Real Stand's own Invert Flow - stacks upward from the
-			// anchor instead of downward when on.
-			layout.cardY = anchorY + (kInvertFlow ? -1.f : 1.f) * stackOffset;
+			// Traced against Grid::setPositions()'s own ALIGN_TOP_CENTRE
+			// arithmetic: for the first item (stackOffset == 0), "y -=
+			// item->height" makes anchorY the item's own BOTTOM edge, not
+			// its top - i.e. growing upward means this card's top edge is
+			// anchorY minus its OWN height too, not just minus the
+			// stack's running total. Growing downward has no such
+			// asymmetry (anchorY is already the first item's own top
+			// edge, same as the accumulator itself). Getting this wrong
+			// for the "Next To Map" default previously placed the first
+			// card almost entirely off the bottom of the screen (anchorY
+			// there sits only ~4px above the screen's own bottom edge, on
+			// purpose - it's meant to be a floor cards sit ON TOP OF, not
+			// a ceiling they hang below).
+			layout.cardY = growUpward ? anchorY - stackOffset - metrics.cardHeight : anchorY + stackOffset;
 
 			layout.titleY = layout.cardY + kTextPadding;
 			layout.messageStartY = layout.titleY + metrics.titleHeight + kTextPadding * 0.5f;
