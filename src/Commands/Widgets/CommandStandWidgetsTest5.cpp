@@ -4,6 +4,7 @@
 #include "Commands/Widgets/CommandRegistry.hpp"
 #include "Commands/Widgets/CommandToggle.hpp"
 #include "Menu/Click.hpp"
+#include "Menu/Hotkey.hpp"
 #include "Util/Joaat.hpp"
 #include "World/Self.hpp"
 
@@ -32,6 +33,14 @@ namespace Stand
 		// No LOC() translation database exists here (see Util/Label.hpp's
 		// own comment) so LOC(...) just becomes the literal text passed
 		// to it, same as real Stand's own LOC() would once resolved.
+		//
+		// Phase 4 addition: bound to G (Hotkey('G', ...) - VK_G and
+		// ASCII 'G' are the same value on Win32, no separate VK_ constant
+		// needed) purely to give CommandHotkeyDispatch
+		// (Commands/Widgets/CommandHotkeyDispatch.hpp) something real to
+		// prove against - press G outside the menu and this should flip
+		// exactly like clicking the checkbox or the Phase 2 registry
+		// button does.
 		class CommandGod : public CommandToggle
 		{
 		public:
@@ -39,7 +48,11 @@ namespace Stand
 			    CommandToggle(parent,
 			        LOC("God Mode (Stand Test)"),
 			        CMDNAMES("standtest_godmode", "standtest_immortality"),
-			        LOC("Makes your character unable to die."))
+			        LOC("Makes your character unable to die."),
+			        false,
+			        CMDFLAGS_TOGGLE,
+			        COMMANDPERM_USERONLY,
+			        {Hotkey('G', false, false, false)})
 			{
 			}
 

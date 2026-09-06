@@ -1,4 +1,5 @@
 #pragma once
+#include "Commands/Widgets/CommandHotkeyDispatch.hpp"
 #include "Commands/Widgets/CommandIssuable.hpp"
 #include "Commands/Widgets/CommandStateSerializer.hpp"
 #include "Menu/Hotkey.hpp"
@@ -47,11 +48,17 @@ namespace Stand
 			// here at all.
 			if (supportsStateOperations())
 				CommandStateSerializer::AddCommand(this);
+
+			// See CommandHotkeyDispatch.hpp's own class comment - only
+			// commands actually constructed with a hotkey register here.
+			if (!this->hotkeys.empty())
+				CommandHotkeyDispatch::AddCommand(this);
 		}
 
 		~CommandPhysical() override
 		{
 			CommandStateSerializer::RemoveCommand(this);
+			CommandHotkeyDispatch::RemoveCommand(this);
 		}
 
 		[[nodiscard]] const Label& getMenuName() const

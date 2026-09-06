@@ -28,7 +28,19 @@ namespace YimMenu::Rendering
 		std::string Label(Stand::Command* command)
 		{
 			if (auto* physical = command->getPhysical())
-				return physical->getMenuName().getLocalisedUtf8();
+			{
+				auto label = physical->getMenuName().getLocalisedUtf8();
+
+				// Same " [Ctrl+G]"-style suffix real Stand's own
+				// GridItemList::update() appends per-hotkey (confirmed
+				// against origin/stand-reference) - see
+				// CommandHotkeyDispatch.hpp's own class comment for what
+				// actually happens when one of these is pressed.
+				for (const auto& hotkey : physical->hotkeys)
+					label.append(" [").append(hotkey.toString()).append("]");
+
+				return label;
+			}
 
 			return "Unknown!";
 		}
