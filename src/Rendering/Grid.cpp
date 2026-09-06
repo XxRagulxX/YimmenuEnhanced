@@ -2,6 +2,7 @@
 
 #include "Commands/BoolCommand.hpp"
 #include "Commands/Commands.hpp"
+#include "Rendering/Theme.hpp"
 
 #include <algorithm>
 #include <climits>
@@ -236,18 +237,40 @@ namespace YimMenu::Rendering
 	// so a hard cut is the trade-off. Nothing does the equivalent for the
 	// bottom edge: a row scrolled past the visible window's bottom just
 	// runs off the real screen, which the GPU clips on its own.
+	//
+	// Also shifts both item->x/y by the runtime menu-position offset
+	// (Settings > Appearance > Position - Theme::kMenuOriginX/Y vs.
+	// Theme::kDefaultMenuOriginX/Y, the base every content Grid's own
+	// hardcoded origin assumes) - applied here, the one shared choke
+	// point every content Grid's own draw()/drawText()/findItemAt()
+	// (and MenuGrid's own, being a Grid itself) already funnels through,
+	// rather than baked into GridRenderer's own PosH2C. PosH2C is also
+	// what every non-menu overlay draws through (Notifications,
+	// MenuPopup, MenuCommandBox, Onboarding), none of which should move
+	// just because the menu did - this function is reached only from
+	// Grid::draw()/drawText()/findItemAt(), so it's exactly menu-only.
+	// The visibility cull below still compares against the unshifted
+	// origin.y - screen position and "how much has scrolled past the
+	// top edge" are independent concerns.
 	template<typename Fn>
 	static void forEachVisibleItem(std::vector<std::unique_ptr<GridItem>>& items, const Position2d& origin, int16_t scrollOffset, Fn&& fn)
 	{
+		const auto offsetX = static_cast<int16_t>(Theme::kMenuOriginX - Theme::kDefaultMenuOriginX);
+		const auto offsetY = static_cast<int16_t>(Theme::kMenuOriginY - Theme::kDefaultMenuOriginY);
+
 		for (auto& item : items)
 		{
 			const auto shiftedY = static_cast<int16_t>(item->y - scrollOffset);
 			if (shiftedY < origin.y)
 				continue;
 
-			item->y = shiftedY;
+			const auto originalX = item->x;
+			const auto originalY = item->y;
+			item->x = static_cast<int16_t>(originalX + offsetX);
+			item->y = static_cast<int16_t>(shiftedY + offsetY);
 			fn(*item);
-			item->y = static_cast<int16_t>(item->y + scrollOffset);
+			item->x = originalX;
+			item->y = originalY;
 		}
 	}
 

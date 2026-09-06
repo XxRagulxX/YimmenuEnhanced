@@ -30,6 +30,21 @@ namespace YimMenu::Rendering
 	// this Grid is a file-scope static (see SettingsGrid.cpp), so its
 	// constructor runs during C++ static initialization, before main()
 	// calls FileMgr::Init() - see GlobalsGrid.cpp's identical note.
+	//
+	// Settings > Appearance > Colours (SettingsColoursGrid, added
+	// later - real Stand's own Primary/Background Colour, see Commands/
+	// Settings/CommandPrimaryColour.cpp/CommandBackgroundColour.cpp)
+	// edits these same two colours (Theme::kAccent/kPanelBackground)
+	// through a different path - real Command objects, persisted via
+	// the standard Command config rather than grid_theme.json. Editing
+	// the same colour from both pages in the same session works (each
+	// writes Theme::kAccent/kPanelBackground directly, so whichever was
+	// touched last wins, and this page's own populate() rereads the
+	// live value fresh every time it opens) but the two pages don't
+	// know about each other's own separate storage - a real, disclosed
+	// rough edge from having two theme-editing UIs rather than
+	// unifying them, left alone since the user only asked to add the
+	// new one, not retire this one.
 	class CustomizeGrid : public Grid
 	{
 	public:

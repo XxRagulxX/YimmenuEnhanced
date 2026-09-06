@@ -154,4 +154,22 @@ namespace YimMenu::Rendering::Theme
 
 	constexpr int16_t kScrollbarWidth = 4;
 	constexpr int16_t kScrollbarGap = 4;
+
+	// Real Stand's own MenuGrid::default_origin ({1323, 560} - see
+	// MenuGrid.cpp's own kHeaderX/kHeaderY, which reference these instead
+	// of restating the same numbers) - the position every content Grid's
+	// own hardcoded (1438, 587)-style origin already assumes. Settings >
+	// Appearance > Position (menux/menuy) edits kMenuOriginX/Y at
+	// runtime; kDefaultMenuOriginX/Y stay fixed so Grid::forEachVisibleItem()
+	// (Grid.cpp) can work out how far the menu has been moved from where
+	// every content Grid's own origin was written assuming it'd sit -
+	// see that function's own comment for why the offset is applied
+	// there rather than baked into GridRenderer's own PosH2C (which
+	// every non-menu overlay - Notifications, MenuPopup, MenuCommandBox,
+	// Onboarding - also draws through and must never shift just because
+	// the menu did).
+	constexpr int16_t kDefaultMenuOriginX = 1323;
+	constexpr int16_t kDefaultMenuOriginY = 560;
+	inline int16_t kMenuOriginX = kDefaultMenuOriginX;
+	inline int16_t kMenuOriginY = kDefaultMenuOriginY;
 }

@@ -32,8 +32,16 @@ namespace YimMenu::Rendering
 		// own virtual 1920x1080 canvas - see GridRenderer::PosH2C/
 		// SizeH2C for how that's mapped onto the real screen
 		// resolution), not literal screen pixels.
-		constexpr int16_t kHeaderX = 1323;
-		constexpr int16_t kHeaderY = 560;
+		//
+		// References Theme::kDefaultMenuOriginX/Y rather than restating
+		// 1323/560 directly - these stay the fixed base every content
+		// Grid's own hardcoded (1438, 587)-style origin assumes, even
+		// once Settings > Appearance > Position has moved the menu
+		// somewhere else at runtime (Theme::kMenuOriginX/Y) - see
+		// Grid::forEachVisibleItem()'s own comment for where that offset
+		// actually gets applied.
+		constexpr int16_t kHeaderX = Theme::kDefaultMenuOriginX;
+		constexpr int16_t kHeaderY = Theme::kDefaultMenuOriginY;
 
 		// Same spacer_size Stand's own MenuGrid uses (Grid(default_origin,
 		// 3)) - the gap this Grid's own alignment engine (ported from
@@ -188,13 +196,23 @@ namespace YimMenu::Rendering
 			// highlight still layers on top of it exactly like Stand's
 			// own focusRectColour rect does over its own bgRectColour.
 			const auto visibleHeight = static_cast<int16_t>(Theme::kHudHeight - content->origin.y - Theme::kContentBottomMargin);
-			GridRenderer::DrawRect(content->origin.x, content->origin.y, Theme::kContentWidth, visibleHeight, Theme::kPanelBackground);
+
+			// Same runtime menu-position offset Grid::forEachVisibleItem()
+			// applies to every regular item - needed here too since this
+			// rect and the scrollbar below are both drawn directly, never
+			// going through any Grid's own item list (see that function's
+			// own comment in Grid.cpp for why the offset lives there and
+			// not in GridRenderer's own PosH2C).
+			const auto offsetX = static_cast<int16_t>(Theme::kMenuOriginX - Theme::kDefaultMenuOriginX);
+			const auto offsetY = static_cast<int16_t>(Theme::kMenuOriginY - Theme::kDefaultMenuOriginY);
+
+			GridRenderer::DrawRect(static_cast<int16_t>(content->origin.x + offsetX), static_cast<int16_t>(content->origin.y + offsetY), Theme::kContentWidth, visibleHeight, Theme::kPanelBackground);
 
 			content->draw();
 
 			m_ContentScrollbar.SetView(content);
-			m_ContentScrollbar.x = static_cast<int16_t>(content->origin.x + Theme::kContentWidth + Theme::kScrollbarGap);
-			m_ContentScrollbar.y = content->origin.y;
+			m_ContentScrollbar.x = static_cast<int16_t>(content->origin.x + Theme::kContentWidth + Theme::kScrollbarGap + offsetX);
+			m_ContentScrollbar.y = static_cast<int16_t>(content->origin.y + offsetY);
 			m_ContentScrollbar.width = Theme::kScrollbarWidth;
 			m_ContentScrollbar.height = visibleHeight;
 			m_ContentScrollbar.draw();
