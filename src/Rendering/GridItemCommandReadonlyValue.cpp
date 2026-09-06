@@ -1,7 +1,7 @@
 #include "Rendering/GridItemCommandReadonlyValue.hpp"
 
 #include "Commands/Commands.hpp"
-#include "Commands/stand_widgets/CommandReadonlyValue.hpp"
+#include "Commands/Widgets/CommandReadonlyValue.hpp"
 #include "Rendering/Clipboard.hpp"
 #include "Rendering/GridRenderer.hpp"
 #include "Rendering/Theme.hpp"

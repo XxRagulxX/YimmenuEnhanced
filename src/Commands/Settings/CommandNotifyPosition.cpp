@@ -1,4 +1,4 @@
-#include "Commands/stand_widgets/Position2dCommands.hpp"
+#include "Commands/Widgets/Position2dCommands.hpp"
 #include "Rendering/NotifySettings.hpp"
 
 namespace YimMenu::Features
@@ -9,7 +9,7 @@ namespace YimMenu::Features
 	// (see GetAnchor() in Notifications.cpp). Reuses the same generic
 	// CommandPositionAxis/CommandPosition2dMouse widgets Settings >
 	// Appearance > Position already uses for the menu's own position
-	// (src/Commands/stand_widgets/Position2dCommands.hpp) rather than
+	// (src/Commands/Widgets/Position2dCommands.hpp) rather than
 	// duplicating CommandMenuPosition.cpp's own hand-written X/Y/
 	// MouseMove trio a second time.
 	static StandWidgets::CommandPositionAxis _NotifyPositionX{"notifyx",

@@ -1,4 +1,4 @@
-#include "Commands/stand_widgets/CommandStandWidgetsTest4.hpp"
+#include "Commands/Widgets/CommandStandWidgetsTest4.hpp"
 
 #include "Commands/CommandColourCustom.hpp"
 #include "Commands/CommandInput.hpp"

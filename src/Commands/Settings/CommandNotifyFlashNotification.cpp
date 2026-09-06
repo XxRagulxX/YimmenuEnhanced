@@ -1,4 +1,4 @@
-#include "Commands/stand_widgets/CommandLambdaAction.hpp"
+#include "Commands/Widgets/CommandLambdaAction.hpp"
 #include "Rendering/Notifications.hpp"
 
 namespace YimMenu::Features

@@ -1,5 +1,5 @@
 #include "Commands/CommandColourCustom.hpp"
-#include "Commands/stand_widgets/CommandRainbow.hpp"
+#include "Commands/Widgets/CommandRainbow.hpp"
 #include "Rendering/NotifySettings.hpp"
 
 namespace YimMenu::Features

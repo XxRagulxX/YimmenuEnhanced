@@ -60,7 +60,7 @@ namespace YimMenu
 			}
 		}
 
-		// Same per-axis H-space/client-pixel scale Commands/stand_widgets/
+		// Same per-axis H-space/client-pixel scale Commands/Widgets/
 		// Position2dCommands.hpp's own Detail::GetHSpaceScale() already
 		// is - duplicated here rather than shared, same call this
 		// project already made for that function's own precedent

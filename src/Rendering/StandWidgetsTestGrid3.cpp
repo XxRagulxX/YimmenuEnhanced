@@ -1,6 +1,6 @@
 #include "Rendering/StandWidgetsTestGrid3.hpp"
 
-#include "Commands/stand_widgets/CommandStandWidgetsTest3.hpp"
+#include "Commands/Widgets/CommandStandWidgetsTest3.hpp"
 #include "Rendering/GridItemButton.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemText.hpp"

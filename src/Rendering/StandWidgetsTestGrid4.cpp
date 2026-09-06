@@ -1,6 +1,6 @@
 #include "Rendering/StandWidgetsTestGrid4.hpp"
 
-#include "Commands/stand_widgets/CommandStandWidgetsTest4.hpp"
+#include "Commands/Widgets/CommandStandWidgetsTest4.hpp"
 #include "Rendering/GridItemButton.hpp"
 #include "Rendering/GridItemCommandColourCustom.hpp"
 #include "Rendering/GridItemCommandInput.hpp"

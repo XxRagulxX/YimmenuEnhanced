@@ -1,11 +1,11 @@
-#include "Commands/stand_widgets/CommandStandWidgetsTest3.hpp"
-#include "Commands/stand_widgets/CommandToggleBitflag.hpp"
+#include "Commands/Widgets/CommandStandWidgetsTest3.hpp"
+#include "Commands/Widgets/CommandToggleBitflag.hpp"
 
 #include <cstdint>
 
 namespace YimMenu::Features
 {
-	// Test-only command for CommandToggleBitflag (see Commands/stand_widgets/
+	// Test-only command for CommandToggleBitflag (see Commands/Widgets/
 	// CommandToggleBitflag.hpp) - reachable from Settings > Debug > "Stand
 	// Widgets Test 3", a page of its own so none of this touches any
 	// real feature. Once confirmed working in-game, this whole file

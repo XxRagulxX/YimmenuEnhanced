@@ -18,7 +18,7 @@ namespace YimMenu::Rendering
 	// one line. None of that is portable without Stand's own
 	// CommandIssuable/CommandList tree this project doesn't have - the
 	// same conclusion already reached porting CommandSlider itself (see
-	// Commands/stand_widgets/'s own class comments). This is the scoped-
+	// Commands/Widgets/'s own class comments). This is the scoped-
 	// down version: one line of free text, prefilled "<command name>
 	// <current value>" the same way real Stand's own
 	// CommandSlider::openCommandBoxWithPrefill does, styled to match

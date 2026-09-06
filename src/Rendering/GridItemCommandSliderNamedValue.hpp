@@ -1,5 +1,5 @@
 #pragma once
-#include "Commands/stand_widgets/CommandSliderNamedValue.hpp"
+#include "Commands/Widgets/CommandSliderNamedValue.hpp"
 #include "Rendering/GridItem.hpp"
 #include "Util/Joaat.hpp"
 
