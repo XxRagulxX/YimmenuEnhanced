@@ -13,6 +13,8 @@
 #include "Scripting/Natives.hpp"
 #include "Network/ScriptEvent.hpp"
 #include "Rendering/ScriptsGrid.hpp"
+#include "Commands/Widgets/CommandStandWidgetsTest5.hpp"
+#include "Rendering/GridStandCommandList.hpp"
 #include "Rendering/StandWidgetsTestGrid3.hpp"
 #include "Rendering/StandWidgetsTestGrid4.hpp"
 #include "Scripting/ScriptFunction.hpp"
@@ -66,6 +68,24 @@ namespace YimMenu::Rendering
 		// working in-game.
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Stand Widgets Test 3", &g_StandWidgetsTest3Content));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Stand Widgets Test 4", &g_StandWidgetsTest4Content));
+
+		// Phase 1 proof-of-concept for the Grid bridge onto real Stand's
+		// own Command/CommandList/CommandToggle tree (Commands/Widgets/,
+		// Rendering/GridItemStandCommand.hpp/GridStandCommandList.hpp) -
+		// a real Stand::CommandToggle (CommandGod, see
+		// CommandStandWidgetsTest5.cpp), rendered/clicked entirely
+		// through that tree rather than this project's own parallel
+		// Command/CommandToggle. Points directly at
+		// GridStandCommandList::GetOrCreate() (the real bridge Grid,
+		// not a hand-written test page) so this exercises the actual
+		// thing a future migrated feature would use. Delete this row
+		// (and everything CommandStandWidgetsTest5.hpp's own comment
+		// references) once the real batch-by-batch migration is
+		// underway.
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth,
+		    Theme::kContentItemHeight,
+		    "Stand Tree Test (Phase 1)",
+		    &GridStandCommandList::GetOrCreate(&Features::GetStandTreeTestRoot())));
 
 		// "Network Bail" isn't a registered Command in src/Misc.cpp (it's
 		// an inline ImGui button + FiberPool job) - reused verbatim as a
