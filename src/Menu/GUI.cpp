@@ -79,6 +79,27 @@ namespace YimMenu
 				PAD::DISABLE_CONTROL_ACTION(0, static_cast<int>(ControllerInputs::INPUT_PHONE), true);
 			}
 
+			// Reported bug, fixed the same way real Stand does: typing a
+			// value into MenuCommandBox (or any GridItemTextInput) was
+			// reaching the game's own control reads too - digits opened
+			// the weapon wheel and switched weapons, 'P' opened the pause
+			// menu - since nothing here ever stopped a keystroke meant
+			// for a text field from also being read as a normal game
+			// control. Checked how real Stand actually solves this rather
+			// than guessing: origin/stand-reference's own src/Rendering/
+			// Gui.cpp calls PAD::DISABLE_ALL_CONTROL_ACTIONS(0) every
+			// tick for exactly as long as its own
+			// Commandbox::shouldBlockGameInputs() (its command box
+			// actively capturing keystrokes) is true - this project's own
+			// equivalent state is InputCapture::IsTextInputActive() (see
+			// GridItemTextInput/MenuCommandBox, both of which already set
+			// it while editing). Same call, same gating, every tick that
+			// state is true - independent of GUI::IsOpen() above, since
+			// Stand's own call isn't nested under a "menu open" check
+			// either, just its own narrower text-capture one.
+			if (Rendering::InputCapture::IsTextInputActive())
+				PAD::DISABLE_ALL_CONTROL_ACTIONS(0);
+
 			Script::current()->yield();
 		}
 	}
