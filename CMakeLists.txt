@@ -85,7 +85,7 @@ target_compile_definitions(
 
 # fmt
 
-if(TARGET fmt)
+if(TARGET fmt AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     target_compile_options(
         fmt
         PRIVATE
