@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Rendering/NotifySettings.hpp"
+
 #include <chrono>
 #include <cstdint>
 #include <functional>
@@ -13,12 +15,18 @@ namespace YimMenu
 	// virtual 1920x1080 HUD canvas - see GridRenderer.hpp's own class
 	// comment for what that means), not raw client pixels the way these
 	// were read before this ported to DirectXTK12/GridRenderer's own
-	// primitives. The numbers themselves are unchanged (350/100/50, the
+	// primitives. The numbers themselves are unchanged (100/50, the
 	// original ImGui window size/position math) - since that canvas is
 	// also 1920x1080, they still mean exactly what they used to at
 	// 1080p, but now actually scale correctly at every other resolution
 	// too (something the raw-client-pixel version never did).
-	static inline float m_CardSizeX = 350.f;
+	//
+	// Card width itself is no longer a fixed constant here - real
+	// Stand's own Width setting (NotifySettings::kWidth, user-
+	// configurable, default 400) replaced this project's previous
+	// hardcoded 350 (an arbitrary leftover from the pre-port ImGui
+	// window size, not anything real Stand ever used) - see
+	// NotifySettings.hpp's own comment on kWidth.
 	static inline float m_CardSizeY = 100.f;
 	static inline float m_CardAnimationSpeed = 50.f;
 
@@ -39,9 +47,22 @@ namespace YimMenu
 		int m_Duration;
 		std::function<void()> m_ContextFunc;
 		std::string m_ContextFuncName;
-		float m_AnimationOffset = -m_CardSizeX;
+		// Starts fully off-screen at whatever Width currently is (read
+		// live at construction time, not a fixed constant) - see
+		// DrawImpl()'s own slide-out erase check for the matching other
+		// end of this animation.
+		float m_AnimationOffset = -Rendering::NotifySettings::kWidth;
 		bool m_Erasing = false;
 		std::uint32_t m_Identifier;
+
+		// Real Stand's own per-notification flash_time (Menu/GridToaster.cpp) -
+		// a std::chrono::steady_clock deadline (not tied to m_CreatedOn,
+		// since re-triggering an already-live notification restarts the
+		// flash without restarting m_CreatedOn's own countdown) until
+		// which this card's border shows NotifySettings::kFlashColour
+		// instead of kBorderColour - see Notifications.cpp's own
+		// DrawNotificationRect().
+		std::chrono::time_point<std::chrono::steady_clock> m_FlashUntil{};
 	};
 
 	// Toast notification stack, drawn via GridRenderer's own DirectXTK12

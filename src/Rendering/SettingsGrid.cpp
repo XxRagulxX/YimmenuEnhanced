@@ -8,6 +8,7 @@
 #include "Rendering/SettingsAppearanceGrid.hpp"
 #include "Rendering/SettingsGameGrid.hpp"
 #include "Rendering/SettingsGuiGrid.hpp"
+#include "Rendering/SettingsNotificationsGrid.hpp"
 #include "Rendering/Theme.hpp"
 
 namespace YimMenu::Rendering
@@ -23,6 +24,7 @@ namespace YimMenu::Rendering
 		SettingsGuiGrid g_GuiContent{};
 		SettingsGameGrid g_GameContent{};
 		SettingsAppearanceGrid g_AppearanceContent{};
+		SettingsNotificationsGrid g_NotificationsContent{};
 		CustomizeGrid g_CustomizeContent{};
 		LuaScriptsGrid g_LuaScriptsContent{};
 	}
@@ -45,6 +47,16 @@ namespace YimMenu::Rendering
 	{
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Categories", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Appearance", &g_AppearanceContent));
+		// Real Stand's own CommandListNotifySettings actually nests
+		// inside its own Appearance category (Commands/Stand/
+		// CommandTabStand.cpp: "appearance->createChild<
+		// CommandListNotifySettings>(...)"), not as a sibling category -
+		// but this project's own Settings root is a flat category list
+		// (unlike Stand's own deeply-nested single Appearance tree), and
+		// this feature was explicitly requested as "Settings ->
+		// Notifications" - so it's its own top-level folder here instead
+		// of buried inside Settings > Appearance > Position/Colours.
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Notifications", &g_NotificationsContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Hotkeys", &g_HotkeysContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "GUI", &g_GuiContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Game", &g_GameContent));

@@ -1,6 +1,7 @@
 #include "Rendering/Notifications.hpp"
 
 #include "Rendering/GridRenderer.hpp"
+#include "Rendering/NotifySettings.hpp"
 #include "Rendering/TextWrap.hpp"
 #include "Rendering/Theme.hpp"
 #include "Scripting/FiberPool.hpp"
@@ -14,8 +15,13 @@ namespace YimMenu
 {
 	namespace
 	{
-		constexpr float kMargin = 10.f;
-		constexpr float kPadding = 8.f;
+		// Internal card padding (text inset from the card's own edges) -
+		// a project-specific constant, distinct from
+		// Rendering::NotifySettings::kPadding (real Stand's own
+		// user-facing "Padding" setting, which controls the gap between
+		// the anchor point/stacked cards instead - see PositionForIndex()
+		// below). Real Stand doesn't expose this inner inset separately.
+		constexpr float kTextPadding = 8.f;
 		constexpr float kProgressBarHeight = 3.5f;
 		constexpr float kSeparatorHeight = 1.f;
 		constexpr float kTitleScale = Rendering::Theme::kTextScale;
@@ -44,6 +50,26 @@ namespace YimMenu
 			}
 		}
 
+		// Where notification 0 (the newest/first-position one - see
+		// Draw()'s own position counter) anchors to, depending on
+		// Rendering::NotifySettings::kType - real Stand's own
+		// CommandNotifyType switches between exactly these two Stand-
+		// drawn positions (Game routes through ShowInGame() instead and
+		// never reaches this at all - see ShowImpl()'s own early-out).
+		void GetAnchor(float& anchorX, float& anchorY)
+		{
+			if (Rendering::NotifySettings::kType == Rendering::NotifySettings::Type::StandCustomPosition)
+			{
+				anchorX = static_cast<float>(Rendering::NotifySettings::kCustomPositionX);
+				anchorY = static_cast<float>(Rendering::NotifySettings::kCustomPositionY);
+			}
+			else
+			{
+				anchorX = static_cast<float>(Rendering::NotifySettings::kNextToMapX);
+				anchorY = static_cast<float>(Rendering::NotifySettings::kNextToMapY);
+			}
+		}
+
 		// Every position/size Draw()'s rect pass and DrawText()'s text
 		// pass both need, computed identically (and independently) by
 		// each rather than shared/cached across the two - see
@@ -65,23 +91,32 @@ namespace YimMenu
 
 		Layout ComputeLayout(const Notification& notification, int position)
 		{
+			using Rendering::NotifySettings::kInvertFlow;
+			using Rendering::NotifySettings::kPadding;
+			using Rendering::NotifySettings::kWidth;
+
+			float anchorX, anchorY;
+			GetAnchor(anchorX, anchorY);
+
 			Layout layout{};
-			layout.cardX = kMargin + notification.m_AnimationOffset;
-			layout.cardY = kMargin + position * m_CardSizeY;
+			layout.cardX = anchorX + notification.m_AnimationOffset;
+			// Real Stand's own Invert Flow - stacks upward from the
+			// anchor instead of downward when on.
+			layout.cardY = anchorY + (kInvertFlow ? -1.f : 1.f) * static_cast<float>(position) * (m_CardSizeY + kPadding);
 
 			const auto timeElapsed = static_cast<float>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - notification.m_CreatedOn).count());
 			const float depletionProgress = std::clamp(1.f - (timeElapsed / static_cast<float>(notification.m_Duration)), 0.f, 1.f);
-			layout.progressBarWidth = m_CardSizeX * depletionProgress;
+			layout.progressBarWidth = kWidth * depletionProgress;
 
 			const float titleHeight = Rendering::GridRenderer::MeasureText(notification.m_Title.c_str(), kTitleScale).y;
-			layout.titleY = layout.cardY + kProgressBarHeight + kPadding;
-			layout.separatorY = layout.titleY + titleHeight + kPadding * 0.5f;
-			layout.messageStartY = layout.separatorY + kSeparatorHeight + kPadding * 0.5f;
+			layout.titleY = layout.cardY + kProgressBarHeight + kTextPadding;
+			layout.separatorY = layout.titleY + titleHeight + kTextPadding * 0.5f;
+			layout.messageStartY = layout.separatorY + kSeparatorHeight + kTextPadding * 0.5f;
 
-			layout.messageLines = Rendering::WrapText(notification.m_Message, m_CardSizeX - kPadding * 2.f, kMessageScale);
+			layout.messageLines = Rendering::WrapText(notification.m_Message, kWidth - kTextPadding * 2.f, kMessageScale);
 			layout.lineHeight = Rendering::GridRenderer::MeasureText("Ag", kMessageScale).y;
 
-			layout.contextY = layout.messageStartY + layout.messageLines.size() * layout.lineHeight + kPadding * 0.5f;
+			layout.contextY = layout.messageStartY + layout.messageLines.size() * layout.lineHeight + kTextPadding * 0.5f;
 
 			return layout;
 		}
@@ -89,12 +124,23 @@ namespace YimMenu
 		void DrawNotificationRect(const Notification& notification, int position)
 		{
 			using Rendering::GridRenderer;
+			using Rendering::NotifySettings::kWidth;
 
 			const auto layout = ComputeLayout(notification, position);
 
-			GridRenderer::DrawRect(layout.cardX, layout.cardY, m_CardSizeX, m_CardSizeY, Rendering::Theme::kPanelBackground);
-			GridRenderer::DrawRect(layout.cardX, layout.cardY, layout.progressBarWidth, kProgressBarHeight, Rendering::Theme::kAccent);
-			GridRenderer::DrawRect(layout.cardX + kPadding, layout.separatorY, m_CardSizeX - kPadding * 2.f, kSeparatorHeight, Rendering::Theme::kToggleOff);
+			// Real Stand's own Border Colour, flashing to Flash Colour
+			// for a short window after this notification first appears
+			// (or re-triggers - see ShowImpl()) - same rect this project
+			// already drew as a fixed-colour "time remaining" progress
+			// bar (still shrinks the same way; only its colour is now
+			// user-configurable and flash-aware, matching real Stand's
+			// own Border Colour defaulting to a copy of Primary Colour,
+			// the same colour this progress bar already used).
+			const auto& borderColour = (std::chrono::steady_clock::now() < notification.m_FlashUntil) ? Rendering::NotifySettings::kFlashColour : Rendering::NotifySettings::kBorderColour;
+
+			GridRenderer::DrawRect(layout.cardX, layout.cardY, kWidth, m_CardSizeY, Rendering::NotifySettings::kBackgroundColour);
+			GridRenderer::DrawRect(layout.cardX, layout.cardY, layout.progressBarWidth, kProgressBarHeight, borderColour);
+			GridRenderer::DrawRect(layout.cardX + kTextPadding, layout.separatorY, kWidth - kTextPadding * 2.f, kSeparatorHeight, Rendering::Theme::kToggleOff);
 		}
 
 		void DrawNotificationText(const Notification& notification, int position)
@@ -102,7 +148,7 @@ namespace YimMenu
 			using Rendering::GridRenderer;
 
 			const auto layout = ComputeLayout(notification, position);
-			const float textX = layout.cardX + kPadding;
+			const float textX = layout.cardX + kTextPadding;
 
 			GridRenderer::DrawText(textX, layout.titleY, notification.m_Title.c_str(), GetTypeColour(notification.m_Type), kTitleScale);
 
@@ -120,12 +166,48 @@ namespace YimMenu
 			if (notification.m_ContextFunc)
 				GridRenderer::DrawText(textX, layout.contextY, notification.m_ContextFuncName.c_str(), Rendering::Theme::kPlaceholderText, kMessageScale);
 		}
+
+		// Real Stand's own estimate_reading_time() (Menu/GridToaster.cpp) -
+		// counts words by space character (real Stand's own version also
+		// counts 0.5 words per non-ASCII wide character, for CJK text;
+		// this project's own Notification::m_Message is a narrow/UTF-8
+		// std::string rather than Stand's own std::wstring, so that half
+		// of the formula is left out here - a real, disclosed
+		// simplification rather than an attempt at UTF-8-aware CJK
+		// detection). Result is NOT clamped yet - ShowImpl() clamps to
+		// [kMinDurationMs, kMaxDurationMs] itself, matching real Stand's
+		// own std::clamp call site.
+		int EstimateReadingTimeMs(const std::string& message)
+		{
+			double numWords = 0.0;
+			for (char c : message)
+			{
+				if (c == ' ')
+					numWords += 1.0;
+			}
+
+			const auto wpm = std::max<std::uint16_t>(1, Rendering::NotifySettings::kReadingSpeedWpm);
+			const double secondsPerWord = 60.0 / static_cast<double>(wpm);
+			return static_cast<int>(numWords * secondsPerWord * 1000.0) + Rendering::NotifySettings::kReadingStartDelayMs;
+		}
 	}
 
 	Notification Notifications::ShowImpl(std::string title, std::string message, NotificationType type, int duration, std::function<void()> context_function, std::string context_function_name)
 	{
 		if (title.empty() || message.empty())
 			return {};
+
+		// Real Stand's own CommandNotifyType, "Game" option - routes
+		// straight through the native GTA5 feed instead of this
+		// project's own DirectXTK12 overlay, same as real Stand
+		// switching its own g_toaster between GameToaster/GridToaster.
+		// Nothing gets added to m_Notifications below in this case - the
+		// overlay simply never shows anything while this is selected.
+		if (Rendering::NotifySettings::kType == Rendering::NotifySettings::Type::Game)
+		{
+			ShowInGame(title, message, "", "");
+			return {};
+		}
 
 		auto message_id = Joaat(title + message);
 
@@ -136,6 +218,12 @@ namespace YimMenu
 		if (exists != m_Notifications.end())
 		{
 			exists->second.m_CreatedOn = std::chrono::system_clock::now();
+			// Real Stand's own re-trigger flash (Menu/GridToaster.cpp:
+			// "if (notify.live) flash_time += get_current_time_millis();") -
+			// an already-live notification showing again restarts its
+			// own flash window without restarting m_CreatedOn's own
+			// countdown above.
+			exists->second.m_FlashUntil = std::chrono::steady_clock::now() + std::chrono::milliseconds(Rendering::NotifySettings::kFlashMs);
 			return {};
 		}
 
@@ -144,8 +232,14 @@ namespace YimMenu
 		notification.m_Message = message;
 		notification.m_Type = type;
 		notification.m_CreatedOn = std::chrono::system_clock::now();
-		notification.m_Duration = duration;
+		// Real Stand's own toast() always computes this from the
+		// message itself (EstimateReadingTimeMs() above) rather than
+		// trusting a duration passed in per call - the duration
+		// parameter is kept only for source compatibility with every
+		// existing call site (deliberately unused otherwise).
+		notification.m_Duration = std::clamp(EstimateReadingTimeMs(message), Rendering::NotifySettings::kMinDurationMs, Rendering::NotifySettings::kMaxDurationMs);
 		notification.m_Identifier = message_id;
+		notification.m_FlashUntil = std::chrono::steady_clock::now() + std::chrono::milliseconds(Rendering::NotifySettings::kFlashMs);
 
 		if (context_function)
 		{
@@ -197,7 +291,7 @@ namespace YimMenu
 				else
 				{
 					notification.m_AnimationOffset -= m_CardAnimationSpeed;
-					if (notification.m_AnimationOffset <= -m_CardSizeX)
+					if (notification.m_AnimationOffset <= -Rendering::NotifySettings::kWidth)
 						keys_to_erase.push_back(id);
 				}
 
