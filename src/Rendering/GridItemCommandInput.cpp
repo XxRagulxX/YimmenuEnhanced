@@ -2,6 +2,10 @@
 
 #include "Commands/Commands.hpp"
 #include "Commands/CommandInput.hpp"
+#include "Rendering/Notifications.hpp"
+
+#include <functional>
+#include <string>
 
 namespace YimMenu::Rendering
 {
@@ -32,14 +36,16 @@ namespace YimMenu::Rendering
 		}
 	}
 
-	GridItemCommandInput::GridItemCommandInput(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride, bool scrolling) :
+	GridItemCommandInput::GridItemCommandInput(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride, bool scrolling, std::optional<std::size_t> maxLength) :
 	    GridItemTextInput(
 	        width, height, ResolveLabel(id, labelOverride), ResolveInitialValue(id), [id](const std::string& value) {
 		        if (auto* command = Commands::GetCommand<CommandInput>(id))
 			        command->SetStringValue(value);
 	        },
-	        nullptr,
-	        scrolling)
+	        nullptr, scrolling, maxLength.value_or(255), maxLength.has_value() ? std::function<void()>([maxLength] {
+		        Notifications::Show("Input", "Limited to " + std::to_string(*maxLength) + " characters.", NotificationType::Warning);
+	        }) :
+	                                                                             nullptr)
 	{
 	}
 }

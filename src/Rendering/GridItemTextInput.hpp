@@ -1,6 +1,7 @@
 #pragma once
 #include "Rendering/GridItem.hpp"
 
+#include <cstddef>
 #include <functional>
 #include <string>
 
@@ -34,6 +35,25 @@ namespace YimMenu::Rendering
 	// field re-filters its rows on every keystroke, not just once the
 	// user is done typing); a plain "type a value, press Enter" field
 	// (every other GridItemTextInput use so far) just leaves this null.
+	//
+	// maxLength (optional, defaults to the original hardcoded 255 - see
+	// onChar()'s own comment) - ported from real Stand's own
+	// CommandInputTextLimitChars (Commands/Widgets/
+	// CommandInputTextLimitChars.hpp on origin/stand-reference), rescoped
+	// to this field's own inline typing instead of Stand's own Command
+	// Box: that class only exists to reject an over-length value typed
+	// into Stand's own console-style command box, which is how Stand
+	// enters EVERY command's value, string or numeric alike - this
+	// project has no equivalent "command box" pathway for CommandInput
+	// specifically (only its numeric commands go through MenuCommandBox -
+	// see GridItemCommandSlider.hpp's own class comment), so the same
+	// "stop accepting more once you hit the limit" behaviour is enforced
+	// directly against the field's own live m_Buffer instead. onLimitReached
+	// (optional) fires once per rejected keystroke, standing in for
+	// Stand's own LANG_FMT("CHARLIMIT", ...) response message - this
+	// class doesn't know Notifications exists (kept generic, same reason
+	// it doesn't know Command exists either), so a caller wanting that
+	// warning shown wires it in here instead (see GridItemCommandInput.cpp).
 	class GridItemTextInput : public GridItem
 	{
 	public:
@@ -43,7 +63,9 @@ namespace YimMenu::Rendering
 		    std::string initialValue,
 		    std::function<void(const std::string&)> onCommit,
 		    std::function<void(const std::string&)> onChange = nullptr,
-		    bool scrolling = false);
+		    bool scrolling = false,
+		    std::size_t maxLength = 255,
+		    std::function<void()> onLimitReached = nullptr);
 
 		void draw() override;
 		void drawText() override;
@@ -99,5 +121,7 @@ namespace YimMenu::Rendering
 		std::function<void(const std::string&)> m_OnChange;
 		bool m_Editing = false;
 		bool m_Scrolling = false;
+		std::size_t m_MaxLength;
+		std::function<void()> m_OnLimitReached;
 	};
 }

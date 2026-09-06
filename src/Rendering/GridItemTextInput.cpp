@@ -22,13 +22,17 @@ namespace YimMenu::Rendering
 	    std::string initialValue,
 	    std::function<void(const std::string&)> onCommit,
 	    std::function<void(const std::string&)> onChange,
-	    bool scrolling) :
+	    bool scrolling,
+	    std::size_t maxLength,
+	    std::function<void()> onLimitReached) :
 	    GridItem(GRIDITEM_INDIFFERENT, width, height),
 	    m_Label(std::move(label)),
 	    m_Value(std::move(initialValue)),
 	    m_OnCommit(std::move(onCommit)),
 	    m_OnChange(std::move(onChange)),
-	    m_Scrolling(scrolling)
+	    m_Scrolling(scrolling),
+	    m_MaxLength(maxLength),
+	    m_OnLimitReached(std::move(onLimitReached))
 	{
 	}
 
@@ -135,13 +139,24 @@ namespace YimMenu::Rendering
 		// Printable ASCII only - matches this project's existing
 		// StringCommandItem's own 256-byte narrow buffer (src/
 		// StringCommandItem.cpp), no wide-character/IME support.
-		if (c >= 0x20 && c < 0x7f && m_Buffer.size() < 255)
-		{
-			m_Buffer.push_back(static_cast<char>(c));
+		if (c < 0x20 || c >= 0x7f)
+			return;
 
-			if (m_OnChange)
-				m_OnChange(m_Buffer);
+		// m_MaxLength defaults to the original hardcoded 255 above -
+		// see this class's own header comment (ported from real Stand's
+		// own CommandInputTextLimitChars) for callers that configure a
+		// tighter one.
+		if (m_Buffer.size() >= m_MaxLength)
+		{
+			if (m_OnLimitReached)
+				m_OnLimitReached();
+			return;
 		}
+
+		m_Buffer.push_back(static_cast<char>(c));
+
+		if (m_OnChange)
+			m_OnChange(m_Buffer);
 	}
 
 	void GridItemTextInput::onEditKey(unsigned int vkCode)
