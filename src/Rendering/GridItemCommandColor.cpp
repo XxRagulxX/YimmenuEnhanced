@@ -4,9 +4,12 @@
 #include "Commands/Commands.hpp"
 #include "Rendering/Grid.hpp"
 #include "Rendering/GridRenderer.hpp"
+#include "Rendering/MenuNavigation.hpp"
 #include "Rendering/Theme.hpp"
 
 #include <algorithm>
+#include <cmath>
+#include <unordered_map>
 #include <utility>
 
 namespace YimMenu::Rendering
@@ -16,8 +19,14 @@ namespace YimMenu::Rendering
 		constexpr float kButtonSize = 22.f;
 		constexpr float kValueWidth = 40.f;
 		constexpr float kGap = 6.f;
-		constexpr float kSwatchWidth = 40.f;
-		constexpr float kSwatchLabelGap = 10.f;
+		constexpr float kArrowGap = 5.f;
+
+		// Real Stand's own ColourUtil::isContrastSufficient() threshold
+		// (a WCAG-style relative-luminance contrast ratio) - see
+		// GridItemColorFolder::drawText() below for where this gates
+		// falling back to the normal arrow colour instead of the
+		// command's own tint while focused.
+		constexpr float kMinContrastRatio = 3.f;
 
 		enum Channel
 		{
@@ -77,39 +86,6 @@ namespace YimMenu::Rendering
 			}
 			return "?";
 		}
-
-		// The live colour preview + label row - not focusable/clickable,
-		// just a coloured swatch rect with the command's own label text
-		// next to it.
-		class GridItemColorSwatch : public GridItem
-		{
-		public:
-			GridItemColorSwatch(int16_t width, int16_t height, std::string label, ColorCommand* command) :
-			    GridItem(GRIDITEM_INDIFFERENT, width, height),
-			    m_Label(std::move(label)),
-			    m_Command(command)
-			{
-			}
-
-			void draw() override
-			{
-				const auto colour = m_Command ? m_Command->GetState() : ImVec4(0.f, 0.f, 0.f, 1.f);
-				GridRenderer::DrawRect(x, y, kSwatchWidth, height, DirectX::XMFLOAT4{colour.x, colour.y, colour.z, colour.w});
-			}
-
-			void drawText() override
-			{
-				const auto labelSize = GridRenderer::MeasureText(m_Label.c_str());
-				GridRenderer::DrawText(x + kSwatchWidth + kSwatchLabelGap,
-				    y + std::max(0.f, (height - labelSize.y) * 0.5f),
-				    m_Label.c_str(),
-				    m_Command ? Theme::kText : Theme::kError);
-			}
-
-		private:
-			std::string m_Label;
-			ColorCommand* m_Command;
-		};
 
 		// One R/G/B/A row - same label + value + "-"/"+" button shape as
 		// GridItemCommandInt, just stepping a 0-255 view of one channel
@@ -227,6 +203,160 @@ namespace YimMenu::Rendering
 			Channel m_Channel;
 			ColorCommand* m_Command;
 		};
+
+		// Real Stand's own ColourUtil.hpp (origin/stand-reference) - sRGB
+		// relative luminance, then the standard WCAG contrast-ratio
+		// formula ((L1+0.05)/(L2+0.05), lighter over darker) - ported
+		// verbatim since this project has no existing colour-contrast
+		// utility of its own (checked: no other file in this codebase
+		// does luminance/contrast math).
+		float RelativeLuminance(const DirectX::XMFLOAT4& c)
+		{
+			auto linearize = [](float v) {
+				return v <= 0.03928f ? v / 12.92f : std::pow((v + 0.055f) / 1.055f, 2.4f);
+			};
+			return 0.2126f * linearize(c.x) + 0.7152f * linearize(c.y) + 0.0722f * linearize(c.z);
+		}
+
+		bool IsContrastSufficient(const DirectX::XMFLOAT4& a, const DirectX::XMFLOAT4& b)
+		{
+			const float la = RelativeLuminance(a) + 0.05f;
+			const float lb = RelativeLuminance(b) + 0.05f;
+			const float ratio = la > lb ? la / lb : lb / la;
+			return ratio > kMinContrastRatio;
+		}
+
+		// The sub-page a GridItemColorFolder row below drills into - just
+		// the same four R/G/B/A channel steppers AddColorCommandRows()
+		// used to push inline before this change, now on their own page
+		// instead (no separate swatch/label row of its own - the folder
+		// row's own tinted arrow already previews the colour, same as
+		// real Stand never repeating that preview on the page it drills
+		// into either).
+		class ColorEditGrid : public Grid
+		{
+		public:
+			explicit ColorEditGrid(joaat_t id) :
+			    Grid(1438, 587, 0),
+			    m_Id(id)
+			{
+			}
+
+		protected:
+			void populate(std::vector<std::unique_ptr<GridItem>>& items_draft) override
+			{
+				auto* command = Commands::GetCommand<ColorCommand>(m_Id);
+				items_draft.push_back(std::make_unique<GridItemColorChannel>(Theme::kContentWidth, Theme::kContentItemHeight, CHANNEL_R, command));
+				items_draft.push_back(std::make_unique<GridItemColorChannel>(Theme::kContentWidth, Theme::kContentItemHeight, CHANNEL_G, command));
+				items_draft.push_back(std::make_unique<GridItemColorChannel>(Theme::kContentWidth, Theme::kContentItemHeight, CHANNEL_B, command));
+				items_draft.push_back(std::make_unique<GridItemColorChannel>(Theme::kContentWidth, Theme::kContentItemHeight, CHANNEL_A, command));
+			}
+
+		private:
+			joaat_t m_Id;
+		};
+
+		// One persistent ColorEditGrid per distinct ColorCommand id,
+		// created on first use and reused after - a GridItemFolder-style
+		// row's own m_Target must outlive the row and stay stable across
+		// MenuNavigation pushes/pops (see GridItemFolder.hpp's own class
+		// comment on why m_Target is always a non-owning pointer into
+		// something owned elsewhere), and AddColorCommandRows() is a
+		// stateless free function with no natural owner of its own to
+		// keep one on. std::unordered_map guarantees pointer/reference
+		// stability across insertions (node-based, no reallocation of
+		// existing elements) - safe to hand out a raw pointer into it
+		// that outlives this function call.
+		ColorEditGrid& GetColorEditGrid(joaat_t id)
+		{
+			// try_emplace constructs the ColorEditGrid in place from the
+			// forwarded id (only if not already present) rather than
+			// constructing a temporary and moving/copying it in - Grid
+			// has no need to support either.
+			static std::unordered_map<joaat_t, ColorEditGrid> grids;
+			return grids.try_emplace(id, id).first->second;
+		}
+
+		// A GridItemFolder-shaped row (label + right-aligned ">",
+		// clicking/Enter drills into m_Target via MenuNavigation::Push())
+		// whose arrow is tinted to m_Command's own current colour instead
+		// of a separate swatch box - ported from real Stand's own
+		// GridItemList::update() (origin/stand-reference): "if
+		// (preview_colour_in_sprite && list->type == COMMAND_LIST_COLOUR)
+		// ... arrowSpriteColour = commandColour" - the row's own trailing
+		// arrow SPRITE gets its tint colour swapped to the command's
+		// live RGBA (read via a getter, same as this reads GetState()),
+		// falling back to the normal arrow colour only while this row is
+		// focused AND contrast against the focus highlight would
+		// otherwise be too low (IsContrastSufficient() above, same
+		// ratio/threshold Stand's own ColourUtil::isContrastSufficient()
+		// uses) - unfocused, the tint always applies. Real Stand also has
+		// a second, separate mechanism (preview_colour_in_list) that
+		// tints the entire row's own focus-highlight background instead -
+		// not ported here, since only the arrow tint was asked for.
+		//
+		// A distinct class from GridItemFolder rather than a subclass of
+		// it - GridItemFolder's own drawText() draws the label and arrow
+		// in one function with no seam to override just the arrow's
+		// colour, and duplicating its small draw()/drawText()/onClick()/
+		// activate() shape here (this class is used only for colour
+		// commands) is simpler than adding a hook to the generic
+		// GridItemFolder every other folder row would need to skip.
+		class GridItemColorFolder : public GridItem
+		{
+		public:
+			GridItemColorFolder(int16_t width, int16_t height, std::string label, Grid* target, ColorCommand* command) :
+			    GridItem(GRIDITEM_INDIFFERENT, width, height),
+			    m_Label(std::move(label)),
+			    m_Target(target),
+			    m_Command(command)
+			{
+			}
+
+			bool isFocusable() const override
+			{
+				return true;
+			}
+
+			void draw() override
+			{
+				if (isKeyboardFocused())
+					GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
+			}
+
+			void drawText() override
+			{
+				const auto labelSize = GridRenderer::MeasureText(m_Label.c_str());
+				GridRenderer::DrawText(x + 5.f, y + std::max(0.f, (height - labelSize.y) * 0.5f), m_Label.c_str(), Theme::kText);
+
+				DirectX::XMFLOAT4 arrowColour = Theme::kText;
+				if (m_Command)
+				{
+					const auto c = m_Command->GetState();
+					const DirectX::XMFLOAT4 commandColour{c.x, c.y, c.z, c.w};
+					if (!isKeyboardFocused() || IsContrastSufficient(commandColour, Theme::kAccent))
+						arrowColour = commandColour;
+				}
+
+				const auto arrowSize = GridRenderer::MeasureText(">");
+				GridRenderer::DrawText(x + width - arrowSize.x - kArrowGap, y + std::max(0.f, (height - arrowSize.y) * 0.5f), ">", arrowColour);
+			}
+
+			void onClick(int16_t, int16_t) override
+			{
+				activate();
+			}
+
+			void activate() override
+			{
+				MenuNavigation::Push(m_Label, m_Target);
+			}
+
+		private:
+			std::string m_Label;
+			Grid* m_Target;
+			ColorCommand* m_Command;
+		};
 	}
 
 	void AddColorCommandRows(std::vector<std::unique_ptr<GridItem>>& items_draft, int16_t width, joaat_t id, std::optional<std::string> labelOverride)
@@ -239,11 +369,7 @@ namespace YimMenu::Rendering
 		else if (command)
 			label = command->GetLabel();
 
-		items_draft.push_back(std::make_unique<GridItemColorSwatch>(width, Theme::kContentItemHeight, std::move(label), command));
-		items_draft.push_back(std::make_unique<GridItemColorChannel>(width, Theme::kContentItemHeight, CHANNEL_R, command));
-		items_draft.push_back(std::make_unique<GridItemColorChannel>(width, Theme::kContentItemHeight, CHANNEL_G, command));
-		items_draft.push_back(std::make_unique<GridItemColorChannel>(width, Theme::kContentItemHeight, CHANNEL_B, command));
-		items_draft.push_back(std::make_unique<GridItemColorChannel>(width, Theme::kContentItemHeight, CHANNEL_A, command));
+		items_draft.push_back(std::make_unique<GridItemColorFolder>(width, Theme::kContentItemHeight, std::move(label), &GetColorEditGrid(id), command));
 	}
 
 	void AddConditionalColorCommandRows(Grid& grid,
