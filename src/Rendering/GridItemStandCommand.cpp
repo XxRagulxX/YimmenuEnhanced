@@ -2,6 +2,7 @@
 
 #include "Commands/Stand/CommandToggleNoCorrelation.hpp"
 #include "Commands/Widgets/CommandList.hpp"
+#include "Commands/Widgets/CommandPhysical.hpp"
 #include "Commands/Widgets/CommandSlider.hpp"
 #include "Menu/Click.hpp"
 #include "Rendering/GridRenderer.hpp"
@@ -136,6 +137,8 @@ namespace YimMenu::Rendering
 			ToggleClicked();
 		else if (m_Command->isList())
 			OpenSubList();
+		else if (auto* physical = m_Command->getPhysical())
+			ButtonClicked(physical);
 	}
 
 	bool GridItemStandCommand::onArrow(int delta)
@@ -173,6 +176,17 @@ namespace YimMenu::Rendering
 				slider->onRight(click, false);
 			else
 				slider->onLeft(click, false);
+		});
+	}
+
+	void GridItemStandCommand::ButtonClicked(Stand::CommandPhysical* physical)
+	{
+		// Same queue-it-not-call-it-inline convention as ToggleClicked()/
+		// SliderStep() above - a plain action's own onClick() can touch
+		// game natives just as freely as a toggle's onEnable()/onDisable().
+		FiberPool::queueJob([physical] {
+			Stand::Click click(Stand::CLICK_MENU, Stand::TC_SCRIPT_YIELDABLE);
+			physical->onClick(click);
 		});
 	}
 

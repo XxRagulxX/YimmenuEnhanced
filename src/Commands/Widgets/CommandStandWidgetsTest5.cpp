@@ -1,7 +1,10 @@
 #include "Commands/Widgets/CommandStandWidgetsTest5.hpp"
 
+#include "Commands/Widgets/CommandPhysical.hpp"
+#include "Commands/Widgets/CommandRegistry.hpp"
 #include "Commands/Widgets/CommandToggle.hpp"
 #include "Menu/Click.hpp"
+#include "Util/Joaat.hpp"
 #include "World/Self.hpp"
 
 // CommandGod lives directly in namespace Stand (not YimMenu::Features) -
@@ -52,6 +55,35 @@ namespace Stand
 					YimMenu::Self::GetPed().SetInvincible(false);
 			}
 		};
+
+		// Phase 2 proof-of-concept for CommandRegistry (Commands/Widgets/
+		// CommandRegistry.hpp) - this button does NOT hold a pointer to
+		// CommandGod above (it doesn't even know it lives in the same
+		// file); it looks CommandGod up purely by one of its aliases,
+		// hashed the exact same way YimMenu::Commands::GetCommand<T>()
+		// already does for the legacy system. Proves a command
+		// constructed anywhere in the (eventually many) migrated files
+		// can find another one by name alone, the same cross-referencing
+		// shape Commands/Widgets/CommandPositionPick.hpp already relies
+		// on for the legacy "freecam" toggle.
+		class CommandGodToggleViaRegistry : public CommandPhysical
+		{
+		public:
+			explicit CommandGodToggleViaRegistry(CommandList* parent) :
+			    CommandPhysical(COMMAND_ACTION,
+			        parent,
+			        LOC("Toggle God Mode (via Registry)"),
+			        CMDNAMES("standtest_togglegodviaregistry"),
+			        LOC("Looks up \"standtest_godmode\" through CommandRegistry and clicks it - proves the registry, not a held pointer."))
+			{
+			}
+
+			void onClick(Click& click) override
+			{
+				if (auto* god = CommandRegistry::GetCommand<CommandToggle>(YimMenu::Joaat("standtest_godmode")))
+					god->onClick(click);
+			}
+		};
 	}
 }
 
@@ -74,6 +106,7 @@ namespace YimMenu::Features
 		// under YimMenu::Features, so it needs that qualifier from here.
 		static bool initialized = [] {
 			root.createChild<Stand::CommandGod>();
+			root.createChild<Stand::CommandGodToggleViaRegistry>();
 			return true;
 		}();
 		(void)initialized;

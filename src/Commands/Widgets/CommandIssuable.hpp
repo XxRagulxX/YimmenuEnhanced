@@ -2,6 +2,7 @@
 #include "Commands/Online/CommandName.hpp"
 #include "Commands/Online/CommandPerm.hpp"
 #include "Commands/Widgets/Command.hpp"
+#include "Commands/Widgets/CommandRegistry.hpp"
 #include "Menu/Click.hpp"
 
 #include <vector>
@@ -92,6 +93,14 @@ namespace Stand
 		    command_names(std::move(command_names)),
 		    perm(perm)
 		{
+			// See CommandRegistry.hpp's own class comment - every command's
+			// aliases become findable by hash the moment it's constructed.
+			CommandRegistry::Add(this);
+		}
+
+		~CommandIssuable() override
+		{
+			CommandRegistry::Remove(this);
 		}
 
 		void addSuffixToCommandNames(CommandName&& suffix);

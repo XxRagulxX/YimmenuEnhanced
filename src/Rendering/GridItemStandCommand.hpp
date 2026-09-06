@@ -33,10 +33,11 @@ namespace YimMenu::Rendering
 	//
 	// Phase 1 scope, matching this project's own "port the foundation,
 	// prove one real example, then migrate feature-by-feature" plan -
-	// toggle, slider, and list (folder navigation) only. Nothing else
-	// (CommandColourCustom, CommandInput, ...) has been ported to this
-	// tree at all yet, so there's nothing further to bridge until it
-	// has been.
+	// toggle, slider, list (folder navigation), and plain action
+	// (COMMAND_ACTION - any physical command that's none of the above,
+	// e.g. a one-shot button) only. Nothing else (CommandColourCustom,
+	// CommandInput, ...) has been ported to this tree at all yet, so
+	// there's nothing further to bridge until it has been.
 	class GridItemStandCommand : public GridItem
 	{
 	public:
@@ -58,6 +59,7 @@ namespace YimMenu::Rendering
 		void ToggleClicked();
 		void SliderStep(int direction);
 		void OpenSubList();
+		void ButtonClicked(Stand::CommandPhysical* physical);
 
 		struct SliderLayout
 		{
