@@ -40,15 +40,16 @@ namespace YimMenu::Rendering::NotifySettings
 	inline float kWidth = 400.f;
 	inline float kPadding = 10.f;
 
-	// Real Stand's own "next to map" position is computed live from its
-	// own minimap bounds (GridToaster::setOriginNextToMap(), origin/
-	// stand-reference's src/Menu/NotifyGrid.cpp) - this project has no
-	// equivalent minimap-rect accessor, so this is a fixed, disclosed
-	// approximation instead (bottom-left, roughly where Stand's own
-	// notifications sit above the minimap at default HUD scale) rather
-	// than a live query.
-	constexpr int16_t kNextToMapX = 20;
-	constexpr int16_t kNextToMapY = 760;
+	// Real Stand's own "next to map" position (NotifyGrid::
+	// setOriginNextToMap(), origin/stand-reference's src/Menu/
+	// NotifyGrid.cpp) has no fixed value at all - it's computed live
+	// every time the safe zone size or minimap visibility changes, from
+	// GRAPHICS::GET_SAFE_ZONE_SIZE() and a few HUD-state natives, then
+	// shifted right if the minimap is actually on screen so this sits
+	// BESIDE it rather than overlapping it. See Notifications.cpp's own
+	// GetNextToMapAnchor() for this project's port of that formula -
+	// kept local there (not a setting here) since there's nothing for a
+	// Command to bind to; it's derived state, not a user preference.
 
 	// Real Stand's own CommandNotifyPosition default ({32, 532}) - only
 	// takes effect while kType == StandCustomPosition.

@@ -1,5 +1,6 @@
 #include "Rendering/Notifications.hpp"
 
+#include "Core/Pointers.hpp"
 #include "Rendering/GridRenderer.hpp"
 #include "Rendering/NotifySettings.hpp"
 #include "Rendering/TextWrap.hpp"
@@ -24,8 +25,15 @@ namespace YimMenu
 		// stackOffset accumulator below). Real Stand doesn't expose this
 		// inner inset separately.
 		constexpr float kTextPadding = 8.f;
-		constexpr float kProgressBarHeight = 3.5f;
-		constexpr float kSeparatorHeight = 1.f;
+		// Real Stand's own GridItemNotify::draw() border_width
+		// (Menu/GridItemNotify.cpp on origin/stand-reference) - a
+		// static stripe down the card's own left edge, not an
+		// animated "remaining time" bar - see DrawNotificationRect()
+		// below for where this project's previous top-shrinking-
+		// width bar (never actually real Stand's own behaviour, a
+		// pre-existing addition from before this port) is replaced
+		// by this instead.
+		constexpr float kBorderWidth = 3.f;
 		constexpr float kTitleScale = Rendering::Theme::kTextScale;
 		constexpr float kMessageScale = Rendering::Theme::kSmallTextScale;
 
@@ -52,6 +60,72 @@ namespace YimMenu
 			}
 		}
 
+		// Same per-axis H-space/client-pixel scale Commands/stand_widgets/
+		// Position2dCommands.hpp's own Detail::GetHSpaceScale() already
+		// is - duplicated here rather than shared, same call this
+		// project already made for that function's own precedent
+		// (CommandMenuPosition.cpp's original version): this is the only
+		// other place outside that file needing one, and it's a tiny,
+		// self-contained, pure function - not worth a Rendering ->
+		// Commands include just to share three lines.
+		float GetHSpaceScale()
+		{
+			const auto resX = static_cast<float>(*Pointers.ScreenResX);
+			const auto resY = static_cast<float>(*Pointers.ScreenResY);
+			if (resX <= 0.f || resY <= 0.f)
+				return 1.f;
+
+			return std::min(resX / Rendering::Theme::kHudWidth, resY / Rendering::Theme::kHudHeight);
+		}
+
+		// Ported from real Stand's own NotifyGrid::setOriginNextToMap()
+		// (Menu/NotifyGrid.cpp on origin/stand-reference) - positions the
+		// anchor just above the safe zone at the bottom-left of the
+		// screen, shifted right when the minimap is actually on screen
+		// so this sits BESIDE it instead of overlapping it. Ported:
+		// the safe-zone-based base position (GRAPHICS::GET_SAFE_ZONE_SIZE(),
+		// same formula) and the minimap-visible shift (the same three
+		// HUD-state natives Stand's own minimap_visible check uses, all
+		// already used elsewhere in this project). NOT ported: Stand's
+		// own further +158/+39/+60 shifts for an expanded "big map" or a
+		// pending Social Club invite indicator - those read
+		// Util::is_bigmap_active() (a raw ScriptGlobal(GLOBAL_BIGMAP)
+		// read) and a hardcoded GLOBAL_NEW_INVITES script global index,
+		// both Stand-specific and - unlike the natives used below - a
+		// real portability risk to hardcode here (global indices shift
+		// between game builds); a disclosed gap for the common case
+		// (normal minimap, no pending invite) rather than every case.
+		void GetNextToMapAnchor(float& anchorX, float& anchorY)
+		{
+			const float safeZone = GRAPHICS::GET_SAFE_ZONE_SIZE();
+			const float safezoneScale = 1.f - ((safeZone * 10.f) - 9.f);
+			const float safezoneWidthH = 96.f * safezoneScale;
+			const float safezoneHeightH = 54.f * safezoneScale;
+
+			// Real Stand's own posC2H(0, client_size_y - 3.8f).y -
+			// "3.8 client pixels above the bottom edge of the screen"
+			// converted to H-space. GridRenderer's own equivalent
+			// (PosC2H) was removed once real mouse support was dropped
+			// (see GridRenderer::WndProcImpl's own comment) - re-adding
+			// it just for this one read isn't worth it, so this
+			// converts the same way GetHSpaceScale() above already lets
+			// Position2dCommands.hpp's Move With Mouse do: kHudHeight is
+			// always the H-space canvas's own bottom edge by definition
+			// (Stand's own convention - see GridRenderer.hpp's own class
+			// comment), so "a few client pixels above that" is just
+			// kHudHeight minus those pixels converted through the same
+			// scale.
+			const auto scale = GetHSpaceScale();
+			const float bottomEdgeH = Rendering::Theme::kHudHeight - (3.8f / scale);
+
+			anchorX = 0.2f + safezoneWidthH;
+			anchorY = bottomEdgeH - safezoneHeightH;
+
+			const bool minimapVisible = !HUD::IS_WARNING_MESSAGE_ACTIVE() && !HUD::IS_PAUSE_MENU_ACTIVE() && !STREAMING::IS_PLAYER_SWITCH_IN_PROGRESS();
+			if (minimapVisible)
+				anchorX += 291.f;
+		}
+
 		// Where notification 0 (the newest/first-position one - see
 		// Draw()'s own position counter) anchors to, depending on
 		// Rendering::NotifySettings::kType - real Stand's own
@@ -67,8 +141,7 @@ namespace YimMenu
 			}
 			else
 			{
-				anchorX = static_cast<float>(Rendering::NotifySettings::kNextToMapX);
-				anchorY = static_cast<float>(Rendering::NotifySettings::kNextToMapY);
+				GetNextToMapAnchor(anchorX, anchorY);
 			}
 		}
 
@@ -104,13 +177,15 @@ namespace YimMenu
 			metrics.lineHeight = Rendering::GridRenderer::MeasureText("Ag", kMessageScale).y;
 
 			// Same running-Y shape ComputeLayout() below builds from -
-			// top inset, title, separator, message lines, optional
-			// context line, bottom inset - kept in sync with that
-			// function's own offsets rather than measuring the drawn
-			// rect after the fact.
-			float height = kProgressBarHeight + kTextPadding;
+			// top inset, title, message lines, optional context line,
+			// bottom inset - kept in sync with that function's own
+			// offsets rather than measuring the drawn rect after the
+			// fact. No separator line and no top-row reservation for a
+			// progress bar any more - see DrawNotificationRect() below
+			// for why (real Stand has neither), which is also most of
+			// what makes this smaller than before.
+			float height = kTextPadding;
 			height += metrics.titleHeight + kTextPadding * 0.5f;
-			height += kSeparatorHeight + kTextPadding * 0.5f;
 			height += metrics.messageLines.size() * metrics.lineHeight;
 			if (notification.m_ContextFunc)
 				height += kTextPadding * 0.5f + Rendering::GridRenderer::MeasureText(notification.m_ContextFuncName.c_str(), kMessageScale).y;
@@ -123,8 +198,6 @@ namespace YimMenu
 		struct Layout
 		{
 			float cardX, cardY;
-			float progressBarWidth;
-			float separatorY;
 			float titleY;
 			float messageStartY;
 			float contextY;
@@ -138,7 +211,6 @@ namespace YimMenu
 		Layout ComputeLayout(const Notification& notification, float stackOffset, const ContentMetrics& metrics)
 		{
 			using Rendering::NotifySettings::kInvertFlow;
-			using Rendering::NotifySettings::kWidth;
 
 			float anchorX, anchorY;
 			GetAnchor(anchorX, anchorY);
@@ -149,13 +221,8 @@ namespace YimMenu
 			// anchor instead of downward when on.
 			layout.cardY = anchorY + (kInvertFlow ? -1.f : 1.f) * stackOffset;
 
-			const auto timeElapsed = static_cast<float>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - notification.m_CreatedOn).count());
-			const float depletionProgress = std::clamp(1.f - (timeElapsed / static_cast<float>(notification.m_Duration)), 0.f, 1.f);
-			layout.progressBarWidth = kWidth * depletionProgress;
-
-			layout.titleY = layout.cardY + kProgressBarHeight + kTextPadding;
-			layout.separatorY = layout.titleY + metrics.titleHeight + kTextPadding * 0.5f;
-			layout.messageStartY = layout.separatorY + kSeparatorHeight + kTextPadding * 0.5f;
+			layout.titleY = layout.cardY + kTextPadding;
+			layout.messageStartY = layout.titleY + metrics.titleHeight + kTextPadding * 0.5f;
 			layout.contextY = layout.messageStartY + metrics.messageLines.size() * metrics.lineHeight + kTextPadding * 0.5f;
 
 			return layout;
@@ -170,17 +237,20 @@ namespace YimMenu
 
 			// Real Stand's own Border Colour, flashing to Flash Colour
 			// for a short window after this notification first appears
-			// (or re-triggers - see ShowImpl()) - same rect this project
-			// already drew as a fixed-colour "time remaining" progress
-			// bar (still shrinks the same way; only its colour is now
-			// user-configurable and flash-aware, matching real Stand's
-			// own Border Colour defaulting to a copy of Primary Colour,
-			// the same colour this progress bar already used).
+			// (or re-triggers - see ShowImpl()) - drawn as a static
+			// stripe down the card's own LEFT edge (GridItemNotify::
+			// draw()'s own drawRectH(x - border_width, y, border_width,
+			// height, ...)), not the shrinking-width "time remaining"
+			// bar this project drew across the top before - that was
+			// never real Stand's own behaviour (a pre-existing addition
+			// predating this port), so the visual "remaining time" cue
+			// it gave is a real, disclosed loss here in favour of
+			// matching Stand's real look (and further shrinking every
+			// card - it no longer reserves its own top row at all).
 			const auto& borderColour = (std::chrono::steady_clock::now() < notification.m_FlashUntil) ? Rendering::NotifySettings::kFlashColour : Rendering::NotifySettings::kBorderColour;
 
 			GridRenderer::DrawRect(layout.cardX, layout.cardY, kWidth, metrics.cardHeight, Rendering::NotifySettings::kBackgroundColour);
-			GridRenderer::DrawRect(layout.cardX, layout.cardY, layout.progressBarWidth, kProgressBarHeight, borderColour);
-			GridRenderer::DrawRect(layout.cardX + kTextPadding, layout.separatorY, kWidth - kTextPadding * 2.f, kSeparatorHeight, Rendering::Theme::kToggleOff);
+			GridRenderer::DrawRect(layout.cardX - kBorderWidth, layout.cardY, kBorderWidth, metrics.cardHeight, borderColour);
 		}
 
 		void DrawNotificationText(const Notification& notification, const ContentMetrics& metrics)
@@ -317,8 +387,11 @@ namespace YimMenu
 
 			// Real Stand's own addPersistentNotifyItem() (Menu/
 			// NotifyGrid.cpp) - always drawn first/topmost, ahead of
-			// every real notification below.
-			if (m_PreviewActive)
+			// every real notification below. Never drawn while Type is
+			// "Game" - see SetPreviewActiveImpl()'s own comment for why
+			// that routes through the native feed instead, one-shot,
+			// rather than this overlay.
+			if (m_PreviewActive && Rendering::NotifySettings::kType != Rendering::NotifySettings::Type::Game)
 			{
 				const auto metrics = ComputeContentMetrics(m_Preview);
 				m_Preview.m_StackOffset = stackOffset;
@@ -373,7 +446,7 @@ namespace YimMenu
 	{
 		std::lock_guard<std::mutex> lock(m_mutex);
 
-		if (m_PreviewActive)
+		if (m_PreviewActive && Rendering::NotifySettings::kType != Rendering::NotifySettings::Type::Game)
 			DrawNotificationText(m_Preview, ComputeContentMetrics(m_Preview));
 
 		for (auto& [id, notification] : m_Notifications)
@@ -400,6 +473,14 @@ namespace YimMenu
 		// starts fully on-screen (no slide-in) since real Stand's own
 		// notifications don't slide at all (see Notifications.hpp's own
 		// class comment on where that animation actually comes from).
+		//
+		// Built here regardless of Type - even though DrawImpl()/
+		// DrawTextImpl() only ever draw it while Type isn't "Game" (see
+		// their own comments) - so switching Type away from "Game"
+		// without leaving this page still has real content ready to
+		// show immediately, rather than an empty/stale m_Preview left
+		// over from whatever Type was active the last time this
+		// activated.
 		m_Preview = Notification{};
 		m_Preview.m_Type = NotificationType::Info;
 		m_Preview.m_Title = "Preview";
@@ -411,6 +492,18 @@ namespace YimMenu
 		// notification will appear" the moment this page is opened/
 		// focused, same as any notification's own first appearance.
 		m_Preview.m_FlashUntil = std::chrono::steady_clock::now() + std::chrono::milliseconds(Rendering::NotifySettings::kFlashMs);
+
+		// Real Stand's own persistent toast also reroutes through the
+		// native feed (GameToaster) while Type is "Game"
+		// (CommandListNotifySettings::setToaster()/updateGameColour()) -
+		// Border/Flash/Background Colour have no equivalent on that feed
+		// at all (see ShowInGame()'s own native calls), so there's no
+		// live-colour-preview benefit to replicating Stand's own
+		// repeated re-posting just to keep a feed message persistently
+		// on screen. A single sample post the moment this page is
+		// opened/focused is a fair, honest analogue instead.
+		if (Rendering::NotifySettings::kType == Rendering::NotifySettings::Type::Game)
+			ShowInGame(m_Preview.m_Title, m_Preview.m_Message, "", "");
 	}
 
 	int GetNotificationColor(const std::string& color)
