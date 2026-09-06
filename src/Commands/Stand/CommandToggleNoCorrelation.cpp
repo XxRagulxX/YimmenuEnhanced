@@ -1,5 +1,6 @@
 #include "Commands/Stand/CommandToggleNoCorrelation.hpp"
 
+#include "Commands/Widgets/CommandStateSerializer.hpp"
 #include "Menu/Click.hpp"
 
 namespace Stand
@@ -65,5 +66,12 @@ namespace Stand
 	{
 		if (click.canHaveGenericResponse())
 			click.setGenericResponse(LIT(m_on ? "On" : "Off"));
+
+		// Every path that actually changes m_on (toggleState() from a
+		// real click, setStateBool() from setState()/applyDefaultState())
+		// funnels through here - see CommandStateSerializer.hpp's own
+		// class comment for why persistence is driven off dirty-marking
+		// rather than saving unconditionally every tick.
+		CommandStateSerializer::MarkDirty();
 	}
 }

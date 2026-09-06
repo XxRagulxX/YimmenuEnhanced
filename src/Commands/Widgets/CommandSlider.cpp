@@ -1,5 +1,6 @@
 #include "Commands/Widgets/CommandSlider.hpp"
 
+#include "Commands/Widgets/CommandStateSerializer.hpp"
 #include "Menu/Click.hpp"
 
 #include <stdexcept>
@@ -137,5 +138,10 @@ namespace Stand
 
 	void CommandSlider::updateState(const Click& click)
 	{
+		// Every path that actually changes value (updateValue() from a
+		// real onLeft()/onRight() click, setValue() from setState()/
+		// applyDefaultState()) funnels through here - see
+		// CommandStateSerializer.hpp's own class comment.
+		CommandStateSerializer::MarkDirty();
 	}
 }

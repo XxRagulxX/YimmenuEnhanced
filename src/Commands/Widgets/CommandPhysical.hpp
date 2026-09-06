@@ -1,5 +1,6 @@
 #pragma once
 #include "Commands/Widgets/CommandIssuable.hpp"
+#include "Commands/Widgets/CommandStateSerializer.hpp"
 #include "Menu/Hotkey.hpp"
 #include "Util/Label.hpp"
 
@@ -41,6 +42,16 @@ namespace Stand
 		    help_text(std::move(help_text)),
 		    hotkeys(default_hotkeys)
 		{
+			// See CommandStateSerializer.hpp's own class comment - only
+			// commands whose state is actually meant to persist register
+			// here at all.
+			if (supportsStateOperations())
+				CommandStateSerializer::AddCommand(this);
+		}
+
+		~CommandPhysical() override
+		{
+			CommandStateSerializer::RemoveCommand(this);
 		}
 
 		[[nodiscard]] const Label& getMenuName() const
