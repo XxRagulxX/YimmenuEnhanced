@@ -27,7 +27,7 @@ namespace YimMenu::Rendering
 	// Origin/spacer match every other content Grid's - see SelfGrid.cpp's
 	// identical comment.
 	SettingsNotificationsGrid::SettingsNotificationsGrid() :
-	    Grid(1438, 587, 0)
+	    Grid(Theme::GetContentOrigin(), 0)
 	{
 	}
 

@@ -61,7 +61,7 @@ namespace YimMenu::Rendering
 	// width (Theme::kContentWidth) rather than the Grid itself, matching
 	// Stand's real Grid - see Grid.hpp's class comment.
 	StatEditorGrid::StatEditorGrid() :
-	    Grid(1438, 587, 0)
+	    Grid(Theme::GetContentOrigin(), 0)
 	{
 	}
 

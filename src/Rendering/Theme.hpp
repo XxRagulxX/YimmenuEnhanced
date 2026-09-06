@@ -1,4 +1,6 @@
 #pragma once
+#include "Rendering/Position2d.hpp"
+
 #include <DirectXMath.h>
 
 #include <cstdint>
@@ -155,6 +157,13 @@ namespace YimMenu::Rendering::Theme
 	constexpr int16_t kScrollbarWidth = 4;
 	constexpr int16_t kScrollbarGap = 4;
 
+	// Same spacer_size every content Grid's own constructor and
+	// MenuGrid.cpp's own header/sidebar stacking use - pulled out here
+	// (rather than each restating the literal 3) since GetContentOrigin()
+	// below and MenuGrid.cpp's own layout both need the exact same
+	// number to agree on where the sidebar/tab-strip gap actually is.
+	constexpr int16_t kSpacer = 3;
+
 	// Real Stand's own MenuGrid::default_origin ({1323, 560} - see
 	// MenuGrid.cpp's own kHeaderX/kHeaderY, which reference these instead
 	// of restating the same numbers) - the position every content Grid's
@@ -172,4 +181,54 @@ namespace YimMenu::Rendering::Theme
 	constexpr int16_t kDefaultMenuOriginY = 560;
 	inline int16_t kMenuOriginX = kDefaultMenuOriginX;
 	inline int16_t kMenuOriginY = kDefaultMenuOriginY;
+
+	// Real Stand's own Direction enum (Util/Direction.hpp on
+	// origin/stand-reference), narrowed to just the four values its own
+	// g_renderer.tabs_pos actually uses for the sidebar/tab strip -
+	// Settings > Appearance > Tabs Position (CommandTabsPos) edits
+	// kTabsPosition at runtime, same "inline mutable global" pattern as
+	// kMenuOriginX/Y above. kTabsVisible is the same pattern for real
+	// Stand's own CommandTabs (show/hide the whole sidebar).
+	enum class TabsPosition : uint8_t
+	{
+		Left,
+		Right,
+		Top,
+		Bottom,
+	};
+	inline TabsPosition kTabsPosition = TabsPosition::Left;
+	inline bool kTabsVisible = true;
+
+	// The origin every content Grid's own constructor uses, for the
+	// current kTabsPosition/kTabsVisible - (1438, 587) for the still-
+	// default Left+visible case, confirmed exactly against
+	// kDefaultMenuOriginX/Y + kSidebarWidth/kHeaderHeight/kSpacer above
+	// (see Theme.cpp's own definition) so nothing shifts for a user who
+	// never touches Settings > Appearance > Tabs Position. MenuGrid.cpp's
+	// own header/sidebar construction uses the same numbers to lay out
+	// its own chrome around whatever this returns - see that file for
+	// how the two stay in sync.
+	//
+	// Evaluated once, at each content Grid's own construction (every
+	// content Grid is a file-static/global instance built long before
+	// Settings > Appearance ever runs) - same limitation Grid.hpp's own
+	// class comment already discloses for this project's populate()
+	// model (no Worker-driven live-repopulation yet): changing Tabs
+	// Position at runtime moves MenuGrid's own header/sidebar chrome
+	// immediately (see MenuGrid::populate(), rebuilt via invalidate()),
+	// but every already-constructed content Grid's own origin was fixed
+	// at startup and does not retroactively follow a later change - a
+	// real, disclosed gap rather than a silent one, left alone here since
+	// closing it means giving every content Grid a way to be found and
+	// re-originated live, a whole registry this project doesn't have yet.
+	[[nodiscard]] Position2d GetContentOrigin();
+
+	// Same as GetContentOrigin() above, offset further down for a
+	// GridTabbed page's own tab-strip children (VehicleSpawnGrid's
+	// New/Personal Vehicle, RecoveryHeistsGrid's six heist types,
+	// ScriptsGrid's Threads/Start Script) - (1438, 622) for the
+	// still-default case, the exact same "content origin + one
+	// kContentItemHeight-tall strip + kSpacer" arithmetic those pages'
+	// own child Grid constructors already hardcoded.
+	[[nodiscard]] Position2d GetTabbedContentOrigin();
 }

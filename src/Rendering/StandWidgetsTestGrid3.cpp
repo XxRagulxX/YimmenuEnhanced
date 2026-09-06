@@ -21,7 +21,7 @@ namespace YimMenu::Rendering
 	// Origin/spacer match every other content Grid's - see SelfGrid.cpp's
 	// identical comment.
 	StandWidgetsTestGrid3::StandWidgetsTestGrid3() :
-	    Grid(1438, 587, 0)
+	    Grid(Theme::GetContentOrigin(), 0)
 	{
 	}
 

@@ -26,7 +26,7 @@ namespace YimMenu::Rendering
 	// only ever shows one Grid at a time, in the same content area, so
 	// nesting doesn't change where this draws.
 	MovementGrid::MovementGrid() :
-	    Grid(1438, 587, 0)
+	    Grid(Theme::GetContentOrigin(), 0)
 	{
 	}
 

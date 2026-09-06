@@ -10,6 +10,7 @@ namespace YimMenu::Rendering
 {
 	class GridItemAddressbar;
 	class GridItemTabsVertical;
+	class GridItemTabsHorizontal;
 
 	// Top-level chrome: a breadcrumb header + sidebar (submenu list) +
 	// whatever content MenuNavigation currently has on top of its stack.
@@ -35,7 +36,13 @@ namespace YimMenu::Rendering
 	// items in this Grid's own list now, positioned by the ported
 	// alignment engine (sidebar's default ALIGN_BOTTOM_LEFT stacks it
 	// under header, keeping header's own x) rather than hardcoded
-	// SetPosition() calls - see populate().
+	// SetPosition() calls - see populate(). Exactly one of m_Sidebar/
+	// m_SidebarHorizontal is non-null at a time, depending on
+	// Theme::kTabsPosition (GridItemTabsVertical for Left/Right,
+	// GridItemTabsHorizontal for Top/Bottom) - both null while
+	// Theme::kTabsVisible is false. populate() is rebuilt (via
+	// Grid::invalidate()) whenever either changes - see CommandTabs/
+	// CommandTabsPos (Commands/Settings/CommandTabs.cpp).
 	class MenuGrid : public Grid
 	{
 	public:
@@ -66,10 +73,41 @@ namespace YimMenu::Rendering
 		void HandleMouseClick(int16_t hx, int16_t hy, bool ctrl, bool shift, bool doubleClick);
 		void HandleMouseWheel(int16_t hx, int16_t hy, int delta);
 
+		// Rebuilds header/sidebar next time populate() runs - called by
+		// CommandTabs/CommandTabsPos whenever either changes, the same
+		// "call this after changing whatever populate() depends on" idiom
+		// Grid::invalidate() already documents for a subclass that needs
+		// to decide this for itself.
+		void InvalidateLayout()
+		{
+			invalidate();
+		}
+
+		// x/y/width of the breadcrumb header bar, already including the
+		// runtime menu-position offset (Theme::kMenuOriginX/Y) - the
+		// same offset Grid::forEachVisibleItem() applies to every
+		// regular item during draw()/drawText(), but m_Header's own raw
+		// x/y is never shifted outside that call (see that function's
+		// own comment in Grid.cpp), so GridRenderer (placing the header
+		// banner image directly above this bar - same relationship real
+		// Stand's own GridItemHeaderAnimation has to its own addressbar,
+		// see GridItemHeader.cpp on origin/stand-reference) needs this
+		// instead of reading m_Header->x/y directly. Returns false if
+		// populate() hasn't run yet (shouldn't happen in practice, but
+		// guards against a call before the first draw()).
+		bool GetHeaderBarRect(int16_t& x, int16_t& y, int16_t& width) const;
+
 	protected:
 		void populate(std::vector<std::unique_ptr<GridItem>>& items_draft) override;
 
 	private:
+		// Non-owning - whichever of m_Sidebar/m_SidebarHorizontal is
+		// currently non-null, as a plain GridItem* (both provide
+		// GetActiveIndex()/occupies()/onClick(), the only things every
+		// call site below actually needs regardless of orientation).
+		[[nodiscard]] GridItem* SidebarItem() const;
+		[[nodiscard]] size_t SidebarActiveIndex() const;
+		void MoveSidebarActive(int delta);
 		struct SubmenuRoot
 		{
 			size_t SidebarIndex;
@@ -85,6 +123,7 @@ namespace YimMenu::Rendering
 
 		GridItemAddressbar* m_Header = nullptr;
 		GridItemTabsVertical* m_Sidebar = nullptr;
+		GridItemTabsHorizontal* m_SidebarHorizontal = nullptr;
 		GridItemScrollbar m_ContentScrollbar;
 		std::vector<SubmenuRoot> m_Roots;
 		size_t m_LastSidebarIndex = static_cast<size_t>(-1);

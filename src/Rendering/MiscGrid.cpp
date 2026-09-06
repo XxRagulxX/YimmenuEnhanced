@@ -14,6 +14,7 @@
 #include "Network/ScriptEvent.hpp"
 #include "Rendering/ScriptsGrid.hpp"
 #include "Rendering/StandWidgetsTestGrid3.hpp"
+#include "Rendering/StandWidgetsTestGrid4.hpp"
 #include "Scripting/ScriptFunction.hpp"
 #include "World/Self.hpp"
 #include "Rendering/Theme.hpp"
@@ -30,6 +31,7 @@ namespace YimMenu::Rendering
 		LocalsGrid g_LocalsContent{};
 		ScriptsGrid g_ScriptsContent{};
 		StandWidgetsTestGrid3 g_StandWidgetsTest3Content{};
+		StandWidgetsTestGrid4 g_StandWidgetsTest4Content{};
 	}
 
 	// Origin (1438, 587) matches every other content Grid's. Spacer is
@@ -42,7 +44,7 @@ namespace YimMenu::Rendering
 	// width (Theme::kContentWidth) rather than the Grid itself, matching
 	// Stand's real Grid - see Grid.hpp's class comment.
 	MiscGrid::MiscGrid() :
-	    Grid(1438, 587, 0)
+	    Grid(Theme::GetContentOrigin(), 0)
 	{
 	}
 
@@ -63,6 +65,7 @@ namespace YimMenu::Rendering
 		// this row (and everything it references) once confirmed
 		// working in-game.
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Stand Widgets Test 3", &g_StandWidgetsTest3Content));
+		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Stand Widgets Test 4", &g_StandWidgetsTest4Content));
 
 		// "Network Bail" isn't a registered Command in src/Misc.cpp (it's
 		// an inline ImGui button + FiberPool job) - reused verbatim as a

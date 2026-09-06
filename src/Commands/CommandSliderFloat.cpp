@@ -41,11 +41,22 @@ namespace YimMenu
 
 	std::optional<float> CommandSliderFloat::GetMinimum()
 	{
+		if (m_DynamicRange)
+			return m_DynamicRange().first;
+
 		return m_Min;
 	}
 
 	std::optional<float> CommandSliderFloat::GetMaximum()
 	{
+		if (m_DynamicRange)
+			return m_DynamicRange().second;
+
 		return m_Max;
+	}
+
+	void CommandSliderFloat::SetDynamicRange(std::function<std::pair<float, float>()> dynamicRange)
+	{
+		m_DynamicRange = std::move(dynamicRange);
 	}
 }

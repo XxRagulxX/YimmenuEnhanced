@@ -5,6 +5,7 @@
 #include "Rendering/Theme.hpp"
 
 #include <algorithm>
+#include <cmath>
 #include <windows.h>
 
 namespace YimMenu::Rendering
@@ -20,12 +21,14 @@ namespace YimMenu::Rendering
 	    std::string label,
 	    std::string initialValue,
 	    std::function<void(const std::string&)> onCommit,
-	    std::function<void(const std::string&)> onChange) :
+	    std::function<void(const std::string&)> onChange,
+	    bool scrolling) :
 	    GridItem(GRIDITEM_INDIFFERENT, width, height),
 	    m_Label(std::move(label)),
 	    m_Value(std::move(initialValue)),
 	    m_OnCommit(std::move(onCommit)),
-	    m_OnChange(std::move(onChange))
+	    m_OnChange(std::move(onChange)),
+	    m_Scrolling(scrolling)
 	{
 	}
 
@@ -64,7 +67,24 @@ namespace YimMenu::Rendering
 		const auto valueSize = GridRenderer::MeasureText(displayValue.c_str());
 		const auto labelWidth = GridRenderer::MeasureText(m_Label.c_str()).x;
 		const auto valueX = x + 5.f + labelWidth + kLabelGap;
-		GridRenderer::DrawText(valueX + kValuePaddingX, y + std::max(0.f, (height - valueSize.y) * 0.5f), displayValue.c_str(), Theme::kText);
+		const auto valueY = y + std::max(0.f, (height - valueSize.y) * 0.5f);
+
+		if (!m_Editing && m_Scrolling)
+		{
+			const auto valueWidth = std::max(0.f, static_cast<float>(width) - (valueX - x));
+			if (valueSize.x > valueWidth)
+			{
+				constexpr float kGapPx = 40.f;
+				constexpr float kPixelsPerMs = 0.03f;
+				const auto cycle = valueSize.x + kGapPx;
+				const auto offset = std::fmod(static_cast<float>(GetTickCount64()) * kPixelsPerMs, cycle);
+				GridRenderer::DrawText(valueX + kValuePaddingX - offset, valueY, displayValue.c_str(), Theme::kText);
+				GridRenderer::DrawText(valueX + kValuePaddingX - offset + cycle, valueY, displayValue.c_str(), Theme::kText);
+				return;
+			}
+		}
+
+		GridRenderer::DrawText(valueX + kValuePaddingX, valueY, displayValue.c_str(), Theme::kText);
 	}
 
 	void GridItemTextInput::onClick(int16_t, int16_t)

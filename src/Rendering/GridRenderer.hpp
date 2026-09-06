@@ -45,6 +45,14 @@ namespace YimMenu::Rendering
 		// once from Main(), after Renderer::Init().
 		static void Init();
 
+		// Rebuilds the top-level MenuGrid's own header/sidebar next
+		// frame (see Grid::invalidate()'s own doc comment) - called by
+		// CommandTabs/CommandTabsPos (Commands/Settings/CommandTabs.cpp)
+		// whenever either changes Theme::kTabsVisible/kTabsPosition, the
+		// same "onChange -> trigger a re-layout" idiom real Stand's own
+		// CommandTabs/CommandTabsPos use against g_menu_grid.update().
+		static void InvalidateMenuLayout();
+
 		// Draws a solid-colour rectangle at an H-space position/size
 		// (top-left origin, Y down - Stand's own virtual 1920x1080 HUD
 		// canvas, same as every GridItem's own x/y/width/height and every

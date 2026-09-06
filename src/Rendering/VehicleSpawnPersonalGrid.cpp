@@ -80,10 +80,11 @@ namespace YimMenu::Rendering
 
 	// Origin sits right below where VehicleSpawnGrid's own tab strip
 	// draws - see this class's own header comment and GridTabbed's for
-	// why a tab target hardcodes this itself rather than the usual
-	// (1438, 587).
+	// why a tab target uses Theme::GetTabbedContentOrigin() instead of
+	// the usual Theme::GetContentOrigin() every other content Grid's own
+	// constructor calls.
 	VehicleSpawnPersonalGrid::VehicleSpawnPersonalGrid() :
-	    Grid(1438, 622, 0)
+	    Grid(Theme::GetTabbedContentOrigin(), 0)
 	{
 	}
 

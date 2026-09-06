@@ -42,7 +42,8 @@ namespace YimMenu::Rendering
 		    std::string label,
 		    std::string initialValue,
 		    std::function<void(const std::string&)> onCommit,
-		    std::function<void(const std::string&)> onChange = nullptr);
+		    std::function<void(const std::string&)> onChange = nullptr,
+		    bool scrolling = false);
 
 		void draw() override;
 		void drawText() override;
@@ -97,5 +98,6 @@ namespace YimMenu::Rendering
 		std::function<void(const std::string&)> m_OnCommit;
 		std::function<void(const std::string&)> m_OnChange;
 		bool m_Editing = false;
+		bool m_Scrolling = false;
 	};
 }

@@ -31,7 +31,7 @@ namespace YimMenu::Rendering
 	// one a GridTabbed target needs to clear its own tab strip (see
 	// GridTabbed.hpp's own class comment).
 	BytecodeGrid::BytecodeGrid() :
-	    Grid(1438, 587, 0)
+	    Grid(Theme::GetContentOrigin(), 0)
 	{
 	}
 

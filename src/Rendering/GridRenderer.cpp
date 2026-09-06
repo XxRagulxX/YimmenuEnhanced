@@ -1,9 +1,11 @@
 #include "Rendering/GridRenderer.hpp"
 
+#include "Core/FileMgr.hpp"
 #include "Menu/GUI.hpp"
 #include "Rendering/AutoDriveHUD.hpp"
 #include "Rendering/ChatDisplay.hpp"
 #include "Rendering/ESP.hpp"
+#include "Rendering/HeaderBanner.hpp"
 #include "Rendering/Onboarding.hpp"
 #include "Rendering/MenuCommandBox.hpp"
 #include "Rendering/MenuFocus.hpp"
@@ -104,6 +106,11 @@ namespace YimMenu::Rendering
 	}
 
 	static MenuGrid g_MenuGrid{};
+
+	void GridRenderer::InvalidateMenuLayout()
+	{
+		g_MenuGrid.InvalidateLayout();
+	}
 
 	void GridRenderer::EnsureDeviceResources(ID3D12Device* device)
 	{
@@ -301,6 +308,32 @@ namespace YimMenu::Rendering
 			AutoDriveHUD::DrawText();
 
 			m_SpriteBatch->End();
+		}
+
+		// Custom Header banner (Rendering/HeaderBanner.hpp) - drawn
+		// directly above the breadcrumb header bar, spanning its own
+		// width, aspect-locked to whatever's currently loaded - same
+		// relationship real Stand's own GridItemHeaderAnimation has to
+		// its own addressbar (see that class's own doc comment in
+		// HeaderBanner.hpp). A separate SpriteBatch pass/descriptor
+		// heap from the font pass above (HeaderBanner::Draw binds its
+		// own), so this can run regardless of whether the embedded font
+		// itself loaded.
+		if (menuActive && HeaderBanner::IsLoaded())
+		{
+			int16_t headerX, headerY, headerWidth;
+			if (g_MenuGrid.GetHeaderBarRect(headerX, headerY, headerWidth))
+			{
+				const auto bannerHeightH = HeaderBanner::GetRenderHeight(static_cast<float>(headerWidth));
+				if (bannerHeightH > 0.f)
+				{
+					const auto bannerYH = static_cast<float>(headerY) - bannerHeightH - Theme::kSpacer;
+					const auto posC = PosH2C(static_cast<float>(headerX), bannerYH);
+					const auto sizeC = SizeH2C(static_cast<float>(headerWidth), bannerHeightH);
+
+					HeaderBanner::Draw(commandList, viewport, posC.x, posC.y, sizeC.x, sizeC.y);
+				}
+			}
 		}
 
 		m_GraphicsMemory->Commit(Renderer::GetCommandQueue());
@@ -537,6 +570,17 @@ namespace YimMenu::Rendering
 
 	void GridRenderer::Init()
 	{
+		// Custom Header's local image folder - created here (unlike
+		// CommandTabsPos's Sync(), which only ever runs from LoadState()/
+		// OnChange() and so never fires on a fresh config with no saved
+		// "header" entry yet - see Commands::LoadStateImpl) so the
+		// folder exists and is discoverable as soon as the menu is
+		// ready, whether or not the user has ever touched Settings >
+		// Appearance > Position yet. Safe to call this early - FileMgr::
+		// Init() has already run by the time Main() reaches this call
+		// (see main.cpp).
+		FileMgr::GetProjectFolder("./Headers");
+
 		Renderer::AddDirect3DDrawCallBack(
 		    [](ID3D12GraphicsCommandList* commandList) {
 			    GetInstance().DrawImpl(commandList);

@@ -90,7 +90,7 @@ namespace YimMenu::Rendering
 	// GridTabbed.hpp's own class comment and VehicleSpawnNewGrid's
 	// identical offset).
 	StartScriptGrid::StartScriptGrid() :
-	    Grid(1438, 622, 0),
+	    Grid(Theme::GetTabbedContentOrigin(), 0),
 	    m_StackSize(kStackSizes[0].second)
 	{
 	}

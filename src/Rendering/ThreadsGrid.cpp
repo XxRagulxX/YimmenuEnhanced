@@ -44,7 +44,7 @@ namespace YimMenu::Rendering
 	// GridTabbed.hpp's own class comment and VehicleSpawnNewGrid's
 	// identical offset).
 	ThreadsGrid::ThreadsGrid() :
-	    Grid(1438, 622, 0)
+	    Grid(Theme::GetTabbedContentOrigin(), 0)
 	{
 	}
 

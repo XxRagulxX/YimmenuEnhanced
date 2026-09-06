@@ -13,7 +13,7 @@ namespace YimMenu::Rendering
 	}
 
 	FreecamGrid::FreecamGrid() :
-	    Grid(1438, 587, 0)
+	    Grid(Theme::GetContentOrigin(), 0)
 	{
 	}
 

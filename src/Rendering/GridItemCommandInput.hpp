@@ -13,6 +13,6 @@ namespace YimMenu::Rendering
 	class GridItemCommandInput : public GridItemTextInput
 	{
 	public:
-		GridItemCommandInput(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride = std::nullopt);
+		GridItemCommandInput(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride = std::nullopt, bool scrolling = false);
 	};
 }

@@ -1,6 +1,7 @@
 #include "Rendering/MenuGrid.hpp"
 
 #include "Rendering/GridItemAddressbar.hpp"
+#include "Rendering/GridItemTabsHorizontal.hpp"
 #include "Rendering/GridItemTabsVertical.hpp"
 #include "Rendering/GridRenderer.hpp"
 #include "Rendering/MenuFocus.hpp"
@@ -47,26 +48,27 @@ namespace YimMenu::Rendering
 		// 3)) - the gap this Grid's own alignment engine (ported from
 		// Stand's Grid::setPositions()) puts between header and sidebar,
 		// since both are just items in this Grid's own list now.
-		constexpr int16_t kSpacer = 3;
+		constexpr int16_t kSpacer = Theme::kSpacer;
 
-		// header's own x is kHeaderX (it's this Grid's first item, so the
-		// alignment engine leaves it at origin); its width just needs to
-		// reach from there to content's own right edge - see below.
-		constexpr int16_t kHeaderW = Theme::kSidebarWidth + kSpacer + Theme::kContentWidth;
-
-		// sidebar is the second item, ALIGN_BOTTOM_LEFT (the default) -
-		// the alignment engine stacks it under header keeping header's
-		// own x, so sidebar's x is also kHeaderX and doesn't need its own
-		// constant. Its y does, since content (a separate Grid entirely -
-		// see the class comment in MenuGrid.hpp) needs to sit level with
-		// it, and nothing derives that for us across two different Grids.
-		constexpr int16_t kContentY = kHeaderY + Theme::kHeaderHeight + kSpacer;
-		constexpr int16_t kContentX = kHeaderX + Theme::kSidebarWidth + kSpacer;
-
-		// Every content grid's own constructor hardcodes its origin to
-		// (kContentX, kContentY) - (1438, 587) as of writing - since none
-		// of them are built via this file (no shared header for these
-		// yet - if that stops scaling, it's worth factoring out then).
+		// Every content grid's own constructor gets its origin from
+		// Theme::GetContentOrigin()/GetTabbedContentOrigin() now - see
+		// that function's own doc comment in Theme.hpp for the exact
+		// arithmetic (still (1438, 587) for the default Left+visible
+		// case). header/sidebar below lay themselves out to match
+		// whichever of Theme::kTabsPosition/kTabsVisible produced it.
+		std::vector<std::string> SidebarLabels()
+		{
+			return {
+			    "Self",
+			    "Vehicle",
+			    "Teleport",
+			    "Network",
+			    "Players",
+			    "World",
+			    "Recovery",
+			    "Settings",
+			    "Debug"};
+		}
 
 		// Indices into the sidebar's entry list.
 		constexpr size_t kSelfIndex = 0;
@@ -102,28 +104,82 @@ namespace YimMenu::Rendering
 
 	void MenuGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
-		auto header = std::make_unique<GridItemAddressbar>(kHeaderW, Theme::kHeaderHeight, "YimMenu");
+		const auto position = Theme::kTabsPosition;
+		const bool visible = Theme::kTabsVisible;
+		const bool sidebarIsVertical = (position == Theme::TabsPosition::Left || position == Theme::TabsPosition::Right);
+
+		// Real Stand's own full_menu_width only grows for LEFT/RIGHT
+		// (see origin/stand-reference's src/Menu/MenuGrid.cpp,
+		// populate()) - a horizontal (Top/Bottom) sidebar/tab-strip
+		// stacks under/over the header instead of beside it, so the
+		// header itself only needs to span the content column's own
+		// width in that case (or when hidden entirely).
+		const int16_t headerW = (visible && sidebarIsVertical)
+		    ? static_cast<int16_t>(Theme::kSidebarWidth + kSpacer + Theme::kContentWidth)
+		    : Theme::kContentWidth;
+
+		auto header = std::make_unique<GridItemAddressbar>(headerW, Theme::kHeaderHeight, "YimMenu");
 		m_Header = header.get();
 		items_draft.push_back(std::move(header));
 
-		// Defaults to Self, the flagship/first page - matches how the
-		// real menu opens on Self by default. ALIGN_BOTTOM_LEFT (the
-		// default) stacks this under header, keeping header's own x.
-		auto sidebar = std::make_unique<GridItemTabsVertical>(Theme::kSidebarWidth,
-		    Theme::kSidebarEntryHeight,
-		    std::vector<std::string>{
-		        "Self",
-		        "Vehicle",
-		        "Teleport",
-		        "Network",
-		        "Players",
-		        "World",
-		        "Recovery",
-		        "Settings",
-		        "Debug"},
-		    kSelfIndex);
-		m_Sidebar = sidebar.get();
-		items_draft.push_back(std::move(sidebar));
+		m_Sidebar = nullptr;
+		m_SidebarHorizontal = nullptr;
+
+		if (visible)
+		{
+			// Defaults to Self, the flagship/first page - matches how the
+			// real menu opens on Self by default.
+			if (sidebarIsVertical)
+			{
+				auto sidebar = std::make_unique<GridItemTabsVertical>(Theme::kSidebarWidth, Theme::kSidebarEntryHeight, SidebarLabels(), kSelfIndex);
+
+				if (position == Theme::TabsPosition::Right)
+				{
+					// Mirrored to the right of content instead of stacking
+					// under header - not something the alignment engine's
+					// own ALIGN_BOTTOM_LEFT/ALIGN_TOP_RIGHT can express on
+					// its own here (both keep one axis from the last item;
+					// this needs a fixed offset on both), so this item's
+					// own x/y are set explicitly and keep_pos tells
+					// Grid::setPositions() to leave them alone - same
+					// mechanism Stand's own real Grid uses for a
+					// caller-positioned item (see its doc comment in
+					// Grid.hpp).
+					sidebar->x = static_cast<int16_t>(kHeaderX + Theme::kContentWidth + kSpacer);
+					sidebar->y = static_cast<int16_t>(kHeaderY + Theme::kHeaderHeight + kSpacer);
+					sidebar->keep_pos = true;
+				}
+				// Left: default ALIGN_BOTTOM_LEFT already stacks this
+				// under header, keeping header's own x - unchanged from
+				// before this feature existed.
+
+				m_Sidebar = sidebar.get();
+				items_draft.push_back(std::move(sidebar));
+			}
+			else
+			{
+				auto sidebar = std::make_unique<GridItemTabsHorizontal>(static_cast<float>(Theme::kSidebarEntryHeight), SidebarLabels(), kSelfIndex);
+
+				if (position == Theme::TabsPosition::Bottom)
+				{
+					// Symmetric to Top (which just stacks under header,
+					// same as Left's vertical sidebar does): anchored near
+					// the HUD canvas's own bottom edge instead, since
+					// content sits directly under header either way (see
+					// Theme::GetContentOrigin()) rather than growing to
+					// meet wherever this row ends up.
+					sidebar->x = kHeaderX;
+					sidebar->y = static_cast<int16_t>(Theme::kHudHeight - Theme::kContentBottomMargin - Theme::kSidebarEntryHeight);
+					sidebar->keep_pos = true;
+				}
+				// Top: default ALIGN_BOTTOM_LEFT stacks this under
+				// header, same slot Theme::GetContentOrigin()'s own Top
+				// case reserves for it before placing content below.
+
+				m_SidebarHorizontal = sidebar.get();
+				items_draft.push_back(std::move(sidebar));
+			}
+		}
 
 		// Every sidebar entry, real content or not - see the class
 		// comment in MenuGrid.hpp for why there's no separate "nothing
@@ -141,12 +197,52 @@ namespace YimMenu::Rendering
 		};
 	}
 
+	bool MenuGrid::GetHeaderBarRect(int16_t& x, int16_t& y, int16_t& width) const
+	{
+		if (!m_Header)
+			return false;
+
+		const auto offsetX = static_cast<int16_t>(Theme::kMenuOriginX - Theme::kDefaultMenuOriginX);
+		const auto offsetY = static_cast<int16_t>(Theme::kMenuOriginY - Theme::kDefaultMenuOriginY);
+
+		x = static_cast<int16_t>(m_Header->x + offsetX);
+		y = static_cast<int16_t>(m_Header->y + offsetY);
+		width = m_Header->width;
+		return true;
+	}
+
+	GridItem* MenuGrid::SidebarItem() const
+	{
+		if (m_Sidebar)
+			return m_Sidebar;
+		if (m_SidebarHorizontal)
+			return m_SidebarHorizontal;
+		return nullptr;
+	}
+
+	size_t MenuGrid::SidebarActiveIndex() const
+	{
+		if (m_Sidebar)
+			return m_Sidebar->GetActiveIndex();
+		if (m_SidebarHorizontal)
+			return m_SidebarHorizontal->GetActiveIndex();
+		return static_cast<size_t>(-1);
+	}
+
+	void MenuGrid::MoveSidebarActive(int delta)
+	{
+		if (m_Sidebar)
+			m_Sidebar->MoveActive(delta);
+		else if (m_SidebarHorizontal)
+			m_SidebarHorizontal->onArrow(delta);
+	}
+
 	void MenuGrid::SyncNavigation()
 	{
-		if (!m_Sidebar)
+		if (!SidebarItem())
 			return;
 
-		const auto activeIndex = m_Sidebar->GetActiveIndex();
+		const auto activeIndex = SidebarActiveIndex();
 		if (activeIndex != m_LastSidebarIndex)
 		{
 			m_LastSidebarIndex = activeIndex;
@@ -299,12 +395,12 @@ namespace YimMenu::Rendering
 			// vkCode) is what tells Right apart from Left here - same
 			// pattern GUI::WndProc already uses for its own modifier
 			// checks.
-			if (m_Sidebar)
+			if (SidebarItem())
 			{
 				if (vkCode == VK_CONTROL && (GetKeyState(VK_RCONTROL) & 0x8000) != 0)
-					m_Sidebar->MoveActive(1);
+					MoveSidebarActive(1);
 				else if (vkCode == VK_SHIFT && (GetKeyState(VK_RSHIFT) & 0x8000) != 0)
-					m_Sidebar->MoveActive(-1);
+					MoveSidebarActive(-1);
 			}
 			break;
 
@@ -374,10 +470,11 @@ namespace YimMenu::Rendering
 		SyncNavigation();
 
 		// Hovering the sidebar just claims Region - unlike a content
-		// item, GridItemTabsVertical is one GridItem for the whole list
-		// (see its own class comment), so there's no per-entry focus to
-		// set here the way MenuFocus::SetFocusedItem gives content rows.
-		if (m_Sidebar && m_Sidebar->occupies(hx, hy))
+		// item, GridItemTabsVertical/GridItemTabsHorizontal is one
+		// GridItem for the whole list (see their own class comments), so
+		// there's no per-entry focus to set here the way MenuFocus::
+		// SetFocusedItem gives content rows.
+		if (auto* sidebar = SidebarItem(); sidebar && sidebar->occupies(hx, hy))
 		{
 			MenuFocus::SetRegion(MenuFocus::Region::Sidebar);
 			return;
@@ -394,13 +491,14 @@ namespace YimMenu::Rendering
 	{
 		SyncNavigation();
 
-		if (m_Sidebar && m_Sidebar->occupies(hx, hy))
+		if (auto* sidebar = SidebarItem(); sidebar && sidebar->occupies(hx, hy))
 		{
 			MenuFocus::SetRegion(MenuFocus::Region::Sidebar);
-			// GridItemTabsVertical::onClick already works out which row
-			// was hit from hy itself and switches its own active index -
-			// no ctrl/shift/doubleClick gesture applies to the sidebar.
-			m_Sidebar->onClick(hx, hy);
+			// GridItemTabsVertical/GridItemTabsHorizontal::onClick
+			// already works out which entry was hit from the cursor
+			// position itself and switches its own active index - no
+			// ctrl/shift/doubleClick gesture applies to the sidebar.
+			sidebar->onClick(hx, hy);
 			return;
 		}
 

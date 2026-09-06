@@ -34,7 +34,7 @@ namespace YimMenu::Rendering
 	// the tab strip below - everything else lives in whichever target is
 	// active.
 	RecoveryHeistsGrid::RecoveryHeistsGrid() :
-	    GridTabbed(1438, 587, 3)
+	    GridTabbed(Theme::GetContentOrigin(), 3)
 	{
 	}
 

@@ -3,12 +3,15 @@
 #include "Commands/CommandColourCustom.hpp"
 #include "Commands/Commands.hpp"
 #include "Rendering/Grid.hpp"
+#include "Rendering/GridItemTextInput.hpp"
 #include "Rendering/GridRenderer.hpp"
 #include "Rendering/MenuNavigation.hpp"
 #include "Rendering/Theme.hpp"
 
 #include <algorithm>
+#include <cctype>
 #include <cmath>
+#include <format>
 #include <unordered_map>
 #include <utility>
 
@@ -204,6 +207,310 @@ namespace YimMenu::Rendering
 			CommandColourCustom* m_Command;
 		};
 
+		enum HsvChannel
+		{
+			HSV_H,
+			HSV_S,
+			HSV_V,
+		};
+
+		void RgbToHsv(float r, float g, float b, float& h, float& s, float& v)
+		{
+			const auto maxc = std::max({r, g, b});
+			const auto minc = std::min({r, g, b});
+			const auto delta = maxc - minc;
+
+			v = maxc;
+			s = maxc <= 0.f ? 0.f : delta / maxc;
+
+			if (delta <= 0.f)
+				h = 0.f;
+			else if (maxc == r)
+				h = 60.f * std::fmod((g - b) / delta, 6.f);
+			else if (maxc == g)
+				h = 60.f * (((b - r) / delta) + 2.f);
+			else
+				h = 60.f * (((r - g) / delta) + 4.f);
+
+			if (h < 0.f)
+				h += 360.f;
+		}
+
+		void HsvToRgb(float h, float s, float v, float& r, float& g, float& b)
+		{
+			const auto c = v * s;
+			const auto hp = h / 60.f;
+			const auto xComp = c * (1.f - std::fabs(std::fmod(hp, 2.f) - 1.f));
+			const auto m = v - c;
+
+			float r1 = 0.f, g1 = 0.f, b1 = 0.f;
+			if (hp < 1.f)
+			{
+				r1 = c;
+				g1 = xComp;
+			}
+			else if (hp < 2.f)
+			{
+				r1 = xComp;
+				g1 = c;
+			}
+			else if (hp < 3.f)
+			{
+				g1 = c;
+				b1 = xComp;
+			}
+			else if (hp < 4.f)
+			{
+				g1 = xComp;
+				b1 = c;
+			}
+			else if (hp < 5.f)
+			{
+				r1 = xComp;
+				b1 = c;
+			}
+			else
+			{
+				r1 = c;
+				b1 = xComp;
+			}
+
+			r = r1 + m;
+			g = g1 + m;
+			b = b1 + m;
+		}
+
+		const char* HsvChannelLabel(HsvChannel channel)
+		{
+			switch (channel)
+			{
+			case HSV_H:
+				return "H";
+			case HSV_S:
+				return "S";
+			case HSV_V:
+				return "V";
+			}
+			return "?";
+		}
+
+		class GridItemColorHsvChannel : public GridItem
+		{
+		public:
+			GridItemColorHsvChannel(int16_t width, int16_t height, HsvChannel channel, CommandColourCustom* command) :
+			    GridItem(GRIDITEM_INDIFFERENT, width, height),
+			    m_Channel(channel),
+			    m_Command(command)
+			{
+			}
+
+			bool isFocusable() const override
+			{
+				return true;
+			}
+
+			bool onArrow(int delta) override
+			{
+				if (!m_Command)
+					return false;
+
+				Step(delta > 0 ? 1 : -1);
+				return true;
+			}
+
+			void draw() override
+			{
+				if (isKeyboardFocused())
+					GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
+			}
+
+			void drawText() override
+			{
+				const auto layout = ComputeLayout();
+				const auto* channelLabel = HsvChannelLabel(m_Channel);
+
+				const auto labelSize = GridRenderer::MeasureText(channelLabel);
+				GridRenderer::DrawText(x + 5.f, y + std::max(0.f, (height - labelSize.y) * 0.5f), channelLabel, Theme::kText);
+
+				const auto valueStr = m_Command ? std::to_string(Value()) : std::string("?");
+				const auto valueSize = GridRenderer::MeasureText(valueStr.c_str());
+				GridRenderer::DrawText(layout.valueX + std::max(0.f, (layout.valueWidth - valueSize.x) * 0.5f),
+				    y + std::max(0.f, (height - valueSize.y) * 0.5f),
+				    valueStr.c_str(),
+				    m_Command ? Theme::kText : Theme::kError);
+
+				const auto minusSize = GridRenderer::MeasureText("<");
+				GridRenderer::DrawText(layout.minusX + std::max(0.f, (layout.buttonSize - minusSize.x) * 0.5f),
+				    y + std::max(0.f, (height - minusSize.y) * 0.5f),
+				    "<",
+				    Theme::kText);
+
+				const auto plusSize = GridRenderer::MeasureText(">");
+				GridRenderer::DrawText(layout.plusX + std::max(0.f, (layout.buttonSize - plusSize.x) * 0.5f),
+				    y + std::max(0.f, (height - plusSize.y) * 0.5f),
+				    ">",
+				    Theme::kText);
+			}
+
+			void onClick(int16_t cursorX, int16_t) override
+			{
+				if (!m_Command)
+					return;
+
+				const auto layout = ComputeLayout();
+				if (cursorX >= layout.plusX && cursorX < layout.plusX + layout.buttonSize)
+					Step(1);
+				else if (cursorX >= layout.minusX && cursorX < layout.minusX + layout.buttonSize)
+					Step(-1);
+			}
+
+		private:
+			struct Layout
+			{
+				float valueX;
+				float valueWidth;
+				float minusX;
+				float plusX;
+				float buttonSize;
+			};
+
+			Layout ComputeLayout() const
+			{
+				Layout layout;
+				layout.buttonSize = kButtonSize;
+				layout.valueWidth = kValueWidth;
+				layout.plusX = x + width - kButtonSize;
+				layout.valueX = layout.plusX - kGap - kValueWidth;
+				layout.minusX = layout.valueX - kGap - kButtonSize;
+				return layout;
+			}
+
+			int Value() const
+			{
+				const auto colour = m_Command->GetState();
+				float h, s, v;
+				RgbToHsv(colour.x, colour.y, colour.z, h, s, v);
+				switch (m_Channel)
+				{
+				case HSV_H:
+					return static_cast<int>(h + 0.5f);
+				case HSV_S:
+					return static_cast<int>(s * 100.f + 0.5f);
+				case HSV_V:
+					return static_cast<int>(v * 100.f + 0.5f);
+				}
+				return 0;
+			}
+
+			void Step(int direction)
+			{
+				auto colour = m_Command->GetState();
+				float h, s, v;
+				RgbToHsv(colour.x, colour.y, colour.z, h, s, v);
+
+				switch (m_Channel)
+				{
+				case HSV_H:
+					h = std::fmod(h + static_cast<float>(direction) * 5.f + 360.f, 360.f);
+					break;
+				case HSV_S:
+					s = std::clamp(s + static_cast<float>(direction) * 0.05f, 0.f, 1.f);
+					break;
+				case HSV_V:
+					v = std::clamp(v + static_cast<float>(direction) * 0.05f, 0.f, 1.f);
+					break;
+				}
+
+				float r, g, b;
+				HsvToRgb(h, s, v, r, g, b);
+				colour.x = r;
+				colour.y = g;
+				colour.z = b;
+				m_Command->SetState(colour);
+			}
+
+			HsvChannel m_Channel;
+			CommandColourCustom* m_Command;
+		};
+
+		std::string ComputeColorHex(CommandColourCustom* command)
+		{
+			if (!command)
+				return "#000000";
+
+			const auto colour = command->GetState();
+			auto toByte = [](float v) {
+				return static_cast<int>(std::clamp(v, 0.f, 1.f) * 255.f + 0.5f);
+			};
+			return std::format("#{:02X}{:02X}{:02X}", toByte(colour.x), toByte(colour.y), toByte(colour.z));
+		}
+
+		void ApplyColorHex(CommandColourCustom* command, const std::string& text)
+		{
+			if (!command)
+				return;
+
+			std::string hex = text;
+			if (!hex.empty() && hex.front() == '#')
+				hex.erase(hex.begin());
+
+			if (hex.size() != 6 && hex.size() != 8)
+				return;
+
+			for (char c : hex)
+			{
+				if (!std::isxdigit(static_cast<unsigned char>(c)))
+					return;
+			}
+
+			unsigned long value;
+			try
+			{
+				value = std::stoul(hex, nullptr, 16);
+			}
+			catch (const std::exception&)
+			{
+				return;
+			}
+
+			auto colour = command->GetState();
+			if (hex.size() == 8)
+			{
+				colour.w = static_cast<float>(value & 0xFF) / 255.f;
+				value >>= 8;
+			}
+			colour.z = static_cast<float>(value & 0xFF) / 255.f;
+			value >>= 8;
+			colour.y = static_cast<float>(value & 0xFF) / 255.f;
+			value >>= 8;
+			colour.x = static_cast<float>(value & 0xFF) / 255.f;
+
+			command->SetState(colour);
+		}
+
+		class GridItemColorHex : public GridItemTextInput
+		{
+		public:
+			explicit GridItemColorHex(int16_t width, int16_t height, CommandColourCustom* command) :
+			    GridItemTextInput(width, height, "Hex", ComputeColorHex(command), [command](const std::string& text) {
+				    ApplyColorHex(command, text);
+			    }),
+			    m_Command(command)
+			{
+			}
+
+			void draw() override
+			{
+				if (m_Command && !isEditingText())
+					SetValue(ComputeColorHex(m_Command));
+
+				GridItemTextInput::draw();
+			}
+
+		private:
+			CommandColourCustom* m_Command;
+		};
+
 		// Real Stand's own ColourUtil.hpp (origin/stand-reference) - sRGB
 		// relative luminance, then the standard WCAG contrast-ratio
 		// formula ((L1+0.05)/(L2+0.05), lighter over darker) - ported
@@ -237,7 +544,7 @@ namespace YimMenu::Rendering
 		{
 		public:
 			explicit ColorEditGrid(joaat_t id) :
-			    Grid(1438, 587, 0),
+			    Grid(Theme::GetContentOrigin(), 0),
 			    m_Id(id)
 			{
 			}
@@ -250,6 +557,10 @@ namespace YimMenu::Rendering
 				items_draft.push_back(std::make_unique<GridItemColorChannel>(Theme::kContentWidth, Theme::kContentItemHeight, CHANNEL_G, command));
 				items_draft.push_back(std::make_unique<GridItemColorChannel>(Theme::kContentWidth, Theme::kContentItemHeight, CHANNEL_B, command));
 				items_draft.push_back(std::make_unique<GridItemColorChannel>(Theme::kContentWidth, Theme::kContentItemHeight, CHANNEL_A, command));
+				items_draft.push_back(std::make_unique<GridItemColorHsvChannel>(Theme::kContentWidth, Theme::kContentItemHeight, HSV_H, command));
+				items_draft.push_back(std::make_unique<GridItemColorHsvChannel>(Theme::kContentWidth, Theme::kContentItemHeight, HSV_S, command));
+				items_draft.push_back(std::make_unique<GridItemColorHsvChannel>(Theme::kContentWidth, Theme::kContentItemHeight, HSV_V, command));
+				items_draft.push_back(std::make_unique<GridItemColorHex>(Theme::kContentWidth, Theme::kContentItemHeight, command));
 			}
 
 		private:

@@ -79,4 +79,33 @@ namespace YimMenu::Rendering::Theme
 		std::ofstream out(file.Path(), std::ios::out | std::ios::trunc);
 		out << j.dump(4);
 	}
+
+	Position2d GetContentOrigin()
+	{
+		const auto contentY = static_cast<int16_t>(kDefaultMenuOriginY + kHeaderHeight + kSpacer);
+
+		if (!kTabsVisible)
+			return Position2d{kDefaultMenuOriginX, contentY};
+
+		switch (kTabsPosition)
+		{
+		case TabsPosition::Left:
+			return Position2d{static_cast<int16_t>(kDefaultMenuOriginX + kSidebarWidth + kSpacer), contentY};
+
+		case TabsPosition::Top:
+			return Position2d{kDefaultMenuOriginX, static_cast<int16_t>(contentY + kSidebarEntryHeight + kSpacer)};
+
+		case TabsPosition::Right:
+		case TabsPosition::Bottom:
+		default:
+			return Position2d{kDefaultMenuOriginX, contentY};
+		}
+	}
+
+	Position2d GetTabbedContentOrigin()
+	{
+		auto origin = GetContentOrigin();
+		origin.y = static_cast<int16_t>(origin.y + kContentItemHeight + kSpacer);
+		return origin;
+	}
 }

@@ -32,11 +32,14 @@ namespace YimMenu::Rendering
 		}
 	}
 
-	GridItemCommandInput::GridItemCommandInput(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride) :
-	    GridItemTextInput(width, height, ResolveLabel(id, labelOverride), ResolveInitialValue(id), [id](const std::string& value) {
-		    if (auto* command = Commands::GetCommand<CommandInput>(id))
-			    command->SetStringValue(value);
-	    })
+	GridItemCommandInput::GridItemCommandInput(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride, bool scrolling) :
+	    GridItemTextInput(
+	        width, height, ResolveLabel(id, labelOverride), ResolveInitialValue(id), [id](const std::string& value) {
+		        if (auto* command = Commands::GetCommand<CommandInput>(id))
+			        command->SetStringValue(value);
+	        },
+	        nullptr,
+	        scrolling)
 	{
 	}
 }
