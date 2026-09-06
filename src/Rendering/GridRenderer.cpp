@@ -14,6 +14,7 @@
 #include "Rendering/InputCapture.hpp"
 #include "Rendering/Notifications.hpp"
 #include "Rendering/Overlay.hpp"
+#include "Rendering/SettingsNotificationsGrid.hpp"
 #include "Rendering/Renderer.hpp"
 #include "Rendering/Theme.hpp"
 #include "Rendering/font_bevietnamprolight.hpp"
@@ -243,6 +244,21 @@ namespace YimMenu::Rendering
 				MenuPopup::Draw();
 				MenuCommandBox::Draw();
 			}
+
+			// Real Stand's own CommandListNotifySettings::onActiveListUpdate()
+			// (Commands/Online/CommandListNotifySettings.cpp on origin/
+			// stand-reference) - shows a persistent preview notification
+			// live while Settings > Notifications (or its Custom Position
+			// sub-page) is the one currently displayed, so every setting
+			// there (Type/Position/Colour/Width/Padding) has an
+			// immediately visible effect instead of needing a manual
+			// "Flash Notification"/sample button press to see it. Polled
+			// here every frame rather than from a Grid-level "just
+			// entered/left this page" hook - Grid has no such hook yet
+			// (see SettingsNotificationsGrid::IsActive()'s own comment) -
+			// SetPreviewActiveImpl() itself is a no-op unless this
+			// actually changes, so polling doesn't re-flash it constantly.
+			Notifications::SetPreviewActive(menuActive && SettingsNotificationsGrid::IsActive());
 
 			// Always drawn, regardless of menuActive above - see
 			// Notifications.hpp's own class comment (Overlay.cpp's own

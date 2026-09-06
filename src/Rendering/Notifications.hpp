@@ -11,23 +11,27 @@
 
 namespace YimMenu
 {
-	// Card geometry/animation speed - H-space units now (Stand's own
-	// virtual 1920x1080 HUD canvas - see GridRenderer.hpp's own class
-	// comment for what that means), not raw client pixels the way these
-	// were read before this ported to DirectXTK12/GridRenderer's own
-	// primitives. The numbers themselves are unchanged (100/50, the
-	// original ImGui window size/position math) - since that canvas is
-	// also 1920x1080, they still mean exactly what they used to at
-	// 1080p, but now actually scale correctly at every other resolution
-	// too (something the raw-client-pixel version never did).
+	// H-space units (Stand's own virtual 1920x1080 HUD canvas - see
+	// GridRenderer.hpp's own class comment for what that means), not
+	// raw client pixels the way this was read before this ported to
+	// DirectXTK12/GridRenderer's own primitives.
 	//
-	// Card width itself is no longer a fixed constant here - real
-	// Stand's own Width setting (NotifySettings::kWidth, user-
-	// configurable, default 400) replaced this project's previous
-	// hardcoded 350 (an arbitrary leftover from the pre-port ImGui
-	// window size, not anything real Stand ever used) - see
-	// NotifySettings.hpp's own comment on kWidth.
-	static inline float m_CardSizeY = 100.f;
+	// Neither card width nor height is a fixed constant here any more -
+	// real Stand's own notification card (Menu/GridItemNotify.cpp on
+	// origin/stand-reference) has no fixed size at all: width is the
+	// user's own Width setting (NotifySettings::kWidth, replacing this
+	// project's previous hardcoded 350 - an arbitrary leftover from the
+	// pre-port ImGui window size, not anything real Stand ever used),
+	// and height is computed per-notification from its own wrapped
+	// message text (GridItemText's own ctor: "height += getTextHeight(
+	// text, small_text.scale) + 5 + extra_padding", extra_padding being
+	// Stand's own Padding setting) - see Notifications.cpp's own
+	// ComputeContentMetrics() for this project's equivalent (title +
+	// separator + wrapped message + optional context line, since this
+	// project's own notification design - predating this port, unlike
+	// Stand's own plain single text block - already had those extra
+	// parts; only the "size to content instead of a fixed box" principle
+	// is what's actually being matched here).
 	static inline float m_CardAnimationSpeed = 50.f;
 
 	enum class NotificationType
@@ -63,6 +67,27 @@ namespace YimMenu
 		// instead of kBorderColour - see Notifications.cpp's own
 		// DrawNotificationRect().
 		std::chrono::time_point<std::chrono::steady_clock> m_FlashUntil{};
+
+		// This frame's own computed content height and cumulative Y
+		// stacking offset from the anchor - set once per frame by
+		// DrawImpl() (the rect pass, which owns the running stack
+		// accumulator across every live notification/the preview toast)
+		// and read back as-is by DrawTextImpl() (the text pass) right
+		// after, rather than each pass recomputing its own independent
+		// running total - see Notifications.cpp's own DrawImpl() for why:
+		// with a fixed per-card height, an index-based position counter
+		// was enough for either pass to agree independently; a variable,
+		// content-dependent height means a card's own Y depends on the
+		// summed heights of every card stacked before it, which only
+		// DrawImpl() (running first each frame, per this class's own
+		// comment above) can safely compute once and hand off - if
+		// DrawTextImpl() also recomputed it independently, a notification
+		// erased between the two passes in the same frame (rare, but
+		// possible - see DrawImpl()'s own erase handling) would leave the
+		// two passes disagreeing on every later card's own Y for that one
+		// frame.
+		float m_CachedHeight = 0.f;
+		float m_StackOffset = 0.f;
 	};
 
 	// Toast notification stack, drawn via GridRenderer's own DirectXTK12
@@ -105,8 +130,24 @@ namespace YimMenu
 		std::unordered_map<std::string, Notification> m_Notifications = {};
 		std::mutex m_mutex;
 
+		// Real Stand's own persistent toast (CommandListNotifySettings::
+		// showPersistentToast()/hidePersistentToast(), Commands/Online/
+		// CommandListNotifySettings.cpp on origin/stand-reference) -
+		// always shown first/topmost, ahead of every real notification in
+		// m_Notifications above, while SetPreviewActiveImpl(true) is in
+		// effect (see GridRenderer.cpp's own call site: live while
+		// Settings > Notifications or its Custom Position sub-page is the
+		// one currently open). Kept as its own separate Notification
+		// rather than a synthetic entry in m_Notifications - it has no
+		// identifier to de-duplicate against, never expires on its own,
+		// and needs to always sort first regardless of m_Notifications'
+		// own unordered_map iteration order.
+		bool m_PreviewActive = false;
+		Notification m_Preview{};
+
 		// duration is in milliseconds
 		Notification ShowImpl(std::string title, std::string message, NotificationType type, int duration, std::function<void()> context_function, std::string context_function_name);
+		void SetPreviewActiveImpl(bool active);
 		void DrawImpl();
 		void DrawTextImpl();
 		bool EraseImpl(Notification notification);
@@ -142,6 +183,21 @@ namespace YimMenu
 		static bool Erase(Notification notification)
 		{
 			return GetInstance().EraseImpl(notification);
+		}
+
+		// See m_Preview's own comment above. Turning it on flashes it
+		// once immediately (same as any notification's own first
+		// appearance/re-trigger - see ShowImpl()) - "blinking" to show
+		// where notifications will appear the moment you open/focus the
+		// page that controls where/how they look. A no-op both ways if
+		// already in the requested state, so GridRenderer.cpp's own
+		// per-frame call (there's no Grid-level "just entered/left this
+		// page" hook to call this from instead - see that call site's own
+		// comment) doesn't re-flash it every single frame while the page
+		// stays open.
+		static void SetPreviewActive(bool active)
+		{
+			GetInstance().SetPreviewActiveImpl(active);
 		}
 	};
 

@@ -20,6 +20,19 @@ namespace YimMenu::Rendering
 	public:
 		SettingsNotificationsGrid();
 
+		// Real Stand's own CommandListNotifySettings::onActiveListUpdate()
+		// (Commands/Online/CommandListNotifySettings.cpp on origin/
+		// stand-reference) - true while this page or its Custom Position
+		// sub-page (but NOT its Timing sub-page - Timing's own "Show
+		// Sample Notification" buttons already demonstrate those settings
+		// on demand instead) is the one MenuNavigation currently has on
+		// top of its stack. GridRenderer.cpp's own per-frame call site
+		// uses this to drive Notifications::SetPreviewActive() - see that
+		// call site's own comment for why polling this every frame
+		// stands in for a real "just entered/left this page" Grid-level
+		// hook, which doesn't exist yet.
+		static bool IsActive();
+
 	protected:
 		void populate(std::vector<std::unique_ptr<GridItem>>& items_draft) override;
 	};

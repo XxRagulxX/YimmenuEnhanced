@@ -6,6 +6,7 @@
 #include "Rendering/GridItemCommandList.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemFolder.hpp"
+#include "Rendering/MenuNavigation.hpp"
 #include "Rendering/SettingsNotifyPositionGrid.hpp"
 #include "Rendering/SettingsNotifyTimingGrid.hpp"
 #include "Rendering/Theme.hpp"
@@ -28,6 +29,20 @@ namespace YimMenu::Rendering
 	SettingsNotificationsGrid::SettingsNotificationsGrid() :
 	    Grid(1438, 587, 0)
 	{
+	}
+
+	bool SettingsNotificationsGrid::IsActive()
+	{
+		// Only one instance of either class ever exists (g_NotificationsContent
+		// in SettingsGrid.cpp, g_PositionContent above) - a dynamic_cast
+		// identifying "is the type currently on top of MenuNavigation's
+		// stack one of these two" is equivalent to (and doesn't need)
+		// comparing against that external instance's own pointer
+		// directly, which this file has no reach to (SettingsGrid.cpp
+		// owns it, same reasoning as every other content Grid here -
+		// see SelfGrid.cpp's own note about WeaponsGrid).
+		auto* current = MenuNavigation::Current();
+		return dynamic_cast<SettingsNotificationsGrid*>(current) != nullptr || dynamic_cast<SettingsNotifyPositionGrid*>(current) != nullptr;
 	}
 
 	void SettingsNotificationsGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)

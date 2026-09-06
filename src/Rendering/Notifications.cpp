@@ -9,6 +9,7 @@
 #include "Util/Joaat.hpp"
 
 #include <algorithm>
+#include <limits>
 #include <mutex>
 
 namespace YimMenu
@@ -19,8 +20,9 @@ namespace YimMenu
 		// a project-specific constant, distinct from
 		// Rendering::NotifySettings::kPadding (real Stand's own
 		// user-facing "Padding" setting, which controls the gap between
-		// the anchor point/stacked cards instead - see PositionForIndex()
-		// below). Real Stand doesn't expose this inner inset separately.
+		// the anchor point/stacked cards instead - see DrawImpl()'s own
+		// stackOffset accumulator below). Real Stand doesn't expose this
+		// inner inset separately.
 		constexpr float kTextPadding = 8.f;
 		constexpr float kProgressBarHeight = 3.5f;
 		constexpr float kSeparatorHeight = 1.f;
@@ -70,13 +72,54 @@ namespace YimMenu
 			}
 		}
 
-		// Every position/size Draw()'s rect pass and DrawText()'s text
-		// pass both need, computed identically (and independently) by
-		// each rather than shared/cached across the two - see
-		// Notifications.hpp's own class comment for why each pass has to
-		// stand on its own (PrimitiveBatch vs SpriteBatch), and
-		// MeasureText's own doc comment for why calling it here (outside
-		// either open batch) is safe.
+		// Everything about a notification's own on-screen size, computed
+		// purely from its own (immutable, once created) title/message
+		// text plus whatever Width/Padding currently are - independent of
+		// its position in the stack, so this can be computed for one
+		// notification without needing to know about any other. Real
+		// Stand's own equivalent is GridItemText's ctor (Menu/
+		// GridItemText.cpp on origin/stand-reference): "height +=
+		// getTextHeight(text, small_text.scale) + 5 + extra_padding" -
+		// there's no separate title/separator/context line there (a
+		// notification is just one wrapped block of text with a border
+		// stripe down its left edge), so this reproduces the same "size
+		// to content, not a fixed box" principle against this project's
+		// own richer title+message+context layout instead, rather than
+		// literally collapsing that back down to Stand's plainer shape.
+		struct ContentMetrics
+		{
+			std::vector<std::string> messageLines;
+			float lineHeight;
+			float titleHeight;
+			float cardHeight;
+		};
+
+		ContentMetrics ComputeContentMetrics(const Notification& notification)
+		{
+			using Rendering::NotifySettings::kWidth;
+
+			ContentMetrics metrics{};
+			metrics.titleHeight = Rendering::GridRenderer::MeasureText(notification.m_Title.c_str(), kTitleScale).y;
+			metrics.messageLines = Rendering::WrapText(notification.m_Message, kWidth - kTextPadding * 2.f, kMessageScale);
+			metrics.lineHeight = Rendering::GridRenderer::MeasureText("Ag", kMessageScale).y;
+
+			// Same running-Y shape ComputeLayout() below builds from -
+			// top inset, title, separator, message lines, optional
+			// context line, bottom inset - kept in sync with that
+			// function's own offsets rather than measuring the drawn
+			// rect after the fact.
+			float height = kProgressBarHeight + kTextPadding;
+			height += metrics.titleHeight + kTextPadding * 0.5f;
+			height += kSeparatorHeight + kTextPadding * 0.5f;
+			height += metrics.messageLines.size() * metrics.lineHeight;
+			if (notification.m_ContextFunc)
+				height += kTextPadding * 0.5f + Rendering::GridRenderer::MeasureText(notification.m_ContextFuncName.c_str(), kMessageScale).y;
+			height += kTextPadding;
+
+			metrics.cardHeight = height;
+			return metrics;
+		}
+
 		struct Layout
 		{
 			float cardX, cardY;
@@ -84,15 +127,17 @@ namespace YimMenu
 			float separatorY;
 			float titleY;
 			float messageStartY;
-			float lineHeight;
-			std::vector<std::string> messageLines;
 			float contextY;
 		};
 
-		Layout ComputeLayout(const Notification& notification, int position)
+		// stackOffset is this notification's own cumulative Y offset
+		// from the anchor (see Notification::m_StackOffset's own
+		// comment) - a running pixel total rather than an index*fixed-
+		// height multiple, since every card can now be a different
+		// height.
+		Layout ComputeLayout(const Notification& notification, float stackOffset, const ContentMetrics& metrics)
 		{
 			using Rendering::NotifySettings::kInvertFlow;
-			using Rendering::NotifySettings::kPadding;
 			using Rendering::NotifySettings::kWidth;
 
 			float anchorX, anchorY;
@@ -102,31 +147,26 @@ namespace YimMenu
 			layout.cardX = anchorX + notification.m_AnimationOffset;
 			// Real Stand's own Invert Flow - stacks upward from the
 			// anchor instead of downward when on.
-			layout.cardY = anchorY + (kInvertFlow ? -1.f : 1.f) * static_cast<float>(position) * (m_CardSizeY + kPadding);
+			layout.cardY = anchorY + (kInvertFlow ? -1.f : 1.f) * stackOffset;
 
 			const auto timeElapsed = static_cast<float>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - notification.m_CreatedOn).count());
 			const float depletionProgress = std::clamp(1.f - (timeElapsed / static_cast<float>(notification.m_Duration)), 0.f, 1.f);
 			layout.progressBarWidth = kWidth * depletionProgress;
 
-			const float titleHeight = Rendering::GridRenderer::MeasureText(notification.m_Title.c_str(), kTitleScale).y;
 			layout.titleY = layout.cardY + kProgressBarHeight + kTextPadding;
-			layout.separatorY = layout.titleY + titleHeight + kTextPadding * 0.5f;
+			layout.separatorY = layout.titleY + metrics.titleHeight + kTextPadding * 0.5f;
 			layout.messageStartY = layout.separatorY + kSeparatorHeight + kTextPadding * 0.5f;
-
-			layout.messageLines = Rendering::WrapText(notification.m_Message, kWidth - kTextPadding * 2.f, kMessageScale);
-			layout.lineHeight = Rendering::GridRenderer::MeasureText("Ag", kMessageScale).y;
-
-			layout.contextY = layout.messageStartY + layout.messageLines.size() * layout.lineHeight + kTextPadding * 0.5f;
+			layout.contextY = layout.messageStartY + metrics.messageLines.size() * metrics.lineHeight + kTextPadding * 0.5f;
 
 			return layout;
 		}
 
-		void DrawNotificationRect(const Notification& notification, int position)
+		void DrawNotificationRect(const Notification& notification, const ContentMetrics& metrics)
 		{
 			using Rendering::GridRenderer;
 			using Rendering::NotifySettings::kWidth;
 
-			const auto layout = ComputeLayout(notification, position);
+			const auto layout = ComputeLayout(notification, notification.m_StackOffset, metrics);
 
 			// Real Stand's own Border Colour, flashing to Flash Colour
 			// for a short window after this notification first appears
@@ -138,25 +178,25 @@ namespace YimMenu
 			// the same colour this progress bar already used).
 			const auto& borderColour = (std::chrono::steady_clock::now() < notification.m_FlashUntil) ? Rendering::NotifySettings::kFlashColour : Rendering::NotifySettings::kBorderColour;
 
-			GridRenderer::DrawRect(layout.cardX, layout.cardY, kWidth, m_CardSizeY, Rendering::NotifySettings::kBackgroundColour);
+			GridRenderer::DrawRect(layout.cardX, layout.cardY, kWidth, metrics.cardHeight, Rendering::NotifySettings::kBackgroundColour);
 			GridRenderer::DrawRect(layout.cardX, layout.cardY, layout.progressBarWidth, kProgressBarHeight, borderColour);
 			GridRenderer::DrawRect(layout.cardX + kTextPadding, layout.separatorY, kWidth - kTextPadding * 2.f, kSeparatorHeight, Rendering::Theme::kToggleOff);
 		}
 
-		void DrawNotificationText(const Notification& notification, int position)
+		void DrawNotificationText(const Notification& notification, const ContentMetrics& metrics)
 		{
 			using Rendering::GridRenderer;
 
-			const auto layout = ComputeLayout(notification, position);
+			const auto layout = ComputeLayout(notification, notification.m_StackOffset, metrics);
 			const float textX = layout.cardX + kTextPadding;
 
 			GridRenderer::DrawText(textX, layout.titleY, notification.m_Title.c_str(), GetTypeColour(notification.m_Type), kTitleScale);
 
 			float y = layout.messageStartY;
-			for (auto& line : layout.messageLines)
+			for (auto& line : metrics.messageLines)
 			{
 				GridRenderer::DrawText(textX, y, line.c_str(), Rendering::Theme::kText, kMessageScale);
-				y += layout.lineHeight;
+				y += metrics.lineHeight;
 			}
 
 			// No click to bind this to any more (this overlay is
@@ -273,11 +313,31 @@ namespace YimMenu
 		std::vector<std::string> keys_to_erase;
 		{
 			std::lock_guard<std::mutex> lock(m_mutex);
-			int position = 0;
+			float stackOffset = 0.f;
+
+			// Real Stand's own addPersistentNotifyItem() (Menu/
+			// NotifyGrid.cpp) - always drawn first/topmost, ahead of
+			// every real notification below.
+			if (m_PreviewActive)
+			{
+				const auto metrics = ComputeContentMetrics(m_Preview);
+				m_Preview.m_StackOffset = stackOffset;
+				m_Preview.m_CachedHeight = metrics.cardHeight;
+				DrawNotificationRect(m_Preview, metrics);
+				stackOffset += metrics.cardHeight + Rendering::NotifySettings::kPadding;
+			}
 
 			for (auto& [id, notification] : m_Notifications)
 			{
-				DrawNotificationRect(notification, position);
+				const auto metrics = ComputeContentMetrics(notification);
+				// Cached for DrawTextImpl()'s own pass right after - see
+				// Notification::m_StackOffset/m_CachedHeight's own
+				// comment for why that pass reads these back instead of
+				// recomputing its own running total independently.
+				notification.m_StackOffset = stackOffset;
+				notification.m_CachedHeight = metrics.cardHeight;
+
+				DrawNotificationRect(notification, metrics);
 
 				if (!notification.m_Erasing)
 				{
@@ -299,7 +359,7 @@ namespace YimMenu
 				if ((float)std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - notification.m_CreatedOn).count() >= notification.m_Duration)
 					keys_to_erase.push_back(id);
 
-				position++;
+				stackOffset += metrics.cardHeight + Rendering::NotifySettings::kPadding;
 			}
 		}
 		std::lock_guard<std::mutex> lock(m_mutex);
@@ -312,13 +372,45 @@ namespace YimMenu
 	void Notifications::DrawTextImpl()
 	{
 		std::lock_guard<std::mutex> lock(m_mutex);
-		int position = 0;
+
+		if (m_PreviewActive)
+			DrawNotificationText(m_Preview, ComputeContentMetrics(m_Preview));
 
 		for (auto& [id, notification] : m_Notifications)
 		{
-			DrawNotificationText(notification, position);
-			position++;
+			DrawNotificationText(notification, ComputeContentMetrics(notification));
 		}
+	}
+
+	void Notifications::SetPreviewActiveImpl(bool active)
+	{
+		std::lock_guard<std::mutex> lock(m_mutex);
+		if (active == m_PreviewActive)
+			return;
+
+		m_PreviewActive = active;
+		if (!active)
+			return;
+
+		// Real Stand's own g_toaster->setPersistentToast(LANG_GET_W("IPSUM"))
+		// (a localized Lorem-ipsum-style placeholder string) - this
+		// project has no localization table, so a plain English
+		// placeholder stands in for it instead. Never expires on its own
+		// (INT_MAX) - cleared only by SetPreviewActive(false) - and
+		// starts fully on-screen (no slide-in) since real Stand's own
+		// notifications don't slide at all (see Notifications.hpp's own
+		// class comment on where that animation actually comes from).
+		m_Preview = Notification{};
+		m_Preview.m_Type = NotificationType::Info;
+		m_Preview.m_Title = "Preview";
+		m_Preview.m_Message = "This is a sample notification. Border/Flash/Background Colour changes above show here live.";
+		m_Preview.m_CreatedOn = std::chrono::system_clock::now();
+		m_Preview.m_Duration = std::numeric_limits<int>::max();
+		m_Preview.m_AnimationOffset = 0.f;
+		// Flashes once immediately - the "blink to show where a
+		// notification will appear" the moment this page is opened/
+		// focused, same as any notification's own first appearance.
+		m_Preview.m_FlashUntil = std::chrono::steady_clock::now() + std::chrono::milliseconds(Rendering::NotifySettings::kFlashMs);
 	}
 
 	int GetNotificationColor(const std::string& color)
