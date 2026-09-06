@@ -4,7 +4,7 @@
 
 #include <ResourceUploadBatch.h>
 #include <RenderTargetState.h>
-#include <WICTextureLoader12.h>
+#include <WICTextureLoader.h>
 
 #include <algorithm>
 #include <thread>
