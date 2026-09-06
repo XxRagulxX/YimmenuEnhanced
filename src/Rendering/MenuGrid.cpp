@@ -197,6 +197,10 @@ namespace YimMenu::Rendering
 			// own focusRectColour rect does over its own bgRectColour.
 			const auto visibleHeight = static_cast<int16_t>(Theme::kHudHeight - content->origin.y - Theme::kContentBottomMargin);
 
+			int16_t cx, cy, cw, ch;
+			content->getDimensions(cx, cy, cw, ch);
+			const auto panelHeight = (ch > 0 && ch < visibleHeight) ? ch : visibleHeight;
+
 			// Same runtime menu-position offset Grid::forEachVisibleItem()
 			// applies to every regular item - needed here too since this
 			// rect and the scrollbar below are both drawn directly, never
@@ -206,7 +210,7 @@ namespace YimMenu::Rendering
 			const auto offsetX = static_cast<int16_t>(Theme::kMenuOriginX - Theme::kDefaultMenuOriginX);
 			const auto offsetY = static_cast<int16_t>(Theme::kMenuOriginY - Theme::kDefaultMenuOriginY);
 
-			GridRenderer::DrawRect(static_cast<int16_t>(content->origin.x + offsetX), static_cast<int16_t>(content->origin.y + offsetY), Theme::kContentWidth, visibleHeight, Theme::kPanelBackground);
+			GridRenderer::DrawRect(static_cast<int16_t>(content->origin.x + offsetX), static_cast<int16_t>(content->origin.y + offsetY), Theme::kContentWidth, panelHeight, Theme::kPanelBackground);
 
 			content->draw();
 

@@ -148,6 +148,7 @@ namespace YimMenu
 		// duration is in milliseconds
 		Notification ShowImpl(std::string title, std::string message, NotificationType type, int duration, std::function<void()> context_function, std::string context_function_name);
 		void SetPreviewActiveImpl(bool active);
+		void FlashPreviewImpl();
 		void DrawImpl();
 		void DrawTextImpl();
 		bool EraseImpl(Notification notification);
@@ -198,6 +199,20 @@ namespace YimMenu
 		static void SetPreviewActive(bool active)
 		{
 			GetInstance().SetPreviewActiveImpl(active);
+		}
+
+		// Ported from real Stand's own GridToaster::flashPersistentToast()
+		// (Menu/GridToaster.cpp on origin/stand-reference), which is what
+		// its own "Flash Notification" button actually calls - re-flashes
+		// the SAME persistent preview toast (see m_Preview's own comment
+		// above) rather than creating a separate, second notification.
+		// A no-op while the preview isn't active - matches real Stand's
+		// own guard on that button ("if (g_toaster == &g_grid_toaster)"),
+		// since there's nothing to flash if the preview isn't currently
+		// showing at all.
+		static void FlashPreview()
+		{
+			GetInstance().FlashPreviewImpl();
 		}
 	};
 

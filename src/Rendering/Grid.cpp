@@ -325,6 +325,8 @@ namespace YimMenu::Rendering
 
 	void Grid::getBounds(int16_t& x1, int16_t& y1, int16_t& x2, int16_t& y2) const
 	{
+		const_cast<Grid*>(this)->ensurePopulated();
+
 		x1 = SHRT_MAX;
 		y1 = SHRT_MAX;
 		x2 = 0;

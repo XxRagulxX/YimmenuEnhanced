@@ -171,21 +171,32 @@ namespace YimMenu
 		{
 			using Rendering::NotifySettings::kWidth;
 
+			// Real Stand's own persistent preview toast has no title at
+			// all (LANG_GET_W("IPSUM") is the whole message, same as
+			// every other GridToaster notification - see
+			// Notifications.hpp's own class comment on why this
+			// project's own title/message split exists at all) - an
+			// empty title here skips the title row entirely rather than
+			// drawing an empty line, so Notifications::SetPreviewActive()
+			// can build one with just a message.
+			const bool hasTitle = !notification.m_Title.empty();
+
 			ContentMetrics metrics{};
-			metrics.titleHeight = Rendering::GridRenderer::MeasureText(notification.m_Title.c_str(), kTitleScale).y;
+			metrics.titleHeight = hasTitle ? Rendering::GridRenderer::MeasureText(notification.m_Title.c_str(), kTitleScale).y : 0.f;
 			metrics.messageLines = Rendering::WrapText(notification.m_Message, kWidth - kTextPadding * 2.f, kMessageScale);
 			metrics.lineHeight = Rendering::GridRenderer::MeasureText("Ag", kMessageScale).y;
 
 			// Same running-Y shape ComputeLayout() below builds from -
-			// top inset, title, message lines, optional context line,
-			// bottom inset - kept in sync with that function's own
+			// top inset, optional title, message lines, optional context
+			// line, bottom inset - kept in sync with that function's own
 			// offsets rather than measuring the drawn rect after the
 			// fact. No separator line and no top-row reservation for a
 			// progress bar any more - see DrawNotificationRect() below
 			// for why (real Stand has neither), which is also most of
 			// what makes this smaller than before.
 			float height = kTextPadding;
-			height += metrics.titleHeight + kTextPadding * 0.5f;
+			if (hasTitle)
+				height += metrics.titleHeight + kTextPadding * 0.5f;
 			height += metrics.messageLines.size() * metrics.lineHeight;
 			if (notification.m_ContextFunc)
 				height += kTextPadding * 0.5f + Rendering::GridRenderer::MeasureText(notification.m_ContextFuncName.c_str(), kMessageScale).y;
@@ -249,7 +260,7 @@ namespace YimMenu
 			layout.cardY = growUpward ? anchorY - stackOffset - metrics.cardHeight : anchorY + stackOffset;
 
 			layout.titleY = layout.cardY + kTextPadding;
-			layout.messageStartY = layout.titleY + metrics.titleHeight + kTextPadding * 0.5f;
+			layout.messageStartY = notification.m_Title.empty() ? layout.titleY : layout.titleY + metrics.titleHeight + kTextPadding * 0.5f;
 			layout.contextY = layout.messageStartY + metrics.messageLines.size() * metrics.lineHeight + kTextPadding * 0.5f;
 
 			return layout;
@@ -287,7 +298,8 @@ namespace YimMenu
 			const auto layout = ComputeLayout(notification, notification.m_StackOffset, metrics);
 			const float textX = layout.cardX + kTextPadding;
 
-			GridRenderer::DrawText(textX, layout.titleY, notification.m_Title.c_str(), GetTypeColour(notification.m_Type), kTitleScale);
+			if (!notification.m_Title.empty())
+				GridRenderer::DrawText(textX, layout.titleY, notification.m_Title.c_str(), GetTypeColour(notification.m_Type), kTitleScale);
 
 			float y = layout.messageStartY;
 			for (auto& line : metrics.messageLines)
@@ -492,14 +504,18 @@ namespace YimMenu
 		if (!active)
 			return;
 
-		// Real Stand's own g_toaster->setPersistentToast(LANG_GET_W("IPSUM"))
-		// (a localized Lorem-ipsum-style placeholder string) - this
-		// project has no localization table, so a plain English
-		// placeholder stands in for it instead. Never expires on its own
-		// (INT_MAX) - cleared only by SetPreviewActive(false) - and
-		// starts fully on-screen (no slide-in) since real Stand's own
-		// notifications don't slide at all (see Notifications.hpp's own
-		// class comment on where that animation actually comes from).
+		// Real Stand's own g_toaster->setPersistentToast(LANG_GET_W("IPSUM")) -
+		// "IPSUM" being Stand's own placeholder string, "Here's some text
+		// to feast your eyes upon" (its real English translation, not a
+		// guess - this project has no localization table of its own, so
+		// the plain string stands in directly). No title - same as every
+		// other real Stand notification (see ComputeContentMetrics()'s
+		// own comment on why an empty title skips that row entirely).
+		// Never expires on its own (INT_MAX) - cleared only by
+		// SetPreviewActive(false) - and starts fully on-screen (no
+		// slide-in) since real Stand's own notifications don't slide at
+		// all (see Notifications.hpp's own class comment on where that
+		// animation actually comes from).
 		//
 		// Built here regardless of Type - even though DrawImpl()/
 		// DrawTextImpl() only ever draw it while Type isn't "Game" (see
@@ -510,8 +526,7 @@ namespace YimMenu
 		// activated.
 		m_Preview = Notification{};
 		m_Preview.m_Type = NotificationType::Info;
-		m_Preview.m_Title = "Preview";
-		m_Preview.m_Message = "This is a sample notification. Border/Flash/Background Colour changes above show here live.";
+		m_Preview.m_Message = "Here's some text to feast your eyes upon";
 		m_Preview.m_CreatedOn = std::chrono::system_clock::now();
 		m_Preview.m_Duration = std::numeric_limits<int>::max();
 		m_Preview.m_AnimationOffset = 0.f;
@@ -531,6 +546,15 @@ namespace YimMenu
 		// opened/focused is a fair, honest analogue instead.
 		if (Rendering::NotifySettings::kType == Rendering::NotifySettings::Type::Game)
 			ShowInGame(m_Preview.m_Title, m_Preview.m_Message, "", "");
+	}
+
+	void Notifications::FlashPreviewImpl()
+	{
+		std::lock_guard<std::mutex> lock(m_mutex);
+		if (!m_PreviewActive)
+			return;
+
+		m_Preview.m_FlashUntil = std::chrono::steady_clock::now() + std::chrono::milliseconds(Rendering::NotifySettings::kFlashMs);
 	}
 
 	int GetNotificationColor(const std::string& color)
@@ -560,7 +584,11 @@ namespace YimMenu
 
 	void Notifications::ShowInGame(const std::string& title, const std::string& message, const std::string& icon, const std::string& color)
 	{
-		if (title.empty() || message.empty())
+		// title may be empty (SetPreviewActiveImpl()'s own preview has
+		// none, matching real Stand's own notifications) - only the
+		// message is actually required for the native feed post itself
+		// to mean anything.
+		if (message.empty())
 			return;
 
 		FiberPool::queueJob([=] {

@@ -1,7 +1,5 @@
 #include "Commands/IntCommand.hpp"
-#include "Commands/stand_widgets/LambdaAction.hpp"
 #include "Rendering/NotifySettings.hpp"
-#include "Rendering/Notifications.hpp"
 
 #include <algorithm>
 #include <cstdint>
@@ -127,25 +125,4 @@ namespace YimMenu::Features
 	};
 
 	static CommandNotifyMaxDuration _NotifyMaxDuration{};
-
-	// Ported from real Stand's own "Show Sample Notification" (Small/
-	// Medium/Large) - three sample messages of increasing word count, so
-	// the effect of Reading Speed/Min/Max Duration above is visible
-	// against the same word-count-based formula EstimateReadingTimeMs()
-	// uses (Notifications.cpp).
-	static StandWidgets::LambdaAction _NotifySampleSmall{"notifysamplesmall", "Small", "Shows a short sample notification.", [] {
-		                                                     Notifications::Show("Sample Notification", "A short sample message.");
-	                                                     }};
-
-	static StandWidgets::LambdaAction _NotifySampleMedium{"notifysamplemedium", "Medium", "Shows a medium-length sample notification.", [] {
-		                                                      Notifications::Show("Sample Notification",
-		                                                          "This is a medium length sample notification message, long enough to show a couple of lines of wrapped text.");
-	                                                      }};
-
-	static StandWidgets::LambdaAction _NotifySampleLarge{"notifysamplelarge", "Large", "Shows a long sample notification.", [] {
-		                                                     Notifications::Show("Sample Notification",
-		                                                         "This is a much longer sample notification message, intended to demonstrate how the reading speed, "
-		                                                         "minimum duration, and maximum duration settings above interact with a notification that has a "
-		                                                         "large amount of text to read through before it can safely be dismissed automatically.");
-	                                                     }};
 }

@@ -5,19 +5,19 @@ namespace YimMenu::Features
 {
 	// Ported from real Stand's own "Flash Notification" (Commands/Online/
 	// CommandListNotifySettings.cpp on origin/stand-reference) - real
-	// Stand's own version keeps a persistent preview toast alive tied to
-	// this settings page's own visibility and re-flashes it on request;
-	// this project's overlay has no equivalent "preview toast tied to a
-	// page being open" concept, so this is a plain button instead,
-	// showing one real sample notification - which already flashes
-	// Flash Colour automatically on every creation/re-trigger (see
-	// Notifications.cpp's own ShowImpl()), demonstrating the same
-	// automatic behaviour real Stand's own preview toast does, just
-	// without staying pinned open while this page is.
+	// Stand's own version calls GridToaster::flashPersistentToast(),
+	// re-flashing the SAME persistent preview toast this settings page
+	// already keeps alive (Notifications::SetPreviewActive(), driven by
+	// GridRenderer.cpp while this page is open) rather than creating a
+	// second, separate notification the way this button first shipped -
+	// Notifications::FlashPreview() is this project's own equivalent,
+	// and is itself a no-op while the preview isn't active, matching
+	// real Stand's own guard on this button ("if (g_toaster ==
+	// &g_grid_toaster)").
 	static StandWidgets::LambdaAction _NotifyFlashNotification{"notifyflashnow",
 	    "Flash Notification",
-	    "Shows a sample notification, demonstrating the Flash Colour/Border Colour transition above.",
+	    "Re-flashes the preview notification above, demonstrating the Flash Colour/Border Colour transition.",
 	    [] {
-		    Notifications::Show("Sample Notification", "This is what a notification looks like.");
+		    Notifications::FlashPreview();
 	    }};
 }
