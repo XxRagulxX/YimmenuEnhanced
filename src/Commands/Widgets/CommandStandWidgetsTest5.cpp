@@ -4,7 +4,16 @@
 #include "Menu/Click.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Features
+// CommandGod lives directly in namespace Stand (not YimMenu::Features) -
+// matching where the user's own pasted reference example was written.
+// CommandName/Label/CommandList/CommandToggle/Click/LOC()/CMDNAMES() all
+// resolve unqualified only from inside namespace Stand itself (or a
+// namespace nested under it) - writing this class inside
+// YimMenu::Features instead (the original mistake here) left every one
+// of those unqualified names unable to find Stand::CommandName et al.,
+// since YimMenu::Features and Stand are unrelated sibling namespace
+// trees, not parent/child.
+namespace Stand
 {
 	namespace
 	{
@@ -13,38 +22,41 @@ namespace YimMenu::Features
 		// migrated (constructor taking CommandList* parent + LOC()
 		// name/help text/CMDNAMES() aliases, onEnable()/onDisable()
 		// doing the actual work). Reuses this project's own existing
-		// Self::GetPed().SetInvincible() - the same native call this
-		// project's own CommandGodmode.cpp (a YimMenu::LoopedCommand,
+		// YimMenu::Self::GetPed().SetInvincible() - the same native call
+		// this project's own CommandGodmode.cpp (a YimMenu::LoopedCommand,
 		// kept running unmodified and independently for now) already
 		// uses - rather than reimplementing the behaviour a second way.
 		// No LOC() translation database exists here (see Util/Label.hpp's
 		// own comment) so LOC(...) just becomes the literal text passed
 		// to it, same as real Stand's own LOC() would once resolved.
-		class CommandGod : public Stand::CommandToggle
+		class CommandGod : public CommandToggle
 		{
 		public:
-			explicit CommandGod(Stand::CommandList* parent) :
-			    Stand::CommandToggle(parent,
+			explicit CommandGod(CommandList* parent) :
+			    CommandToggle(parent,
 			        LOC("God Mode (Stand Test)"),
 			        CMDNAMES("standtest_godmode", "standtest_immortality"),
 			        LOC("Makes your character unable to die."))
 			{
 			}
 
-			void onEnable(Stand::Click& click) override
+			void onEnable(Click& click) override
 			{
-				if (Self::GetPed())
-					Self::GetPed().SetInvincible(true);
+				if (YimMenu::Self::GetPed())
+					YimMenu::Self::GetPed().SetInvincible(true);
 			}
 
-			void onDisable(Stand::Click& click) override
+			void onDisable(Click& click) override
 			{
-				if (Self::GetPed())
-					Self::GetPed().SetInvincible(false);
+				if (YimMenu::Self::GetPed())
+					YimMenu::Self::GetPed().SetInvincible(false);
 			}
 		};
 	}
+}
 
+namespace YimMenu::Features
+{
 	Stand::CommandList& GetStandTreeTestRoot()
 	{
 		static Stand::CommandList root{nullptr, LOC("Stand Tree Test")};
@@ -56,8 +68,12 @@ namespace YimMenu::Features
 		// first real use (same "lazy static" idiom this project's own
 		// Commands::GetInstance()/Notifications::GetInstance() already
 		// use) avoids that ordering risk.
+		//
+		// Stand::CommandGod, not just CommandGod - it's declared inside
+		// an anonymous namespace nested under namespace Stand above, not
+		// under YimMenu::Features, so it needs that qualifier from here.
 		static bool initialized = [] {
-			root.createChild<CommandGod>();
+			root.createChild<Stand::CommandGod>();
 			return true;
 		}();
 		(void)initialized;

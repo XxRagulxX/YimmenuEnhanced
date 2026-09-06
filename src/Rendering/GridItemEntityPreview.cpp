@@ -63,8 +63,8 @@ namespace YimMenu::Rendering
 				return;
 			}
 
-			const auto camPos = CAM::GET_FINAL_RENDERED_CAM_COORD();
-			const auto camRot = CAM::GET_FINAL_RENDERED_CAM_ROT(2);
+			const auto camPos = CAMERA::GET_FINAL_RENDERED_CAM_COORD();
+			const auto camRot = CAMERA::GET_FINAL_RENDERED_CAM_ROT(2);
 			const float yawRad = camRot.z * (3.14159265f / 180.f);
 
 			rage::fvector3 spawnPos{

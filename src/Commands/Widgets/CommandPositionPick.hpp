@@ -25,7 +25,7 @@ namespace YimMenu::StandWidgets
 	// project reuses its own EXISTING "freecam" LoopedCommand instead of
 	// building a second camera system (found and toggled by name, like
 	// any other command - no changes to CommandFreecam.cpp needed), and
-	// captures wherever the camera itself ends up (CAM::
+	// captures wherever the camera itself ends up (CAMERA::
 	// GET_FINAL_RENDERED_CAM_COORD()) rather than raycasting onto world
 	// geometry - so picking a position here means flying the freecam to
 	// exactly where you want it, then reopening the menu (Insert),
@@ -59,7 +59,7 @@ namespace YimMenu::StandWidgets
 
 			m_Picking = false;
 
-			const auto pos = CAM::GET_FINAL_RENDERED_CAM_COORD();
+			const auto pos = CAMERA::GET_FINAL_RENDERED_CAM_COORD();
 			if (m_Target)
 				m_Target->SetState(rage::fvector3{pos.x, pos.y, pos.z});
 
