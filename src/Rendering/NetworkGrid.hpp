@@ -31,7 +31,7 @@ namespace YimMenu::Rendering
 	// acts on it isn't worth including on its own), on top of bringall
 	// itself and customPlayerTp (tpplayertocoordall, also one of these
 	// dead "act on everyone" commands - the Vector3 widget itself is no
-	// longer the blocker, see GridItemCommandVector3).
+	// longer the blocker, see GridItemCommandPosition3d).
 	//
 	// Also NOT included, for the usual reasons:
 	// - joinGroup's raw ImGuiItem (a free-text username/RID joiner with

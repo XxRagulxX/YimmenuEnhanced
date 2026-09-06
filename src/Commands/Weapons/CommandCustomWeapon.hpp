@@ -1,10 +1,10 @@
 #pragma once
-#include "Commands/BoolCommand.hpp"
-#include "Commands/ColorCommand.hpp"
-#include "Commands/IntCommand.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandColourCustom.hpp"
+#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "Commands/LoopedCommand.hpp"
-#include "Commands/StringCommand.hpp"
+#include "Commands/CommandInput.hpp"
 #include "Rendering/RainbowColor.hpp"
 #include "Game/ControllerInputs.hpp"
 
@@ -44,13 +44,13 @@ namespace YimMenu::Features
 		{static_cast<int>(CustomWeapons::TELEPORT_GUN), "Teleport Gun"},
 		{static_cast<int>(CustomWeapons::PAINT_GUN), "Paint Gun"},
 	};
-	static ListCommand _CustomWeaponType{"customweapontype", "Weapon Type", "The type of custom weapon to use", g_CustomWeaponTypes, static_cast<int>(CustomWeapons::CAGE_GUN)};
+	static CommandListSelect _CustomWeaponType{"customweapontype", "Weapon Type", "The type of custom weapon to use", g_CustomWeaponTypes, static_cast<int>(CustomWeapons::CAGE_GUN)};
 
 	static std::vector<std::pair<int, const char*>> g_PaintGunRainbowColorStyles = {
 		{static_cast<int>(RainbowColorStyle::Fade), "Fade"},
 		{static_cast<int>(RainbowColorStyle::Spasm), "Spasm"}
 	};
-	static ListCommand _PaintGunRainbowColorStyle{"paintgunrainbowcolorstyle", "Rainbow Color Style", "Style of rainbow color for paint gun", g_PaintGunRainbowColorStyles, static_cast<int>(RainbowColorStyle::Fade)};
+	static CommandListSelect _PaintGunRainbowColorStyle{"paintgunrainbowcolorstyle", "Rainbow Color Style", "Style of rainbow color for paint gun", g_PaintGunRainbowColorStyles, static_cast<int>(RainbowColorStyle::Fade)};
 
 	class CustomWeapon : public LoopedCommand
 	{
@@ -60,10 +60,10 @@ namespace YimMenu::Features
 	};
 
 	static CustomWeapon _CustomWeapon{"customweapon", "Custom Weapon", "Modifies weapon ability"};
-	static BoolCommand _CustomWeaponEnabledOnWeaponOut{"customweaponenabledonweaponout", "Enable Only if Weapon is Out", "Enables custom weapon only when weapon is out", true};
-	static BoolCommand _GravityGunLaunchOnRelease{"gravitygunlaunchonrelease", "Launch Entity on Release", "Launches entity when released", false};
-	static StringCommand _VehicleGunModel{"vehiclegunmodel", "Vehicle Model", "Model of the vehicle"};
-	static ColorCommand _PaintGunColor{"paintguncolor", "Paint Gun Color", "Color of the paint gun"};
-	static BoolCommand _PaintGunRainbowColorEnabled{"paintgunrainbowcolorenabled", "Rainbow Color", "Enables rainbow color for paint gun", false};
-	static IntCommand _PaintGunRainbowColorSpeed{"paintgunrainbowcolorspeed", "Rainbow Color Speed", "Speed of rainbow color for paint gun", 1, 10, 1};
+	static CommandToggle _CustomWeaponEnabledOnWeaponOut{"customweaponenabledonweaponout", "Enable Only if Weapon is Out", "Enables custom weapon only when weapon is out", true};
+	static CommandToggle _GravityGunLaunchOnRelease{"gravitygunlaunchonrelease", "Launch Entity on Release", "Launches entity when released", false};
+	static CommandInput _VehicleGunModel{"vehiclegunmodel", "Vehicle Model", "Model of the vehicle"};
+	static CommandColourCustom _PaintGunColor{"paintguncolor", "Paint Gun Color", "Color of the paint gun"};
+	static CommandToggle _PaintGunRainbowColorEnabled{"paintgunrainbowcolorenabled", "Rainbow Color", "Enables rainbow color for paint gun", false};
+	static CommandSlider _PaintGunRainbowColorSpeed{"paintgunrainbowcolorspeed", "Rainbow Color Speed", "Speed of rainbow color for paint gun", 1, 10, 1};
 }

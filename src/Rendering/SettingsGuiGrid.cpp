@@ -1,7 +1,7 @@
 #include "Rendering/SettingsGuiGrid.hpp"
 
 #include "Rendering/GridItemCommandButton.hpp"
-#include "Rendering/GridItemCommandList.hpp"
+#include "Rendering/GridItemCommandListSelect.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Util/Joaat.hpp"
@@ -37,9 +37,9 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "unloadmenu"_J));
 
 		// UI (uiStyle) - styleselector is an unconditional ListCommandItem,
-		// now that GridItemCommandList exists.
+		// now that GridItemCommandListSelect exists.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "UI", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "styleselector"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "styleselector"_J));
 
 		// Overlay - overlayfps/overlaypos/overlaylock are all gated on the
 		// toggle below being on. watchCondition() (not GridItemConditional)
@@ -50,7 +50,7 @@ namespace YimMenu::Rendering
 		if (watchCondition("overlay"_J))
 		{
 			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "overlayfps"_J));
-			items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "overlaypos"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "overlaypos"_J));
 			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "overlaylock"_J));
 		}
 

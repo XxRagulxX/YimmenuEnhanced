@@ -1,6 +1,6 @@
 #include "World/Self.hpp"
 #include "Commands/PlayerCommand.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "Network/GlobalPlayerBD.hpp"
 #include "Network/ScriptEvent.hpp"
 
@@ -47,7 +47,7 @@ namespace YimMenu::Features
 
 	};
 
-	static ListCommand _SelectedInterior{"sendtointeriorindex", "Send to Interior Index", "The interior index to send the player(s) to", g_Interiors, (int)eSimpleInteriorIndex::SIMPLE_INTERIOR_ARMORY_TRUCK_1};
+	static CommandListSelect _SelectedInterior{"sendtointeriorindex", "Send to Interior Index", "The interior index to send the player(s) to", g_Interiors, (int)eSimpleInteriorIndex::SIMPLE_INTERIOR_ARMORY_TRUCK_1};
 
 	class SendToInterior : public PlayerCommand
 	{

@@ -1,6 +1,6 @@
-#include "Rendering/GridItemCommandColor.hpp"
+#include "Rendering/GridItemCommandColourCustom.hpp"
 
-#include "Commands/ColorCommand.hpp"
+#include "Commands/CommandColourCustom.hpp"
 #include "Commands/Commands.hpp"
 #include "Rendering/Grid.hpp"
 #include "Rendering/GridRenderer.hpp"
@@ -88,17 +88,17 @@ namespace YimMenu::Rendering
 		}
 
 		// One R/G/B/A row - same label + value + "-"/"+" button shape as
-		// GridItemCommandInt, just stepping a 0-255 view of one channel
-		// of the shared ColorCommand's ImVec4 (stored internally as
+		// GridItemCommandSlider, just stepping a 0-255 view of one channel
+		// of the shared CommandColourCustom's ImVec4 (stored internally as
 		// 0.0-1.0, same convention ImGui::ColorPicker4 itself uses)
-		// rather than owning an IntCommand of its own - see the file
-		// comment in GridItemCommandColor.hpp for why this is its own
+		// rather than owning an CommandSlider of its own - see the file
+		// comment in GridItemCommandColourCustom.hpp for why this is its own
 		// small GridItem instead of one of the four channels being
 		// folded into a single mega-widget.
 		class GridItemColorChannel : public GridItem
 		{
 		public:
-			GridItemColorChannel(int16_t width, int16_t height, Channel channel, ColorCommand* command) :
+			GridItemColorChannel(int16_t width, int16_t height, Channel channel, CommandColourCustom* command) :
 			    GridItem(GRIDITEM_INDIFFERENT, width, height),
 			    m_Channel(channel),
 			    m_Command(command)
@@ -201,7 +201,7 @@ namespace YimMenu::Rendering
 			}
 
 			Channel m_Channel;
-			ColorCommand* m_Command;
+			CommandColourCustom* m_Command;
 		};
 
 		// Real Stand's own ColourUtil.hpp (origin/stand-reference) - sRGB
@@ -245,7 +245,7 @@ namespace YimMenu::Rendering
 		protected:
 			void populate(std::vector<std::unique_ptr<GridItem>>& items_draft) override
 			{
-				auto* command = Commands::GetCommand<ColorCommand>(m_Id);
+				auto* command = Commands::GetCommand<CommandColourCustom>(m_Id);
 				items_draft.push_back(std::make_unique<GridItemColorChannel>(Theme::kContentWidth, Theme::kContentItemHeight, CHANNEL_R, command));
 				items_draft.push_back(std::make_unique<GridItemColorChannel>(Theme::kContentWidth, Theme::kContentItemHeight, CHANNEL_G, command));
 				items_draft.push_back(std::make_unique<GridItemColorChannel>(Theme::kContentWidth, Theme::kContentItemHeight, CHANNEL_B, command));
@@ -256,7 +256,7 @@ namespace YimMenu::Rendering
 			joaat_t m_Id;
 		};
 
-		// One persistent ColorEditGrid per distinct ColorCommand id,
+		// One persistent ColorEditGrid per distinct CommandColourCustom id,
 		// created on first use and reused after - a GridItemFolder-style
 		// row's own m_Target must outlive the row and stay stable across
 		// MenuNavigation pushes/pops (see GridItemFolder.hpp's own class
@@ -305,7 +305,7 @@ namespace YimMenu::Rendering
 		class GridItemColorFolder : public GridItem
 		{
 		public:
-			GridItemColorFolder(int16_t width, int16_t height, std::string label, Grid* target, ColorCommand* command) :
+			GridItemColorFolder(int16_t width, int16_t height, std::string label, Grid* target, CommandColourCustom* command) :
 			    GridItem(GRIDITEM_INDIFFERENT, width, height),
 			    m_Label(std::move(label)),
 			    m_Target(target),
@@ -355,13 +355,13 @@ namespace YimMenu::Rendering
 		private:
 			std::string m_Label;
 			Grid* m_Target;
-			ColorCommand* m_Command;
+			CommandColourCustom* m_Command;
 		};
 	}
 
 	void AddColorCommandRows(std::vector<std::unique_ptr<GridItem>>& items_draft, int16_t width, joaat_t id, std::optional<std::string> labelOverride)
 	{
-		auto* command = Commands::GetCommand<ColorCommand>(id);
+		auto* command = Commands::GetCommand<CommandColourCustom>(id);
 
 		std::string label = "Unknown!";
 		if (labelOverride.has_value())

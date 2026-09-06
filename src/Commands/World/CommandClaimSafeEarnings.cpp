@@ -1,4 +1,4 @@
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "World/Self.hpp"
 #include "Scripting/ScriptGlobal.hpp"
 #include "Core/Pointers.hpp"
@@ -27,7 +27,7 @@ namespace YimMenu::Features
 	    {static_cast<int>(eAppVinewoodMenuSafe::GARMENT_FACTORY), "Garment Factory"},
 	    {static_cast<int>(eAppVinewoodMenuSafe::HANDS_ON_CAR_WASH), "Hands on Car Wash"}};
 
-	static ListCommand _SelectedBusiness{"businesssafe", "Business", "Business to claim earning from.", businessNames, 0};
+	static CommandListSelect _SelectedBusiness{"businesssafe", "Business", "Business to claim earning from.", businessNames, 0};
 
 	class ClaimSafeEarnings : public Command
 	{

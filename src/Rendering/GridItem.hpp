@@ -39,7 +39,7 @@ namespace YimMenu::Rendering
 	//   currently is - and these hooks are how a widget opts into it
 	//   (isFocusable()), reacts to Enter (activate()) and to Left/Right
 	//   (onArrow(), for a value a widget can cycle/step directly instead
-	//   of just leaving focus - see e.g. GridItemCommandList::onArrow()).
+	//   of just leaving focus - see e.g. GridItemCommandListSelect::onArrow()).
 	class GridItem
 	{
 	public:
@@ -144,7 +144,7 @@ namespace YimMenu::Rendering
 
 		// Left(-1)/Right(+1) while this item is the keyboard-focused
 		// one, for a widget with its own directly-adjustable value
-		// (GridItemCommandList/GridItemIntStepper) - lets Left/Right
+		// (GridItemCommandListSelect/GridItemIntStepper) - lets Left/Right
 		// step it in place instead of just leaving focus. Returns
 		// whether it was handled; MenuGrid::HandleKey() falls back to
 		// moving focus back to the sidebar on an unhandled Left, same
@@ -173,7 +173,7 @@ namespace YimMenu::Rendering
 		// keystroke is text being typed (onChar()/onEditKey() below)
 		// rather than list navigation (MenuGrid::HandleKey()). Default
 		// false: only GridItemTextInput (and anything built on it, like
-		// GridItemCommandString) ever returns true.
+		// GridItemCommandInput) ever returns true.
 		[[nodiscard]] virtual bool isEditingText() const
 		{
 			return false;

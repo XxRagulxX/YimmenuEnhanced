@@ -3,7 +3,7 @@
 
 namespace YimMenu
 {
-	class ListCommand : public Command
+	class CommandListSelect : public Command
 	{
 	protected:
 		virtual void OnChange() {};
@@ -15,7 +15,7 @@ namespace YimMenu
 		std::vector<std::pair<int, const char*>> m_List; // not very efficient but keeps things sorted
 
 	public:
-		ListCommand(std::string name, std::string label, std::string description, std::vector<std::pair<int, const char*>> list, int def_val = 0);
+		CommandListSelect(std::string name, std::string label, std::string description, std::vector<std::pair<int, const char*>> list, int def_val = 0);
 		int GetState();
 		void SetState(int state);
 		void SetList(std::vector<std::pair<int, const char*>> list);

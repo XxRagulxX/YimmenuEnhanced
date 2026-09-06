@@ -1,35 +1,35 @@
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "Scripting/FiberPool.hpp"
 
 namespace YimMenu
 {
-	void ListCommand::OnCall()
+	void CommandListSelect::OnCall()
 	{
 	}
 
-	void ListCommand::SaveState(nlohmann::json& value)
+	void CommandListSelect::SaveState(nlohmann::json& value)
 	{
 		value = m_State;
 	}
 
-	void ListCommand::LoadState(nlohmann::json& value)
+	void CommandListSelect::LoadState(nlohmann::json& value)
 	{
 		m_State = value;
 	}
 
-	ListCommand::ListCommand(std::string name, std::string label, std::string description, std::vector<std::pair<int, const char*>> list, int def_val) :
+	CommandListSelect::CommandListSelect(std::string name, std::string label, std::string description, std::vector<std::pair<int, const char*>> list, int def_val) :
 	    Command(name, label, description, 0),
 	    m_List(list),
 	    m_State(def_val)
 	{
 	}
 
-	int ListCommand::GetState()
+	int CommandListSelect::GetState()
 	{
 		return m_State;
 	}
 
-	void ListCommand::SetState(int state)
+	void CommandListSelect::SetState(int state)
 	{
 		FiberPool::queueJob([this] {
 			OnChange();
@@ -38,13 +38,13 @@ namespace YimMenu
 		MarkDirty();
 	}
 
-	void ListCommand::SetList(std::vector<std::pair<int, const char*>> list)
+	void CommandListSelect::SetList(std::vector<std::pair<int, const char*>> list)
 	{
 		m_List = std::move(list);
 		MarkDirty();
 	}
 
-	std::vector<std::pair<int, const char*>>& ListCommand::GetList()
+	std::vector<std::pair<int, const char*>>& CommandListSelect::GetList()
 	{
 		return m_List;
 	}

@@ -2,7 +2,7 @@
 
 // Minimal drop-in replacement for the small slice of Dear ImGui's own
 // math/color types this project had adopted as general-purpose types long
-// before ImGui was removed from it - ColorCommand's stored value,
+// before ImGui was removed from it - CommandColourCustom's stored value,
 // Rendering/imgui_colors.h's ~150 named CSS-colour constants,
 // Rendering/RainbowColor.hpp, Rendering/ChatDisplay.hpp's Show() colour
 // parameter, and a couple of stray ImVec2 uses (e.g. AutoDriveHUD.cpp's

@@ -1,12 +1,12 @@
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Network/Tunables.hpp"
 
 
 namespace YimMenu::Features
 {
-	class NoChangeAppearanceCooldown : public BoolCommand
+	class NoChangeAppearanceCooldown : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		Tunable m_CharacterAppearanceCooldown{"CHARACTER_APPEARANCE_COOLDOWN"_J};
 

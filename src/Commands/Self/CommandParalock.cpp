@@ -1,4 +1,4 @@
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "Ped/PedConfigFlag.hpp"
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
@@ -17,9 +17,9 @@ namespace YimMenu::Features
 	// the common case (something else forcibly clearing your parachute
 	// won't get immediately corrected, the same disclosed gap as this
 	// file's sibling commands here).
-	class Paralock : public ListCommand
+	class Paralock : public CommandListSelect
 	{
-		using ListCommand::ListCommand;
+		using CommandListSelect::CommandListSelect;
 
 		virtual void OnChange() override
 		{

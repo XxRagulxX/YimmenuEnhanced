@@ -1,6 +1,6 @@
 #include "Commands/Commands.hpp"
 #include "Commands/Command.hpp"
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Scripting/ScriptMgr.hpp"
 
@@ -26,7 +26,7 @@ namespace YimMenu
 		m_Commands.insert({command->GetHash(), command});
 	}
 
-	void Commands::AddBoolCommandImpl(BoolCommand* command)
+	void Commands::AddBoolCommandImpl(CommandToggle* command)
 	{
 		m_BoolCommands.push_back(command);
 	}
@@ -43,7 +43,7 @@ namespace YimMenu
 
 		m_Commands.erase(command->GetHash());
 		
-		std::erase(m_BoolCommands, dynamic_cast<BoolCommand*>(command));
+		std::erase(m_BoolCommands, dynamic_cast<CommandToggle*>(command));
 		std::erase(m_LoopedCommands, dynamic_cast<LoopedCommand*>(command));
 	}
 

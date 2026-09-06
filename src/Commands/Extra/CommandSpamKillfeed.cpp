@@ -1,4 +1,4 @@
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Network/NodeHooks.hpp"
 #include "World/Self.hpp"
 #include "Network/Players.hpp"
@@ -6,9 +6,9 @@
 
 namespace YimMenu::Features
 {
-	class SpamKillfeed : public BoolCommand
+	class SpamKillfeed : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		std::shared_ptr<NodeHooks::Hook> m_PedHealthHook;
 

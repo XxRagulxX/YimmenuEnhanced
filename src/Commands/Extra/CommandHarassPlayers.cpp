@@ -1,4 +1,4 @@
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Network/NodeHooks.hpp"
 #include "World/Self.hpp"
 
@@ -8,9 +8,9 @@
 
 namespace YimMenu::Features
 {
-	class HarassPlayers : public BoolCommand
+	class HarassPlayers : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		std::shared_ptr<NodeHooks::Hook> m_PedGameStateHook;
 		std::shared_ptr<NodeHooks::Hook> m_SectorDataNodeHook;

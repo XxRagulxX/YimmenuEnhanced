@@ -3,7 +3,7 @@
 
 namespace YimMenu
 {
-	class StringCommand : public Command
+	class CommandInput : public Command
 	{
 	protected:
 		std::string m_StringValue;
@@ -17,7 +17,7 @@ namespace YimMenu
 		virtual void LoadState(nlohmann::json& value) override;
 
 	public:
-		StringCommand(std::string name, std::string label, std::string description, std::string defaultValue = "");
+		CommandInput(std::string name, std::string label, std::string description, std::string defaultValue = "");
 
 		std::string GetString() const;
 		void SetStringValue(const std::string& value);

@@ -1,4 +1,4 @@
-#include "Commands/StringCommand.hpp"
+#include "Commands/CommandInput.hpp"
 #include "Rendering/Notifications.hpp"
 #include "World/Self.hpp"
 #include "World/Object.hpp"
@@ -6,8 +6,8 @@
 
 namespace YimMenu::Features
 {
-	static StringCommand _PedModelName{"pedmodelname", "Ped Model", "The model name of the ped you wish to spawn."};
-	static StringCommand _ObjectModelName{"objectmodelname", "Object Model", "The model name of the object you wish to spawn."};
+	static CommandInput _PedModelName{"pedmodelname", "Ped Model", "The model name of the ped you wish to spawn."};
+	static CommandInput _ObjectModelName{"objectmodelname", "Object Model", "The model name of the object you wish to spawn."};
 
 
 	class SpawnPed : public Command

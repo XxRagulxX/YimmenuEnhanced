@@ -1,4 +1,4 @@
-#include "Rendering/GridItemCommandFloat.hpp"
+#include "Rendering/GridItemCommandSliderFloat.hpp"
 
 #include "Commands/Commands.hpp"
 #include "Rendering/GridRenderer.hpp"
@@ -15,19 +15,19 @@ namespace YimMenu::Rendering
 	namespace
 	{
 		constexpr float kButtonSize = 22.f;
-		constexpr float kValueWidth = 56.f; // wider than GridItemCommandInt's - "-12.34" needs more room than an int
+		constexpr float kValueWidth = 56.f; // wider than GridItemCommandSlider's - "-12.34" needs more room than an int
 		constexpr float kGap = 6.f;
 	}
 
-	GridItemCommandFloat::GridItemCommandFloat(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride, float step) :
+	GridItemCommandSliderFloat::GridItemCommandSliderFloat(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride, float step) :
 	    GridItem(GRIDITEM_INDIFFERENT, width, height),
-	    m_Command(Commands::GetCommand<FloatCommand>(id)),
+	    m_Command(Commands::GetCommand<CommandSliderFloat>(id)),
 	    m_LabelOverride(std::move(labelOverride)),
 	    m_Step(step)
 	{
 	}
 
-	const std::string& GridItemCommandFloat::Label() const
+	const std::string& GridItemCommandSliderFloat::Label() const
 	{
 		static const std::string unknown = "Unknown!";
 		if (!m_Command)
@@ -36,7 +36,7 @@ namespace YimMenu::Rendering
 		return m_LabelOverride.has_value() ? *m_LabelOverride : m_Command->GetLabel();
 	}
 
-	GridItemCommandFloat::Layout GridItemCommandFloat::ComputeLayout() const
+	GridItemCommandSliderFloat::Layout GridItemCommandSliderFloat::ComputeLayout() const
 	{
 		Layout layout;
 		layout.buttonSize = kButtonSize;
@@ -47,13 +47,13 @@ namespace YimMenu::Rendering
 		return layout;
 	}
 
-	void GridItemCommandFloat::draw()
+	void GridItemCommandSliderFloat::draw()
 	{
 		if (isKeyboardFocused())
 			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
 	}
 
-	void GridItemCommandFloat::drawText()
+	void GridItemCommandSliderFloat::drawText()
 	{
 		// Every centring offset below is clamped to 0 - see the identical
 		// comment in GridItemToggle.cpp.
@@ -83,7 +83,7 @@ namespace YimMenu::Rendering
 		    Theme::kText);
 	}
 
-	void GridItemCommandFloat::onClick(int16_t cursorX, int16_t)
+	void GridItemCommandSliderFloat::onClick(int16_t cursorX, int16_t)
 	{
 		if (!m_Command)
 			return;
@@ -98,7 +98,7 @@ namespace YimMenu::Rendering
 			OpenCommandBox();
 	}
 
-	bool GridItemCommandFloat::onArrow(int delta)
+	bool GridItemCommandSliderFloat::onArrow(int delta)
 	{
 		if (!m_Command)
 			return false;
@@ -107,12 +107,12 @@ namespace YimMenu::Rendering
 		return true;
 	}
 
-	void GridItemCommandFloat::activate()
+	void GridItemCommandSliderFloat::activate()
 	{
 		OpenCommandBox();
 	}
 
-	void GridItemCommandFloat::Step(int direction)
+	void GridItemCommandSliderFloat::Step(int direction)
 	{
 		auto value = m_Command->GetState() + static_cast<float>(direction) * m_Step;
 
@@ -124,7 +124,7 @@ namespace YimMenu::Rendering
 		m_Command->SetState(value);
 	}
 
-	void GridItemCommandFloat::OpenCommandBox()
+	void GridItemCommandSliderFloat::OpenCommandBox()
 	{
 		if (!m_Command)
 			return;

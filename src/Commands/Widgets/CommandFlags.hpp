@@ -6,7 +6,7 @@
 // command iteration, the hotkeys-list UI, search) - kept only the ones
 // that mean something without those: whether a command's state persists
 // (CMDFLAG_SUPPORTS_STATE_OPERATIONS/CMDFLAG_NO_SAVED_STATE, matching
-// this project's own BoolCommand/FloatCommand GetState/SetState split),
+// this project's own CommandToggle/CommandSliderFloat GetState/SetState split),
 // CMDFLAG_TEMPORARY, and CMDFLAG_CONCEALED (used internally by Command
 // itself). The CMDFLAGS_* per-widget convenience macros are kept under
 // the same names so a command ported from Stand (e.g. CMDFLAGS_TOGGLE)

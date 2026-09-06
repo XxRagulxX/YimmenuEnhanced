@@ -5,9 +5,9 @@
 #include "Scripting/FiberPool.hpp"
 #include "Rendering/Clipboard.hpp"
 #include "Rendering/GridItemButton.hpp"
-#include "Rendering/GridItemCommandList.hpp"
+#include "Rendering/GridItemCommandListSelect.hpp"
 #include "Rendering/GridItemCommandPlayer.hpp"
-#include "Rendering/GridItemCommandVector3.hpp"
+#include "Rendering/GridItemCommandPosition3d.hpp"
 #include "Rendering/GridItemLiveText.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Util/Joaat.hpp"
@@ -217,7 +217,7 @@ namespace YimMenu::Rendering
 		// PlayersGrid already shows that one unconditionally at the root
 		// Players page, matching MenuPlayers.cpp's own DrawPlayerList()
 		// (Info.cpp's own copy of the same toggle would just be a second,
-		// redundant control for the same BoolCommand). No section header
+		// redundant control for the same CommandToggle). No section header
 		// of its own - one repeating "Info" while already inside the
 		// folder labeled "Info" (PlayersGrid's own row leading here) is a
 		// redundant label, not a distinguishing one - see SelfGrid.cpp's
@@ -288,9 +288,9 @@ namespace YimMenu::Rendering
 		// acts on whoever's selected, same as GridItemCommandPlayer's own
 		// class comment describes.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Teleport", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "sendtopropertyindex"_J, "Property"));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "sendtopropertyindex"_J, "Property"));
 		items_draft.push_back(std::make_unique<GridItemCommandPlayer>(Theme::kContentWidth, kItemH, "sendtoproperty"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "sendtointeriorindex"_J, "Interior"));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "sendtointeriorindex"_J, "Interior"));
 		items_draft.push_back(std::make_unique<GridItemCommandPlayer>(Theme::kContentWidth, kItemH, "sendtointerior"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandPlayer>(Theme::kContentWidth, kItemH, "tptoplayer"_J, "Teleport To"));
 		items_draft.push_back(std::make_unique<GridItemCommandPlayer>(Theme::kContentWidth, kItemH, "bring"_J));

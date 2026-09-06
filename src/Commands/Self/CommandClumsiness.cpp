@@ -1,4 +1,4 @@
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/Commands.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Rendering/Notifications.hpp"
@@ -31,7 +31,7 @@ namespace YimMenu::Features
 			// that toggle actively fights this one (it forces ragdoll
 			// OFF every tick, this one wants it back on) - see
 			// CommandNoRagdoll.cpp.
-			if (auto* grace = Commands::GetCommand<BoolCommand>("noragdoll"_J); grace && grace->GetState())
+			if (auto* grace = Commands::GetCommand<CommandToggle>("noragdoll"_J); grace && grace->GetState())
 			{
 				Notifications::Show("Clumsiness",
 				    "Gracefulness (No Ragdoll) is on - Clumsiness won't work until it's off.",

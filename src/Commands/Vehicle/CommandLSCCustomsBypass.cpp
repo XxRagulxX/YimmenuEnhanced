@@ -1,12 +1,12 @@
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Scripting/ScriptPatches.hpp"
 
 namespace YimMenu::Features
 {
 	// from https://github.com/TCRoid/YimMenu-Lua-RS-Missions/
-	class LSCCustomsBypass : public BoolCommand
+	class LSCCustomsBypass : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		ScriptPatch m_CanUseVehiclePatch{};
 		ScriptPatch m_BlockMenuOptionPatch{};

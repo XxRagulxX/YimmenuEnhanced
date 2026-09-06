@@ -6,7 +6,7 @@ namespace YimMenu
 {
 	class Command;
 	class LoopedCommand;
-	class BoolCommand;
+	class CommandToggle;
 
 	class Commands :
 	    private IStateSerializer
@@ -14,7 +14,7 @@ namespace YimMenu
 	private:
 		std::unordered_map<joaat_t, Command*> m_Commands;
 		std::vector<LoopedCommand*> m_LoopedCommands;
-		std::vector<BoolCommand*> m_BoolCommands;
+		std::vector<CommandToggle*> m_BoolCommands;
 		Commands();
 
 	public:
@@ -23,7 +23,7 @@ namespace YimMenu
 			GetInstance().AddCommandImpl(command);
 		}
 
-		static void AddBoolCommand(BoolCommand* command)
+		static void AddBoolCommand(CommandToggle* command)
 		{
 			GetInstance().AddBoolCommandImpl(command);
 		}
@@ -78,7 +78,7 @@ namespace YimMenu
 
 	private:
 		void AddCommandImpl(Command* command);
-		void AddBoolCommandImpl(BoolCommand* command);
+		void AddBoolCommandImpl(CommandToggle* command);
 		void AddLoopedCommandImpl(LoopedCommand* command);
 		void RemoveCommandImpl(Command* command);
 		void EnableBoolCommandsImpl();

@@ -44,7 +44,7 @@ namespace YimMenu::Rendering
 
 		// Left(-1)/Right(+1) steps the value directly, clamped to
 		// [min, max] same as the +/- buttons - see the identical doc
-		// comment on GridItemCommandList::onArrow(). Always returns
+		// comment on GridItemCommandListSelect::onArrow(). Always returns
 		// true (handled).
 		bool onArrow(int delta) override;
 

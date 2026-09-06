@@ -1,5 +1,5 @@
 #include "Commands/Command.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "Scripting/Natives.hpp"
 #include "World/Stats.hpp"
 #include "Rendering/Notifications.hpp"
@@ -214,7 +214,7 @@ namespace YimMenu::Features
 	        {87, "The Shocker"},
 	        {88, "El Strickler"}};
 
-	static ListCommand _GunVanWeapon{"gunvan_weapon", "Gun Van Weapon", "Select Gun Van weapon", GunVanWeapons, 0};
+	static CommandListSelect _GunVanWeapon{"gunvan_weapon", "Gun Van Weapon", "Select Gun Van weapon", GunVanWeapons, 0};
 
 	static std::vector<std::pair<int, const char*>> GunVanSlots =
 	    {
@@ -229,7 +229,7 @@ namespace YimMenu::Features
 	        {8, "Slot 9"},
 	        {9, "Slot 10"}};
 
-	static ListCommand _GunVanSlot{"gunvan_slot", "Gun Van Slot", "Select Gun Van slot", GunVanSlots, 0};
+	static CommandListSelect _GunVanSlot{"gunvan_slot", "Gun Van Slot", "Select Gun Van slot", GunVanSlots, 0};
 
 	class GunVanApply : public Command
 	{

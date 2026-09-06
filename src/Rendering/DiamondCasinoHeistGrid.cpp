@@ -1,8 +1,8 @@
 #include "Rendering/DiamondCasinoHeistGrid.hpp"
 
 #include "Rendering/GridItemCommandButton.hpp"
-#include "Rendering/GridItemCommandInt.hpp"
-#include "Rendering/GridItemCommandList.hpp"
+#include "Rendering/GridItemCommandSlider.hpp"
+#include "Rendering/GridItemCommandListSelect.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Util/Joaat.hpp"
@@ -28,35 +28,35 @@ namespace YimMenu::Rendering
 	{
 		// Auto Cuts (autocuts)
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Auto Cuts", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "diamondcasinoheistplayers"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "diamondcasinoheistplayers"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "diamondcasinoheistsetmaxpayout"_J));
 
 		// Heist Cuts (cuts)
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Heist Cuts", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "diamondcasinoheistcut1"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "diamondcasinoheistcut3"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "diamondcasinoheistcut2"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "diamondcasinoheistcut4"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "diamondcasinoheistcut1"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "diamondcasinoheistcut3"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "diamondcasinoheistcut2"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "diamondcasinoheistcut4"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "diamondcasinoheistforceready"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "diamondcasinoheistsetcuts"_J));
 
 		// Heist Setups (setups) - gunmanAndDriver's four rows fold in
 		// directly, see this file's own class comment.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Heist Setups", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "diamondcasinoheistdifficulty"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "diamondcasinoheistprimarytarget"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "diamondcasinoheistapproach"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "diamondcasinoheistgunman"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "diamondcasinoheistdriver"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "diamondcasinoheistweapon"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "diamondcasinoheistvehicle"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "diamondcasinoheisthacker"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "diamondcasinoheistdifficulty"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "diamondcasinoheistprimarytarget"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "diamondcasinoheistapproach"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "diamondcasinoheistgunman"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "diamondcasinoheistdriver"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "diamondcasinoheistweapon"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "diamondcasinoheistvehicle"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "diamondcasinoheisthacker"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "diamondcasinoheistsetup"_J));
 
 		// Loots (loots)
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Loots", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "diamondcasinoheistpotentialtake"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "diamondcasinoheistactualtake"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "diamondcasinoheistpotentialtake"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "diamondcasinoheistactualtake"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "diamondcasinoheistsetpotentialtake"_J, "Set"));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "diamondcasinoheistsetactualtake"_J, "Set"));
 
@@ -75,7 +75,7 @@ namespace YimMenu::Rendering
 
 		// Teleport (teleport)
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Teleport", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "diamondcasinoheistteleportlist"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "diamondcasinoheistteleportlist"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "diamondcasinoheistteleport"_J));
 	}
 }

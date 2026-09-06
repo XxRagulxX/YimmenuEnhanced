@@ -1,4 +1,4 @@
-#include "Rendering/GridItemCommandInt.hpp"
+#include "Rendering/GridItemCommandSlider.hpp"
 
 #include "Commands/Commands.hpp"
 #include "Rendering/GridRenderer.hpp"
@@ -19,15 +19,15 @@ namespace YimMenu::Rendering
 		constexpr float kGap = 6.f;
 	}
 
-	GridItemCommandInt::GridItemCommandInt(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride, int step) :
+	GridItemCommandSlider::GridItemCommandSlider(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride, int step) :
 	    GridItem(GRIDITEM_INDIFFERENT, width, height),
-	    m_Command(Commands::GetCommand<IntCommand>(id)),
+	    m_Command(Commands::GetCommand<CommandSlider>(id)),
 	    m_LabelOverride(std::move(labelOverride)),
 	    m_Step(step)
 	{
 	}
 
-	const std::string& GridItemCommandInt::Label() const
+	const std::string& GridItemCommandSlider::Label() const
 	{
 		static const std::string unknown = "Unknown!";
 		if (!m_Command)
@@ -36,7 +36,7 @@ namespace YimMenu::Rendering
 		return m_LabelOverride.has_value() ? *m_LabelOverride : m_Command->GetLabel();
 	}
 
-	GridItemCommandInt::Layout GridItemCommandInt::ComputeLayout() const
+	GridItemCommandSlider::Layout GridItemCommandSlider::ComputeLayout() const
 	{
 		Layout layout;
 		layout.buttonSize = kButtonSize;
@@ -47,13 +47,13 @@ namespace YimMenu::Rendering
 		return layout;
 	}
 
-	void GridItemCommandInt::draw()
+	void GridItemCommandSlider::draw()
 	{
 		if (isKeyboardFocused())
 			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
 	}
 
-	void GridItemCommandInt::drawText()
+	void GridItemCommandSlider::drawText()
 	{
 		// Every centring offset below is clamped to 0 - see the identical
 		// comment in GridItemToggle.cpp.
@@ -83,7 +83,7 @@ namespace YimMenu::Rendering
 		    Theme::kText);
 	}
 
-	void GridItemCommandInt::onClick(int16_t cursorX, int16_t)
+	void GridItemCommandSlider::onClick(int16_t cursorX, int16_t)
 	{
 		if (!m_Command)
 			return;
@@ -98,7 +98,7 @@ namespace YimMenu::Rendering
 			OpenCommandBox();
 	}
 
-	bool GridItemCommandInt::onArrow(int delta)
+	bool GridItemCommandSlider::onArrow(int delta)
 	{
 		if (!m_Command)
 			return false;
@@ -107,12 +107,12 @@ namespace YimMenu::Rendering
 		return true;
 	}
 
-	void GridItemCommandInt::activate()
+	void GridItemCommandSlider::activate()
 	{
 		OpenCommandBox();
 	}
 
-	void GridItemCommandInt::Step(int direction)
+	void GridItemCommandSlider::Step(int direction)
 	{
 		auto value = m_Command->GetState() + direction * m_Step;
 
@@ -124,7 +124,7 @@ namespace YimMenu::Rendering
 		m_Command->SetState(value);
 	}
 
-	void GridItemCommandInt::OpenCommandBox()
+	void GridItemCommandSlider::OpenCommandBox()
 	{
 		if (!m_Command)
 			return;

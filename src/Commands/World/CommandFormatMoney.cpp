@@ -1,4 +1,4 @@
-//#include "BoolCommand.hpp"
+//#include "CommandToggle.hpp"
 //#include "CallHook.hpp"
 //#include "NativeHooks.hpp"
 //#include "Natives.hpp"
@@ -12,9 +12,9 @@
 //	static void FormatIntHook(int64_t integer, char* str, size_t strSize, bool insertCommas);
 //	static void ScaleformAddIntHook(rage::scrNativeCallContext* ctx);
 //
-//	class FormatMoney : public BoolCommand
+//	class FormatMoney : public CommandToggle
 //	{
-//		using BoolCommand::BoolCommand;
+//		using CommandToggle::CommandToggle;
 //
 //		virtual void OnEnable() override
 //		{

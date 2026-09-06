@@ -1,7 +1,7 @@
 #include "Rendering/Onboarding.hpp"
 #include "Menu/GUI.hpp"
 #include "Commands/Commands.hpp"
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Rendering/GridRenderer.hpp"
 #include "Rendering/TextWrap.hpp"
 #include "Rendering/Theme.hpp"
@@ -13,7 +13,7 @@ namespace YimMenu
 {
 	namespace
 	{
-		BoolCommand _OnboardingComplete{"$onboardingcomplete", "", ""};
+		CommandToggle _OnboardingComplete{"$onboardingcomplete", "", ""};
 
 		constexpr float kPanelWidth = 700.f;
 		constexpr float kPad = 16.f;
@@ -123,7 +123,7 @@ namespace YimMenu
 
 		void Complete()
 		{
-			if (auto* cheaterpool = Commands::GetCommand<BoolCommand>("cheaterpool"_J))
+			if (auto* cheaterpool = Commands::GetCommand<CommandToggle>("cheaterpool"_J))
 				cheaterpool->SetState(g_SessionMode == 0);
 
 			_OnboardingComplete.SetState(true);

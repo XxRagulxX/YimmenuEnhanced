@@ -5,8 +5,8 @@ namespace YimMenu::Rendering
 {
 	// Content grid for World > Main: mirrors MenuWorld.cpp's Kill,
 	// Delete, Bring, Weather, Time and Other groups in full, now that
-	// GridItemConditional/GridItemCommandInt exist (setweather's own
-	// ConditionalItem, and Time's three IntCommand-bound steppers).
+	// GridItemConditional/GridItemCommandSlider exist (setweather's own
+	// ConditionalItem, and Time's three CommandSlider-bound steppers).
 	//
 	// Populate() also appends a GridItemFolder row for each of
 	// World's other categories (Spawn Ped, IPLs), each pointing at a

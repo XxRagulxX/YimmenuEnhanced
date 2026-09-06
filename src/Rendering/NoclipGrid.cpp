@@ -1,6 +1,6 @@
 #include "Rendering/NoclipGrid.hpp"
 
-#include "Rendering/GridItemCommandFloat.hpp"
+#include "Rendering/GridItemCommandSliderFloat.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/Theme.hpp"
 #include "Util/Joaat.hpp"
@@ -22,6 +22,6 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "noclip"_J));
 
 		if (watchCondition("noclip"_J))
-			items_draft.push_back(std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "noclipspeed"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandSliderFloat>(Theme::kContentWidth, kItemH, "noclipspeed"_J));
 	}
 }

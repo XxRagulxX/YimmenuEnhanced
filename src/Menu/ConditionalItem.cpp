@@ -1,11 +1,11 @@
 #include "Menu/Items.hpp"
 #include "Commands/Commands.hpp"
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 
 namespace YimMenu
 {
 	ConditionalItem::ConditionalItem(joaat_t bool_cmd_id, std::shared_ptr<UIItem> to_draw, bool negate) :
-		m_Condition(Commands::GetCommand<BoolCommand>(bool_cmd_id)),
+		m_Condition(Commands::GetCommand<CommandToggle>(bool_cmd_id)),
 		m_ConditionFn(nullptr),
 		m_Item(to_draw),
 		m_Negate(negate)

@@ -1,6 +1,6 @@
 #include "Rendering/MpSpecialAbilityGrid.hpp"
 
-#include "Rendering/GridItemCommandList.hpp"
+#include "Rendering/GridItemCommandListSelect.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/Theme.hpp"
 #include "Util/Joaat.hpp"
@@ -22,6 +22,6 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mpspecialability"_J, "Enable in MP"));
 
 		if (watchCondition("mpspecialability"_J))
-			items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "selspecialability"_J, "Special Ability"));
+			items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "selspecialability"_J, "Special Ability"));
 	}
 }

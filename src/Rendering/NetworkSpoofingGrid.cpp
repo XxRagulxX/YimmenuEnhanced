@@ -1,9 +1,9 @@
 #include "Rendering/NetworkSpoofingGrid.hpp"
 
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/Commands.hpp"
-#include "Rendering/GridItemCommandInt.hpp"
-#include "Rendering/GridItemCommandList.hpp"
+#include "Rendering/GridItemCommandSlider.hpp"
+#include "Rendering/GridItemCommandListSelect.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Util/Joaat.hpp"
@@ -23,8 +23,8 @@ namespace YimMenu::Rendering
 		// rather than its plain joaat_t one.
 		bool ShouldShowMmRegion()
 		{
-			auto* cheaterpool = Commands::GetCommand<BoolCommand>("cheaterpool"_J);
-			auto* spoofmmregion = Commands::GetCommand<BoolCommand>("spoofmmregion"_J);
+			auto* cheaterpool = Commands::GetCommand<CommandToggle>("cheaterpool"_J);
+			auto* spoofmmregion = Commands::GetCommand<CommandToggle>("spoofmmregion"_J);
 			return (!cheaterpool || !cheaterpool->GetState()) && spoofmmregion && spoofmmregion->GetState();
 		}
 	}
@@ -60,7 +60,7 @@ namespace YimMenu::Rendering
 		if (watchCondition("cheaterpool"_J, true))
 			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "spoofmmregion"_J, "Spoof Region"));
 		if (watchCondition(ShouldShowMmRegion))
-			items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "mmregion"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "mmregion"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "spoofdatahash"_J));
 
 		// Matchmaking (Server) (matchmakingSrvGroup) - all four toggles
@@ -70,15 +70,15 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Matchmaking (Server)", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mmspoofregiontype"_J));
 		if (watchCondition("mmspoofregiontype"_J))
-			items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "mmregiontype"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "mmregiontype"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mmspooflanguage"_J));
 		if (watchCondition("mmspooflanguage"_J))
-			items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "mmlanguage"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "mmlanguage"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mmspoofplayercount"_J));
 		if (watchCondition("mmspoofplayercount"_J))
-			items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "mmplayercount"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "mmplayercount"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "mmmultiplexsession"_J));
 		if (watchCondition("mmmultiplexsession"_J))
-			items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "mmmultiplexsessioncount"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "mmmultiplexsessioncount"_J));
 	}
 }

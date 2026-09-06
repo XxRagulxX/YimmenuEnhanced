@@ -1,6 +1,6 @@
 #include "Rendering/TrollGrid.hpp"
 
-#include "Rendering/GridItemCommandInt.hpp"
+#include "Rendering/GridItemCommandSlider.hpp"
 #include "Rendering/GridItemCommandPlayer.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemText.hpp"
@@ -39,10 +39,10 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandPlayer>(Theme::kContentWidth, kItemH, "giveweapons"_J));
 
 		// Bounty (bounty Group) - amount is an IntCommandItem, now
-		// GridItemCommandInt; anonymous is a BoolCommandItem; setbounty
+		// GridItemCommandSlider; anonymous is a BoolCommandItem; setbounty
 		// is a PlayerCommandItem.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Bounty", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "bountyamount"_J, "Amount"));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "bountyamount"_J, "Amount"));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "anonymousbounty"_J, "Anonymous"));
 		items_draft.push_back(std::make_unique<GridItemCommandPlayer>(Theme::kContentWidth, kItemH, "setbounty"_J));
 

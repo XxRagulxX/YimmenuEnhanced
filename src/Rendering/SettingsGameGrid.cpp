@@ -1,8 +1,8 @@
 #include "Rendering/SettingsGameGrid.hpp"
 
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/Commands.hpp"
-#include "Rendering/GridItemCommandColor.hpp"
+#include "Rendering/GridItemCommandColourCustom.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Util/Joaat.hpp"
@@ -21,19 +21,19 @@ namespace YimMenu::Rendering
 		// every AddConditionalColorCommandRows() call site below.
 		bool IsPlayerEspOn()
 		{
-			auto* espdrawplayers = Commands::GetCommand<BoolCommand>("espdrawplayers"_J);
+			auto* espdrawplayers = Commands::GetCommand<CommandToggle>("espdrawplayers"_J);
 			return espdrawplayers && espdrawplayers->GetState();
 		}
 
 		bool IsPedEspOn()
 		{
-			auto* espdrawpeds = Commands::GetCommand<BoolCommand>("espdrawpeds"_J);
+			auto* espdrawpeds = Commands::GetCommand<CommandToggle>("espdrawpeds"_J);
 			return espdrawpeds && espdrawpeds->GetState();
 		}
 
 		bool IsObjectEspOn()
 		{
-			auto* espdrawobjects = Commands::GetCommand<BoolCommand>("espdrawobjects"_J);
+			auto* espdrawobjects = Commands::GetCommand<CommandToggle>("espdrawobjects"_J);
 			return espdrawobjects && espdrawobjects->GetState();
 		}
 	}
@@ -58,7 +58,7 @@ namespace YimMenu::Rendering
 		// gated on it (watchCondition(), not GridItemConditional, so
 		// hidden rows don't reserve their own layout slot - see
 		// Grid::watchCondition()'s own doc comment); namecolorplayers/
-		// skeletoncolorplayers are ColorCommand swatches via
+		// skeletoncolorplayers are CommandColourCustom swatches via
 		// AddConditionalColorCommandRows, which does its own
 		// watchCondition() call internally.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Player ESP", Theme::kText));

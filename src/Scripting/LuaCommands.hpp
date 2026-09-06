@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/Command.hpp"
-#include "Commands/FloatCommand.hpp"
-#include "Commands/IntCommand.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandSliderFloat.hpp"
+#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "Commands/LoopedCommand.hpp"
 
 namespace YimMenu
@@ -26,7 +26,7 @@ namespace YimMenu
 		void OnCall() override;
 	};
 
-	class LuaBoolCommand : public BoolCommand
+	class LuaBoolCommand : public CommandToggle
 	{
 		LuaUserInterface* m_Interface;
 		int m_OnEnable;
@@ -63,7 +63,7 @@ namespace YimMenu
 		void OnDisable() override;
 	};
 
-	class LuaIntCommand : public IntCommand
+	class LuaIntCommand : public CommandSlider
 	{
 		LuaUserInterface* m_Interface;
 		int m_OnChange;
@@ -78,7 +78,7 @@ namespace YimMenu
 		void OnChange() override;
 	};
 
-	class LuaFloatCommand : public FloatCommand
+	class LuaFloatCommand : public CommandSliderFloat
 	{
 		LuaUserInterface* m_Interface;
 		int m_OnChange;
@@ -93,7 +93,7 @@ namespace YimMenu
 		void OnChange() override;
 	};
 
-	class LuaListCommand : public ListCommand
+	class LuaListCommand : public CommandListSelect
 	{
 		LuaUserInterface* m_Interface;
 		int m_OnChange;

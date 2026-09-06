@@ -1,12 +1,12 @@
 #include "Commands/LoopedCommand.hpp"
-#include "Commands/FloatCommand.hpp"
+#include "Commands/CommandSliderFloat.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
 
 namespace YimMenu::Features
 {
-	static FloatCommand _SuperRunMoveRateOverride{"moverateoverride", "Move Rate Override", "Multipler for base run/sprint speed", 0.0f, 10.0f, 2.0f};
-	static FloatCommand _SuperRunRunSprintMultiplier{"runsprintswimmultiplier", "Run/Sprint/Swim Multiplier", "Multipler with which the run/sprint/swim speed is increased with until maximum speed is reached", 1.0f, 1.49f, 1.0f};
+	static CommandSliderFloat _SuperRunMoveRateOverride{"moverateoverride", "Move Rate Override", "Multipler for base run/sprint speed", 0.0f, 10.0f, 2.0f};
+	static CommandSliderFloat _SuperRunRunSprintMultiplier{"runsprintswimmultiplier", "Run/Sprint/Swim Multiplier", "Multipler with which the run/sprint/swim speed is increased with until maximum speed is reached", 1.0f, 1.49f, 1.0f};
 
 	class SuperRun : public LoopedCommand
 	{

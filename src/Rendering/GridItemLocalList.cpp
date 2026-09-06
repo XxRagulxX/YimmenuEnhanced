@@ -53,7 +53,7 @@ namespace YimMenu::Rendering
 		layout.valueWidth = MaxItemWidth();
 
 		// Sequential from the label's own end, not anchored to the
-		// item's right edge - see GridItemCommandList's own class
+		// item's right edge - see GridItemCommandListSelect's own class
 		// comment for why.
 		const auto labelWidth = GridRenderer::MeasureText(m_Label.c_str()).x;
 		layout.valueX = x + 5.f + labelWidth + kLabelGap;
@@ -64,7 +64,7 @@ namespace YimMenu::Rendering
 
 	void GridItemLocalList::draw()
 	{
-		// The only rect this item draws now - see GridItemCommandList.cpp's
+		// The only rect this item draws now - see GridItemCommandListSelect.cpp's
 		// identical comment for why (no per-row fill, no button fill
 		// behind "<"/">" - matches real Stand's own list-select row).
 		if (isKeyboardFocused())

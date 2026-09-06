@@ -1,7 +1,7 @@
 #include "Commands/Vehicle/CommandAutoDriveShared.hpp"
 
-#include "Commands/IntCommand.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "Scripting/Natives.hpp"
 #include "Game/BlipSprite.hpp"
 
@@ -22,7 +22,7 @@ namespace YimMenu::Features::AutoDriveInternal
 	static constexpr int reckless_driving_style = 1074529086;
 	static constexpr float target_move_threshold_squared = 25.0f;
 
-	static IntCommand _AutoDriveSpeed{
+	static CommandSlider _AutoDriveSpeed{
 	    "autodrivespeed",
 	    "Cruise Speed (km/h)",
 	    "The target speed used by Auto Drive",
@@ -36,7 +36,7 @@ namespace YimMenu::Features::AutoDriveInternal
 	    {aggressive_driving_style, "Aggressive"},
 	    {reckless_driving_style, "Reckless (No Vehicle Braking)"}};
 
-	static ListCommand _AutoDriveStyle{
+	static CommandListSelect _AutoDriveStyle{
 	    "autodrivestyle",
 	    "Driving Style",
 	    "How Auto Drive behaves around traffic and traffic lights",

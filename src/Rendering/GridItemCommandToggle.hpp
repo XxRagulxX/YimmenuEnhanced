@@ -1,5 +1,5 @@
 #pragma once
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Rendering/GridItem.hpp"
 #include "Util/Joaat.hpp"
 
@@ -8,7 +8,7 @@
 
 namespace YimMenu::Rendering
 {
-	// A GridItemToggle wired to a real YimMenu::BoolCommand, looked up by
+	// A GridItemToggle wired to a real YimMenu::CommandToggle, looked up by
 	// joaat hash - the Grid/GridItem equivalent of BoolCommandItem (src/
 	// BoolCommandItem.cpp) for the ImGui menu. Reads the command's live
 	// state every frame (rather than tracking its own), and calls
@@ -32,7 +32,7 @@ namespace YimMenu::Rendering
 	private:
 		const std::string& Label() const;
 
-		BoolCommand* m_Command;
+		CommandToggle* m_Command;
 		std::optional<std::string> m_LabelOverride;
 	};
 }

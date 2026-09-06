@@ -1,6 +1,6 @@
 #include "Commands/Command.hpp"
-#include "Commands/IntCommand.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "World/Stats.hpp"
 #include "Game/Pools.hpp"
@@ -27,10 +27,10 @@ namespace YimMenu::Features
 			const char* name;
 		};
 
-		static IntCommand _DiamondCasinoHeistCut1{"diamondcasinoheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _DiamondCasinoHeistCut2{"diamondcasinoheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _DiamondCasinoHeistCut3{"diamondcasinoheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _DiamondCasinoHeistCut4{"diamondcasinoheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
+		static CommandSlider _DiamondCasinoHeistCut1{"diamondcasinoheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
+		static CommandSlider _DiamondCasinoHeistCut2{"diamondcasinoheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
+		static CommandSlider _DiamondCasinoHeistCut3{"diamondcasinoheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
+		static CommandSlider _DiamondCasinoHeistCut4{"diamondcasinoheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
 
 		class SetCuts : public Command
 		{
@@ -63,7 +63,7 @@ namespace YimMenu::Features
 		    {4, "Outside The Vault"},
 		    {5, "Daily Cash Storage"}};
 
-		static ListCommand _DiamondCasinoHeistTeleportList{"diamondcasinoheistteleportlist", "TP", "Teleport Location", DiamondCasinoHeistTeleportList, 0};
+		static CommandListSelect _DiamondCasinoHeistTeleportList{"diamondcasinoheistteleportlist", "TP", "Teleport Location", DiamondCasinoHeistTeleportList, 0};
 
 		static std::vector<TeleportLocation> DiamondCasinoHeistOtherTeleportPoints = {
 		    {917.24634f, 48.989567f, 80.89892f, 0.0f, "Main Gate"},
@@ -79,7 +79,7 @@ namespace YimMenu::Features
 		    {3, "The Music Locker"},
 		    {4, "Casino Stand"}};
 
-		static ListCommand _DiamondCasinoHeistOtherTeleportList{"diamondcasinoheistotherteleportlist", "Other TP", "Other teleport locations", DiamondCasinoHeistOtherTeleportList, 0};
+		static CommandListSelect _DiamondCasinoHeistOtherTeleportList{"diamondcasinoheistotherteleportlist", "Other TP", "Other teleport locations", DiamondCasinoHeistOtherTeleportList, 0};
 
 		static std::vector<std::pair<int, const char*>> DiamondCasinoHeistPlayers = {
 		    {1, "1 Player"},
@@ -87,7 +87,7 @@ namespace YimMenu::Features
 		    {3, "3 Players"},
 		    {4, "4 Players"}};
 
-		static ListCommand _DiamondCasinoHeistPlayers{"diamondcasinoheistplayers", "Players", "How many players are in the heist", DiamondCasinoHeistPlayers, 1};
+		static CommandListSelect _DiamondCasinoHeistPlayers{"diamondcasinoheistplayers", "Players", "How many players are in the heist", DiamondCasinoHeistPlayers, 1};
 
 		class ForceReady : public Command
 		{
@@ -107,17 +107,17 @@ namespace YimMenu::Features
 		static std::vector<std::pair<int, const char*>> diamondCasinoHeistDifficulty = {
 		    {0, "Normal"},
 		    {1, "Hard"}};
-		static ListCommand _DiamondCasinoHeistDifficulty{"diamondcasinoheistdifficulty", "Difficulty", "Heist difficulty", diamondCasinoHeistDifficulty, 0};
+		static CommandListSelect _DiamondCasinoHeistDifficulty{"diamondcasinoheistdifficulty", "Difficulty", "Heist difficulty", diamondCasinoHeistDifficulty, 0};
 
 		static std::vector<std::pair<int, const char*>> diamondCasinoHeistPrimaryTarget = {
 		    {3, "Diamonds"},
 		    {1, "Gold"},
 		    {2, "Artwork"},
 		    {0, "Cash"}};
-		static ListCommand _DiamondCasinoHeistPrimaryTarget{"diamondcasinoheistprimarytarget", "Primary Target", "Primary target", diamondCasinoHeistPrimaryTarget, 3};
+		static CommandListSelect _DiamondCasinoHeistPrimaryTarget{"diamondcasinoheistprimarytarget", "Primary Target", "Primary target", diamondCasinoHeistPrimaryTarget, 3};
 
-		static ListCommand* _DiamondCasinoHeistGunmanPtr = nullptr;
-		static ListCommand* _DiamondCasinoHeistApproachPtr = nullptr;
+		static CommandListSelect* _DiamondCasinoHeistGunmanPtr = nullptr;
+		static CommandListSelect* _DiamondCasinoHeistApproachPtr = nullptr;
 
 		static std::vector<std::vector<std::vector<std::pair<int, const char*>>>> diamondCasinoHeistWeapon = {
 		    {{{0, "MK II Shotgun Loadout"}, {1, "MK II Rifle Loadout"}},
@@ -138,7 +138,7 @@ namespace YimMenu::Features
 		    {{{0, "                                        "}, {1, ""}},
 		        {{0, ""}, {1, ""}},
 		        {{0, ""}, {1, ""}}}};
-		static ListCommand _DiamondCasinoHeistWeapon{"diamondcasinoheistweapon", "Weapon", "Weapon", diamondCasinoHeistWeapon[5][0], 0};
+		static CommandListSelect _DiamondCasinoHeistWeapon{"diamondcasinoheistweapon", "Weapon", "Weapon", diamondCasinoHeistWeapon[5][0], 0};
 
 		static std::vector<std::pair<int, const char*>> diamondCasinoHeistGunman = {
 		    {0, "Chester McCoy"},
@@ -148,9 +148,9 @@ namespace YimMenu::Features
 		    {4, "Karl Abolaji"},
 		    {5, "Remove Gunman"}};
 
-		class Gunman : public ListCommand
+		class Gunman : public CommandListSelect
 		{
-			using ListCommand::ListCommand;
+			using CommandListSelect::CommandListSelect;
 
 			virtual void OnChange() override
 			{
@@ -165,9 +165,9 @@ namespace YimMenu::Features
 		    {1, "The Big Con"},
 		    {2, "Aggressive"}};
 
-		class Approach : public ListCommand
+		class Approach : public CommandListSelect
 		{
-			using ListCommand::ListCommand;
+			using CommandListSelect::CommandListSelect;
 
 			virtual void OnChange() override
 			{
@@ -193,7 +193,7 @@ namespace YimMenu::Features
 		    {{0, "Manchez"}, {1, "Stryder"}, {2, "Defiler"}, {3, "Lectro"}},
 		    {{0, "Issi Classic"}, {1, "Asbo"}, {2, "Kanjo"}, {3, "Sentinel Classic"}},
 		    {{0, "                           "}, {1, ""}, {2, ""}, {3, ""}}};
-		static ListCommand _DiamondCasinoHeistVehicle{"diamondcasinoheistvehicle", "Vehicle", "Vehicle", diamondCasinoHeistVehicle[5], 0};
+		static CommandListSelect _DiamondCasinoHeistVehicle{"diamondcasinoheistvehicle", "Vehicle", "Vehicle", diamondCasinoHeistVehicle[5], 0};
 
 		static std::vector<std::pair<int, const char*>> diamondCasinoHeistDriver = {
 		    {0, "Chester McCoy"},
@@ -203,9 +203,9 @@ namespace YimMenu::Features
 		    {4, "Karim Denz"},
 		    {5, "Remove Driver"}};
 
-		class Driver : public ListCommand
+		class Driver : public CommandListSelect
 		{
-			using ListCommand::ListCommand;
+			using CommandListSelect::CommandListSelect;
 
 			virtual void OnChange() override
 			{
@@ -222,7 +222,7 @@ namespace YimMenu::Features
 		    {3, "Yohan Blair"},
 		    {1, "Rickie Lukens"},
 		    {6, "Remove Hacker"}};
-		static ListCommand _DiamondCasinoHeistHacker{"diamondcasinoheisthacker", "Hacker", "Hacker", diamondCasinoHeistHacker, 6};
+		static CommandListSelect _DiamondCasinoHeistHacker{"diamondcasinoheisthacker", "Hacker", "Hacker", diamondCasinoHeistHacker, 6};
 
 		class Setup : public Command
 		{
@@ -288,7 +288,7 @@ namespace YimMenu::Features
 			}
 		};
 
-		static IntCommand _DiamondCasinoHeistPotentialTake{"diamondcasinoheistpotentialtake", "Potential Take", "Updates potential take", std::nullopt, std::nullopt, 0};
+		static CommandSlider _DiamondCasinoHeistPotentialTake{"diamondcasinoheistpotentialtake", "Potential Take", "Updates potential take", std::nullopt, std::nullopt, 0};
 
 		class SetPotentialTake : public Command
 		{
@@ -333,7 +333,7 @@ namespace YimMenu::Features
 			}
 		};
 
-		static IntCommand _DiamondCasinoHeistActualTake{"diamondcasinoheistactualtake", "Actual Take", "Updates actual take", std::nullopt, std::nullopt, 0};
+		static CommandSlider _DiamondCasinoHeistActualTake{"diamondcasinoheistactualtake", "Actual Take", "Updates actual take", std::nullopt, std::nullopt, 0};
 
 		class SetActualTake : public Command
 		{
@@ -455,7 +455,7 @@ namespace YimMenu::Features
 
 			void ApplyCuts(int totalCut, int players)
 			{
-				std::array<IntCommand*, 4> cmds = {
+				std::array<CommandSlider*, 4> cmds = {
 				    &_DiamondCasinoHeistCut1,
 				    &_DiamondCasinoHeistCut2,
 				    &_DiamondCasinoHeistCut3,

@@ -1,11 +1,11 @@
-#include "Commands/BoolCommand.hpp"
-#include "Commands/ColorCommand.hpp"
+#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandColourCustom.hpp"
 #include "Commands/Commands.hpp"
-#include "Commands/FloatCommand.hpp"
-#include "Commands/IntCommand.hpp"
-#include "Commands/ListCommand.hpp"
-#include "Commands/StringCommand.hpp"
-#include "Commands/Vector3Command.hpp"
+#include "Commands/CommandSliderFloat.hpp"
+#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandListSelect.hpp"
+#include "Commands/CommandInput.hpp"
+#include "Commands/CommandPosition3d.hpp"
 #include "Commands/PlayerCommand.hpp"
 #include "Scripting/LuaCommands.hpp"
 #include "Scripting/LuaLibrary.hpp"
@@ -84,25 +84,25 @@ namespace YimMenu::Lua
 			lua_pushnil(state);
 			return 1;
 		case LuaCommandHandle::Kind::Bool:
-			if (auto* c = Commands::GetCommand<BoolCommand>(h.hash))
+			if (auto* c = Commands::GetCommand<CommandToggle>(h.hash))
 				lua_pushboolean(state, c->GetState());
 			else
 				lua_pushnil(state);
 			return 1;
 		case LuaCommandHandle::Kind::Int:
-			if (auto* c = Commands::GetCommand<IntCommand>(h.hash))
+			if (auto* c = Commands::GetCommand<CommandSlider>(h.hash))
 				lua_pushinteger(state, c->GetState());
 			else
 				lua_pushnil(state);
 			return 1;
 		case LuaCommandHandle::Kind::Float:
-			if (auto* c = Commands::GetCommand<FloatCommand>(h.hash))
+			if (auto* c = Commands::GetCommand<CommandSliderFloat>(h.hash))
 				lua_pushnumber(state, c->GetState());
 			else
 				lua_pushnil(state);
 			return 1;
 		case LuaCommandHandle::Kind::List:
-			if (auto* c = Commands::GetCommand<ListCommand>(h.hash))
+			if (auto* c = Commands::GetCommand<CommandListSelect>(h.hash))
 				lua_pushinteger(state, c->GetState());
 			else
 				lua_pushnil(state);
@@ -120,19 +120,19 @@ namespace YimMenu::Lua
 		case LuaCommandHandle::Kind::OneShot:
 			return 0;
 		case LuaCommandHandle::Kind::Bool:
-			if (auto* c = Commands::GetCommand<BoolCommand>(h.hash))
+			if (auto* c = Commands::GetCommand<CommandToggle>(h.hash))
 				c->SetState(CheckBooleanSafe(state, 2));
 			return 0;
 		case LuaCommandHandle::Kind::Int:
-			if (auto* c = Commands::GetCommand<IntCommand>(h.hash))
+			if (auto* c = Commands::GetCommand<CommandSlider>(h.hash))
 				c->SetState(static_cast<int>(luaL_checkinteger(state, 2)));
 			return 0;
 		case LuaCommandHandle::Kind::Float:
-			if (auto* c = Commands::GetCommand<FloatCommand>(h.hash))
+			if (auto* c = Commands::GetCommand<CommandSliderFloat>(h.hash))
 				c->SetState(static_cast<float>(luaL_checknumber(state, 2)));
 			return 0;
 		case LuaCommandHandle::Kind::List:
-			if (auto* c = Commands::GetCommand<ListCommand>(h.hash))
+			if (auto* c = Commands::GetCommand<CommandListSelect>(h.hash))
 				c->SetState(static_cast<int>(luaL_checkinteger(state, 2)));
 			return 0;
 		}
@@ -297,21 +297,21 @@ namespace YimMenu::Lua
 			return 1;
 		}
 		
-		if (dynamic_cast<PlayerCommand*>(cmd) || dynamic_cast<ColorCommand*>(cmd)
-		    || dynamic_cast<StringCommand*>(cmd) || dynamic_cast<Vector3Command*>(cmd))
+		if (dynamic_cast<PlayerCommand*>(cmd) || dynamic_cast<CommandColourCustom*>(cmd)
+		    || dynamic_cast<CommandInput*>(cmd) || dynamic_cast<CommandPosition3d*>(cmd))
 		{
 			lua_pushnil(state);
 			return 1;
 		}
 
 		LuaCommandHandle::Kind kind;
-		if (dynamic_cast<ListCommand*>(cmd))
+		if (dynamic_cast<CommandListSelect*>(cmd))
 			kind = LuaCommandHandle::Kind::List;
-		else if (dynamic_cast<IntCommand*>(cmd))
+		else if (dynamic_cast<CommandSlider*>(cmd))
 			kind = LuaCommandHandle::Kind::Int;
-		else if (dynamic_cast<FloatCommand*>(cmd))
+		else if (dynamic_cast<CommandSliderFloat*>(cmd))
 			kind = LuaCommandHandle::Kind::Float;
-		else if (dynamic_cast<BoolCommand*>(cmd))
+		else if (dynamic_cast<CommandToggle*>(cmd))
 			kind = LuaCommandHandle::Kind::Bool; // covers LoopedCommand too
 		else
 			kind = LuaCommandHandle::Kind::OneShot;

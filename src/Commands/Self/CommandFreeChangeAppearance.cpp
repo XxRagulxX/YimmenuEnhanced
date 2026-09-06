@@ -1,12 +1,12 @@
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Network/Tunables.hpp"
 
 namespace YimMenu::Features
 {
 
-	class FreeChangeAppearance : public BoolCommand
+	class FreeChangeAppearance : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		Tunable m_CharacterAppearanceCharge{"CHARACTER_APPEARANCE_CHARGE"_J};
 

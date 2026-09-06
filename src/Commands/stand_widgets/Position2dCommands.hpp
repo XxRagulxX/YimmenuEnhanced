@@ -1,6 +1,6 @@
 #pragma once
-#include "Commands/BoolCommand.hpp"
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Core/Pointers.hpp"
 #include "Rendering/Theme.hpp"
@@ -16,7 +16,7 @@ namespace YimMenu::StandWidgets
 {
 	namespace Detail
 	{
-		// Screen-pixel delta -> H-space delta, for CommandMoveWithMouse
+		// Screen-pixel delta -> H-space delta, for CommandPosition2dMouse
 		// below. Same per-axis scale factor GridRenderer's own (private)
 		// SizeH2C already applies to every draw call - confirmed
 		// mathematically identical to this simpler min(...) form as long
@@ -43,16 +43,16 @@ namespace YimMenu::StandWidgets
 	}
 
 	// One axis (X or Y) of a real Stand-style CommandPosition2d - an
-	// unbounded IntCommand (SHRT_MIN..SHRT_MAX, matching real Stand's
+	// unbounded CommandSlider (SHRT_MIN..SHRT_MAX, matching real Stand's
 	// own Position2d int16_t fields) that writes straight into whatever
 	// int16_t the caller points it at, syncing both on a live edit and
 	// on a loaded config value (see CommandPositionAxis::LoadState()'s
 	// own comment for why the latter needs its own explicit sync).
-	class CommandPositionAxis : public IntCommand
+	class CommandPositionAxis : public CommandSlider
 	{
 	public:
 		CommandPositionAxis(std::string name, std::string label, std::string description, int16_t* target, int16_t defaultValue) :
-		    IntCommand(std::move(name), std::move(label), std::move(description), SHRT_MIN, SHRT_MAX, defaultValue),
+		    CommandSlider(std::move(name), std::move(label), std::move(description), SHRT_MIN, SHRT_MAX, defaultValue),
 		    m_Target(target)
 		{
 		}
@@ -67,12 +67,12 @@ namespace YimMenu::StandWidgets
 		// target too, not just a live edit" reasoning as
 		// CommandPrimaryColour.cpp's own LoadState() override -
 		// OnChange() above only ever fires from SetState() (see
-		// IntCommand::SetState()'s own FiberPool::queueJob call), which
+		// CommandSlider::SetState()'s own FiberPool::queueJob call), which
 		// a config load never goes through (LoadState() writes m_State
 		// directly).
 		void LoadState(nlohmann::json& value) override
 		{
-			IntCommand::LoadState(value);
+			CommandSlider::LoadState(value);
 			Sync();
 		}
 
@@ -95,11 +95,11 @@ namespace YimMenu::StandWidgets
 	// directly, not a mouse click/drag gesture - same shape here (a
 	// hidden always-on LoopedCommand ticker polling GetCursorPos() every
 	// game tick while this toggle itself is on).
-	class CommandMoveWithMouse : public BoolCommand
+	class CommandPosition2dMouse : public CommandToggle
 	{
 	public:
-		CommandMoveWithMouse(std::string name, std::string label, std::string description, CommandPositionAxis* x, CommandPositionAxis* y) :
-		    BoolCommand(name, label, description, false),
+		CommandPosition2dMouse(std::string name, std::string label, std::string description, CommandPositionAxis* x, CommandPositionAxis* y) :
+		    CommandToggle(name, label, description, false),
 		    m_X(x),
 		    m_Y(y),
 		    m_Ticker(name + "_tick", label + " Ticker", "Internal - always on, polls the cursor while " + label + " is on", this)
@@ -114,14 +114,14 @@ namespace YimMenu::StandWidgets
 		// Stand's own onEnable()/onDisable() there manage a "mouse
 		// navigation mode" flag this project has no equivalent of (mouse
 		// doesn't drive menu navigation at all any more - see
-		// GridRenderer::WndProcImpl's own comment). BoolCommand::
+		// GridRenderer::WndProcImpl's own comment). CommandToggle::
 		// SetState()'s own OnEnable() call only ever runs asynchronously
 		// (FiberPool::queueJob), so a tick could run before it does,
 		// reading a stale (possibly zeroed, possibly a previous drag's)
 		// start position - captured here instead, synchronously, the
 		// first tick m_Dragging notices GetState() went true, same
 		// "detect the transition on the next tick rather than trust an
-		// async callback's timing" idiom ColourRainbow/SliderRainbow's
+		// async callback's timing" idiom CommandRainbow/CommandSliderRainbow's
 		// own m_LastTick == 0 first-tick check already uses.
 		void Tick()
 		{
@@ -150,9 +150,9 @@ namespace YimMenu::StandWidgets
 			const auto newX = static_cast<int>(m_StartX + deltaX);
 			const auto newY = static_cast<int>(m_StartY + deltaY);
 
-			// Guarded, not unconditional - IntCommand::SetState() always
+			// Guarded, not unconditional - CommandSlider::SetState() always
 			// queues a FiberPool job and marks the command dirty (unlike
-			// ColorCommand's own equality check), so calling it every
+			// CommandColourCustom's own equality check), so calling it every
 			// tick regardless would spam both the whole time this is on,
 			// even while the cursor sits still.
 			if (m_X && newX != m_X->GetState())
@@ -165,7 +165,7 @@ namespace YimMenu::StandWidgets
 		class Ticker : public LoopedCommand
 		{
 		public:
-			Ticker(std::string name, std::string label, std::string description, CommandMoveWithMouse* owner) :
+			Ticker(std::string name, std::string label, std::string description, CommandPosition2dMouse* owner) :
 			    LoopedCommand(std::move(name), std::move(label), std::move(description)),
 			    m_Owner(owner)
 			{
@@ -184,7 +184,7 @@ namespace YimMenu::StandWidgets
 			}
 
 		private:
-			CommandMoveWithMouse* m_Owner;
+			CommandPosition2dMouse* m_Owner;
 		};
 
 		CommandPositionAxis* m_X;

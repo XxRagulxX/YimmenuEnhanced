@@ -5,7 +5,7 @@ namespace YimMenu::Rendering
 {
 	// Content grid for Network > Spoofing: mirrors MenuNetwork.cpp's
 	// matchmakingGroup and matchmakingSrvGroup in full, now that
-	// GridItemConditional/GridItemCommandInt exist - every "enable
+	// GridItemConditional/GridItemCommandSlider exist - every "enable
 	// spoofing this" toggle plus everything it conditionally reveals
 	// (mmregion/mmregiontype/mmlanguage/mmplayercount/
 	// mmmultiplexsessioncount, and the spoofMMRegion subgroup's own

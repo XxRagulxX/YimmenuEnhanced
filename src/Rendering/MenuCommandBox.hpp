@@ -52,8 +52,8 @@ namespace YimMenu::Rendering
 		// command name, whatever the user left it as) is stripped and
 		// trimmed - e.g. "1.00", or "min"/"max" if the caller wants to
 		// support those keywords the way real Stand's own
-		// CommandSlider::onCommandImplKeyword does (GridItemCommandInt/
-		// Float/NamedValueSlider all do - see their own OpenCommandBox()
+		// CommandSlider::onCommandImplKeyword does (GridItemCommandSlider/
+		// Float/CommandSliderNamedValue all do - see their own OpenCommandBox()
 		// comments). Returns true if the value was valid and applied
 		// (closes the box) or false if it wasn't (box stays open, an
 		// inline "Invalid value." row flashes briefly) - the scoped-down

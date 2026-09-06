@@ -1,5 +1,5 @@
-#include "Commands/BoolCommand.hpp"
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "Rendering/NotifySettings.hpp"
 
 namespace YimMenu::Features
@@ -9,11 +9,11 @@ namespace YimMenu::Features
 	// only takes effect while NotifySettings::kType == StandCustomPosition,
 	// same as Notify Position above (see Notifications.cpp's own
 	// ComputeLayout()).
-	class CommandNotifyInvertFlow : public BoolCommand
+	class CommandNotifyInvertFlow : public CommandToggle
 	{
 	public:
 		CommandNotifyInvertFlow() :
-		    BoolCommand("notifyinvertflow",
+		    CommandToggle("notifyinvertflow",
 		        "Invert Flow",
 		        "Stacks newer notifications upward from the anchor point instead of downward. Only takes effect with type set to \"Stand, Custom Position\".",
 		        false)
@@ -37,11 +37,11 @@ namespace YimMenu::Features
 	// Ported from real Stand's own CommandNotifyWidth - the toast card's
 	// own width, replacing this project's previous hardcoded 350 (see
 	// NotifySettings::kWidth's own comment).
-	class CommandNotifyWidth : public IntCommand
+	class CommandNotifyWidth : public CommandSlider
 	{
 	public:
 		CommandNotifyWidth() :
-		    IntCommand("notifywidth", "Width", "The notification card's own width.", 0, 15000, 400)
+		    CommandSlider("notifywidth", "Width", "The notification card's own width.", 0, 15000, 400)
 		{
 		}
 
@@ -53,7 +53,7 @@ namespace YimMenu::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			IntCommand::LoadState(value);
+			CommandSlider::LoadState(value);
 			Sync();
 		}
 
@@ -68,11 +68,11 @@ namespace YimMenu::Features
 
 	// Ported from real Stand's own CommandNotifyPadding - the gap between
 	// the anchor point/stacked cards.
-	class CommandNotifyPadding : public IntCommand
+	class CommandNotifyPadding : public CommandSlider
 	{
 	public:
 		CommandNotifyPadding() :
-		    IntCommand("notifypadding", "Padding", "The gap between the anchor point and stacked notification cards.", 0, 15000, 10)
+		    CommandSlider("notifypadding", "Padding", "The gap between the anchor point and stacked notification cards.", 0, 15000, 10)
 		{
 		}
 
@@ -84,7 +84,7 @@ namespace YimMenu::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			IntCommand::LoadState(value);
+			CommandSlider::LoadState(value);
 			Sync();
 		}
 

@@ -1,4 +1,4 @@
-#include "Rendering/GridItemCommandList.hpp"
+#include "Rendering/GridItemCommandListSelect.hpp"
 
 #include "Commands/Commands.hpp"
 #include "Rendering/GridRenderer.hpp"
@@ -16,14 +16,14 @@ namespace YimMenu::Rendering
 		constexpr float kValuePadding = 16.f;
 	}
 
-	GridItemCommandList::GridItemCommandList(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride) :
+	GridItemCommandListSelect::GridItemCommandListSelect(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride) :
 	    GridItem(GRIDITEM_INDIFFERENT, width, height),
-	    m_Command(Commands::GetCommand<ListCommand>(id)),
+	    m_Command(Commands::GetCommand<CommandListSelect>(id)),
 	    m_LabelOverride(std::move(labelOverride))
 	{
 	}
 
-	const std::string& GridItemCommandList::Label() const
+	const std::string& GridItemCommandListSelect::Label() const
 	{
 		static const std::string unknown = "Unknown!";
 		if (!m_Command)
@@ -32,7 +32,7 @@ namespace YimMenu::Rendering
 		return m_LabelOverride.has_value() ? *m_LabelOverride : m_Command->GetLabel();
 	}
 
-	const char* GridItemCommandList::CurrentItemText() const
+	const char* GridItemCommandListSelect::CurrentItemText() const
 	{
 		if (!m_Command)
 			return "?";
@@ -49,7 +49,7 @@ namespace YimMenu::Rendering
 		return "";
 	}
 
-	float GridItemCommandList::MaxItemWidth() const
+	float GridItemCommandListSelect::MaxItemWidth() const
 	{
 		if (m_MaxItemWidth.has_value())
 			return *m_MaxItemWidth;
@@ -65,7 +65,7 @@ namespace YimMenu::Rendering
 		return *m_MaxItemWidth;
 	}
 
-	GridItemCommandList::Layout GridItemCommandList::ComputeLayout() const
+	GridItemCommandListSelect::Layout GridItemCommandListSelect::ComputeLayout() const
 	{
 		Layout layout;
 		layout.buttonSize = kButtonSize;
@@ -82,18 +82,18 @@ namespace YimMenu::Rendering
 		return layout;
 	}
 
-	void GridItemCommandList::draw()
+	void GridItemCommandListSelect::draw()
 	{
 		// The only rect this item draws now - real Stand's own list-select
 		// row has no background of its own either (no per-row fill, no
-		// button fill behind its "<"/">" - see GridItemCommandInt.cpp's
+		// button fill behind its "<"/">" - see GridItemCommandSlider.cpp's
 		// own comment for the confirmed-against-source reasoning, which
 		// applies identically here).
 		if (isKeyboardFocused())
 			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
 	}
 
-	void GridItemCommandList::drawText()
+	void GridItemCommandListSelect::drawText()
 	{
 		// Every centring offset below is clamped to 0 - see the identical
 		// comment in GridItemToggle.cpp: otherwise text taller/wider than
@@ -125,7 +125,7 @@ namespace YimMenu::Rendering
 		    Theme::kText);
 	}
 
-	void GridItemCommandList::onClick(int16_t cursorX, int16_t)
+	void GridItemCommandListSelect::onClick(int16_t cursorX, int16_t)
 	{
 		if (!m_Command)
 			return;
@@ -143,7 +143,7 @@ namespace YimMenu::Rendering
 		Cycle(direction);
 	}
 
-	bool GridItemCommandList::onArrow(int delta)
+	bool GridItemCommandListSelect::onArrow(int delta)
 	{
 		if (!m_Command || m_Command->GetList().empty())
 			return false;
@@ -152,7 +152,7 @@ namespace YimMenu::Rendering
 		return true;
 	}
 
-	void GridItemCommandList::Cycle(int direction)
+	void GridItemCommandListSelect::Cycle(int direction)
 	{
 		auto& list = m_Command->GetList();
 		if (list.empty())

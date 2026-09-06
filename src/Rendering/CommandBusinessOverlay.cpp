@@ -1,7 +1,7 @@
 #include "Game/Player.hpp"
 #include "World/Stats.hpp"
 #include "Scripting/ScriptGlobal.hpp"
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "World/Self.hpp"
 #include "Network/CNetGamePlayer.hpp"
 #include "Rendering/Overlay.hpp"
@@ -10,11 +10,11 @@
 
 namespace YimMenu::Features
 {
-	BoolCommand _BusinessOverlay("businessoverlay", "Show Business Overlay", "Displays current Business overlay");
-	BoolCommand _ShowWarehouse("showwarehouse", "Show Warehouse", "Display warehouse stock");
-	BoolCommand _ShowHangar("showhangar", "Show Hangar", "Display hangar stock");
-	BoolCommand _ShowBusinesses("showbusinesses", "Show Businesses", "Display MC business stock");
-	BoolCommand _ShowNightclub("shownightclub", "Show Nightclub", "Display nightclub stock");
+	CommandToggle _BusinessOverlay("businessoverlay", "Show Business Overlay", "Displays current Business overlay");
+	CommandToggle _ShowWarehouse("showwarehouse", "Show Warehouse", "Display warehouse stock");
+	CommandToggle _ShowHangar("showhangar", "Show Hangar", "Display hangar stock");
+	CommandToggle _ShowBusinesses("showbusinesses", "Show Businesses", "Display MC business stock");
+	CommandToggle _ShowNightclub("shownightclub", "Show Nightclub", "Display nightclub stock");
 
 
 	enum class MCBusinessType

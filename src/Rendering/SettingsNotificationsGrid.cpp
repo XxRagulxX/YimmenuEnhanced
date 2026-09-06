@@ -1,9 +1,9 @@
 #include "Rendering/SettingsNotificationsGrid.hpp"
 
 #include "Rendering/GridItemCommandButton.hpp"
-#include "Rendering/GridItemCommandColor.hpp"
-#include "Rendering/GridItemCommandInt.hpp"
-#include "Rendering/GridItemCommandList.hpp"
+#include "Rendering/GridItemCommandColourCustom.hpp"
+#include "Rendering/GridItemCommandSlider.hpp"
+#include "Rendering/GridItemCommandListSelect.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/MenuNavigation.hpp"
@@ -47,7 +47,7 @@ namespace YimMenu::Rendering
 
 	void SettingsNotificationsGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "notifytype"_J, "Type"));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "notifytype"_J, "Type"));
 
 		// Only takes effect with Type set to "Stand, Custom Position" -
 		// same as Invert Flow below (see CommandNotifyPosition.cpp/
@@ -57,14 +57,14 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Custom Position", &g_PositionContent));
 
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "notifyinvertflow"_J, "Invert Flow"));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "notifywidth"_J, "Width", 10));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "notifypadding"_J, "Padding", 10));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "notifywidth"_J, "Width", 10));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "notifypadding"_J, "Padding", 10));
 
 		AddColorCommandRows(items_draft, Theme::kContentWidth, "notifyborder"_J, "Border Colour");
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "notifyborderrainbow"_J, "Rainbow Mode"));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "notifyborderrainbow"_J, "Rainbow Mode"));
 
 		AddColorCommandRows(items_draft, Theme::kContentWidth, "notifyflash"_J, "Flash Colour");
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "notifyflashrainbow"_J, "Rainbow Mode"));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "notifyflashrainbow"_J, "Rainbow Mode"));
 
 		AddColorCommandRows(items_draft, Theme::kContentWidth, "notifybg"_J, "Background Colour");
 

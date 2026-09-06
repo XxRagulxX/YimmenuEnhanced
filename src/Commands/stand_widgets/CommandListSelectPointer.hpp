@@ -1,5 +1,5 @@
 #pragma once
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandListSelect.hpp"
 
 #include <utility>
 #include <vector>
@@ -7,19 +7,19 @@
 namespace YimMenu::StandWidgets
 {
 	// Ported from real Stand's own CommandListSelectPointer - the
-	// ListCommand equivalent of TogglePointer.hpp/SliderPointer.hpp (see
+	// CommandListSelect equivalent of CommandTogglePointer.hpp/CommandSliderPointer.hpp (see
 	// either's own doc comment for the shared reasoning: a one-way sync
-	// onto ListCommand's own OnChange() hook, no changes to
-	// ListCommand.hpp needed).
-	class ListPointer : public ListCommand
+	// onto CommandListSelect's own OnChange() hook, no changes to
+	// CommandListSelect.hpp needed).
+	class CommandListSelectPointer : public CommandListSelect
 	{
 	public:
-		ListPointer(std::string name,
+		CommandListSelectPointer(std::string name,
 		    std::string label,
 		    std::string description,
 		    std::vector<std::pair<int, const char*>> list,
 		    int* ptr) :
-		    ListCommand(std::move(name), std::move(label), std::move(description), std::move(list), ptr ? *ptr : 0),
+		    CommandListSelect(std::move(name), std::move(label), std::move(description), std::move(list), ptr ? *ptr : 0),
 		    m_Ptr(ptr)
 		{
 		}

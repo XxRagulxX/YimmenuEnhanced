@@ -1,6 +1,6 @@
 #include "Rendering/Grid.hpp"
 
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/Commands.hpp"
 #include "Rendering/Theme.hpp"
 
@@ -35,7 +35,7 @@ namespace YimMenu::Rendering
 
 	bool Grid::watchCondition(joaat_t hash, bool negate)
 	{
-		auto* cmd = Commands::GetCommand<BoolCommand>(hash);
+		auto* cmd = Commands::GetCommand<CommandToggle>(hash);
 		auto conditionFn = [cmd] {
 			return cmd && cmd->GetState();
 		};

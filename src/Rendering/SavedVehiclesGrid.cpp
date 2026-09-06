@@ -1,6 +1,6 @@
 #include "Rendering/SavedVehiclesGrid.hpp"
 
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/Vehicle/CommandSavedVehicles.hpp"
 #include "Commands/Commands.hpp"
 #include "Scripting/FiberPool.hpp"
@@ -95,7 +95,7 @@ namespace YimMenu::Rendering
 		    [this](size_t, const std::string& value, bool, bool, bool) {
 			    MenuPopup::Confirm(std::format("Are you sure you want to spawn {}", value), [this, value] {
 				    FiberPool::queueJob([this, value] {
-					    auto* spawnInside = Commands::GetCommand<BoolCommand>("spawninsidesavedveh"_J);
+					    auto* spawnInside = Commands::GetCommand<CommandToggle>("spawninsidesavedveh"_J);
 					    SavedVehicles::Load(m_Folder, value, spawnInside && spawnInside->GetState());
 				    });
 			    });

@@ -1,4 +1,4 @@
-#include "Commands/FloatCommand.hpp"
+#include "Commands/CommandSliderFloat.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Util/Math.hpp"
 #include "World/Self.hpp"
@@ -9,7 +9,7 @@
 
 namespace YimMenu::Features
 {
-	static FloatCommand _FreecamSpeed{"freecamspeed", "Freecam Speed", "How fast the freecam will move positions", 0.01f, 10.0f, 0.10f};
+	static CommandSliderFloat _FreecamSpeed{"freecamspeed", "Freecam Speed", "How fast the freecam will move positions", 0.01f, 10.0f, 0.10f};
 
 	class Freecam : public LoopedCommand
 	{

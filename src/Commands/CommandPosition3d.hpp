@@ -4,7 +4,7 @@
 
 namespace YimMenu
 {
-	class Vector3Command : public Command
+	class CommandPosition3d : public Command
 	{
 	protected:
 		virtual void OnChange() {};
@@ -15,7 +15,7 @@ namespace YimMenu
 		rage::fvector3 m_State{};
 
 	public:
-		Vector3Command(std::string name, std::string label, std::string description, rage::fvector3 def_val = {});
+		CommandPosition3d(std::string name, std::string label, std::string description, rage::fvector3 def_val = {});
 		rage::fvector3 GetState();
 		void SetState(const rage::fvector3& state);
 	};

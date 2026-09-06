@@ -1,20 +1,20 @@
 #pragma once
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandSlider.hpp"
 
 #include <utility>
 
 namespace YimMenu::StandWidgets
 {
 	// Ported from real Stand's own CommandSliderPointer - see
-	// TogglePointer.hpp's own doc comment for the shared reasoning (same
-	// one-way sync, onto IntCommand::OnChange() instead of BoolCommand's
-	// OnEnable()/OnDisable() - no changes to IntCommand.hpp needed
+	// CommandTogglePointer.hpp's own doc comment for the shared reasoning (same
+	// one-way sync, onto CommandSlider::OnChange() instead of CommandToggle's
+	// OnEnable()/OnDisable() - no changes to CommandSlider.hpp needed
 	// either).
-	class SliderPointer : public IntCommand
+	class CommandSliderPointer : public CommandSlider
 	{
 	public:
-		SliderPointer(std::string name, std::string label, std::string description, int* ptr, int min, int max) :
-		    IntCommand(std::move(name), std::move(label), std::move(description), min, max, ptr ? *ptr : min),
+		CommandSliderPointer(std::string name, std::string label, std::string description, int* ptr, int min, int max) :
+		    CommandSlider(std::move(name), std::move(label), std::move(description), min, max, ptr ? *ptr : min),
 		    m_Ptr(ptr)
 		{
 		}

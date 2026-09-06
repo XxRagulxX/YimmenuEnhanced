@@ -1,8 +1,8 @@
 #include "Rendering/NetworkGrid.hpp"
 
 #include "Rendering/GridItemCommandButton.hpp"
-#include "Rendering/GridItemCommandInt.hpp"
-#include "Rendering/GridItemCommandList.hpp"
+#include "Rendering/GridItemCommandSlider.hpp"
+#include "Rendering/GridItemCommandListSelect.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/GridItemText.hpp"
@@ -54,7 +54,7 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, kItemH, "Random Events", &g_RandomEventsContent));
 
 		// Join (joinGroup's joinSession subgroup) - joinsessiontype is an
-		// unconditional ListCommandItem, now that GridItemCommandList
+		// unconditional ListCommandItem, now that GridItemCommandListSelect
 		// exists; joinsession/forcequittosp are both unconditional
 		// CommandItem buttons. Label overrides match MenuNetwork.cpp's
 		// own ("Session Type" instead of the registered "Join Session
@@ -62,15 +62,15 @@ namespace YimMenu::Rendering
 		// suffix is an ImGui widget-ID disambiguator with no equivalent
 		// need here).
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Join", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "joinsessiontype"_J, "Session Type"));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "joinsessiontype"_J, "Session Type"));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "joinsession"_J, "Join"));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "forcequittosp"_J));
 
 		// Bounty (bountyGroup) - bountyamount now has a real widget
-		// (GridItemCommandInt); setbountyall is still skipped - see the
+		// (GridItemCommandSlider); setbountyall is still skipped - see the
 		// class comment for why.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Bounty", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "bountyamount"_J, "Amount"));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "bountyamount"_J, "Amount"));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "anonymousbounty"_J, "Anonymous"));
 
 		// Troll (trollGroup) - only harassplayers/spamkillfeed; see the

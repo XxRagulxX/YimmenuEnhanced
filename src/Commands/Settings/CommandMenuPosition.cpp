@@ -1,5 +1,5 @@
-#include "Commands/BoolCommand.hpp"
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Core/Pointers.hpp"
 #include "Rendering/Theme.hpp"
@@ -47,11 +47,11 @@ namespace YimMenu::Features
 	// to its own MenuGrid::default_origin ({1323, 560}) - this project's
 	// own Theme::kDefaultMenuOriginX/Y are the exact same numbers (see
 	// that constant's own comment).
-	class CommandMenuPositionX : public IntCommand
+	class CommandMenuPositionX : public CommandSlider
 	{
 	public:
 		CommandMenuPositionX() :
-		    IntCommand("menux", "X", "The menu's own horizontal position.", SHRT_MIN, SHRT_MAX, Rendering::Theme::kDefaultMenuOriginX)
+		    CommandSlider("menux", "X", "The menu's own horizontal position.", SHRT_MIN, SHRT_MAX, Rendering::Theme::kDefaultMenuOriginX)
 		{
 		}
 
@@ -66,7 +66,7 @@ namespace YimMenu::Features
 		// LoadState() override.
 		void LoadState(nlohmann::json& value) override
 		{
-			IntCommand::LoadState(value);
+			CommandSlider::LoadState(value);
 			Sync();
 		}
 
@@ -77,11 +77,11 @@ namespace YimMenu::Features
 		}
 	};
 
-	class CommandMenuPositionY : public IntCommand
+	class CommandMenuPositionY : public CommandSlider
 	{
 	public:
 		CommandMenuPositionY() :
-		    IntCommand("menuy", "Y", "The menu's own vertical position.", SHRT_MIN, SHRT_MAX, Rendering::Theme::kDefaultMenuOriginY)
+		    CommandSlider("menuy", "Y", "The menu's own vertical position.", SHRT_MIN, SHRT_MAX, Rendering::Theme::kDefaultMenuOriginY)
 		{
 		}
 
@@ -93,7 +93,7 @@ namespace YimMenu::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			IntCommand::LoadState(value);
+			CommandSlider::LoadState(value);
 			Sync();
 		}
 
@@ -118,11 +118,11 @@ namespace YimMenu::Features
 	// this toggle itself is on), which is why re-adding this doesn't
 	// conflict with the menu otherwise being keyboard-only now: nothing
 	// here is routed through a window message.
-	class CommandMenuMouseMove : public BoolCommand
+	class CommandMenuMouseMove : public CommandToggle
 	{
 	public:
 		CommandMenuMouseMove() :
-		    BoolCommand("menumousemove",
+		    CommandToggle("menumousemove",
 		        "Move With Mouse",
 		        "While on, moving the mouse drags the whole menu with it - turn this back off to drop it in place.",
 		        false),
@@ -138,14 +138,14 @@ namespace YimMenu::Features
 		// Stand's own onEnable()/onDisable() there manage a "mouse
 		// navigation mode" flag this project has no equivalent of (mouse
 		// doesn't drive menu navigation at all any more - see
-		// GridRenderer::WndProcImpl's own comment). BoolCommand::
+		// GridRenderer::WndProcImpl's own comment). CommandToggle::
 		// SetState()'s own OnEnable() call only ever runs asynchronously
 		// (FiberPool::queueJob), so a tick could run before it does,
 		// reading a stale (possibly zeroed, possibly a previous drag's)
 		// start position - captured here instead, synchronously, the
 		// first tick m_Dragging notices GetState() went true, same
 		// "detect the transition on the next tick rather than trust an
-		// async callback's timing" idiom ColourRainbow/SliderRainbow's
+		// async callback's timing" idiom CommandRainbow/CommandSliderRainbow's
 		// own m_LastTick == 0 first-tick check already uses.
 		void Tick()
 		{
@@ -174,9 +174,9 @@ namespace YimMenu::Features
 			const auto newX = static_cast<int>(m_StartOriginX + deltaX);
 			const auto newY = static_cast<int>(m_StartOriginY + deltaY);
 
-			// Guarded, not unconditional - IntCommand::SetState() always
+			// Guarded, not unconditional - CommandSlider::SetState() always
 			// queues a FiberPool job and marks the command dirty (unlike
-			// ColorCommand's own equality check), so calling it every
+			// CommandColourCustom's own equality check), so calling it every
 			// tick regardless would spam both the whole time this is on,
 			// even while the cursor sits still.
 			if (newX != _MenuPositionX.GetState())

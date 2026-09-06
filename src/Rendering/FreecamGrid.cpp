@@ -1,6 +1,6 @@
 #include "Rendering/FreecamGrid.hpp"
 
-#include "Rendering/GridItemCommandFloat.hpp"
+#include "Rendering/GridItemCommandSliderFloat.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/Theme.hpp"
 #include "Util/Joaat.hpp"
@@ -22,6 +22,6 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "freecam"_J));
 
 		if (watchCondition("freecam"_J))
-			items_draft.push_back(std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "freecamspeed"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandSliderFloat>(Theme::kContentWidth, kItemH, "freecamspeed"_J));
 	}
 }

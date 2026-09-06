@@ -2,8 +2,8 @@
 #include "World/Self.hpp"
 #include "Game/ExplosionType.hpp"
 #include "Scripting/Natives.hpp"
-#include "Commands/ListCommand.hpp"
-#include "Commands/FloatCommand.hpp"
+#include "Commands/CommandListSelect.hpp"
+#include "Commands/CommandSliderFloat.hpp"
 #include "Scripting/Scripts.hpp"
 
 namespace YimMenu::Features
@@ -96,14 +96,14 @@ namespace YimMenu::Features
 	    {static_cast<int>(ExplosionType::EMPLAUNCHER_EMP), "EMP Launcher"},
 	};
 
-	static ListCommand _SelectedExplosion{
+	static CommandListSelect _SelectedExplosion{
 	    "selectedexplosion",
 	    "Explosion Type",
 	    "Select an explosion type",
 	    g_ExplosionTypeArray,
 	    static_cast<int>(ExplosionType::BULLET)};
 
-	static FloatCommand _ExplosionDamageScale{
+	static CommandSliderFloat _ExplosionDamageScale{
 	    "explosiondamage",
 	    "Explosion Damage Scale",
 	    "Sets the damage scale for explosions",
@@ -111,7 +111,7 @@ namespace YimMenu::Features
 	    1000.0f,
 	    1.0f};
 
-	static FloatCommand _CameraShake{
+	static CommandSliderFloat _CameraShake{
 	    "explosioncamerashake",
 	    "Explosion Camera Shake",
 	    "Controls how much the camera shakes during explosions",

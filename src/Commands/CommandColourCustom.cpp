@@ -1,4 +1,4 @@
-#include "Commands/ColorCommand.hpp"
+#include "Commands/CommandColourCustom.hpp"
 #include "Scripting/FiberPool.hpp"
 
 namespace
@@ -11,11 +11,11 @@ namespace
 
 namespace YimMenu
 {
-	void ColorCommand::OnCall()
+	void CommandColourCustom::OnCall()
 	{
 	}
 
-	void ColorCommand::SaveState(nlohmann::json& value)
+	void CommandColourCustom::SaveState(nlohmann::json& value)
 	{
 		value = nlohmann::json::object();
 		value["r"] = m_State.x;
@@ -24,7 +24,7 @@ namespace YimMenu
 		value["a"] = m_State.w;
 	}
 
-	void ColorCommand::LoadState(nlohmann::json& value)
+	void CommandColourCustom::LoadState(nlohmann::json& value)
 	{
 		if (value.is_object())
 		{
@@ -43,18 +43,18 @@ namespace YimMenu
 		}
 	}
 
-	ColorCommand::ColorCommand(std::string name, std::string label, std::string description, ImVec4 color) :
+	CommandColourCustom::CommandColourCustom(std::string name, std::string label, std::string description, ImVec4 color) :
 	    Command(name, label, description, 0),
 	    m_State(color)
 	{
 	}
 
-	ImVec4 ColorCommand::GetState()
+	ImVec4 CommandColourCustom::GetState()
 	{
 		return m_State;
 	}
 
-	void ColorCommand::SetState(ImVec4 state)
+	void CommandColourCustom::SetState(ImVec4 state)
 	{
 		if (!AreColorsEqual(m_State, state))
 		{

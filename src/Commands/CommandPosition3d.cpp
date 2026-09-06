@@ -1,13 +1,13 @@
-#include "Commands/Vector3Command.hpp"
+#include "Commands/CommandPosition3d.hpp"
 #include "Scripting/FiberPool.hpp"
 
 namespace YimMenu
 {
-	void Vector3Command::OnCall()
+	void CommandPosition3d::OnCall()
 	{
 	}
 
-	void Vector3Command::SaveState(nlohmann::json& value)
+	void CommandPosition3d::SaveState(nlohmann::json& value)
 	{
 		value = nlohmann::json::object();
 		value["x"] = m_State.x;
@@ -15,7 +15,7 @@ namespace YimMenu
 		value["z"] = m_State.z;
 	}
 
-	void Vector3Command::LoadState(nlohmann::json& value)
+	void CommandPosition3d::LoadState(nlohmann::json& value)
 	{
 		if (value.is_object())
 		{
@@ -25,18 +25,18 @@ namespace YimMenu
 		}
 	}
 
-	Vector3Command::Vector3Command(std::string name, std::string label, std::string description, rage::fvector3 def_val) :
+	CommandPosition3d::CommandPosition3d(std::string name, std::string label, std::string description, rage::fvector3 def_val) :
 	    Command(name, label, description, 0),
 	    m_State(def_val)
 	{
 	}
 
-	rage::fvector3 Vector3Command::GetState()
+	rage::fvector3 CommandPosition3d::GetState()
 	{
 		return m_State;
 	}
 
-	void Vector3Command::SetState(const rage::fvector3& state)
+	void CommandPosition3d::SetState(const rage::fvector3& state)
 	{
 		FiberPool::queueJob([this] {
 			OnChange();

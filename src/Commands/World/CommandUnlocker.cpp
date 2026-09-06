@@ -1,7 +1,7 @@
-//#include "BoolCommand.hpp"
+//#include "CommandToggle.hpp"
 #include "World/Stats.hpp"
 #include "Scripting/Natives.hpp"
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "Scripting/ScriptGlobal.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Rendering/Notifications.hpp"
@@ -10,8 +10,8 @@
 namespace YimMenu::Features
 {
 
-	static IntCommand _SetRankValue{"setrankvalue", "Rank", "Enter your desired RP level", std::nullopt, std::nullopt, 1};
-	static IntCommand _SetCrewRankValue{"setcrewvalue", "Crew Rank", "Enter your desired Crew Rank", std::nullopt, std::nullopt, 1};
+	static CommandSlider _SetRankValue{"setrankvalue", "Rank", "Enter your desired RP level", std::nullopt, std::nullopt, 1};
+	static CommandSlider _SetCrewRankValue{"setcrewvalue", "Crew Rank", "Enter your desired Crew Rank", std::nullopt, std::nullopt, 1};
 
 	static const int RP_TABLE[] = {
 	    0,

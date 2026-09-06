@@ -1,23 +1,23 @@
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "Scripting/FiberPool.hpp"
 
 namespace YimMenu
 {
-	void IntCommand::OnCall()
+	void CommandSlider::OnCall()
 	{
 	}
 
-	void IntCommand::SaveState(nlohmann::json& value)
+	void CommandSlider::SaveState(nlohmann::json& value)
 	{
 		value = m_State;
 	}
 
-	void IntCommand::LoadState(nlohmann::json& value)
+	void CommandSlider::LoadState(nlohmann::json& value)
 	{
 		m_State = value;
 	}
 
-	IntCommand::IntCommand(std::string name, std::string label, std::string description, std::optional<int> min, std::optional<int> max, int def_val) :
+	CommandSlider::CommandSlider(std::string name, std::string label, std::string description, std::optional<int> min, std::optional<int> max, int def_val) :
 	    Command(name, label, description, 0),
 	    m_Min(min),
 	    m_Max(max),
@@ -25,12 +25,12 @@ namespace YimMenu
 	{
 	}
 
-	int IntCommand::GetState()
+	int CommandSlider::GetState()
 	{
 		return m_State;
 	}
 
-	void IntCommand::SetState(int state)
+	void CommandSlider::SetState(int state)
 	{
 		FiberPool::queueJob([this] {
 			OnChange();
@@ -39,12 +39,12 @@ namespace YimMenu
 		MarkDirty();
 	}
 
-	std::optional<int> IntCommand::GetMinimum()
+	std::optional<int> CommandSlider::GetMinimum()
 	{
 		return m_Min;
 	}
 
-	std::optional<int> IntCommand::GetMaximum()
+	std::optional<int> CommandSlider::GetMaximum()
 	{
 		return m_Max;
 	}

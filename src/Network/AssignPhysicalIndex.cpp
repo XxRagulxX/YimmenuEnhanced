@@ -2,14 +2,14 @@
 #include "Core/Hooks.hpp"
 #include "Network/Players.hpp"
 #include "Network/CNetGamePlayer.hpp"
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Scripting/Natives.hpp"
 #include "Scripting/FiberPool.hpp"
 #include "Core/Hooking.hpp"
 
 namespace YimMenu::Features
 {
-	static BoolCommand _NotifyOnPlayerJoin{
+	static CommandToggle _NotifyOnPlayerJoin{
 	    "notifyonplayerjoin",
 	    "Notify on Player Join",
 	    "Notifies you when a player joins above the map",

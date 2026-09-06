@@ -1,4 +1,4 @@
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
@@ -44,9 +44,9 @@ namespace YimMenu::Features
 		}
 	};
 
-	class AimbotAimForHead : public BoolCommand
+	class AimbotAimForHead : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		virtual void OnEnable() override
 		{
@@ -59,9 +59,9 @@ namespace YimMenu::Features
 		}
 	};
 
-	class AimbotTargetDrivers : public BoolCommand
+	class AimbotTargetDrivers : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		virtual void OnEnable() override
 		{

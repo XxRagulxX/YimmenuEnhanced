@@ -18,7 +18,7 @@ namespace YimMenu::Rendering
 	// string, appending/trimming from the end only, same "simplest
 	// interaction that still works" trade-off as everywhere else in this
 	// system without a real popup/gradient/etc (see e.g.
-	// GridItemCommandList's cycling "<"/">" in place of a real dropdown).
+	// GridItemCommandListSelect's cycling "<"/">" in place of a real dropdown).
 	// Enter commits (calls onCommit with the typed text) and stops
 	// editing; Escape discards the typed buffer and stops editing
 	// without calling onCommit, leaving the last-committed value shown.

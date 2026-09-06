@@ -27,7 +27,7 @@ namespace YimMenu::Rendering
 	//   e.g. a saved-locations list changing while the menu is open).
 	//   This project has no Worker-driven live-repopulation model yet -
 	//   invalidate()/watchCondition() below cover the common case
-	//   (a row's own existence depending on a BoolCommand/predicate) by
+	//   (a row's own existence depending on a CommandToggle/predicate) by
 	//   just re-running populate() synchronously the next time draw()/
 	//   drawText()/findItemAt() notices one changed, same as
 	//   PlayersGrid's own hand-written repopulation-on-change already
@@ -140,14 +140,14 @@ namespace YimMenu::Rendering
 		// its own draw()/drawText()/findItemAt() override, the same way
 		// MenuGrid::SyncNavigation() is called from all three there - see
 		// watchCondition() below for the common case (a row's own
-		// visibility depending on a single BoolCommand/predicate) this
+		// visibility depending on a single CommandToggle/predicate) this
 		// now handles automatically instead. Resets the current scroll
 		// position along with it, since it no longer necessarily makes
 		// sense against the rebuilt content.
 		void invalidate();
 
 	public:
-		// Registers hash (a BoolCommand looked up via Commands::GetCommand,
+		// Registers hash (a CommandToggle looked up via Commands::GetCommand,
 		// same as GridItemConditional's own joaat_t overload; negate
 		// flips it the same way too) as a condition this Grid's own
 		// populate() depends on, and returns its current value - call
@@ -176,7 +176,7 @@ namespace YimMenu::Rendering
 		bool watchCondition(joaat_t hash, bool negate = false);
 
 		// Same as above, for an arbitrary predicate instead of a single
-		// BoolCommand - same two ways GridItemConditional itself offers.
+		// CommandToggle - same two ways GridItemConditional itself offers.
 		bool watchCondition(std::function<bool()> conditionFn, bool negate = false);
 
 		// Positions every item in-place: walks the list applying each

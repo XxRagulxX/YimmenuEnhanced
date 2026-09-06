@@ -1,7 +1,7 @@
 #include "Rendering/WorldIPLsGrid.hpp"
 
 #include "Rendering/GridItemCommandButton.hpp"
-#include "Rendering/GridItemCommandList.hpp"
+#include "Rendering/GridItemCommandListSelect.hpp"
 #include "Util/Joaat.hpp"
 #include "Rendering/Theme.hpp"
 
@@ -28,7 +28,7 @@ namespace YimMenu::Rendering
 
 	void WorldIPLsGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "iplselector"_J, "IPL"));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "iplselector"_J, "IPL"));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "loadipl"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "unloadipl"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "ipltp"_J));

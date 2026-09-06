@@ -1,5 +1,5 @@
-#include "Commands/ColorCommand.hpp"
-#include "Commands/stand_widgets/ColourRainbow.hpp"
+#include "Commands/CommandColourCustom.hpp"
+#include "Commands/stand_widgets/CommandRainbow.hpp"
 #include "Rendering/NotifySettings.hpp"
 
 namespace YimMenu::Features
@@ -12,11 +12,11 @@ namespace YimMenu::Features
 	// DrawNotificationRect() for where this shows (briefly replacing
 	// Border Colour right after a notification first appears or
 	// re-triggers).
-	class CommandNotifyFlashColour : public ColorCommand
+	class CommandNotifyFlashColour : public CommandColourCustom
 	{
 	public:
 		CommandNotifyFlashColour() :
-		    ColorCommand("notifyflash", "Flash Colour", "Briefly shown in place of Border Colour right after a notification first appears or re-triggers.", ImVec4(0.6196f, 0.f, 0.6196f, 1.f))
+		    CommandColourCustom("notifyflash", "Flash Colour", "Briefly shown in place of Border Colour right after a notification first appears or re-triggers.", ImVec4(0.6196f, 0.f, 0.6196f, 1.f))
 		{
 		}
 
@@ -28,7 +28,7 @@ namespace YimMenu::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			ColorCommand::LoadState(value);
+			CommandColourCustom::LoadState(value);
 			Sync();
 		}
 
@@ -42,7 +42,7 @@ namespace YimMenu::Features
 
 	static CommandNotifyFlashColour _NotifyFlashColour{};
 
-	static StandWidgets::ColourRainbow _NotifyFlashColourRainbow{"notifyflashrainbow",
+	static StandWidgets::CommandRainbow _NotifyFlashColourRainbow{"notifyflashrainbow",
 	    "Rainbow Mode",
 	    "Cycles the colour's hue every x milliseconds but still allows you to change the saturation, value, and opacity.",
 	    &Rendering::NotifySettings::kFlashColour};

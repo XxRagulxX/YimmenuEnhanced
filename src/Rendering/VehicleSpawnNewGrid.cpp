@@ -1,6 +1,6 @@
 #include "Rendering/VehicleSpawnNewGrid.hpp"
 
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/Commands.hpp"
 #include "Scripting/FiberPool.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
@@ -86,11 +86,11 @@ namespace YimMenu::Rendering
 			FiberPool::queueJob([hash] {
 				auto handle = Vehicle::Create(hash, Vehicle::GetSpawnLocRelToPed(Self::GetPed().GetHandle(), hash), Self::GetPed().GetHeading());
 
-				auto* spawnInside = Commands::GetCommand<BoolCommand>("spawninsideveh"_J);
+				auto* spawnInside = Commands::GetCommand<CommandToggle>("spawninsideveh"_J);
 				if (spawnInside && spawnInside->GetState())
 					Self::GetPed().SetInVehicle(handle);
 
-				auto* spawnMaxed = Commands::GetCommand<BoolCommand>("spawnvehmaxed"_J);
+				auto* spawnMaxed = Commands::GetCommand<CommandToggle>("spawnvehmaxed"_J);
 				if (spawnMaxed && spawnMaxed->GetState())
 					handle.Upgrade();
 			});

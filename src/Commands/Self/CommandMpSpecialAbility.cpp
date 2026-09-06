@@ -1,5 +1,5 @@
 #include "Commands/LoopedCommand.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "Scripting/NativeHooks.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
@@ -17,7 +17,7 @@ namespace YimMenu::Features
 	    {3, "Snapshot (Aim at head)"},
 	    {4, "Insult"},
 	};
-	static ListCommand _SelectedSpecialAbility{"selspecialability", "Special Ability in MP", "The special ability to enable for the MP character", g_SpecialAbilityTypes, 0};
+	static CommandListSelect _SelectedSpecialAbility{"selspecialability", "Special Ability in MP", "The special ability to enable for the MP character", g_SpecialAbilityTypes, 0};
 
 	class MpSpecialAbility : public LoopedCommand
 	{

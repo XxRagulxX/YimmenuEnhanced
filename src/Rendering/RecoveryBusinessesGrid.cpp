@@ -1,7 +1,7 @@
 #include "Rendering/RecoveryBusinessesGrid.hpp"
 
 #include "Rendering/GridItemCommandButton.hpp"
-#include "Rendering/GridItemCommandList.hpp"
+#include "Rendering/GridItemCommandListSelect.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Util/Joaat.hpp"
@@ -32,10 +32,10 @@ namespace YimMenu::Rendering
 	void RecoveryBusinessesGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
 		// Business Safe (businessSafe) - a ListCommandItem (now that
-		// GridItemCommandList exists) plus a plain CommandItem button,
+		// GridItemCommandListSelect exists) plus a plain CommandItem button,
 		// both unconditional.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Business Safe", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "businesssafe"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "businesssafe"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "claimsafeearnings"_J));
 
 		// Business Overlay (businessOverlay) - showwarehouse/showhangar/

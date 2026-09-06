@@ -7,12 +7,12 @@
 namespace YimMenu::Rendering
 {
 	// GridItemIntStepper's float counterpart - same label + current value
-	// (shown to 2 decimal places, matching GridItemCommandFloat) + "-"/"+"
+	// (shown to 2 decimal places, matching GridItemCommandSliderFloat) + "-"/"+"
 	// buttons, for a value that isn't backed by a real Command at all
-	// (GridItemCommandFloat's own role for a FloatCommand looked up by
+	// (GridItemCommandSliderFloat's own role for a CommandSliderFloat looked up by
 	// joaat hash) - the same relationship GridItemIntStepper already has
-	// to GridItemCommandInt. Value is clamped to [min, max], stepping by
-	// `step` per click/arrow (0.1f default, same as GridItemCommandFloat's
+	// to GridItemCommandSlider. Value is clamped to [min, max], stepping by
+	// `step` per click/arrow (0.1f default, same as GridItemCommandSliderFloat's
 	// own default).
 	//
 	// onChange is optional, same contract as GridItemIntStepper's own -

@@ -3,7 +3,7 @@
 
 namespace YimMenu
 {
-	class IntCommand : public Command
+	class CommandSlider : public Command
 	{
 	protected:
 		virtual void OnChange() {};
@@ -16,7 +16,7 @@ namespace YimMenu
 		std::optional<int> m_Max;
 
 	public:
-		IntCommand(std::string name, std::string label, std::string description, std::optional<int> min = std::nullopt, std::optional<int> max = std::nullopt, int def_val = 0);
+		CommandSlider(std::string name, std::string label, std::string description, std::optional<int> min = std::nullopt, std::optional<int> max = std::nullopt, int def_val = 0);
 		int GetState();
 		void SetState(int state);
 		std::optional<int> GetMinimum();

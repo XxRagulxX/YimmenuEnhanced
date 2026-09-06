@@ -1,23 +1,23 @@
-#include "Commands/FloatCommand.hpp"
+#include "Commands/CommandSliderFloat.hpp"
 #include "Scripting/FiberPool.hpp"
 
 namespace YimMenu
 {
-	void FloatCommand::OnCall()
+	void CommandSliderFloat::OnCall()
 	{
 	}
 
-	void FloatCommand::SaveState(nlohmann::json& value)
+	void CommandSliderFloat::SaveState(nlohmann::json& value)
 	{
 		value = m_State;
 	}
 
-	void FloatCommand::LoadState(nlohmann::json& value)
+	void CommandSliderFloat::LoadState(nlohmann::json& value)
 	{
 		m_State = value;
 	}
 
-	FloatCommand::FloatCommand(std::string name, std::string label, std::string description, std::optional<float> min, std::optional<float> max, float def_val) :
+	CommandSliderFloat::CommandSliderFloat(std::string name, std::string label, std::string description, std::optional<float> min, std::optional<float> max, float def_val) :
 	    Command(name, label, description, 0),
 	    m_Min(min),
 	    m_Max(max),
@@ -25,12 +25,12 @@ namespace YimMenu
 	{
 	}
 
-	float FloatCommand::GetState()
+	float CommandSliderFloat::GetState()
 	{
 		return m_State;
 	}
 
-	void FloatCommand::SetState(float state)
+	void CommandSliderFloat::SetState(float state)
 	{
 		FiberPool::queueJob([this] {
 			OnChange();
@@ -39,12 +39,12 @@ namespace YimMenu
 		MarkDirty();
 	}
 
-	std::optional<float> FloatCommand::GetMinimum()
+	std::optional<float> CommandSliderFloat::GetMinimum()
 	{
 		return m_Min;
 	}
 
-	std::optional<float> FloatCommand::GetMaximum()
+	std::optional<float> CommandSliderFloat::GetMaximum()
 	{
 		return m_Max;
 	}

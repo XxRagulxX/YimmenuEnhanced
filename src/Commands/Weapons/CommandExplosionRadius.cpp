@@ -1,11 +1,11 @@
 #include "Commands/LoopedCommand.hpp"  
 #include "World/Self.hpp"  
 #include "Scripting/Natives.hpp"  
-#include "Commands/FloatCommand.hpp"  
+#include "Commands/CommandSliderFloat.hpp"  
 
 namespace YimMenu::Features  
 {  
-	static FloatCommand _ExplosionRadiusScale{"explosionradiusscale", "Weapon Explosion RadiusScale", "Modifying Weapon Explosion RadiusScale", 0.0f, 10.0f, 1.0f};  
+	static CommandSliderFloat _ExplosionRadiusScale{"explosionradiusscale", "Weapon Explosion RadiusScale", "Modifying Weapon Explosion RadiusScale", 0.0f, 10.0f, 1.0f};  
 
 	class ExplosionRadius : public LoopedCommand  
 	{  

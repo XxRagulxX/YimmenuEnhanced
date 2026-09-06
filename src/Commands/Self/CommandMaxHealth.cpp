@@ -1,4 +1,4 @@
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
@@ -7,21 +7,21 @@ namespace YimMenu::Features
 	// Real Stand's CommandMaxHealth is a single slider, 200-15000 step 25,
 	// where 200 (its own floor) means "Don't Override" - not applied at
 	// all, restoring whatever the game/rank system would normally set.
-	// Every other IntCommand in this codebase is a plain value holder
+	// Every other CommandSlider in this codebase is a plain value holder
 	// with a separate LoopedCommand actually applying it each tick (see
 	// CommandWanted.cpp's own wantedslider/freezewanted split) - there's
 	// no real Stand-style "continuously re-applied slider" idiom here.
 	// This applies the value once, immediately, whenever it changes
-	// (IntCommand::OnChange() already runs on the game script thread via
-	// FiberPool - see IntCommand::SetState()) rather than re-asserting it
+	// (CommandSlider::OnChange() already runs on the game script thread via
+	// FiberPool - see CommandSlider::SetState()) rather than re-asserting it
 	// every tick - a real, disclosed gap from Stand's own persistence
 	// (something else resetting max health later, e.g. on respawn,
 	// wouldn't get immediately overridden the way Stand's own tick
 	// handler would), but keeps this a single row rather than a second
 	// "lock" toggle nothing else in Stand's own UI has either.
-	class MaxHealth : public IntCommand
+	class MaxHealth : public CommandSlider
 	{
-		using IntCommand::IntCommand;
+		using CommandSlider::CommandSlider;
 
 		virtual void OnChange() override
 		{

@@ -1,7 +1,7 @@
 #include "Commands/Vehicle/CommandAutoDriveShared.hpp"
 #include "Commands/Vehicle/CommandAutoDriveHudTelemetry.hpp"
 
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/Commands.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Rendering/Notifications.hpp"
@@ -142,7 +142,7 @@ namespace YimMenu::Features
 
 		virtual void OnEnable() override
 		{
-			auto npcAutoDrive = Commands::GetCommand<BoolCommand>("npcautodrive"_J);
+			auto npcAutoDrive = Commands::GetCommand<CommandToggle>("npcautodrive"_J);
 			if (AutoDriveInternal::Coordinator::GetOwner() == AutoDriveInternal::Owner::None
 			    && npcAutoDrive
 			    && npcAutoDrive->GetState())

@@ -1,11 +1,11 @@
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Core/Pointers.hpp"
 
 namespace YimMenu::Features
 {
-	class PauseGame : public BoolCommand
+	class PauseGame : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		virtual void OnEnable() override
 		{

@@ -38,7 +38,7 @@ namespace YimMenu
 	}
 
 	LuaBoolCommand::LuaBoolCommand(LuaUserInterface* iface, std::string name, std::string label, std::string description, bool default_value, int on_enable, int on_disable) :
-	    BoolCommand(std::move(name), std::move(label), std::move(description), default_value),
+	    CommandToggle(std::move(name), std::move(label), std::move(description), default_value),
 	    m_Interface(iface),
 	    m_OnEnable(on_enable),
 	    m_OnDisable(on_disable)
@@ -114,7 +114,7 @@ namespace YimMenu
 	}
 
 	LuaIntCommand::LuaIntCommand(LuaUserInterface* iface, std::string name, std::string label, std::string description, std::optional<int> min, std::optional<int> max, int default_value, int on_change) :
-	    IntCommand(std::move(name), std::move(label), std::move(description), min, max, default_value),
+	    CommandSlider(std::move(name), std::move(label), std::move(description), min, max, default_value),
 	    m_Interface(iface),
 	    m_OnChange(on_change)
 	{
@@ -138,7 +138,7 @@ namespace YimMenu
 	}
 
 	LuaFloatCommand::LuaFloatCommand(LuaUserInterface* iface, std::string name, std::string label, std::string description, std::optional<float> min, std::optional<float> max, float default_value, int on_change) :
-	    FloatCommand(std::move(name), std::move(label), std::move(description), min, max, default_value),
+	    CommandSliderFloat(std::move(name), std::move(label), std::move(description), min, max, default_value),
 	    m_Interface(iface),
 	    m_OnChange(on_change)
 	{
@@ -162,7 +162,7 @@ namespace YimMenu
 	}
 
 	LuaListCommand::LuaListCommand(LuaUserInterface* iface, std::string name, std::string label, std::string description, std::vector<std::pair<int, std::string>> entries, int default_value, int on_change) :
-	    ListCommand(std::move(name), std::move(label), std::move(description), {}, default_value),
+	    CommandListSelect(std::move(name), std::move(label), std::move(description), {}, default_value),
 	    m_Interface(iface),
 	    m_OnChange(on_change)
 	{

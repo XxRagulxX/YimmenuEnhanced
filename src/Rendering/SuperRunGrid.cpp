@@ -1,6 +1,6 @@
 #include "Rendering/SuperRunGrid.hpp"
 
-#include "Rendering/GridItemCommandFloat.hpp"
+#include "Rendering/GridItemCommandSliderFloat.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/Theme.hpp"
 #include "Util/Joaat.hpp"
@@ -23,8 +23,8 @@ namespace YimMenu::Rendering
 
 		if (watchCondition("superrun"_J))
 		{
-			items_draft.push_back(std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "moverateoverride"_J));
-			items_draft.push_back(std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "runsprintswimmultiplier"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandSliderFloat>(Theme::kContentWidth, kItemH, "moverateoverride"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandSliderFloat>(Theme::kContentWidth, kItemH, "runsprintswimmultiplier"_J));
 		}
 	}
 }

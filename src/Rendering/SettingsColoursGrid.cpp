@@ -1,7 +1,7 @@
 #include "Rendering/SettingsColoursGrid.hpp"
 
-#include "Rendering/GridItemCommandColor.hpp"
-#include "Rendering/GridItemCommandInt.hpp"
+#include "Rendering/GridItemCommandColourCustom.hpp"
+#include "Rendering/GridItemCommandSlider.hpp"
 #include "Rendering/Theme.hpp"
 #include "Util/Joaat.hpp"
 
@@ -24,7 +24,7 @@ namespace YimMenu::Rendering
 		// Primary Colour + its own nested Rainbow Mode row, same order
 		// real Stand's own CommandTabStand.cpp builds them in.
 		AddColorCommandRows(items_draft, Theme::kContentWidth, "primary"_J, "Primary Colour");
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "rainbow"_J, "Rainbow Mode"));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "rainbow"_J, "Rainbow Mode"));
 
 		AddColorCommandRows(items_draft, Theme::kContentWidth, "background"_J, "Background Colour");
 	}

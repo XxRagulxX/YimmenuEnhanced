@@ -1,11 +1,11 @@
 #include "Menu/Items.hpp"
-#include "Commands/ColorCommand.hpp"
+#include "Commands/CommandColourCustom.hpp"
 #include "Commands/Commands.hpp"
 
 namespace YimMenu
 {
 	ColorCommandItem::ColorCommandItem(joaat_t id, std::optional<std::string> labelOverride) :
-	    m_Command(Commands::GetCommand<ColorCommand>(id)),
+	    m_Command(Commands::GetCommand<CommandColourCustom>(id)),
 	    m_LabelOverride(labelOverride)
 	{
 	}

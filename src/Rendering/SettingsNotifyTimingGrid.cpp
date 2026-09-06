@@ -1,6 +1,6 @@
 #include "Rendering/SettingsNotifyTimingGrid.hpp"
 
-#include "Rendering/GridItemCommandInt.hpp"
+#include "Rendering/GridItemCommandSlider.hpp"
 #include "Rendering/Theme.hpp"
 #include "Util/Joaat.hpp"
 
@@ -20,10 +20,10 @@ namespace YimMenu::Rendering
 
 	void SettingsNotifyTimingGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "readspeed"_J, "Reading Speed (WPM)", 10));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "readstartdelay"_J, "Reading Start Delay (ms)", 10));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "notifyminduration"_J, "Min Duration (ms)", 100));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "notifymaxduration"_J, "Max Duration (ms)", 100));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "readspeed"_J, "Reading Speed (WPM)", 10));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "readstartdelay"_J, "Reading Start Delay (ms)", 10));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "notifyminduration"_J, "Min Duration (ms)", 100));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "notifymaxduration"_J, "Max Duration (ms)", 100));
 
 		// Real Stand's own "Show Sample Notification" (Small/Medium/
 		// Large) removed - the always-live preview toast (Notifications::

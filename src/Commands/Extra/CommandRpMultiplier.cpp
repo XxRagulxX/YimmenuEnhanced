@@ -1,10 +1,10 @@
 #include "Commands/LoopedCommand.hpp"
-#include "Commands/FloatCommand.hpp"
+#include "Commands/CommandSliderFloat.hpp"
 #include "Network/Tunables.hpp"
 
 namespace YimMenu::Features
 {
-	static FloatCommand _RpMultiplierInput{"rpmultiplierinput", "RP Multiplier Input", "RP Mulitplier (< 0 = 0 -> No RP)", std::nullopt, std::nullopt, 1};
+	static CommandSliderFloat _RpMultiplierInput{"rpmultiplierinput", "RP Multiplier Input", "RP Mulitplier (< 0 = 0 -> No RP)", std::nullopt, std::nullopt, 1};
 
 	class OverrideRPMultiplier : public LoopedCommand
 	{

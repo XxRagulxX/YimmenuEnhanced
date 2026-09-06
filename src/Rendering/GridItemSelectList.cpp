@@ -33,7 +33,7 @@ namespace YimMenu::Rendering
 		// Case-insensitive substring match - same "simplest interaction
 		// that still works" trade-off as everywhere else in this system
 		// without a real dropdown/fuzzy-match (see e.g.
-		// GridItemCommandList's cycling "<"/">" in place of one).
+		// GridItemCommandListSelect's cycling "<"/">" in place of one).
 		auto needle = m_SearchBuffer;
 		std::transform(needle.begin(), needle.end(), needle.begin(), [](unsigned char c) {
 			return static_cast<char>(std::tolower(c));

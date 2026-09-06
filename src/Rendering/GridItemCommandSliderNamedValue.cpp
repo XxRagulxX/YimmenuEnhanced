@@ -1,4 +1,4 @@
-#include "Rendering/GridItemCommandNamedValueSlider.hpp"
+#include "Rendering/GridItemCommandSliderNamedValue.hpp"
 
 #include "Commands/Commands.hpp"
 #include "Rendering/GridRenderer.hpp"
@@ -19,15 +19,15 @@ namespace YimMenu::Rendering
 		constexpr float kGap = 6.f;
 	}
 
-	GridItemCommandNamedValueSlider::GridItemCommandNamedValueSlider(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride, int step) :
+	GridItemCommandSliderNamedValue::GridItemCommandSliderNamedValue(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride, int step) :
 	    GridItem(GRIDITEM_INDIFFERENT, width, height),
-	    m_Command(Commands::GetCommand<StandWidgets::NamedValueSlider>(id)),
+	    m_Command(Commands::GetCommand<StandWidgets::CommandSliderNamedValue>(id)),
 	    m_LabelOverride(std::move(labelOverride)),
 	    m_Step(step)
 	{
 	}
 
-	const std::string& GridItemCommandNamedValueSlider::Label() const
+	const std::string& GridItemCommandSliderNamedValue::Label() const
 	{
 		static const std::string unknown = "Unknown!";
 		if (!m_Command)
@@ -36,7 +36,7 @@ namespace YimMenu::Rendering
 		return m_LabelOverride.has_value() ? *m_LabelOverride : m_Command->GetLabel();
 	}
 
-	GridItemCommandNamedValueSlider::Layout GridItemCommandNamedValueSlider::ComputeLayout() const
+	GridItemCommandSliderNamedValue::Layout GridItemCommandSliderNamedValue::ComputeLayout() const
 	{
 		Layout layout;
 		layout.buttonSize = kButtonSize;
@@ -47,13 +47,13 @@ namespace YimMenu::Rendering
 		return layout;
 	}
 
-	void GridItemCommandNamedValueSlider::draw()
+	void GridItemCommandSliderNamedValue::draw()
 	{
 		if (isKeyboardFocused())
 			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
 	}
 
-	void GridItemCommandNamedValueSlider::drawText()
+	void GridItemCommandSliderNamedValue::drawText()
 	{
 		// Every centring offset below is clamped to 0 - see the identical
 		// comment in GridItemToggle.cpp.
@@ -63,8 +63,8 @@ namespace YimMenu::Rendering
 		const auto labelSize = GridRenderer::MeasureText(label.c_str());
 		GridRenderer::DrawText(x + 5.f, y + std::max(0.f, (height - labelSize.y) * 0.5f), label.c_str(), Theme::kText);
 
-		// The one difference from GridItemCommandInt: GetDisplayText()
-		// instead of a raw std::to_string() - see NamedValueSlider.hpp's
+		// The one difference from GridItemCommandSlider: GetDisplayText()
+		// instead of a raw std::to_string() - see CommandSliderNamedValue.hpp's
 		// own doc comment.
 		const auto valueStr = m_Command ? m_Command->GetDisplayText() : std::string("?");
 		const auto valueSize = GridRenderer::MeasureText(valueStr.c_str());
@@ -86,7 +86,7 @@ namespace YimMenu::Rendering
 		    Theme::kText);
 	}
 
-	void GridItemCommandNamedValueSlider::onClick(int16_t cursorX, int16_t)
+	void GridItemCommandSliderNamedValue::onClick(int16_t cursorX, int16_t)
 	{
 		if (!m_Command)
 			return;
@@ -101,7 +101,7 @@ namespace YimMenu::Rendering
 			OpenCommandBox();
 	}
 
-	bool GridItemCommandNamedValueSlider::onArrow(int delta)
+	bool GridItemCommandSliderNamedValue::onArrow(int delta)
 	{
 		if (!m_Command)
 			return false;
@@ -110,12 +110,12 @@ namespace YimMenu::Rendering
 		return true;
 	}
 
-	void GridItemCommandNamedValueSlider::activate()
+	void GridItemCommandSliderNamedValue::activate()
 	{
 		OpenCommandBox();
 	}
 
-	void GridItemCommandNamedValueSlider::Step(int direction)
+	void GridItemCommandSliderNamedValue::Step(int direction)
 	{
 		auto value = m_Command->GetState() + direction * m_Step;
 
@@ -127,7 +127,7 @@ namespace YimMenu::Rendering
 		m_Command->SetState(value);
 	}
 
-	void GridItemCommandNamedValueSlider::OpenCommandBox()
+	void GridItemCommandSliderNamedValue::OpenCommandBox()
 	{
 		if (!m_Command)
 			return;

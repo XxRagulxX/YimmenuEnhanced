@@ -1,5 +1,5 @@
 #include "Core/DetourHook.hpp"
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Core/Hooks.hpp"
 #include "Game/CDynamicEntity.hpp"
 #include "Ped/Ped.hpp"
@@ -8,7 +8,7 @@
 
 namespace YimMenu::Hooks
 {
-	static BoolCommand _AimbotReleaseDeadPed{"aimbotreleasedeadped", "Release Dead Target", "Releases the lock-on to the target after they are dead"};
+	static CommandToggle _AimbotReleaseDeadPed{"aimbotreleasedeadped", "Release Dead Target", "Releases the lock-on to the target after they are dead"};
 
 	bool Misc::AssistedAimShouldReleaseEntity(__int64 a1)
 	{

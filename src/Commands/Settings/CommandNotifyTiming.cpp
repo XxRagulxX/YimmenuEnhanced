@@ -1,4 +1,4 @@
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "Rendering/NotifySettings.hpp"
 
 #include <algorithm>
@@ -10,11 +10,11 @@ namespace YimMenu::Features
 	// Online/CommandListNotifySettings.cpp on origin/stand-reference) -
 	// see Notifications.cpp's own EstimateReadingTimeMs() for the formula
 	// this feeds.
-	class CommandNotifyReadSpeed : public IntCommand
+	class CommandNotifyReadSpeed : public CommandSlider
 	{
 	public:
 		CommandNotifyReadSpeed() :
-		    IntCommand("readspeed", "Reading Speed (WPM)", "How many words per minute a notification's own display duration assumes you read at.", 0, 1000, 250)
+		    CommandSlider("readspeed", "Reading Speed (WPM)", "How many words per minute a notification's own display duration assumes you read at.", 0, 1000, 250)
 		{
 		}
 
@@ -26,7 +26,7 @@ namespace YimMenu::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			IntCommand::LoadState(value);
+			CommandSlider::LoadState(value);
 			Sync();
 		}
 
@@ -39,11 +39,11 @@ namespace YimMenu::Features
 
 	static CommandNotifyReadSpeed _NotifyReadSpeed{};
 
-	class CommandNotifyReadStartDelay : public IntCommand
+	class CommandNotifyReadStartDelay : public CommandSlider
 	{
 	public:
 		CommandNotifyReadStartDelay() :
-		    IntCommand("readstartdelay", "Reading Start Delay (ms)", "A fixed delay added to every notification's own computed reading time, before it starts counting down.", 0, 1000, 500)
+		    CommandSlider("readstartdelay", "Reading Start Delay (ms)", "A fixed delay added to every notification's own computed reading time, before it starts counting down.", 0, 1000, 500)
 		{
 		}
 
@@ -55,7 +55,7 @@ namespace YimMenu::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			IntCommand::LoadState(value);
+			CommandSlider::LoadState(value);
 			Sync();
 		}
 
@@ -68,11 +68,11 @@ namespace YimMenu::Features
 
 	static CommandNotifyReadStartDelay _NotifyReadStartDelay{};
 
-	class CommandNotifyMinDuration : public IntCommand
+	class CommandNotifyMinDuration : public CommandSlider
 	{
 	public:
 		CommandNotifyMinDuration() :
-		    IntCommand("notifyminduration", "Min Duration (ms)", "A notification's own computed reading time is never shown for less than this long.", 0, 60000, 2000)
+		    CommandSlider("notifyminduration", "Min Duration (ms)", "A notification's own computed reading time is never shown for less than this long.", 0, 60000, 2000)
 		{
 		}
 
@@ -84,7 +84,7 @@ namespace YimMenu::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			IntCommand::LoadState(value);
+			CommandSlider::LoadState(value);
 			Sync();
 		}
 
@@ -97,11 +97,11 @@ namespace YimMenu::Features
 
 	static CommandNotifyMinDuration _NotifyMinDuration{};
 
-	class CommandNotifyMaxDuration : public IntCommand
+	class CommandNotifyMaxDuration : public CommandSlider
 	{
 	public:
 		CommandNotifyMaxDuration() :
-		    IntCommand("notifymaxduration", "Max Duration (ms)", "A notification's own computed reading time is never shown for longer than this.", 0, 60000, 10000)
+		    CommandSlider("notifymaxduration", "Max Duration (ms)", "A notification's own computed reading time is never shown for longer than this.", 0, 60000, 10000)
 		{
 		}
 
@@ -113,7 +113,7 @@ namespace YimMenu::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			IntCommand::LoadState(value);
+			CommandSlider::LoadState(value);
 			Sync();
 		}
 

@@ -1,7 +1,7 @@
 #include "Commands/Vehicle/CommandAutoDriveShared.hpp"
 #include "Commands/Vehicle/CommandAutoDriveHudTelemetry.hpp"
 
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/Commands.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Rendering/Notifications.hpp"
@@ -318,7 +318,7 @@ namespace YimMenu::Features
 
 		virtual void OnEnable() override
 		{
-			auto playerAutoDrive = Commands::GetCommand<BoolCommand>("autodrive"_J);
+			auto playerAutoDrive = Commands::GetCommand<CommandToggle>("autodrive"_J);
 			if (AutoDriveInternal::Coordinator::GetOwner() == AutoDriveInternal::Owner::None
 			    && playerAutoDrive
 			    && playerAutoDrive->GetState())

@@ -583,7 +583,7 @@ namespace YimMenu::Rendering
 		if (m_ColorType == 9)
 		{
 			// Custom RGB - discrete steppers, same "no gradient/shader
-			// support" tradeoff as GridItemCommandColor's own class
+			// support" tradeoff as GridItemCommandColourCustom's own class
 			// comment. Resolves which owned_mods R/G/B keys this edit
 			// targets - fixes a bug in the original (its own equivalent
 			// switch used color_to_change values 2/3, which its category

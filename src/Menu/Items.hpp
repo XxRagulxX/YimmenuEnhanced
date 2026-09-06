@@ -4,15 +4,15 @@
 
 namespace YimMenu
 {
-	class BoolCommand;
+	class CommandToggle;
 	class PlayerCommand;
-	class ListCommand;
-	class IntCommand;
-	class FloatCommand;
-	class Vector3Command;
+	class CommandListSelect;
+	class CommandSlider;
+	class CommandSliderFloat;
+	class CommandPosition3d;
 	class Command;
-	class ColorCommand;
-	class StringCommand;
+	class CommandColourCustom;
+	class CommandInput;
 
 	class Button : public UIItem
 	{
@@ -56,7 +56,7 @@ namespace YimMenu
 		void Draw() override;
 
 	private:
-		BoolCommand* m_Command;
+		CommandToggle* m_Command;
 		std::optional<std::string> m_LabelOverride;
 	};
 
@@ -68,7 +68,7 @@ namespace YimMenu
 
 	private:
 		bool m_useSlider;
-		IntCommand* m_Command;
+		CommandSlider* m_Command;
 		std::optional<std::string> m_LabelOverride;
 	};
 
@@ -80,7 +80,7 @@ namespace YimMenu
 
 	private:
 		bool m_useSlider;
-		FloatCommand* m_Command;
+		CommandSliderFloat* m_Command;
 		std::optional<std::string> m_LabelOverride;
 	};
 
@@ -91,7 +91,7 @@ namespace YimMenu
 		void Draw() override;
 
 	private:
-		Vector3Command* m_Command;
+		CommandPosition3d* m_Command;
 		std::optional<std::string> m_LabelOverride;
 	};
 
@@ -102,7 +102,7 @@ namespace YimMenu
 		void Draw() override;
 
 	private:
-		ListCommand* m_Command;
+		CommandListSelect* m_Command;
 		std::optional<std::string> m_LabelOverride;
 	};
 
@@ -115,7 +115,7 @@ namespace YimMenu
 		bool CanDraw() override;
 
 	private:
-		BoolCommand* m_Condition;
+		CommandToggle* m_Condition;
 		std::function<bool()> m_ConditionFn;
 		std::shared_ptr<UIItem> m_Item;
 		bool m_Negate;
@@ -178,7 +178,7 @@ namespace YimMenu
 		void Draw() override;
 
 	private:
-		ColorCommand* m_Command;
+		CommandColourCustom* m_Command;
 		std::optional<std::string> m_LabelOverride;
 	};
 
@@ -189,7 +189,7 @@ namespace YimMenu
 		void Draw() override;
 
 	private:
-		StringCommand* m_Command;
+		CommandInput* m_Command;
 		std::optional<std::string> m_LabelOverride;
 	};
 

@@ -1,11 +1,11 @@
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Scripting/ScriptPatches.hpp"
 
 namespace YimMenu::Features
 {
-	class DespawnBypass : public BoolCommand
+	class DespawnBypass : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		ScriptPatch m_ShopPatch{};
 

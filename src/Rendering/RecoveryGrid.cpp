@@ -1,6 +1,6 @@
 #include "Rendering/RecoveryGrid.hpp"
 
-#include "Rendering/GridItemCommandFloat.hpp"
+#include "Rendering/GridItemCommandSliderFloat.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/GridItemText.hpp"
@@ -73,7 +73,7 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "unlockgtaplus"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "overriderpmultiplier"_J));
 		if (watchCondition("overriderpmultiplier"_J))
-			items_draft.push_back(std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, "rpmultiplierinput"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandSliderFloat>(Theme::kContentWidth, kItemH, "rpmultiplierinput"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "freechangeappearance"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "nochangeappearancecooldown"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "allowgenderchange"_J));

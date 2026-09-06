@@ -8,7 +8,7 @@ namespace YimMenu::Rendering
 {
 	// Same on/off row GridItemCommandToggle draws, bound to an arbitrary
 	// live bool via getter/setter callbacks instead of a real
-	// YimMenu::BoolCommand looked up by joaat hash - for state that
+	// YimMenu::CommandToggle looked up by joaat hash - for state that
 	// isn't a registered Command at all (a plain struct field on some
 	// other live object, e.g. SavedPlayerData::m_TrackPlayer), which
 	// GridItemCommandToggle has no way to reach. Reads the getter every

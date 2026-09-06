@@ -1,13 +1,13 @@
-#include "Commands/BoolCommand.hpp"
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "Commands/PlayerCommand.hpp"
 #include "Network/ScriptEvent.hpp"
 #include "Network/GSBD_FM_Events.hpp"
 
 namespace YimMenu::Features
 {
-	static IntCommand _BountyAmount{"bountyamount", "Bounty Amount", "The bounty amount to set", 1, 10000, 9000};
-	static BoolCommand _AnonymousBounty{"anonymousbounty", "Anonymous Bounty", "Sets the bounty as anonymous"};
+	static CommandSlider _BountyAmount{"bountyamount", "Bounty Amount", "The bounty amount to set", 1, 10000, 9000};
+	static CommandToggle _AnonymousBounty{"anonymousbounty", "Anonymous Bounty", "Sets the bounty as anonymous"};
 
 	class SetBounty : public PlayerCommand
 	{

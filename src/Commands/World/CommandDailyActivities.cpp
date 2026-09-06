@@ -1,6 +1,6 @@
 #include "Commands/World/CommandDailyActivities.hpp"
-#include "Commands/ListCommand.hpp"
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandListSelect.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Scripting/ScriptMgr.hpp"
 #include "Rendering/Notifications.hpp"
 #include "World/Self.hpp"
@@ -30,23 +30,23 @@
 
 namespace YimMenu::Features
 {
-	static ListCommand hiddenCacheIndex = {"hiddencacheindex", "Hidden Cache", "Selected Hidden Cache", {{0, "Hidden Cache 1"}, {1, "Hidden Cache 2"}, {2, "Hidden Cache 3"}, {3, "Hidden Cache 4"}, {4, "Hidden Cache 5"}, {5, "Hidden Cache 6"}, {6, "Hidden Cache 7"}, {7, "Hidden Cache 8"}, {8, "Hidden Cache 9"}, {9, "Hidden Cache 10"}}};
+	static CommandListSelect hiddenCacheIndex = {"hiddencacheindex", "Hidden Cache", "Selected Hidden Cache", {{0, "Hidden Cache 1"}, {1, "Hidden Cache 2"}, {2, "Hidden Cache 3"}, {3, "Hidden Cache 4"}, {4, "Hidden Cache 5"}, {5, "Hidden Cache 6"}, {6, "Hidden Cache 7"}, {7, "Hidden Cache 8"}, {8, "Hidden Cache 9"}, {9, "Hidden Cache 10"}}};
 
-	static ListCommand treasureChestIndex = {"treasurechestindex", "Treasure Chest", "Selected Treasure Chest", {{0, "Treasure Chest 1"}, {1, "Treasure Chest 2"}}};
+	static CommandListSelect treasureChestIndex = {"treasurechestindex", "Treasure Chest", "Selected Treasure Chest", {{0, "Treasure Chest 1"}, {1, "Treasure Chest 2"}}};
 
-	static ListCommand buriedStashIndex = {"buriedstashindex", "Buried Stash", "Selected Buried Stash", {{0, "Buried Stash 1"}, {1, "Buried Stash 2"}}};
+	static CommandListSelect buriedStashIndex = {"buriedstashindex", "Buried Stash", "Selected Buried Stash", {{0, "Buried Stash 1"}, {1, "Buried Stash 2"}}};
 
-	static ListCommand skydiveIndex = {"skydiveindex", "Skydive", "Selected Skydive", {{0, "Skydive 1"}, {1, "Skydive 2"}, {2, "Skydive 3"}, {3, "Skydive 4"}, {4, "Skydive 5"}, {5, "Skydive 6"}, {6, "Skydive 7"}, {7, "Skydive 8"}, {8, "Skydive 9"}, {9, "Skydive 10"}}};
+	static CommandListSelect skydiveIndex = {"skydiveindex", "Skydive", "Selected Skydive", {{0, "Skydive 1"}, {1, "Skydive 2"}, {2, "Skydive 3"}, {3, "Skydive 4"}, {4, "Skydive 5"}, {5, "Skydive 6"}, {6, "Skydive 7"}, {7, "Skydive 8"}, {8, "Skydive 9"}, {9, "Skydive 10"}}};
 
-	static ListCommand timeTrialIndex = {"timetrialindex", "Time Trial", "Selected Time Trial", {{0, "Standard Time Trial"}, {1, "RC Bandito Time Trial"}, {2, "Junk Energy Bike Time Trial"}}};
+	static CommandListSelect timeTrialIndex = {"timetrialindex", "Time Trial", "Selected Time Trial", {{0, "Standard Time Trial"}, {1, "RC Bandito Time Trial"}, {2, "Junk Energy Bike Time Trial"}}};
 
-	static ListCommand streetDealerIndex = {"streetdealerindex", "Street Dealer", "Selected Street Dealer", {{0, "Street Dealer 1"}, {1, "Street Dealer 2"}, {2, "Street Dealer 3"}}};
+	static CommandListSelect streetDealerIndex = {"streetdealerindex", "Street Dealer", "Selected Street Dealer", {{0, "Street Dealer 1"}, {1, "Street Dealer 2"}, {2, "Street Dealer 3"}}};
 
-	static ListCommand lsTagIndex = {"lstagindex", "LS Tag", "Selected LS Tag", {{0, "LS Tag 1"}, {1, "LS Tag 2"}, {2, "LS Tag 3"}, {3, "LS Tag 4"}, {4, "LS Tag 5"}}};
+	static CommandListSelect lsTagIndex = {"lstagindex", "LS Tag", "Selected LS Tag", {{0, "LS Tag 1"}, {1, "LS Tag 2"}, {2, "LS Tag 3"}, {3, "LS Tag 4"}, {4, "LS Tag 5"}}};
 
-	static ListCommand animalIndex = {"animalindex", "Animal", "Selected Animal", {{0, "Animal 1"}, {1, "Animal 2"}, {2, "Animal 3"}}};
+	static CommandListSelect animalIndex = {"animalindex", "Animal", "Selected Animal", {{0, "Animal 1"}, {1, "Animal 2"}, {2, "Animal 3"}}};
 
-	static ListCommand productIndex = {"productindex", "Product", "Selected Product", {{0, "Product 1"}, {1, "Product 2"}, {2, "Product 3"}, {3, "Product 4"}, {4, "Product 5"}, {5, "Product 6"}, {6, "Product 7"}, {7, "Product 8"}, {8, "Product 9"}, {9, "Product 10"}}};
+	static CommandListSelect productIndex = {"productindex", "Product", "Selected Product", {{0, "Product 1"}, {1, "Product 2"}, {2, "Product 3"}, {3, "Product 4"}, {4, "Product 5"}, {5, "Product 6"}, {6, "Product 7"}, {7, "Product 8"}, {8, "Product 9"}, {9, "Product 10"}}};
 
 	static constexpr auto wildlifePhotographyAnimalHashes = std::to_array({"A_C_Boar"_J, "A_C_Cat_01"_J, "A_C_Cow"_J, "A_C_Coyote"_J, "A_C_Deer"_J, "A_C_Husky"_J, "A_C_MtLion"_J, "A_C_Pig"_J, "A_C_Poodle"_J, "A_C_Pug"_J, "A_C_Rabbit_01"_J, "A_C_Retriever"_J, "A_C_Rottweiler"_J, "A_C_shepherd"_J, "A_C_Westy"_J, "A_C_Chickenhawk"_J, "A_C_Cormorant"_J, "A_C_Crow"_J, "A_C_Hen"_J, "A_C_Seagull"_J});
 
@@ -364,9 +364,9 @@ namespace YimMenu::Features
 		}
 	};
 
-	class EnableTreasureChestInLS : public BoolCommand
+	class EnableTreasureChestInLS : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		ScriptPatch m_EnableTreasureChestInLSPatch{};
 
@@ -468,9 +468,9 @@ namespace YimMenu::Features
 		}
 	};
 
-	class EnableBuriedStashInLS : public BoolCommand
+	class EnableBuriedStashInLS : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		ScriptPatch m_EnableBuriedStashInLSPatch{};
 

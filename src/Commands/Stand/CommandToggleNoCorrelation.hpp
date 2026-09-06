@@ -7,7 +7,7 @@
 // its own Lang database. None of that exists here. The actual toggle
 // logic - onClick() flips m_on then dispatches onEnable()/onDisable(),
 // exactly the same OnEnable()/OnDisable() split this project's own
-// BoolCommand already uses - is ported faithfully, since that's the
+// CommandToggle already uses - is ported faithfully, since that's the
 // part that matters.
 namespace Stand
 {

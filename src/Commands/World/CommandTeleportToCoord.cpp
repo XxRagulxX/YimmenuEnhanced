@@ -1,10 +1,10 @@
 #include "World/Self.hpp"
 #include "Commands/PlayerCommand.hpp"
-#include "Commands/Vector3Command.hpp"
+#include "Commands/CommandPosition3d.hpp"
 
 namespace YimMenu::Features
 {
-	static Vector3Command _PlayerTeleportCoordinate{"playertpcoord", "Player Teleport Coords", "The coordinates to teleport the player to"};
+	static CommandPosition3d _PlayerTeleportCoordinate{"playertpcoord", "Player Teleport Coords", "The coordinates to teleport the player to"};
 
 	class TeleportToCoord : public PlayerCommand
 	{

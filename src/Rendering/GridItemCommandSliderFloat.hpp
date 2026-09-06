@@ -1,5 +1,5 @@
 #pragma once
-#include "Commands/FloatCommand.hpp"
+#include "Commands/CommandSliderFloat.hpp"
 #include "Rendering/GridItem.hpp"
 #include "Util/Joaat.hpp"
 
@@ -11,14 +11,14 @@ namespace YimMenu::Rendering
 	// A label + current float value (shown to 2 decimal places) + "-"/
 	// "+" buttons - the Grid equivalent of FloatCommandItem (src/
 	// FloatCommandItem.cpp) for the ImGui menu. See the identical class
-	// comment on GridItemCommandInt for every trade-off here (no text
+	// comment on GridItemCommandSlider for every trade-off here (no text
 	// entry, no slider bar - stepping by `step` is the whole
 	// interaction) and why it's laid out the same way (right-anchored
 	// value + buttons).
-	class GridItemCommandFloat : public GridItem
+	class GridItemCommandSliderFloat : public GridItem
 	{
 	public:
-		GridItemCommandFloat(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride = std::nullopt, float step = 0.1f);
+		GridItemCommandSliderFloat(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride = std::nullopt, float step = 0.1f);
 
 		void draw() override;
 		void drawText() override;
@@ -58,7 +58,7 @@ namespace YimMenu::Rendering
 
 		const std::string& Label() const;
 
-		FloatCommand* m_Command;
+		CommandSliderFloat* m_Command;
 		std::optional<std::string> m_LabelOverride;
 		float m_Step;
 	};

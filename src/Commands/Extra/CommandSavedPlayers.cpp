@@ -1,7 +1,7 @@
 #include "Commands/Extra/CommandSavedPlayers.hpp"
 #include <fstream>
 #include "Scripting/ScriptMgr.hpp"
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/Command.hpp"
 #include "Core/FileMgr.hpp"
 #include "Rendering/Notifications.hpp"
@@ -13,15 +13,15 @@
 
 namespace YimMenu::Features
 {
-	static BoolCommand _AutoUpdateEnabled{"playerdbautoupdate", "Player Database Auto Update", "Automatically updates tracked player status every 3 minutes. This is required for tracking notifications to work", true};
-	static BoolCommand _PlayerTracking{"playerdbnotify", "Tracking Notifications", "Notifies you when the state of a player you track changes", true};
-	static BoolCommand _NotifyWhenJoinable{"playerdbnotifywhenjoinable", "Notify When Joinable", "Notifies you when a tracked player becomes joinable", true};
-	static BoolCommand _NotifyWhenUnjoinable{"playerdbnotifywhenunjoinable", "Notify When Unjoinable", "Notifies you when a tracked player becomes unjoinable", true};
-	static BoolCommand _NotifyWhenOnline{"playerdbnotifywhenonline", "Notify When Online", "Notifies you when a tracked player goes online", true};
-	static BoolCommand _NotifyWhenOffline{"playerdbnotifywhenoffline", "Notify When Offline", "Notifies you when a tracked player goes offline", true};
-	static BoolCommand _NotifyOnSessionTypeChange{"playerdbnotifyonseschange", "Notify On Session Type Change", "Notifies you when a tracked player's session type changes"};
-	static BoolCommand _NotifyOnMissionChange{"playerdbnotifyonmischange", "Notify On Mission Change", "Notifies you when a tracked player joins or leaves a mission"};
-	static BoolCommand _NotifyOnTransitionChange{"playerdbnotifyonjoblobby", "Notify On Job Lobby Change", "Notifies you when a tracked player joins or leaves a job lobby"};
+	static CommandToggle _AutoUpdateEnabled{"playerdbautoupdate", "Player Database Auto Update", "Automatically updates tracked player status every 3 minutes. This is required for tracking notifications to work", true};
+	static CommandToggle _PlayerTracking{"playerdbnotify", "Tracking Notifications", "Notifies you when the state of a player you track changes", true};
+	static CommandToggle _NotifyWhenJoinable{"playerdbnotifywhenjoinable", "Notify When Joinable", "Notifies you when a tracked player becomes joinable", true};
+	static CommandToggle _NotifyWhenUnjoinable{"playerdbnotifywhenunjoinable", "Notify When Unjoinable", "Notifies you when a tracked player becomes unjoinable", true};
+	static CommandToggle _NotifyWhenOnline{"playerdbnotifywhenonline", "Notify When Online", "Notifies you when a tracked player goes online", true};
+	static CommandToggle _NotifyWhenOffline{"playerdbnotifywhenoffline", "Notify When Offline", "Notifies you when a tracked player goes offline", true};
+	static CommandToggle _NotifyOnSessionTypeChange{"playerdbnotifyonseschange", "Notify On Session Type Change", "Notifies you when a tracked player's session type changes"};
+	static CommandToggle _NotifyOnMissionChange{"playerdbnotifyonmischange", "Notify On Mission Change", "Notifies you when a tracked player joins or leaves a mission"};
+	static CommandToggle _NotifyOnTransitionChange{"playerdbnotifyonjoblobby", "Notify On Job Lobby Change", "Notifies you when a tracked player joins or leaves a job lobby"};
 
 	class UpdateSavedPlayersNow : public Command
 	{

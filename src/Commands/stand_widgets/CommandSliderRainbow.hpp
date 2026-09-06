@@ -1,5 +1,5 @@
 #pragma once
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Util/get_current_time_millis.hpp"
 
@@ -18,18 +18,18 @@ namespace YimMenu::StandWidgets
 	// on what it's driving.
 	//
 	// Needs its own continuous per-tick timing (the same "keeps
-	// re-applying every tick, not just on change" gap TogglePointer/
-	// SliderPointer's sibling files already disclose elsewhere), solved
+	// re-applying every tick, not just on change" gap CommandTogglePointer/
+	// CommandSliderPointer's sibling files already disclose elsewhere), solved
 	// the same safe way as CommandWalkSpeed.cpp/CommandSwimSpeed.cpp's
 	// own hidden always-on LoopedCommand - except owned directly by this
 	// class (a private nested Ticker member) rather than hand-written at
 	// each use site, since unlike Walk Speed/Swim Speed this widget is
 	// meant to be reusable.
-	class SliderRainbow : public IntCommand
+	class CommandSliderRainbow : public CommandSlider
 	{
 	public:
-		SliderRainbow(std::string name, std::string label, std::string description, IntCommand* target) :
-		    IntCommand(name, label, description, 0, 1000, 0),
+		CommandSliderRainbow(std::string name, std::string label, std::string description, CommandSlider* target) :
+		    CommandSlider(name, label, description, 0, 1000, 0),
 		    m_Target(target),
 		    m_Ticker(name + "_tick", label + " Ticker", "Internal - always on, drives " + label + " over time", this)
 		{
@@ -82,7 +82,7 @@ namespace YimMenu::StandWidgets
 		class Ticker : public LoopedCommand
 		{
 		public:
-			Ticker(std::string name, std::string label, std::string description, SliderRainbow* owner) :
+			Ticker(std::string name, std::string label, std::string description, CommandSliderRainbow* owner) :
 			    LoopedCommand(std::move(name), std::move(label), std::move(description)),
 			    m_Owner(owner)
 			{
@@ -101,10 +101,10 @@ namespace YimMenu::StandWidgets
 			}
 
 		private:
-			SliderRainbow* m_Owner;
+			CommandSliderRainbow* m_Owner;
 		};
 
-		IntCommand* m_Target;
+		CommandSlider* m_Target;
 		time_t m_LastTick = 0;
 		time_t m_MsAccumulated = 0;
 		Ticker m_Ticker;

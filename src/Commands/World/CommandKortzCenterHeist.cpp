@@ -1,6 +1,6 @@
 #include "Commands/Command.hpp"
-#include "Commands/BoolCommand.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "World/Stats.hpp"
 #include "Scripting/ScriptGlobal.hpp"
 #include "Scripting/ScriptLocal.hpp"
@@ -42,34 +42,34 @@ namespace YimMenu::Features
 		    {26, "Mi O Melee"}
 		};
 
-		static ListCommand _KortzCenterPrimaryTarget{"kortzcenterheistprimarytarget", "Primary Target", "Primary target", kortzCenterTargets, 0};
+		static CommandListSelect _KortzCenterPrimaryTarget{"kortzcenterheistprimarytarget", "Primary Target", "Primary target", kortzCenterTargets, 0};
 
-		static BoolCommand _KortzCenterGuardRoutes{"kortzcenterheistguardroutes", "Guard Routes", "Guard routes purchased", true};
-		static BoolCommand _KortzCenterGlassCutter{"kortzcenterheistglasscutter", "Glass Cutter", "Glass cutter purchased", true};
-		static BoolCommand _KortzCenterPowerDrills{"kortzcenterheistpowerdrills", "Power Drills", "Power drills purchased", true};
-		static BoolCommand _KortzCenterEMPCharges{"kortzcenterheistempcharges", "EMP Charges", "EMP charges purchased", true};
-		static BoolCommand _KortzCenterScopeOut{"kortzcenterheistscopeout", "Scope Out", "Scope out Kortz Center", true};
-		static BoolCommand _KortzCenterAlphaMail{"kortzcenterheistalphamail", "Alpha Mail Disguise", "Alpha mail disguise", true};
-		static BoolCommand _KortzCenterHazmat{"kortzcenterheisthazmat", "Hazmat Suit", "Hazmat suit", true};
-		static BoolCommand _KortzCenterStaffKeycard{"kortzcenterheiststaffkeycard", "Staff Key Card", "Staff key card", true};
-		static BoolCommand _KortzCenterTacticalEquip{"kortzcenterheisttacticalequip", "Tactical Equipment", "Tactical equipment", true};
-		static BoolCommand _KortzCenterHackingDevice{"kortzcenterheisthackingdevice", "Hacking Device", "Hacking device", true};
-		static BoolCommand _KortzCenterAccessCode{"kortzcenterheistaccesscode", "Access Code", "Access code", true};
-		static BoolCommand _KortzCenterUnmarkedWeapons{"kortzcenterheistunmarkedweapons", "Unmarked Weapons", "Unmarked weapons", true};
-		static BoolCommand _KortzCenterCaracara{"kortzcenterheistcaracara", "Armored Caracara", "Armored Caracara", true};
-		static BoolCommand _KortzCenterAnnihilator{"kortzcenterheistannihilator", "Annihilator Stealth", "Annihilator stealth", true};
-		static BoolCommand _KortzCenterManchez{"kortzcenterheistmanchez", "Manchez", "Manchez", true};
-		static BoolCommand _KortzCenterPrepEMP{"kortzcenterheistprepemp", "EMP Charges (Prep)", "EMP charges prep", true};
-		static BoolCommand _KortzCenterGuardShipments{"kortzcenterheistguardshipments", "Guard Shipments", "Guard shipments", true};
-		static BoolCommand _KortzCenterGuardRoutesPrep{"kortzcenterheistguardroutesprep", "Guard Routes (Prep)", "Guard routes prep", true};
-		static BoolCommand _KortzCenterGlassCutterPrep{"kortzcenterheistglasscutterprep", "Glass Cutter (Prep)", "Glass cutter prep", true};
-		static BoolCommand _KortzCenterPowerDrillsPrep{"kortzcenterheistpowerdrillsprep", "Power Drills (Prep)", "Power drills prep", true};
-		static BoolCommand _KortzCenterEMPChargesPrep{"kortzcenterheistempchargesprep", "EMP Charges 2 (Prep)", "EMP charges prep", true};
-		static BoolCommand _KortzCenterCaracaraPrep{"kortzcenterheistcaracaraprep", "Caracara (Prep)", "Armored Caracara prep", true};
-		static BoolCommand _KortzCenterAnnihilatorPrep{"kortzcenterheistannihilatorprep", "Annihilator (Prep)", "Annihilator stealth prep", true};
-		static BoolCommand _KortzCenterManchezPrep{"kortzcenterheistmanchezprep", "Manchez (Prep)", "Manchez prep", true};
-		static BoolCommand _KortzCenterScopeSecondary{"kortzcenterheistscopesecondary", "Secondary Targets", "Scope secondary targets", true};
-		static BoolCommand _KortzCenterScopePOI{"kortzcenterheistscopepoi", "Points of Interest", "Scope points of interest", true};
+		static CommandToggle _KortzCenterGuardRoutes{"kortzcenterheistguardroutes", "Guard Routes", "Guard routes purchased", true};
+		static CommandToggle _KortzCenterGlassCutter{"kortzcenterheistglasscutter", "Glass Cutter", "Glass cutter purchased", true};
+		static CommandToggle _KortzCenterPowerDrills{"kortzcenterheistpowerdrills", "Power Drills", "Power drills purchased", true};
+		static CommandToggle _KortzCenterEMPCharges{"kortzcenterheistempcharges", "EMP Charges", "EMP charges purchased", true};
+		static CommandToggle _KortzCenterScopeOut{"kortzcenterheistscopeout", "Scope Out", "Scope out Kortz Center", true};
+		static CommandToggle _KortzCenterAlphaMail{"kortzcenterheistalphamail", "Alpha Mail Disguise", "Alpha mail disguise", true};
+		static CommandToggle _KortzCenterHazmat{"kortzcenterheisthazmat", "Hazmat Suit", "Hazmat suit", true};
+		static CommandToggle _KortzCenterStaffKeycard{"kortzcenterheiststaffkeycard", "Staff Key Card", "Staff key card", true};
+		static CommandToggle _KortzCenterTacticalEquip{"kortzcenterheisttacticalequip", "Tactical Equipment", "Tactical equipment", true};
+		static CommandToggle _KortzCenterHackingDevice{"kortzcenterheisthackingdevice", "Hacking Device", "Hacking device", true};
+		static CommandToggle _KortzCenterAccessCode{"kortzcenterheistaccesscode", "Access Code", "Access code", true};
+		static CommandToggle _KortzCenterUnmarkedWeapons{"kortzcenterheistunmarkedweapons", "Unmarked Weapons", "Unmarked weapons", true};
+		static CommandToggle _KortzCenterCaracara{"kortzcenterheistcaracara", "Armored Caracara", "Armored Caracara", true};
+		static CommandToggle _KortzCenterAnnihilator{"kortzcenterheistannihilator", "Annihilator Stealth", "Annihilator stealth", true};
+		static CommandToggle _KortzCenterManchez{"kortzcenterheistmanchez", "Manchez", "Manchez", true};
+		static CommandToggle _KortzCenterPrepEMP{"kortzcenterheistprepemp", "EMP Charges (Prep)", "EMP charges prep", true};
+		static CommandToggle _KortzCenterGuardShipments{"kortzcenterheistguardshipments", "Guard Shipments", "Guard shipments", true};
+		static CommandToggle _KortzCenterGuardRoutesPrep{"kortzcenterheistguardroutesprep", "Guard Routes (Prep)", "Guard routes prep", true};
+		static CommandToggle _KortzCenterGlassCutterPrep{"kortzcenterheistglasscutterprep", "Glass Cutter (Prep)", "Glass cutter prep", true};
+		static CommandToggle _KortzCenterPowerDrillsPrep{"kortzcenterheistpowerdrillsprep", "Power Drills (Prep)", "Power drills prep", true};
+		static CommandToggle _KortzCenterEMPChargesPrep{"kortzcenterheistempchargesprep", "EMP Charges 2 (Prep)", "EMP charges prep", true};
+		static CommandToggle _KortzCenterCaracaraPrep{"kortzcenterheistcaracaraprep", "Caracara (Prep)", "Armored Caracara prep", true};
+		static CommandToggle _KortzCenterAnnihilatorPrep{"kortzcenterheistannihilatorprep", "Annihilator (Prep)", "Annihilator stealth prep", true};
+		static CommandToggle _KortzCenterManchezPrep{"kortzcenterheistmanchezprep", "Manchez (Prep)", "Manchez prep", true};
+		static CommandToggle _KortzCenterScopeSecondary{"kortzcenterheistscopesecondary", "Secondary Targets", "Scope secondary targets", true};
+		static CommandToggle _KortzCenterScopePOI{"kortzcenterheistscopepoi", "Points of Interest", "Scope points of interest", true};
 
 		class Setup : public Command
 		{

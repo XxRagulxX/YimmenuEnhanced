@@ -9,7 +9,7 @@ namespace YimMenu::Rendering
 	// (espdrawplayers/espdrawpeds/espdrawobjects), via
 	// GridItemConditional's plain joaat_t overload, same as everywhere
 	// else in this pass. The name-colour/skeleton-colour/hash-colour
-	// swatches use GridItemCommandColor's AddColorCommandRows() the same
+	// swatches use GridItemCommandColourCustom's AddColorCommandRows() the same
 	// gated way WeaponsGrid's paintguncolor does - see that file's
 	// AddConditionalColorCommandRows() for why a plain GridItemConditional
 	// around one GridItem isn't enough there.

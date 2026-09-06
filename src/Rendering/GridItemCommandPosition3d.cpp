@@ -1,4 +1,4 @@
-#include "Rendering/GridItemCommandVector3.hpp"
+#include "Rendering/GridItemCommandPosition3d.hpp"
 
 #include "Commands/Commands.hpp"
 #include "Rendering/Grid.hpp"
@@ -7,7 +7,7 @@
 #include "Rendering/GridRenderer.hpp"
 #include "World/Self.hpp"
 #include "Rendering/Theme.hpp"
-#include "Commands/Vector3Command.hpp"
+#include "Commands/CommandPosition3d.hpp"
 #include "Game/vector.hpp"
 
 #include <algorithm>
@@ -74,15 +74,15 @@ namespace YimMenu::Rendering
 		}
 
 		// One X/Y/Z row - same label + value + "-"/"+" button shape as
-		// GridItemCommandFloat, just stepping one axis of the shared
-		// Vector3Command's rage::fvector3 rather than owning a
-		// FloatCommand of its own - see the file comment in
-		// GridItemCommandVector3.hpp for why this is its own small
+		// GridItemCommandSliderFloat, just stepping one axis of the shared
+		// CommandPosition3d's rage::fvector3 rather than owning a
+		// CommandSliderFloat of its own - see the file comment in
+		// GridItemCommandPosition3d.hpp for why this is its own small
 		// GridItem instead of one mega-widget.
 		class GridItemVector3Axis : public GridItem
 		{
 		public:
-			GridItemVector3Axis(int16_t width, int16_t height, Axis axis, Vector3Command* command) :
+			GridItemVector3Axis(int16_t width, int16_t height, Axis axis, CommandPosition3d* command) :
 			    GridItem(GRIDITEM_INDIFFERENT, width, height),
 			    m_Axis(axis),
 			    m_Command(command)
@@ -178,13 +178,13 @@ namespace YimMenu::Rendering
 			}
 
 			Axis m_Axis;
-			Vector3Command* m_Command;
+			CommandPosition3d* m_Command;
 		};
 	}
 
 	void AddVector3CommandRows(Grid& grid, std::vector<std::unique_ptr<GridItem>>& items_draft, int16_t width, joaat_t id, std::optional<std::string> labelOverride)
 	{
-		auto* command = Commands::GetCommand<Vector3Command>(id);
+		auto* command = Commands::GetCommand<CommandPosition3d>(id);
 
 		std::string label = "Unknown!";
 		if (labelOverride.has_value())

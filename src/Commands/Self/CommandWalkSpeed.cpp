@@ -1,4 +1,4 @@
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
@@ -22,7 +22,7 @@ namespace YimMenu::Features
 	// Stand's own slider has no separate enable toggle either - it's
 	// just always active - so this comes with its own hidden, always-on
 	// LoopedCommand (WalkSpeedApplier below) rather than a plain
-	// IntCommand: m_State is set directly to true in its constructor
+	// CommandSlider: m_State is set directly to true in its constructor
 	// (bypassing SetState()'s own deferred FiberPool job, unsafe to run
 	// during static initialization) and ShouldSaveState() returns false,
 	// so it never shows up as a real toggle anywhere and never gets
@@ -33,7 +33,7 @@ namespace YimMenu::Features
 	// Competes with Super Run if both are active (whichever's own OnTick
 	// runs later in a frame wins) - the same kind of interaction real
 	// Stand's own separate Walk Speed/Super Run features would have.
-	static IntCommand _WalkSpeed{"walkspeed", "Walk Speed", "Run speed multiplier (100 = normal)", 0, 1000, 100};
+	static CommandSlider _WalkSpeed{"walkspeed", "Walk Speed", "Run speed multiplier (100 = normal)", 0, 1000, 100};
 
 	class WalkSpeedApplier : public LoopedCommand
 	{

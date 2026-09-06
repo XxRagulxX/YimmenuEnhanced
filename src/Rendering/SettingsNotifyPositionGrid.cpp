@@ -1,6 +1,6 @@
 #include "Rendering/SettingsNotifyPositionGrid.hpp"
 
-#include "Rendering/GridItemCommandInt.hpp"
+#include "Rendering/GridItemCommandSlider.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/Theme.hpp"
 #include "Util/Joaat.hpp"
@@ -21,8 +21,8 @@ namespace YimMenu::Rendering
 
 	void SettingsNotifyPositionGrid::populate(std::vector<std::unique_ptr<GridItem>>& items_draft)
 	{
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "notifyx"_J, "X", 10));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "notifyy"_J, "Y", 10));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "notifyx"_J, "X", 10));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "notifyy"_J, "Y", 10));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "notifymousemove"_J, "Move With Mouse"));
 	}
 }

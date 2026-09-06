@@ -1,4 +1,4 @@
-#include "Commands/ColorCommand.hpp"
+#include "Commands/CommandColourCustom.hpp"
 #include "Rendering/NotifySettings.hpp"
 
 namespace YimMenu::Features
@@ -10,11 +10,11 @@ namespace YimMenu::Features
 	// own comment for why there's no literal copy-from-Background-Colour
 	// BUTTON widget, only the matching default value. No Rainbow Mode -
 	// real Stand's own tree doesn't list one for this colour either.
-	class CommandNotifyBackgroundColour : public ColorCommand
+	class CommandNotifyBackgroundColour : public CommandColourCustom
 	{
 	public:
 		CommandNotifyBackgroundColour() :
-		    ColorCommand("notifybg", "Background Colour", "The notification card's own translucent background.", ImVec4(0.f, 0.f, 0.f, 77.f / 255.f))
+		    CommandColourCustom("notifybg", "Background Colour", "The notification card's own translucent background.", ImVec4(0.f, 0.f, 0.f, 77.f / 255.f))
 		{
 		}
 
@@ -26,7 +26,7 @@ namespace YimMenu::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			ColorCommand::LoadState(value);
+			CommandColourCustom::LoadState(value);
 			Sync();
 		}
 

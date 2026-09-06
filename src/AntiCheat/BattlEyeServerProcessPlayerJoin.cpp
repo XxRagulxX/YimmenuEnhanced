@@ -1,5 +1,5 @@
 #include "Core/DetourHook.hpp"
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/Commands.hpp"
 #include "Core/Hooks.hpp"
 #include "Scripting/Natives.hpp"
@@ -21,7 +21,7 @@ namespace YimMenu::Hooks
 				}
 			}
 
-			static auto cheater_pool = Commands::GetCommand<BoolCommand>("cheaterpool"_J);
+			static auto cheater_pool = Commands::GetCommand<CommandToggle>("cheaterpool"_J);
 			if (cheater_pool->GetState())
 			{
 				return true;

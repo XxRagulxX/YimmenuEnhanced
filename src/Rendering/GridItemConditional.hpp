@@ -1,5 +1,5 @@
 #pragma once
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Rendering/GridItem.hpp"
 #include "Util/Joaat.hpp"
 
@@ -11,7 +11,7 @@ namespace YimMenu::Rendering
 	// Wraps another GridItem, gating every one of its calls on a live
 	// condition - the Grid equivalent of ConditionalItem (src/
 	// ConditionalItem.cpp) for the ImGui menu. Same two ways to supply
-	// the condition (a BoolCommand looked up by joaat hash, or an
+	// the condition (a CommandToggle looked up by joaat hash, or an
 	// arbitrary std::function<bool()>), same optional negate.
 	//
 	// Occupies the same x/y/width/height the wrapped item does (copied
@@ -56,7 +56,7 @@ namespace YimMenu::Rendering
 	private:
 		[[nodiscard]] bool CanDraw() const;
 
-		BoolCommand* m_Condition;
+		CommandToggle* m_Condition;
 		std::function<bool()> m_ConditionFn;
 		bool m_Negate;
 		std::unique_ptr<GridItem> m_Item;

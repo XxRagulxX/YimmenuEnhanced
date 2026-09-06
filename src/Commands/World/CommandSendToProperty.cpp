@@ -1,6 +1,6 @@
 #include "World/Self.hpp"
 #include "Commands/PlayerCommand.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "Network/ScriptEvent.hpp"
 
 namespace YimMenu::Features
@@ -114,7 +114,7 @@ namespace YimMenu::Features
 	    {115, "Vehicle Warehouse"},
 	};
 
-	static ListCommand _SelectedProperty{"sendtopropertyindex", "Send to Property Index", "The property index to send the player(s) to", g_Properties, 1};
+	static CommandListSelect _SelectedProperty{"sendtopropertyindex", "Send to Property Index", "The property index to send the player(s) to", g_Properties, 1};
 
 	class SendToProperty : public PlayerCommand
 	{

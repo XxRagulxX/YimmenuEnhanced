@@ -1,11 +1,11 @@
 #include "Commands/LoopedCommand.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
-#include "Commands/FloatCommand.hpp"
+#include "Commands/CommandSliderFloat.hpp"
 
 namespace YimMenu::Features
 {
-	static FloatCommand _MeleeDamageScale{
+	static CommandSliderFloat _MeleeDamageScale{
 	    "meleedamagescale",
 	    "Melee Damage Scale",
 	    "Sets the damage scale for melee",

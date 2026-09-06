@@ -1,5 +1,5 @@
 #include "Commands/LoopedCommand.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "World/Self.hpp"
 
 namespace YimMenu::Features
@@ -8,7 +8,7 @@ namespace YimMenu::Features
 	    {0, "Infinite"},
 	    {1, "Instant recharge"}};
 
-	static ListCommand _BoostBehavior{"boostbehavior", "Boost Behavior", "Desired rocket boost behavior", g_BoostBehavior, 0};
+	static CommandListSelect _BoostBehavior{"boostbehavior", "Boost Behavior", "Desired rocket boost behavior", g_BoostBehavior, 0};
 
 	class ModifyRocketBoost : public LoopedCommand
 	{

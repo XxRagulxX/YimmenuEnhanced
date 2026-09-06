@@ -2,8 +2,8 @@
 #include <unordered_map>
 #include <array>
 #include <cmath>
-#include "Commands/IntCommand.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
@@ -31,12 +31,12 @@ namespace YimMenu::Features
 		};
 
 
-		static IntCommand _CayoPericoHeistCut1{"cayopericoheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _CayoPericoHeistCut2{"cayopericoheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _CayoPericoHeistCut3{"cayopericoheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _CayoPericoHeistCut4{"cayopericoheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _CayoPavelCut{"cayopavelcut", "Pavel Cut (%)", "Pavel cut percentage", std::nullopt, std::nullopt, 2};
-		static IntCommand _CayoFencingCut{"cayofencecut", "Fencing Fee (%)", "Fencing fee percentage", std::nullopt, std::nullopt, 10};
+		static CommandSlider _CayoPericoHeistCut1{"cayopericoheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
+		static CommandSlider _CayoPericoHeistCut2{"cayopericoheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
+		static CommandSlider _CayoPericoHeistCut3{"cayopericoheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
+		static CommandSlider _CayoPericoHeistCut4{"cayopericoheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
+		static CommandSlider _CayoPavelCut{"cayopavelcut", "Pavel Cut (%)", "Pavel cut percentage", std::nullopt, std::nullopt, 2};
+		static CommandSlider _CayoFencingCut{"cayofencecut", "Fencing Fee (%)", "Fencing fee percentage", std::nullopt, std::nullopt, 10};
 
 
 		class SetCuts : public Command
@@ -88,7 +88,7 @@ namespace YimMenu::Features
 		    {5, "Secondary Target"},
 		    {6, "Others"}};
 
-		static ListCommand _CayoPericoTeleportList{"cayopericoteleportlist", "Teleport Locations", "Teleport Location", cayoPericoTeleportList, 0};
+		static CommandListSelect _CayoPericoTeleportList{"cayopericoteleportlist", "Teleport Locations", "Teleport Location", cayoPericoTeleportList, 0};
 
 		static std::vector<TeleportLocation> cayoPericoOtherTeleportPoints = {
 		    {5081.0415f, -5755.32f, 15.829645f, -45.0f, "North"},
@@ -125,7 +125,7 @@ namespace YimMenu::Features
 		    {13, "Loot - #3 (Dock)"},
 		};
 
-		static ListCommand _CayoPericoOtherTeleportList{"cayopericootherteleportlist", "Other TP", "Other teleport locations", cayoPericoOtherTeleportList, 0};
+		static CommandListSelect _CayoPericoOtherTeleportList{"cayopericootherteleportlist", "Other TP", "Other teleport locations", cayoPericoOtherTeleportList, 0};
 
 		static std::vector<std::pair<int, const char*>> cayoPlayers = {
 		    {1, "1 Player"},
@@ -133,12 +133,12 @@ namespace YimMenu::Features
 		    {3, "3 Players"},
 		    {4, "4 Players"}};
 
-		static ListCommand _CayoPericoHeistPlayers{"cayopericoheistplayers", "Players", "How many players are in the heist", cayoPlayers, 1};
+		static CommandListSelect _CayoPericoHeistPlayers{"cayopericoheistplayers", "Players", "How many players are in the heist", cayoPlayers, 1};
 
 		static std::vector<std::pair<int, const char*>> cayoPericoHeistDifficulty = {
 		    {126823, "Normal"},
 		    {131055, "Hard"}};
-		static ListCommand _CayoPericoHeistDifficulty{"cayopericoheistdifficulty", "Difficulty", "Heist difficulty", cayoPericoHeistDifficulty, 126823};
+		static CommandListSelect _CayoPericoHeistDifficulty{"cayopericoheistdifficulty", "Difficulty", "Heist difficulty", cayoPericoHeistDifficulty, 126823};
 
 		static std::vector<std::pair<int, const char*>> cayoPericoHeistPrimaryTarget = {
 		    {5, "Panther Statue"},
@@ -147,7 +147,7 @@ namespace YimMenu::Features
 		    {2, "Bearer Bonds"},
 		    {1, "Ruby Necklace"},
 		    {0, "Sinsimito Tequila"}};
-		static ListCommand _CayoPericoHeistPrimaryTarget{"cayopericoheistprimarytarget", "Primary Target", "Primary target", cayoPericoHeistPrimaryTarget, 5};
+		static CommandListSelect _CayoPericoHeistPrimaryTarget{"cayopericoheistprimarytarget", "Primary Target", "Primary target", cayoPericoHeistPrimaryTarget, 5};
 
 		static std::vector<std::pair<int, const char*>> cayoPericoHeistWeapon = {
 		    {1, "Aggressor"},
@@ -155,7 +155,7 @@ namespace YimMenu::Features
 		    {3, "Crack Shot"},
 		    {4, "Saboteur"},
 		    {5, "Marksman"}};
-		static ListCommand _CayoPericoHeistWeapon{"cayopericoheistweapon", "Weapon", "Weapon category", cayoPericoHeistWeapon, 1};
+		static CommandListSelect _CayoPericoHeistWeapon{"cayopericoheistweapon", "Weapon", "Weapon category", cayoPericoHeistWeapon, 1};
 
 		class RequestKosatka : public Command
 		{
@@ -222,7 +222,7 @@ namespace YimMenu::Features
 			}
 		};
 
-		static IntCommand _CayoPericoHeistPrimaryTargetValue{"cayopericoheistprimarytargetvalue", "Primary Target Value", "Updates primary target value", std::nullopt, std::nullopt, 0};
+		static CommandSlider _CayoPericoHeistPrimaryTargetValue{"cayopericoheistprimarytargetvalue", "Primary Target Value", "Updates primary target value", std::nullopt, std::nullopt, 0};
 
 		class SetPrimaryTargetValue : public Command
 		{
@@ -281,7 +281,7 @@ namespace YimMenu::Features
 			}
 		};
 
-		static IntCommand _CayoPericoHeistSecondaryTakeValue{"cayopericoheistsecondarytakevalue", "Secondary Take Value", "Updates secondary take value", std::nullopt, std::nullopt, 0};
+		static CommandSlider _CayoPericoHeistSecondaryTakeValue{"cayopericoheistsecondarytakevalue", "Secondary Take Value", "Updates secondary take value", std::nullopt, std::nullopt, 0};
 
 		class SetSecondaryTakeValue : public Command
 		{
@@ -346,7 +346,7 @@ namespace YimMenu::Features
 
 			void ApplyCuts(int totalCut, int players)
 			{
-				std::array<IntCommand*, 4> cmds = {
+				std::array<CommandSlider*, 4> cmds = {
 				    &_CayoPericoHeistCut1,
 				    &_CayoPericoHeistCut2,
 				    &_CayoPericoHeistCut3,

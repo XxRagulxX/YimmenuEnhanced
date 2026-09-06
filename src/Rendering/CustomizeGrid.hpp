@@ -18,7 +18,7 @@ namespace YimMenu::Rendering
 	// kPlaceholderText) - the entire palette this renderer draws with -
 	// each as four discrete R/G/B/A steppers (0-255), same "no gradient/
 	// shader support, so every channel steps individually" tradeoff as
-	// GridItemCommandColor's own class comment. Theme.hpp's own six
+	// GridItemCommandColourCustom's own class comment. Theme.hpp's own six
 	// colours are `inline` (mutable) rather than `constexpr` specifically
 	// so this page can write straight into them - see Theme.hpp's own
 	// comment on why that's safe everywhere else that reads them.

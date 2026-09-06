@@ -1,4 +1,4 @@
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
@@ -8,10 +8,10 @@ namespace YimMenu::Features
 	// Real Stand's own Swim Speed slider, scaled to a practical range the
 	// same way Walk Speed is (see CommandWalkSpeed.cpp's own comment for
 	// the full reasoning, including why this needs its own hidden,
-	// always-on LoopedCommand rather than a plain IntCommand).
+	// always-on LoopedCommand rather than a plain CommandSlider).
 	// PLAYER::SET_SWIM_MULTIPLIER_FOR_PLAYER is the same native this
 	// project's own Super Run already uses for its own swim multiplier.
-	static IntCommand _SwimSpeed{"swimspeed", "Swim Speed", "Swim speed multiplier (100 = normal)", 0, 1000, 100};
+	static CommandSlider _SwimSpeed{"swimspeed", "Swim Speed", "Swim speed multiplier (100 = normal)", 0, 1000, 100};
 
 	class SwimSpeedApplier : public LoopedCommand
 	{

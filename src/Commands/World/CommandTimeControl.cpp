@@ -1,13 +1,13 @@
 #include "Commands/Command.hpp"
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Scripting/Natives.hpp"
 
 namespace YimMenu::Features
 {
-	static IntCommand _NetworkTimeHour{"networktimehour", "Hour", "Set hour (0-23)", 0, 23, 12};
-	static IntCommand _NetworkTimeMinute{"networktimeminute", "Minute", "Set minute (0-59)", 0, 59, 0};
-	static IntCommand _NetworkTimeSecond{"networktimesecond", "Second", "Set second (0-59)", 0, 59, 0};
+	static CommandSlider _NetworkTimeHour{"networktimehour", "Hour", "Set hour (0-23)", 0, 23, 12};
+	static CommandSlider _NetworkTimeMinute{"networktimeminute", "Minute", "Set minute (0-59)", 0, 59, 0};
+	static CommandSlider _NetworkTimeSecond{"networktimesecond", "Second", "Set second (0-59)", 0, 59, 0};
 
 
 	class SetNetworkTime : public Command

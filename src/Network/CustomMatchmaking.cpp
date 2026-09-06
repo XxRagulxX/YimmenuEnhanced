@@ -2,9 +2,9 @@
 #include "Util/Joaat.hpp"
 #include "Network/MatchmakingId.hpp"
 #include "Network/rlSessionDetail.hpp"
-#include "Commands/BoolCommand.hpp"
-#include "Commands/IntCommand.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "Core/Hooks.hpp"
 #include "Core/DetourHook.hpp"
 #include "Scripting/FiberPool.hpp"
@@ -41,31 +41,31 @@ namespace YimMenu::Features
 	    {12, "Chinese (Simplified)"},
 	};
 
-	BoolCommand _SpoofRegionType{
+	CommandToggle _SpoofRegionType{
 	    "mmspoofregiontype",
 	    "Spoof Region Type",
 	    "Spoofs the region type of the session"};
-	ListCommand _RegionType{
+	CommandListSelect _RegionType{
 	    "mmregiontype",
 	    "Region Type",
 	    "The region to spoof the session to",
 		g_RegionCodes};
 
-	BoolCommand _SpoofLanguage{
+	CommandToggle _SpoofLanguage{
 	    "mmspooflanguage",
 	    "Spoof Language",
 	    "Spoofs the session language"};
-	ListCommand _Language{
+	CommandListSelect _Language{
 	    "mmlanguage",
 	    "Language",
 	    "The language to spoof the session to",
 	    g_LanguageTypes};
 
-	BoolCommand _SpoofPlayerCount{
+	CommandToggle _SpoofPlayerCount{
 	    "mmspoofplayercount",
 	    "Spoof Player Count",
 	    "Spoofs the session player count"};
-	IntCommand _PlayerCount{
+	CommandSlider _PlayerCount{
 	    "mmplayercount",
 	    "Player Count",
 	    "The player count to spoof the session to",
@@ -73,11 +73,11 @@ namespace YimMenu::Features
 	    32,
 	    25};
 
-	BoolCommand _MultiplexSession{
+	CommandToggle _MultiplexSession{
 	    "mmmultiplexsession",
 	    "Multiplex Session",
 	    "Makes your session much more visible to other players by hosting multiple instances of it. High values may fill your session in seconds. Use at your own risk"};
-	IntCommand _MultiplexCount{
+	CommandSlider _MultiplexCount{
 	    "mmmultiplexsessioncount",
 	    "Multiplex Session Count",
 	    "The number of sessions to advertise for matchmaking",

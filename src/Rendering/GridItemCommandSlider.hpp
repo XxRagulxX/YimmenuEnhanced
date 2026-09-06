@@ -1,6 +1,6 @@
 #pragma once
 #include "Rendering/GridItem.hpp"
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "Util/Joaat.hpp"
 
 #include <optional>
@@ -18,12 +18,12 @@ namespace YimMenu::Rendering
 	// trade-off GridItemIntStepper (this project's own stepper, not
 	// bound to a real command) already makes. Right-anchored to this
 	// item's own edge, same as GridItemIntStepper - unlike
-	// GridItemCommandList, an int's value box is always a fixed, small
+	// GridItemCommandListSelect, an int's value box is always a fixed, small
 	// width, so there's no risk of a wide option label running into it.
-	class GridItemCommandInt : public GridItem
+	class GridItemCommandSlider : public GridItem
 	{
 	public:
-		GridItemCommandInt(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride = std::nullopt, int step = 1);
+		GridItemCommandSlider(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride = std::nullopt, int step = 1);
 
 		void draw() override;
 		void drawText() override;
@@ -36,7 +36,7 @@ namespace YimMenu::Rendering
 
 		// Always returns true (handled) when a real command is behind
 		// this item - see the identical doc comment on
-		// GridItemCommandList::onArrow().
+		// GridItemCommandListSelect::onArrow().
 		bool onArrow(int delta) override;
 
 		// Enter while this item is keyboard-focused - opens the Stand-
@@ -66,7 +66,7 @@ namespace YimMenu::Rendering
 
 		const std::string& Label() const;
 
-		IntCommand* m_Command;
+		CommandSlider* m_Command;
 		std::optional<std::string> m_LabelOverride;
 		int m_Step;
 	};

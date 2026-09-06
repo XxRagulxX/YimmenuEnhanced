@@ -1,11 +1,11 @@
 #include "Menu/Items.hpp"
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/Commands.hpp"
 
 namespace YimMenu
 {
 	BoolCommandItem::BoolCommandItem(joaat_t id, std::optional<std::string> label_override) :
-	    m_Command(Commands::GetCommand<BoolCommand>(id)),
+	    m_Command(Commands::GetCommand<CommandToggle>(id)),
 	    m_LabelOverride(label_override)
 	{
 	}

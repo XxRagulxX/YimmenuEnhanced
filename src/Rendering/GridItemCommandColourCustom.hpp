@@ -14,13 +14,13 @@ namespace YimMenu::Rendering
 
 	// Pushes ONE folder-style row (a label + right-aligned ">", same
 	// shape as GridItemFolder) into items_draft, bound to a real
-	// YimMenu::ColorCommand looked up by joaat hash - the Grid
+	// YimMenu::CommandColourCustom looked up by joaat hash - the Grid
 	// equivalent of ColorCommandItem (src/ColorCommandItem.cpp) for the
 	// ImGui menu, minus its own ImGui::ColorPicker4 popup (a continuous
 	// 2D/gradient picker): clicking through instead opens a sub-page of
 	// four discrete R/G/B/A steppers (0-255 each), same "no popup, step
-	// through it instead" trade-off GridItemCommandList/
-	// GridItemCommandInt already make.
+	// through it instead" trade-off GridItemCommandListSelect/
+	// GridItemCommandSlider already make.
 	//
 	// The row's own trailing ">" is tinted to the command's current
 	// colour instead of a separate swatch box next to the label - ported
@@ -45,7 +45,7 @@ namespace YimMenu::Rendering
 	// wrapping it in GridItemConditional - so a hidden row doesn't
 	// reserve its own layout space, and the caller's own Grid (not this
 	// free function) is what needs repopulating live when condition
-	// changes. Needed wherever a ColorCommand swatch is itself behind a
+	// changes. Needed wherever a CommandColourCustom swatch is itself behind a
 	// ConditionalItem in the original ImGui menu (Weapons > Custom
 	// Weapons' paintguncolor, Settings > Game's ESP name/skeleton/hash
 	// colour swatches, ...).

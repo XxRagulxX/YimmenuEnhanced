@@ -4,7 +4,7 @@
 namespace YimMenu
 {
 	LoopedCommand::LoopedCommand(std::string name, std::string label, std::string description) :
-	    BoolCommand(name, label, description)
+	    CommandToggle(name, label, description)
 	{
 		Commands::AddLoopedCommand(this);
 	}

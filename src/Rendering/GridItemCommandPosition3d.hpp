@@ -12,7 +12,7 @@ namespace YimMenu::Rendering
 	class Grid;
 
 	// Pushes a label + "Current" row followed by X/Y/Z stepper rows into
-	// items_draft, all bound to the same real YimMenu::Vector3Command,
+	// items_draft, all bound to the same real YimMenu::CommandPosition3d,
 	// looked up by joaat hash - the Grid equivalent of Vector3CommandItem
 	// (src/Vector3CommandItem.cpp) for the ImGui menu, minus its own
 	// "Saved..." popup (a categorized saved-locations picker with
@@ -25,7 +25,7 @@ namespace YimMenu::Rendering
 	// Grid::watchCondition()'s own doc comment).
 	//
 	// Four separate GridItem rows, not one, for the same reason
-	// AddColorCommandRows() is - see GridItemCommandColor.hpp's class
+	// AddColorCommandRows() is - see GridItemCommandColourCustom.hpp's class
 	// comment (every row here needs to plug into MenuFocus/
 	// Grid::getFocusableItems() individually, which one mega-widget
 	// covering all three axes couldn't do without its own separate

@@ -16,7 +16,7 @@ namespace YimMenu::Rendering
 	// detail/style cascade, Extras, Neon Light Options, and Color
 	// Options (a category list, then either a direct palette index list
 	// or a discrete R/G/B custom-color editor, mirroring
-	// GridItemCommandColor's own "no gradient/shader support, so every
+	// GridItemCommandColourCustom's own "no gradient/shader support, so every
 	// channel steps discretely" precedent - just against plain
 	// owned_mods state instead of a registered Command).
 	//

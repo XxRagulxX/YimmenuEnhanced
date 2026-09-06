@@ -1,5 +1,5 @@
 #include "Commands/LoopedCommand.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "Core/Pointers.hpp"
 
 namespace YimMenu::Features
@@ -16,7 +16,7 @@ namespace YimMenu::Features
 	    {8, "Unknown"},
 	};
 
-	static ListCommand _SpoofedRegion{"mmregion", "Matchmaking Region", "Matchmaking region to spoof to", g_RegionCodes, 0};
+	static CommandListSelect _SpoofedRegion{"mmregion", "Matchmaking Region", "Matchmaking region to spoof to", g_RegionCodes, 0};
 
 	class SpoofMatchmakingRegion : public LoopedCommand
 	{

@@ -1,8 +1,8 @@
 #include "Rendering/WorldGrid.hpp"
 
 #include "Rendering/GridItemCommandButton.hpp"
-#include "Rendering/GridItemCommandInt.hpp"
-#include "Rendering/GridItemCommandList.hpp"
+#include "Rendering/GridItemCommandSlider.hpp"
+#include "Rendering/GridItemCommandListSelect.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/GridItemText.hpp"
@@ -71,18 +71,18 @@ namespace YimMenu::Rendering
 		// GridItemConditional) so it doesn't reserve its own layout slot
 		// while hidden.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Weather", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "weather"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "weather"_J));
 		if (watchCondition("forceweather"_J, true))
 			items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "setweather"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "forceweather"_J));
 
 		// Time (timeGroup) - hour/minute/second are all unconditional
-		// IntCommandItems, now that GridItemCommandInt exists; Set/Freeze
+		// IntCommandItems, now that GridItemCommandSlider exists; Set/Freeze
 		// are a plain button and toggle.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Time", Theme::kText));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "networktimehour"_J, "Hour"));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "networktimeminute"_J, "Minute"));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "networktimesecond"_J, "Second"));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "networktimehour"_J, "Hour"));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "networktimeminute"_J, "Minute"));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "networktimesecond"_J, "Second"));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "setnetworktime"_J, "Set"));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "freezenetworktime"_J, "Freeze"));
 

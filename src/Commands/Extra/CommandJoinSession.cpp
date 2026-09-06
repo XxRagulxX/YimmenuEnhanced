@@ -1,5 +1,5 @@
 #include "Commands/Command.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "Network/Network.hpp"
 
 namespace YimMenu::Features
@@ -17,7 +17,7 @@ namespace YimMenu::Features
 	    {static_cast<int>(Network::JoinType::SOLO), "Solo"},
 	};
 
-	static ListCommand _JoinType{"joinsessiontype", "Join Session Type", "The session type to join", g_JoinTypes, static_cast<int>(Network::JoinType::JOIN_PUBLIC)};
+	static CommandListSelect _JoinType{"joinsessiontype", "Join Session Type", "The session type to join", g_JoinTypes, static_cast<int>(Network::JoinType::JOIN_PUBLIC)};
 
 	class JoinSession : public Command
 	{

@@ -16,7 +16,7 @@ namespace YimMenu::Rendering
 
 	GridItemCommandToggle::GridItemCommandToggle(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride) :
 	    GridItem(GRIDITEM_INDIFFERENT, width, height),
-	    m_Command(Commands::GetCommand<BoolCommand>(id)),
+	    m_Command(Commands::GetCommand<CommandToggle>(id)),
 	    m_LabelOverride(std::move(labelOverride))
 	{
 	}

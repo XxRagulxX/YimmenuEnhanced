@@ -1,7 +1,7 @@
 #include "Rendering/Overlay.hpp"
 
-#include "Commands/BoolCommand.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "Rendering/GridRenderer.hpp"
 #include "Rendering/Theme.hpp"
 #include "Scripting/Invoker.hpp"
@@ -13,9 +13,9 @@
 namespace YimMenu::Features
 {
 	void DrawBusinessOverlay(std::vector<OverlayLine>& lines);
-	BoolCommand _OverlayEnabled("overlay", "Overlay Enabled", "Show an info overlay at the top left corner of the screen");
-	BoolCommand _OverlayShowFPS("overlayfps", "Overlay Show FPS", "Show frame rate in the info overlay");
-	BoolCommand _OverlayLock("overlaylock", "Lock Overlay Position", "Lock the overlay so it cannot be moved in free mode");
+	CommandToggle _OverlayEnabled("overlay", "Overlay Enabled", "Show an info overlay at the top left corner of the screen");
+	CommandToggle _OverlayShowFPS("overlayfps", "Overlay Show FPS", "Show frame rate in the info overlay");
+	CommandToggle _OverlayLock("overlaylock", "Lock Overlay Position", "Lock the overlay so it cannot be moved in free mode");
 
 	static std::vector<std::pair<int, const char*>> g_OverlayPositionConfig = {
 	    {0, "topleft"},
@@ -24,7 +24,7 @@ namespace YimMenu::Features
 	    {3, "bottomright"},
 	    {4, "free"}};
 
-	static ListCommand _OverlayPositionCmd("overlaypos", "Overlay Position", "Change overlay position", g_OverlayPositionConfig, 0);
+	static CommandListSelect _OverlayPositionCmd("overlaypos", "Overlay Position", "Change overlay position", g_OverlayPositionConfig, 0);
 }
 
 namespace YimMenu

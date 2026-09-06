@@ -1,7 +1,7 @@
 #include "Rendering/LevitationGrid.hpp"
 
-#include "Rendering/GridItemCommandFloat.hpp"
-#include "Rendering/GridItemCommandInt.hpp"
+#include "Rendering/GridItemCommandSliderFloat.hpp"
+#include "Rendering/GridItemCommandSlider.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/Theme.hpp"
 #include "Util/Joaat.hpp"
@@ -46,12 +46,12 @@ namespace YimMenu::Rendering
 		         "levitateassistdown"_J,
 		         "levitateassistsnap"_J})
 		{
-			items_draft.push_back(std::make_unique<GridItemCommandFloat>(Theme::kContentWidth, kItemH, hash));
+			items_draft.push_back(std::make_unique<GridItemCommandSliderFloat>(Theme::kContentWidth, kItemH, hash));
 		}
 
 		for (auto hash : {"levitatepassivespeed"_J, "levitateassistdeadzone"_J})
 		{
-			items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, hash));
+			items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, hash));
 		}
 	}
 }

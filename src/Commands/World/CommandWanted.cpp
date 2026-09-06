@@ -1,12 +1,12 @@
 #include "Commands/Command.hpp"
 #include "Commands/LoopedCommand.hpp"
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
 
 namespace YimMenu::Features
 {
-	static IntCommand _WantedSlider{"wantedslider", "Wanted Slider", "Wanted level to set/freeze", 0, 5, 0};
+	static CommandSlider _WantedSlider{"wantedslider", "Wanted Slider", "Wanted level to set/freeze", 0, 5, 0};
 
 	class ClearWanted : public Command
 	{

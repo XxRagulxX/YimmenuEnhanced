@@ -5,7 +5,7 @@ namespace YimMenu::Rendering
 {
 	// Content grid for Players > Troll: mirrors Troll.cpp's general/
 	// bounty/vehicle groups exactly - bountyamount now has a real widget
-	// (GridItemCommandInt), same as NetworkGrid's own identical row.
+	// (GridItemCommandSlider), same as NetworkGrid's own identical row.
 	class TrollGrid : public Grid
 	{
 	public:

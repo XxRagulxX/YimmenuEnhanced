@@ -1,6 +1,6 @@
 #include "Commands/Vehicle/CommandAutoDriveHudTelemetry.hpp"
 
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Util/Joaat.hpp"
 #include "Scripting/Natives.hpp"
 #include "Game/Pools.hpp"
@@ -17,7 +17,7 @@ namespace YimMenu::Features::AutoDriveInternal
 {
 	using namespace std::chrono_literals;
 
-	static BoolCommand _AutoDriveHud{
+	static CommandToggle _AutoDriveHud{
 	    "autodrivehud",
 	    "Auto Drive HUD",
 	    "Shows a Tesla-style road and traffic visualization while Auto Drive is active",

@@ -1,4 +1,4 @@
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Scripting/ScriptPatches.hpp"
 
 namespace YimMenu
@@ -12,9 +12,9 @@ namespace YimMenu
 	    "public_mission_creator"_J,
 	});
 	
-	class EnableCreatorDevMode : public BoolCommand
+	class EnableCreatorDevMode : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		std::vector<ScriptPatch> m_IsDevModeEnabledPatches;
 

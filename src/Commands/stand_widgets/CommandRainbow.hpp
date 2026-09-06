@@ -1,5 +1,5 @@
 #pragma once
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Util/get_current_time_millis.hpp"
 
@@ -18,9 +18,9 @@ namespace YimMenu::StandWidgets
 	// saturation/value/alpha untouched - "still allows you to change the
 	// saturation, value, and opacity" is real Stand's own description of
 	// this exact behaviour. Same "hidden always-on LoopedCommand ticker"
-	// shape as SliderRainbow.hpp (this file's own sibling) - see that
+	// shape as CommandSliderRainbow.hpp (this file's own sibling) - see that
 	// file's class comment for the full reasoning, identical here, just
-	// driving a colour's hue instead of stepping another IntCommand's
+	// driving a colour's hue instead of stepping another CommandSlider's
 	// value.
 	//
 	// Unlike real Stand's own CommandRainbow (which, for its Primary
@@ -32,11 +32,11 @@ namespace YimMenu::StandWidgets
 	// yet - a real, disclosed, deliberately deferred gap (see this
 	// session's own Settings > Appearance scoping) - so there's nothing
 	// else here to cross-update.
-	class ColourRainbow : public IntCommand
+	class CommandRainbow : public CommandSlider
 	{
 	public:
-		ColourRainbow(std::string name, std::string label, std::string description, DirectX::XMFLOAT4* target) :
-		    IntCommand(name, label, description, 0, 1000, 0),
+		CommandRainbow(std::string name, std::string label, std::string description, DirectX::XMFLOAT4* target) :
+		    CommandSlider(name, label, description, 0, 1000, 0),
 		    m_Target(target),
 		    m_Ticker(name + "_tick", label + " Ticker", "Internal - always on, cycles " + label + "'s hue over time", this)
 		{
@@ -83,7 +83,7 @@ namespace YimMenu::StandWidgets
 		class Ticker : public LoopedCommand
 		{
 		public:
-			Ticker(std::string name, std::string label, std::string description, ColourRainbow* owner) :
+			Ticker(std::string name, std::string label, std::string description, CommandRainbow* owner) :
 			    LoopedCommand(std::move(name), std::move(label), std::move(description)),
 			    m_Owner(owner)
 			{
@@ -102,7 +102,7 @@ namespace YimMenu::StandWidgets
 			}
 
 		private:
-			ColourRainbow* m_Owner;
+			CommandRainbow* m_Owner;
 		};
 
 		// x = hue in [0, 360), y = saturation, z = value, both in [0, 1] -

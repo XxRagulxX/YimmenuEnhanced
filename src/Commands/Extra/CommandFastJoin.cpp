@@ -1,4 +1,4 @@
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Scripting/NativeHooks.hpp"
 #include "Scripting/Natives.hpp"
 #include "Network/GSBD.hpp"
@@ -7,9 +7,9 @@ namespace YimMenu::Features
 {
 	static void BroadcastHook(rage::scrNativeCallContext* ctx);
 
-	class FastJoin : public BoolCommand
+	class FastJoin : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		virtual void OnEnable() override
 		{

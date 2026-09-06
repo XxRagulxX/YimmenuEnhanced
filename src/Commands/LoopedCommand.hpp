@@ -1,9 +1,9 @@
 #pragma once
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 
 namespace YimMenu
 {
-	class LoopedCommand : public BoolCommand
+	class LoopedCommand : public CommandToggle
 	{
 	protected:
 		virtual void OnTick() = 0;

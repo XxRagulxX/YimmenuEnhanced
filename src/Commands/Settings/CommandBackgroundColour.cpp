@@ -1,4 +1,4 @@
-#include "Commands/ColorCommand.hpp"
+#include "Commands/CommandColourCustom.hpp"
 #include "Rendering/Theme.hpp"
 
 namespace YimMenu::Features
@@ -10,11 +10,11 @@ namespace YimMenu::Features
 	// Stand's bgRectColour). Same default both real Stand's own class
 	// and this project's own Theme::kPanelBackground already use -
 	// (0, 0, 0, 77/255) i.e. black at ~30% opacity.
-	class CommandBackgroundColour : public ColorCommand
+	class CommandBackgroundColour : public CommandColourCustom
 	{
 	public:
 		CommandBackgroundColour() :
-		    ColorCommand("background",
+		    CommandColourCustom("background",
 		        "Background Colour",
 		        "The translucent panel background every non-focused row sits on.",
 		        ImVec4(0.f, 0.f, 0.f, 77.f / 255.f))
@@ -32,7 +32,7 @@ namespace YimMenu::Features
 		// config value too, not just a live edit.
 		void LoadState(nlohmann::json& value) override
 		{
-			ColorCommand::LoadState(value);
+			CommandColourCustom::LoadState(value);
 			Sync();
 		}
 

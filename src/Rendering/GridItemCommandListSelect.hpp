@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/GridItem.hpp"
 #include "Util/Joaat.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandListSelect.hpp"
 
 #include <optional>
 #include <string>
@@ -9,7 +9,7 @@
 namespace YimMenu::Rendering
 {
 	// A label + current selected item + "<"/">" buttons cycling through
-	// a real YimMenu::ListCommand's own option list - the Grid
+	// a real YimMenu::CommandListSelect's own option list - the Grid
 	// equivalent of ListCommandItem (src/ListCommandItem.cpp) for the
 	// ImGui menu, minus the dropdown/combo box: there's no popup system
 	// here yet, so cycling one entry at a time with the arrow buttons is
@@ -27,10 +27,10 @@ namespace YimMenu::Rendering
 	// unsolved problem as everywhere else in this system - a very long
 	// label plus a very long option can still overflow the panel's
 	// right edge, since there's no text wrapping/truncation yet.
-	class GridItemCommandList : public GridItem
+	class GridItemCommandListSelect : public GridItem
 	{
 	public:
-		GridItemCommandList(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride = std::nullopt);
+		GridItemCommandListSelect(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride = std::nullopt);
 
 		void draw() override;
 		void drawText() override;
@@ -67,7 +67,7 @@ namespace YimMenu::Rendering
 		const char* CurrentItemText() const;
 		float MaxItemWidth() const; // cached on first call - the list itself doesn't change at runtime
 
-		ListCommand* m_Command;
+		CommandListSelect* m_Command;
 		std::optional<std::string> m_LabelOverride;
 		mutable std::optional<float> m_MaxItemWidth;
 	};

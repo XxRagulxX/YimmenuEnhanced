@@ -43,7 +43,7 @@ namespace YimMenu::Rendering
 			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
 
 		// Value box fills the rest of the row after the label, same
-		// left-to-right sequencing GridItemCommandList uses - see that
+		// left-to-right sequencing GridItemCommandListSelect uses - see that
 		// widget's own class comment for why (a value box anchored to
 		// this item's own right edge would clip a long label instead).
 		const auto labelWidth = GridRenderer::MeasureText(m_Label.c_str()).x;

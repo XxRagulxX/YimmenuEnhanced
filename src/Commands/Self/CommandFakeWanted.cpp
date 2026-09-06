@@ -1,4 +1,4 @@
-#include "Commands/IntCommand.hpp"
+#include "Commands/CommandSlider.hpp"
 #include "Scripting/Natives.hpp"
 
 namespace YimMenu::Features
@@ -12,9 +12,9 @@ namespace YimMenu::Features
 	// identical note - so this applies it once, immediately, on change
 	// instead; a real, disclosed gap from Stand's own continuous
 	// enforcement.
-	class FakeWanted : public IntCommand
+	class FakeWanted : public CommandSlider
 	{
-		using IntCommand::IntCommand;
+		using CommandSlider::CommandSlider;
 
 		virtual void OnChange() override
 		{

@@ -1,6 +1,6 @@
 #include "Rendering/VehicleSpawnPersonalGrid.hpp"
 
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/Commands.hpp"
 #include "Scripting/FiberPool.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
@@ -57,8 +57,8 @@ namespace YimMenu::Rendering
 
 			auto& personalVeh = it->second;
 			FiberPool::queueJob([&personalVeh] {
-				auto* spawnClone = Commands::GetCommand<BoolCommand>("spawnclonepv"_J);
-				auto* spawnInside = Commands::GetCommand<BoolCommand>("spawninsidepv"_J);
+				auto* spawnClone = Commands::GetCommand<CommandToggle>("spawnclonepv"_J);
+				auto* spawnInside = Commands::GetCommand<CommandToggle>("spawninsidepv"_J);
 
 				if (spawnClone && spawnClone->GetState())
 				{

@@ -1,4 +1,4 @@
-#include "Commands/stand_widgets/LambdaAction.hpp"
+#include "Commands/stand_widgets/CommandLambdaAction.hpp"
 #include "Rendering/Notifications.hpp"
 
 namespace YimMenu::Features
@@ -14,7 +14,7 @@ namespace YimMenu::Features
 	// and is itself a no-op while the preview isn't active, matching
 	// real Stand's own guard on this button ("if (g_toaster ==
 	// &g_grid_toaster)").
-	static StandWidgets::LambdaAction _NotifyFlashNotification{"notifyflashnow",
+	static StandWidgets::CommandLambdaAction _NotifyFlashNotification{"notifyflashnow",
 	    "Flash Notification",
 	    "Re-flashes the preview notification above, demonstrating the Flash Colour/Border Colour transition.",
 	    [] {

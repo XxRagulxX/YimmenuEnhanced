@@ -9,7 +9,7 @@ namespace YimMenu::Rendering
 	// each itself containing a further-conditional row) is flattened
 	// into per-row conditions - see SelfGrid.cpp's own comment on
 	// ShouldClearOrSetWanted() for the combined-AND case neither
-	// BoolCommand alone can express.
+	// CommandToggle alone can express.
 	//
 	// Any toggle that owns one or more dependent options of its own
 	// (invis, mpspecialability, superrun, noclip, freecam, levitate)

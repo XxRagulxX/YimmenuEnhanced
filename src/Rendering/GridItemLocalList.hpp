@@ -8,10 +8,10 @@
 
 namespace YimMenu::Rendering
 {
-	// GridItemCommandList's counterpart for an arbitrary local option list
-	// instead of a real YimMenu::ListCommand looked up by joaat hash - the
+	// GridItemCommandListSelect's counterpart for an arbitrary local option list
+	// instead of a real YimMenu::CommandListSelect looked up by joaat hash - the
 	// same relationship GridItemIntStepper/GridItemFloatStepper already
-	// have to GridItemCommandInt/GridItemCommandFloat. Needed wherever a
+	// have to GridItemCommandSlider/GridItemCommandSliderFloat. Needed wherever a
 	// short fixed set of options isn't a registered Command at all (e.g.
 	// Debug > Globals/Locals' Type picker, cycling SavedVariableBase's own
 	// seven VariableType values) - a full GridItemSelectList (search box +
@@ -19,7 +19,7 @@ namespace YimMenu::Rendering
 	// options that only ever need "next"/"previous".
 	//
 	// Same "<"/">"-cycling, sequential (not right-anchored) layout as
-	// GridItemCommandList - see that class's own doc comment for why.
+	// GridItemCommandListSelect - see that class's own doc comment for why.
 	// options is fixed for this item's lifetime (populate() only runs
 	// once - see Grid.hpp's own class comment); onChange fires whenever
 	// the index actually changes, same optional-callback contract as
@@ -40,7 +40,7 @@ namespace YimMenu::Rendering
 
 		// Left(-1)/Right(+1) cycles the value directly - same effect as
 		// clicking the "<"/">" buttons. Always returns true (handled)
-		// when options is non-empty, same as GridItemCommandList's own.
+		// when options is non-empty, same as GridItemCommandListSelect's own.
 		bool onArrow(int delta) override;
 
 		int GetIndex() const

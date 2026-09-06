@@ -1,11 +1,11 @@
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "World/Stats.hpp"
 
 namespace YimMenu::Features
 {
-	class AllowGenderChange : public BoolCommand
+	class AllowGenderChange : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		virtual void OnEnable() override
 		{

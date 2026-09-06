@@ -1,4 +1,4 @@
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Core/DetourHook.hpp"
 #include "Scripting/NativeHooks.hpp"
 #include "Scripting/Natives.hpp"
@@ -31,9 +31,9 @@ namespace YimMenu::Features
 	static DumpDataHash _DumpDataHash{"dumpdatahash", "Dump Data Hash", "Dumps the current data hash into the console"};
 
 	static void PackOrderHook(rage::scrNativeCallContext* ctx);
-	class SpoofDataHash : public BoolCommand
+	class SpoofDataHash : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		std::array<std::uint32_t, 16> origHashes;
 

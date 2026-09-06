@@ -8,7 +8,7 @@ namespace YimMenu::Rendering
 	// Self > Main. boostbehavior is gated on modifyboostbehavior directly;
 	// autodrivespeed/autodrivestyle are gated on IsAutoDriveEnabled()
 	// (VehicleGrid.cpp) - autodrive OR npcautodrive being on, the same
-	// combined-BoolCommand-predicate technique as SelfGrid.cpp's
+	// combined-CommandToggle-predicate technique as SelfGrid.cpp's
 	// ShouldClearOrSetWanted().
 	//
 	// Also the Vehicle submenu's root as far as MenuGrid/MenuNavigation

@@ -1,12 +1,12 @@
 #include "Rendering/SelfGrid.hpp"
 
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/Commands.hpp"
 #include "Rendering/AppearanceGrid.hpp"
 #include "Rendering/FreecamGrid.hpp"
 #include "Rendering/GridItemCommandButton.hpp"
-#include "Rendering/GridItemCommandInt.hpp"
-#include "Rendering/GridItemCommandList.hpp"
+#include "Rendering/GridItemCommandSlider.hpp"
+#include "Rendering/GridItemCommandListSelect.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/GridItemText.hpp"
@@ -50,8 +50,8 @@ namespace YimMenu::Rendering
 		// overload directly instead.
 		bool ShouldClearOrSetWanted()
 		{
-			auto* freezewanted = Commands::GetCommand<BoolCommand>("freezewanted"_J);
-			auto* neverwanted = Commands::GetCommand<BoolCommand>("neverwanted"_J);
+			auto* freezewanted = Commands::GetCommand<CommandToggle>("freezewanted"_J);
+			auto* neverwanted = Commands::GetCommand<CommandToggle>("neverwanted"_J);
 			return (!freezewanted || !freezewanted->GetState()) && (!neverwanted || !neverwanted->GetState());
 		}
 	}
@@ -110,14 +110,14 @@ namespace YimMenu::Rendering
 		// below read fine directly following "Categories" above.
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "godmode"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "autoheal"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "maxhealth"_J, std::nullopt, 25));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "maxhealth"_J, std::nullopt, 25));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "noragdoll"_J, "Gracefulness"));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "seatglue"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "wantedslider"_J, "Set Wanted Level"));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "wantedslider"_J, "Set Wanted Level"));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "freezewanted"_J, "Lock Wanted Level"));
-		items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "fakewanted"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "fakewanted"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "infinitestamina"_J));
-		items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "paralock"_J));
+		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "paralock"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "clumsiness"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "respawnrecall"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "refillhealth"_J));

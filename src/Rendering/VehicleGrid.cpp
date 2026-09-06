@@ -1,10 +1,10 @@
 #include "Rendering/VehicleGrid.hpp"
 
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Commands/Commands.hpp"
 #include "Rendering/GridItemCommandButton.hpp"
-#include "Rendering/GridItemCommandInt.hpp"
-#include "Rendering/GridItemCommandList.hpp"
+#include "Rendering/GridItemCommandSlider.hpp"
+#include "Rendering/GridItemCommandListSelect.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemFolder.hpp"
 #include "Rendering/GridItemText.hpp"
@@ -34,8 +34,8 @@ namespace YimMenu::Rendering
 		// than its plain joaat_t one.
 		bool IsAutoDriveEnabled()
 		{
-			auto* playerAutoDrive = Commands::GetCommand<BoolCommand>("autodrive"_J);
-			auto* npcAutoDrive = Commands::GetCommand<BoolCommand>("npcautodrive"_J);
+			auto* playerAutoDrive = Commands::GetCommand<CommandToggle>("autodrive"_J);
+			auto* npcAutoDrive = Commands::GetCommand<CommandToggle>("npcautodrive"_J);
 			return (playerAutoDrive && playerAutoDrive->GetState()) || (npcAutoDrive && npcAutoDrive->GetState());
 		}
 	}
@@ -79,14 +79,14 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "hornboost"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "modifyboostbehavior"_J));
 		if (watchCondition("modifyboostbehavior"_J))
-			items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "boostbehavior"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "boostbehavior"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "autodrive"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "npcautodrive"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "autodrivehud"_J));
 		if (watchCondition(IsAutoDriveEnabled))
-			items_draft.push_back(std::make_unique<GridItemCommandInt>(Theme::kContentWidth, kItemH, "autodrivespeed"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "autodrivespeed"_J));
 		if (watchCondition(IsAutoDriveEnabled))
-			items_draft.push_back(std::make_unique<GridItemCommandList>(Theme::kContentWidth, kItemH, "autodrivestyle"_J));
+			items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "autodrivestyle"_J));
 
 		// Tools (toolsGroup) - all plain CommandItem buttons.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Tools", Theme::kText));

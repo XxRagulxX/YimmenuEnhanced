@@ -3,7 +3,7 @@
 
 namespace YimMenu
 {
-	class BoolCommand : public Command
+	class CommandToggle : public Command
 	{
 	protected:
 		virtual void OnEnable() {};
@@ -16,7 +16,7 @@ namespace YimMenu
 		bool m_Ready = false;
 
 	public:
-		BoolCommand(std::string name, std::string label, std::string description, bool def_value = false);
+		CommandToggle(std::string name, std::string label, std::string description, bool def_value = false);
 		bool GetState();
 		void SetState(bool state);
 		void Initialize();

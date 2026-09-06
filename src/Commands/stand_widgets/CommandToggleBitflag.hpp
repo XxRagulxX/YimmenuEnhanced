@@ -1,5 +1,5 @@
 #pragma once
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 
 #include <utility>
 
@@ -12,15 +12,15 @@ namespace YimMenu::StandWidgets
 	// way Stand's own version is: T is whatever integral type the
 	// packed field actually is (int, uint32_t, ...) - flips a single bit
 	// (or any mask) of *addr on/off, rather than owning a whole bool the
-	// way TogglePointer does. Built the same safe way as TogglePointer/
-	// SliderPointer - BoolCommand's own existing OnEnable()/OnDisable()
-	// hooks, no changes to BoolCommand.hpp needed.
+	// way CommandTogglePointer does. Built the same safe way as CommandTogglePointer/
+	// CommandSliderPointer - CommandToggle's own existing OnEnable()/OnDisable()
+	// hooks, no changes to CommandToggle.hpp needed.
 	template<typename T>
-	class ToggleBitflag : public BoolCommand
+	class CommandToggleBitflag : public CommandToggle
 	{
 	public:
-		ToggleBitflag(std::string name, std::string label, std::string description, T* addr, T mask) :
-		    BoolCommand(std::move(name), std::move(label), std::move(description), addr && (*addr & mask) != T{0}),
+		CommandToggleBitflag(std::string name, std::string label, std::string description, T* addr, T mask) :
+		    CommandToggle(std::move(name), std::move(label), std::move(description), addr && (*addr & mask) != T{0}),
 		    m_Addr(addr),
 		    m_Mask(mask)
 		{

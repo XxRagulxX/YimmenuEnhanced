@@ -58,7 +58,7 @@ namespace YimMenu::Rendering
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Locals", &g_LocalsContent));
 		items_draft.push_back(std::make_unique<GridItemFolder>(Theme::kContentWidth, Theme::kContentItemHeight, "Scripts", &g_ScriptsContent));
 
-		// Test-only page for ToggleBitflag (see
+		// Test-only page for CommandToggleBitflag (see
 		// CommandStandWidgetsTest3.cpp's own class comment) - delete
 		// this row (and everything it references) once confirmed
 		// working in-game.

@@ -1,5 +1,5 @@
 #include "Commands/Command.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "World/Stats.hpp"
 #include "Rendering/Notifications.hpp"
 #include "Scripting/ScriptLocal.hpp"
@@ -18,7 +18,7 @@ namespace YimMenu::Features
 		    {6, "Point and Shoot"},
 		    {7, "Desperate Times Call For..."},
 		    {8, "Peace Offerings"}};
-		static ListCommand _MissionLowrider{"missionlowrider", "Lowrider Mission", "Select Lowrider mission", LowriderMissionList, 1};
+		static CommandListSelect _MissionLowrider{"missionlowrider", "Lowrider Mission", "Select Lowrider mission", LowriderMissionList, 1};
 
 		static std::vector<std::pair<int, const char*>> CasinoStoryMissions = {
 		    {1, "Loose Cheng"},
@@ -27,7 +27,7 @@ namespace YimMenu::Features
 		    {4, "Play to Win"},
 		    {5, "Bad Beat"},
 		    {6, "Cashing Out"}};
-		static ListCommand _MissionCasinoStory{"missioncasinostory", "Casino Story", "Select Casino Story mission", CasinoStoryMissions, 1};
+		static CommandListSelect _MissionCasinoStory{"missioncasinostory", "Casino Story", "Select Casino Story mission", CasinoStoryMissions, 1};
 
 		static std::vector<std::pair<int, const char*>> SuperyachtMissions = {
 		    {1, "Overboard"},
@@ -36,7 +36,7 @@ namespace YimMenu::Features
 		    {4, "Icebreaker"},
 		    {5, "Bon Voyage"},
 		    {6, "D-Day"}};
-		static ListCommand _MissionSuperyacht{"missionsuperyacht", "A Superyacht Life", "Select Superyacht mission", SuperyachtMissions, 1};
+		static CommandListSelect _MissionSuperyacht{"missionsuperyacht", "A Superyacht Life", "Select Superyacht mission", SuperyachtMissions, 1};
 
 		static std::vector<std::pair<int, const char*>> OperationPaperTrailMissions = {
 		    {1, "Intelligence"},
@@ -46,7 +46,7 @@ namespace YimMenu::Features
 		    {5, "Operation Paper Trail"},
 		    {6, "Cleanup"}};
 
-		static ListCommand _MissionOperationPaperTrail{"missionoperationpapertrail", "Operation Paper Trail", "Select Operation Paper Trail mission", OperationPaperTrailMissions, 1};
+		static CommandListSelect _MissionOperationPaperTrail{"missionoperationpapertrail", "Operation Paper Trail", "Select Operation Paper Trail mission", OperationPaperTrailMissions, 1};
 
 		static std::vector<std::pair<int, const char*>> DrugWarsMissions = {
 		    {1, "Welcome to the Troupe (First Dose)"},
@@ -61,7 +61,7 @@ namespace YimMenu::Features
 		    {10, "Checking In (Last Dose)"},
 		    {11, "BDKD (Last Dose)"}};
 
-		static ListCommand _MissionDrugWars{"missiondrugwars", "Los Santos Drug Wars", "Select Drug Wars mission", DrugWarsMissions, 1};
+		static CommandListSelect _MissionDrugWars{"missiondrugwars", "Los Santos Drug Wars", "Select Drug Wars mission", DrugWarsMissions, 1};
 
 		static std::vector<std::pair<int, const char*>> SAMercenariesMissions = {
 		    {1, "Reporting for Duty"},
@@ -72,7 +72,7 @@ namespace YimMenu::Features
 		    {6, "Shock & Awe"},
 		    {7, "Unlock All Missions"}};
 
-		static ListCommand _MissionSAMercenaries{"missionsamercenaries", "San Andreas Mercenaries", "Select San Andreas Mercenaries mission", SAMercenariesMissions, 1};
+		static CommandListSelect _MissionSAMercenaries{"missionsamercenaries", "San Andreas Mercenaries", "Select San Andreas Mercenaries mission", SAMercenariesMissions, 1};
 
 		static std::vector<std::pair<int, const char*>> CluckinBellFarmRaidMissions = {
 		    {1, "Slush Fund"},
@@ -82,7 +82,7 @@ namespace YimMenu::Features
 		    {5, "Disorganized Crime"},
 		    {6, "Scene of The Crime"}};
 
-		static ListCommand _MissionCluckinBellFarmRaid{"missioncluckinbellfarmraid", "The Cluckin' Bell Farm Raid", "Select Cluckin' Bell Farm Raid mission", CluckinBellFarmRaidMissions, 1};
+		static CommandListSelect _MissionCluckinBellFarmRaid{"missioncluckinbellfarmraid", "The Cluckin' Bell Farm Raid", "Select Cluckin' Bell Farm Raid mission", CluckinBellFarmRaidMissions, 1};
 
 		static std::vector<std::pair<int, const char*>> TunersRobberies = {
 		    {1, "Union Depository"},
@@ -94,7 +94,7 @@ namespace YimMenu::Features
 		    {7, "The Lost Contract"},
 		    {8, "The Data Contract"}};
 
-		static ListCommand _MissionTunersRobbery{"missiontunersrobbery", "The Los Santos Tuners Robbery", "Select LS Tuners robbery", TunersRobberies, 1};
+		static CommandListSelect _MissionTunersRobbery{"missiontunersrobbery", "The Los Santos Tuners Robbery", "Select LS Tuners robbery", TunersRobberies, 1};
 
 		static std::vector<std::pair<int, const char*>> ContractMissions = {
 		    {0, "None"},
@@ -110,7 +110,7 @@ namespace YimMenu::Features
 		    {10, "Studio Time"},
 		    {11, "Don't Fuck with Dre"}};
 
-		static ListCommand _MissionContract{"missioncontract", "Contract Missions", "Select Contract Mission", ContractMissions, 0};
+		static CommandListSelect _MissionContract{"missioncontract", "Contract Missions", "Select Contract Mission", ContractMissions, 0};
 
 		static std::vector<std::pair<int, const char*>> SavageYardRobbery = {
 		    {1, "The Cargo Ship Robbery"},
@@ -119,7 +119,7 @@ namespace YimMenu::Features
 		    {4, "The Podium Robbery"},
 		    {5, "The McTony Robbery"}};
 
-		static ListCommand _MissionSavageYard{"missionsavageyard", "The SavageYard Robbery", "Select SavageYard robbery", SavageYardRobbery, 1};
+		static CommandListSelect _MissionSavageYard{"missionsavageyard", "The SavageYard Robbery", "Select SavageYard robbery", SavageYardRobbery, 1};
 
 
 		class LowriderSetup : public Command

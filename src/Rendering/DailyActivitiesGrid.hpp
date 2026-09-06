@@ -20,7 +20,7 @@ namespace YimMenu::Rendering
 	// couple of sections (Hidden Caches/Treasure Chests/Street Dealers)
 	// to need the searchable-list primitive for a long index list, but
 	// each of those ListCommands only has 2-10 entries in practice (see
-	// CommandDailyActivities.cpp) - a plain GridItemCommandList cycling
+	// CommandDailyActivities.cpp) - a plain GridItemCommandListSelect cycling
 	// stepper is plenty, so there was nothing left that actually needed
 	// splitting into sub-pages.
 	class DailyActivitiesGrid : public Grid

@@ -1,4 +1,4 @@
-#include "Commands/BoolCommand.hpp"
+#include "Commands/CommandToggle.hpp"
 #include "Scripting/NativeHooks.hpp"
 #include "Scripting/Natives.hpp"
 
@@ -7,9 +7,9 @@ namespace YimMenu::Features
 	static void NetworkCasinoCanBetHook(rage::scrNativeCallContext* ctx);
 	static void NetworkCasinoCanBuyChipsPVCHook(rage::scrNativeCallContext* ctx);
 
-	class BypassCasinoRestrictions : public BoolCommand
+	class BypassCasinoRestrictions : public CommandToggle
 	{
-		using BoolCommand::BoolCommand;
+		using CommandToggle::CommandToggle;
 
 		virtual void OnEnable() override
 		{

@@ -1,6 +1,6 @@
 #include "Commands/Command.hpp"
-#include "Commands/IntCommand.hpp"
-#include "Commands/ListCommand.hpp"
+#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandListSelect.hpp"
 #include "World/Stats.hpp"
 #include "Scripting/ScriptGlobal.hpp"
 #include "Scripting/ScriptLocal.hpp"
@@ -21,10 +21,10 @@ namespace YimMenu::Features
 			float heading;
 			const char* name;
 		};
-		static IntCommand _DoomsdayHeistCut1{"doomsdayheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _DoomsdayHeistCut2{"doomsdayheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _DoomsdayHeistCut3{"doomsdayheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
-		static IntCommand _DoomsdayHeistCut4{"doomsdayheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
+		static CommandSlider _DoomsdayHeistCut1{"doomsdayheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
+		static CommandSlider _DoomsdayHeistCut2{"doomsdayheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
+		static CommandSlider _DoomsdayHeistCut3{"doomsdayheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
+		static CommandSlider _DoomsdayHeistCut4{"doomsdayheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
 
 		class SetCuts : public Command
 		{
@@ -48,7 +48,7 @@ namespace YimMenu::Features
 		    {0, "Heist Board"},
 		    {1, "Prisoner Cell"}};
 
-		static ListCommand _DoomsDayHeistTeleportList{"doomsdayheistteleportlist", "TP", "Teleport Location", DoomsDayHeistTeleportList, 0};
+		static CommandListSelect _DoomsDayHeistTeleportList{"doomsdayheistteleportlist", "TP", "Teleport Location", DoomsDayHeistTeleportList, 0};
 
 		static std::vector<std::pair<int, const char*>> DoomsDayHeistPlayers = {
 		    {1, "1 Player"},
@@ -56,7 +56,7 @@ namespace YimMenu::Features
 		    {3, "3 Players"},
 		    {4, "4 Players"}};
 
-		static ListCommand _DoomsDayHeistPlayers{"doomsdayheistplayers", "Players", "How many players are in the heist", DoomsDayHeistPlayers, 1};
+		static CommandListSelect _DoomsDayHeistPlayers{"doomsdayheistplayers", "Players", "How many players are in the heist", DoomsDayHeistPlayers, 1};
 
 
 		class ForceReady : public Command
@@ -79,7 +79,7 @@ namespace YimMenu::Features
 		    {0, "The Data Breaches"},
 		    {1, "The Bogdan Problem"},
 		    {2, "The Doomsday Senario"}};
-		static ListCommand _DoomsdayHeistCategory{"doomsdayheistcategory", "Select Heist", "Heist categories", doomsdayHeistCategory, 0};
+		static CommandListSelect _DoomsdayHeistCategory{"doomsdayheistcategory", "Select Heist", "Heist categories", doomsdayHeistCategory, 0};
 
 		class Setup : public Command
 		{
@@ -169,7 +169,7 @@ namespace YimMenu::Features
 
 			void ApplyCuts(int totalCut, int players)
 			{
-				std::array<IntCommand*, 4> cmds = {
+				std::array<CommandSlider*, 4> cmds = {
 				    &_DoomsdayHeistCut1,
 				    &_DoomsdayHeistCut2,
 				    &_DoomsdayHeistCut3,
