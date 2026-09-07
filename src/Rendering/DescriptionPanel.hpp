@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 namespace YimMenu::Rendering
 {
@@ -20,16 +21,25 @@ namespace YimMenu::Rendering
 	// than needing anything pushed to it, and drawing nothing at all
 	// when nothing's focused or the focused item has no description.
 	//
-	// Positioned to the LEFT of the sidebar (see the .cpp's own layout
-	// comment for why) - the only region of this system's own fixed
-	// 1920x1080 H-space layout that's genuinely free regardless of
-	// content width or scroll state, unlike real Stand's own default
-	// "beside content" placement (ALIGN_TOP_RIGHT), which doesn't fit
-	// this project's own numbers.
+	// Positioned directly below the sidebar - real Stand's own "Below
+	// Tabs" placement (confirmed against origin/stand-reference's own
+	// MenuGrid.cpp: ALIGN_BOTTOM_RIGHT forces info_text_force_alignment_to
+	// to tabs_left and switches the actual text alignment to
+	// ALIGN_BOTTOM_LEFT, i.e. anchored under the tab strip's own bottom
+	// edge) - not real Stand's own DEFAULT (ALIGN_TOP_RIGHT, beside
+	// content), which doesn't fit this project's own fixed 1920x1080
+	// H-space layout: content already runs from the sidebar's own right
+	// edge out to x=1888 of 1920 (only 32px short of the edge), leaving
+	// nowhere to float a panel beside it. sidebarX/Y/Width/Height (from
+	// MenuGrid::GetSidebarRect(), already runtime-position-adjusted the
+	// same way GetHeaderBarRect() is) are passed in rather than read
+	// from a global, the same reason GridRenderer already reads
+	// GetHeaderBarRect() itself for HeaderBanner's own placement instead
+	// of MenuGrid exposing g_MenuGrid globally.
 	class DescriptionPanel
 	{
 	public:
-		static void Draw();
-		static void DrawText();
+		static void Draw(int16_t sidebarX, int16_t sidebarY, int16_t sidebarWidth, int16_t sidebarHeight);
+		static void DrawText(int16_t sidebarX, int16_t sidebarY, int16_t sidebarWidth, int16_t sidebarHeight);
 	};
 }

@@ -248,8 +248,12 @@ namespace YimMenu::Rendering
 				g_MenuGrid.draw();
 				// Same free-standing-overlay shape as MenuPopup/
 				// MenuCommandBox below - see DescriptionPanel's own
-				// class comment.
-				DescriptionPanel::Draw();
+				// class comment for why it needs the sidebar's own rect.
+				{
+					int16_t sidebarX, sidebarY, sidebarWidth, sidebarHeight;
+					if (g_MenuGrid.GetSidebarRect(sidebarX, sidebarY, sidebarWidth, sidebarHeight))
+						DescriptionPanel::Draw(sidebarX, sidebarY, sidebarWidth, sidebarHeight);
+				}
 				// Drawn last, on top of everything else - see MenuPopup's
 				// own class comment for why this is a free-standing
 				// overlay rather than a GridItem/Grid of its own.
@@ -301,7 +305,11 @@ namespace YimMenu::Rendering
 			if (menuActive)
 			{
 				g_MenuGrid.drawText();
-				DescriptionPanel::DrawText();
+				{
+					int16_t sidebarX, sidebarY, sidebarWidth, sidebarHeight;
+					if (g_MenuGrid.GetSidebarRect(sidebarX, sidebarY, sidebarWidth, sidebarHeight))
+						DescriptionPanel::DrawText(sidebarX, sidebarY, sidebarWidth, sidebarHeight);
+				}
 				MenuPopup::DrawText();
 				MenuCommandBox::DrawText();
 			}

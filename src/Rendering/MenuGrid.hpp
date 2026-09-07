@@ -97,6 +97,15 @@ namespace YimMenu::Rendering
 		// guards against a call before the first draw()).
 		bool GetHeaderBarRect(int16_t& x, int16_t& y, int16_t& width) const;
 
+		// x/y/width/height of whichever sidebar (m_Sidebar/
+		// m_SidebarHorizontal) is currently active, same runtime-offset
+		// handling as GetHeaderBarRect() above - DescriptionPanel's own
+		// "below the sidebar" placement needs this (see its own class
+		// comment for why there, not beside/below content). Returns
+		// false if populate() hasn't run yet or Theme::kTabsVisible is
+		// false (no sidebar at all).
+		bool GetSidebarRect(int16_t& x, int16_t& y, int16_t& width, int16_t& height) const;
+
 	protected:
 		void populate(std::vector<std::unique_ptr<GridItem>>& items_draft) override;
 

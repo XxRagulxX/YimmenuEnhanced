@@ -211,6 +211,22 @@ namespace YimMenu::Rendering
 		return true;
 	}
 
+	bool MenuGrid::GetSidebarRect(int16_t& x, int16_t& y, int16_t& width, int16_t& height) const
+	{
+		auto* sidebar = SidebarItem();
+		if (!sidebar)
+			return false;
+
+		const auto offsetX = static_cast<int16_t>(Theme::kMenuOriginX - Theme::kDefaultMenuOriginX);
+		const auto offsetY = static_cast<int16_t>(Theme::kMenuOriginY - Theme::kDefaultMenuOriginY);
+
+		x = static_cast<int16_t>(sidebar->x + offsetX);
+		y = static_cast<int16_t>(sidebar->y + offsetY);
+		width = sidebar->width;
+		height = sidebar->height;
+		return true;
+	}
+
 	GridItem* MenuGrid::SidebarItem() const
 	{
 		if (m_Sidebar)
