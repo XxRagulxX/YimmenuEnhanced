@@ -38,6 +38,8 @@ namespace YimMenu::Rendering
 		// stepping it. See OpenCommandBox()'s own comment.
 		void activate() override;
 
+		[[nodiscard]] std::string GetDescription() const override;
+
 	private:
 		void Step(int direction);
 

@@ -663,6 +663,11 @@ namespace YimMenu::Rendering
 				MenuNavigation::Push(m_Label, m_Target);
 			}
 
+			[[nodiscard]] std::string GetDescription() const override
+			{
+				return m_Command ? m_Command->GetDescription() : std::string{};
+			}
+
 		private:
 			std::string m_Label;
 			Grid* m_Target;

@@ -52,6 +52,17 @@ namespace YimMenu::Rendering
 	{
 	}
 
+	std::string GridItemStandCommand::GetDescription() const
+	{
+		if (!m_Command)
+			return {};
+
+		if (auto* physical = m_Command->getPhysical())
+			return physical->help_text.getLocalisedUtf8();
+
+		return {};
+	}
+
 	void GridItemStandCommand::draw()
 	{
 		if (isKeyboardFocused())

@@ -27,6 +27,11 @@ namespace YimMenu::Rendering
 	{
 	}
 
+	std::string GridItemCommandSliderFloat::GetDescription() const
+	{
+		return m_Command ? m_Command->GetDescription() : std::string{};
+	}
+
 	const std::string& GridItemCommandSliderFloat::Label() const
 	{
 		static const std::string unknown = "Unknown!";

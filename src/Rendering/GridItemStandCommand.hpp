@@ -55,6 +55,8 @@ namespace YimMenu::Rendering
 		void activate() override;
 		bool onArrow(int delta) override;
 
+		[[nodiscard]] std::string GetDescription() const override;
+
 	private:
 		void ToggleClicked();
 		void SliderStep(int direction);

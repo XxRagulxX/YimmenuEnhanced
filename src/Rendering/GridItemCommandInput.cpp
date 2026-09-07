@@ -45,7 +45,14 @@ namespace YimMenu::Rendering
 	        nullptr, scrolling, maxLength.value_or(255), maxLength.has_value() ? std::function<void()>([maxLength] {
 		        Notifications::Show("Input", "Limited to " + std::to_string(*maxLength) + " characters.", NotificationType::Warning);
 	        }) :
-	                                                                             nullptr)
+	                                                                             nullptr),
+	    m_Id(id)
 	{
+	}
+
+	std::string GridItemCommandInput::GetDescription() const
+	{
+		auto* command = Commands::GetCommand<CommandInput>(m_Id);
+		return command ? command->GetDescription() : std::string{};
 	}
 }

@@ -16,6 +16,11 @@ namespace YimMenu::Rendering
 	{
 	}
 
+	std::string GridItemCommandButton::GetDescription() const
+	{
+		return m_Command ? m_Command->GetDescription() : std::string{};
+	}
+
 	const std::string& GridItemCommandButton::Label() const
 	{
 		static const std::string unknown = "Unknown!";

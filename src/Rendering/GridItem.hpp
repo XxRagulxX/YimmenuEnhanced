@@ -4,6 +4,7 @@
 
 #include <climits>
 #include <cstdint>
+#include <string>
 
 namespace YimMenu::Rendering
 {
@@ -205,6 +206,25 @@ namespace YimMenu::Rendering
 		void setFocusProxy(GridItem* proxy)
 		{
 			m_FocusProxy = proxy;
+		}
+
+		// Help text for whatever real command backs this row (empty if
+		// none, or if it has none) - this project's own addition, for
+		// DescriptionPanel (Rendering/DescriptionPanel.hpp), which shows
+		// it for whichever item MenuFocus::GetFocusedItem() currently
+		// returns. Real Stand's own equivalent is
+		// CommandPhysical::populateCorner() (confirmed against
+		// origin/stand-reference), which every CommandPhysical already
+		// participates in automatically since it owns its own help_text
+		// directly - there's no such single base class here spanning
+		// both this project's own YimMenu::Command tree and the ported
+		// Stand::CommandPhysical one, so every GridItem that wraps
+		// either kind overrides this itself instead. Default empty:
+		// chrome (GridItemText, GridItemAddressbar, ...) and anything
+		// not yet wired up have nothing to show.
+		[[nodiscard]] virtual std::string GetDescription() const
+		{
+			return {};
 		}
 
 	private:

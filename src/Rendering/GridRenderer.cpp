@@ -4,6 +4,7 @@
 #include "Menu/GUI.hpp"
 #include "Rendering/AutoDriveHUD.hpp"
 #include "Rendering/ChatDisplay.hpp"
+#include "Rendering/DescriptionPanel.hpp"
 #include "Rendering/ESP.hpp"
 #include "Rendering/HeaderBanner.hpp"
 #include "Rendering/Onboarding.hpp"
@@ -245,6 +246,10 @@ namespace YimMenu::Rendering
 			if (menuActive)
 			{
 				g_MenuGrid.draw();
+				// Same free-standing-overlay shape as MenuPopup/
+				// MenuCommandBox below - see DescriptionPanel's own
+				// class comment.
+				DescriptionPanel::Draw();
 				// Drawn last, on top of everything else - see MenuPopup's
 				// own class comment for why this is a free-standing
 				// overlay rather than a GridItem/Grid of its own.
@@ -296,6 +301,7 @@ namespace YimMenu::Rendering
 			if (menuActive)
 			{
 				g_MenuGrid.drawText();
+				DescriptionPanel::DrawText();
 				MenuPopup::DrawText();
 				MenuCommandBox::DrawText();
 			}

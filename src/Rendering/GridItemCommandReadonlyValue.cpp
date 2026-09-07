@@ -29,6 +29,12 @@ namespace YimMenu::Rendering
 			GridRenderer::DrawRect(x, y, width, height, Theme::kAccent);
 	}
 
+	std::string GridItemCommandReadonlyValue::GetDescription() const
+	{
+		auto* command = Commands::GetCommand<StandWidgets::CommandReadonlyValue>(m_Id);
+		return command ? command->GetDescription() : std::string{};
+	}
+
 	void GridItemCommandReadonlyValue::drawText()
 	{
 		auto* command = Commands::GetCommand<StandWidgets::CommandReadonlyValue>(m_Id);

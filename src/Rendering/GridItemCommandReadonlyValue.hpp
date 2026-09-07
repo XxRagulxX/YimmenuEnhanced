@@ -33,6 +33,8 @@ namespace YimMenu::Rendering
 
 		void activate() override;
 
+		[[nodiscard]] std::string GetDescription() const override;
+
 	private:
 		void CopyToClipboard();
 

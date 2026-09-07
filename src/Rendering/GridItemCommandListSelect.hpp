@@ -50,6 +50,8 @@ namespace YimMenu::Rendering
 		// value like this behaves in Stand itself.
 		bool onArrow(int delta) override;
 
+		[[nodiscard]] std::string GetDescription() const override;
+
 	private:
 		void Cycle(int direction);
 

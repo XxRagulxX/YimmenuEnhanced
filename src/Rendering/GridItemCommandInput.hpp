@@ -32,5 +32,16 @@ namespace YimMenu::Rendering
 		    std::optional<std::string> labelOverride = std::nullopt,
 		    bool scrolling = false,
 		    std::optional<std::size_t> maxLength = std::nullopt);
+
+		[[nodiscard]] std::string GetDescription() const override;
+
+	private:
+		// GridItemTextInput itself has no notion of a Command at all
+		// (see ResolveLabel()'s own comment in the .cpp) - kept here
+		// purely so GetDescription() has something to look the command
+		// back up by, the same "look it up again rather than plumb a
+		// pointer through the base class" trade-off ResolveLabel()/
+		// ResolveInitialValue() already make.
+		joaat_t m_Id;
 	};
 }
