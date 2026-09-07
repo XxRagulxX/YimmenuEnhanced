@@ -9,6 +9,7 @@
 #include "Rendering/HeaderBanner.hpp"
 #include "Rendering/Onboarding.hpp"
 #include "Rendering/MenuCommandBox.hpp"
+#include "Rendering/MenuCommandConsole.hpp"
 #include "Rendering/MenuFocus.hpp"
 #include "Rendering/MenuGrid.hpp"
 #include "Rendering/MenuNavigation.hpp"
@@ -276,6 +277,7 @@ namespace YimMenu::Rendering
 				// overlay rather than a GridItem/Grid of its own.
 				MenuPopup::Draw();
 				MenuCommandBox::Draw();
+				MenuCommandConsole::Draw();
 			}
 
 			// Real Stand's own CommandListNotifySettings::onActiveListUpdate()
@@ -342,6 +344,7 @@ namespace YimMenu::Rendering
 				}
 				MenuPopup::DrawText();
 				MenuCommandBox::DrawText();
+				MenuCommandConsole::DrawText();
 			}
 
 			Notifications::DrawText();
@@ -536,6 +539,19 @@ namespace YimMenu::Rendering
 			return;
 		}
 
+		// MenuCommandConsole - same precedence/reasoning as MenuCommandBox
+		// right above (the two are never open at once - see that class's
+		// own header comment).
+		if (MenuCommandConsole::IsOpen())
+		{
+			if (msg == WM_CHAR)
+				MenuCommandConsole::HandleChar(static_cast<wchar_t>(wparam));
+			else if (msg == WM_KEYDOWN)
+				MenuCommandConsole::HandleKey(static_cast<unsigned int>(wparam));
+
+			return;
+		}
+
 		// MenuPopup takes over every input while open, ahead of even the
 		// text-edit interception right below - a popup open on top of a
 		// text field mid-edit still wins. See MenuPopup's own class
@@ -598,6 +614,19 @@ namespace YimMenu::Rendering
 		// from here any more. See RawInput.cpp's own comment for the
 		// other half of this bug (mouse clicks not reaching the game at
 		// all while the menu was open).
+
+		// Opens MenuCommandConsole - the ` (grave/tilde, VK_OEM_3) key,
+		// unused by anything else in this system (GUI::WndProc's own
+		// menu-toggle only checks VK_INSERT/Ctrl+VK_OEM_5) or the game
+		// itself while the menu's open. Checked after every "something
+		// else already owns input" branch above, same as MenuGrid::
+		// HandleKey() below, so it can never fire while a text field or
+		// another overlay is already active.
+		if (msg == WM_KEYDOWN && wparam == VK_OEM_3 && !Rendering::InputCapture::IsTextInputActive())
+		{
+			MenuCommandConsole::Open();
+			return;
+		}
 
 		// Every other key this system responds to (Up/Down/Left/Right/
 		// Enter/Backspace - see MenuGrid::HandleKey()) - the InputCapture
