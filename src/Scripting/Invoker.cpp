@@ -6,7 +6,7 @@
 #include "Core/Hooking.hpp"
 #include "Scripting/scrProgram.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void NativeInvoker::DefaultHandler(rage::scrNativeCallContext* ctx)
 	{

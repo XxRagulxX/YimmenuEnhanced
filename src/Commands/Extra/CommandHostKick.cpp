@@ -1,7 +1,7 @@
 #include "Commands/PlayerCommand.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class HostKick : public PlayerCommand
 	{

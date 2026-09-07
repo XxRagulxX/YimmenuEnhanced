@@ -1,6 +1,6 @@
 #include "Scripting/ScriptLocal.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void* ScriptLocal::Get() const
 	{

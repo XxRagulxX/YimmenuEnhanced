@@ -3,7 +3,7 @@
 #include "Scripting/LuaMainUtils.hpp"
 #include "Game/Pools.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	class Entities : LuaLibrary
 	{

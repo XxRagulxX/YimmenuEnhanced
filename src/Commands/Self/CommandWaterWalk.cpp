@@ -2,7 +2,7 @@
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Real Stand's own CommandWaterWalk pokes a raw CPed struct field
 	// (m_nPhysicalFlags.bIsNotBuoyant) this project has no equivalent

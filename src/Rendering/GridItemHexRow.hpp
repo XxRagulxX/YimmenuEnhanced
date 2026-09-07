@@ -9,7 +9,7 @@ namespace rage
 	class scrProgram;
 }
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// One 16-byte row of Debug > Scripts > Threads' bytecode viewer -
 	// mirrors MenuScripts.cpp's RenderBytecode() row rendering, but as a

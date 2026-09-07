@@ -6,7 +6,7 @@
 
 #undef DeleteFile
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	namespace fs = std::filesystem;
 
@@ -14,8 +14,8 @@ namespace YimMenu::Lua
 	{
 		static const fs::path root = [] {
 			std::error_code ec;
-			auto p = fs::weakly_canonical(YimMenu::FileMgr::GetProjectFolder("./scripts").Path(), ec);
-			return ec ? YimMenu::FileMgr::GetProjectFolder("./scripts").Path() : p;
+			auto p = fs::weakly_canonical(StandEnhanced::FileMgr::GetProjectFolder("./scripts").Path(), ec);
+			return ec ? StandEnhanced::FileMgr::GetProjectFolder("./scripts").Path() : p;
 		}();
 		return root;
 	}

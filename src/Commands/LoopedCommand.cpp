@@ -1,7 +1,7 @@
 #include "Commands/LoopedCommand.hpp"
 #include "Commands/Commands.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	LoopedCommand::LoopedCommand(std::string name, std::string label, std::string description) :
 	    CommandToggle(name, label, description)

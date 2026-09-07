@@ -2,7 +2,7 @@
 
 #include "Core/LogSink.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	LogHelper::~LogHelper()
 	{

@@ -1,7 +1,7 @@
 #include "Scripting/LuaResource.hpp"
 #include "Scripting/LuaManager.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void LuaResourceType::Register()
 	{

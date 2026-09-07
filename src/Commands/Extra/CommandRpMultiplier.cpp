@@ -2,7 +2,7 @@
 #include "Commands/CommandSliderFloat.hpp"
 #include "Network/Tunables.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static CommandSliderFloat _RpMultiplierInput{"rpmultiplierinput", "RP Multiplier Input", "RP Mulitplier (< 0 = 0 -> No RP)", std::nullopt, std::nullopt, 1};
 

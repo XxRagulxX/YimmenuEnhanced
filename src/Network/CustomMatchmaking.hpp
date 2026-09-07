@@ -11,7 +11,7 @@ namespace rage
 class MatchmakingAttributes;
 class MatchmakingId;
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class CustomMatchmaking
 	{

@@ -20,7 +20,7 @@
 #include "Rendering/WeaponsGrid.hpp"
 #include "Util/Joaat.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{
@@ -80,7 +80,7 @@ namespace YimMenu::Rendering
 		// Appearance/Weapons are each their own folder page now
 		// (MovementGrid/AppearanceGrid/WeaponsGrid), matching Stand's
 		// real tree instead of this project's old flat grouping (a
-		// leftover of the classic YimMenu menu's own categories,
+		// leftover of the classic StandEnhanced menu's own categories,
 		// unrelated to Stand's). Bodyguards omitted: nothing's ported
 		// there yet, and an empty folder that opens to nothing is worse
 		// than no row at all - same reasoning this project already

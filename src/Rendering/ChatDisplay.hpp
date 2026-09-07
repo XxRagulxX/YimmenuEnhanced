@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	struct Message
 	{

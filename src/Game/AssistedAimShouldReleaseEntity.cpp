@@ -6,7 +6,7 @@
 #include "Core/Pointers.hpp"
 #include "Core/Hooking.hpp"
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	static CommandToggle _AimbotReleaseDeadPed{"aimbotreleasedeadped", "Release Dead Target", "Releases the lock-on to the target after they are dead"};
 

@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <cmath>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

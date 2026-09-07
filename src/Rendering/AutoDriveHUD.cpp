@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	using namespace Features::AutoDriveInternal;
 	using namespace std::chrono_literals;

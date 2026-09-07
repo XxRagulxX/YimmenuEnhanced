@@ -2,7 +2,7 @@
 #include "Core/Hooks.hpp"
 #include "Core/Hooking.hpp"
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	BOOL Anticheat::GetThreadContext(HANDLE hThread, LPCONTEXT lpContext)
 	{

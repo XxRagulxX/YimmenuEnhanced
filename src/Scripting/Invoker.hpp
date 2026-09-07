@@ -3,7 +3,7 @@
 #include "Scripting/scrNativeHandler.hpp"
 
 enum class NativeIndex;
-namespace YimMenu
+namespace StandEnhanced
 {
 	class CustomCallContext : public rage::scrNativeCallContext
 	{

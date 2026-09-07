@@ -6,7 +6,7 @@
 
 #include "Core/DetourHook.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class Hooking
 	{

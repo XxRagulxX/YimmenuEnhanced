@@ -12,7 +12,7 @@
 #include <utility>
 #include <windows.h>
 
-namespace YimMenu::StandWidgets
+namespace StandEnhanced::StandWidgets
 {
 	namespace Detail
 	{

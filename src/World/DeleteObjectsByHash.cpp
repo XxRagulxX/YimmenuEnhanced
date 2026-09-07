@@ -1,11 +1,11 @@
 #include "Scripting/Natives.hpp"
 #include "Game/Pools.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void DeleteObjectsByHash(Hash hash)
 	{
-		for (auto object : YimMenu::Pools::GetObjects())
+		for (auto object : StandEnhanced::Pools::GetObjects())
 		{
 			if (!object)
 				continue;

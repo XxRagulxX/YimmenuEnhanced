@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Players > Toxic: mirrors Toxic.cpp's damage/
 	// griefing groups exactly - every item there is a PlayerCommandItem,

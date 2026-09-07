@@ -10,7 +10,7 @@ namespace rage
 
 class SimplePattern;
 
-namespace YimMenu::Scripts
+namespace StandEnhanced::Scripts
 {
 	extern int StartScript(joaat_t hash, eStackSizes stackSize = eStackSizes::DEFAULT, void* args = nullptr, int argCount = 0);
 	extern bool IsScriptActive(joaat_t hash);

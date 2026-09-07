@@ -3,7 +3,7 @@
 #include "Core/Hooking.hpp"
 
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	void Anticheat::HttpStartRequest(void* request)
 	{

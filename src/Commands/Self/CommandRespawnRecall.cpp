@@ -1,7 +1,7 @@
 #include "Commands/LoopedCommand.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Ported from real Stand's own CommandRespawnRecall: remembers where
 	// you died, then - once you're alive again - warps you back there

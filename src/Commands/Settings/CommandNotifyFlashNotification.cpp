@@ -1,7 +1,7 @@
 #include "Commands/Widgets/CommandLambdaAction.hpp"
 #include "Rendering/Notifications.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Ported from real Stand's own "Flash Notification" (Commands/Online/
 	// CommandListNotifySettings.cpp on origin/stand-reference) - real

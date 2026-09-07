@@ -4,7 +4,7 @@
 #include "Scripting/ScriptPatches.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static std::vector<std::pair<int, const char*>> g_WeatherTypes = {
 	    {0, "Clear"},

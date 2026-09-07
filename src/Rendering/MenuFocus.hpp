@@ -2,7 +2,7 @@
 #include <cstddef>
 #include <cstdint>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	class Grid;
 	class GridItem;

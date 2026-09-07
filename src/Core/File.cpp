@@ -1,7 +1,7 @@
 #include "Core/File.hpp"
 #include "Core/FileMgr.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	File::File(const std::filesystem::path& path) :
 	    BaseObj(path)

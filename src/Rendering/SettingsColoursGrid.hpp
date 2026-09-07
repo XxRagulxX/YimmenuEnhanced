@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Settings > Appearance > Colours - real Stand's own Colours list
 	// (CommandTabStand.cpp) - Primary Colour (+ its own nested Rainbow

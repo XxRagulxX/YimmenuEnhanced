@@ -15,7 +15,7 @@
 
 #include <AsyncLogger/Logger.hpp>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	long handle_exception_spec(void*) noexcept
 	{
@@ -36,20 +36,20 @@ namespace YimMenu
 extern "C"
 {
 	void exceptional_init(
-	    YimMenu::handle_caught_exception_t fpCaughtExp,
-	    YimMenu::handle_uncaught_exception_t fpLogUncaughtExp);
+	    StandEnhanced::handle_caught_exception_t fpCaughtExp,
+	    StandEnhanced::handle_uncaught_exception_t fpLogUncaughtExp);
 
 	void disable_exception_handling();
 
 	[[nodiscard]] bool exceptional_has_exp();
 
-	void exceptional_get_exp(void** pOutData, YimMenu::handle_exception_t* pOutHandler);
+	void exceptional_get_exp(void** pOutData, StandEnhanced::handle_exception_t* pOutHandler);
 
 	void exceptional_clear_exp();
 
-	long exceptional_on_exception(YimMenu::ExceptionData* data, YimMenu::handle_caught_exception_t handler);
+	long exceptional_on_exception(StandEnhanced::ExceptionData* data, StandEnhanced::handle_caught_exception_t handler);
 
-	long exceptional_on_caught_exception(YimMenu::ExceptionData* data);
+	long exceptional_on_caught_exception(StandEnhanced::ExceptionData* data);
 
 	long exceptional_on_uncaught_exception(_EXCEPTION_POINTERS* exp);
 
@@ -57,7 +57,7 @@ extern "C"
 }
 
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	namespace
 	{
@@ -227,7 +227,7 @@ namespace YimMenu
 			    /*
 			     * Stand installs these CRT/runtime handlers when its
 			     * worker threads start. They are process-wide handlers,
-			     * so do not reinstall the YimMenu unhandled-exception
+			     * so do not reinstall the StandEnhanced unhandled-exception
 			     * filter here; it is installed during startup in main.cpp.
 			     */
 

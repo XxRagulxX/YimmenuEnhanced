@@ -2,7 +2,7 @@
 #include "Commands/Commands.hpp"
 #include "Commands/CommandSlider.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	IntCommandItem::IntCommandItem(joaat_t id, std::optional<std::string> label_override, bool use_slider) :
 	    m_useSlider(use_slider),

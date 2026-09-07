@@ -4,7 +4,7 @@
 #include "Core/Pointers.hpp"
 #include "Core/Hooking.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class CheaterPool : public LoopedCommand
 	{
@@ -32,14 +32,14 @@ namespace YimMenu::Features
 		}
 	};
 
-	static CheaterPool _CheaterPool{"cheaterpool", "Join YimMenu-only Sessions", "Matchmaking will put you into sessions with other YimMenu users."};
+	static CheaterPool _CheaterPool{"cheaterpool", "Join StandEnhanced-only Sessions", "Matchmaking will put you into sessions with other StandEnhanced users."};
 }
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	int Network::GetPoolType()
 	{
-		if (YimMenu::Features::_CheaterPool.GetState())
+		if (StandEnhanced::Features::_CheaterPool.GetState())
 			return 1;
 
 		return Hooking::Get<Network::GetPoolType>()->Original<decltype(&Network::GetPoolType)>()();

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	// First-run welcome/session-mode popup: mirrors the pre-port ImGui
 	// modal (BeginPopupModal, a radio choice plus two "open a link"

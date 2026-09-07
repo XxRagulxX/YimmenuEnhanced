@@ -1,6 +1,6 @@
 #include "Scripting/LuaLibrary.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	class Default : LuaLibrary
 	{

@@ -2,7 +2,7 @@
 #include "Network/SavedPlayerData.hpp"
 #include "Game/Player.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class SavedPlayers
 	{

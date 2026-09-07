@@ -4,7 +4,7 @@
 
 #include "Scripting/Natives.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class CopsDispatch : public LoopedCommand
 	{

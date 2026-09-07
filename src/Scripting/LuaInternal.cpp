@@ -4,7 +4,7 @@
 #include "World/Self.hpp"
 #include "Util/Joaat.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	// only use for internal testing
 	class Internal : LuaLibrary

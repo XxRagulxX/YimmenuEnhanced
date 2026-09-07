@@ -1,7 +1,7 @@
 #include "Scripting/LuaLibrary.hpp"
 #include "Scripting/LuaManager.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	LuaLibrary::LuaLibrary()
 	{

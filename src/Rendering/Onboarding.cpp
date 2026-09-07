@@ -9,7 +9,7 @@
 
 #include <shellapi.h>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	namespace
 	{
@@ -32,24 +32,24 @@ namespace YimMenu
 		};
 
 		int g_FocusedRow = 0;
-		int g_SessionMode = 0; // 0 = YimMenu-only, 1 = Everyone
+		int g_SessionMode = 0; // 0 = StandEnhanced-only, 1 = Everyone
 
 		constexpr const char* kHint = "Up/Down: navigate   Left/Right: change   Enter: select";
 
 		constexpr const char* kParagraph1 =
-		    "Welcome to YimMenuV2! You can press INSERT or Ctrl+\\ to open the menu. With the introduction of BattlEye, the ability to join and stay in public sessions has been severely limited. "
-		    "You have an option to play only with other YimMenu users, or you can choose to connect to regular BattlEye-protected sessions. "
+		    "Welcome to StandEnhanced! You can press INSERT or Ctrl+\\ to open the menu. With the introduction of BattlEye, the ability to join and stay in public sessions has been severely limited. "
+		    "You have an option to play only with other StandEnhanced users, or you can choose to connect to regular BattlEye-protected sessions. "
 		    "You will automatically be kicked out of regular sessions in under three minutes, and you may be temporarily blacklisted from "
 		    "joining for up to two days, even after re-enabling BattlEye";
 
 		constexpr const char* kParagraph2 =
-		    "You can always change your choice by toggling Network > Spoofing > Join YimMenu-only Sessions. Our official repository is at "
+		    "You can always change your choice by toggling Network > Spoofing > Join StandEnhanced-only Sessions. Our official repository is at "
 		    "https://github.com/YimMenu/YimMenuV2. Make sure to only download the menu from GitHub to avoid malware. "
 		    "You can use the repository to report bugs, suggest features, and contribute by making pull requests. We also have a "
 		    "Matrix server that can be found at https://matrix.to/#/#yimmenu:matrix.org for faster communication with developers "
 		    "and other users. Matrix is a free and open source alternative to Discord, and creating an account is safe and easy";
 
-		constexpr const char* kParagraph3 = "Check for updates reguarly; we publish new builds every night. But most importantly, mess around and have fun with YimMenu!";
+		constexpr const char* kParagraph3 = "Check for updates reguarly; we publish new builds every night. But most importantly, mess around and have fun with StandEnhanced!";
 
 		constexpr const char* kTitle = "IMPORTANT! PLEASE READ!";
 
@@ -183,7 +183,7 @@ namespace YimMenu
 			y += layout.lineHeight;
 		}
 
-		const char* modeLabel = g_SessionMode == 0 ? "Session Mode:  <  Play with YimMenu users  >" : "Session Mode:  <  Play with everyone (Broken!)  >";
+		const char* modeLabel = g_SessionMode == 0 ? "Session Mode:  <  Play with StandEnhanced users  >" : "Session Mode:  <  Play with everyone (Broken!)  >";
 		GridRenderer::DrawText(x + 4.f, layout.panelY + layout.sessionModeY + rowTextY, modeLabel, Theme::kText, kTextScale);
 
 		y = layout.panelY + layout.para2Y;

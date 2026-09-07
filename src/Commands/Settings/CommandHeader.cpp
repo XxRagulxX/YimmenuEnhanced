@@ -2,7 +2,7 @@
 #include "Core/FileMgr.hpp"
 #include "Rendering/HeaderBanner.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Ported from real Stand's own "Custom Header" (Commands/Widgets/
 	// CommandHeader.hpp/.cpp on origin/stand-reference) - a local image
@@ -14,7 +14,7 @@ namespace YimMenu::Features
 	// network access this project deliberately doesn't use.
 	//
 	// The folder itself lives at this project's own %appdata%/
-	// YimMenuV2/Headers (FileMgr::GetProjectFolder("./Headers"), the
+	// StandEnhanced/Headers (FileMgr::GetProjectFolder("./Headers"), the
 	// same "sibling of wherever this project already keeps its own user
 	// files" precedent CommandSavedVehicles/LuaFileMgr already set) in
 	// place of real Stand's own getCustomHeaderDirectory() (%appdata%/

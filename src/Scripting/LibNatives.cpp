@@ -4,7 +4,7 @@
 #include "Scripting/LuaMainUtils.hpp"
 #include "Scripting/NativeDefs.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	class AreNativesLoadedResource : public LuaResource
 	{

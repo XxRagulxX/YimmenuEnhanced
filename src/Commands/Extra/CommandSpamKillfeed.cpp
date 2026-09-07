@@ -4,7 +4,7 @@
 #include "Network/Players.hpp"
 #include "Network/CPedHealthDataNode.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class SpamKillfeed : public CommandToggle
 	{

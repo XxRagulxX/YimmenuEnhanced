@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Recovery > Main: mirrors MenuRecovery.cpp's
 	// generalGroup in full, wired the same way SelfGrid/VehicleGrid wire

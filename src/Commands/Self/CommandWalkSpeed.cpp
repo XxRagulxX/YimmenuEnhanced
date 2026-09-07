@@ -3,7 +3,7 @@
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Real Stand's own Walk Speed slider is -1,000,000 to 1,000,000
 	// (step 10, /100 for a run-speed multiplier) - scaled down here to

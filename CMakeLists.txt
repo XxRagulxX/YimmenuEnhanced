@@ -6,7 +6,7 @@ set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 include(cmake/cross-compile.cmake)
 
 project(
-    YimMenuV2
+    StandEnhanced
     VERSION 0.0.1
     DESCRIPTION "A new base using new C++ features optimised for speed and ease of use"
 )
@@ -31,7 +31,7 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
     "${SRC_DIR}/*.cpp"
 )
 
-# YimMenu target
+# StandEnhanced target
 
 add_library(${PROJECT_NAME} MODULE
     ${SRC_FILES}

@@ -9,7 +9,7 @@
 #include <format>
 #include <windows.h>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

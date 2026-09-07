@@ -5,7 +5,7 @@
 #include "Scripting/Natives.hpp"
 #include "Ped/CPedFactory.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	Self::Self() :
 	    m_SelfPed(nullptr),

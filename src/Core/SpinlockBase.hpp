@@ -2,7 +2,7 @@
 
 #include <atomic>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class SpinlockBase
 	{

@@ -2,7 +2,7 @@
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class InfiniteStamina : public LoopedCommand
 	{

@@ -5,7 +5,7 @@
 #include <functional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// A single-line, click-to-edit text field - this project's own
 	// addition (Stand routes free-text entry through its own dedicated

@@ -25,7 +25,7 @@ namespace Stand
 		if (!m_JobQueued)
 		{
 			m_JobQueued = true;
-			YimMenu::FiberPool::queueJob([this, func{std::move(func)}] {
+			StandEnhanced::FiberPool::queueJob([this, func{std::move(func)}] {
 				m_JobQueued = false;
 				func();
 			});
@@ -37,7 +37,7 @@ namespace Stand
 		if (!m_JobQueued)
 		{
 			m_JobQueued = true;
-			YimMenu::FiberPool::queueJob([this, func{std::move(func)}] {
+			StandEnhanced::FiberPool::queueJob([this, func{std::move(func)}] {
 				m_JobQueued = false;
 				func(TC_SCRIPT_YIELDABLE);
 			});
@@ -97,7 +97,7 @@ namespace Stand
 		if (!m_JobQueued)
 		{
 			m_JobQueued = true;
-			YimMenu::FiberPool::queueJob([this, func{std::move(func)}] {
+			StandEnhanced::FiberPool::queueJob([this, func{std::move(func)}] {
 				m_JobQueued = false;
 				func();
 			});

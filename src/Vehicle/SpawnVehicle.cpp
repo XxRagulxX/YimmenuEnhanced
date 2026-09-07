@@ -1,7 +1,7 @@
 #include "Vehicle/SpawnVehicle.hpp"
 #include "Commands/CommandToggle.hpp"
 
-namespace YimMenu::Submenus
+namespace StandEnhanced::Submenus
 {
 	// These four commands used to also be drawn here, by the classic
 	// ImGui menu builder this file no longer has (see SpawnVehicle.hpp) -

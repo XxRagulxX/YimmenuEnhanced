@@ -1,7 +1,7 @@
 #include "Commands/Command.hpp"
 #include "World/Stats.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class FillInventory : public Command
 	{

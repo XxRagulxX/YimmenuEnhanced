@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Verbatim port of stand-reference's src/Menu/Alignment.hpp - see
 	// Grid::setPositions() (Grid.cpp) for what each value actually does.

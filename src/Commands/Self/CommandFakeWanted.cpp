@@ -1,7 +1,7 @@
 #include "Commands/CommandSlider.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Real Stand's CommandFakeWanted (0-6) applies the value immediately
 	// and, only while it's above 0, keeps re-asserting it every tick via

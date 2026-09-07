@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Ports DrawVariable.cpp's DrawSavedVariable()/DrawSavedVariableEdit()/
 	// DrawSavedVariablePreview() to Grid rows - shared between GlobalsGrid

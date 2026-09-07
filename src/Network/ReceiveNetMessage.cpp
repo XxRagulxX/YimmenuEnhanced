@@ -12,7 +12,7 @@
 #include "Rendering/imgui_colors.h"
 #include "Core/Hooking.hpp"
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	static std::optional<rage::netMessage::Type> ReadType(rage::datBitBuffer& buffer)
 	{

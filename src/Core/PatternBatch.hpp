@@ -13,7 +13,7 @@
 
 #include "Core/PatternHash.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class PatternBatch
 	{

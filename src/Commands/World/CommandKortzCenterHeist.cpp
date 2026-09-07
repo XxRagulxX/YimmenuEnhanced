@@ -8,7 +8,7 @@
 #include "Scripting/ScriptMgr.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	namespace KortzCenterHeist
 	{

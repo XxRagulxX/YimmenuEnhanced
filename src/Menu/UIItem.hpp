@@ -1,6 +1,6 @@
 #pragma once
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	// Preferably, all items should be saved in a global instance to make UI elements searchable
 	class UIItem

@@ -2,7 +2,7 @@
 #include "Commands/Commands.hpp"
 #include "Commands/CommandToggle.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	ConditionalItem::ConditionalItem(joaat_t bool_cmd_id, std::shared_ptr<UIItem> to_draw, bool negate) :
 		m_Condition(Commands::GetCommand<CommandToggle>(bool_cmd_id)),

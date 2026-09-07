@@ -2,7 +2,7 @@
 #include "Core/FileMgr.hpp"
 #include <unordered_map>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	namespace Outfit
 	{

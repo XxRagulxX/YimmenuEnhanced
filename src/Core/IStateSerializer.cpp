@@ -2,7 +2,7 @@
 
 #include "Config/Settings.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	IStateSerializer::IStateSerializer(const std::string& name) :
 	    m_SerComponentName(name),

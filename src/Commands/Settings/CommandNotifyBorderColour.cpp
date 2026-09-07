@@ -2,7 +2,7 @@
 #include "Commands/Widgets/CommandRainbow.hpp"
 #include "Rendering/NotifySettings.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Ported from real Stand's own CommandNotifyBorderColour (Commands/
 	// Online/CommandListNotifySettings.cpp on origin/stand-reference) -

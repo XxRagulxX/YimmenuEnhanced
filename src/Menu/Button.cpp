@@ -1,6 +1,6 @@
 #include "Menu/Items.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	Button::Button(const std::string_view& name, std::function<void()> onClick, const ImVec2 size, const std::string_view& information) :
 	    m_Name(name),

@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Network > Spoofing: mirrors MenuNetwork.cpp's
 	// matchmakingGroup and matchmakingSrvGroup in full, now that

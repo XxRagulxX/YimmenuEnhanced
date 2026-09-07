@@ -5,7 +5,7 @@ namespace rage
 	class scrThread;
 }
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class SavePersonalVehicle
 	{

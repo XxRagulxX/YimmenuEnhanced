@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <optional>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Ported from real Stand's own CommandWithEntityPreview<T> (Commands/
 	// Widgets/CommandWithEntityPreview.hpp on origin/stand-reference) - a
@@ -23,7 +23,7 @@ namespace YimMenu::Rendering
 	// Scoped down from real Stand's own version - each gap disclosed
 	// where it matters:
 	// - No model-type auto-detection (ped/vehicle/object/water-animal) -
-	//   the subclass already knows which YimMenu::Ped/Vehicle/Object::
+	//   the subclass already knows which StandEnhanced::Ped/Vehicle/Object::
 	//   Create() to call from CreateEntity(), so there's nothing to
 	//   detect (real Stand needs this since its own createPreviewEntity()
 	//   is a single shared implementation across every model type).

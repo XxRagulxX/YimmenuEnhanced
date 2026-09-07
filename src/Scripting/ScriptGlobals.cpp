@@ -25,7 +25,7 @@
 #define DEFINE_GLOBAL_ACCESSOR(str, global)       \
 	str* str::Get()                               \
 	{                                             \
-		auto glb = YimMenu::ScriptGlobal(global); \
+		auto glb = StandEnhanced::ScriptGlobal(global); \
 		if (!glb.CanAccess())                     \
 			return nullptr;                       \
 		return glb.As<str*>();                    \

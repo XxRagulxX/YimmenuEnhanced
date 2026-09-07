@@ -3,7 +3,7 @@
 #include <cstdint>
 
 // TODO: use an actual hash function
-namespace YimMenu
+namespace StandEnhanced
 {
 	class PatternHash
 	{

@@ -2,7 +2,7 @@
 #include "Commands/CommandListSelect.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static std::vector<std::pair<int, const char*>> g_BoostBehavior = {
 	    {0, "Infinite"},

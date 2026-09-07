@@ -9,7 +9,7 @@ namespace
 	}
 }
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void CommandColourCustom::OnCall()
 	{

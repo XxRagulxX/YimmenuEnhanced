@@ -3,7 +3,7 @@
 #include "Vehicle/PersonalVehicles.hpp"
 #include "Core/Pointers.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class FixAllVehicles : public Command
 	{

@@ -6,7 +6,7 @@
 #include "Game/Player.hpp"
 #include "Game/vector.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	class Player : LuaLibrary
 	{
@@ -14,61 +14,61 @@ namespace YimMenu::Lua
 
 		static int New(lua_State* state)
 		{
-			CreateObject<YimMenu::Player>(state, static_cast<uint8_t>(luaL_checkinteger(state, 1)));
+			CreateObject<StandEnhanced::Player>(state, static_cast<uint8_t>(luaL_checkinteger(state, 1)));
 			return 1;
 		}
 
 		static int IsValid(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Player>(state, 1).IsValid());
+			lua_pushboolean(state, GetObject<StandEnhanced::Player>(state, 1).IsValid());
 			return 1;
 		}
 
 		static int IsLocal(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Player>(state, 1).IsLocal());
+			lua_pushboolean(state, GetObject<StandEnhanced::Player>(state, 1).IsLocal());
 			return 1;
 		}
 
 		static int IsHost(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Player>(state, 1).IsHost());
+			lua_pushboolean(state, GetObject<StandEnhanced::Player>(state, 1).IsHost());
 			return 1;
 		}
 
 		static int IsModder(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Player>(state, 1).IsModder());
+			lua_pushboolean(state, GetObject<StandEnhanced::Player>(state, 1).IsModder());
 			return 1;
 		}
 
 		static int GetId(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Player>(state, 1).GetId());
+			lua_pushinteger(state, GetObject<StandEnhanced::Player>(state, 1).GetId());
 			return 1;
 		}
 
 		static int GetName(lua_State* state)
 		{
-			lua_pushstring(state, GetObject<YimMenu::Player>(state, 1).GetName());
+			lua_pushstring(state, GetObject<StandEnhanced::Player>(state, 1).GetName());
 			return 1;
 		}
 
 		static int GetPed(lua_State* state)
 		{
-			CopyObject<YimMenu::Ped>(state, GetObject<YimMenu::Player>(state, 1).GetPed());
+			CopyObject<StandEnhanced::Ped>(state, GetObject<StandEnhanced::Player>(state, 1).GetPed());
 			return 1;
 		}
 
 		static int GetMessageId(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Player>(state, 1).GetMessageId());
+			lua_pushinteger(state, GetObject<StandEnhanced::Player>(state, 1).GetMessageId());
 			return 1;
 		}
 
 		static int GetRID(lua_State* state)
 		{
-			lua_pushinteger(state, static_cast<lua_Integer>(GetObject<YimMenu::Player>(state, 1).GetRID()));
+			lua_pushinteger(state, static_cast<lua_Integer>(GetObject<StandEnhanced::Player>(state, 1).GetRID()));
 			return 1;
 		}
 
@@ -86,90 +86,90 @@ namespace YimMenu::Lua
 
 		static int GetExternalAddress(lua_State* state)
 		{
-			return PushAddress(state, GetObject<YimMenu::Player>(state, 1).GetExternalAddress());
+			return PushAddress(state, GetObject<StandEnhanced::Player>(state, 1).GetExternalAddress());
 		}
 
 		static int GetInternalAddress(lua_State* state)
 		{
-			return PushAddress(state, GetObject<YimMenu::Player>(state, 1).GetInternalAddress());
+			return PushAddress(state, GetObject<StandEnhanced::Player>(state, 1).GetInternalAddress());
 		}
 
 		static int GetAverageLatency(lua_State* state)
 		{
-			lua_pushnumber(state, GetObject<YimMenu::Player>(state, 1).GetAverageLatency());
+			lua_pushnumber(state, GetObject<StandEnhanced::Player>(state, 1).GetAverageLatency());
 			return 1;
 		}
 
 		static int GetAveragePacketLoss(lua_State* state)
 		{
-			lua_pushnumber(state, GetObject<YimMenu::Player>(state, 1).GetAveragePacketLoss());
+			lua_pushnumber(state, GetObject<StandEnhanced::Player>(state, 1).GetAveragePacketLoss());
 			return 1;
 		}
 
 		static int GetRank(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Player>(state, 1).GetRank());
+			lua_pushinteger(state, GetObject<StandEnhanced::Player>(state, 1).GetRank());
 			return 1;
 		}
 
 		static int GetRP(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Player>(state, 1).GetRP());
+			lua_pushinteger(state, GetObject<StandEnhanced::Player>(state, 1).GetRP());
 			return 1;
 		}
 
 		static int GetMoney(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Player>(state, 1).GetMoney());
+			lua_pushinteger(state, GetObject<StandEnhanced::Player>(state, 1).GetMoney());
 			return 1;
 		}
 
 		static int GetWantedLevel(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Player>(state, 1).GetWantedLevel());
+			lua_pushinteger(state, GetObject<StandEnhanced::Player>(state, 1).GetWantedLevel());
 			return 1;
 		}
 
 		static int SetWantedLevel(lua_State* state)
 		{
-			GetObject<YimMenu::Player>(state, 1).SetWantedLevel(luaL_checkinteger(state, 2));
+			GetObject<StandEnhanced::Player>(state, 1).SetWantedLevel(luaL_checkinteger(state, 2));
 			return 0;
 		}
 
 		static int GetMaxArmour(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Player>(state, 1).GetMaxArmour());
+			lua_pushinteger(state, GetObject<StandEnhanced::Player>(state, 1).GetMaxArmour());
 			return 1;
 		}
 
 		static int GetGroup(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Player>(state, 1).GetGroup());
+			lua_pushinteger(state, GetObject<StandEnhanced::Player>(state, 1).GetGroup());
 			return 1;
 		}
 
 		static int SetVisibleLocally(lua_State* state)
 		{
-			GetObject<YimMenu::Player>(state, 1).SetVisibleLocally(CheckBooleanSafe(state, 2));
+			GetObject<StandEnhanced::Player>(state, 1).SetVisibleLocally(CheckBooleanSafe(state, 2));
 			return 0;
 		}
 
 		static int TeleportTo(lua_State* state)
 		{
-			GetObject<YimMenu::Player>(state, 1).TeleportTo(GetObject<rage::fvector3>(state, 2));
+			GetObject<StandEnhanced::Player>(state, 1).TeleportTo(GetObject<rage::fvector3>(state, 2));
 			return 0;
 		}
 
 		static int SetFallDistanceOverride(lua_State* state)
 		{
-			GetObject<YimMenu::Player>(state, 1).SetFallDistanceOverride(static_cast<float>(luaL_checknumber(state, 2)));
+			GetObject<StandEnhanced::Player>(state, 1).SetFallDistanceOverride(static_cast<float>(luaL_checknumber(state, 2)));
 			return 0;
 		}
 
 		static int SetPed(lua_State* state)
 		{
 			bool delete_old = lua_isnoneornil(state, 3) ? true : CheckBooleanSafe(state, 3);
-			GetObject<YimMenu::Player>(state, 1).SetPed(GetObject<YimMenu::Ped>(state, 2), delete_old);
+			GetObject<StandEnhanced::Player>(state, 1).SetPed(GetObject<StandEnhanced::Ped>(state, 2), delete_old);
 			return 0;
 		}
 
@@ -177,9 +177,9 @@ namespace YimMenu::Lua
 		{
 			lua_newtable(state);
 			int idx = 1;
-			for (auto& [id, player] : YimMenu::Players::GetPlayers())
+			for (auto& [id, player] : StandEnhanced::Players::GetPlayers())
 			{
-				CopyObject<YimMenu::Player>(state, player);
+				CopyObject<StandEnhanced::Player>(state, player);
 				lua_rawseti(state, -2, idx++);
 			}
 			return 1;
@@ -187,38 +187,38 @@ namespace YimMenu::Lua
 
 		static int PlayersGetLocal(lua_State* state)
 		{
-			CopyObject<YimMenu::Player>(state, Self::GetPlayer());
+			CopyObject<StandEnhanced::Player>(state, Self::GetPlayer());
 			return 1;
 		}
 
 		static int PlayersGetSelected(lua_State* state)
 		{
-			CopyObject<YimMenu::Player>(state, YimMenu::Players::GetSelected());
+			CopyObject<StandEnhanced::Player>(state, StandEnhanced::Players::GetSelected());
 			return 1;
 		}
 
 		static int PlayersSetSelected(lua_State* state)
 		{
-			YimMenu::Players::SetSelected(GetObject<YimMenu::Player>(state, 1));
+			StandEnhanced::Players::SetSelected(GetObject<StandEnhanced::Player>(state, 1));
 			return 0;
 		}
 
 		static int PlayersGetByRID(lua_State* state)
 		{
 			auto rid = static_cast<uint64_t>(luaL_checkinteger(state, 1));
-			CopyObject<YimMenu::Player>(state, YimMenu::Players::GetByRID(rid));
+			CopyObject<StandEnhanced::Player>(state, StandEnhanced::Players::GetByRID(rid));
 			return 1;
 		}
 
 		static int PlayersGetByMessageId(lua_State* state)
 		{
-			CopyObject<YimMenu::Player>(state, YimMenu::Players::GetByMessageId(luaL_checkinteger(state, 1)));
+			CopyObject<StandEnhanced::Player>(state, StandEnhanced::Players::GetByMessageId(luaL_checkinteger(state, 1)));
 			return 1;
 		}
 
 		static int PlayersGetRandom(lua_State* state)
 		{
-			CopyObject<YimMenu::Player>(state, YimMenu::Players::GetRandom());
+			CopyObject<StandEnhanced::Player>(state, StandEnhanced::Players::GetRandom());
 			return 1;
 		}
 
@@ -255,7 +255,7 @@ namespace YimMenu::Lua
 				}
 				lua_setfield(state, -2, "__index");
 			}
-			Metatable<YimMenu::Player>::Register(state);
+			Metatable<StandEnhanced::Player>::Register(state);
 
 			lua_newtable(state);
 			SetConstructor<New>(state);

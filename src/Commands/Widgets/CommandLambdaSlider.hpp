@@ -5,7 +5,7 @@
 #include <optional>
 #include <utility>
 
-namespace YimMenu::StandWidgets
+namespace StandEnhanced::StandWidgets
 {
 	// Ported from real Stand's own CommandLambdaSlider (a template over
 	// which slider base it wraps there - this project only has one

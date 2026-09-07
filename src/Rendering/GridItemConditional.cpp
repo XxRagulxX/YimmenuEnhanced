@@ -2,7 +2,7 @@
 
 #include "Commands/Commands.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	GridItemConditional::GridItemConditional(std::unique_ptr<GridItem> item, joaat_t boolCommandId, bool negate) :
 	    GridItem(item->type, item->width, item->height, item->priority, item->alignment_relative_to_last, item->force_alignment_to),

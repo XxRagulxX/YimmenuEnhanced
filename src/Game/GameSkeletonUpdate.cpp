@@ -2,7 +2,7 @@
 #include "Util/Joaat.hpp"
 #include "Game/gameSkeleton.hpp"
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	void Anticheat::GameSkeletonUpdate(rage::gameSkeleton* skeleton, int type)
 	{

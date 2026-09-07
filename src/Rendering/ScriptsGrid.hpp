@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/GridTabbed.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Debug > Scripts: mirrors MenuScripts.cpp's
 	// BuildScriptsMenu() TabBarItem in full - Threads/Start Script tabs

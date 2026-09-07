@@ -14,7 +14,7 @@
 #include <algorithm>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{
@@ -89,7 +89,7 @@ namespace YimMenu::Rendering
 
 		// Same checkbox visual as this project's own GridItemCommandToggle.cpp -
 		// deliberately kept identical so a Stand-backed row and a
-		// YimMenu-backed one look indistinguishable while both exist side
+		// StandEnhanced-backed one look indistinguishable while both exist side
 		// by side during the migration.
 		auto* toggle = m_Command->as<Stand::CommandToggleNoCorrelation>();
 		const float indicatorX = x + width - kIndicatorSize;

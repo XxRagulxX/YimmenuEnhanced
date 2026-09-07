@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Players > Info: mirrors Info.cpp's own two
 	// groups - a live readout of whoever's selected (Info.cpp's own

@@ -1,7 +1,7 @@
 #pragma once
 #include "Commands/Widgets/CommandList.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Test-only root for the Stand Command/CommandList/CommandToggle
 	// bridge (Rendering/GridItemStandCommand.hpp, Rendering/

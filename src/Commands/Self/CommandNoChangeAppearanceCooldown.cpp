@@ -2,7 +2,7 @@
 #include "Network/Tunables.hpp"
 
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class NoChangeAppearanceCooldown : public CommandToggle
 	{

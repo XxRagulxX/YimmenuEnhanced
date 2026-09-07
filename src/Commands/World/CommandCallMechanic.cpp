@@ -7,7 +7,7 @@
 #include "Core/Pointers.hpp"
 #include "Util/Timer.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class CallMechanic : public Command
 	{

@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Tab target for Recovery > Heists > Apartment Heist: mirrors
 	// ApartmentHeist.cpp's RenderApartmentHeistMenu() in full - Heist

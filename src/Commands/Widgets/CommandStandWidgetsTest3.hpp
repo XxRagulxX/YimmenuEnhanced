@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Read-back accessor for CommandStandWidgetsTest3.cpp's own shared
 	// bitflag field - see that file's own comment. StandWidgetsTestGrid3

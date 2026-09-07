@@ -2,7 +2,7 @@
 #include "Scripting/LuaMainUtils.hpp"
 #include "Rendering/Notifications.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	class Notify : LuaLibrary
 	{

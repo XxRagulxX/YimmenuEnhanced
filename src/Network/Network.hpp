@@ -8,7 +8,7 @@ namespace rage
 	class rlSessionInfo;
 }
 
-namespace YimMenu::Network
+namespace StandEnhanced::Network
 {
 	enum class JoinType
 	{

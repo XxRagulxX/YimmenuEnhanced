@@ -3,7 +3,7 @@
 #include "Network/CNetworkPlayerMgr.hpp"
 
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	Packet::Packet() :
 	    m_Buffer(m_Data, sizeof(m_Data))

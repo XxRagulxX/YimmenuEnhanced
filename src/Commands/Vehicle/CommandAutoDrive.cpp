@@ -14,7 +14,7 @@
 #include <string>
 #include <string_view>
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class AutoDrive : public LoopedCommand
 	{

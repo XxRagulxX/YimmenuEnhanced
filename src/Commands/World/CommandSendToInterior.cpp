@@ -4,7 +4,7 @@
 #include "Network/GlobalPlayerBD.hpp"
 #include "Network/ScriptEvent.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static std::vector<std::pair<int, const char*>> g_Interiors = {
 	    {(int)eSimpleInteriorIndex::SIMPLE_INTERIOR_ARMORY_TRUCK_1, "MOC"},

@@ -8,7 +8,7 @@
 // e.g. CommandToggleNoCorrelation.cpp/CommandSlider.cpp) onto this
 // project's EXISTING config save/load pipeline
 // (Config/Settings.hpp's IStateSerializer roster, the same one
-// YimMenu::Commands (Commands/Commands.cpp) already uses for the
+// StandEnhanced::Commands (Commands/Commands.cpp) already uses for the
 // legacy system) - the persistence piece from the Phase 1 plan. Real
 // Stand's own state saving is entirely different (a settings.json keyed
 // by chat-command name, read/written through its own Command/CommandList
@@ -28,7 +28,7 @@ namespace Stand
 {
 	class CommandPhysical;
 
-	class CommandStateSerializer : private YimMenu::IStateSerializer
+	class CommandStateSerializer : private StandEnhanced::IStateSerializer
 	{
 	public:
 		static void AddCommand(CommandPhysical* command)

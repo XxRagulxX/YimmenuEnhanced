@@ -7,7 +7,7 @@
 #include <set>
 
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class CasinoManipulateRigSlotMachines : public LoopedCommand
 	{

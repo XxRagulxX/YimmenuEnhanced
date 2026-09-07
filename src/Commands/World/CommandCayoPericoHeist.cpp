@@ -17,7 +17,7 @@
 #include "World/DeleteObjectsByHash.hpp"
 #include "Scripting/FiberPool.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	namespace CayoPericoHeist
 	{
@@ -390,7 +390,7 @@ namespace YimMenu::Features
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_2020"_J))
 					*ScriptLocal(thread, 31511).As<int*>() = 6;
 				Hash drainagePipeHash = "prop_chem_grill_bit"_J;
-				YimMenu::DeleteObjectsByHash(drainagePipeHash);
+				StandEnhanced::DeleteObjectsByHash(drainagePipeHash);
 				Notifications::ShowInGame("Cayo Perico", "Cut Sewer Grill - Successfull", "CHAR_LESTER", "Black");
 			}
 		};
@@ -556,7 +556,7 @@ namespace YimMenu::Features
 			{
 				for (auto cam_hash : CayoPericoCameraHashes)
 				{
-					YimMenu::DeleteObjectsByHash(cam_hash);
+					StandEnhanced::DeleteObjectsByHash(cam_hash);
 				}
 			}
 		};

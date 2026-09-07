@@ -2,7 +2,7 @@
 #include <fstream>
 #include "Core/FileMgr.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	std::filesystem::path SavedLocations::GetSavedLocationsFilePath()
 	{

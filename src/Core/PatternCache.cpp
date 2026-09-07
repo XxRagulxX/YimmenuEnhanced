@@ -2,7 +2,7 @@
 #include "Core/FileMgr.hpp"
 #include <fstream>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	std::optional<int> PatternCache::GetCachedOffsetImpl(PatternHash hash)
 	{

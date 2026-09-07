@@ -2,7 +2,7 @@
 #include "Scripting/LuaMainUtils.hpp"
 #include "Network/Tunables.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	class Tunables : LuaLibrary
 	{

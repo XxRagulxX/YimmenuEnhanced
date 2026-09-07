@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class SimplePattern
 	{

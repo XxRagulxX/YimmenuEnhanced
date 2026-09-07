@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Stand-style blank "Command Console" - typing a prefix (e.g. "god")
 	// live-lists every command whose own name starts with it (e.g.
@@ -31,7 +31,7 @@ namespace YimMenu::Rendering
 	// stand-reference).
 	//
 	// Searches BOTH of this project's own command registries - legacy
-	// YimMenu::Commands::GetCommands() (one name per command) and
+	// StandEnhanced::Commands::GetCommands() (one name per command) and
 	// Stand::CommandRegistry::GetCommands() (every isPhysical() command,
 	// which may carry several aliases - command_names - same as real
 	// Stand). A previous pass here excluded Stand commands entirely,

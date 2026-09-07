@@ -6,9 +6,9 @@
 #include <optional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
-	// A GridItemButton wired to a real YimMenu::Command, looked up by
+	// A GridItemButton wired to a real StandEnhanced::Command, looked up by
 	// joaat hash - the Grid/GridItem equivalent of CommandItem (src/
 	// CommandItem.cpp) for the ImGui menu. Click behaviour mirrors
 	// CommandItem::Draw() exactly: FiberPool::queueJob calling

@@ -3,7 +3,7 @@
 #include "Scripting/ScriptPatches.hpp"
 #include "Core/Hooking.hpp"
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	int Script::ScriptVM(uint64_t* stack, uint64_t** scr_globals, rage::scrProgram* program, void* ctx)
 	{

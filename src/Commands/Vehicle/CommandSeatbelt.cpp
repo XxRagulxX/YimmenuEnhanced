@@ -3,7 +3,7 @@
 #include "World/Self.hpp"
 #include "Ped/PedConfigFlag.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class Seatbelt : public LoopedCommand
 	{

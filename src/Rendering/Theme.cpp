@@ -5,7 +5,7 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 
-namespace YimMenu::Rendering::Theme
+namespace StandEnhanced::Rendering::Theme
 {
 	namespace
 	{

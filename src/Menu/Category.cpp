@@ -2,7 +2,7 @@
 
 #include "Rendering/GridRenderer.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void Category::Draw()
 	{

@@ -2,7 +2,7 @@
 #include "Scripting/Natives.hpp"
 #include "Util/Joaat.hpp"
 
-namespace YimMenu::Stats
+namespace StandEnhanced::Stats
 {
 	static void ConvertMPX(std::string& statName)
 	{

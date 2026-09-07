@@ -3,7 +3,7 @@
 #include "Core/PoolEncryption.hpp"
 
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	rage::fwBasePool* GetPedPool()
 	{

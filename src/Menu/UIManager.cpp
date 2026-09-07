@@ -1,6 +1,6 @@
 #include "Menu/UIManager.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void UIManager::AddSubmenuImpl(const std::shared_ptr<Submenu>&& submenu)
 	{

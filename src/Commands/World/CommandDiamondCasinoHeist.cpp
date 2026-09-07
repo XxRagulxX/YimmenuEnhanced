@@ -14,7 +14,7 @@
 #include "World/TeleportUtils.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	namespace DiamondCasinoHeist
 	{
@@ -559,7 +559,7 @@ namespace YimMenu::Features
 
 			virtual void OnCall() override
 			{
-				for (auto object : YimMenu::Pools::GetObjects())
+				for (auto object : StandEnhanced::Pools::GetObjects())
 				{
 					if (!object)
 						continue;
@@ -585,11 +585,11 @@ namespace YimMenu::Features
 			virtual void OnCall() override
 			{
 				Hash keycard = "ch_prop_fingerprint_scanner_01d"_J;
-				YimMenu::DeleteObjectsByHash(keycard);
+				StandEnhanced::DeleteObjectsByHash(keycard);
 				Hash tunnerdoorright = "ch_prop_ch_tunnel_door_01_r"_J;
-				YimMenu::DeleteObjectsByHash(tunnerdoorright);
+				StandEnhanced::DeleteObjectsByHash(tunnerdoorright);
 				Hash tunnerdoorleft = "ch_prop_ch_tunnel_door_01_l"_J;
-				YimMenu::DeleteObjectsByHash(tunnerdoorleft);
+				StandEnhanced::DeleteObjectsByHash(tunnerdoorleft);
 			}
 		};
 

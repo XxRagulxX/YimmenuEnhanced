@@ -5,7 +5,7 @@
 #include <utility>
 #include <vector>
 
-namespace YimMenu::StandWidgets
+namespace StandEnhanced::StandWidgets
 {
 	// Ported from real Stand's own CommandLambdaListSelect - see
 	// CommandLambdaToggle.hpp's own doc comment for why this whole file exists.

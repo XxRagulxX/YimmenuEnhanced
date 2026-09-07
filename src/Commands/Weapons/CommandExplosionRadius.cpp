@@ -3,7 +3,7 @@
 #include "Scripting/Natives.hpp"  
 #include "Commands/CommandSliderFloat.hpp"  
 
-namespace YimMenu::Features  
+namespace StandEnhanced::Features  
 {  
 	static CommandSliderFloat _ExplosionRadiusScale{"explosionradiusscale", "Weapon Explosion RadiusScale", "Modifying Weapon Explosion RadiusScale", 0.0f, 10.0f, 1.0f};  
 

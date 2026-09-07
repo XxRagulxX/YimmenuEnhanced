@@ -1,6 +1,6 @@
 #include "Core/Pattern.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	static constexpr std::optional<std::uint8_t> ToHex(char c)
 	{

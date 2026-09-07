@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <cstdint>
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Ported from real Stand's own CommandNotifyReadSpeed (Commands/
 	// Online/CommandListNotifySettings.cpp on origin/stand-reference) -

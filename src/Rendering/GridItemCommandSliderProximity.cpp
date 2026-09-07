@@ -5,7 +5,7 @@
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

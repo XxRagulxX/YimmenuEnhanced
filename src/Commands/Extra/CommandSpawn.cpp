@@ -4,7 +4,7 @@
 #include "World/Object.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static CommandInput _PedModelName{"pedmodelname", "Ped Model", "The model name of the ped you wish to spawn."};
 	static CommandInput _ObjectModelName{"objectmodelname", "Object Model", "The model name of the object you wish to spawn."};

@@ -11,7 +11,7 @@
 #include "Vehicle/VehicleRewardData.hpp"
 #include "Network/FreemodeGeneral.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	void SavePersonalVehicle::RunScriptImpl()
 	{

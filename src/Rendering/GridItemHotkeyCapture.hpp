@@ -4,12 +4,12 @@
 #include <chrono>
 #include <string>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	struct CommandLink;
 }
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// One command's hotkey row for Settings > Hotkeys - mirrors
 	// DrawHotkey.cpp's own per-row rendering (label + current chain +

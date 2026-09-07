@@ -10,7 +10,7 @@
 
 #include <cstdlib>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

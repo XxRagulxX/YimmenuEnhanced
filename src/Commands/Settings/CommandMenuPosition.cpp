@@ -9,7 +9,7 @@
 #include <cstdint>
 #include <windows.h>
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	namespace
 	{

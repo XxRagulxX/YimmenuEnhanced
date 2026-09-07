@@ -2,7 +2,7 @@
 #include "Game/vector.hpp"
 #include "Commands/Command.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class CommandPosition3d : public Command
 	{

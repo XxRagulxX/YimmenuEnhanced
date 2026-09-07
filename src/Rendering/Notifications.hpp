@@ -9,7 +9,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	// H-space units (Stand's own virtual 1920x1080 HUD canvas - see
 	// GridRenderer.hpp's own class comment for what that means), not

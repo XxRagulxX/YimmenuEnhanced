@@ -21,8 +21,8 @@ namespace
 
 		while (true)
 		{
-			YimMenu::ChatDisplay::MarkAccessed();
-			YimMenu::Script::current()->yield();
+			StandEnhanced::ChatDisplay::MarkAccessed();
+			StandEnhanced::Script::current()->yield();
 			int update_res = MISC::UPDATE_ONSCREEN_KEYBOARD();
 
 			if (update_res == 1)
@@ -39,7 +39,7 @@ namespace
 	}
 }
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class Chat : public Command
 	{

@@ -23,7 +23,7 @@
 // Instructions" is registered but not wired to anything yet - Stand's
 // own on-screen button-prompt overlay has no equivalent here, so the
 // toggle exists for parity but currently does nothing.
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	constexpr float kPi = 3.14159265358979323846f;
 

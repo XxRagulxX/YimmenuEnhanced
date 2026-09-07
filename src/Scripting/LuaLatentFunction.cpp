@@ -1,7 +1,7 @@
 #include "Scripting/LatentFunction.hpp"
 #include "Scripting/LuaMainScript.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	static void LatentFiber(LPVOID parameter)
 	{

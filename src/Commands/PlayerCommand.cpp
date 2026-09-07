@@ -3,7 +3,7 @@
 #include "Network/Players.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	PlayerAllCommand::PlayerAllCommand(std::string name, std::string label, std::string description, int num_args, PlayerCommand* parent) :
 	    Command(name + "all", label, description, num_args),

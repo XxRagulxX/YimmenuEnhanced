@@ -2,7 +2,7 @@
 #include "Network/Players.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class Spectate : public LoopedCommand
 	{

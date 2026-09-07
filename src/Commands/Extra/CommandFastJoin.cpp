@@ -3,7 +3,7 @@
 #include "Scripting/Natives.hpp"
 #include "Network/GSBD.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static void BroadcastHook(rage::scrNativeCallContext* ctx);
 

@@ -8,7 +8,7 @@
 #include "Core/Hooks.hpp"
 #include "Core/Pointers.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	Hooking::Hooking()
 	{

@@ -2,7 +2,7 @@
 #include <cstddef>
 #include <type_traits>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class ScriptGlobal
 	{

@@ -4,7 +4,7 @@
 
 #include <unordered_map>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// A Rendering::Grid that renders one real Stand::CommandList's own
 	// children as rows - the Grid-bridge half of the project's phased

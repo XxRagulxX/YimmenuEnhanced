@@ -32,7 +32,7 @@ namespace
 	constexpr int rightShoulderBone = 28252;
 }
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Players
 	CommandToggle _ESPDrawPlayers("espdrawplayers", "Draw Players", "Should the ESP draw players?");
@@ -68,7 +68,7 @@ namespace YimMenu::Features
 	CommandColourCustom _HashColorObjects("hashcolorobjects", "Object Hash Color", "Changes the color of the hash ESP for objects", ImVec4{1.0f, 1.0f, 1.0f, 1.0f});
 }
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	namespace
 	{

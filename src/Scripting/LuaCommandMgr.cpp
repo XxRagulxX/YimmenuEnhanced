@@ -16,7 +16,7 @@
 #include "Menu/Items.hpp"
 #include "Scripting/LuaCommandHandle.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	static std::optional<int> OptionalInt(lua_State* state, int idx)
 	{

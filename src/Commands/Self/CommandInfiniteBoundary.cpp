@@ -1,7 +1,7 @@
 #include "Commands/LoopedCommand.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class InfiniteBoundary : public LoopedCommand
 	{

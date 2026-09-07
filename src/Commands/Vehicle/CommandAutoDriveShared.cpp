@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-namespace YimMenu::Features::AutoDriveInternal
+namespace StandEnhanced::Features::AutoDriveInternal
 {
 	static constexpr int lawful_driving_style = 786603;
 	static constexpr int ignore_lights_driving_style = 2883621;

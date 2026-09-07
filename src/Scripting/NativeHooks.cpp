@@ -5,7 +5,7 @@
 #include "Scripting/scrProgram.hpp"
 
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	NativeHooks::Program::Program(rage::scrProgram* program) :
 	    m_Program(program),

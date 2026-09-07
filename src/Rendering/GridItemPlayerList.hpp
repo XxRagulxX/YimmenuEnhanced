@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// A live, self-refreshing list of every player in the current
 	// session (Players::GetPlayers(), src/Players.hpp), sorted by name -

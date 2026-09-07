@@ -13,7 +13,7 @@
 #include <memory>
 #include <unordered_map>
 
-namespace YimMenu::Features::AutoDriveInternal
+namespace StandEnhanced::Features::AutoDriveInternal
 {
 	using namespace std::chrono_literals;
 

@@ -6,7 +6,7 @@
 
 #include "Scripting/scrProgram.hpp"
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	void Script::InitNativeTables(rage::scrProgram* program)
 	{

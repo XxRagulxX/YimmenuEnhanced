@@ -1,7 +1,7 @@
 #include "Commands/CommandToggle.hpp"
 #include "Scripting/ScriptPatches.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class DespawnBypass : public CommandToggle
 	{

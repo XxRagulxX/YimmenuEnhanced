@@ -33,15 +33,15 @@ jobs:
         run: cmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=RelWithDebInfo -S . -B build -G Ninja
 
       - name: 🧩 Build DLL
-        run: cmake --build ./build --config RelWithDebInfo --target YimMenuV2 --
+        run: cmake --build ./build --config RelWithDebInfo --target StandEnhanced --
 
       - name: 📦 Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: binary
           path: |
-            build/YimMenuV2.dll
-            build/YimMenuV2.pdb
+            build/StandEnhanced.dll
+            build/StandEnhanced.pdb
 
       - name: 📝 Generate Build Info
         id: buildinfo
@@ -84,7 +84,7 @@ jobs:
       - name: 🔑 Generate SHA256
         id: build_sha
         run: |
-          sha256sum YimMenuV2.dll > sha256.checksum
+          sha256sum StandEnhanced.dll > sha256.checksum
           echo "build_sha=$(cut -d ' ' -f 1 sha256.checksum)" >> $GITHUB_OUTPUT
 
       - name: 🚀 Nightly Release
@@ -103,4 +103,4 @@ jobs:
             > Artifacts are for testing and development only.
 
           files: |
-            YimMenuV2.dll
+            StandEnhanced.dll

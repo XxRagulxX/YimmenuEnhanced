@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/GridItem.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	class Grid;
 

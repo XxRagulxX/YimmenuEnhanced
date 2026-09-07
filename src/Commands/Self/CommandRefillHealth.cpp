@@ -1,7 +1,7 @@
 #include "Commands/Command.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Real Stand splits Heal (this project's existing "heal", health +
 	// armour together) into two separate one-shot actions - Refill

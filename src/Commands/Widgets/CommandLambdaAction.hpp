@@ -4,7 +4,7 @@
 #include <functional>
 #include <utility>
 
-namespace YimMenu::StandWidgets
+namespace StandEnhanced::StandWidgets
 {
 	// Ported from real Stand's own CommandLambdaAction - a one-shot
 	// action (button) whose behaviour is supplied inline, the Command

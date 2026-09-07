@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Recovery > Businesses: mirrors MenuRecovery.cpp's
 	// businessSafe, businessOverlay and businessManager groups in full -

@@ -4,7 +4,7 @@
 #include "Game/Entity.hpp"
 #include "Scripting/LibEntity.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	// TODO: we need to automate this
 	class Entity : LuaLibrary
@@ -14,127 +14,127 @@ namespace YimMenu::Lua
 
 		static int New(lua_State* state)
 		{
-			CreateObject<YimMenu::Entity>(state, luaL_checkinteger(state, 1));
+			CreateObject<StandEnhanced::Entity>(state, luaL_checkinteger(state, 1));
 			return 1;
 		}
 
 		static int GetHandle(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Entity>(state, 1).GetHandle());
+			lua_pushinteger(state, GetObject<StandEnhanced::Entity>(state, 1).GetHandle());
 			return 1;
 		}
 
 		static int IsValid(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Entity>(state, 1).IsValid());
+			lua_pushboolean(state, GetObject<StandEnhanced::Entity>(state, 1).IsValid());
 			return 1;
 		}
 
 		static int IsPed(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Entity>(state, 1).IsPed());
+			lua_pushboolean(state, GetObject<StandEnhanced::Entity>(state, 1).IsPed());
 			return 1;
 		}
 
 		static int IsVehicle(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Entity>(state, 1).IsVehicle());
+			lua_pushboolean(state, GetObject<StandEnhanced::Entity>(state, 1).IsVehicle());
 			return 1;
 		}
 
 		static int IsObject(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Entity>(state, 1).IsObject());
+			lua_pushboolean(state, GetObject<StandEnhanced::Entity>(state, 1).IsObject());
 			return 1;
 		}
 
 		static int IsPlayer(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Entity>(state, 1).IsPlayer());
+			lua_pushboolean(state, GetObject<StandEnhanced::Entity>(state, 1).IsPlayer());
 			return 1;
 		}
 
 		static int IsMissionEntity(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Entity>(state, 1).IsMissionEntity());
+			lua_pushboolean(state, GetObject<StandEnhanced::Entity>(state, 1).IsMissionEntity());
 			return 1;
 		}
 
 		static int GetModel(lua_State* state)
 		{
-			lua_pushinteger(state, (int)GetObject<YimMenu::Entity>(state, 1).GetModel());
+			lua_pushinteger(state, (int)GetObject<StandEnhanced::Entity>(state, 1).GetModel());
 			return 1;
 		}
 
 		static int GetPosition(lua_State* state)
 		{
-			CopyObject<rage::fvector3>(state, GetObject<YimMenu::Entity>(state, 1).GetPosition());
+			CopyObject<rage::fvector3>(state, GetObject<StandEnhanced::Entity>(state, 1).GetPosition());
 			return 1;
 		}
 
 		static int GetRotation(lua_State* state)
 		{
-			CopyObject<rage::fvector3>(state, GetObject<YimMenu::Entity>(state, 1).GetRotation(lua_gettop(state) >= 2 ? luaL_checkinteger(state, 2) : 2));
+			CopyObject<rage::fvector3>(state, GetObject<StandEnhanced::Entity>(state, 1).GetRotation(lua_gettop(state) >= 2 ? luaL_checkinteger(state, 2) : 2));
 			return 1;
 		}
 
 		static int GetVelocity(lua_State* state)
 		{
-			CopyObject<rage::fvector3>(state, GetObject<YimMenu::Entity>(state, 1).GetVelocity());
+			CopyObject<rage::fvector3>(state, GetObject<StandEnhanced::Entity>(state, 1).GetVelocity());
 			return 1;
 		}
 
 		static int SetPosition(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).SetPosition(GetObject<rage::fvector3>(state, 2));
+			GetObject<StandEnhanced::Entity>(state, 1).SetPosition(GetObject<rage::fvector3>(state, 2));
 			return 0;
 		}
 
 		static int SetRotation(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).SetRotation(GetObject<rage::fvector3>(state, 2), lua_gettop(state) >= 3 ? luaL_checkinteger(state, 3) : 2);
+			GetObject<StandEnhanced::Entity>(state, 1).SetRotation(GetObject<rage::fvector3>(state, 2), lua_gettop(state) >= 3 ? luaL_checkinteger(state, 3) : 2);
 			return 0;
 		}
 
 		static int SetVelocity(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).SetVelocity(GetObject<rage::fvector3>(state, 2));
+			GetObject<StandEnhanced::Entity>(state, 1).SetVelocity(GetObject<rage::fvector3>(state, 2));
 			return 0;
 		}
 
 		static int GetHeading(lua_State* state)
 		{
-			lua_pushnumber(state, GetObject<YimMenu::Entity>(state, 1).GetHeading());
+			lua_pushnumber(state, GetObject<StandEnhanced::Entity>(state, 1).GetHeading());
 			return 1;
 		}
 
 		static int SetHeading(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).SetHeading(luaL_checknumber(state, 2));
+			GetObject<StandEnhanced::Entity>(state, 1).SetHeading(luaL_checknumber(state, 2));
 			return 0;
 		}
 
 		static int GetSpeed(lua_State* state)
 		{
-			lua_pushnumber(state, GetObject<YimMenu::Entity>(state, 1).GetSpeed());
+			lua_pushnumber(state, GetObject<StandEnhanced::Entity>(state, 1).GetSpeed());
 			return 1;
 		}
 
 		static int SetCollision(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).SetCollision(lua_toboolean(state, 2));
+			GetObject<StandEnhanced::Entity>(state, 1).SetCollision(lua_toboolean(state, 2));
 			return 0;
 		}
 
 		static int SetFrozen(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).SetFrozen(lua_toboolean(state, 2));
+			GetObject<StandEnhanced::Entity>(state, 1).SetFrozen(lua_toboolean(state, 2));
 			return 0;
 		}
 
 		static int Delete(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).Delete();
+			GetObject<StandEnhanced::Entity>(state, 1).Delete();
 			return 0;
 		}
 
@@ -142,19 +142,19 @@ namespace YimMenu::Lua
 
 		static int IsNetworked(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Entity>(state, 1).IsNetworked());
+			lua_pushboolean(state, GetObject<StandEnhanced::Entity>(state, 1).IsNetworked());
 			return 1;
 		}
 
 		static int IsRemote(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Entity>(state, 1).IsRemote());
+			lua_pushboolean(state, GetObject<StandEnhanced::Entity>(state, 1).IsRemote());
 			return 1;
 		}
 
 		static int HasControl(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Entity>(state, 1).HasControl());
+			lua_pushboolean(state, GetObject<StandEnhanced::Entity>(state, 1).HasControl());
 			return 1;
 		}
 
@@ -163,25 +163,25 @@ namespace YimMenu::Lua
 
 		static int GetNetworkObjectId(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Entity>(state, 1).GetNetworkObjectId());
+			lua_pushinteger(state, GetObject<StandEnhanced::Entity>(state, 1).GetNetworkObjectId());
 			return 1;
 		}
 
 		static int PreventMigration(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).PreventMigration();
+			GetObject<StandEnhanced::Entity>(state, 1).PreventMigration();
 			return 0;
 		}
 
 		static int ForceControl(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).ForceControl();
+			GetObject<StandEnhanced::Entity>(state, 1).ForceControl();
 			return 0;
 		}
 
 		static int RequestControl(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).RequestControl(lua_gettop(state) >= 2 ? luaL_checkinteger(state, 2) : 100);
+			GetObject<StandEnhanced::Entity>(state, 1).RequestControl(lua_gettop(state) >= 2 ? luaL_checkinteger(state, 2) : 100);
 			return 0;
 		}
 
@@ -189,79 +189,79 @@ namespace YimMenu::Lua
 
 		static int IsInvincible(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Entity>(state, 1).IsInvincible());
+			lua_pushboolean(state, GetObject<StandEnhanced::Entity>(state, 1).IsInvincible());
 			return 1;
 		}
 
 		static int SetInvincible(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).SetInvincible(lua_toboolean(state, 2));
+			GetObject<StandEnhanced::Entity>(state, 1).SetInvincible(lua_toboolean(state, 2));
 			return 0;
 		}
 
 		static int IsDead(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Entity>(state, 1).IsDead());
+			lua_pushboolean(state, GetObject<StandEnhanced::Entity>(state, 1).IsDead());
 			return 1;
 		}
 
 		static int Kill(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).Kill();
+			GetObject<StandEnhanced::Entity>(state, 1).Kill();
 			return 0;
 		}
 
 		static int GetHealth(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Entity>(state, 1).GetHealth());
+			lua_pushinteger(state, GetObject<StandEnhanced::Entity>(state, 1).GetHealth());
 			return 1;
 		}
 
 		static int SetHealth(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).SetHealth(luaL_checkinteger(state, 2));
+			GetObject<StandEnhanced::Entity>(state, 1).SetHealth(luaL_checkinteger(state, 2));
 			return 0;
 		}
 
 		static int GetMaxHealth(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Entity>(state, 1).GetMaxHealth());
+			lua_pushinteger(state, GetObject<StandEnhanced::Entity>(state, 1).GetMaxHealth());
 			return 1;
 		}
 
 		static int IsVisible(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Entity>(state, 1).IsVisible());
+			lua_pushboolean(state, GetObject<StandEnhanced::Entity>(state, 1).IsVisible());
 			return 1;
 		}
 
 		static int SetVisible(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).SetVisible(CheckBooleanSafe(state, 2));
+			GetObject<StandEnhanced::Entity>(state, 1).SetVisible(CheckBooleanSafe(state, 2));
 			return 0;
 		}
 
 		static int GetAlpha(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Entity>(state, 1).GetAlpha());
+			lua_pushinteger(state, GetObject<StandEnhanced::Entity>(state, 1).GetAlpha());
 			return 1;
 		}
 
 		static int SetAlpha(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).SetAlpha(luaL_checkinteger(state, 2));
+			GetObject<StandEnhanced::Entity>(state, 1).SetAlpha(luaL_checkinteger(state, 2));
 			return 0;
 		}
 
 		static int ResetAlpha(lua_State* state)
 		{
-			GetObject<YimMenu::Entity>(state, 1).ResetAlpha();
+			GetObject<StandEnhanced::Entity>(state, 1).ResetAlpha();
 			return 0;
 		}
 
 		static int HasInterior(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Entity>(state, 1).HasInterior());
+			lua_pushboolean(state, GetObject<StandEnhanced::Entity>(state, 1).HasInterior());
 			return 1;
 		}
 
@@ -277,7 +277,7 @@ namespace YimMenu::Lua
 				}
 				lua_setfield(state, -2, "__index"); // prototype
 			}
-			Metatable<YimMenu::Entity>::Register(state);
+			Metatable<StandEnhanced::Entity>::Register(state);
 
 			lua_newtable(state);
 			SetConstructor<New>(state);

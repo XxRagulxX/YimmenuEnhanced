@@ -4,7 +4,7 @@
 
 // Credits to Aure7138
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	struct SyncNodeId
 	{
@@ -100,9 +100,9 @@ namespace YimMenu
 namespace std
 {
 	template<>
-	struct hash<YimMenu::SyncNodeId>
+	struct hash<StandEnhanced::SyncNodeId>
 	{
-		size_t operator()(const YimMenu::SyncNodeId& x) const
+		size_t operator()(const StandEnhanced::SyncNodeId& x) const
 		{
 			return x.id;
 		}

@@ -6,7 +6,7 @@
 
 struct MPSV_Entry;
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class PersonalVehicles
 	{

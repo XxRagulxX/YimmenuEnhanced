@@ -3,7 +3,7 @@
 #include "Rendering/GridItemStandCommand.hpp"
 #include "Rendering/Theme.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Origin/spacer match every other content Grid's.
 	GridStandCommandList::GridStandCommandList(Stand::CommandList* list) :

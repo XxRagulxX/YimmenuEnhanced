@@ -21,17 +21,17 @@ jobs:
         run: cmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=RelWithDebInfo -S . -B build -G Ninja
 
       - name: Build 64bit RelWithDebInfo DLL
-        run: cmake --build ./build --config RelWithDebInfo --target YimMenuV2 --
+        run: cmake --build ./build --config RelWithDebInfo --target StandEnhanced --
 
       - name: Check if DLL got built
-        run: if (-Not (Test-Path -path "build/YimMenuV2.dll")) {throw 1}
+        run: if (-Not (Test-Path -path "build/StandEnhanced.dll")) {throw 1}
 
-      - name: Rename DLL to YimMenuV2-dev-{GITHUB_SHA}.dll
+      - name: Rename DLL to StandEnhanced-dev-{GITHUB_SHA}.dll
         run: |
-          del YimMenuV2-dev-*.dll
-          del YimMenuV2-dev-*.pdb
-          ren YimMenuV2.dll YimMenuV2-dev-${{github.sha}}.dll
-          ren YimMenuV2.pdb YimMenuV2-dev-${{github.sha}}.pdb
+          del StandEnhanced-dev-*.dll
+          del StandEnhanced-dev-*.pdb
+          ren StandEnhanced.dll StandEnhanced-dev-${{github.sha}}.dll
+          ren StandEnhanced.pdb StandEnhanced-dev-${{github.sha}}.pdb
         working-directory: build/
 
       - name: Upload Artifact
@@ -39,8 +39,8 @@ jobs:
         with:
           name: RelWithDebInfo-Native-Clang
           path: |
-            build/YimMenuV2-dev-*.dll
-            build/YimMenuV2-dev-*.pdb
+            build/StandEnhanced-dev-*.dll
+            build/StandEnhanced-dev-*.pdb
 
   cross-compilation:
     runs-on: ubuntu-latest
@@ -60,15 +60,15 @@ jobs:
         run: cmake -DUSE_CROSSCOMPILER=Zig -DCMAKE_BUILD_TYPE=RelWithDebInfo -S . -B build -G Ninja
 
       - name: Build 64bit RelWithDebInfo DLL
-        run: cmake --build ./build --config RelWithDebInfo --target YimMenuV2 --
+        run: cmake --build ./build --config RelWithDebInfo --target StandEnhanced --
 
       - name: Check if DLL got built
-        run: if [ ! -f build/libYimMenuV2.dll ]; then exit 1; fi
+        run: if [ ! -f build/libStandEnhanced.dll ]; then exit 1; fi
 
-      - name: Rename DLL to libYimMenuV2-dev-{GITHUB_SHA}.dll
+      - name: Rename DLL to libStandEnhanced-dev-{GITHUB_SHA}.dll
         run: |
-          mv libYimMenuV2.dll libYimMenuV2-dev-${{github.sha}}.dll
-          mv libYimMenuV2.pdb libYimMenuV2-dev-${{github.sha}}.pdb
+          mv libStandEnhanced.dll libStandEnhanced-dev-${{github.sha}}.dll
+          mv libStandEnhanced.pdb libStandEnhanced-dev-${{github.sha}}.pdb
         working-directory: build/
 
       - name: Upload Artifact
@@ -76,5 +76,5 @@ jobs:
         with:
           name: RelWithDebInfo-Cross
           path: |
-            build/libYimMenuV2-dev-*.dll
-            build/libYimMenuV2-dev-*.pdb
+            build/libStandEnhanced-dev-*.dll
+            build/libStandEnhanced-dev-*.pdb

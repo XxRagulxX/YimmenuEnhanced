@@ -2,7 +2,7 @@
 #include "Scripting/Natives.hpp"
 #include "Rendering/Notifications.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class ForceQuitToStoryMode : public Command
 	{

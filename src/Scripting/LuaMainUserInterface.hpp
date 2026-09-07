@@ -1,7 +1,7 @@
 #pragma once
 #include <unordered_set>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class LuaScript;
 	class Command;
@@ -11,7 +11,7 @@ namespace YimMenu
 	class UIItem;
 }
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	struct CallbackArg
 	{

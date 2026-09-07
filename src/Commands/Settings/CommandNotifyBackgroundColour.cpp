@@ -1,7 +1,7 @@
 #include "Commands/CommandColourCustom.hpp"
 #include "Rendering/NotifySettings.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Ported from real Stand's own CommandNotifyBgColour (Commands/
 	// Online/CommandListNotifySettings.cpp on origin/stand-reference) -

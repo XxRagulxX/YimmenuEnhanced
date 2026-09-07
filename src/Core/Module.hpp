@@ -5,7 +5,7 @@
 
 #include <winternl.h>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	template<typename T>
 	concept Symbol = std::is_convertible_v<T, int> || std::is_convertible_v<T, std::string_view>;

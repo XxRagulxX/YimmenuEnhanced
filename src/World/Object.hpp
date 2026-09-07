@@ -1,7 +1,7 @@
 #pragma once
 #include "Game/Entity.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class Object : public Entity
 	{

@@ -28,7 +28,7 @@
 #include "Vehicle/RCBanditoTimeTrialData.hpp"
 #include "Vehicle/BikeTimeTrialData.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static CommandListSelect hiddenCacheIndex = {"hiddencacheindex", "Hidden Cache", "Selected Hidden Cache", {{0, "Hidden Cache 1"}, {1, "Hidden Cache 2"}, {2, "Hidden Cache 3"}, {3, "Hidden Cache 4"}, {4, "Hidden Cache 5"}, {5, "Hidden Cache 6"}, {6, "Hidden Cache 7"}, {7, "Hidden Cache 8"}, {8, "Hidden Cache 9"}, {9, "Hidden Cache 10"}}};
 

@@ -2,7 +2,7 @@
 #include <string>
 #include "Core/File.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	Folder::Folder(const std::filesystem::path& path) :
 	    BaseObj(path)

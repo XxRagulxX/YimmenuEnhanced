@@ -7,7 +7,7 @@
 #include "Core/Hooking.hpp"
 #include "Network/PlayerData.hpp"
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	class FreemodeStateKick
 	{

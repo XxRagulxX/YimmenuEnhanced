@@ -3,7 +3,7 @@
 #include "Core/Pointers.hpp"
 #include "Network/netSyncTree.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	SyncNodeId& Nodes::FindImpl(uintptr_t addr)
 	{

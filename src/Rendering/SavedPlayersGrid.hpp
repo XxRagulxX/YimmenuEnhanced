@@ -3,12 +3,12 @@
 
 #include <cstdint>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	struct SavedPlayerData;
 }
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	class GridItemTextInput;
 

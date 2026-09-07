@@ -5,7 +5,7 @@
 #include "Core/Pointers.hpp"
 #include "Network/GlobalPlayerBD.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class OffTheRadar : public LoopedCommand
 	{

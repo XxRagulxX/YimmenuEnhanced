@@ -2,7 +2,7 @@
 #include "Ped/PedConfigFlag.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Ported from real Stand's own CommandAirSwim: forces the "is
 	// swimming" ped config flag on every tick, tricking the animation/

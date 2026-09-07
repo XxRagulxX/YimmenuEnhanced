@@ -4,7 +4,7 @@
 
 #include "Core/ThreadContext.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	struct ExecCtx
 	{

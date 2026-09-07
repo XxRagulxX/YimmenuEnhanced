@@ -1,7 +1,7 @@
 #include "Core/Pointers.hpp"
 #include "Scripting/ScriptGlobal.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void* ScriptGlobal::Get() const
 	{

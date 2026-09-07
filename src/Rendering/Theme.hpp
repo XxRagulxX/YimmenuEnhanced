@@ -5,7 +5,7 @@
 
 #include <cstdint>
 
-namespace YimMenu::Rendering::Theme
+namespace StandEnhanced::Rendering::Theme
 {
 	// Stand's own default (unthemed) look - genuinely verified this time
 	// against origin/stand-reference (a branch of this same repo, not

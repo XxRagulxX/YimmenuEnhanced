@@ -2,7 +2,7 @@
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Real Stand's CommandMaxHealth is a single slider, 200-15000 step 25,
 	// where 200 (its own floor) means "Don't Override" - not applied at

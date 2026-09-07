@@ -2,7 +2,7 @@
 #include "Scripting/ScriptLocal.hpp"
 
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
     class AutoCollectTargets : public LoopedCommand
     {

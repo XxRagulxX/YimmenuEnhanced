@@ -27,12 +27,12 @@ namespace rage
 class MatchmakingAttributes;
 class MatchmakingId;
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class Player;
 }
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	namespace SwapChain
 	{

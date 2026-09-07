@@ -1,6 +1,6 @@
 #include "Core/Hooks.hpp"
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	std::uint32_t Anticheat::GetAnticheatInitializedHash()
 	{

@@ -4,7 +4,7 @@
 #include "Rendering/Theme.hpp"
 #include "Rendering/ThreadsGrid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

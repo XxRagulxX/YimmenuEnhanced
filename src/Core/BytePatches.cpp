@@ -1,6 +1,6 @@
 #include "Core/BytePatches.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	BytePatches::Patch::~Patch()
 	{

@@ -7,7 +7,7 @@
 #include "Commands/CommandListSelect.hpp"
 #include "Commands/LoopedCommand.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class LuaUserInterface;
 

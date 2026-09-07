@@ -23,7 +23,7 @@
 #include <format>
 #include <limits>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

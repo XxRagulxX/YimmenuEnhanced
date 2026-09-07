@@ -2,9 +2,9 @@
 #include <string_view>
 #include <array>
 
-namespace YimMenu
+namespace StandEnhanced
 {
-	std::string_view YimMenu::FetchedPlayerData::GameStateToString(GameState state)
+	std::string_view StandEnhanced::FetchedPlayerData::GameStateToString(GameState state)
 	{
 		if (state == GameState::INVALID)
 			return "Invalid";

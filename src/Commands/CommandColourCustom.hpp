@@ -1,7 +1,7 @@
 #pragma once
 #include "Commands/Command.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class CommandColourCustom : public Command
 	{

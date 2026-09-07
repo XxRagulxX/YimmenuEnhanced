@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Settings > Notifications > Custom Position - real Stand's own
 	// CommandNotifyPosition (X/Y + Move With Mouse) - see

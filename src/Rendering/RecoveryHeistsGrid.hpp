@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/GridTabbed.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Recovery > Heists: mirrors HeistModifier.cpp's
 	// BuildHeistModifierMenu() TabBarItem in full - Apartment/Diamond

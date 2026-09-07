@@ -13,7 +13,7 @@
 #include <windows.h>
 #include <wrl/client.h>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// First slice of the Stand-style custom renderer port: a DirectXTK12-backed
 	// draw-primitives layer that records into the same per-frame D3D12 command

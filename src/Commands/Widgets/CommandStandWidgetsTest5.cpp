@@ -8,14 +8,14 @@
 #include "Util/Joaat.hpp"
 #include "World/Self.hpp"
 
-// CommandGod lives directly in namespace Stand (not YimMenu::Features) -
+// CommandGod lives directly in namespace Stand (not StandEnhanced::Features) -
 // matching where the user's own pasted reference example was written.
 // CommandName/Label/CommandList/CommandToggle/Click/LOC()/CMDNAMES() all
 // resolve unqualified only from inside namespace Stand itself (or a
 // namespace nested under it) - writing this class inside
-// YimMenu::Features instead (the original mistake here) left every one
+// StandEnhanced::Features instead (the original mistake here) left every one
 // of those unqualified names unable to find Stand::CommandName et al.,
-// since YimMenu::Features and Stand are unrelated sibling namespace
+// since StandEnhanced::Features and Stand are unrelated sibling namespace
 // trees, not parent/child.
 namespace Stand
 {
@@ -26,8 +26,8 @@ namespace Stand
 		// migrated (constructor taking CommandList* parent + LOC()
 		// name/help text/CMDNAMES() aliases, onEnable()/onDisable()
 		// doing the actual work). Reuses this project's own existing
-		// YimMenu::Self::GetPed().SetInvincible() - the same native call
-		// this project's own CommandGodmode.cpp (a YimMenu::LoopedCommand,
+		// StandEnhanced::Self::GetPed().SetInvincible() - the same native call
+		// this project's own CommandGodmode.cpp (a StandEnhanced::LoopedCommand,
 		// kept running unmodified and independently for now) already
 		// uses - rather than reimplementing the behaviour a second way.
 		// No LOC() translation database exists here (see Util/Label.hpp's
@@ -58,14 +58,14 @@ namespace Stand
 
 			void onEnable(Click& click) override
 			{
-				if (YimMenu::Self::GetPed())
-					YimMenu::Self::GetPed().SetInvincible(true);
+				if (StandEnhanced::Self::GetPed())
+					StandEnhanced::Self::GetPed().SetInvincible(true);
 			}
 
 			void onDisable(Click& click) override
 			{
-				if (YimMenu::Self::GetPed())
-					YimMenu::Self::GetPed().SetInvincible(false);
+				if (StandEnhanced::Self::GetPed())
+					StandEnhanced::Self::GetPed().SetInvincible(false);
 			}
 		};
 
@@ -73,7 +73,7 @@ namespace Stand
 		// CommandRegistry.hpp) - this button does NOT hold a pointer to
 		// CommandGod above (it doesn't even know it lives in the same
 		// file); it looks CommandGod up purely by one of its aliases,
-		// hashed the exact same way YimMenu::Commands::GetCommand<T>()
+		// hashed the exact same way StandEnhanced::Commands::GetCommand<T>()
 		// already does for the legacy system. Proves a command
 		// constructed anywhere in the (eventually many) migrated files
 		// can find another one by name alone, the same cross-referencing
@@ -93,14 +93,14 @@ namespace Stand
 
 			void onClick(Click& click) override
 			{
-				if (auto* god = CommandRegistry::GetCommand<CommandToggle>(YimMenu::Joaat("standtest_godmode")))
+				if (auto* god = CommandRegistry::GetCommand<CommandToggle>(StandEnhanced::Joaat("standtest_godmode")))
 					god->onClick(click);
 			}
 		};
 	}
 }
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	Stand::CommandList& GetStandTreeTestRoot()
 	{
@@ -116,7 +116,7 @@ namespace YimMenu::Features
 		//
 		// Stand::CommandGod, not just CommandGod - it's declared inside
 		// an anonymous namespace nested under namespace Stand above, not
-		// under YimMenu::Features, so it needs that qualifier from here.
+		// under StandEnhanced::Features, so it needs that qualifier from here.
 		static bool initialized = [] {
 			root.createChild<Stand::CommandGod>();
 			root.createChild<Stand::CommandGodToggleViaRegistry>();

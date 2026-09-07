@@ -20,7 +20,7 @@ namespace Stand
 			return;
 
 		for (const auto& name : command->command_names)
-			m_Commands.insert({YimMenu::Joaat(name), command});
+			m_Commands.insert({StandEnhanced::Joaat(name), command});
 	}
 
 	void CommandRegistry::RemoveImpl(CommandIssuable* command)
@@ -29,10 +29,10 @@ namespace Stand
 			return;
 
 		for (const auto& name : command->command_names)
-			m_Commands.erase(YimMenu::Joaat(name));
+			m_Commands.erase(StandEnhanced::Joaat(name));
 	}
 
-	CommandIssuable* CommandRegistry::GetCommandImpl(YimMenu::joaat_t hash)
+	CommandIssuable* CommandRegistry::GetCommandImpl(StandEnhanced::joaat_t hash)
 	{
 		if (auto it = m_Commands.find(hash); it != m_Commands.end())
 			return it->second;

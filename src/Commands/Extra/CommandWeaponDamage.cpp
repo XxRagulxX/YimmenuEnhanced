@@ -3,7 +3,7 @@
 #include "Scripting/Natives.hpp"
 #include "Commands/CommandSliderFloat.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static CommandSliderFloat _WeaponDamageScale{"weapondamagescale", "Weapon Damage Scale", "Sets the damage scale for weapons (including melee)", 0.0f, 10.0f, 1.0f};
 

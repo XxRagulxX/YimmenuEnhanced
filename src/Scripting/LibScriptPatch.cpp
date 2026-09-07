@@ -6,7 +6,7 @@
 #include "Scripting/ScriptPatches.hpp"
 #include "Scripting/ScriptPointer.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	class ScriptPatchBinding : LuaLibrary
 	{

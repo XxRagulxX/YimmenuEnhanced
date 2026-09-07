@@ -6,7 +6,7 @@
 #include <optional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	class GridItemCommandTextslider : public GridItem
 	{

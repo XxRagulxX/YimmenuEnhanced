@@ -3,7 +3,7 @@
 #include "Scripting/scrProgram.hpp"
 #include "Core/LogHelper.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	static std::uint32_t ReadThreeByte(std::uint8_t* arr)
 	{

@@ -1,7 +1,7 @@
 #pragma once
 #include "Menu/Items.hpp"
 
-namespace YimMenu::Submenus
+namespace StandEnhanced::Submenus
 {
 	std::shared_ptr<TabItem> RenderKortzCenterHeistMenu();
 }

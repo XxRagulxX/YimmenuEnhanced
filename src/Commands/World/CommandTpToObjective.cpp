@@ -3,7 +3,7 @@
 #include "Scripting/Natives.hpp"
 #include "Game/BlipSprite.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static bool GetBlipLocationOfType(Vector3& location, int sprite)
 	{

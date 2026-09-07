@@ -1,7 +1,7 @@
 #pragma once
 #include "Scripting/ScriptData.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class ScriptPointer
 	{

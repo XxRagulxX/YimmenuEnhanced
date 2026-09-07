@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Players > Kick: mirrors Kick.cpp's kicks/other
 	// groups exactly - every item there is a PlayerCommandItem, now that

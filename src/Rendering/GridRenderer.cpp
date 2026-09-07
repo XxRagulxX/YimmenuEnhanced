@@ -30,7 +30,7 @@
 #include <cmath>
 #include <vector>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

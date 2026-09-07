@@ -8,7 +8,7 @@
 
 #include <intrin.h>
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	static bool IsAddressInGameMemory(void* addr)
 	{

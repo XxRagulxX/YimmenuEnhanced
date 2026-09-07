@@ -2,7 +2,7 @@
 #include "Commands/CommandToggle.hpp"
 #include "Commands/Commands.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	BoolCommandItem::BoolCommandItem(joaat_t id, std::optional<std::string> label_override) :
 	    m_Command(Commands::GetCommand<CommandToggle>(id)),

@@ -3,7 +3,7 @@
 
 #include <utility>
 
-namespace YimMenu::StandWidgets
+namespace StandEnhanced::StandWidgets
 {
 	// Ported from real Stand's own CommandTogglePointer - a toggle backed
 	// by an existing bool* (typically a static field on some manager

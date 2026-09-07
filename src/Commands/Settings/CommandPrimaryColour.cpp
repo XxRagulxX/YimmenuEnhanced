@@ -2,7 +2,7 @@
 #include "Commands/Widgets/CommandRainbow.hpp"
 #include "Rendering/Theme.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Ported from real Stand's own CommandPrimaryColour (Commands/Stand/
 	// CommandPrimaryColour.hpp on origin/stand-reference) - the one

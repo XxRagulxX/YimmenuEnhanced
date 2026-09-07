@@ -5,7 +5,7 @@
 #include "Scripting/Scripts.hpp"
 #include "Core/Pointers.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	class Network : LuaLibrary
 	{
@@ -69,11 +69,11 @@ namespace YimMenu::Lua
         {
             auto script_hash = GetHashArgument(state, 1);
 
-            auto thread = YimMenu::Scripts::FindScriptThread(script_hash);
+            auto thread = StandEnhanced::Scripts::FindScriptThread(script_hash);
             if (!thread)
                 return 0;
 
-            YimMenu::Scripts::ForceScriptHost(thread);
+            StandEnhanced::Scripts::ForceScriptHost(thread);
 
 			return 0;
         }
@@ -83,7 +83,7 @@ namespace YimMenu::Lua
 			auto script_hash = GetHashArgument(state, 1);
 			auto bits = luaL_checkinteger(state, 2);
 
-			YimMenu::Scripts::ForceScriptOnPlayer(script_hash, bits);
+			StandEnhanced::Scripts::ForceScriptOnPlayer(script_hash, bits);
 
 			return 0;
 		}

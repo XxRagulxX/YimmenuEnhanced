@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Test-only command for CommandToggleBitflag (see Commands/Widgets/
 	// CommandToggleBitflag.hpp) - reachable from Settings > Debug > "Stand

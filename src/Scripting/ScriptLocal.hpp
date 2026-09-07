@@ -5,7 +5,7 @@
 #include "Util/Joaat.hpp"
 #include "Scripting/Scripts.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class ScriptLocal
 	{

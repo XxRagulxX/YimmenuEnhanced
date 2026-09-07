@@ -3,7 +3,7 @@
 #include <cstring>
 #include <windows.h>
 
-namespace YimMenu::Rendering::Clipboard
+namespace StandEnhanced::Rendering::Clipboard
 {
 	void SetText(const std::string& text)
 	{

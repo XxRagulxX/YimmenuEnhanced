@@ -6,9 +6,9 @@
 #include <optional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
-	// A GridItemToggle wired to a real YimMenu::CommandToggle, looked up by
+	// A GridItemToggle wired to a real StandEnhanced::CommandToggle, looked up by
 	// joaat hash - the Grid/GridItem equivalent of BoolCommandItem (src/
 	// BoolCommandItem.cpp) for the ImGui menu. Reads the command's live
 	// state every frame (rather than tracking its own), and calls

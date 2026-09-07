@@ -15,7 +15,7 @@
 
 #include <unordered_map>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

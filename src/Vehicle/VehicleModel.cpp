@@ -3,7 +3,7 @@
 #include "Scripting/Natives.hpp"
 #include "Vehicle/VehicleValues.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	const char* VehicleModel::GetModSlotName(Hash model, int vehicle, int mod_slot)
 	{

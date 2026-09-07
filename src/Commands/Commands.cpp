@@ -4,7 +4,7 @@
 #include "Commands/LoopedCommand.hpp"
 #include "Scripting/ScriptMgr.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	Commands::Commands() :
 	    IStateSerializer("commands")

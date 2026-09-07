@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <climits>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	void Grid::ensurePopulated()
 	{

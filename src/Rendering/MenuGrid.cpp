@@ -20,7 +20,7 @@
 #include <utility>
 #include <windows.h>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{
@@ -116,7 +116,7 @@ namespace YimMenu::Rendering
 		// width in that case (or when hidden entirely).
 		const int16_t headerW = (visible && sidebarIsVertical) ? static_cast<int16_t>(Theme::kSidebarWidth + kSpacer + Theme::kContentWidth) : Theme::kContentWidth;
 
-		auto header = std::make_unique<GridItemAddressbar>(headerW, Theme::kHeaderHeight, "YimMenu");
+		auto header = std::make_unique<GridItemAddressbar>(headerW, Theme::kHeaderHeight, "StandEnhanced");
 		m_Header = header.get();
 		items_draft.push_back(std::move(header));
 
@@ -276,7 +276,7 @@ namespace YimMenu::Rendering
 		// without touching the sidebar at all, and still needs the
 		// breadcrumb to catch up.
 		if (m_Header)
-			m_Header->SetTitle("YimMenu > " + MenuNavigation::BreadcrumbPath());
+			m_Header->SetTitle("StandEnhanced > " + MenuNavigation::BreadcrumbPath());
 	}
 
 	void MenuGrid::draw()

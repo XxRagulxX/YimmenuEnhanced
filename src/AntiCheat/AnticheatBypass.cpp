@@ -12,7 +12,7 @@ using FnBattlEyeBypass = bool (*)();
 
 #define RESTORE_DESTROYED_FUNCTIONS true
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	static void ApplyPatch(uintptr_t base, uintptr_t offset, std::span<std::uint8_t const> const values)
 	{
@@ -323,7 +323,7 @@ namespace YimMenu
 		else
 		{
 #if !RESTORE_DESTROYED_FUNCTIONS
-			LOGF(FATAL, "YimMenu requires FSL to be loaded. Please get it from UnknownCheats.me");
+			LOGF(FATAL, "StandEnhanced requires FSL to be loaded. Please get it from UnknownCheats.me");
 #endif
 		}
 

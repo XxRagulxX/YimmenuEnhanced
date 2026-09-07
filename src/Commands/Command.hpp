@@ -4,7 +4,7 @@
 #include <nlohmann/json.hpp>
 
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class Command
 	{

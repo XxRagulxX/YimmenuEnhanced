@@ -9,7 +9,7 @@
 #include <string>
 #include <utility>
 
-namespace YimMenu::StandWidgets
+namespace StandEnhanced::StandWidgets
 {
 	// Ported from real Stand's own CommandRainbow (Commands/Stand/
 	// CommandRainbow.hpp on origin/stand-reference): a speed control

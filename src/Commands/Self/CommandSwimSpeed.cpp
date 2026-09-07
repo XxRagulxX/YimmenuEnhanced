@@ -3,7 +3,7 @@
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Real Stand's own Swim Speed slider, scaled to a practical range the
 	// same way Walk Speed is (see CommandWalkSpeed.cpp's own comment for

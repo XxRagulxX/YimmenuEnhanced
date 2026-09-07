@@ -2,7 +2,7 @@
 #include "Commands/PlayerCommand.hpp"
 #include "Network/ScriptEvent.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class Blackscreen : public PlayerCommand
 	{

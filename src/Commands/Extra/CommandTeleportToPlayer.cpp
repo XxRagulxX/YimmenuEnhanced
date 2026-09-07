@@ -1,7 +1,7 @@
 #include "World/Self.hpp"
 #include "Commands/PlayerCommand.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class TeleportToPlayer : public PlayerCommand
 	{

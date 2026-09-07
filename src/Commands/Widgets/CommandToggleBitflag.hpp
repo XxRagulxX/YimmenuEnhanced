@@ -3,7 +3,7 @@
 
 #include <utility>
 
-namespace YimMenu::StandWidgets
+namespace StandEnhanced::StandWidgets
 {
 	// Ported from real Stand's own CommandToggleBitflag (the simpler of
 	// its two bit-level toggles - the other, CommandToggleBitPointer,

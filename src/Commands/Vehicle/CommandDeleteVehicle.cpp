@@ -1,6 +1,6 @@
 #include "Commands/PlayerCommand.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class DeleteVehicle : public PlayerCommand
 	{

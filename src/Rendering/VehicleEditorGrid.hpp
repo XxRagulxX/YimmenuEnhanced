@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	class GridItemTextInput;
 

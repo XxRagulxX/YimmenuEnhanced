@@ -12,7 +12,7 @@
 #include "Menu/GUI.hpp"
 #include "Scripting/LuaCommandHandle.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	struct SubmenuHandle
 	{

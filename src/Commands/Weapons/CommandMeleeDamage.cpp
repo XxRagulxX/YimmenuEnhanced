@@ -3,7 +3,7 @@
 #include "Scripting/Natives.hpp"
 #include "Commands/CommandSliderFloat.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static CommandSliderFloat _MeleeDamageScale{
 	    "meleedamagescale",

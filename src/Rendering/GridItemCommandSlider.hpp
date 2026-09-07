@@ -6,7 +6,7 @@
 #include <optional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// A label + current integer value + "-"/"+" buttons - the Grid
 	// equivalent of IntCommandItem (src/IntCommandItem.cpp) for the

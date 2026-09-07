@@ -7,7 +7,7 @@
 
 #include <windows.h>
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	namespace
 	{
@@ -24,7 +24,7 @@ namespace YimMenu::Features
 		return ComputeTestDynamicRange();
 	}
 
-	static YimMenu::CommandSlider _TestDynamicSlider{"standwidgets_testdynamicslider",
+	static StandEnhanced::CommandSlider _TestDynamicSlider{"standwidgets_testdynamicslider",
 	    "Test: Dynamic Range Slider",
 	    "Its own max grows/shrinks over time (0 to 20-99) - confirms GetMinimum()/GetMaximum() recompute live via SetDynamicRange() rather than only once at construction",
 	    0,
@@ -36,18 +36,18 @@ namespace YimMenu::Features
 		return true;
 	}();
 
-	static YimMenu::CommandTextslider _TestTextslider{"standwidgets_testtextslider",
+	static StandEnhanced::CommandTextslider _TestTextslider{"standwidgets_testtextslider",
 	    "Test: Textslider",
 	    "A flat left/right value cycler (CommandTextslider) distinct from CommandListSelect - no per-option sub-commands/categories",
 	    {"Low", "Medium", "High", "Extreme"},
 	    0};
 
-	static YimMenu::CommandColourCustom _TestColour{"standwidgets_testcolour",
+	static StandEnhanced::CommandColourCustom _TestColour{"standwidgets_testcolour",
 	    "Test: Colour (Hex + HSV)",
 	    "Confirms the new Hex row and H/S/V rows stay in sync with the existing R/G/B/A rows",
 	    ImVec4(1.0f, 0.0f, 0.0f, 1.0f)};
 
-	static YimMenu::CommandInput _TestScrollingInput{"standwidgets_testscrollinginput",
+	static StandEnhanced::CommandInput _TestScrollingInput{"standwidgets_testscrollinginput",
 	    "Test: Scrolling Text",
 	    "Displayed with the marquee-scroll display mode enabled when its text overflows the row",
 	    "This text is long enough to overflow the row and should scroll continuously"};

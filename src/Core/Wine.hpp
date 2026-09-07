@@ -3,7 +3,7 @@
 
 #include <optional>
 
-namespace YimMenu {
+namespace StandEnhanced {
     inline std::optional<bool> InWine()
     {
         auto module = g_ModuleMgr.Get("ntdll.dll"_J);

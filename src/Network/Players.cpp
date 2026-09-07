@@ -6,7 +6,7 @@
 #include "Network/CNetworkPlayerMgr.hpp"
 #include "Network/rlGamerInfo.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void Players::InitImpl()
 	{

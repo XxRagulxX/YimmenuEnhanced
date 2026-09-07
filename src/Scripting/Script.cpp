@@ -8,7 +8,7 @@
 #include "Util/Util.hpp"
 #include "Util/get_current_time_millis.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	Script::Script(script_func_t func) :
 	    func(func)

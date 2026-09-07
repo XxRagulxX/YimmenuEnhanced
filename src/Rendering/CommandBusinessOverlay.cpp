@@ -8,7 +8,7 @@
 
 #include <format>
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	CommandToggle _BusinessOverlay("businessoverlay", "Show Business Overlay", "Displays current Business overlay");
 	CommandToggle _ShowWarehouse("showwarehouse", "Show Warehouse", "Display warehouse stock");

@@ -12,7 +12,7 @@
 #include "Rendering/SavedPlayersGrid.hpp"
 #include "Rendering/Theme.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

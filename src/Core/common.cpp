@@ -1,6 +1,6 @@
 #include "Core/common.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	std::atomic<bool> g_Running{true};
 	HINSTANCE g_DllInstance{nullptr};

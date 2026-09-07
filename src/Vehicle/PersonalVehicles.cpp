@@ -14,7 +14,7 @@
 
 #define MAX_GARAGE_NUM 36
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	// TO-DO: Use script functions for these instead?
 

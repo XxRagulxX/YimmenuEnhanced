@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <utility>
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	std::pair<int, int> GetTestDynamicRange();
 }

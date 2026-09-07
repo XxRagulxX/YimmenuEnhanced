@@ -5,7 +5,7 @@
 //#include "Stats.hpp"
 //#include "Pointers.hpp"
 //
-//namespace YimMenu::Features
+//namespace StandEnhanced::Features
 //{
 //	static CallHook formatIntCaller1Hook{};
 //	static CallHook formatIntCaller2Hook{};

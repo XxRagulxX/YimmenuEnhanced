@@ -2,7 +2,7 @@
 
 #include <windows.h>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	extern "C"
 	{

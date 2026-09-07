@@ -4,7 +4,7 @@
 #include "Network/ScriptEvent.hpp"
 #include "Network/GSBD_FM_Events.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static CommandSlider _BountyAmount{"bountyamount", "Bounty Amount", "The bounty amount to set", 1, 10000, 9000};
 	static CommandToggle _AnonymousBounty{"anonymousbounty", "Anonymous Bounty", "Sets the bounty as anonymous"};

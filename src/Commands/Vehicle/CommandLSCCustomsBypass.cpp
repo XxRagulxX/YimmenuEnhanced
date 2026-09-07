@@ -1,9 +1,9 @@
 #include "Commands/CommandToggle.hpp"
 #include "Scripting/ScriptPatches.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
-	// from https://github.com/TCRoid/YimMenu-Lua-RS-Missions/
+	// from https://github.com/TCRoid/StandEnhanced-Lua-RS-Missions/
 	class LSCCustomsBypass : public CommandToggle
 	{
 		using CommandToggle::CommandToggle;

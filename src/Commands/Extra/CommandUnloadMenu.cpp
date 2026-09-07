@@ -1,6 +1,6 @@
 #include "Commands/Command.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class UnloadMenu : public Command
 	{
@@ -12,5 +12,5 @@ namespace YimMenu::Features
 		}
 	};
 
-	static UnloadMenu _UnloadMenu{"unloadmenu", "Unload", "Unload YimMenuV2."};
+	static UnloadMenu _UnloadMenu{"unloadmenu", "Unload", "Unload StandEnhanced."};
 }

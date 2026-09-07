@@ -7,7 +7,7 @@
 #include "Game/ControllerInputs.hpp"
 #include "Rendering/MenuPopup.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	namespace
 	{

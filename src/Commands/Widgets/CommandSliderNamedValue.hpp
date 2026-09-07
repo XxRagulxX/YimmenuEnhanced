@@ -4,7 +4,7 @@
 #include <string>
 #include <utility>
 
-namespace YimMenu::StandWidgets
+namespace StandEnhanced::StandWidgets
 {
 	// Ported from real Stand's own CommandSliderNamedValue - a slider
 	// where one specific value (usually its own floor) displays a name

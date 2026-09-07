@@ -2,7 +2,7 @@
 #include "Weapons/WeaponsHashes.hpp"
 
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class GivePlayerAllWeapon : public PlayerCommand
 	{

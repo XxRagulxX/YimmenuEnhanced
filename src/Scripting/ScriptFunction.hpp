@@ -2,7 +2,7 @@
 #include "Util/Joaat.hpp"
 #include "Scripting/ScriptPointer.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class ScriptFunction
 	{

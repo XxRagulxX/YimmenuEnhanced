@@ -12,7 +12,7 @@
 #include "Network/rlGetAvatarsContext.hpp"
 #include "Network/rlScTaskStatus.hpp"
 
-namespace YimMenu::Network
+namespace StandEnhanced::Network
 {
 	void LaunchJoinType(JoinType to_launch)
 	{

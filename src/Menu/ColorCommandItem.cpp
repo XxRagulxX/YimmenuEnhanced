@@ -2,7 +2,7 @@
 #include "Commands/CommandColourCustom.hpp"
 #include "Commands/Commands.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	ColorCommandItem::ColorCommandItem(joaat_t id, std::optional<std::string> labelOverride) :
 	    m_Command(Commands::GetCommand<CommandColourCustom>(id)),

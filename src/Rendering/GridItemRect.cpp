@@ -2,7 +2,7 @@
 
 #include "Rendering/GridRenderer.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	void GridItemRect::draw()
 	{

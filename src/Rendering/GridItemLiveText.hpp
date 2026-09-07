@@ -5,7 +5,7 @@
 #include <functional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// GridItemText's live-updating counterpart - same plain single-line
 	// label, but the string comes from a callback re-run on every

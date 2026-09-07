@@ -2,7 +2,7 @@
 
 #include "Util/Joaat.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	Module* ModuleMgr::Get(const std::string_view name)
 	{

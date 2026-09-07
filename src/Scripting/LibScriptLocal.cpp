@@ -4,7 +4,7 @@
 #include "Scripting/ScriptLocal.hpp"
 #include "Scripting/scrVector.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	class ScriptLocal : LuaLibrary
 	{
@@ -22,27 +22,27 @@ namespace YimMenu::Lua
 				return 1;
 			}
 
-			CreateObject<YimMenu::ScriptLocal>(state, thread->m_Stack, index);
+			CreateObject<StandEnhanced::ScriptLocal>(state, thread->m_Stack, index);
 			return 1;
 		}
 		
 		static int At(lua_State* state)
 		{
 			auto num_args = lua_gettop(state) - 1; // first argument is self
-			auto& local = GetObject<YimMenu::ScriptLocal>(state, 1);
+			auto& local = GetObject<StandEnhanced::ScriptLocal>(state, 1);
 
 			auto size = num_args > 1 ? luaL_checkinteger(state, 3) : 0;
 			if (size != 0)
-				CopyObject<YimMenu::ScriptLocal>(state, local.At(luaL_checkinteger(state, 2), size));
+				CopyObject<StandEnhanced::ScriptLocal>(state, local.At(luaL_checkinteger(state, 2), size));
 			else
-				CopyObject<YimMenu::ScriptLocal>(state, local.At(luaL_checkinteger(state, 2)));
+				CopyObject<StandEnhanced::ScriptLocal>(state, local.At(luaL_checkinteger(state, 2)));
 
 			return 1;
 		}
 
 		static int GetInt(lua_State* state)
 		{
-			auto& local = GetObject<YimMenu::ScriptLocal>(state, 1);
+			auto& local = GetObject<StandEnhanced::ScriptLocal>(state, 1);
 			int value = *local.As<int*>();
 			lua_pushinteger(state, value);
 			return 1;
@@ -50,7 +50,7 @@ namespace YimMenu::Lua
 
 		static int GetFloat(lua_State* state)
 		{
-			auto& local = GetObject<YimMenu::ScriptLocal>(state, 1);
+			auto& local = GetObject<StandEnhanced::ScriptLocal>(state, 1);
 			float value = *local.As<float*>();
 			lua_pushnumber(state, value);
 			return 1;
@@ -58,7 +58,7 @@ namespace YimMenu::Lua
 
 		static int GetVector3(lua_State* state)
 		{
-			auto& local = GetObject<YimMenu::ScriptLocal>(state, 1);
+			auto& local = GetObject<StandEnhanced::ScriptLocal>(state, 1);
 			rage::scrVector value{};
 			value = *local.As<rage::scrVector*>();
 			CreateObject<rage::fvector3>(state, value);
@@ -67,21 +67,21 @@ namespace YimMenu::Lua
 
 		static int SetInt(lua_State* state)
 		{
-			auto& local = GetObject<YimMenu::ScriptLocal>(state, 1);
+			auto& local = GetObject<StandEnhanced::ScriptLocal>(state, 1);
 			*local.As<int*>() = luaL_checkinteger(state, 2);
 			return 0;
 		}
 
 		static int SetFloat(lua_State* state)
 		{
-			auto& local = GetObject<YimMenu::ScriptLocal>(state, 1);
+			auto& local = GetObject<StandEnhanced::ScriptLocal>(state, 1);
 			*local.As<float*>() = static_cast<float>(luaL_checknumber(state, 2));
 			return 0;
 		}
 
 		static int SetVector3(lua_State* state)
 		{
-			auto& local = GetObject<YimMenu::ScriptLocal>(state, 1);
+			auto& local = GetObject<StandEnhanced::ScriptLocal>(state, 1);
 			auto& vec = GetObject<rage::fvector3>(state, 2);
 			auto script_vec = rage::scrVector(vec);
 			*local.As<rage::scrVector*>() = script_vec;
@@ -104,7 +104,7 @@ namespace YimMenu::Lua
 				}
 				lua_setfield(state, -2, "__index"); // prototype
 			}
-			Metatable<YimMenu::ScriptLocal>::Register(state);
+			Metatable<StandEnhanced::ScriptLocal>::Register(state);
 
 			lua_newtable(state);
 			SetConstructor<New>(state);

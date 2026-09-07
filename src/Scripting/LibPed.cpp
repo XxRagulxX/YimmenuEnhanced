@@ -5,7 +5,7 @@
 #include "Ped/Ped.hpp"
 #include "Game/Entity.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	class Ped : LuaLibrary
 	{
@@ -14,55 +14,55 @@ namespace YimMenu::Lua
 
 		static int New(lua_State* state)
 		{
-			CreateObject<YimMenu::Ped>(state, luaL_checkinteger(state, 1));
+			CreateObject<StandEnhanced::Ped>(state, luaL_checkinteger(state, 1));
 			return 1;
 		}
 
 		static int Create(lua_State* state)
 		{
-			CopyObject<YimMenu::Ped>(state, YimMenu::Ped::Create(GetHashArgument(state, 1), GetObject<rage::fvector3>(state, 2), lua_gettop(state) >= 3 ? luaL_checknumber(state, 3) : 0.0f));
+			CopyObject<StandEnhanced::Ped>(state, StandEnhanced::Ped::Create(GetHashArgument(state, 1), GetObject<rage::fvector3>(state, 2), lua_gettop(state) >= 3 ? luaL_checknumber(state, 3) : 0.0f));
 			return 1;
 		}
 
 		static int GetVehicle(lua_State* state)
 		{
-			CopyObject<YimMenu::Vehicle>(state, GetObject<YimMenu::Ped>(state, 1).GetVehicle());
+			CopyObject<StandEnhanced::Vehicle>(state, GetObject<StandEnhanced::Ped>(state, 1).GetVehicle());
 			return 1;
 		}
 
 		static int GetLastVehicle(lua_State* state)
 		{
-			CopyObject<YimMenu::Vehicle>(state, GetObject<YimMenu::Ped>(state, 1).GetLastVehicle());
+			CopyObject<StandEnhanced::Vehicle>(state, GetObject<StandEnhanced::Ped>(state, 1).GetLastVehicle());
 			return 1;
 		}
 
 		static int GetVehicleObjectId(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Ped>(state, 1).GetVehicleObjectId());
+			lua_pushinteger(state, GetObject<StandEnhanced::Ped>(state, 1).GetVehicleObjectId());
 			return 1;
 		}
 
 		static int SetInVehicle(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).SetInVehicle(GetObject<YimMenu::Vehicle>(state, 2), lua_gettop(state) >= 3 ? luaL_checkinteger(state, 3) : 0);
+			GetObject<StandEnhanced::Ped>(state, 1).SetInVehicle(GetObject<StandEnhanced::Vehicle>(state, 2), lua_gettop(state) >= 3 ? luaL_checkinteger(state, 3) : 0);
 			return 0;
 		}
 
 		static int GetRagdoll(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Ped>(state, 1).GetRagdoll());
+			lua_pushboolean(state, GetObject<StandEnhanced::Ped>(state, 1).GetRagdoll());
 			return 1;
 		}
 
 		static int SetRagdoll(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).SetRagdoll(CheckBooleanSafe(state, 2));
+			GetObject<StandEnhanced::Ped>(state, 1).SetRagdoll(CheckBooleanSafe(state, 2));
 			return 0;
 		}
 
 		static int GetBonePosition(lua_State* state)
 		{
-			MoveObject<rage::fvector3>(state, GetObject<YimMenu::Ped>(state, 1).GetBonePosition(luaL_checkinteger(state, 2)));
+			MoveObject<rage::fvector3>(state, GetObject<StandEnhanced::Ped>(state, 1).GetBonePosition(luaL_checkinteger(state, 2)));
 			return 0;
 		}
 
@@ -72,19 +72,19 @@ namespace YimMenu::Lua
 
 		static int IsEnemy(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Ped>(state, 1).IsEnemy());
+			lua_pushboolean(state, GetObject<StandEnhanced::Ped>(state, 1).IsEnemy());
 			return 1;
 		}
 
 		static int GetAccuracy(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Ped>(state, 1).GetAccuracy());
+			lua_pushinteger(state, GetObject<StandEnhanced::Ped>(state, 1).GetAccuracy());
 			return 1;
 		}
 
 		static int SetAccuracy(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).SetAccuracy(luaL_checkinteger(state, 2));
+			GetObject<StandEnhanced::Ped>(state, 1).SetAccuracy(luaL_checkinteger(state, 2));
 			return 0;
 		}
 
@@ -92,121 +92,121 @@ namespace YimMenu::Lua
 
 		static int GiveWeapon(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).GiveWeapon(GetHashArgument(state, 2), lua_gettop(state) >= 3 ? CheckBooleanSafe(state, 3) : false);
+			GetObject<StandEnhanced::Ped>(state, 1).GiveWeapon(GetHashArgument(state, 2), lua_gettop(state) >= 3 ? CheckBooleanSafe(state, 3) : false);
 			return 0;
 		}
 
 		static int RemoveWeapon(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).RemoveWeapon(GetHashArgument(state, 2));
+			GetObject<StandEnhanced::Ped>(state, 1).RemoveWeapon(GetHashArgument(state, 2));
 			return 0;
 		}
 
 		static int GetCurrentWeapon(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Ped>(state, 1).GetCurrentWeapon());
+			lua_pushinteger(state, GetObject<StandEnhanced::Ped>(state, 1).GetCurrentWeapon());
 			return 1;
 		}
 
 		static int HasWeapon(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Ped>(state, 1).HasWeapon(GetHashArgument(state, 2)));
+			lua_pushboolean(state, GetObject<StandEnhanced::Ped>(state, 1).HasWeapon(GetHashArgument(state, 2)));
 			return 1;
 		}
 
 		static int SetInfiniteAmmo(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).SetInfiniteAmmo(CheckBooleanSafe(state, 2));
+			GetObject<StandEnhanced::Ped>(state, 1).SetInfiniteAmmo(CheckBooleanSafe(state, 2));
 			return 0;
 		}
 
 		static int SetInfiniteClip(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).SetInfiniteClip(CheckBooleanSafe(state, 2));
+			GetObject<StandEnhanced::Ped>(state, 1).SetInfiniteClip(CheckBooleanSafe(state, 2));
 			return 0;
 		}
 
 		static int SetMaxAmmoForWeapon(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).SetMaxAmmoForWeapon(GetHashArgument(state, 2));
+			GetObject<StandEnhanced::Ped>(state, 1).SetMaxAmmoForWeapon(GetHashArgument(state, 2));
 			return 0;
 		}
 
 		static int TeleportTo(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).TeleportTo(GetObject<rage::fvector3>(state, 2));
+			GetObject<StandEnhanced::Ped>(state, 1).TeleportTo(GetObject<rage::fvector3>(state, 2));
 			return 0;
 		}
 
 		static int GetArmour(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<YimMenu::Ped>(state, 1).GetArmour());
+			lua_pushinteger(state, GetObject<StandEnhanced::Ped>(state, 1).GetArmour());
 			return 1;
 		}
 
 		static int SetArmour(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).SetArmour(luaL_checkinteger(state, 2));
+			GetObject<StandEnhanced::Ped>(state, 1).SetArmour(luaL_checkinteger(state, 2));
 			return 0;
 		}
 
 		static int SetLeaderOfGroup(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).SetLeaderOfGroup(luaL_checkinteger(state, 2));
+			GetObject<StandEnhanced::Ped>(state, 1).SetLeaderOfGroup(luaL_checkinteger(state, 2));
 			return 0;
 		}
 
 		static int AddToGroup(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).AddToGroup(luaL_checkinteger(state, 2));
+			GetObject<StandEnhanced::Ped>(state, 1).AddToGroup(luaL_checkinteger(state, 2));
 			return 0;
 		}
 
 		static int RemoveFromGroup(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).RemoveFromGroup();
+			GetObject<StandEnhanced::Ped>(state, 1).RemoveFromGroup();
 			return 0;
 		}
 
 		static int IsMemberOfGroup(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<YimMenu::Ped>(state, 1).IsMemberOfGroup(luaL_checkinteger(state, 2)));
+			lua_pushboolean(state, GetObject<StandEnhanced::Ped>(state, 1).IsMemberOfGroup(luaL_checkinteger(state, 2)));
 			return 1;
 		}
 
 		static int RandomizeOutfit(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).RandomizeOutfit();
+			GetObject<StandEnhanced::Ped>(state, 1).RandomizeOutfit();
 			return 0;
 		}
 
 		static int StartScenario(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).StartScenario(CheckStringSafe(state, 2), lua_gettop(state) >= 3 ? luaL_checkinteger(state, 3) : -1, lua_gettop(state) >= 4 ? CheckBooleanSafe(state, 4) : true);
+			GetObject<StandEnhanced::Ped>(state, 1).StartScenario(CheckStringSafe(state, 2), lua_gettop(state) >= 3 ? luaL_checkinteger(state, 3) : -1, lua_gettop(state) >= 4 ? CheckBooleanSafe(state, 4) : true);
 			return 0;
 		}
 
 		static int SetKeepTask(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).SetKeepTask(CheckBooleanSafe(state, 2));
+			GetObject<StandEnhanced::Ped>(state, 1).SetKeepTask(CheckBooleanSafe(state, 2));
 			return 0;
 		}
 
 		static int ClearDamage(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).ClearDamage();
+			GetObject<StandEnhanced::Ped>(state, 1).ClearDamage();
 			return 0;
 		}
 
 		static int SetMaxTimeUnderwater(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).SetMaxTimeUnderwater(luaL_checkinteger(state, 2));
+			GetObject<StandEnhanced::Ped>(state, 1).SetMaxTimeUnderwater(luaL_checkinteger(state, 2));
 			return 0;
 		}
 
 		static int SetAsCop(lua_State* state)
 		{
-			GetObject<YimMenu::Ped>(state, 1).SetAsCop();
+			GetObject<StandEnhanced::Ped>(state, 1).SetAsCop();
 			return 0;
 		}
 
@@ -250,8 +250,8 @@ namespace YimMenu::Lua
 				}
 				lua_setfield(state, -2, "__index"); // prototype
 			}
-			Metatable<YimMenu::Ped>::Register(state);
-			Metatable<YimMenu::Entity>::AddSubclass<YimMenu::Ped>();
+			Metatable<StandEnhanced::Ped>::Register(state);
+			Metatable<StandEnhanced::Entity>::AddSubclass<StandEnhanced::Ped>();
 
 			lua_newtable(state);
 			SetConstructor<New>(state);

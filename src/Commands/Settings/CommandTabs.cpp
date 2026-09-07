@@ -3,7 +3,7 @@
 #include "Rendering/GridRenderer.hpp"
 #include "Rendering/Theme.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Ported from real Stand's own CommandTabs (Commands/Widgets/
 	// CommandTabs.hpp on origin/stand-reference) - show/hide the whole

@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace YimMenu::Rendering::NotifySettings
+namespace StandEnhanced::Rendering::NotifySettings
 {
 	// Settings > Notifications - real Stand's own CommandListNotifySettings
 	// (Commands/Online/CommandListNotifySettings.cpp on origin/stand-reference).

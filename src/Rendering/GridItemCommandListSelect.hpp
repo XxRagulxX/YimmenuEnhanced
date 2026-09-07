@@ -6,10 +6,10 @@
 #include <optional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// A label + current selected item + "<"/">" buttons cycling through
-	// a real YimMenu::CommandListSelect's own option list - the Grid
+	// a real StandEnhanced::CommandListSelect's own option list - the Grid
 	// equivalent of ListCommandItem (src/ListCommandItem.cpp) for the
 	// ImGui menu, minus the dropdown/combo box: there's no popup system
 	// here yet, so cycling one entry at a time with the arrow buttons is

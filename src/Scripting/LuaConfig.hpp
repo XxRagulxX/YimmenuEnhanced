@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/File.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class LuaConfig
 	{

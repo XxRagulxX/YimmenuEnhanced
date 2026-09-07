@@ -3,7 +3,7 @@
 #include "Network/PlayerData.hpp"
 #include "Network/GSBD.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class FreemodeStateKick : public PlayerCommand
 	{

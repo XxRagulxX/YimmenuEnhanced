@@ -4,7 +4,7 @@
 
 #include <algorithm>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	GridItemLiveText::GridItemLiveText(int16_t width, int16_t height, std::function<std::string()> text, DirectX::XMFLOAT4 colour) :
 	    GridItem(GRIDITEM_INDIFFERENT, width, height),

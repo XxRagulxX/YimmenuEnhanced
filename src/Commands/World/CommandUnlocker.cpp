@@ -7,7 +7,7 @@
 #include "Rendering/Notifications.hpp"
 #include "Scripting/FiberPool.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 
 	static CommandSlider _SetRankValue{"setrankvalue", "Rank", "Enter your desired RP level", std::nullopt, std::nullopt, 1};

@@ -6,7 +6,7 @@
 
 // Second real feature migrated onto the ported Stand tree (Self, after
 // Commands/Self/CommandGod.hpp). Replaces the legacy Commands/Self/
-// CommandAutoHeal.cpp (YimMenu::Features::AutoHeal, a LoopedCommand) -
+// CommandAutoHeal.cpp (StandEnhanced::Features::AutoHeal, a LoopedCommand) -
 // SelfGrid.cpp's own "autoheal" row now points here instead (via
 // GridItemStandCommand, not GridItemCommandToggle).
 //
@@ -60,17 +60,17 @@ namespace Stand
 
 		void onTick() override
 		{
-			if (!YimMenu::Self::GetPed())
+			if (!StandEnhanced::Self::GetPed())
 				return;
 
-			const auto health = YimMenu::Self::GetPed().GetHealth();
-			const auto maxHealth = YimMenu::Self::GetPed().GetMaxHealth();
+			const auto health = StandEnhanced::Self::GetPed().GetHealth();
+			const auto maxHealth = StandEnhanced::Self::GetPed().GetMaxHealth();
 			if (health > 0 && health < maxHealth)
-				YimMenu::Self::GetPed().SetHealth(maxHealth);
+				StandEnhanced::Self::GetPed().SetHealth(maxHealth);
 
-			const auto maxArmour = YimMenu::Self::GetPlayer().GetMaxArmour();
-			if (YimMenu::Self::GetPed().GetArmour() != maxArmour)
-				YimMenu::Self::GetPed().SetArmour(maxArmour);
+			const auto maxArmour = StandEnhanced::Self::GetPlayer().GetMaxArmour();
+			if (StandEnhanced::Self::GetPed().GetArmour() != maxArmour)
+				StandEnhanced::Self::GetPed().SetArmour(maxArmour);
 		}
 
 		~CommandAutoHeal() override
@@ -81,7 +81,7 @@ namespace Stand
 	};
 }
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// The one real instance - see Commands/Self/CommandAutoHeal.cpp and
 	// CommandGod.cpp's own comment for why this is a function-local

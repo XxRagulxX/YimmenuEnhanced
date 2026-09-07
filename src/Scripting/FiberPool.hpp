@@ -2,7 +2,7 @@
 
 #include <functional>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class FiberPool
 	{

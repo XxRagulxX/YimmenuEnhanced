@@ -4,7 +4,7 @@
 #include "Core/Wine.hpp"
 #include "Core/LogHelper.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	LogColor LogSink::GetColor(const eLogLevel level)
 	{

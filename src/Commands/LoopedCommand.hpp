@@ -1,7 +1,7 @@
 #pragma once
 #include "Commands/CommandToggle.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class LoopedCommand : public CommandToggle
 	{

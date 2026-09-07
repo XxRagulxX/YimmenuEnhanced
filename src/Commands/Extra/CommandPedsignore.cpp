@@ -2,7 +2,7 @@
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class PedIgnore : public LoopedCommand
 	{

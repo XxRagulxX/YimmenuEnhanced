@@ -1,7 +1,7 @@
 #include "Commands/CommandPosition3d.hpp"
 #include "Scripting/FiberPool.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void CommandPosition3d::OnCall()
 	{

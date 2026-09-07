@@ -10,7 +10,7 @@
 #include <soup/Pattern.hpp>
 #include <soup/Range.hpp>
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	class Memory : LuaLibrary
 	{

@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	enum ThreadContext : uint8_t
 	{
@@ -34,8 +34,8 @@ namespace YimMenu
 // definition above so both namespaces share it.
 namespace Stand
 {
-	using YimMenu::ThreadContext;
-	using enum YimMenu::ThreadContext;
-	using YimMenu::thread_context_is_script;
-	using YimMenu::thread_context_has_game_tls;
+	using StandEnhanced::ThreadContext;
+	using enum StandEnhanced::ThreadContext;
+	using StandEnhanced::thread_context_has_game_tls;
+	using StandEnhanced::thread_context_is_script;
 }

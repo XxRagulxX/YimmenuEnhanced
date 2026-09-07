@@ -2,7 +2,7 @@
 #include "Core/File.hpp"
 #include "Menu/Folder.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void FileMgr::Init(const std::filesystem::path& rootFolder)
 	{

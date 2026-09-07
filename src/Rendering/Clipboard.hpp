@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace YimMenu::Rendering::Clipboard
+namespace StandEnhanced::Rendering::Clipboard
 {
 	// Win32 clipboard read/write, standing in for ImGui::GetClipboardText()/
 	// SetClipboardText() (what the classic ImGui widgets use) - this

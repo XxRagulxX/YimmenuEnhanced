@@ -4,7 +4,7 @@
 #include <functional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// A button-styled rectangle with a centred label. Runs an optional
 	// action callback on click (in addition to the log line, which stays

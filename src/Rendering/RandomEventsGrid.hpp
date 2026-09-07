@@ -9,7 +9,7 @@ struct GSBD_RandomEvents;
 struct GPBD_FM_2;
 struct RANDOM_EVENTS_FREEMODE_DATA;
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Network > Random Events: mirrors MenuRandomEvents.cpp's
 	// BuildRandomEventsMenu() in full - a single "Triggerer/inspector" page

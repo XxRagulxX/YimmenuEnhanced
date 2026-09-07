@@ -2,7 +2,7 @@
 #include "Commands/CommandListSelect.hpp"
 #include "Network/Network.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static std::vector<std::pair<int, const char*>> g_JoinTypes = {
 	    {static_cast<int>(Network::JoinType::JOIN_PUBLIC), "Public"},

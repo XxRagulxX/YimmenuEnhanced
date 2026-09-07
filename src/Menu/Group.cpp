@@ -1,6 +1,6 @@
 #include "Menu/Items.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	Group::Group(const std::string& name, int items_per_column) :
 	    m_Name(name),

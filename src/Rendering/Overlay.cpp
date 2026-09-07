@@ -10,7 +10,7 @@
 #include <chrono>
 #include <format>
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	void DrawBusinessOverlay(std::vector<OverlayLine>& lines);
 	CommandToggle _OverlayEnabled("overlay", "Overlay Enabled", "Show an info overlay at the top left corner of the screen");
@@ -27,7 +27,7 @@ namespace YimMenu::Features
 	static CommandListSelect _OverlayPositionCmd("overlaypos", "Overlay Position", "Change overlay position", g_OverlayPositionConfig, 0);
 }
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	namespace
 	{

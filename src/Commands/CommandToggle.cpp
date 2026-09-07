@@ -2,7 +2,7 @@
 #include "Scripting/FiberPool.hpp"
 #include "Commands/Commands.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	CommandToggle::CommandToggle(std::string name, std::string label, std::string description, bool def_value) :
 	    Command(name, label, description, 0),

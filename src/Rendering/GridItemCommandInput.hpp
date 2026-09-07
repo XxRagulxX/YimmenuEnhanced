@@ -6,9 +6,9 @@
 #include <optional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
-	// A GridItemTextInput wired to a real YimMenu::CommandInput, looked
+	// A GridItemTextInput wired to a real StandEnhanced::CommandInput, looked
 	// up by joaat hash - the Grid equivalent of StringCommandItem (src/
 	// StringCommandItem.cpp) for the ImGui menu.
 	//

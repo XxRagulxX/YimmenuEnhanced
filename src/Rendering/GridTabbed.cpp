@@ -2,7 +2,7 @@
 
 #include "Rendering/GridItemTabsHorizontal.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	void GridTabbed::InitTabs(std::vector<std::unique_ptr<GridItem>>& items_draft, int16_t height, std::vector<std::string> labels, std::vector<Grid*> targets, size_t activeIndex)
 	{

@@ -10,7 +10,7 @@
 #include "Game/DecalTypes.hpp"
 
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	void CustomWeapon::OnTick()
 	{

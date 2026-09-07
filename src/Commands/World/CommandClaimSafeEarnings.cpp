@@ -5,7 +5,7 @@
 #include "Network/GPBD_FM.hpp"
 #include "Network/GPBD_FM_2.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	enum class eAppVinewoodMenuSafe
 	{

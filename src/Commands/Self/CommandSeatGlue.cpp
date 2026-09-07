@@ -2,7 +2,7 @@
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	// Real Stand's own CommandSeatglue just flips a g_gui.seatglue bool
 	// that some other, central per-tick file (not CommandTabSelf.cpp,

@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-namespace YimMenu::StandWidgets
+namespace StandEnhanced::StandWidgets
 {
 	// Ported from real Stand's own CommandToggleAll (Commands/Widgets/
 	// CommandToggleAll.hpp on origin/stand-reference) - a master toggle

@@ -2,7 +2,7 @@
 #include <functional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Stand-style floating "Command Box" for typing a value directly
 	// instead of only stepping it with the row's own "-"/"+" buttons -

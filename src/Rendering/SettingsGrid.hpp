@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Root content grid for the Settings sidebar entry. This root has no
 	// direct settings of its own, just a GridItemFolder row for each of

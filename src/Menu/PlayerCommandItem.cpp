@@ -2,7 +2,7 @@
 #include "Commands/PlayerCommand.hpp"
 #include "Commands/Commands.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	PlayerCommandItem::PlayerCommandItem(joaat_t id, std::optional<std::string> label_override) :
 	    m_Command(Commands::GetCommand<PlayerCommand>(id)),

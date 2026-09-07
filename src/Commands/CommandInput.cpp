@@ -1,6 +1,6 @@
 #include "Commands/CommandInput.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void CommandInput::OnCall()
 	{

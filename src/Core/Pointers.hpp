@@ -47,7 +47,7 @@ class CGameDataHash;
 class CStatsMpCharacterMappingData;
 class CAnticheatContext;
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	namespace Functions
 	{
@@ -181,5 +181,5 @@ namespace YimMenu
 		bool LateInit();
 	};
 
-	inline YimMenu::Pointers Pointers;
+	inline StandEnhanced::Pointers Pointers;
 }

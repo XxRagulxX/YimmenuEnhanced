@@ -9,7 +9,7 @@ namespace rage
 	class scrProgram;
 }
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class NodeHooks
 	{

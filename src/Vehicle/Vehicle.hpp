@@ -3,7 +3,7 @@
 #include "Core/types.hpp"
 #include "Util/Joaat.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class Vehicle : public Entity
 	{

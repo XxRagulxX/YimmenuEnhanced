@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	class GridItemAddressbar : public GridItem
 	{

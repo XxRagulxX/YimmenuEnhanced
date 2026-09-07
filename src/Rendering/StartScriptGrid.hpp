@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Debug > Scripts > Start Script: mirrors
 	// MenuScripts.cpp's own "Start Script" TabItem - a searchable script

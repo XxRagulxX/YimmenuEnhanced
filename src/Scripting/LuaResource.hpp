@@ -2,7 +2,7 @@
 
 #include <mutex>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class LuaResource
 	{

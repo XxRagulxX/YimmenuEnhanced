@@ -7,7 +7,7 @@
 #include "Game/ControllerInputs.hpp"
 
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static CommandSliderFloat _FreecamSpeed{"freecamspeed", "Freecam Speed", "How fast the freecam will move positions", 0.01f, 10.0f, 0.10f};
 

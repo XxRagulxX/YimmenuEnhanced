@@ -12,7 +12,7 @@
 #include "Network/CVehicleProximityMigrationDataNode.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	Player::Player(uint8_t id)
 	{

@@ -2,7 +2,7 @@
 #include "Network/PlayerData.hpp"
 #include "Game/Player.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class Players
 	{

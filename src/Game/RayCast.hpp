@@ -2,7 +2,7 @@
 #include "Game/Entity.hpp"
 #include "Core/types.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class RayCast
 	{

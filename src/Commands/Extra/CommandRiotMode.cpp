@@ -2,7 +2,7 @@
 
 #include "Scripting/Natives.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class PedRiotMode : public LoopedCommand
 	{

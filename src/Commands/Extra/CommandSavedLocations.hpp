@@ -1,7 +1,7 @@
 #pragma once
 #include <nlohmann/json.hpp>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	struct SavedLocation
 	{

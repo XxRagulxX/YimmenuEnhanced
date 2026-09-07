@@ -3,7 +3,7 @@
 
 #include <utility>
 
-namespace YimMenu::StandWidgets
+namespace StandEnhanced::StandWidgets
 {
 	// Ported from real Stand's own CommandColourPointer/
 	// CommandColourPointerDirectx (Commands/Widgets/CommandColourPointer.hpp,

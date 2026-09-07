@@ -1,6 +1,6 @@
 #pragma once
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class AnticheatBypass
 	{

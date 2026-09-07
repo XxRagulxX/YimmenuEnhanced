@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Recovery > Unlocks: mirrors Unlocker.cpp's
 	// BuildUnlockerMenu() in full - Heist & Progress Awards, Clothing/

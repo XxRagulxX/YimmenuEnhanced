@@ -1,7 +1,7 @@
 #include "Commands/CommandSliderFloat.hpp"
 #include "Scripting/FiberPool.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void CommandSliderFloat::OnCall()
 	{

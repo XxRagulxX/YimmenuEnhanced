@@ -6,7 +6,7 @@
 
 
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	DetourHook::DetourHook(
 	    std::string_view name,

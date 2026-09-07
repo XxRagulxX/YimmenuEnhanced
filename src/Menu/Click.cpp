@@ -58,7 +58,7 @@ namespace Stand
 		if (thread_context == TC_SCRIPT_YIELDABLE)
 			func();
 		else
-			YimMenu::FiberPool::queueJob(std::move(func));
+			StandEnhanced::FiberPool::queueJob(std::move(func));
 	}
 
 	void Click::ensureScriptThread(std::function<void()>&& func) const
@@ -66,7 +66,7 @@ namespace Stand
 		if (thread_context_is_script(thread_context))
 			func();
 		else
-			YimMenu::FiberPool::queueJob(std::move(func));
+			StandEnhanced::FiberPool::queueJob(std::move(func));
 	}
 
 	void Click::ensureScriptThread(std::function<void(Click&)>&& func)
@@ -77,7 +77,7 @@ namespace Stand
 		}
 		else
 		{
-			YimMenu::FiberPool::queueJob([click{*this}, func{std::move(func)}]() mutable {
+			StandEnhanced::FiberPool::queueJob([click{*this}, func{std::move(func)}]() mutable {
 				click.thread_context = TC_SCRIPT_YIELDABLE;
 				func(click);
 			});
@@ -86,7 +86,7 @@ namespace Stand
 
 	void Click::ensureWorkerContext(std::function<void()>&& func) const
 	{
-		YimMenu::FiberPool::queueJob(std::move(func));
+		StandEnhanced::FiberPool::queueJob(std::move(func));
 	}
 
 	bool Click::isMenu() const noexcept
@@ -198,10 +198,10 @@ namespace Stand
 			// non-empty, when an empty title was already a fully
 			// supported, deliberate look downstream (see that function's
 			// own comment) - fixed there instead of by giving every
-			// Click-driven toast a generic "YimMenu" title it never
+			// Click-driven toast a generic "StandEnhanced" title it never
 			// needed (a previous pass here's own workaround, undone now
 			// that the real cause is fixed at its actual source).
-			YimMenu::Notifications::Show("", response.getLocalisedUtf8(), YimMenu::NotificationType::Info);
+			StandEnhanced::Notifications::Show("", response.getLocalisedUtf8(), StandEnhanced::NotificationType::Info);
 		}
 	}
 }

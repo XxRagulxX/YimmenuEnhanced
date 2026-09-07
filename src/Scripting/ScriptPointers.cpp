@@ -2,7 +2,7 @@
 #include "Core/FileMgr.hpp"
 #include "Core/ModuleMgr.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	ScriptPointers::ScriptPointers() :
 	    m_CacheFile(FileMgr::GetProjectFile("./scr_pointers.bin"), 2)

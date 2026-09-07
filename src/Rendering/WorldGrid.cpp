@@ -11,7 +11,7 @@
 #include "Rendering/Theme.hpp"
 #include "Rendering/WorldIPLsGrid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

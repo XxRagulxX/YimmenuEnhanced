@@ -6,7 +6,7 @@
 #include <optional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// GridItemCommandSlider's own twin, bound to a StandWidgets::
 	// CommandSliderNamedValue instead of a plain CommandSlider - identical in

@@ -5,7 +5,7 @@
 #include "Rendering/InputCapture.hpp"
 #include "Rendering/MenuPopup.hpp"
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	namespace
 	{

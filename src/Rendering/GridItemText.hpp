@@ -4,7 +4,7 @@
 #include <DirectXMath.h>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// A plain text label, drawn via GridRenderer::DrawText (DirectXTK12
 	// SpriteFont). No background of its own - draw() is just the base

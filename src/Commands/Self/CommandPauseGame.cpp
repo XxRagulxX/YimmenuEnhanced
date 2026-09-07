@@ -1,7 +1,7 @@
 #include "Commands/CommandToggle.hpp"
 #include "Core/Pointers.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class PauseGame : public CommandToggle
 	{

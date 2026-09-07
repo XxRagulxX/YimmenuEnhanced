@@ -22,7 +22,7 @@
 #include <limits>
 #include <ranges>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

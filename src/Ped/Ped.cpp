@@ -5,7 +5,7 @@
 #include "Core/Pointers.hpp"
 #include <random>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	Ped Ped::Create(uint32_t model, rage::fvector3 coords, float heading)
 	{

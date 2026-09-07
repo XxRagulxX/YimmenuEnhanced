@@ -1,6 +1,6 @@
 #include "Menu/MenuRecovery.hpp"
 
-namespace YimMenu::Submenus
+namespace StandEnhanced::Submenus
 {
 	// Empty on purpose - see UIManager.hpp's own class comment for why
 	// (every category this used to build now lives in RecoveryGrid/

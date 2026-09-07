@@ -6,7 +6,7 @@
 #include "Commands/CommandSliderFloat.hpp"
 #include "Scripting/Scripts.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static const std::vector<std::pair<int, const char*>> g_ExplosionTypeArray = {
 	    {static_cast<int>(ExplosionType::DONTCARE), "Don't Care"},

@@ -3,7 +3,7 @@
 #include "Game/vector.hpp"
 #include <string>
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	struct TeleportPlace
 	{

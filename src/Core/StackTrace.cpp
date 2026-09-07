@@ -10,7 +10,7 @@
 
 #include "Core/LogHelper.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	StackTrace::StackTrace() :
 	    m_FramePointers(32)

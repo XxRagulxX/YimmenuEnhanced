@@ -1,7 +1,7 @@
 #include "Scripting/ScriptData.hpp"
 #include "Scripting/scrProgram.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	ScriptData::ScriptData(rage::scrProgram* program)
 	{

@@ -2,7 +2,7 @@
 #include "Scripting/Natives.hpp"
 #include "Util/Math.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	RayCast::RayCast(Entity* entity, Vector3* coords) :
 	    m_Entity(entity),

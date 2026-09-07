@@ -10,7 +10,7 @@
 
 #include "Scripting/Script.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class ScriptMgr
 	{

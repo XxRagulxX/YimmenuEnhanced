@@ -6,7 +6,7 @@
 #include <optional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// A label + current float value (shown to 2 decimal places) + "-"/
 	// "+" buttons - the Grid equivalent of FloatCommandItem (src/

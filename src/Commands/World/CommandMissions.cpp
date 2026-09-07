@@ -5,7 +5,7 @@
 #include "Scripting/ScriptLocal.hpp"
 
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	namespace Missions
 	{

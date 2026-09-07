@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Verbatim port of stand-reference's src/Menu/GridItemType.hpp -
 	// lets Grid::getItemByType() find a specific item in a populated

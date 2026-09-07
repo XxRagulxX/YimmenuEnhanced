@@ -14,7 +14,7 @@
 #include <unordered_set>
 #include <windows.h>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{
@@ -39,7 +39,7 @@ namespace YimMenu::Rendering
 		// One command not yet turned into a Match - built for every
 		// registered command up front (both registries), then narrowed
 		// down against the typed prefix. names holds every alias (real
-		// Stand's own command_names - a legacy YimMenu::Command only
+		// Stand's own command_names - a legacy StandEnhanced::Command only
 		// ever has the one), display is what a match's own hint line
 		// shows regardless of which alias matched (real Stand's own
 		// getCompletionHint() always uses command_names.at(0), never the

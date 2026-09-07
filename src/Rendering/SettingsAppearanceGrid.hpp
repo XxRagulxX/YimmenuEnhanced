@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Settings > Appearance - real Stand's own Appearance category
 	// (CommandTabStand.cpp's own settings->createChild<CommandList>

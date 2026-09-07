@@ -1,6 +1,6 @@
 #pragma once
 
-namespace YimMenu::Menu
+namespace StandEnhanced::Menu
 {
 	extern void Init();
 }

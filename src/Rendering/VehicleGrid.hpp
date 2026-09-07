@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Vehicle > Main: mirrors MenuVehicle.cpp's Globals,
 	// Tools and Misc groups in full, wired the same way SelfGrid wires

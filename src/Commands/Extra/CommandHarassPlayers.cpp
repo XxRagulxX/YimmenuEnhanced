@@ -6,7 +6,7 @@
 #include "Network/CSectorDataNode.hpp"
 #include "Network/CPlayerSectorPosNode.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class HarassPlayers : public CommandToggle
 	{

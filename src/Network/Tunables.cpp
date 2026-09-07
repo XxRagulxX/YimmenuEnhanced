@@ -8,7 +8,7 @@
 #include "Scripting/Scripts.hpp"
 #include "Scripting/scrProgram.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	struct TUNABLES_LAUNCH_DATA
 	{

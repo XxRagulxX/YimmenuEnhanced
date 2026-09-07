@@ -9,7 +9,7 @@
 #include "Scripting/FiberPool.hpp"
 #include "Util/Joaat.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static const char* GetGunVanWeaponHash(int id)
 	{

@@ -15,7 +15,7 @@
 #include <string>
 #include <string_view>
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class NpcAutoDrive : public LoopedCommand
 	{

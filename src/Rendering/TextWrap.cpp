@@ -4,7 +4,7 @@
 
 #include <sstream>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	std::vector<std::string> WrapText(const std::string& text, float maxWidth, float scale)
 	{

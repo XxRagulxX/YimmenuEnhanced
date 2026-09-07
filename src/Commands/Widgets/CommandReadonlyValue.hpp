@@ -5,7 +5,7 @@
 #include <string>
 #include <utility>
 
-namespace YimMenu::StandWidgets
+namespace StandEnhanced::StandWidgets
 {
 	// Ported from real Stand's own CommandReadonlyValueLambda (Commands/
 	// Widgets/CommandReadonlyValueLambda.hpp on origin/stand-reference) -

@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/types.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void DeleteObjectsByHash(Hash hash);
 }

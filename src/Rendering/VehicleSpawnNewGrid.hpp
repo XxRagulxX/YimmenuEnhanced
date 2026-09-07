@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Tab target for Vehicle > Spawn > New Vehicle: mirrors
 	// SpawnVehicle.cpp's RenderSpawnNewVehicle() - its search-box +

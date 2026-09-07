@@ -8,7 +8,7 @@
 #include "Rendering/Theme.hpp"
 #include "Rendering/TeleportSavedGrid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

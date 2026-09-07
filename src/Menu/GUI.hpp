@@ -3,7 +3,7 @@
 
 #include <windows.h>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class GUI final
 	{

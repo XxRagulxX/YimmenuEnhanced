@@ -1,7 +1,7 @@
 #pragma once
 #include "Game/BaseObj.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class File;
 	class Folder final : public BaseObj

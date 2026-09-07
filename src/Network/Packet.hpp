@@ -3,7 +3,7 @@
 #include "Network/netMessage.hpp"
 
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class Packet
 	{

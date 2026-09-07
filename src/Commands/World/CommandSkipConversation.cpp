@@ -1,7 +1,7 @@
 #include "Commands/Command.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class SkipConversation : Command
 	{

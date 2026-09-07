@@ -11,7 +11,7 @@
 #include "Scripting/Natives.hpp"       // game import in core!
 #include "Menu/GUI.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	HotkeySystem::HotkeySystem() :
 	    IStateSerializer("hotkeys")

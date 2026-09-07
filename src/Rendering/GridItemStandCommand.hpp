@@ -4,7 +4,7 @@
 
 #include <cstdint>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Bridges one real Stand::Command (Commands/Widgets/ - the already-
 	// adapted-but-previously-unwired port of real Stand's own

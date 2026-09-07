@@ -4,7 +4,7 @@
 #include <functional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// GridItemIntStepper's float counterpart - same label + current value
 	// (shown to 2 decimal places, matching GridItemCommandSliderFloat) + "-"/"+"

@@ -7,7 +7,7 @@
 
 #include <chrono>
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	namespace
 	{

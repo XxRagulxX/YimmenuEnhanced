@@ -2,7 +2,7 @@
 #include "Core/Pointers.hpp"
 #include "Scripting/ScriptGlobal.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class UnlockGTAPlus : public LoopedCommand
 	{

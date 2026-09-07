@@ -9,7 +9,7 @@
 #include "World/TeleportUtils.hpp"
 #include "Rendering/Notifications.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	namespace DoomsdayHeist
 	{

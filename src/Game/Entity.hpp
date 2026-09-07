@@ -22,7 +22,7 @@ namespace rage
 	class netObject;
 }
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class Player;
 	class Entity

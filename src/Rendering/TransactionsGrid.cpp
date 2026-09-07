@@ -23,7 +23,7 @@
 #include <limits>
 #include <unordered_set>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

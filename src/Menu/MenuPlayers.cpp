@@ -1,6 +1,6 @@
 #include "Menu/MenuPlayers.hpp"
 
-namespace YimMenu::Submenus
+namespace StandEnhanced::Submenus
 {
 	// Empty on purpose - see UIManager.hpp's own class comment for why
 	// (every category this used to build - including the old inline

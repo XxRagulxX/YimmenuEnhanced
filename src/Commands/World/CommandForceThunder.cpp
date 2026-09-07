@@ -3,7 +3,7 @@
 #include "Scripting/Scripts.hpp"
 #include "Network/GPBD_FM_3.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class ForceThunder : public LoopedCommand
 	{

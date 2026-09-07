@@ -3,7 +3,7 @@
 #include "Scripting/LuaUserInterface.hpp"
 #include "Commands/Commands.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	static void UnrefIfValid(LuaUserInterface* iface, int ref)
 	{

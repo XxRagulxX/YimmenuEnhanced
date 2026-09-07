@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Recovery > Casino: mirrors MenuRecovery.cpp's
 	// casinoSlots group - a single unconditional toggle. (The Lucky

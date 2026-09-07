@@ -3,7 +3,7 @@
 #include "Commands/LoopedCommand.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static CommandSlider _NetworkTimeHour{"networktimehour", "Hour", "Set hour (0-23)", 0, 23, 12};
 	static CommandSlider _NetworkTimeMinute{"networktimeminute", "Minute", "Set minute (0-59)", 0, 59, 0};

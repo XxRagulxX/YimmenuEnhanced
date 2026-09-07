@@ -1,7 +1,7 @@
 #include "Commands/CommandToggle.hpp"
 #include "Network/Tunables.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 
 	class FreeChangeAppearance : public CommandToggle

@@ -5,7 +5,7 @@
 #include "Scripting/FiberPool.hpp"
 #include "Scripting/Script.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	thread_local ExecCtx g_ExecCtx;
 

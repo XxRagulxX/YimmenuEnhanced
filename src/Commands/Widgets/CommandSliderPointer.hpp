@@ -3,7 +3,7 @@
 
 #include <utility>
 
-namespace YimMenu::StandWidgets
+namespace StandEnhanced::StandWidgets
 {
 	// Ported from real Stand's own CommandSliderPointer - see
 	// CommandTogglePointer.hpp's own doc comment for the shared reasoning (same

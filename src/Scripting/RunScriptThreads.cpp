@@ -4,7 +4,7 @@
 #include "Core/Hooking.hpp"
 #include "Scripting/Scripts.hpp"
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	bool Script::RunScriptThreads(int ops_to_execute)
 	{

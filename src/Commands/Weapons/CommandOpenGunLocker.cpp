@@ -11,7 +11,7 @@
 #include "Scripting/scrThread.hpp"
 #include "Network/GlobalPlayerBD.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static ScriptPatch skipGunLockerMenuChecksPatch{};
 

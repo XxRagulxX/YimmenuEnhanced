@@ -6,7 +6,7 @@
 
 #define CMDFLAG_BITS 23
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	using time_t = int64_t;
 	using unixtime_t = int64_t;

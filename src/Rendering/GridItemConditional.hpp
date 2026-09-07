@@ -6,7 +6,7 @@
 #include <functional>
 #include <memory>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Wraps another GridItem, gating every one of its calls on a live
 	// condition - the Grid equivalent of ConditionalItem (src/

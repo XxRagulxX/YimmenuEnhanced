@@ -1,7 +1,7 @@
 #include "Commands/PlayerCommand.hpp"
 #include "Network/ScriptEvent.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class NullFunctionKick : public PlayerCommand
 	{

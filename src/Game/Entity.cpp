@@ -28,7 +28,7 @@ namespace
 	}
 }
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void Entity::PopulatePointer()
 	{

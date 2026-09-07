@@ -2,7 +2,7 @@
 #include "Game/Pools.hpp"
 #include "World/Object.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class DeleteAllObjects : public Command
 	{

@@ -8,7 +8,7 @@
 #include "Rendering/RainbowColor.hpp"
 #include "Game/ControllerInputs.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	enum class CustomWeapons
 	{

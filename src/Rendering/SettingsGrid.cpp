@@ -10,7 +10,7 @@
 #include "Rendering/SettingsGuiGrid.hpp"
 #include "Rendering/Theme.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

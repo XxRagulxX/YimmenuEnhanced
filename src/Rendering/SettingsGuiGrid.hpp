@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Settings > GUI: mirrors MenuSettings.cpp's gui
 	// Category in full - unloadmenu and clearchat (plain CommandItem

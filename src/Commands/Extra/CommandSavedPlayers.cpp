@@ -11,7 +11,7 @@
 #include "Network/rlScGamerHandle.hpp"
 #include "Network/rlScTaskStatus.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static CommandToggle _AutoUpdateEnabled{"playerdbautoupdate", "Player Database Auto Update", "Automatically updates tracked player status every 3 minutes. This is required for tracking notifications to work", true};
 	static CommandToggle _PlayerTracking{"playerdbnotify", "Tracking Notifications", "Notifies you when the state of a player you track changes", true};
@@ -36,7 +36,7 @@ namespace YimMenu::Features
 	UpdateSavedPlayersNow _UpdateSavedPlayersNow{"playerdbupdatenow", "Update Saved Players Now", "Force-updates all saved players"};
 }
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	static bool IsInJoinableSession(FetchedPlayerData::GameState state)
 	{

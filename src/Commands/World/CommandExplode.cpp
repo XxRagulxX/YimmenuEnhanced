@@ -1,7 +1,7 @@
 #include "Commands/PlayerCommand.hpp"
 #include "Game/ExplosionType.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class Explode : public PlayerCommand
 	{

@@ -2,7 +2,7 @@
 #include "Vehicle/PersonalVehicles.hpp"
 #include "Core/Pointers.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class RequestPersonalVehicle : public Command
 	{

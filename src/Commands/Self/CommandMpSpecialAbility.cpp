@@ -6,7 +6,7 @@
 #include "Core/Pointers.hpp"
 #include "Game/ControllerInputs.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static void IsControlPressedHook(rage::scrNativeCallContext* ctx);
 

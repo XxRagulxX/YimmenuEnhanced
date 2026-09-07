@@ -2,7 +2,7 @@
 #include "Scripting/ScriptGlobal.hpp"
 #include "Core/Pointers.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class SilencePhonecalls : public LoopedCommand
 	{

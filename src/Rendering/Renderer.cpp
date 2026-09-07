@@ -2,7 +2,7 @@
 
 #include "Core/Pointers.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	Renderer::Renderer() :
 	    m_Initialized(false),

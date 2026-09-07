@@ -4,7 +4,7 @@
 
 #include "Game/typedecl.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	using script_func_t = void (*)();
 

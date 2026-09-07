@@ -1,7 +1,7 @@
 #include "Commands/CommandToggle.hpp"
 #include "Scripting/ScriptPatches.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	static constexpr auto creatorScripts = std::to_array({
 	    "fm_race_creator"_J,

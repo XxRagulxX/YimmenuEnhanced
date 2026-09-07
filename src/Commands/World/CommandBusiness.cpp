@@ -7,7 +7,7 @@
 #include "Scripting/FiberPool.hpp"
 #include "Scripting/ScriptGlobal.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 
 	class NightClubPopularity : public Command

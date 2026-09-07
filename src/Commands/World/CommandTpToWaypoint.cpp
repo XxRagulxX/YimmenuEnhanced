@@ -5,7 +5,7 @@
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	void ResolveZCoordinate(Vector3& vec)
 	{

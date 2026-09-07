@@ -10,7 +10,7 @@
 #include "Game/datBitBuffer.hpp"
 #include "Network/GlobalPlayerBD.hpp"
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	static void SendEventAck(rage::netEventMgr* event_mgr, CNetGamePlayer* source_player, CNetGamePlayer* target_player, uint32_t event_index, uint32_t event_handled_bits)
 	{

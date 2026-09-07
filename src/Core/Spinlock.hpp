@@ -2,7 +2,7 @@
 
 #include "Core/SpinlockBase.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class Spinlock : public SpinlockBase
 	{

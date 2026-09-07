@@ -3,7 +3,7 @@
 #include "Scripting/Scripts.hpp"
 #include "Core/Pointers.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class ForceScriptHost : public LoopedCommand
 	{

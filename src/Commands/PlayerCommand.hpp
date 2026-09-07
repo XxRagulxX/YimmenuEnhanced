@@ -2,7 +2,7 @@
 #include "Commands/Command.hpp"
 #include "Game/Player.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class PlayerCommand;
 	class PlayerAllCommand : public Command

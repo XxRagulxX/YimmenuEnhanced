@@ -7,7 +7,7 @@
 #include <functional>
 #include <string_view>
 
-namespace YimMenu::Features::AutoDriveInternal
+namespace StandEnhanced::Features::AutoDriveInternal
 {
 	enum class Owner
 	{

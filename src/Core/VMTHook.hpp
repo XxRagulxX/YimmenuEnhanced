@@ -5,7 +5,7 @@
 #include <cstdint>      // std::uint32_t
 #include <cstring>      // memcpy
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class VMTHook
 	{

@@ -2,7 +2,7 @@
 #include "Menu/UIItem.hpp"
 #include "Util/Joaat.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class CommandToggle;
 	class PlayerCommand;

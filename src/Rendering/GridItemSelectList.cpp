@@ -7,7 +7,7 @@
 #include <cctype>
 #include <windows.h>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	GridItemSelectList::GridItemSelectList(int16_t width,
 	    std::string placeholder,

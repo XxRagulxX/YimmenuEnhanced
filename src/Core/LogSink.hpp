@@ -3,7 +3,7 @@
 #include <string>
 
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	using namespace al;
 	enum class LogColor;

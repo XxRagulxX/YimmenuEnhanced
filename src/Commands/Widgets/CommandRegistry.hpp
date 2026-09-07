@@ -10,8 +10,8 @@
 // by name (e.g. CommandPositionSelection reaching for "freecam") just
 // walks a known parent list directly. This project already has one
 // working, pervasive convention for "find a command elsewhere in the
-// codebase by name" instead - YimMenu::Commands::GetCommand<T>(joaat_t)
-// is a flat hash map keyed by YimMenu::Joaat(name), used everywhere
+// codebase by name" instead - StandEnhanced::Commands::GetCommand<T>(joaat_t)
+// is a flat hash map keyed by StandEnhanced::Joaat(name), used everywhere
 // (e.g. Commands/Widgets/CommandPositionPick.hpp's own
 // Commands::GetCommand<CommandToggle>("freecam"_J)) - so newly-migrated
 // Stand commands get the same shape here rather than forcing every
@@ -41,7 +41,7 @@ namespace Stand
 		static void Remove(CommandIssuable* command);
 
 		template<typename T = CommandIssuable>
-		static T* GetCommand(YimMenu::joaat_t hash)
+		static T* GetCommand(StandEnhanced::joaat_t hash)
 		{
 			return reinterpret_cast<T*>(GetInstance().GetCommandImpl(hash));
 		}
@@ -50,19 +50,19 @@ namespace Stand
 		// this to live-search every registered Stand command by name
 		// prefix (real Stand has no hash-keyed registry at all to expose
 		// this way - see this file's own top comment; this project's own
-		// legacy YimMenu::Commands::GetCommands() already exposes its map
+		// legacy StandEnhanced::Commands::GetCommands() already exposes its map
 		// the same way, for the same reason).
-		static const std::unordered_map<YimMenu::joaat_t, CommandIssuable*>& GetCommands()
+		static const std::unordered_map<StandEnhanced::joaat_t, CommandIssuable*>& GetCommands()
 		{
 			return GetInstance().m_Commands;
 		}
 
 	private:
-		std::unordered_map<YimMenu::joaat_t, CommandIssuable*> m_Commands;
+		std::unordered_map<StandEnhanced::joaat_t, CommandIssuable*> m_Commands;
 
 		void AddImpl(CommandIssuable* command);
 		void RemoveImpl(CommandIssuable* command);
-		CommandIssuable* GetCommandImpl(YimMenu::joaat_t hash);
+		CommandIssuable* GetCommandImpl(StandEnhanced::joaat_t hash);
 
 		static CommandRegistry& GetInstance()
 		{

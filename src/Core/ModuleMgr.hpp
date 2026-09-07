@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/Module.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	using joaat_t = std::uint32_t;
 
@@ -33,5 +33,5 @@ namespace YimMenu
 		std::unordered_multimap<std::uint32_t, std::unique_ptr<Module>> m_CachedModules;
 	};
 
-	inline YimMenu::ModuleMgr g_ModuleMgr;
+	inline StandEnhanced::ModuleMgr g_ModuleMgr;
 }

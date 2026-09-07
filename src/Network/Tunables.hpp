@@ -3,7 +3,7 @@
 #include "Core/CacheFile.hpp"
 #include "Scripting/ScriptGlobal.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	constexpr int TUNABLE_BASE_ADDRESS = 0x40001;
 

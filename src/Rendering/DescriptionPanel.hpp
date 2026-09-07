@@ -1,14 +1,14 @@
 #pragma once
 #include <cstdint>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Shows the currently keyboard-focused content item's own
 	// GetDescription() (help text), if it has one - this project's
 	// equivalent of real Stand's own CommandPhysical::populateCorner()
 	// (confirmed against origin/stand-reference), simplified to just
 	// the one line every focused command actually has here
-	// (YimMenu::Command::GetDescription()/Stand::CommandPhysical::
+	// (StandEnhanced::Command::GetDescription()/Stand::CommandPhysical::
 	// help_text - see GridItem::GetDescription()'s own comment), not
 	// the syntax/range/toggle-correlation lines real Stand's own corner
 	// also shows - none of that machinery exists on either of this

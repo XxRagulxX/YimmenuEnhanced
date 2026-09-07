@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <type_traits>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class PointerCalculator final
 	{

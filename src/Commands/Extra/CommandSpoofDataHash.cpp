@@ -7,7 +7,7 @@
 #include "Game/CGameDataHash.hpp"
 #include "Core/Hooking.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class DumpDataHash : public Command
 	{
@@ -87,11 +87,11 @@ namespace YimMenu::Features
 	}
 }
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	uint32_t Network::GetDLCHash(void* manager, uint32_t seed)
 	{
-		if (YimMenu::Features::_SpoofDataHash.GetState())
+		if (StandEnhanced::Features::_SpoofDataHash.GetState())
 			return 1631480001;
 
 		return Hooking::Get<Network::GetDLCHash>()->Original<decltype(&Network::GetDLCHash)>()(manager, seed);

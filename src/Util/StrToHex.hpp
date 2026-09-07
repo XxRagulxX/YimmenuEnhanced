@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	inline constexpr std::uint8_t StrToHex(const char& ch) noexcept
 	{

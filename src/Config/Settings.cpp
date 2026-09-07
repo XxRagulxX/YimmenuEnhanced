@@ -4,7 +4,7 @@
 #include "Config/Settings.hpp"
 
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	Settings::Settings() :
 	    m_SettingsFile(),

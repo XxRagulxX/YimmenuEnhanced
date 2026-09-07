@@ -30,18 +30,18 @@
 #include "Core/LogHelper.hpp"
 #include "Core/ExceptionHandler.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	DWORD Main(void*)
 	{
-		const auto documents = std::filesystem::path(std::getenv("appdata")) / "YimMenuV2";
+		const auto documents = std::filesystem::path(std::getenv("appdata")) / "StandEnhanced";
 		FileMgr::Init(documents);
 
 		HMODULE module = GetModuleHandle(nullptr);
 
-		LogHelper::Init("YimMenuV2", FileMgr::GetProjectFile("./cout.log"));
+		LogHelper::Init("StandEnhanced", FileMgr::GetProjectFile("./cout.log"));
 
-		LOGF(INFO, "Welcome to YimMenuV2! Build date: {} at {}", __DATE__, __TIME__);
+		LOGF(INFO, "Welcome to StandEnhanced! Build date: {} at {}", __DATE__, __TIME__);
 
 		g_HotkeySystem.RegisterCommands();
 		SavedLocations::FetchSavedLocations();
@@ -113,7 +113,7 @@ namespace YimMenu
 		if (!Pointers.LateInit())
 			LOG(WARNING) << "Socialclub patterns failed to load";
 
-		Notifications::Show("YimMenuV2", "Loaded succesfully", NotificationType::Success);
+		Notifications::Show("StandEnhanced", "Loaded succesfully", NotificationType::Success);
 
 		if (InWine().value_or(false))
 		    LOG(INFO) << "Running in Wine!";
@@ -158,7 +158,7 @@ namespace YimMenu
 			LOG(INFO) << "Renderer destroyed";
 		}
 
-		LOG(INFO) << "=== YimMenuV2 shutdown complete ===";
+		LOG(INFO) << "=== StandEnhanced shutdown complete ===";
 
 		LogHelper::Destroy();
 
@@ -174,7 +174,7 @@ namespace YimMenu
 
 BOOL WINAPI DllMain(HINSTANCE dllInstance, DWORD reason, void*)
 {
-	using namespace YimMenu;
+	using namespace StandEnhanced;
 
 	if (dllInstance)
 		DisableThreadLibraryCalls(dllInstance);

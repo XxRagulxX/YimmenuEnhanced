@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// A self-contained search box plus scrollable, click-to-select row
 	// list over an arbitrary live data source - this project's answer to

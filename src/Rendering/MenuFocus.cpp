@@ -3,7 +3,7 @@
 #include "Rendering/Grid.hpp"
 #include "Rendering/GridItem.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	MenuFocus::Region MenuFocus::s_Region = MenuFocus::Region::Sidebar;
 	Grid* MenuFocus::s_LastContent = nullptr;

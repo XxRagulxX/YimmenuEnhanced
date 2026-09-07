@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class CommandTextslider : public Command
 	{

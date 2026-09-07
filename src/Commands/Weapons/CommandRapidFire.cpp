@@ -5,7 +5,7 @@
 #include "Menu/GUI.hpp"
 #include "Game/ControllerInputs.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class RapidFire : public LoopedCommand
 	{

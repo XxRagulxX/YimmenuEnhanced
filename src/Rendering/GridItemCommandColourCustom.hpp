@@ -8,13 +8,13 @@
 #include <string>
 #include <vector>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	class Grid;
 
 	// Pushes ONE folder-style row (a label + right-aligned ">", same
 	// shape as GridItemFolder) into items_draft, bound to a real
-	// YimMenu::CommandColourCustom looked up by joaat hash - the Grid
+	// StandEnhanced::CommandColourCustom looked up by joaat hash - the Grid
 	// equivalent of ColorCommandItem (src/ColorCommandItem.cpp) for the
 	// ImGui menu, minus its own ImGui::ColorPicker4 popup (a continuous
 	// 2D/gradient picker): clicking through instead opens a sub-page of

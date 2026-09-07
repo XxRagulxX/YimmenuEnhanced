@@ -1,7 +1,7 @@
 #include "Vehicle/SavedVehicles.hpp"
 #include "Commands/CommandToggle.hpp"
 
-namespace YimMenu::Submenus
+namespace StandEnhanced::Submenus
 {
 	// Used to also be drawn here, by the classic ImGui menu builder this
 	// file no longer has (see SavedVehicles.hpp) - left registered since

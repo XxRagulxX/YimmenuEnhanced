@@ -12,7 +12,7 @@ namespace rage
 	class netAddress;
 }
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class PlayerData;
 

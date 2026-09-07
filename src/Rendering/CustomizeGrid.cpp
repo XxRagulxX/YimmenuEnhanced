@@ -5,7 +5,7 @@
 #include "Rendering/GridItemText.hpp"
 #include "Rendering/Theme.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

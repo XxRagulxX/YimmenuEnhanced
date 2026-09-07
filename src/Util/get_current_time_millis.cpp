@@ -2,7 +2,7 @@
 
 #include <soup/time.hpp>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	time_t get_current_time_millis() noexcept
 	{

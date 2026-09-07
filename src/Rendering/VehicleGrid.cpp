@@ -14,7 +14,7 @@
 #include "Rendering/VehicleEditorGrid.hpp"
 #include "Rendering/VehicleSpawnGrid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

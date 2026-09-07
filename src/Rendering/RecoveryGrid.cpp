@@ -14,7 +14,7 @@
 #include "Rendering/Theme.hpp"
 #include "Rendering/TransactionsGrid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

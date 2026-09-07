@@ -4,7 +4,7 @@
 #include <functional>
 #include <utility>
 
-namespace YimMenu::StandWidgets
+namespace StandEnhanced::StandWidgets
 {
 	// Ported from real Stand's own CommandLambdaToggle (Commands/Widgets/
 	// CommandLambdaToggle.hpp, verified against origin/stand-reference) -

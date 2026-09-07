@@ -2,7 +2,7 @@
 #include <fstream>
 #include <ios>  
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	CacheFile::CacheFile(File cacheFile) :
 	    m_CacheFile(cacheFile),

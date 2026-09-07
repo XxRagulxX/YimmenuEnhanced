@@ -2,7 +2,7 @@
 #include "Scripting/NativeHooks.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static void NetworkCasinoCanBetHook(rage::scrNativeCallContext* ctx);
 	static void NetworkCasinoCanBuyChipsPVCHook(rage::scrNativeCallContext* ctx);

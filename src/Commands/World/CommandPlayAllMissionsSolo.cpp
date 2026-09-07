@@ -2,7 +2,7 @@
 #include "Scripting/ScriptPatches.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class PlayAllMissionsSolo : public LoopedCommand
 	{

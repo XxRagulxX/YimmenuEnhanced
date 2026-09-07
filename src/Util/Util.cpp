@@ -1,6 +1,6 @@
 #include "Util/Util.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	// intentionally empty
 }

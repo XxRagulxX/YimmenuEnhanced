@@ -8,7 +8,7 @@
 #include "Network/GlobalPlayerBD.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	namespace ApartmentHeist
 	{

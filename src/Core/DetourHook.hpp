@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <string_view>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	enum DetourHookFlags : std::uint8_t
 	{

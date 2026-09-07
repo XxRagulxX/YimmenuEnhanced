@@ -6,10 +6,10 @@
 #include <optional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// A label + a live, per-frame-recomputed value, bound to a real
-	// YimMenu::StandWidgets::CommandReadonlyValue looked up by joaat hash -
+	// StandEnhanced::StandWidgets::CommandReadonlyValue looked up by joaat hash -
 	// clicking (or Enter) copies the current value to the clipboard,
 	// flashing a brief "Copied!" confirmation in place of the value for a
 	// second - ported from real Stand's own CommandReadonlyValueCopy

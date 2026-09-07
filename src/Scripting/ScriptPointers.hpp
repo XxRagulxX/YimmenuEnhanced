@@ -2,7 +2,7 @@
 #include "Util/Joaat.hpp"
 #include "Core/CacheFile.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 #pragma pack(push, 1)
 	struct scrPointerSaveStruct

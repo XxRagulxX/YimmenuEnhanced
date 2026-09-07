@@ -1,7 +1,7 @@
 #pragma once
 #include "Util/Joaat.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	static inline constexpr auto g_WeaponHashes = std::to_array({
 	    "WEAPON_UNARMED"_J,

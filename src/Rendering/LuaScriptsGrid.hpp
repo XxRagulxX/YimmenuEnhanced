@@ -3,12 +3,12 @@
 
 #include <memory>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class LuaScript;
 }
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Settings > Lua Scripts: mirrors LuaScripts.cpp's
 	// BuildLuaScriptsMenu() - a search-list of every loaded script (name

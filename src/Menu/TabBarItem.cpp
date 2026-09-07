@@ -1,6 +1,6 @@
 #include "Menu/Items.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	TabBarItem::TabBarItem(const std::string& id) :
 	    m_Id(id)

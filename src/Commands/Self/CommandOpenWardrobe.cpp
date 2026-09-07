@@ -8,7 +8,7 @@
 #include "Scripting/ScriptLocal.hpp"
 #include "Core/Pointers.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	struct WARDROBE_LAUNCH_DATA
 	{

@@ -2,7 +2,7 @@
 #include "Commands/Command.hpp"
 #include "Commands/Commands.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	Command::Command(std::string name, std::string label, std::string description, int num_args) :
 	    m_Name(name),

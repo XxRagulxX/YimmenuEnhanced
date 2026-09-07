@@ -2,7 +2,7 @@
 #include "World/Self.hpp"
 #include "Game/Pools.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class BringAllObjs : public Command
 	{

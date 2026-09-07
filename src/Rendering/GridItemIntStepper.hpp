@@ -4,7 +4,7 @@
 #include <functional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// A label + current integer value + "-"/"+" buttons - the Grid
 	// equivalent of ImGui::InputInt's default stepper buttons (used by

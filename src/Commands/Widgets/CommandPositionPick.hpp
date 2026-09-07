@@ -11,7 +11,7 @@
 #include <string>
 #include <utility>
 
-namespace YimMenu::StandWidgets
+namespace StandEnhanced::StandWidgets
 {
 	// Ported from real Stand's own CommandPositionSelection (Commands/
 	// Widgets/CommandPositionSelection.cpp on origin/stand-reference) - a

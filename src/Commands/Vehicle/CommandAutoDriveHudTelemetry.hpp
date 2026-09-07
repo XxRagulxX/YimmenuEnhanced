@@ -7,7 +7,7 @@
 #include <memory>
 #include <vector>
 
-namespace YimMenu::Features::AutoDriveInternal
+namespace StandEnhanced::Features::AutoDriveInternal
 {
 	struct HudPoint
 	{

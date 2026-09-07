@@ -1,7 +1,7 @@
 #include "Commands/CommandToggle.hpp"
 #include "World/Stats.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class AllowGenderChange : public CommandToggle
 	{

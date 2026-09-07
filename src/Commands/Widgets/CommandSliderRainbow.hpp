@@ -6,7 +6,7 @@
 #include <string>
 #include <utility>
 
-namespace YimMenu::StandWidgets
+namespace StandEnhanced::StandWidgets
 {
 	// Ported from real Stand's own CommandSliderRainbow: not a colour
 	// itself - a speed control (0 = off, otherwise milliseconds per

@@ -5,7 +5,7 @@
 #include <fstream>
 #include "Localization/Strings.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	namespace Outfit
 	{

@@ -31,7 +31,7 @@ namespace Stand
 
 	void CommandTickDispatch::RunScriptImpl()
 	{
-		while (YimMenu::g_Running)
+		while (StandEnhanced::g_Running)
 		{
 			// Copied rather than iterated in place - a command's own
 			// onTick() could plausibly call RemoveCommand() on some other
@@ -42,7 +42,7 @@ namespace Stand
 			for (auto* command : commands)
 				command->onTick();
 
-			YimMenu::Script::current()->yield();
+			StandEnhanced::Script::current()->yield();
 		}
 	}
 }

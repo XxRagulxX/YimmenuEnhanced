@@ -7,7 +7,7 @@
 #include "Menu/UIManager.hpp"
 #include "Menu/Items.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	LuaUserInterface::LuaUserInterface() :
 	    m_LastThrotlledCoroutinePush(std::chrono::system_clock::now())

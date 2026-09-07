@@ -5,7 +5,7 @@
 
 #include "Scripting/scrProgram.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	std::optional<uint32_t> ScriptPatches::Patch::GetPC()
 	{

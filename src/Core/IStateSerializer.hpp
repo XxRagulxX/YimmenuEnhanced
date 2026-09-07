@@ -3,7 +3,7 @@
 #include <string>
 #include <nlohmann/json.hpp>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class IStateSerializer
 	{

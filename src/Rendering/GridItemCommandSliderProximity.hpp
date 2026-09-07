@@ -7,7 +7,7 @@
 #include <optional>
 #include <string>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Ported from real Stand's own CommandSliderProximity (Commands/
 	// Widgets/CommandSliderProximity.hpp on origin/stand-reference) - a

@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <utility>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

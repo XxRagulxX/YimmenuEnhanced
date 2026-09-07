@@ -1,7 +1,7 @@
 #include "Commands/Command.hpp"
 #include "Game/Pools.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class KillAll : public Command
 	{

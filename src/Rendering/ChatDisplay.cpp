@@ -5,7 +5,7 @@
 #include "Rendering/TextWrap.hpp"
 #include "Rendering/Theme.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	namespace
 	{

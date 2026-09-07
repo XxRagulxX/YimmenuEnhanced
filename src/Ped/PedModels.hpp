@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	constexpr auto g_PedModels = std::to_array({
 	    "a_c_boar",

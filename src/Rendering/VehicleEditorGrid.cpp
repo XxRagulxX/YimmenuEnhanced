@@ -19,7 +19,7 @@
 #include <functional>
 #include <optional>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

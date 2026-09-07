@@ -2,7 +2,7 @@
 #include "Commands/CommandListSelect.hpp"
 #include "Core/Pointers.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static std::vector<std::pair<int, const char*>> g_RegionCodes = {
 	    {0, "CIS"},

@@ -4,7 +4,7 @@
 #include <functional>
 #include <utility>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	class CommandSliderFloat : public Command
 	{

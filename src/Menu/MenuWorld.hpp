@@ -1,7 +1,7 @@
 #pragma once
 #include "Menu/Submenu.hpp"
 
-namespace YimMenu::Submenus
+namespace StandEnhanced::Submenus
 {
 	class World : public Submenu
 	{

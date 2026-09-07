@@ -2,7 +2,7 @@
 #include "Commands/Commands.hpp"
 #include "Commands/CommandInput.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	StringCommandItem::StringCommandItem(joaat_t id, std::optional<std::string> label_override) :
 	    m_Command(Commands::GetCommand<CommandInput>(id)),

@@ -2,7 +2,7 @@
 #include "Scripting/LuaMainScript.hpp"
 #include "Scripting/LuaMainUtils.hpp"
 
-namespace YimMenu::Lua
+namespace StandEnhanced::Lua
 {
 	static bool IsCoroutine(lua_State* state)
 	{

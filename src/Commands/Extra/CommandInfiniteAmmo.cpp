@@ -1,7 +1,7 @@
 #include "Commands/LoopedCommand.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class InfiniteAmmo : public LoopedCommand
 	{

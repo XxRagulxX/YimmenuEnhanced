@@ -11,7 +11,7 @@
 #include "Scripting/ScriptMgr.hpp"
 #include "Core/Hooking.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static std::vector<std::pair<int, const char*>> g_RegionCodes = {
 	    {0, "CIS"},
@@ -86,7 +86,7 @@ namespace YimMenu::Features
 	    5};
 }
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	static std::uint32_t GetIdHash(MatchmakingId* id)
 	{

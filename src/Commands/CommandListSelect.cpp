@@ -1,7 +1,7 @@
 #include "Commands/CommandListSelect.hpp"
 #include "Scripting/FiberPool.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	void CommandListSelect::OnCall()
 	{

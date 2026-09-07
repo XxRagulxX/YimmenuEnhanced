@@ -2,7 +2,7 @@
 #include <climits>
 #include <cstdint>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Verbatim port of stand-reference's src/Util/Position2d.hpp - a
 	// Grid's own origin point. SHRT_MAX marks "unset"/invalid, matching

@@ -1,7 +1,7 @@
 #pragma once
 #include "Util/Joaat.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	static constexpr auto randomEventNames = std::to_array({"Drug Vehicle",
 	    "Movie Props",

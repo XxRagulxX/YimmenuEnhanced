@@ -4,7 +4,7 @@
 #include "Rendering/VehicleSpawnNewGrid.hpp"
 #include "Rendering/VehicleSpawnPersonalGrid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	namespace
 	{

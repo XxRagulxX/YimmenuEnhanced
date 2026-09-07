@@ -1,6 +1,6 @@
 #include "Core/SpinlockBase.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	bool SpinlockBase::isLocked() const noexcept
 	{

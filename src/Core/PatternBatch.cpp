@@ -9,7 +9,7 @@
 #include "Core/LogHelper.hpp"
 #include "Core/PatternCache.hpp"
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	PatternHash PatternBatch::MakePatternHash(
 	    std::string_view signature)

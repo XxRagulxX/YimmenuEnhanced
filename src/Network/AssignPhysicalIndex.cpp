@@ -7,7 +7,7 @@
 #include "Scripting/FiberPool.hpp"
 #include "Core/Hooking.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	static CommandToggle _NotifyOnPlayerJoin{
 	    "notifyonplayerjoin",
@@ -16,7 +16,7 @@ namespace YimMenu::Features
 	    true};
 }
 
-namespace YimMenu::Hooks
+namespace StandEnhanced::Hooks
 {
 	void Info::AssignPhysicalIndex(CNetworkPlayerMgr* mgr, CNetGamePlayer* player, std::uint8_t index)
 	{

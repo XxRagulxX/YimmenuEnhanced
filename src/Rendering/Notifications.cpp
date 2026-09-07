@@ -13,7 +13,7 @@
 #include <limits>
 #include <mutex>
 
-namespace YimMenu
+namespace StandEnhanced
 {
 	namespace
 	{
@@ -353,7 +353,7 @@ namespace YimMenu
 		// Click.cpp) was fixed to stop passing an empty title as its own
 		// workaround for a message that never showed up at all - the
 		// real fix was this line, not giving every Click-driven toast a
-		// generic "YimMenu" title it never needed. message is still
+		// generic "StandEnhanced" title it never needed. message is still
 		// required - there's nothing to show at all without it.
 		if (message.empty())
 			return {};

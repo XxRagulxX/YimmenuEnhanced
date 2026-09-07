@@ -1,7 +1,7 @@
 #include "Commands/Command.hpp"
 #include "World/Self.hpp"
 
-namespace YimMenu::Features
+namespace StandEnhanced::Features
 {
 	class Suicide : public Command
 	{

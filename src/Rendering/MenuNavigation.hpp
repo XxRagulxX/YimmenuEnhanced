@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	class Grid;
 
@@ -52,7 +52,7 @@ namespace YimMenu::Rendering
 
 		// Every level's label, " > "-joined (e.g. "Vehicle > Spawner") -
 		// mirrors Stand's own address-bar breadcrumb. Doesn't include the
-		// app name prefix ("YimMenu"/"Stand ..."); MenuGrid adds that
+		// app name prefix ("StandEnhanced"/"Stand ..."); MenuGrid adds that
 		// itself.
 		static std::string BreadcrumbPath();
 

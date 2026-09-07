@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace YimMenu::Rendering
+namespace StandEnhanced::Rendering
 {
 	// Content grid for Self > Appearance - real Stand's own category
 	// (CommandTabSelf.cpp). See its own populate() for exactly what's
