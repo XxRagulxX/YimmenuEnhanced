@@ -2,6 +2,7 @@
 
 #include "Commands/CommandToggle.hpp"
 #include "Commands/Commands.hpp"
+#include "Commands/Self/CommandAutoHeal.hpp"
 #include "Commands/Self/CommandGod.hpp"
 #include "Rendering/AppearanceGrid.hpp"
 #include "Rendering/FreecamGrid.hpp"
@@ -118,7 +119,7 @@ namespace YimMenu::Rendering
 		// this function - see Commands/Self/CommandGod.hpp/.cpp for the
 		// actual command).
 		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandGod()));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "autoheal"_J));
+		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandAutoHeal()));
 		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "maxhealth"_J, std::nullopt, 25));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "noragdoll"_J, "Gracefulness"));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "seatglue"_J));
