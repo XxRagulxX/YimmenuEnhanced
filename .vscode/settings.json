@@ -1,5 +1,6 @@
 {
     "cmake.useCMakePresets": "always",
+    "cmake.environmentSetupScript": "${workspaceFolder}/.vscode/vcvars64.bat",
     "files.associations": {
         ".clangd": "yaml",
         "string_view": "cpp",
