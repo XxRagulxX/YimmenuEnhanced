@@ -1,21 +1,10 @@
-#include "Commands/LoopedCommand.hpp"
-#include "Scripting/Natives.hpp"
-#include "World/Self.hpp"
+#include "Commands/Self/CommandInfiniteStamina.hpp"
 
 namespace Stand::Features
 {
-	class InfiniteStamina : public LoopedCommand
+	Stand::CommandInfiniteStamina& GetCommandInfiniteStamina()
 	{
-		using LoopedCommand::LoopedCommand;
-
-		virtual void OnTick() override
-		{
-			if (!Self::GetPlayer())
-				return;
-
-			PLAYER::RESTORE_PLAYER_STAMINA(Self::GetPlayer().GetId(), 1.0f);
-		}
-	};
-
-	static InfiniteStamina _InfiniteStamina{"infinitestamina", "Infinite Stamina", "Never run out of breath while sprinting/swimming"};
+		static Stand::CommandInfiniteStamina instance{nullptr};
+		return instance;
+	}
 }
