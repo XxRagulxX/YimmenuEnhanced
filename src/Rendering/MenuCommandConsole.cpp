@@ -267,7 +267,7 @@ namespace Stand::Rendering
 
 		const auto layout = ComputeLayout();
 
-		const char* title = "CommandLegacy Console";
+		const char* title = "Command Console";
 		const auto titleSize = GridRenderer::MeasureText(title, Theme::kSmallTextScale);
 		GridRenderer::DrawText(layout.x + kPaddingX,
 		    layout.titleY + std::max(0.f, (layout.titleHeight - titleSize.y) * 0.5f),

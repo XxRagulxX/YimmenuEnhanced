@@ -144,6 +144,14 @@ namespace Stand
 		// health
 		bool IsInvincible();
 		void SetInvincible(bool status);
+		// Real Stand's own AbstractEntity::godmodeEnable()/godmodeDisable()
+		// (Core/AbstractEntity.cpp on origin/stand-reference) - all 8
+		// SET_ENTITY_PROOFS flags flipped together (matches real Stand's own
+		// SET_ENTITY_PROOFS(handle, 1,1,1,1,1,1,1,1) / all-zeros-on-disable
+		// calls exactly). A different, more comprehensive native than
+		// SetInvincible()'s own SET_ENTITY_INVINCIBLE - see CommandGod.hpp's
+		// own comment for why both still exist here.
+		void SetProofs(bool status);
 		bool IsDead();
 		void Kill();
 		int GetHealth();

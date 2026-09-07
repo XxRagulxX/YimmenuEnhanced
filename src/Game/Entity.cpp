@@ -409,6 +409,13 @@ namespace Stand
 		ENTITY::SET_ENTITY_INVINCIBLE(GetHandle(), status, true);
 	}
 
+	void Entity::SetProofs(bool status)
+	{
+		ENTITY_ASSERT_VALID();
+		ENTITY_ASSERT_CONTROL();
+		ENTITY::SET_ENTITY_PROOFS(GetHandle(), status, status, status, status, status, status, status, status);
+	}
+
 	bool Entity::IsDead()
 	{
 		ENTITY_ASSERT_VALID();
