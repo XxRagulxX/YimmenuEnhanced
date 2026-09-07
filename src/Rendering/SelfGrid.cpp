@@ -7,6 +7,7 @@
 #include "Commands/Self/CommandGrace.hpp"
 #include "Commands/Self/CommandSeatglue.hpp"
 #include "Commands/Self/CommandWanted.hpp"
+#include "Commands/Self/CommandWantedLock.hpp"
 #include "Rendering/AppearanceGrid.hpp"
 #include "Rendering/FreecamGrid.hpp"
 #include "Rendering/GridItemCommandButton.hpp"
@@ -56,9 +57,8 @@ namespace Stand::Rendering
 		// overload directly instead.
 		bool ShouldClearOrSetWanted()
 		{
-			auto* freezewanted = Commands::GetCommand<CommandToggleLegacy>("freezewanted"_J);
 			auto* neverwanted = Commands::GetCommand<CommandToggleLegacy>("neverwanted"_J);
-			return (!freezewanted || !freezewanted->GetState()) && (!neverwanted || !neverwanted->GetState());
+			return !Features::GetCommandWantedLock().m_on && (!neverwanted || !neverwanted->GetState());
 		}
 	}
 
@@ -130,7 +130,7 @@ namespace Stand::Rendering
 		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandGrace()));
 		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandSeatglue()));
 		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandWanted()));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "freezewanted"_J, "Lock Wanted Level"));
+		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandWantedLock()));
 		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "fakewanted"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "infinitestamina"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "paralock"_J));
@@ -197,7 +197,9 @@ namespace Stand::Rendering
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Wanted", Theme::kText));
 		if (watchCondition(ShouldClearOrSetWanted))
 			items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "clearwanted"_J));
-		if (watchCondition("freezewanted"_J, true))
+		if (watchCondition([] {
+			    return !Features::GetCommandWantedLock().m_on;
+		    }))
 			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "neverwanted"_J));
 		if (watchCondition(ShouldClearOrSetWanted))
 			items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "setwanted"_J));

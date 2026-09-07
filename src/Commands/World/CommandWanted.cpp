@@ -42,20 +42,7 @@ namespace Stand::Features
 		}
 	};
 
-	class FreezeWanted : public LoopedCommand
-	{
-		using LoopedCommand::LoopedCommand;
-
-		virtual void OnTick() override
-		{
-			if (Self::GetPlayer().GetWantedLevel() != GetCommandWanted().value)
-				Self::GetPlayer().SetWantedLevel(GetCommandWanted().value);
-			PLAYER::SET_MAX_WANTED_LEVEL(GetCommandWanted().value);
-		}
-	};
-
 	static ClearWanted _ClearWanted{"clearwanted", "Clear Wanted", "Clears your wanted level"};
 	static SetWanted _SetWanted{"setwanted", "Set Wanted", "Sets your wanted level to the desired level"};
 	static NeverWanted _NeverWanted{"neverwanted", "Never Wanted", "Never gain a wanted level"};
-	static FreezeWanted _FreezeWanted{"freezewanted", "Freeze Wanted", "Freeze your wanted level to the desired level"};
 }
