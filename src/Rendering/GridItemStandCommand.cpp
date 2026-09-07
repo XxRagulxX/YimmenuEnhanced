@@ -2,6 +2,7 @@
 
 #include "Commands/Stand/CommandToggleNoCorrelation.hpp"
 #include "Commands/Widgets/CommandList.hpp"
+#include "Commands/Widgets/CommandListSelect.hpp"
 #include "Commands/Widgets/CommandPhysical.hpp"
 #include "Commands/Widgets/CommandSlider.hpp"
 #include "Menu/Click.hpp"
@@ -146,6 +147,32 @@ namespace Stand::Rendering
 			    y + std::max(0.f, (height - plusSize.y) * 0.5f),
 			    ">",
 			    Theme::kText);
+			return;
+		}
+
+		if (m_Command->isListSelect())
+		{
+			auto* listSelect = m_Command->as<Stand::CommandListSelect>();
+			const auto layout = ComputeSliderLayout();
+
+			const auto valueStr = listSelect->getCurrentValueMenuName().getLocalisedUtf8();
+			const auto valueSize = GridRenderer::MeasureText(valueStr.c_str());
+			GridRenderer::DrawText(layout.valueX + std::max(0.f, (layout.valueWidth - valueSize.x) * 0.5f),
+			    y + std::max(0.f, (height - valueSize.y) * 0.5f),
+			    valueStr.c_str(),
+			    Theme::kText);
+
+			const auto minusSize = GridRenderer::MeasureText("<");
+			GridRenderer::DrawText(layout.minusX + std::max(0.f, (layout.buttonSize - minusSize.x) * 0.5f),
+			    y + std::max(0.f, (height - minusSize.y) * 0.5f),
+			    "<",
+			    Theme::kText);
+
+			const auto plusSize = GridRenderer::MeasureText(">");
+			GridRenderer::DrawText(layout.plusX + std::max(0.f, (layout.buttonSize - plusSize.x) * 0.5f),
+			    y + std::max(0.f, (height - plusSize.y) * 0.5f),
+			    ">",
+			    Theme::kText);
 		}
 	}
 
@@ -161,6 +188,16 @@ namespace Stand::Rendering
 				SliderStep(1);
 			else if (cursorX >= layout.minusX && cursorX < layout.minusX + layout.buttonSize)
 				SliderStep(-1);
+			return;
+		}
+
+		if (m_Command->isListSelect())
+		{
+			const auto layout = ComputeSliderLayout();
+			if (cursorX >= layout.plusX && cursorX < layout.plusX + layout.buttonSize)
+				ListSelectStep(1);
+			else if (cursorX >= layout.minusX && cursorX < layout.minusX + layout.buttonSize)
+				ListSelectStep(-1);
 			return;
 		}
 
@@ -182,11 +219,22 @@ namespace Stand::Rendering
 
 	bool GridItemStandCommand::onArrow(int delta)
 	{
-		if (!m_Command || !m_Command->isSlider())
+		if (!m_Command)
 			return false;
 
-		SliderStep(delta > 0 ? 1 : -1);
-		return true;
+		if (m_Command->isSlider())
+		{
+			SliderStep(delta > 0 ? 1 : -1);
+			return true;
+		}
+
+		if (m_Command->isListSelect())
+		{
+			ListSelectStep(delta > 0 ? 1 : -1);
+			return true;
+		}
+
+		return false;
 	}
 
 	void GridItemStandCommand::ToggleClicked()
@@ -226,6 +274,19 @@ namespace Stand::Rendering
 				slider->onRight(click, false);
 			else
 				slider->onLeft(click, false);
+		});
+	}
+
+	void GridItemStandCommand::ListSelectStep(int direction)
+	{
+		auto* listSelect = m_Command->as<Stand::CommandListSelect>();
+
+		FiberPool::queueJob([listSelect, direction] {
+			Stand::Click click(Stand::CLICK_MENU, Stand::TC_SCRIPT_YIELDABLE);
+			if (direction > 0)
+				listSelect->onRight(click, false);
+			else
+				listSelect->onLeft(click, false);
 		});
 	}
 

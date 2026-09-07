@@ -31,6 +31,7 @@ namespace Stand
 
 		COMMAND_FIRST_PHYSICAL,
 		COMMAND_ACTION = COMMAND_FIRST_PHYSICAL,
+		COMMAND_LIST_SELECT_INLINE,
 
 		COMMAND_LIST = COMMAND_FLAG_LIST,
 
@@ -110,6 +111,11 @@ namespace Stand
 		[[nodiscard]] bool isSlider() const noexcept
 		{
 			return (type & COMMAND_FULLTYPEFLAG) == COMMAND_FLAG_SLIDER;
+		}
+
+		[[nodiscard]] bool isListSelect() const noexcept
+		{
+			return type == COMMAND_LIST_SELECT_INLINE;
 		}
 
 		[[nodiscard]] bool isConcealed() const noexcept
