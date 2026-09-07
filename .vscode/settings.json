@@ -1,6 +1,29 @@
 {
     "cmake.useCMakePresets": "always",
     "cmake.useVsDeveloperEnvironment": "always",
+    // Copied here (not read straight from out/build/<preset>/) so clangd
+    // has one stable, preset-independent location to find it - see
+    // .clangd's own comment. Re-copied after every successful configure.
+    "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+    // clangd, not the C/C++ extension's own IntelliSense engine, is this
+    // project's single source of truth for diagnostics/completion -
+    // driven entirely by compile_commands.json (cmake.copyCompileCommands
+    // above), so it needs no separate Windows-specific configuration at
+    // all and carries over unchanged once this project moves to Linux.
+    // Running both engines at once produces duplicate/conflicting
+    // squiggles, and the C/C++ extension's own engine (c_cpp_properties.json-
+    // driven, no compile_commands.json awareness by default) is what was
+    // producing the false "header not found" errors.
+    "C_Cpp.intelliSenseEngine": "disabled",
+    // --query-driver allowlists cl.exe/clang-cl.exe so clangd can ask the
+    // real compiler where its own built-in headers live (MSVC/clang-cl
+    // invocations rely on the ambient INCLUDE env var for system headers
+    // rather than explicit -I flags, which clangd can't see otherwise -
+    // the actual cause of "header not found" without this) - gcc/g++/
+    // clang/clang++ included too, ready for the Linux build.
+    "clangd.arguments": [
+        "--query-driver=**/cl.exe,**/clang-cl.exe,**/clang,**/clang++,**/gcc,**/g++"
+    ],
     "files.associations": {
         ".clangd": "yaml",
         "string_view": "cpp",
@@ -91,6 +114,5 @@
         "valarray": "cpp",
         "variant": "cpp",
         "xtree": "cpp"
-    },
-    "C_Cpp.default.configurationProvider": "maxmitti.cmake-tools-fork"
+    }
 }

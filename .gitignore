@@ -5,5 +5,10 @@ build/
 out/
 src/soup/
 
+# Copied to the workspace root by cmake.copyCompileCommands (.vscode/
+# settings.json) purely so clangd has one stable place to find it - the
+# real one lives under out/build/<preset>/, already ignored above.
+/compile_commands.json
+
 # Local Claude Code settings (machine/session-specific, not project config)
 .claude/settings.local.json

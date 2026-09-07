@@ -1,7 +1,9 @@
 CompileFlags:
-  CompilationDatabase: build
-  Add:
-    - -std=c++23
-    - -Isrc
-    - -Isrc/core
-    - -Isrc/game
+  # Was "build" - a directory that's never existed in this repo. The
+  # real compilation database lives under out/build/<preset>/ (one per
+  # CMake preset - see CMakePresets.json), copied to the workspace root
+  # after every configure via .vscode/settings.json's
+  # "cmake.copyCompileCommands", so clangd always has one stable,
+  # preset-independent place to find it regardless of which preset is
+  # active or which OS this is built on.
+  CompilationDatabase: .
