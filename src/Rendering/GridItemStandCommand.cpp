@@ -199,17 +199,20 @@ namespace YimMenu::Rendering
 		// "queue it, don't call it inline" convention
 		// GridItemCommandButton.cpp's own onClick() already uses for
 		// this project's own Command::Call().
+		//
+		// Deliberately NOT calling click.ensureResponse()/respond() here
+		// (unlike MenuCommandConsole.cpp's own CLICK_COMMAND activation,
+		// or CommandHotkeyDispatch.cpp's own CLICK_HOTKEY one) - a
+		// previous pass here added it, then removed it again per explicit
+		// request: this row's own checkbox already shows the new state
+		// on screen the instant it flips, so a toast on top of that is
+		// redundant noise specifically for a menu click. Typing into the
+		// console (or a hotkey, which can fire with the menu closed
+		// entirely) has no such visible feedback of its own, which is
+		// exactly why those two still get one.
 		FiberPool::queueJob([toggle] {
 			Stand::Click click(Stand::CLICK_MENU, Stand::TC_SCRIPT_YIELDABLE);
 			toggle->onClick(click);
-			// Fires the "<name> is now enabled/disabled" toast
-			// (CommandToggleNoCorrelation::updateState()'s own generic
-			// response) - same ensureResponse()+respond() pair
-			// CommandHotkeyDispatch.cpp already calls after its own
-			// onClick(); missing here meant clicking a Stand toggle row
-			// directly in the menu never showed one.
-			click.ensureResponse();
-			click.respond();
 		});
 	}
 
@@ -231,11 +234,11 @@ namespace YimMenu::Rendering
 		// Same queue-it-not-call-it-inline convention as ToggleClicked()/
 		// SliderStep() above - a plain action's own onClick() can touch
 		// game natives just as freely as a toggle's onEnable()/onDisable().
+		// No ensureResponse()/respond() here either - see ToggleClicked()'s
+		// own comment for why a menu click doesn't get a toast.
 		FiberPool::queueJob([physical] {
 			Stand::Click click(Stand::CLICK_MENU, Stand::TC_SCRIPT_YIELDABLE);
 			physical->onClick(click);
-			click.ensureResponse();
-			click.respond();
 		});
 	}
 

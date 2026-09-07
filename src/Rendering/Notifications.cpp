@@ -343,7 +343,19 @@ namespace YimMenu
 
 	Notification Notifications::ShowImpl(std::string title, std::string message, NotificationType type, int duration, std::function<void()> context_function, std::string context_function_name)
 	{
-		if (title.empty() || message.empty())
+		// title alone being empty is fine and already fully supported
+		// downstream - ComputeContentMetrics()/DrawTextImpl() both skip
+		// the title row entirely when it's empty (see their own
+		// comments), the same title-less look every one of real Stand's
+		// own toasts actually has (m_Preview above builds one exactly
+		// this way, bypassing this function). Requiring BOTH here was an
+		// unrelated bug that surfaced when Click::respond() (Menu/
+		// Click.cpp) was fixed to stop passing an empty title as its own
+		// workaround for a message that never showed up at all - the
+		// real fix was this line, not giving every Click-driven toast a
+		// generic "YimMenu" title it never needed. message is still
+		// required - there's nothing to show at all without it.
+		if (message.empty())
 			return {};
 
 		// Real Stand's own CommandNotifyType, "Game" option - routes

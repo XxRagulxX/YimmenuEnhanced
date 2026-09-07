@@ -119,13 +119,23 @@ namespace YimMenu::Rendering
 				    // discloses for a hotkey bound to one.
 				    [physical] {
 					    FiberPool::queueJob([physical] {
-						    Stand::Click click(Stand::CLICK_MENU, Stand::TC_SCRIPT_YIELDABLE);
+						    // CLICK_COMMAND (real Stand's own click type for
+						    // exactly this - typed into its command box),
+						    // not CLICK_MENU - GridItemStandCommand.cpp's own
+						    // menu-click paths deliberately don't fire a
+						    // toast at all any more (the row's own checkbox
+						    // already shows the new state - see that file's
+						    // own comment), but this path has no such visible
+						    // feedback of its own, so it still calls
+						    // ensureResponse()+respond() to fire the "<name>
+						    // is now enabled/disabled" toast
+						    // (CommandToggleNoCorrelation::updateState()'s
+						    // own generic response) - same as
+						    // CommandHotkeyDispatch.cpp already does for the
+						    // same reason (a hotkey can fire with the menu
+						    // closed entirely).
+						    Stand::Click click(Stand::CLICK_COMMAND, Stand::TC_SCRIPT_YIELDABLE);
 						    physical->onClick(click);
-						    // Fires the "<name> is now enabled/disabled"
-						    // toast (CommandToggleNoCorrelation::updateState()'s
-						    // own generic response) - same pair
-						    // GridItemStandCommand.cpp's own click paths and
-						    // CommandHotkeyDispatch.cpp already call.
 						    click.ensureResponse();
 						    click.respond();
 					    });
