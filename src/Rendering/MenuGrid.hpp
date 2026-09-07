@@ -106,19 +106,6 @@ namespace YimMenu::Rendering
 		// false (no sidebar at all).
 		bool GetSidebarRect(int16_t& x, int16_t& y, int16_t& width, int16_t& height) const;
 
-		// Bottom edge (H-space, runtime-position-adjusted) of whatever
-		// content is currently showing - the same clipped panelHeight
-		// draw() itself already computes for the content backdrop rect
-		// (see that function), duplicated here rather than cached since
-		// it depends on MenuNavigation::Current() and can change without
-		// this Grid's own populate() re-running. DescriptionPanel needs
-		// this alongside GetSidebarRect() above: the sidebar's own 9
-		// entries are shorter than most categories' own content list, so
-		// anchoring purely off the sidebar's bottom edge (as a previous
-		// pass here did) ran the panel straight over still-visible
-		// content rows. Returns false if nothing's showing yet.
-		bool GetContentBottomY(int16_t& y) const;
-
 	protected:
 		void populate(std::vector<std::unique_ptr<GridItem>>& items_draft) override;
 

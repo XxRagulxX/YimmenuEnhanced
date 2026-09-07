@@ -114,9 +114,7 @@ namespace YimMenu::Rendering
 		// stacks under/over the header instead of beside it, so the
 		// header itself only needs to span the content column's own
 		// width in that case (or when hidden entirely).
-		const int16_t headerW = (visible && sidebarIsVertical)
-		    ? static_cast<int16_t>(Theme::kSidebarWidth + kSpacer + Theme::kContentWidth)
-		    : Theme::kContentWidth;
+		const int16_t headerW = (visible && sidebarIsVertical) ? static_cast<int16_t>(Theme::kSidebarWidth + kSpacer + Theme::kContentWidth) : Theme::kContentWidth;
 
 		auto header = std::make_unique<GridItemAddressbar>(headerW, Theme::kHeaderHeight, "YimMenu");
 		m_Header = header.get();
@@ -224,27 +222,6 @@ namespace YimMenu::Rendering
 		y = static_cast<int16_t>(sidebar->y + offsetY);
 		width = sidebar->width;
 		height = sidebar->height;
-		return true;
-	}
-
-	bool MenuGrid::GetContentBottomY(int16_t& y) const
-	{
-		auto* content = MenuNavigation::Current();
-		if (!content)
-			return false;
-
-		// Same clipped-height arithmetic as draw()'s own content backdrop
-		// rect - see that function for why panelHeight isn't just
-		// content's own (possibly scrolled-past-the-viewport) full
-		// height.
-		const auto visibleHeight = static_cast<int16_t>(Theme::kHudHeight - content->origin.y - Theme::kContentBottomMargin);
-
-		int16_t cx, cy, cw, ch;
-		content->getDimensions(cx, cy, cw, ch);
-		const auto panelHeight = (ch > 0 && ch < visibleHeight) ? ch : visibleHeight;
-
-		const auto offsetY = static_cast<int16_t>(Theme::kMenuOriginY - Theme::kDefaultMenuOriginY);
-		y = static_cast<int16_t>(content->origin.y + offsetY + panelHeight);
 		return true;
 	}
 

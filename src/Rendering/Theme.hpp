@@ -114,6 +114,17 @@ namespace YimMenu::Rendering::Theme
 	constexpr int16_t kContentWidth = 450;
 	constexpr int16_t kContentItemHeight = 32;
 
+	// Stand's own MenuGrid::info_width default (Menu/MenuGrid.hpp) - the
+	// fixed width of the focused command's own description box under
+	// its DEFAULT "Left" position (CommandHelpPos's own ALIGN_TOP_LEFT,
+	// confirmed against origin/stand-reference's own MenuGrid.cpp
+	// populateBody(): info_text_width is only ever command_width for the
+	// ALIGN_BOTTOM_LEFT case specifically - every other position,
+	// "Left" included, uses this instead). See DescriptionPanel's own
+	// class comment for the placement this project ports (Left, not
+	// Below Tabs - a previous pass here had this backwards).
+	constexpr int16_t kInfoWidth = 300;
+
 	// Stand's own command_text/tabs_text scale: float(15.0 *
 	// TEXT_HEIGHT_PX * 2.0), TEXT_HEIGHT_PX = 0.021875 - both confirmed
 	// exact against origin/stand-reference's src/Rendering/dx_common.hpp

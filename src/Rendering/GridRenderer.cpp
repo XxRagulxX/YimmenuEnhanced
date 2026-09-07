@@ -248,26 +248,28 @@ namespace YimMenu::Rendering
 				g_MenuGrid.draw();
 				// Same free-standing-overlay shape as MenuPopup/
 				// MenuCommandBox below - see DescriptionPanel's own
-				// class comment for why it needs both of these rects:
-				// the header bar's x/width (spanning the whole menu,
-				// sidebar+content) and whichever of the sidebar's own
-				// bottom edge / the currently-showing content's own
-				// (viewport-clipped) bottom edge is lower.
+				// class comment for why it needs content's own origin
+				// (its own left edge/top is where the box grows left
+				// from) and the sidebar's own bottom edge (whichever of
+				// the two ends up lower wins, the same collision real
+				// Stand's own setPositions() resolves).
+				if (auto* content = MenuNavigation::Current())
 				{
-					int16_t headerX, headerY, headerWidth;
-					int16_t sidebarX, sidebarY, sidebarWidth, sidebarHeight;
-					if (g_MenuGrid.GetHeaderBarRect(headerX, headerY, headerWidth) && g_MenuGrid.GetSidebarRect(sidebarX, sidebarY, sidebarWidth, sidebarHeight))
-					{
-						(void)headerY;  // only x/width wanted from the header bar - bottomY (below) drives the panel's own y
-						(void)sidebarX; // only y/height wanted from the sidebar - x/width come from the header bar instead
-						(void)sidebarWidth;
-						int16_t bottomY = static_cast<int16_t>(sidebarY + sidebarHeight);
-						int16_t contentBottomY;
-						if (g_MenuGrid.GetContentBottomY(contentBottomY) && contentBottomY > bottomY)
-							bottomY = contentBottomY;
+					const auto offsetX = static_cast<int16_t>(Theme::kMenuOriginX - Theme::kDefaultMenuOriginX);
+					const auto offsetY = static_cast<int16_t>(Theme::kMenuOriginY - Theme::kDefaultMenuOriginY);
+					const auto contentX = static_cast<int16_t>(content->origin.x + offsetX);
+					const auto contentY = static_cast<int16_t>(content->origin.y + offsetY);
 
-						DescriptionPanel::Draw(headerX, bottomY, headerWidth);
+					int16_t sidebarBottomY = contentY; // no sidebar to collide with by default (Theme::kTabsVisible false)
+					int16_t sidebarX, sidebarY, sidebarWidth, sidebarHeight;
+					if (g_MenuGrid.GetSidebarRect(sidebarX, sidebarY, sidebarWidth, sidebarHeight))
+					{
+						(void)sidebarX; // only y/height wanted here - x comes from content's own origin instead
+						(void)sidebarWidth;
+						sidebarBottomY = static_cast<int16_t>(sidebarY + sidebarHeight + Theme::kSpacer);
 					}
+
+					DescriptionPanel::Draw(contentX, contentY, sidebarBottomY);
 				}
 				// Drawn last, on top of everything else - see MenuPopup's
 				// own class comment for why this is a free-standing
@@ -320,21 +322,23 @@ namespace YimMenu::Rendering
 			if (menuActive)
 			{
 				g_MenuGrid.drawText();
+				if (auto* content = MenuNavigation::Current())
 				{
-					int16_t headerX, headerY, headerWidth;
-					int16_t sidebarX, sidebarY, sidebarWidth, sidebarHeight;
-					if (g_MenuGrid.GetHeaderBarRect(headerX, headerY, headerWidth) && g_MenuGrid.GetSidebarRect(sidebarX, sidebarY, sidebarWidth, sidebarHeight))
-					{
-						(void)headerY;  // only x/width wanted from the header bar - bottomY (below) drives the panel's own y
-						(void)sidebarX; // only y/height wanted from the sidebar - x/width come from the header bar instead
-						(void)sidebarWidth;
-						int16_t bottomY = static_cast<int16_t>(sidebarY + sidebarHeight);
-						int16_t contentBottomY;
-						if (g_MenuGrid.GetContentBottomY(contentBottomY) && contentBottomY > bottomY)
-							bottomY = contentBottomY;
+					const auto offsetX = static_cast<int16_t>(Theme::kMenuOriginX - Theme::kDefaultMenuOriginX);
+					const auto offsetY = static_cast<int16_t>(Theme::kMenuOriginY - Theme::kDefaultMenuOriginY);
+					const auto contentX = static_cast<int16_t>(content->origin.x + offsetX);
+					const auto contentY = static_cast<int16_t>(content->origin.y + offsetY);
 
-						DescriptionPanel::DrawText(headerX, bottomY, headerWidth);
+					int16_t sidebarBottomY = contentY;
+					int16_t sidebarX, sidebarY, sidebarWidth, sidebarHeight;
+					if (g_MenuGrid.GetSidebarRect(sidebarX, sidebarY, sidebarWidth, sidebarHeight))
+					{
+						(void)sidebarX;
+						(void)sidebarWidth;
+						sidebarBottomY = static_cast<int16_t>(sidebarY + sidebarHeight + Theme::kSpacer);
 					}
+
+					DescriptionPanel::DrawText(contentX, contentY, sidebarBottomY);
 				}
 				MenuPopup::DrawText();
 				MenuCommandBox::DrawText();
