@@ -36,6 +36,16 @@ namespace YimMenu::Rendering
 	// from a global, the same reason GridRenderer already reads
 	// GetHeaderBarRect() itself for HeaderBanner's own placement instead
 	// of MenuGrid exposing g_MenuGrid globally.
+	//
+	// Sized to the sidebar's own width (tabs_width, ~112 H-units), not
+	// the content column's - an earlier pass here used command_width
+	// (450), which ran the box well past the sidebar's own right edge
+	// and directly over the content list's text next to it. The box is
+	// also inset a few pixels from the sidebar's own left edge (kIndent
+	// in the .cpp), so it doesn't start flush with "Debug" (or whichever
+	// entry) itself, and its right edge lands back at the sidebar's own
+	// right edge - "close to Debug menu end", per the reference
+	// screenshot this was corrected against.
 	class DescriptionPanel
 	{
 	public:
