@@ -2,7 +2,7 @@
 #include <string.h>
 #include <string>
 
-namespace StandEnhanced
+namespace Stand
 {
 	// Function to trim leading and trailing whitespace from a string
 	inline std::string TrimString(std::string& str)

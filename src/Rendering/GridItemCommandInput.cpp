@@ -7,7 +7,7 @@
 #include <functional>
 #include <string>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

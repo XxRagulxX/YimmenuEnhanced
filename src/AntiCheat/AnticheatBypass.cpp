@@ -12,7 +12,7 @@ using FnBattlEyeBypass = bool (*)();
 
 #define RESTORE_DESTROYED_FUNCTIONS true
 
-namespace StandEnhanced
+namespace Stand
 {
 	static void ApplyPatch(uintptr_t base, uintptr_t offset, std::span<std::uint8_t const> const values)
 	{

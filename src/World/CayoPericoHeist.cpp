@@ -1,6 +1,6 @@
 #include "World/CayoPericoHeist.hpp"
 
-namespace StandEnhanced::Submenus
+namespace Stand::Submenus
 {
 	std::shared_ptr<TabItem> RenderCayoPericoHeistMenu()
 	{

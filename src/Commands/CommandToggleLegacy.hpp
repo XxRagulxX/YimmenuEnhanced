@@ -1,9 +1,9 @@
 #pragma once
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
-	class CommandToggle : public Command
+	class CommandToggleLegacy : public CommandLegacy
 	{
 	protected:
 		virtual void OnEnable() {};
@@ -16,7 +16,7 @@ namespace StandEnhanced
 		bool m_Ready = false;
 
 	public:
-		CommandToggle(std::string name, std::string label, std::string description, bool def_value = false);
+		CommandToggleLegacy(std::string name, std::string label, std::string description, bool def_value = false);
 		bool GetState();
 		void SetState(bool state);
 		void Initialize();

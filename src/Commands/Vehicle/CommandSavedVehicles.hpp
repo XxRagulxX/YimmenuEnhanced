@@ -2,7 +2,7 @@
 #include "Menu/Folder.hpp"
 #include "Vehicle/Vehicle.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class SavedVehicles
 	{

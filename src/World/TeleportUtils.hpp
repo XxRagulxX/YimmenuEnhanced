@@ -3,7 +3,7 @@
 #include "Game/vector.hpp"
 #include <string>
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	struct TeleportPlace
 	{

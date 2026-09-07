@@ -1,11 +1,11 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Scripting/ScriptPatches.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class DLCVehicles : public CommandToggle
+	class DLCVehicles : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		ScriptPatch m_VehiclePOSIXPatch{};
 		ScriptPatch m_GetVehiclePricePatch{};

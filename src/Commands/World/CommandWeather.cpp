@@ -1,10 +1,10 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Commands/CommandListSelect.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Scripting/ScriptPatches.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	static std::vector<std::pair<int, const char*>> g_WeatherTypes = {
 	    {0, "Clear"},
@@ -48,9 +48,9 @@ namespace StandEnhanced::Features
 
 	static CommandListSelect _Weather{"weather", "Weather", "Weather to set or force. Note that this is local and cannot be seen by other players", g_WeatherTypes, 0};
 
-	class SetWeather : public Command
+	class SetWeather : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

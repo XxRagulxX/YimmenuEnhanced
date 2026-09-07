@@ -10,7 +10,7 @@
 
 #include "Scripting/Script.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class ScriptMgr
 	{

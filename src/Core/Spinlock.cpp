@@ -5,7 +5,7 @@
 #include "Core/ExceptionHandler.hpp"
 #include "Util/get_current_time_millis.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	bool Spinlock::tryLock() noexcept
 	{

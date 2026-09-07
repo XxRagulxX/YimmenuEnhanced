@@ -1,14 +1,14 @@
 #pragma once
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Rendering/GridItem.hpp"
 #include "Util/Joaat.hpp"
 
 #include <optional>
 #include <string>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
-	// A GridItemToggle wired to a real StandEnhanced::CommandToggle, looked up by
+	// A GridItemToggle wired to a real Stand::CommandToggle, looked up by
 	// joaat hash - the Grid/GridItem equivalent of BoolCommandItem (src/
 	// BoolCommandItem.cpp) for the ImGui menu. Reads the command's live
 	// state every frame (rather than tracking its own), and calls
@@ -34,7 +34,7 @@ namespace StandEnhanced::Rendering
 	private:
 		const std::string& Label() const;
 
-		CommandToggle* m_Command;
+		CommandToggleLegacy* m_Command;
 		std::optional<std::string> m_LabelOverride;
 	};
 }

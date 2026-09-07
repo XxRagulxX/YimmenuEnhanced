@@ -1,11 +1,11 @@
 #include "Commands/LoopedCommand.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
-#include "Commands/CommandSliderFloat.hpp"
+#include "Commands/CommandSliderFloatLegacy.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	static CommandSliderFloat _WeaponDamageScale{"weapondamagescale", "Weapon Damage Scale", "Sets the damage scale for weapons (including melee)", 0.0f, 10.0f, 1.0f};
+	static CommandSliderFloatLegacy _WeaponDamageScale{"weapondamagescale", "Weapon Damage Scale", "Sets the damage scale for weapons (including melee)", 0.0f, 10.0f, 1.0f};
 
 	class WeaponDamage : public LoopedCommand
 	{

@@ -3,7 +3,7 @@
 #include "Scripting/Natives.hpp"
 #include "Game/ControllerInputs.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class HornBoost : public LoopedCommand
 	{

@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-namespace StandEnhanced
+namespace Stand
 {
 	class SimplePattern
 	{

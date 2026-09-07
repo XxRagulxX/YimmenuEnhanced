@@ -3,7 +3,7 @@
 #include "Scripting/LuaMainUtils.hpp"
 #include "Scripting/Invoker.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	class Invoker : LuaLibrary
 	{

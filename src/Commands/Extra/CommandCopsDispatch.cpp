@@ -4,7 +4,7 @@
 
 #include "Scripting/Natives.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class CopsDispatch : public LoopedCommand
 	{

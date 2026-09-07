@@ -1,11 +1,11 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class SkipCutscene : public Command
+	class SkipCutscene : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

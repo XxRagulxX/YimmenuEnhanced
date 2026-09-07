@@ -1,12 +1,12 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Network/Tunables.hpp"
 
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class NoChangeAppearanceCooldown : public CommandToggle
+	class NoChangeAppearanceCooldown : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		Tunable m_CharacterAppearanceCooldown{"CHARACTER_APPEARANCE_COOLDOWN"_J};
 

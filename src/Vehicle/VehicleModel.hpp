@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/types.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class VehicleModel
 	{

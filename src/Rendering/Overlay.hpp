@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace StandEnhanced
+namespace Stand
 {
 	class Overlay
 	{

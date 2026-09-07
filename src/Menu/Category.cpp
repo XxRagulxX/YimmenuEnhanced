@@ -2,7 +2,7 @@
 
 #include "Rendering/GridRenderer.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	void Category::Draw()
 	{

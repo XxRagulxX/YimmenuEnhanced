@@ -1,7 +1,7 @@
 #pragma once
 #include "Menu/Submenu.hpp"
 
-namespace StandEnhanced::Submenus
+namespace Stand::Submenus
 {
 	class Vehicle : public Submenu
 	{

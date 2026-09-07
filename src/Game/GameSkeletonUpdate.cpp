@@ -2,7 +2,7 @@
 #include "Util/Joaat.hpp"
 #include "Game/gameSkeleton.hpp"
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	void Anticheat::GameSkeletonUpdate(rage::gameSkeleton* skeleton, int type)
 	{

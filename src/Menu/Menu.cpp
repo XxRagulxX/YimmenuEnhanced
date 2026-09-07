@@ -10,7 +10,7 @@
 #include "Menu/MenuDebug.hpp"
 #include "Menu/MenuWorld.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	// Nothing draws this tree at all any more - see Menu/UIManager.hpp's
 	// own class comment for why it still gets built regardless. This

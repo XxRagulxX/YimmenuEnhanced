@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/GridTabbed.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Vehicle > Spawn: mirrors SpawnVehicle.cpp's
 	// BuildSpawnVehicleMenu() TabBarItem in full - New Vehicle/Personal

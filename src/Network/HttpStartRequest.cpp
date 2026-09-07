@@ -3,7 +3,7 @@
 #include "Core/Hooking.hpp"
 
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	void Anticheat::HttpStartRequest(void* request)
 	{

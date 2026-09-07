@@ -1,6 +1,6 @@
 #include "Scripting/LuaLibrary.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	class Default : LuaLibrary
 	{

@@ -5,7 +5,7 @@
 #include "Network/GPBD_FM.hpp"
 #include "Network/GPBD_FM_2.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	enum class eAppVinewoodMenuSafe
 	{
@@ -29,9 +29,9 @@ namespace StandEnhanced::Features
 
 	static CommandListSelect _SelectedBusiness{"businesssafe", "Business", "Business to claim earning from.", businessNames, 0};
 
-	class ClaimSafeEarnings : public Command
+	class ClaimSafeEarnings : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

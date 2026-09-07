@@ -1,13 +1,13 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Rendering/Notifications.hpp"
 #include "Vehicle/PersonalVehicles.hpp"
 #include "Core/Pointers.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class FixAllVehicles : public Command
+	class FixAllVehicles : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

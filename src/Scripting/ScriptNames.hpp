@@ -1,6 +1,6 @@
 #pragma once
 
-namespace StandEnhanced
+namespace Stand
 {
 	static constexpr auto scriptNames = std::to_array({
 	    "abigail1",

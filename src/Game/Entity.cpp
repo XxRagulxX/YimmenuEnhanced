@@ -28,7 +28,7 @@ namespace
 	}
 }
 
-namespace StandEnhanced
+namespace Stand
 {
 	void Entity::PopulatePointer()
 	{

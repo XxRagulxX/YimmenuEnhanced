@@ -1,6 +1,6 @@
 #include "Util/Util.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	// intentionally empty
 }

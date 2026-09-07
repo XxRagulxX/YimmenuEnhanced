@@ -2,7 +2,7 @@
 #include "Scripting/LuaMainUtils.hpp"
 #include "Game/vector.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	class Vector3 : LuaLibrary
 	{

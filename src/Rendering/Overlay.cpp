@@ -1,6 +1,6 @@
 #include "Rendering/Overlay.hpp"
 
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/CommandListSelect.hpp"
 #include "Rendering/GridRenderer.hpp"
 #include "Rendering/Theme.hpp"
@@ -10,12 +10,12 @@
 #include <chrono>
 #include <format>
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	void DrawBusinessOverlay(std::vector<OverlayLine>& lines);
-	CommandToggle _OverlayEnabled("overlay", "Overlay Enabled", "Show an info overlay at the top left corner of the screen");
-	CommandToggle _OverlayShowFPS("overlayfps", "Overlay Show FPS", "Show frame rate in the info overlay");
-	CommandToggle _OverlayLock("overlaylock", "Lock Overlay Position", "Lock the overlay so it cannot be moved in free mode");
+	CommandToggleLegacy _OverlayEnabled("overlay", "Overlay Enabled", "Show an info overlay at the top left corner of the screen");
+	CommandToggleLegacy _OverlayShowFPS("overlayfps", "Overlay Show FPS", "Show frame rate in the info overlay");
+	CommandToggleLegacy _OverlayLock("overlaylock", "Lock Overlay Position", "Lock the overlay so it cannot be moved in free mode");
 
 	static std::vector<std::pair<int, const char*>> g_OverlayPositionConfig = {
 	    {0, "topleft"},
@@ -27,7 +27,7 @@ namespace StandEnhanced::Features
 	static CommandListSelect _OverlayPositionCmd("overlaypos", "Overlay Position", "Change overlay position", g_OverlayPositionConfig, 0);
 }
 
-namespace StandEnhanced
+namespace Stand
 {
 	namespace
 	{

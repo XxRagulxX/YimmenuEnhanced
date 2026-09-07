@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Settings > Notifications - real Stand's own CommandListNotifySettings
 	// (Commands/Online/CommandListNotifySettings.cpp on origin/stand-reference):

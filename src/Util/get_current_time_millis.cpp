@@ -2,7 +2,7 @@
 
 #include <soup/time.hpp>
 
-namespace StandEnhanced
+namespace Stand
 {
 	time_t get_current_time_millis() noexcept
 	{

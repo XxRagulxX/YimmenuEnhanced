@@ -3,7 +3,7 @@
 #include "Core/Hooks.hpp"
 #include "Core/Hooking.hpp"
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	bool Hooks::Spoofing::WriteSyncTree(void* tree, int type, int flags, rage::netObject* object, rage::datBitBuffer* buffer, int unk, void* a6, std::uint8_t player_id, void* a8)
 	{

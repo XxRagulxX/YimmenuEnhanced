@@ -1,7 +1,7 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Scripting/ScriptPatches.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	static constexpr auto creatorScripts = std::to_array({
 	    "fm_race_creator"_J,
@@ -12,9 +12,9 @@ namespace StandEnhanced
 	    "public_mission_creator"_J,
 	});
 	
-	class EnableCreatorDevMode : public CommandToggle
+	class EnableCreatorDevMode : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		std::vector<ScriptPatch> m_IsDevModeEnabledPatches;
 

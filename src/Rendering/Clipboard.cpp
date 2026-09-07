@@ -3,7 +3,7 @@
 #include <cstring>
 #include <windows.h>
 
-namespace StandEnhanced::Rendering::Clipboard
+namespace Stand::Rendering::Clipboard
 {
 	void SetText(const std::string& text)
 	{

@@ -16,7 +16,7 @@ namespace rage
 
 	std::uint8_t* scrThread::Context::GetCodePtr() const noexcept
 	{
-		auto* program = StandEnhanced::Scripts::FindScriptProgram(
+		auto* program = Stand::Scripts::FindScriptProgram(
 		    static_cast<std::uint32_t>(m_ScriptHash));
 
 		if (!program)

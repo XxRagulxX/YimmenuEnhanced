@@ -1,7 +1,7 @@
 #include "Commands/LoopedCommand.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class MobileRadio : public LoopedCommand
 	{

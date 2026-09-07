@@ -10,7 +10,7 @@
 #include <format>
 #include <stdexcept>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

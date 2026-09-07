@@ -1,11 +1,11 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Core/Pointers.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class PauseGame : public CommandToggle
+	class PauseGame : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		virtual void OnEnable() override
 		{

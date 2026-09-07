@@ -8,7 +8,7 @@
 #include "Util/Joaat.hpp"
 #include "Rendering/Theme.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

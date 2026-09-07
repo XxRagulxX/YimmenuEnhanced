@@ -1,20 +1,20 @@
 #include "Game/Player.hpp"
 #include "World/Stats.hpp"
 #include "Scripting/ScriptGlobal.hpp"
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "World/Self.hpp"
 #include "Network/CNetGamePlayer.hpp"
 #include "Rendering/Overlay.hpp"
 
 #include <format>
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	CommandToggle _BusinessOverlay("businessoverlay", "Show Business Overlay", "Displays current Business overlay");
-	CommandToggle _ShowWarehouse("showwarehouse", "Show Warehouse", "Display warehouse stock");
-	CommandToggle _ShowHangar("showhangar", "Show Hangar", "Display hangar stock");
-	CommandToggle _ShowBusinesses("showbusinesses", "Show Businesses", "Display MC business stock");
-	CommandToggle _ShowNightclub("shownightclub", "Show Nightclub", "Display nightclub stock");
+	CommandToggleLegacy _BusinessOverlay("businessoverlay", "Show Business Overlay", "Displays current Business overlay");
+	CommandToggleLegacy _ShowWarehouse("showwarehouse", "Show Warehouse", "Display warehouse stock");
+	CommandToggleLegacy _ShowHangar("showhangar", "Show Hangar", "Display hangar stock");
+	CommandToggleLegacy _ShowBusinesses("showbusinesses", "Show Businesses", "Display MC business stock");
+	CommandToggleLegacy _ShowNightclub("shownightclub", "Show Nightclub", "Display nightclub stock");
 
 
 	enum class MCBusinessType

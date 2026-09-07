@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	class GridItemIntStepper;
 	class GridItemToggle;

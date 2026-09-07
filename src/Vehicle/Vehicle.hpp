@@ -3,7 +3,7 @@
 #include "Core/types.hpp"
 #include "Util/Joaat.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class Vehicle : public Entity
 	{

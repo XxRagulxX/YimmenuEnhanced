@@ -3,7 +3,7 @@
 #include "Core/Hooks.hpp"
 #include "Core/Hooking.hpp"
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	bool Hooks::Spoofing::ShouldUseNodeCache(void* node, int flags)
 	{

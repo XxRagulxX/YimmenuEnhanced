@@ -6,7 +6,7 @@
 #include "Util/Joaat.hpp"
 
 
-namespace StandEnhanced
+namespace Stand
 {
 	static std::unordered_set<joaat_t> cameraHashes = {
 	    "p_cctv_s"_J,

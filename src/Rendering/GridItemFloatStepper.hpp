@@ -4,7 +4,7 @@
 #include <functional>
 #include <string>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// GridItemIntStepper's float counterpart - same label + current value
 	// (shown to 2 decimal places, matching GridItemCommandSliderFloat) + "-"/"+"

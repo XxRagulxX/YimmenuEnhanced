@@ -5,7 +5,7 @@
 #include "Menu/GUI.hpp"
 #include "Game/ControllerInputs.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class RapidFire : public LoopedCommand
 	{

@@ -1,4 +1,4 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Network/NodeHooks.hpp"
 #include "World/Self.hpp"
 
@@ -6,11 +6,11 @@
 #include "Network/CSectorDataNode.hpp"
 #include "Network/CPlayerSectorPosNode.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class HarassPlayers : public CommandToggle
+	class HarassPlayers : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		std::shared_ptr<NodeHooks::Hook> m_PedGameStateHook;
 		std::shared_ptr<NodeHooks::Hook> m_SectorDataNodeHook;

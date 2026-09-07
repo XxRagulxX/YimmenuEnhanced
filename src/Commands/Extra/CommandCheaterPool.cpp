@@ -4,7 +4,7 @@
 #include "Core/Pointers.hpp"
 #include "Core/Hooking.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class CheaterPool : public LoopedCommand
 	{
@@ -35,11 +35,11 @@ namespace StandEnhanced::Features
 	static CheaterPool _CheaterPool{"cheaterpool", "Join StandEnhanced-only Sessions", "Matchmaking will put you into sessions with other StandEnhanced users."};
 }
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	int Network::GetPoolType()
 	{
-		if (StandEnhanced::Features::_CheaterPool.GetState())
+		if (Stand::Features::_CheaterPool.GetState())
 			return 1;
 
 		return Hooking::Get<Network::GetPoolType>()->Original<decltype(&Network::GetPoolType)>()();

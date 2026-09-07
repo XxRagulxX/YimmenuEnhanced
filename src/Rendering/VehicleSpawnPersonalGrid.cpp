@@ -1,6 +1,6 @@
 #include "Rendering/VehicleSpawnPersonalGrid.hpp"
 
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/Commands.hpp"
 #include "Scripting/FiberPool.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
@@ -14,7 +14,7 @@
 #include "Rendering/Theme.hpp"
 #include "Vehicle/Vehicle.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{
@@ -57,8 +57,8 @@ namespace StandEnhanced::Rendering
 
 			auto& personalVeh = it->second;
 			FiberPool::queueJob([&personalVeh] {
-				auto* spawnClone = Commands::GetCommand<CommandToggle>("spawnclonepv"_J);
-				auto* spawnInside = Commands::GetCommand<CommandToggle>("spawninsidepv"_J);
+				auto* spawnClone = Commands::GetCommand<CommandToggleLegacy>("spawnclonepv"_J);
+				auto* spawnInside = Commands::GetCommand<CommandToggleLegacy>("spawninsidepv"_J);
 
 				if (spawnClone && spawnClone->GetState())
 				{

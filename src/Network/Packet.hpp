@@ -3,7 +3,7 @@
 #include "Network/netMessage.hpp"
 
 
-namespace StandEnhanced
+namespace Stand
 {
 	class Packet
 	{

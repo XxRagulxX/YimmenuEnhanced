@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace StandEnhanced::Rendering::Clipboard
+namespace Stand::Rendering::Clipboard
 {
 	// Win32 clipboard read/write, standing in for ImGui::GetClipboardText()/
 	// SetClipboardText() (what the classic ImGui widgets use) - this

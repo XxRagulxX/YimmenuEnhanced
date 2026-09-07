@@ -1,10 +1,10 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class UnloadMenu : public Command
+	class UnloadMenu : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

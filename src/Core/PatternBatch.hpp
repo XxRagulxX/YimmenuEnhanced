@@ -13,7 +13,7 @@
 
 #include "Core/PatternHash.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class PatternBatch
 	{

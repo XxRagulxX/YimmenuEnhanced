@@ -2,7 +2,7 @@
 #include "Util/Joaat.hpp"
 #undef GetObject // another dumb Windows.h definition
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	template<typename T>
 	class Metatable

@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Self > Main > Invisibility: the invis toggle
 	// itself plus its one dependent option (localvis, gated on invis

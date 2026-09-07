@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <utility>
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	std::pair<int, int> GetTestDynamicRange();
 }

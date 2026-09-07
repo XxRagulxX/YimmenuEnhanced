@@ -1,6 +1,6 @@
 #include "Rendering/MenuNavigation.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	std::vector<MenuNavigation::Level> MenuNavigation::s_Stack{};
 

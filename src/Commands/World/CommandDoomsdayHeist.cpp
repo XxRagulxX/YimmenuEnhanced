@@ -1,5 +1,5 @@
-#include "Commands/Command.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandLegacy.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/CommandListSelect.hpp"
 #include "World/Stats.hpp"
 #include "Scripting/ScriptGlobal.hpp"
@@ -9,7 +9,7 @@
 #include "World/TeleportUtils.hpp"
 #include "Rendering/Notifications.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	namespace DoomsdayHeist
 	{
@@ -21,14 +21,14 @@ namespace StandEnhanced::Features
 			float heading;
 			const char* name;
 		};
-		static CommandSlider _DoomsdayHeistCut1{"doomsdayheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
-		static CommandSlider _DoomsdayHeistCut2{"doomsdayheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
-		static CommandSlider _DoomsdayHeistCut3{"doomsdayheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
-		static CommandSlider _DoomsdayHeistCut4{"doomsdayheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _DoomsdayHeistCut1{"doomsdayheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _DoomsdayHeistCut2{"doomsdayheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _DoomsdayHeistCut3{"doomsdayheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _DoomsdayHeistCut4{"doomsdayheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
 
-		class SetCuts : public Command
+		class SetCuts : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -59,9 +59,9 @@ namespace StandEnhanced::Features
 		static CommandListSelect _DoomsDayHeistPlayers{"doomsdayheistplayers", "Players", "How many players are in the heist", DoomsDayHeistPlayers, 1};
 
 
-		class ForceReady : public Command
+		class ForceReady : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -81,9 +81,9 @@ namespace StandEnhanced::Features
 		    {2, "The Doomsday Senario"}};
 		static CommandListSelect _DoomsdayHeistCategory{"doomsdayheistcategory", "Select Heist", "Heist categories", doomsdayHeistCategory, 0};
 
-		class Setup : public Command
+		class Setup : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -116,9 +116,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class SetMaxPayout : public Command
+		class SetMaxPayout : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 		public:
 			virtual void OnCall() override
@@ -169,7 +169,7 @@ namespace StandEnhanced::Features
 
 			void ApplyCuts(int totalCut, int players)
 			{
-				std::array<CommandSlider*, 4> cmds = {
+				std::array<CommandSliderLegacy*, 4> cmds = {
 				    &_DoomsdayHeistCut1,
 				    &_DoomsdayHeistCut2,
 				    &_DoomsdayHeistCut3,
@@ -189,9 +189,9 @@ namespace StandEnhanced::Features
 		};
 
 
-		class SkipHacking : public Command
+		class SkipHacking : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -204,9 +204,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class InstantFinish : public Command
+		class InstantFinish : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -224,9 +224,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class InstantFinishAct3 : public Command
+		class InstantFinishAct3 : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -244,9 +244,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class Teleport : public Command
+		class Teleport : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{

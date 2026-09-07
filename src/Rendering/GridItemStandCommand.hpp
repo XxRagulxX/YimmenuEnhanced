@@ -1,10 +1,10 @@
 #pragma once
-#include "Commands/Widgets/Command.hpp"
+#include "Commands/Widgets/CommandLegacy.hpp"
 #include "Rendering/GridItem.hpp"
 
 #include <cstdint>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Bridges one real Stand::Command (Commands/Widgets/ - the already-
 	// adapted-but-previously-unwired port of real Stand's own
@@ -41,7 +41,7 @@ namespace StandEnhanced::Rendering
 	class GridItemStandCommand : public GridItem
 	{
 	public:
-		GridItemStandCommand(int16_t width, int16_t height, Stand::Command* command);
+		GridItemStandCommand(int16_t width, int16_t height, Stand::CommandLegacy* command);
 
 		void draw() override;
 		void drawText() override;
@@ -73,6 +73,6 @@ namespace StandEnhanced::Rendering
 		};
 		SliderLayout ComputeSliderLayout() const;
 
-		Stand::Command* m_Command;
+		Stand::CommandLegacy* m_Command;
 	};
 }

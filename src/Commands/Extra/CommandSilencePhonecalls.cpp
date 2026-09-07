@@ -2,7 +2,7 @@
 #include "Scripting/ScriptGlobal.hpp"
 #include "Core/Pointers.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class SilencePhonecalls : public LoopedCommand
 	{

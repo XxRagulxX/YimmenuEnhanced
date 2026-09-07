@@ -1,9 +1,9 @@
 #pragma once
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
-	class CommandInput : public Command
+	class CommandInput : public CommandLegacy
 	{
 	protected:
 		std::string m_StringValue;

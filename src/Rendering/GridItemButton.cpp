@@ -5,7 +5,7 @@
 
 #include <algorithm>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	void GridItemButton::draw()
 	{

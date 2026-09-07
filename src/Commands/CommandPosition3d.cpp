@@ -1,7 +1,7 @@
 #include "Commands/CommandPosition3d.hpp"
 #include "Scripting/FiberPool.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	void CommandPosition3d::OnCall()
 	{
@@ -26,7 +26,7 @@ namespace StandEnhanced
 	}
 
 	CommandPosition3d::CommandPosition3d(std::string name, std::string label, std::string description, rage::fvector3 def_val) :
-	    Command(name, label, description, 0),
+	    CommandLegacy(name, label, description, 0),
 	    m_State(def_val)
 	{
 	}

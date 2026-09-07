@@ -1,7 +1,7 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Game/ControllerInputs.hpp"
-#include "Commands/CommandSliderFloat.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderFloatLegacy.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
@@ -23,25 +23,25 @@
 // Instructions" is registered but not wired to anything yet - Stand's
 // own on-screen button-prompt overlay has no equivalent here, so the
 // toggle exists for parity but currently does nothing.
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	constexpr float kPi = 3.14159265358979323846f;
 
-	static CommandSliderFloat _LevitateSpeed{"levitatespeed", "Movement Speed", "How fast you move while levitating", 0.01f, 10000.0f, 1.0f};
-	static CommandSliderFloat _LevitateSprintSpeed{"levitatesprintmultiplier", "Sprint Multiplier", "How fast you go while holding Sprint", 0.01f, 10000.0f, 5.0f};
-	static CommandSliderFloat _LevitateAccel{"levitateaccel", "Acceleration", "Increases the speed of levitation the longer you move. Resets once you sprint or stop moving", 0.0f, 10.0f, 0.0f};
-	static CommandToggle _LevitateIgnorePitch{"levitateignorepitch", "Movement Ignores Pitch", "Disables forward and backward movement affecting height depending on where you're looking", true};
-	static CommandToggle _KeepMomentum{"keepmomentum", "Keep Momentum", "Carries your velocity forward for a moment after turning levitation off", false};
-	static CommandToggle _LevitateApplyPitch{"levitateapplypitch", "Apply Pitch to Entity", "Tilts your character to match where the camera is looking", false};
-	static CommandToggle _LevitateOnlyRotateOnMovement{"levitaterotate", "Only Rotate On Movement", "Only turns your character to face the camera while actually moving", true};
-	static CommandToggle _LevitateButtonInstructions{"levitatebuttoninstructions", "Show Button Instructions", "Shows an on-screen reminder of the levitation controls (not yet implemented)", true};
-	static CommandSliderFloat _LevitatePassiveMin{"levitatepassivemin", "Min Distance From Ground", "Lower bound of the passive up/down hover effect", -10000.0f, 10000.0f, 0.0f};
-	static CommandSliderFloat _LevitatePassiveMax{"levitatepassivemax", "Max Distance From Ground", "Upper bound of the passive up/down hover effect", -10000.0f, 10000.0f, 0.6f};
-	static CommandSlider _LevitatePassiveSpeed{"levitatepassivespeed", "Speed", "How fast the passive up/down hover effect moves", 0, 1000000, 5};
-	static CommandSliderFloat _LevitateAssistUp{"levitateassistup", "Upward Force", "How fast the ground assistant pulls you up when you're below the surface", 0.0f, 10000.0f, 0.6f};
-	static CommandSliderFloat _LevitateAssistDown{"levitateassistdown", "Downward Force", "How fast the ground assistant pulls you down when you're above the surface", 0.0f, 10000.0f, 0.6f};
-	static CommandSlider _LevitateAssistDeadzone{"levitateassistdeadzone", "Downward Deadzone", "How far from the ground you have to be before the assistant stops trying to pull you down", 0, 100000, 13};
-	static CommandSliderFloat _LevitateAssistSnap{"levitateassistsnap", "Snapping", "How close to the surface counts as \"there\" - snaps to it exactly instead of easing in", 0.0f, 10000.0f, 0.1f};
+	static CommandSliderFloatLegacy _LevitateSpeed{"levitatespeed", "Movement Speed", "How fast you move while levitating", 0.01f, 10000.0f, 1.0f};
+	static CommandSliderFloatLegacy _LevitateSprintSpeed{"levitatesprintmultiplier", "Sprint Multiplier", "How fast you go while holding Sprint", 0.01f, 10000.0f, 5.0f};
+	static CommandSliderFloatLegacy _LevitateAccel{"levitateaccel", "Acceleration", "Increases the speed of levitation the longer you move. Resets once you sprint or stop moving", 0.0f, 10.0f, 0.0f};
+	static CommandToggleLegacy _LevitateIgnorePitch{"levitateignorepitch", "Movement Ignores Pitch", "Disables forward and backward movement affecting height depending on where you're looking", true};
+	static CommandToggleLegacy _KeepMomentum{"keepmomentum", "Keep Momentum", "Carries your velocity forward for a moment after turning levitation off", false};
+	static CommandToggleLegacy _LevitateApplyPitch{"levitateapplypitch", "Apply Pitch to Entity", "Tilts your character to match where the camera is looking", false};
+	static CommandToggleLegacy _LevitateOnlyRotateOnMovement{"levitaterotate", "Only Rotate On Movement", "Only turns your character to face the camera while actually moving", true};
+	static CommandToggleLegacy _LevitateButtonInstructions{"levitatebuttoninstructions", "Show Button Instructions", "Shows an on-screen reminder of the levitation controls (not yet implemented)", true};
+	static CommandSliderFloatLegacy _LevitatePassiveMin{"levitatepassivemin", "Min Distance From Ground", "Lower bound of the passive up/down hover effect", -10000.0f, 10000.0f, 0.0f};
+	static CommandSliderFloatLegacy _LevitatePassiveMax{"levitatepassivemax", "Max Distance From Ground", "Upper bound of the passive up/down hover effect", -10000.0f, 10000.0f, 0.6f};
+	static CommandSliderLegacy _LevitatePassiveSpeed{"levitatepassivespeed", "Speed", "How fast the passive up/down hover effect moves", 0, 1000000, 5};
+	static CommandSliderFloatLegacy _LevitateAssistUp{"levitateassistup", "Upward Force", "How fast the ground assistant pulls you up when you're below the surface", 0.0f, 10000.0f, 0.6f};
+	static CommandSliderFloatLegacy _LevitateAssistDown{"levitateassistdown", "Downward Force", "How fast the ground assistant pulls you down when you're above the surface", 0.0f, 10000.0f, 0.6f};
+	static CommandSliderLegacy _LevitateAssistDeadzone{"levitateassistdeadzone", "Downward Deadzone", "How far from the ground you have to be before the assistant stops trying to pull you down", 0, 100000, 13};
+	static CommandSliderFloatLegacy _LevitateAssistSnap{"levitateassistsnap", "Snapping", "How close to the surface counts as \"there\" - snaps to it exactly instead of easing in", 0.0f, 10000.0f, 0.1f};
 
 	class Levitate : public LoopedCommand
 	{

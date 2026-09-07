@@ -2,7 +2,7 @@
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class DisableCriticalHits : public LoopedCommand
 	{

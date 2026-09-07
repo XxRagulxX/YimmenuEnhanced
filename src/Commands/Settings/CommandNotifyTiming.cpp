@@ -1,20 +1,20 @@
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Rendering/NotifySettings.hpp"
 
 #include <algorithm>
 #include <cstdint>
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Ported from real Stand's own CommandNotifyReadSpeed (Commands/
 	// Online/CommandListNotifySettings.cpp on origin/stand-reference) -
 	// see Notifications.cpp's own EstimateReadingTimeMs() for the formula
 	// this feeds.
-	class CommandNotifyReadSpeed : public CommandSlider
+	class CommandNotifyReadSpeed : public CommandSliderLegacy
 	{
 	public:
 		CommandNotifyReadSpeed() :
-		    CommandSlider("readspeed", "Reading Speed (WPM)", "How many words per minute a notification's own display duration assumes you read at.", 0, 1000, 250)
+		    CommandSliderLegacy("readspeed", "Reading Speed (WPM)", "How many words per minute a notification's own display duration assumes you read at.", 0, 1000, 250)
 		{
 		}
 
@@ -26,7 +26,7 @@ namespace StandEnhanced::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			CommandSlider::LoadState(value);
+			CommandSliderLegacy::LoadState(value);
 			Sync();
 		}
 
@@ -39,11 +39,11 @@ namespace StandEnhanced::Features
 
 	static CommandNotifyReadSpeed _NotifyReadSpeed{};
 
-	class CommandNotifyReadStartDelay : public CommandSlider
+	class CommandNotifyReadStartDelay : public CommandSliderLegacy
 	{
 	public:
 		CommandNotifyReadStartDelay() :
-		    CommandSlider("readstartdelay", "Reading Start Delay (ms)", "A fixed delay added to every notification's own computed reading time, before it starts counting down.", 0, 1000, 500)
+		    CommandSliderLegacy("readstartdelay", "Reading Start Delay (ms)", "A fixed delay added to every notification's own computed reading time, before it starts counting down.", 0, 1000, 500)
 		{
 		}
 
@@ -55,7 +55,7 @@ namespace StandEnhanced::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			CommandSlider::LoadState(value);
+			CommandSliderLegacy::LoadState(value);
 			Sync();
 		}
 
@@ -68,11 +68,11 @@ namespace StandEnhanced::Features
 
 	static CommandNotifyReadStartDelay _NotifyReadStartDelay{};
 
-	class CommandNotifyMinDuration : public CommandSlider
+	class CommandNotifyMinDuration : public CommandSliderLegacy
 	{
 	public:
 		CommandNotifyMinDuration() :
-		    CommandSlider("notifyminduration", "Min Duration (ms)", "A notification's own computed reading time is never shown for less than this long.", 0, 60000, 2000)
+		    CommandSliderLegacy("notifyminduration", "Min Duration (ms)", "A notification's own computed reading time is never shown for less than this long.", 0, 60000, 2000)
 		{
 		}
 
@@ -84,7 +84,7 @@ namespace StandEnhanced::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			CommandSlider::LoadState(value);
+			CommandSliderLegacy::LoadState(value);
 			Sync();
 		}
 
@@ -97,11 +97,11 @@ namespace StandEnhanced::Features
 
 	static CommandNotifyMinDuration _NotifyMinDuration{};
 
-	class CommandNotifyMaxDuration : public CommandSlider
+	class CommandNotifyMaxDuration : public CommandSliderLegacy
 	{
 	public:
 		CommandNotifyMaxDuration() :
-		    CommandSlider("notifymaxduration", "Max Duration (ms)", "A notification's own computed reading time is never shown for longer than this.", 0, 60000, 10000)
+		    CommandSliderLegacy("notifymaxduration", "Max Duration (ms)", "A notification's own computed reading time is never shown for longer than this.", 0, 60000, 10000)
 		{
 		}
 
@@ -113,7 +113,7 @@ namespace StandEnhanced::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			CommandSlider::LoadState(value);
+			CommandSliderLegacy::LoadState(value);
 			Sync();
 		}
 

@@ -4,7 +4,7 @@
 #include <utility>
 #include <vector>
 
-namespace StandEnhanced::StandWidgets
+namespace Stand::StandWidgets
 {
 	// Ported from real Stand's own CommandListSelectPointer - the
 	// CommandListSelect equivalent of CommandTogglePointer.hpp/CommandSliderPointer.hpp (see

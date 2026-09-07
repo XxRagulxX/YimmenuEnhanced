@@ -1,13 +1,13 @@
-#include "Commands/CommandToggle.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/PlayerCommand.hpp"
 #include "Network/ScriptEvent.hpp"
 #include "Network/GSBD_FM_Events.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	static CommandSlider _BountyAmount{"bountyamount", "Bounty Amount", "The bounty amount to set", 1, 10000, 9000};
-	static CommandToggle _AnonymousBounty{"anonymousbounty", "Anonymous Bounty", "Sets the bounty as anonymous"};
+	static CommandSliderLegacy _BountyAmount{"bountyamount", "Bounty Amount", "The bounty amount to set", 1, 10000, 9000};
+	static CommandToggleLegacy _AnonymousBounty{"anonymousbounty", "Anonymous Bounty", "Sets the bounty as anonymous"};
 
 	class SetBounty : public PlayerCommand
 	{

@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Self > Movement - real Stand's own category
 	// (CommandTabSelf.cpp), not this project's old flat "Movement"

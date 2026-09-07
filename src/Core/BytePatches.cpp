@@ -1,6 +1,6 @@
 #include "Core/BytePatches.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	BytePatches::Patch::~Patch()
 	{

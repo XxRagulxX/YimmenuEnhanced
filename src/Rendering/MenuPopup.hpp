@@ -2,7 +2,7 @@
 #include <functional>
 #include <string>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// A single modal Yes/No confirmation dialog, drawn on top of
 	// everything else in MenuGrid - this project's first (and, for now,

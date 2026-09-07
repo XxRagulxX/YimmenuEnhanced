@@ -9,7 +9,7 @@
 #include <memory>
 #include <vector>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Ported from stand-reference's src/Menu/Grid.hpp - same origin/
 	// spacer_size/items fields (items is a soup::SharedPtr-wrapped

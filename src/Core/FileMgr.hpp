@@ -3,7 +3,7 @@
 #include "Core/File.hpp"
 #include "Menu/Folder.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class FileMgr final
 	{

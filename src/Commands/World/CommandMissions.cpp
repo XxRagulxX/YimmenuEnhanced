@@ -1,11 +1,11 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Commands/CommandListSelect.hpp"
 #include "World/Stats.hpp"
 #include "Rendering/Notifications.hpp"
 #include "Scripting/ScriptLocal.hpp"
 
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	namespace Missions
 	{
@@ -122,9 +122,9 @@ namespace StandEnhanced::Features
 		static CommandListSelect _MissionSavageYard{"missionsavageyard", "The SavageYard Robbery", "Select SavageYard robbery", SavageYardRobbery, 1};
 
 
-		class LowriderSetup : public Command
+		class LowriderSetup : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -138,9 +138,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class CasinoStorySetup : public Command
+		class CasinoStorySetup : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -153,9 +153,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class SuperyachtSetup : public Command
+		class SuperyachtSetup : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -168,9 +168,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class OperationPaperTrailSetup : public Command
+		class OperationPaperTrailSetup : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -182,9 +182,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class DrugWarsSetup : public Command
+		class DrugWarsSetup : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -212,9 +212,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class SAMercenariesSetup : public Command
+		class SAMercenariesSetup : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -241,9 +241,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class CluckinBellFarmRaidSetup : public Command
+		class CluckinBellFarmRaidSetup : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -264,9 +264,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class CluckinBellFarmRaidRemoveCooldown : public Command
+		class CluckinBellFarmRaidRemoveCooldown : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -277,9 +277,9 @@ namespace StandEnhanced::Features
 		};
 
 
-		class TunersCompletePreps : public Command
+		class TunersCompletePreps : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -290,9 +290,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class TunersResetPreps : public Command
+		class TunersResetPreps : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -303,9 +303,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class TunersResetContracts : public Command
+		class TunersResetContracts : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -314,9 +314,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class TunersRobberySetup : public Command
+		class TunersRobberySetup : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			void OnCall() override
 			{
@@ -337,9 +337,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class ContractMissionsSetup : public Command
+		class ContractMissionsSetup : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			void OnCall() override
 			{
@@ -381,9 +381,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class ContractRemoveCooldown : public Command
+		class ContractRemoveCooldown : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -393,9 +393,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class SavageYardRobberySetup : public Command
+		class SavageYardRobberySetup : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{

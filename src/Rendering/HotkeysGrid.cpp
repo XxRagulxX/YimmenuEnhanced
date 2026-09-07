@@ -1,6 +1,6 @@
 #include "Rendering/HotkeysGrid.hpp"
 
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Commands/Commands.hpp"
 #include "Config/HotkeySystem.hpp"
 #include "Rendering/GridItemButton.hpp"
@@ -10,7 +10,7 @@
 
 #include <map>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

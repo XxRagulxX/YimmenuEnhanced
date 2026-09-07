@@ -1,6 +1,6 @@
 #include "Commands/Vehicle/CommandAutoDriveHudTelemetry.hpp"
 
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Util/Joaat.hpp"
 #include "Scripting/Natives.hpp"
 #include "Game/Pools.hpp"
@@ -13,11 +13,11 @@
 #include <memory>
 #include <unordered_map>
 
-namespace StandEnhanced::Features::AutoDriveInternal
+namespace Stand::Features::AutoDriveInternal
 {
 	using namespace std::chrono_literals;
 
-	static CommandToggle _AutoDriveHud{
+	static CommandToggleLegacy _AutoDriveHud{
 	    "autodrivehud",
 	    "Auto Drive HUD",
 	    "Shows a Tesla-style road and traffic visualization while Auto Drive is active",

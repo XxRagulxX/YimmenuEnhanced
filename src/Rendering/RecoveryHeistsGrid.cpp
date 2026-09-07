@@ -8,7 +8,7 @@
 #include "Rendering/MissionsGrid.hpp"
 #include "Rendering/Theme.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

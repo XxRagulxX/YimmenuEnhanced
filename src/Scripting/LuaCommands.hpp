@@ -1,17 +1,17 @@
 #pragma once
 
-#include "Commands/CommandToggle.hpp"
-#include "Commands/Command.hpp"
-#include "Commands/CommandSliderFloat.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
+#include "Commands/CommandLegacy.hpp"
+#include "Commands/CommandSliderFloatLegacy.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/CommandListSelect.hpp"
 #include "Commands/LoopedCommand.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class LuaUserInterface;
 
-	class LuaCommand : public Command
+	class LuaCommand : public CommandLegacy
 	{
 		LuaUserInterface* m_Interface;
 		int m_OnCall;
@@ -26,7 +26,7 @@ namespace StandEnhanced
 		void OnCall() override;
 	};
 
-	class LuaBoolCommand : public CommandToggle
+	class LuaBoolCommand : public CommandToggleLegacy
 	{
 		LuaUserInterface* m_Interface;
 		int m_OnEnable;
@@ -63,7 +63,7 @@ namespace StandEnhanced
 		void OnDisable() override;
 	};
 
-	class LuaIntCommand : public CommandSlider
+	class LuaIntCommand : public CommandSliderLegacy
 	{
 		LuaUserInterface* m_Interface;
 		int m_OnChange;
@@ -78,7 +78,7 @@ namespace StandEnhanced
 		void OnChange() override;
 	};
 
-	class LuaFloatCommand : public CommandSliderFloat
+	class LuaFloatCommand : public CommandSliderFloatLegacy
 	{
 		LuaUserInterface* m_Interface;
 		int m_OnChange;

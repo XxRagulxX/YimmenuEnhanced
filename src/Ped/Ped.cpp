@@ -5,7 +5,7 @@
 #include "Core/Pointers.hpp"
 #include <random>
 
-namespace StandEnhanced
+namespace Stand
 {
 	Ped Ped::Create(uint32_t model, rage::fvector3 coords, float heading)
 	{

@@ -12,7 +12,7 @@
 #include "Rendering/SavedPlayersGrid.hpp"
 #include "Rendering/Theme.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

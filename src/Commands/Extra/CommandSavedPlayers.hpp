@@ -2,7 +2,7 @@
 #include "Network/SavedPlayerData.hpp"
 #include "Game/Player.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class SavedPlayers
 	{

@@ -1,12 +1,12 @@
 #pragma once
-#include "Commands/CommandSliderFloat.hpp"
+#include "Commands/CommandSliderFloatLegacy.hpp"
 #include "Rendering/GridItem.hpp"
 #include "Util/Joaat.hpp"
 
 #include <optional>
 #include <string>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// A label + current float value (shown to 2 decimal places) + "-"/
 	// "+" buttons - the Grid equivalent of FloatCommandItem (src/
@@ -60,7 +60,7 @@ namespace StandEnhanced::Rendering
 
 		const std::string& Label() const;
 
-		CommandSliderFloat* m_Command;
+		CommandSliderFloatLegacy* m_Command;
 		std::optional<std::string> m_LabelOverride;
 		float m_Step;
 	};

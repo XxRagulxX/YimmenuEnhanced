@@ -1,7 +1,7 @@
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Real Stand's CommandFakeWanted (0-6) applies the value immediately
 	// and, only while it's above 0, keeps re-asserting it every tick via
@@ -12,9 +12,9 @@ namespace StandEnhanced::Features
 	// identical note - so this applies it once, immediately, on change
 	// instead; a real, disclosed gap from Stand's own continuous
 	// enforcement.
-	class FakeWanted : public CommandSlider
+	class FakeWanted : public CommandSliderLegacy
 	{
-		using CommandSlider::CommandSlider;
+		using CommandSliderLegacy::CommandSliderLegacy;
 
 		virtual void OnChange() override
 		{

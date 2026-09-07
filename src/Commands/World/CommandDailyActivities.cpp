@@ -1,6 +1,6 @@
 #include "Commands/World/CommandDailyActivities.hpp"
 #include "Commands/CommandListSelect.hpp"
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Scripting/ScriptMgr.hpp"
 #include "Rendering/Notifications.hpp"
 #include "World/Self.hpp"
@@ -28,7 +28,7 @@
 #include "Vehicle/RCBanditoTimeTrialData.hpp"
 #include "Vehicle/BikeTimeTrialData.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	static CommandListSelect hiddenCacheIndex = {"hiddencacheindex", "Hidden Cache", "Selected Hidden Cache", {{0, "Hidden Cache 1"}, {1, "Hidden Cache 2"}, {2, "Hidden Cache 3"}, {3, "Hidden Cache 4"}, {4, "Hidden Cache 5"}, {5, "Hidden Cache 6"}, {6, "Hidden Cache 7"}, {7, "Hidden Cache 8"}, {8, "Hidden Cache 9"}, {9, "Hidden Cache 10"}}};
 
@@ -237,9 +237,9 @@ namespace StandEnhanced::Features
 		}
 	}
 
-	class SetAllActivitiesCompleted : public Command
+	class SetAllActivitiesCompleted : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -251,9 +251,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class ResetAllActivities : public Command
+	class ResetAllActivities : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -265,9 +265,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class CompleteAllChallenges : public Command
+	class CompleteAllChallenges : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -284,9 +284,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class TeleportToHiddenCache : public Command
+	class TeleportToHiddenCache : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -304,9 +304,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class CollectHiddenCache : public Command
+	class CollectHiddenCache : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -324,9 +324,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class TeleportToTreasureChest : public Command
+	class TeleportToTreasureChest : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -344,9 +344,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class CollectTreasureChest : public Command
+	class CollectTreasureChest : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -364,9 +364,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class EnableTreasureChestInLS : public CommandToggle
+	class EnableTreasureChestInLS : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		ScriptPatch m_EnableTreasureChestInLSPatch{};
 
@@ -388,9 +388,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class TeleportToShipwrecked : public Command
+	class TeleportToShipwrecked : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -408,9 +408,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class CollectShipwrecked : public Command
+	class CollectShipwrecked : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -428,9 +428,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class TeleportToBuriedStash : public Command
+	class TeleportToBuriedStash : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -448,9 +448,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class CollectBuriedStash : public Command
+	class CollectBuriedStash : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -468,9 +468,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class EnableBuriedStashInLS : public CommandToggle
+	class EnableBuriedStashInLS : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		ScriptPatch m_EnableBuriedStashInLSPatch{};
 
@@ -492,9 +492,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class TeleportToSkydive : public Command
+	class TeleportToSkydive : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -505,9 +505,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class CompleteSkydive : public Command
+	class CompleteSkydive : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -547,9 +547,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class TeleportToTimeTrial : public Command
+	class TeleportToTimeTrial : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -593,9 +593,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class BeatTimeTrial : public Command
+	class BeatTimeTrial : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -666,9 +666,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class TeleportToExoticExportsVehicle : public Command
+	class TeleportToExoticExportsVehicle : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -689,9 +689,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class DeliverNextExoticExportsVehicle : public Command
+	class DeliverNextExoticExportsVehicle : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -717,9 +717,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class TeleportToDeadDrop : public Command
+	class TeleportToDeadDrop : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -737,9 +737,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class CollectDeadDrop : public Command
+	class CollectDeadDrop : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -757,9 +757,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class TeleportToStashHouse : public Command
+	class TeleportToStashHouse : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -782,9 +782,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class EnterStashHouseSafeCode : public Command
+	class EnterStashHouseSafeCode : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -802,9 +802,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class TeleportToStreetDealer : public Command
+	class TeleportToStreetDealer : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -819,9 +819,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class _OpenStreetDealerMenu : public Command
+	class _OpenStreetDealerMenu : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -832,9 +832,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class TeleportToLSTag : public Command
+	class TeleportToLSTag : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -852,9 +852,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class SprayLSTag : public Command
+	class SprayLSTag : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -872,9 +872,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class TeleportToMadrazoHit : public Command
+	class TeleportToMadrazoHit : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -903,9 +903,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class TeleportToMadrazoHitTarget : public Command
+	class TeleportToMadrazoHitTarget : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -922,9 +922,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class SpawnAnimal : public Command
+	class SpawnAnimal : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -946,9 +946,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class PhotographAnimal : public Command
+	class PhotographAnimal : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -972,9 +972,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class TeleportToProduct : public Command
+	class TeleportToProduct : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -998,9 +998,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class CollectProduct : public Command
+	class CollectProduct : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -1024,9 +1024,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class TeleportToGoldenClover : public Command
+	class TeleportToGoldenClover : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -1044,9 +1044,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class CollectGoldenClover : public Command
+	class CollectGoldenClover : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

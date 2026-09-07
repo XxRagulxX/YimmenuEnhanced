@@ -1,5 +1,5 @@
 #include "Scripting/ScriptMgr.hpp"
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Rendering/imgui_colors.h"
 #include "Network/Players.hpp"
 #include "World/Self.hpp"
@@ -21,8 +21,8 @@ namespace
 
 		while (true)
 		{
-			StandEnhanced::ChatDisplay::MarkAccessed();
-			StandEnhanced::Script::current()->yield();
+			Stand::ChatDisplay::MarkAccessed();
+			Stand::Script::current()->yield();
 			int update_res = MISC::UPDATE_ONSCREEN_KEYBOARD();
 
 			if (update_res == 1)
@@ -39,11 +39,11 @@ namespace
 	}
 }
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class Chat : public Command
+	class Chat : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		std::mutex m_ChatMutex;
 
@@ -82,9 +82,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class ClearChat : public Command
+	class ClearChat : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

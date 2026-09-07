@@ -2,7 +2,7 @@
 #include "Core/FileMgr.hpp"
 #include <fstream>
 
-namespace StandEnhanced
+namespace Stand
 {
 	std::optional<int> PatternCache::GetCachedOffsetImpl(PatternHash hash)
 	{

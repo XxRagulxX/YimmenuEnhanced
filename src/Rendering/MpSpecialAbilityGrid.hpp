@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Self > Main > Special Ability > MP Special
 	// Ability: the mpspecialability toggle itself plus its one

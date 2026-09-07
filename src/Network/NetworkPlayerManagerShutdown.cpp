@@ -3,7 +3,7 @@
 #include "Core/Hooks.hpp"
 #include "Core/Hooking.hpp"
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	void Info::NetworkPlayerMgrShutdown(CNetworkPlayerMgr* mgr)
 	{

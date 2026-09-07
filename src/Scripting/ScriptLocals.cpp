@@ -10,7 +10,7 @@
 #define DEFINE_LOCAL_ACCESSOR(str, local)               \
 	str* str::Get(rage::scrThread* thread)              \
 	{                                                   \
-		auto lcl = StandEnhanced::ScriptLocal(thread, local); \
+		auto lcl = Stand::ScriptLocal(thread, local); \
 		if (!lcl.CanAccess())                           \
 			return nullptr;                             \
 		return lcl.As<str*>();                          \

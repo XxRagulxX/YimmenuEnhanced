@@ -3,10 +3,10 @@
 #include "Network/Players.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	PlayerAllCommand::PlayerAllCommand(std::string name, std::string label, std::string description, int num_args, PlayerCommand* parent) :
-	    Command(name + "all", label, description, num_args),
+	    CommandLegacy(name + "all", label, description, num_args),
 	    m_PlayerCommand(parent)
 	{
 	}
@@ -30,7 +30,7 @@ namespace StandEnhanced
 	}
 
 	PlayerCommand::PlayerCommand(std::string name, std::string label, std::string description, int num_args, bool all_version) :
-	    Command::Command(name, label, description, num_args + 1)
+	    CommandLegacy::CommandLegacy(name, label, description, num_args + 1)
 	{
 		if (all_version)
 			m_AllCommand = std::make_unique<PlayerAllCommand>(name, label, description, num_args, this);

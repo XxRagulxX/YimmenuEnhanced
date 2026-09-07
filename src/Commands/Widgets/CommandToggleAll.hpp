@@ -1,12 +1,12 @@
 #pragma once
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
 
 #include <string>
 #include <utility>
 #include <vector>
 
-namespace StandEnhanced::StandWidgets
+namespace Stand::StandWidgets
 {
 	// Ported from real Stand's own CommandToggleAll (Commands/Widgets/
 	// CommandToggleAll.hpp on origin/stand-reference) - a master toggle
@@ -28,11 +28,11 @@ namespace StandEnhanced::StandWidgets
 	// doesn't spam FiberPool::queueJob every tick while stable), so
 	// GetState() reads correctly through the ordinary, unmodified
 	// CommandToggle base.
-	class CommandToggleAll : public CommandToggle
+	class CommandToggleAll : public CommandToggleLegacy
 	{
 	public:
-		CommandToggleAll(std::string name, std::string label, std::string description, std::vector<CommandToggle*> siblings) :
-		    CommandToggle(name, label, description, false),
+		CommandToggleAll(std::string name, std::string label, std::string description, std::vector<CommandToggleLegacy*> siblings) :
+		    CommandToggleLegacy(name, label, description, false),
 		    m_Siblings(std::move(siblings)),
 		    m_Ticker(name + "_tick", label + " Ticker", "Internal - always on, keeps this reflecting whether every sibling toggle is on", this)
 		{
@@ -105,7 +105,7 @@ namespace StandEnhanced::StandWidgets
 			CommandToggleAll* m_Owner;
 		};
 
-		std::vector<CommandToggle*> m_Siblings;
+		std::vector<CommandToggleLegacy*> m_Siblings;
 		Ticker m_Ticker;
 	};
 }

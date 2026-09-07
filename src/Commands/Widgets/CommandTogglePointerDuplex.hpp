@@ -1,11 +1,11 @@
 #pragma once
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
 
 #include <string>
 #include <utility>
 
-namespace StandEnhanced::StandWidgets
+namespace Stand::StandWidgets
 {
 	// Ported from real Stand's own CommandTogglePointerDuplex (Commands/
 	// Widgets/CommandTogglePointerDuplex.hpp on origin/stand-reference) -
@@ -18,11 +18,11 @@ namespace StandEnhanced::StandWidgets
 	// the same guarded-SetState() pattern (only call it when *ptr's value
 	// actually differs from GetState(), so a stable pointer doesn't spam
 	// FiberPool::queueJob every tick).
-	class CommandTogglePointerDuplex : public CommandToggle
+	class CommandTogglePointerDuplex : public CommandToggleLegacy
 	{
 	public:
 		CommandTogglePointerDuplex(std::string name, std::string label, std::string description, bool* ptr) :
-		    CommandToggle(name, label, description, ptr && *ptr),
+		    CommandToggleLegacy(name, label, description, ptr && *ptr),
 		    m_Ptr(ptr),
 		    m_Ticker(name + "_tick", label + " Ticker", "Internal - always on, keeps this reflecting *ptr if something else changes it", this)
 		{

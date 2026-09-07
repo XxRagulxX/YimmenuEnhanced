@@ -2,7 +2,7 @@
 #include "Util/Joaat.hpp"
 #include "Core/CacheFile.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 #pragma pack(push, 1)
 	struct scrPointerSaveStruct

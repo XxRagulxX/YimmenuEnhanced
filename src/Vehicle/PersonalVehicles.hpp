@@ -6,7 +6,7 @@
 
 struct MPSV_Entry;
 
-namespace StandEnhanced
+namespace Stand
 {
 	class PersonalVehicles
 	{

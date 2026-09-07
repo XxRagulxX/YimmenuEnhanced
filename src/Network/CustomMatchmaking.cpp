@@ -2,8 +2,8 @@
 #include "Util/Joaat.hpp"
 #include "Network/MatchmakingId.hpp"
 #include "Network/rlSessionDetail.hpp"
-#include "Commands/CommandToggle.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/CommandListSelect.hpp"
 #include "Core/Hooks.hpp"
 #include "Core/DetourHook.hpp"
@@ -11,7 +11,7 @@
 #include "Scripting/ScriptMgr.hpp"
 #include "Core/Hooking.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	static std::vector<std::pair<int, const char*>> g_RegionCodes = {
 	    {0, "CIS"},
@@ -41,7 +41,7 @@ namespace StandEnhanced::Features
 	    {12, "Chinese (Simplified)"},
 	};
 
-	CommandToggle _SpoofRegionType{
+	CommandToggleLegacy _SpoofRegionType{
 	    "mmspoofregiontype",
 	    "Spoof Region Type",
 	    "Spoofs the region type of the session"};
@@ -51,7 +51,7 @@ namespace StandEnhanced::Features
 	    "The region to spoof the session to",
 		g_RegionCodes};
 
-	CommandToggle _SpoofLanguage{
+	CommandToggleLegacy _SpoofLanguage{
 	    "mmspooflanguage",
 	    "Spoof Language",
 	    "Spoofs the session language"};
@@ -61,11 +61,11 @@ namespace StandEnhanced::Features
 	    "The language to spoof the session to",
 	    g_LanguageTypes};
 
-	CommandToggle _SpoofPlayerCount{
+	CommandToggleLegacy _SpoofPlayerCount{
 	    "mmspoofplayercount",
 	    "Spoof Player Count",
 	    "Spoofs the session player count"};
-	CommandSlider _PlayerCount{
+	CommandSliderLegacy _PlayerCount{
 	    "mmplayercount",
 	    "Player Count",
 	    "The player count to spoof the session to",
@@ -73,11 +73,11 @@ namespace StandEnhanced::Features
 	    32,
 	    25};
 
-	CommandToggle _MultiplexSession{
+	CommandToggleLegacy _MultiplexSession{
 	    "mmmultiplexsession",
 	    "Multiplex Session",
 	    "Makes your session much more visible to other players by hosting multiple instances of it. High values may fill your session in seconds. Use at your own risk"};
-	CommandSlider _MultiplexCount{
+	CommandSliderLegacy _MultiplexCount{
 	    "mmmultiplexsessioncount",
 	    "Multiplex Session Count",
 	    "The number of sessions to advertise for matchmaking",
@@ -86,7 +86,7 @@ namespace StandEnhanced::Features
 	    5};
 }
 
-namespace StandEnhanced
+namespace Stand
 {
 	static std::uint32_t GetIdHash(MatchmakingId* id)
 	{

@@ -1,14 +1,14 @@
 #include "Core/DetourHook.hpp"
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Core/Hooks.hpp"
 #include "Game/CDynamicEntity.hpp"
 #include "Ped/Ped.hpp"
 #include "Core/Pointers.hpp"
 #include "Core/Hooking.hpp"
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
-	static CommandToggle _AimbotReleaseDeadPed{"aimbotreleasedeadped", "Release Dead Target", "Releases the lock-on to the target after they are dead"};
+	static CommandToggleLegacy _AimbotReleaseDeadPed{"aimbotreleasedeadped", "Release Dead Target", "Releases the lock-on to the target after they are dead"};
 
 	bool Misc::AssistedAimShouldReleaseEntity(__int64 a1)
 	{

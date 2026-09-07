@@ -5,7 +5,7 @@
 //#include "Stats.hpp"
 //#include "Pointers.hpp"
 //
-//namespace StandEnhanced::Features
+//namespace Stand::Features
 //{
 //	static CallHook formatIntCaller1Hook{};
 //	static CallHook formatIntCaller2Hook{};

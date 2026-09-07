@@ -3,7 +3,7 @@
 #include "Scripting/LuaUserInterface.hpp"
 #include "Commands/Commands.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	static void UnrefIfValid(LuaUserInterface* iface, int ref)
 	{
@@ -19,7 +19,7 @@ namespace StandEnhanced
 	}
 
 	LuaCommand::LuaCommand(LuaUserInterface* iface, std::string name, std::string label, std::string description, int on_call) :
-	    Command(std::move(name), std::move(label), std::move(description)),
+	    CommandLegacy(std::move(name), std::move(label), std::move(description)),
 	    m_Interface(iface),
 	    m_OnCall(on_call)
 	{
@@ -38,7 +38,7 @@ namespace StandEnhanced
 	}
 
 	LuaBoolCommand::LuaBoolCommand(LuaUserInterface* iface, std::string name, std::string label, std::string description, bool default_value, int on_enable, int on_disable) :
-	    CommandToggle(std::move(name), std::move(label), std::move(description), default_value),
+	    CommandToggleLegacy(std::move(name), std::move(label), std::move(description), default_value),
 	    m_Interface(iface),
 	    m_OnEnable(on_enable),
 	    m_OnDisable(on_disable)
@@ -114,7 +114,7 @@ namespace StandEnhanced
 	}
 
 	LuaIntCommand::LuaIntCommand(LuaUserInterface* iface, std::string name, std::string label, std::string description, std::optional<int> min, std::optional<int> max, int default_value, int on_change) :
-	    CommandSlider(std::move(name), std::move(label), std::move(description), min, max, default_value),
+	    CommandSliderLegacy(std::move(name), std::move(label), std::move(description), min, max, default_value),
 	    m_Interface(iface),
 	    m_OnChange(on_change)
 	{
@@ -138,7 +138,7 @@ namespace StandEnhanced
 	}
 
 	LuaFloatCommand::LuaFloatCommand(LuaUserInterface* iface, std::string name, std::string label, std::string description, std::optional<float> min, std::optional<float> max, float default_value, int on_change) :
-	    CommandSliderFloat(std::move(name), std::move(label), std::move(description), min, max, default_value),
+	    CommandSliderFloatLegacy(std::move(name), std::move(label), std::move(description), min, max, default_value),
 	    m_Interface(iface),
 	    m_OnChange(on_change)
 	{

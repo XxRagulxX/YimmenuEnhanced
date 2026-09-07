@@ -1,4 +1,4 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Rendering/Notifications.hpp"
 #include "World/Self.hpp"
 #include "Scripting/ScriptPatches.hpp"
@@ -8,7 +8,7 @@
 #include "Scripting/ScriptLocal.hpp"
 #include "Core/Pointers.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	struct WARDROBE_LAUNCH_DATA
 	{
@@ -27,9 +27,9 @@ namespace StandEnhanced::Features
 	static ScriptPatch isItemLockedByStatPatch3{};
 	static void GetDistanceBetweenCoordsHook(rage::scrNativeCallContext* ctx);
 
-	class OpenWardrobe : public Command
+	class OpenWardrobe : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

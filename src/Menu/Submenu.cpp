@@ -1,6 +1,6 @@
 #include "Menu/Submenu.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	void Submenu::SetActiveCategory(const std::shared_ptr<Category> category)
 	{

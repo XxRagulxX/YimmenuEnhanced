@@ -7,7 +7,7 @@
 #include <functional>
 #include <string_view>
 
-namespace StandEnhanced::Features::AutoDriveInternal
+namespace Stand::Features::AutoDriveInternal
 {
 	enum class Owner
 	{

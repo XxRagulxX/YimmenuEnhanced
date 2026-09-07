@@ -1,6 +1,6 @@
 #include "Commands/CommandInput.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	void CommandInput::OnCall()
 	{
@@ -17,7 +17,7 @@ namespace StandEnhanced
 	}
 
 	CommandInput::CommandInput(std::string name, std::string label, std::string description, std::string defaultValue) :
-	    Command(name, label, description, 0),
+	    CommandLegacy(name, label, description, 0),
 	    m_StringValue(defaultValue)
 	{
 	}

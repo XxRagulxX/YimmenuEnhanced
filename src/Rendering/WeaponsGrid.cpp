@@ -1,7 +1,7 @@
 #include "Rendering/WeaponsGrid.hpp"
 
 #include "Rendering/AmmuNationGrid.hpp"
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/Weapons/CommandCustomWeapon.hpp"
 #include "Commands/Commands.hpp"
 #include "Rendering/GridItemCommandButton.hpp"
@@ -16,7 +16,7 @@
 #include "Commands/CommandListSelect.hpp"
 #include "Rendering/Theme.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{
@@ -33,7 +33,7 @@ namespace StandEnhanced::Rendering
 		// GridItemConditional's own class comment).
 		bool IsCustomWeaponEnabled()
 		{
-			auto* customweapon = Commands::GetCommand<CommandToggle>("customweapon"_J);
+			auto* customweapon = Commands::GetCommand<CommandToggleLegacy>("customweapon"_J);
 			return customweapon && customweapon->GetState();
 		}
 
@@ -70,7 +70,7 @@ namespace StandEnhanced::Rendering
 			if (!IsPaintGunTypeRow())
 				return false;
 
-			auto* rainbow = Commands::GetCommand<CommandToggle>("paintgunrainbowcolorenabled"_J);
+			auto* rainbow = Commands::GetCommand<CommandToggleLegacy>("paintgunrainbowcolorenabled"_J);
 			return !(rainbow && rainbow->GetState());
 		}
 
@@ -84,7 +84,7 @@ namespace StandEnhanced::Rendering
 			if (!IsPaintGunTypeRow())
 				return false;
 
-			auto* rainbow = Commands::GetCommand<CommandToggle>("paintgunrainbowcolorenabled"_J);
+			auto* rainbow = Commands::GetCommand<CommandToggleLegacy>("paintgunrainbowcolorenabled"_J);
 			return rainbow && rainbow->GetState();
 		}
 	}

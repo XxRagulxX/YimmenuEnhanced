@@ -3,7 +3,7 @@
 #include "Scripting/LuaLibrary.hpp"
 #include "Scripting/LuaResource.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	// note to future self: Lua is a horrible language and should never be used
 	class LuaManager

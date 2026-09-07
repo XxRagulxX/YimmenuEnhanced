@@ -1,15 +1,15 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Scripting/NativeHooks.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	static void NetworkCasinoCanBetHook(rage::scrNativeCallContext* ctx);
 	static void NetworkCasinoCanBuyChipsPVCHook(rage::scrNativeCallContext* ctx);
 
-	class BypassCasinoRestrictions : public CommandToggle
+	class BypassCasinoRestrictions : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		virtual void OnEnable() override
 		{

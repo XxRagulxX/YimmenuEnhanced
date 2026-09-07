@@ -1,10 +1,10 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Commands/CommandListSelect.hpp"
 #include "World/IPL.hpp"
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class IPLSelectorHelper
 	{
@@ -26,9 +26,9 @@ namespace StandEnhanced::Features
 	static IPLSelectorHelper g_IPLSelectorHelper{};
 	static CommandListSelect _IPLSelector{"iplselector", "IPL", "The IPL to load", g_IPLSelectorHelper.availableIplNames, 0};
 
-	class IPLLoader : public Command
+	class IPLLoader : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -43,9 +43,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class IPLUnloader : Command
+	class IPLUnloader : CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -60,9 +60,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class IPLTeleport : Command
+	class IPLTeleport : CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

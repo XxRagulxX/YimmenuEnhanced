@@ -8,7 +8,7 @@
 
 #include <intrin.h>
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	static bool IsAddressInGameMemory(void* addr)
 	{

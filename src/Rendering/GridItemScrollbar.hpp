@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/GridItem.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	class Grid;
 

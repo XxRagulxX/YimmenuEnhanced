@@ -3,7 +3,7 @@
 #include "Commands/CommandListSelect.hpp"
 #include "Network/ScriptEvent.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	static std::vector<std::pair<int, const char*>> g_Properties = {
 	    {1, "Eclipse Towers, Apt 31"},

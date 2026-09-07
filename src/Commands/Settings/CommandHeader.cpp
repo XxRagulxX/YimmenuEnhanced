@@ -2,7 +2,7 @@
 #include "Core/FileMgr.hpp"
 #include "Rendering/HeaderBanner.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Ported from real Stand's own "Custom Header" (Commands/Widgets/
 	// CommandHeader.hpp/.cpp on origin/stand-reference) - a local image

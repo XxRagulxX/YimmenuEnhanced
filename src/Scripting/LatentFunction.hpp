@@ -2,7 +2,7 @@
 
 #include <lua.h>
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	int LatentFunctionInternal(lua_State* state, lua_CFunction func);
 

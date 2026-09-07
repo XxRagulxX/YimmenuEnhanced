@@ -1,7 +1,7 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Real Stand splits Heal (this project's existing "heal", health +
 	// armour together) into two separate one-shot actions - Refill
@@ -9,9 +9,9 @@ namespace StandEnhanced::Features
 	// itself is untouched (still a real, registered command - just no
 	// longer shown on SelfGrid's own Tools row, superseded there by
 	// these two matching Stand's own naming).
-	class RefillHealth : public Command
+	class RefillHealth : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

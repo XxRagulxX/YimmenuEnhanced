@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Settings > Game: mirrors MenuSettings.cpp's Player
 	// ESP, Ped ESP and Object ESP groups in full - every conditional row

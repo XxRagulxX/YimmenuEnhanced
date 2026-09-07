@@ -1,12 +1,12 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Scripting/ScriptPatches.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// from https://github.com/TCRoid/StandEnhanced-Lua-RS-Missions/
-	class LSCCustomsBypass : public CommandToggle
+	class LSCCustomsBypass : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		ScriptPatch m_CanUseVehiclePatch{};
 		ScriptPatch m_BlockMenuOptionPatch{};

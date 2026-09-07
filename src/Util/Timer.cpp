@@ -5,14 +5,14 @@ void TIMER::Initialize(bool localTimer)
 {
 	if (!IsInitialized)
 	{
-		Time = (*StandEnhanced::Pointers.IsSessionStarted && !localTimer) ? *StandEnhanced::Pointers.NetworkTime : *StandEnhanced::Pointers.GameTimer;
+		Time = (*Stand::Pointers.IsSessionStarted && !localTimer) ? *Stand::Pointers.NetworkTime : *Stand::Pointers.GameTimer;
 		IsInitialized = true;
 	}
 }
 
 void TIMER::Reset(bool localTimer)
 {
-	Time = (*StandEnhanced::Pointers.IsSessionStarted && !localTimer) ? *StandEnhanced::Pointers.NetworkTime : *StandEnhanced::Pointers.GameTimer;
+	Time = (*Stand::Pointers.IsSessionStarted && !localTimer) ? *Stand::Pointers.NetworkTime : *Stand::Pointers.GameTimer;
 	IsInitialized = true;
 }
 
@@ -33,7 +33,7 @@ bool TIMER::HasTimePassed(int ms, bool localTimer)
 
 	Initialize(localTimer);
 
-	int timePassed = (*StandEnhanced::Pointers.IsSessionStarted && !localTimer) ? (*StandEnhanced::Pointers.NetworkTime - Time) : (*StandEnhanced::Pointers.GameTimer - Time);
+	int timePassed = (*Stand::Pointers.IsSessionStarted && !localTimer) ? (*Stand::Pointers.NetworkTime - Time) : (*Stand::Pointers.GameTimer - Time);
 	if (timePassed >= ms)
 		return true;
 
@@ -42,13 +42,13 @@ bool TIMER::HasTimePassed(int ms, bool localTimer)
 
 int TIMER::GetRemainingTime(int ms, bool localTimer)
 {
-	int timePassed = (*StandEnhanced::Pointers.IsSessionStarted && !localTimer) ? (*StandEnhanced::Pointers.NetworkTime - Time) : (*StandEnhanced::Pointers.GameTimer - Time);
+	int timePassed = (*Stand::Pointers.IsSessionStarted && !localTimer) ? (*Stand::Pointers.NetworkTime - Time) : (*Stand::Pointers.GameTimer - Time);
 	return (ms - timePassed);
 }
 
 std::string TIMER::GetRemainingTimeStr(int ms, bool localTimer)
 {
-	int timePassed = (*StandEnhanced::Pointers.IsSessionStarted && !localTimer) ? (*StandEnhanced::Pointers.NetworkTime - Time) : (*StandEnhanced::Pointers.GameTimer - Time);
+	int timePassed = (*Stand::Pointers.IsSessionStarted && !localTimer) ? (*Stand::Pointers.NetworkTime - Time) : (*Stand::Pointers.GameTimer - Time);
 	int difference = (ms - timePassed);
 	int totalSeconds = difference / 1000;
 	int hours = totalSeconds / 3600;

@@ -1,12 +1,12 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Network/Tunables.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 
-	class FreeChangeAppearance : public CommandToggle
+	class FreeChangeAppearance : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		Tunable m_CharacterAppearanceCharge{"CHARACTER_APPEARANCE_CHARGE"_J};
 

@@ -1,12 +1,12 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "World/Self.hpp"
 #include "Weapons/WeaponsHashes.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class GiveAllWeapons : public Command
+	class GiveAllWeapons : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

@@ -2,7 +2,7 @@
 #include "Network/GSBD_Kicking.hpp"
 #include "Scripting/Scripts.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class ScriptHostKick : public PlayerCommand
 	{

@@ -19,7 +19,7 @@
 #include <functional>
 #include <optional>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

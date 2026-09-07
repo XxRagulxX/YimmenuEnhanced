@@ -23,7 +23,7 @@
 #include <limits>
 #include <unordered_set>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

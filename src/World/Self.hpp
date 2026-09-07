@@ -4,7 +4,7 @@
 #include "Game/Player.hpp"
 #include "Vehicle/Vehicle.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class Self
 	{

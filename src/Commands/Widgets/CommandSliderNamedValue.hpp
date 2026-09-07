@@ -1,10 +1,10 @@
 #pragma once
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 
 #include <string>
 #include <utility>
 
-namespace StandEnhanced::StandWidgets
+namespace Stand::StandWidgets
 {
 	// Ported from real Stand's own CommandSliderNamedValue - a slider
 	// where one specific value (usually its own floor) displays a name
@@ -16,7 +16,7 @@ namespace StandEnhanced::StandWidgets
 	// alone - see this folder's own top-level intent), GetDisplayText()
 	// below is a new public method read by a dedicated new widget,
 	// GridItemCommandSliderNamedValue (Rendering/), instead.
-	class CommandSliderNamedValue : public CommandSlider
+	class CommandSliderNamedValue : public CommandSliderLegacy
 	{
 	public:
 		CommandSliderNamedValue(std::string name,
@@ -27,7 +27,7 @@ namespace StandEnhanced::StandWidgets
 		    int def_val,
 		    int namedValue,
 		    std::string nameForValue) :
-		    CommandSlider(std::move(name), std::move(label), std::move(description), min, max, def_val),
+		    CommandSliderLegacy(std::move(name), std::move(label), std::move(description), min, max, def_val),
 		    m_NamedValue(namedValue),
 		    m_NameForValue(std::move(nameForValue))
 		{

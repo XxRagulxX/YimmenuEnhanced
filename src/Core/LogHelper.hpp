@@ -3,7 +3,7 @@
 #include <fstream>
 #include <winnt.h>
 
-namespace StandEnhanced
+namespace Stand
 {
 #define ADD_COLOR_TO_STREAM(color) "\x1b[" << int(color) << "m"
 #define RESET_STREAM_COLOR "\x1b[0m"

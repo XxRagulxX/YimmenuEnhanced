@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/IStateSerializer.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	// TODO: this should be called something else
 	struct CommandLink

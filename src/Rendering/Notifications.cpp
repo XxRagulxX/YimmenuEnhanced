@@ -13,7 +13,7 @@
 #include <limits>
 #include <mutex>
 
-namespace StandEnhanced
+namespace Stand
 {
 	namespace
 	{

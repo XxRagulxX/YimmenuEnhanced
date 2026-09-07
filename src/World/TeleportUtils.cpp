@@ -4,7 +4,7 @@
 #include "Scripting/Natives.hpp"
 #include "Scripting/FiberPool.hpp"
 
-namespace StandEnhanced::Features::TeleportHelpers
+namespace Stand::Features::TeleportHelpers
 {
 	TeleportPlace MakePlace(const char* name, float x, float y, float z, float heading)
 	{

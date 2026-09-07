@@ -3,7 +3,7 @@
 #include "Util/Joaat.hpp"
 #include "lua.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	struct LuaCommandHandle
 	{

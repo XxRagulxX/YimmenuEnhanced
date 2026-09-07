@@ -1,11 +1,11 @@
 #include "Scripting/Natives.hpp"
 #include "Game/Pools.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	void DeleteObjectsByHash(Hash hash)
 	{
-		for (auto object : StandEnhanced::Pools::GetObjects())
+		for (auto object : Stand::Pools::GetObjects())
 		{
 			if (!object)
 				continue;

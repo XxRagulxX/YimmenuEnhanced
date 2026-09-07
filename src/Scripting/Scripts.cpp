@@ -19,7 +19,7 @@
 #include "Network/ScriptEvent.hpp"
 #include "Scripting/ScriptGlobal.hpp"
 
-namespace StandEnhanced::Scripts
+namespace Stand::Scripts
 {
 	int StartScript(joaat_t hash, eStackSizes stackSize, void* args, int argCount)
 	{

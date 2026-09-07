@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace StandEnhanced
+namespace Stand
 {
 	enum ThreadContext : uint8_t
 	{
@@ -34,8 +34,8 @@ namespace StandEnhanced
 // definition above so both namespaces share it.
 namespace Stand
 {
-	using StandEnhanced::ThreadContext;
-	using enum StandEnhanced::ThreadContext;
-	using StandEnhanced::thread_context_has_game_tls;
-	using StandEnhanced::thread_context_is_script;
+	using Stand::ThreadContext;
+	using enum Stand::ThreadContext;
+	using Stand::thread_context_has_game_tls;
+	using Stand::thread_context_is_script;
 }

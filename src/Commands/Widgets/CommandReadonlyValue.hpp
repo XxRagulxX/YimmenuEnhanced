@@ -1,11 +1,11 @@
 #pragma once
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 
 #include <functional>
 #include <string>
 #include <utility>
 
-namespace StandEnhanced::StandWidgets
+namespace Stand::StandWidgets
 {
 	// Ported from real Stand's own CommandReadonlyValueLambda (Commands/
 	// Widgets/CommandReadonlyValueLambda.hpp on origin/stand-reference) -
@@ -25,11 +25,11 @@ namespace StandEnhanced::StandWidgets
 	// CommandReadonlyValueCopy.hpp), folded into the same row rather than
 	// kept as a separate class, since a read-only value with nothing to
 	// copy would be a strange thing to show at all.
-	class CommandReadonlyValue : public Command
+	class CommandReadonlyValue : public CommandLegacy
 	{
 	public:
 		CommandReadonlyValue(std::string name, std::string label, std::string description, std::function<std::string()> valueFn) :
-		    Command(std::move(name), std::move(label), std::move(description), 0),
+		    CommandLegacy(std::move(name), std::move(label), std::move(description), 0),
 		    m_ValueFn(std::move(valueFn))
 		{
 		}

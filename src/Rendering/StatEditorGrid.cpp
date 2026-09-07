@@ -22,7 +22,7 @@
 #include <limits>
 #include <ranges>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

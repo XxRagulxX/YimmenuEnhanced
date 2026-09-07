@@ -1,6 +1,6 @@
 #include "Core/SpinlockBase.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	bool SpinlockBase::isLocked() const noexcept
 	{

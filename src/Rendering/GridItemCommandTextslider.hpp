@@ -6,7 +6,7 @@
 #include <optional>
 #include <string>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	class GridItemCommandTextslider : public GridItem
 	{

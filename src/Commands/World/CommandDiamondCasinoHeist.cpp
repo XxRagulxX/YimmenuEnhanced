@@ -1,5 +1,5 @@
-#include "Commands/Command.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandLegacy.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/CommandListSelect.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "World/Stats.hpp"
@@ -14,7 +14,7 @@
 #include "World/TeleportUtils.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	namespace DiamondCasinoHeist
 	{
@@ -27,14 +27,14 @@ namespace StandEnhanced::Features
 			const char* name;
 		};
 
-		static CommandSlider _DiamondCasinoHeistCut1{"diamondcasinoheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
-		static CommandSlider _DiamondCasinoHeistCut2{"diamondcasinoheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
-		static CommandSlider _DiamondCasinoHeistCut3{"diamondcasinoheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
-		static CommandSlider _DiamondCasinoHeistCut4{"diamondcasinoheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _DiamondCasinoHeistCut1{"diamondcasinoheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _DiamondCasinoHeistCut2{"diamondcasinoheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _DiamondCasinoHeistCut3{"diamondcasinoheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _DiamondCasinoHeistCut4{"diamondcasinoheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
 
-		class SetCuts : public Command
+		class SetCuts : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -89,9 +89,9 @@ namespace StandEnhanced::Features
 
 		static CommandListSelect _DiamondCasinoHeistPlayers{"diamondcasinoheistplayers", "Players", "How many players are in the heist", DiamondCasinoHeistPlayers, 1};
 
-		class ForceReady : public Command
+		class ForceReady : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -224,9 +224,9 @@ namespace StandEnhanced::Features
 		    {6, "Remove Hacker"}};
 		static CommandListSelect _DiamondCasinoHeistHacker{"diamondcasinoheisthacker", "Hacker", "Hacker", diamondCasinoHeistHacker, 6};
 
-		class Setup : public Command
+		class Setup : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -288,11 +288,11 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		static CommandSlider _DiamondCasinoHeistPotentialTake{"diamondcasinoheistpotentialtake", "Potential Take", "Updates potential take", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _DiamondCasinoHeistPotentialTake{"diamondcasinoheistpotentialtake", "Potential Take", "Updates potential take", std::nullopt, std::nullopt, 0};
 
-		class SetPotentialTake : public Command
+		class SetPotentialTake : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -333,11 +333,11 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		static CommandSlider _DiamondCasinoHeistActualTake{"diamondcasinoheistactualtake", "Actual Take", "Updates actual take", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _DiamondCasinoHeistActualTake{"diamondcasinoheistactualtake", "Actual Take", "Updates actual take", std::nullopt, std::nullopt, 0};
 
-		class SetActualTake : public Command
+		class SetActualTake : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -346,9 +346,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class SetMaxPayout : public Command
+		class SetMaxPayout : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 		public:
 			virtual void OnCall() override
@@ -455,7 +455,7 @@ namespace StandEnhanced::Features
 
 			void ApplyCuts(int totalCut, int players)
 			{
-				std::array<CommandSlider*, 4> cmds = {
+				std::array<CommandSliderLegacy*, 4> cmds = {
 				    &_DiamondCasinoHeistCut1,
 				    &_DiamondCasinoHeistCut2,
 				    &_DiamondCasinoHeistCut3,
@@ -475,9 +475,9 @@ namespace StandEnhanced::Features
 		};
 
 
-		class SkipHacking : public Command
+		class SkipHacking : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -489,9 +489,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class SkipDrilling : public Command
+		class SkipDrilling : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -500,9 +500,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class SoloMantrap : public Command
+		class SoloMantrap : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -514,9 +514,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class InstantFinish : public Command
+		class InstantFinish : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -535,9 +535,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class RemoveCameras : public Command
+		class RemoveCameras : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			static const inline std::vector<Hash> CasinoCameraHashes = {
 			    "prop_cctv_cam_01a"_J,
@@ -559,7 +559,7 @@ namespace StandEnhanced::Features
 
 			virtual void OnCall() override
 			{
-				for (auto object : StandEnhanced::Pools::GetObjects())
+				for (auto object : Stand::Pools::GetObjects())
 				{
 					if (!object)
 						continue;
@@ -578,24 +578,24 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class RemoveKeycard : public Command
+		class RemoveKeycard : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
 				Hash keycard = "ch_prop_fingerprint_scanner_01d"_J;
-				StandEnhanced::DeleteObjectsByHash(keycard);
+				Stand::DeleteObjectsByHash(keycard);
 				Hash tunnerdoorright = "ch_prop_ch_tunnel_door_01_r"_J;
-				StandEnhanced::DeleteObjectsByHash(tunnerdoorright);
+				Stand::DeleteObjectsByHash(tunnerdoorright);
 				Hash tunnerdoorleft = "ch_prop_ch_tunnel_door_01_l"_J;
-				StandEnhanced::DeleteObjectsByHash(tunnerdoorleft);
+				Stand::DeleteObjectsByHash(tunnerdoorleft);
 			}
 		};
 
-		class Teleport : public Command
+		class Teleport : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{

@@ -1,5 +1,5 @@
 #include "Commands/Weapons/CommandOpenGunLocker.hpp"
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Scripting/ScriptMgr.hpp"
 #include "Rendering/Notifications.hpp"
 #include "World/Self.hpp"
@@ -11,7 +11,7 @@
 #include "Scripting/scrThread.hpp"
 #include "Network/GlobalPlayerBD.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	static ScriptPatch skipGunLockerMenuChecksPatch{};
 
@@ -60,9 +60,9 @@ namespace StandEnhanced::Features
 		}
 	}
 
-	class _OpenGunLocker : public Command
+	class _OpenGunLocker : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

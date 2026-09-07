@@ -1,6 +1,6 @@
 #pragma once
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Ported from real Stand's own CommandWithOnTickFocused<T> (Commands/
 	// Widgets/CommandWithOnTickFocused.hpp on origin/stand-reference) - a

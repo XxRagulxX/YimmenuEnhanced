@@ -3,7 +3,7 @@
 #include <string>
 
 
-namespace StandEnhanced
+namespace Stand
 {
 	using namespace al;
 	enum class LogColor;

@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Read-back accessor for CommandStandWidgetsTest3.cpp's own shared
 	// bitflag field - see that file's own comment. StandWidgetsTestGrid3

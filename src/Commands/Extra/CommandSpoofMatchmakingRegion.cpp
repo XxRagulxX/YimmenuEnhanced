@@ -2,7 +2,7 @@
 #include "Commands/CommandListSelect.hpp"
 #include "Core/Pointers.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	static std::vector<std::pair<int, const char*>> g_RegionCodes = {
 	    {0, "CIS"},

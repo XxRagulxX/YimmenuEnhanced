@@ -6,9 +6,9 @@
 #include <optional>
 #include <string>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
-	// A GridItemButton-shaped row wired to a real StandEnhanced::PlayerCommand,
+	// A GridItemButton-shaped row wired to a real Stand::PlayerCommand,
 	// looked up by joaat hash - the Grid equivalent of PlayerCommandItem
 	// (src/PlayerCommandItem.cpp) for the ImGui menu. Click behaviour
 	// mirrors PlayerCommandItem::Draw() exactly: FiberPool::queueJob

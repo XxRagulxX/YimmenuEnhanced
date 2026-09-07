@@ -5,7 +5,7 @@
 #include "Scripting/scrProgram.hpp"
 
 
-namespace StandEnhanced
+namespace Stand
 {
 	NativeHooks::Program::Program(rage::scrProgram* program) :
 	    m_Program(program),

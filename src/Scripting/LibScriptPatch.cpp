@@ -6,7 +6,7 @@
 #include "Scripting/ScriptPatches.hpp"
 #include "Scripting/ScriptPointer.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	class ScriptPatchBinding : LuaLibrary
 	{

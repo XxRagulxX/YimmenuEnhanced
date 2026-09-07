@@ -1,11 +1,11 @@
 #pragma once
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 
 #include <functional>
 #include <optional>
 #include <utility>
 
-namespace StandEnhanced::StandWidgets
+namespace Stand::StandWidgets
 {
 	// Ported from real Stand's own CommandLambdaSlider (a template over
 	// which slider base it wraps there - this project only has one
@@ -14,7 +14,7 @@ namespace StandEnhanced::StandWidgets
 	// Callback receives the new value directly (CommandSlider::OnChange()
 	// already runs after m_State is updated - see CommandSlider::SetState())
 	// rather than needing a separate GetState() call.
-	class CommandLambdaSlider : public CommandSlider
+	class CommandLambdaSlider : public CommandSliderLegacy
 	{
 	public:
 		CommandLambdaSlider(std::string name,
@@ -24,7 +24,7 @@ namespace StandEnhanced::StandWidgets
 		    std::optional<int> max,
 		    int def_val,
 		    std::function<void(int)> onChange) :
-		    CommandSlider(std::move(name), std::move(label), std::move(description), min, max, def_val),
+		    CommandSliderLegacy(std::move(name), std::move(label), std::move(description), min, max, def_val),
 		    m_OnChange(std::move(onChange))
 		{
 		}

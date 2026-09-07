@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Self > Main: mirrors MenuSelf.cpp's Globals, Tools,
 	// Special Ability, Wanted and Movement groups in full. Wanted's

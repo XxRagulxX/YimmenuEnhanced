@@ -3,7 +3,7 @@
 #include "Scripting/ScriptPatches.hpp"
 #include "Core/Hooking.hpp"
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	int Script::ScriptVM(uint64_t* stack, uint64_t** scr_globals, rage::scrProgram* program, void* ctx)
 	{

@@ -2,7 +2,7 @@
 #include "Scripting/ScriptLocal.hpp"
 
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
     class AutoCollectTargets : public LoopedCommand
     {

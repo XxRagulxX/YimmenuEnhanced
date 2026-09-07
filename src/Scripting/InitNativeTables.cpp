@@ -6,7 +6,7 @@
 
 #include "Scripting/scrProgram.hpp"
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	void Script::InitNativeTables(rage::scrProgram* program)
 	{

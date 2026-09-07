@@ -1,7 +1,7 @@
 #pragma once
 #include "Game/BaseObj.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class File final : public BaseObj
 	{

@@ -1,9 +1,9 @@
 #pragma once
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
-	class LoopedCommand : public CommandToggle
+	class LoopedCommand : public CommandToggleLegacy
 	{
 	protected:
 		virtual void OnTick() = 0;

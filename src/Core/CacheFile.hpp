@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/File.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	using cacheData = std::unique_ptr<uint8_t[]>;
 

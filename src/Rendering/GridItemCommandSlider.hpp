@@ -1,12 +1,12 @@
 #pragma once
 #include "Rendering/GridItem.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Util/Joaat.hpp"
 
 #include <optional>
 #include <string>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// A label + current integer value + "-"/"+" buttons - the Grid
 	// equivalent of IntCommandItem (src/IntCommandItem.cpp) for the
@@ -68,7 +68,7 @@ namespace StandEnhanced::Rendering
 
 		const std::string& Label() const;
 
-		CommandSlider* m_Command;
+		CommandSliderLegacy* m_Command;
 		std::optional<std::string> m_LabelOverride;
 		int m_Step;
 	};

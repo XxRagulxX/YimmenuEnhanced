@@ -1,6 +1,6 @@
 #include "Menu/Items.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	TabItem::TabItem(const std::string& name) :
 	    m_Name(name)

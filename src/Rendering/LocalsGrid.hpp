@@ -9,7 +9,7 @@ namespace rage
 	class scrThread;
 }
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	class GridItemTextInput;
 

@@ -4,7 +4,7 @@
 #include "Scripting/LuaMainScript.hpp"
 #include "Scripting/LuaMainUtils.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	struct LuaPatch
 	{

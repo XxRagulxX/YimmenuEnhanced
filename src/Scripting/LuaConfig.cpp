@@ -2,7 +2,7 @@
 #include "Core/FileMgr.hpp"
 #include <fstream>
 
-namespace StandEnhanced
+namespace Stand
 {
 	LuaConfig::LuaConfig(std::string_view script_name) :
 	    m_ConfigFile(FileMgr::GetProjectFile(std::string("./scripts/config/") + script_name.data() + ".json")),

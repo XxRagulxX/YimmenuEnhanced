@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Recovery > Casino: mirrors MenuRecovery.cpp's
 	// casinoSlots group - a single unconditional toggle. (The Lucky

@@ -1,6 +1,6 @@
 #include "Commands/Vehicle/CommandSavePersonalVehicle.hpp"
 #include <unordered_set>
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Scripting/ScriptMgr.hpp"
 #include "Rendering/Notifications.hpp"
 #include "World/Self.hpp"
@@ -11,7 +11,7 @@
 #include "Vehicle/VehicleRewardData.hpp"
 #include "Network/FreemodeGeneral.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	void SavePersonalVehicle::RunScriptImpl()
 	{
@@ -86,9 +86,9 @@ namespace StandEnhanced::Features
 	// Some vehicles cannot be safely acquired using this method, see #443
 	static const std::unordered_set<std::uint32_t> s_BlacklistedVehicles = {"rcbandito"_J, "minitank"_J, "thruster"_J, "terbyte"_J, "avenger"_J, "policet3"_J, "brickade2"_J};
 
-	class _SavePersonalVehicle : public Command
+	class _SavePersonalVehicle : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

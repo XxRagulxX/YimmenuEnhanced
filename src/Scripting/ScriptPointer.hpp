@@ -1,7 +1,7 @@
 #pragma once
 #include "Scripting/ScriptData.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class ScriptPointer
 	{

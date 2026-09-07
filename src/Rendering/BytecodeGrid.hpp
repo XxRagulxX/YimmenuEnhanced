@@ -9,7 +9,7 @@ namespace rage
 	class scrProgram;
 }
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	class GridItemHexRow;
 

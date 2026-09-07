@@ -1,7 +1,7 @@
 #pragma once
 #include <filesystem>
 
-namespace StandEnhanced
+namespace Stand
 {
 	class BaseObj
 	{

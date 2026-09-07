@@ -1,7 +1,7 @@
 #pragma once
 #include "Util/Joaat.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	constexpr auto g_LauncherScripts = std::to_array({
 	    ""_J,

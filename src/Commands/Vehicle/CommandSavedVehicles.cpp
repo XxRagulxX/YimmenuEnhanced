@@ -10,7 +10,7 @@
 #include "Vehicle/VehicleValues.hpp"
 #include "Core/FileMgr.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	Folder SavedVehicles::CheckFolder(std::string folderName)
 	{

@@ -1,4 +1,4 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Commands/CommandListSelect.hpp"
 #include "Scripting/Natives.hpp"
 #include "World/Stats.hpp"
@@ -9,7 +9,7 @@
 #include "Scripting/FiberPool.hpp"
 #include "Util/Joaat.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	static const char* GetGunVanWeaponHash(int id)
 	{
@@ -231,9 +231,9 @@ namespace StandEnhanced::Features
 
 	static CommandListSelect _GunVanSlot{"gunvan_slot", "Gun Van Slot", "Select Gun Van slot", GunVanSlots, 0};
 
-	class GunVanApply : public Command
+	class GunVanApply : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

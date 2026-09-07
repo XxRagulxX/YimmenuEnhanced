@@ -1,12 +1,12 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Scripting/Natives.hpp"
 #include "Rendering/Notifications.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class ForceQuitToStoryMode : public Command
+	class ForceQuitToStoryMode : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

@@ -4,7 +4,7 @@
 
 #include <chrono>
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	class Util : LuaLibrary
 	{
@@ -13,7 +13,7 @@ namespace StandEnhanced::Lua
 		static int Joaat(lua_State* state)
 		{
 			const char* string = CheckStringSafe(state, 1);
-			lua_pushinteger(state, (int)StandEnhanced::Joaat(string));
+			lua_pushinteger(state, (int)Stand::Joaat(string));
 			return 1;
 		}
 

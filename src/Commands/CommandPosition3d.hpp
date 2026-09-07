@@ -1,10 +1,10 @@
 #pragma once
 #include "Game/vector.hpp"
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
-	class CommandPosition3d : public Command
+	class CommandPosition3d : public CommandLegacy
 	{
 	protected:
 		virtual void OnChange() {};

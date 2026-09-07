@@ -5,7 +5,7 @@
 #include <fstream>
 #include "Localization/Strings.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	namespace Outfit
 	{

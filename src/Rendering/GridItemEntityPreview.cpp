@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <cmath>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

@@ -2,7 +2,7 @@
 #include "Network/PlayerData.hpp"
 #include "Game/Player.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class Players
 	{

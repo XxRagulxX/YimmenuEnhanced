@@ -1,8 +1,8 @@
 #include "Commands/Extra/CommandSavedPlayers.hpp"
 #include <fstream>
 #include "Scripting/ScriptMgr.hpp"
-#include "Commands/CommandToggle.hpp"
-#include "Commands/Command.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Core/FileMgr.hpp"
 #include "Rendering/Notifications.hpp"
 #include "Network/PlayerData.hpp"
@@ -11,21 +11,21 @@
 #include "Network/rlScGamerHandle.hpp"
 #include "Network/rlScTaskStatus.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	static CommandToggle _AutoUpdateEnabled{"playerdbautoupdate", "Player Database Auto Update", "Automatically updates tracked player status every 3 minutes. This is required for tracking notifications to work", true};
-	static CommandToggle _PlayerTracking{"playerdbnotify", "Tracking Notifications", "Notifies you when the state of a player you track changes", true};
-	static CommandToggle _NotifyWhenJoinable{"playerdbnotifywhenjoinable", "Notify When Joinable", "Notifies you when a tracked player becomes joinable", true};
-	static CommandToggle _NotifyWhenUnjoinable{"playerdbnotifywhenunjoinable", "Notify When Unjoinable", "Notifies you when a tracked player becomes unjoinable", true};
-	static CommandToggle _NotifyWhenOnline{"playerdbnotifywhenonline", "Notify When Online", "Notifies you when a tracked player goes online", true};
-	static CommandToggle _NotifyWhenOffline{"playerdbnotifywhenoffline", "Notify When Offline", "Notifies you when a tracked player goes offline", true};
-	static CommandToggle _NotifyOnSessionTypeChange{"playerdbnotifyonseschange", "Notify On Session Type Change", "Notifies you when a tracked player's session type changes"};
-	static CommandToggle _NotifyOnMissionChange{"playerdbnotifyonmischange", "Notify On Mission Change", "Notifies you when a tracked player joins or leaves a mission"};
-	static CommandToggle _NotifyOnTransitionChange{"playerdbnotifyonjoblobby", "Notify On Job Lobby Change", "Notifies you when a tracked player joins or leaves a job lobby"};
+	static CommandToggleLegacy _AutoUpdateEnabled{"playerdbautoupdate", "Player Database Auto Update", "Automatically updates tracked player status every 3 minutes. This is required for tracking notifications to work", true};
+	static CommandToggleLegacy _PlayerTracking{"playerdbnotify", "Tracking Notifications", "Notifies you when the state of a player you track changes", true};
+	static CommandToggleLegacy _NotifyWhenJoinable{"playerdbnotifywhenjoinable", "Notify When Joinable", "Notifies you when a tracked player becomes joinable", true};
+	static CommandToggleLegacy _NotifyWhenUnjoinable{"playerdbnotifywhenunjoinable", "Notify When Unjoinable", "Notifies you when a tracked player becomes unjoinable", true};
+	static CommandToggleLegacy _NotifyWhenOnline{"playerdbnotifywhenonline", "Notify When Online", "Notifies you when a tracked player goes online", true};
+	static CommandToggleLegacy _NotifyWhenOffline{"playerdbnotifywhenoffline", "Notify When Offline", "Notifies you when a tracked player goes offline", true};
+	static CommandToggleLegacy _NotifyOnSessionTypeChange{"playerdbnotifyonseschange", "Notify On Session Type Change", "Notifies you when a tracked player's session type changes"};
+	static CommandToggleLegacy _NotifyOnMissionChange{"playerdbnotifyonmischange", "Notify On Mission Change", "Notifies you when a tracked player joins or leaves a mission"};
+	static CommandToggleLegacy _NotifyOnTransitionChange{"playerdbnotifyonjoblobby", "Notify On Job Lobby Change", "Notifies you when a tracked player joins or leaves a job lobby"};
 
-	class UpdateSavedPlayersNow : public Command
+	class UpdateSavedPlayersNow : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -36,7 +36,7 @@ namespace StandEnhanced::Features
 	UpdateSavedPlayersNow _UpdateSavedPlayersNow{"playerdbupdatenow", "Update Saved Players Now", "Force-updates all saved players"};
 }
 
-namespace StandEnhanced
+namespace Stand
 {
 	static bool IsInJoinableSession(FetchedPlayerData::GameState state)
 	{

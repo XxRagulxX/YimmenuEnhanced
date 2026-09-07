@@ -3,7 +3,7 @@
 #include "Scripting/LuaMainUtils.hpp"
 #include "Util/Joaat.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	class Event : LuaLibrary
 	{

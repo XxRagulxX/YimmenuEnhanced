@@ -1,6 +1,6 @@
 #include "Core/common.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	std::atomic<bool> g_Running{true};
 	HINSTANCE g_DllInstance{nullptr};

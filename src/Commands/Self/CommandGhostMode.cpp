@@ -2,7 +2,7 @@
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class GhostMode : public LoopedCommand
 	{

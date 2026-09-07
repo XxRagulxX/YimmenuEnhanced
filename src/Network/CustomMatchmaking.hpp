@@ -11,7 +11,7 @@ namespace rage
 class MatchmakingAttributes;
 class MatchmakingId;
 
-namespace StandEnhanced
+namespace Stand
 {
 	class CustomMatchmaking
 	{

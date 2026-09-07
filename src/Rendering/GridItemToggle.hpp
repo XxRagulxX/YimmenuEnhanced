@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// A label with an on/off indicator, mirroring how Stand's own list
 	// items show bool-command state inline. Clicking flips its own local

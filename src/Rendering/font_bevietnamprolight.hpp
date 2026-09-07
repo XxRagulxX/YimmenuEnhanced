@@ -8,7 +8,7 @@
 // be loaded from memory without shipping a loose asset file. Sourced via
 // this project's stand-reference branch, where Stand embeds the same font
 // the same way for its own renderer.
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	struct font_bevietnamprolight
 	{

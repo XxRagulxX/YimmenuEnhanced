@@ -5,7 +5,7 @@
 
 #include <winternl.h>
 
-namespace StandEnhanced
+namespace Stand
 {
 	template<typename T>
 	concept Symbol = std::is_convertible_v<T, int> || std::is_convertible_v<T, std::string_view>;

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace StandEnhanced
+namespace Stand
 {
 	// First-run welcome/session-mode popup: mirrors the pre-port ImGui
 	// modal (BeginPopupModal, a radio choice plus two "open a link"

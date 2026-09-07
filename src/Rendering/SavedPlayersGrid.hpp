@@ -3,12 +3,12 @@
 
 #include <cstdint>
 
-namespace StandEnhanced
+namespace Stand
 {
 	struct SavedPlayerData;
 }
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	class GridItemTextInput;
 

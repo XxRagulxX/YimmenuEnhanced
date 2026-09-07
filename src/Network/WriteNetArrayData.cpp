@@ -7,7 +7,7 @@
 #include "Core/Hooking.hpp"
 #include "Network/PlayerData.hpp"
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	class FreemodeStateKick
 	{

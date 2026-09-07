@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Tab target for Vehicle > Spawn > Personal Vehicle: mirrors
 	// SpawnVehicle.cpp's RenderSpawnPersonalVehicle() - its search-box +

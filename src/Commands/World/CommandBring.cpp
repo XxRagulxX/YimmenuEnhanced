@@ -1,7 +1,7 @@
 #include "Commands/PlayerCommand.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class Bring : public PlayerCommand
 	{

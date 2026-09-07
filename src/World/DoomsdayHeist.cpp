@@ -1,6 +1,6 @@
 #include "World/DoomsdayHeist.hpp"
 
-namespace StandEnhanced::Submenus
+namespace Stand::Submenus
 {
 	std::shared_ptr<TabItem> RenderDoomsdayHeistMenu()
 	{

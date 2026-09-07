@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <type_traits>
 
-namespace StandEnhanced
+namespace Stand
 {
 	class PointerCalculator final
 	{

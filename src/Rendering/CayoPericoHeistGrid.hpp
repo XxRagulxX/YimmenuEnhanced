@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Tab target for Recovery > Heists > Cayo Perico Heist: mirrors
 	// CayoPericoHeist.cpp's RenderCayoPericoHeistMenu() in full - Auto

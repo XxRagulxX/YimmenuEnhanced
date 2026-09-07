@@ -1,6 +1,6 @@
 #include "Menu/Items.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	ImGuiItem::ImGuiItem(std::function<void()> callback) :
 	    m_Callback(callback)

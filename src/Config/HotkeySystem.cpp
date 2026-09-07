@@ -2,7 +2,7 @@
 #include "Scripting/FiberPool.hpp"
 #include "Scripting/ScriptMgr.hpp"
 #include "Commands/Commands.hpp"
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Util/Joaat.hpp"
 
 // TODO: serialization isn't stable
@@ -11,7 +11,7 @@
 #include "Scripting/Natives.hpp"       // game import in core!
 #include "Menu/GUI.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	HotkeySystem::HotkeySystem() :
 	    IStateSerializer("hotkeys")

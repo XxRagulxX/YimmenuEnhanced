@@ -3,10 +3,10 @@
 #include "Game/ExplosionType.hpp"
 #include "Scripting/Natives.hpp"
 #include "Commands/CommandListSelect.hpp"
-#include "Commands/CommandSliderFloat.hpp"
+#include "Commands/CommandSliderFloatLegacy.hpp"
 #include "Scripting/Scripts.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	static const std::vector<std::pair<int, const char*>> g_ExplosionTypeArray = {
 	    {static_cast<int>(ExplosionType::DONTCARE), "Don't Care"},
@@ -103,7 +103,7 @@ namespace StandEnhanced::Features
 	    g_ExplosionTypeArray,
 	    static_cast<int>(ExplosionType::BULLET)};
 
-	static CommandSliderFloat _ExplosionDamageScale{
+	static CommandSliderFloatLegacy _ExplosionDamageScale{
 	    "explosiondamage",
 	    "Explosion Damage Scale",
 	    "Sets the damage scale for explosions",
@@ -111,7 +111,7 @@ namespace StandEnhanced::Features
 	    1000.0f,
 	    1.0f};
 
-	static CommandSliderFloat _CameraShake{
+	static CommandSliderFloatLegacy _CameraShake{
 	    "explosioncamerashake",
 	    "Explosion Camera Shake",
 	    "Controls how much the camera shakes during explosions",

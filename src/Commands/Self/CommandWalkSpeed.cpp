@@ -1,9 +1,9 @@
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Real Stand's own Walk Speed slider is -1,000,000 to 1,000,000
 	// (step 10, /100 for a run-speed multiplier) - scaled down here to
@@ -33,7 +33,7 @@ namespace StandEnhanced::Features
 	// Competes with Super Run if both are active (whichever's own OnTick
 	// runs later in a frame wins) - the same kind of interaction real
 	// Stand's own separate Walk Speed/Super Run features would have.
-	static CommandSlider _WalkSpeed{"walkspeed", "Walk Speed", "Run speed multiplier (100 = normal)", 0, 1000, 100};
+	static CommandSliderLegacy _WalkSpeed{"walkspeed", "Walk Speed", "Run speed multiplier (100 = normal)", 0, 1000, 100};
 
 	class WalkSpeedApplier : public LoopedCommand
 	{

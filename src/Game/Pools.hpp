@@ -6,7 +6,7 @@
 #include "Game/fwVehiclePool.hpp"
 
 
-namespace StandEnhanced
+namespace Stand
 {
 	rage::fwBasePool* GetPedPool();
 	rage::fwBasePool* GetObjectPool();

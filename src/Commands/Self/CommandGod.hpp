@@ -1,6 +1,6 @@
 #pragma once
 #include "Commands/Widgets/CommandTickDispatch.hpp"
-#include "Commands/Widgets/CommandToggle.hpp"
+#include "Commands/Widgets/CommandToggleLegacy.hpp"
 
 #include "World/Self.hpp"
 
@@ -8,7 +8,7 @@
 // category pilot - see this file's own construction site,
 // Commands/Self/CommandGod.cpp, for why it isn't parented into a real
 // CommandList yet). Replaces the legacy Commands/Self/CommandGodmode.cpp
-// (StandEnhanced::Features::Godmode, a LoopedCommand) - SelfGrid.cpp's own
+// (Stand::Features::Godmode, a LoopedCommand) - SelfGrid.cpp's own
 // "godmode" row now points here instead (via GridItemStandCommand, not
 // GridItemCommandToggle - see that row's own comment in SelfGrid.cpp).
 //
@@ -38,17 +38,17 @@
 // exactly the safety behaviour legacy Godmode.cpp's own OnTick() had.
 namespace Stand
 {
-	class CommandGod : public CommandToggle
+	class CommandGod : public CommandToggleLegacy
 	{
 	public:
 		explicit CommandGod(CommandList* parent) :
-		    CommandToggle(parent, LIT("Immortality"), CMDNAMES("godmode", "immortality"), LIT("Makes your character unable to die."))
+		    CommandToggleLegacy(parent, LIT("Immortality"), CMDNAMES("godmode", "immortality"), LIT("Makes your character unable to die."))
 		{
 		}
 
 		void onEnable(Click& click) override
 		{
-			if (auto ped = StandEnhanced::Self::GetPed())
+			if (auto ped = Stand::Self::GetPed())
 				ped.SetInvincible(true);
 
 			CommandTickDispatch::AddCommand(this);
@@ -58,13 +58,13 @@ namespace Stand
 		{
 			CommandTickDispatch::RemoveCommand(this);
 
-			if (auto ped = StandEnhanced::Self::GetPed())
+			if (auto ped = Stand::Self::GetPed())
 				ped.SetInvincible(false);
 		}
 
 		void onTick() override
 		{
-			auto ped = StandEnhanced::Self::GetPed();
+			auto ped = Stand::Self::GetPed();
 			if (!ped)
 				return;
 
@@ -83,7 +83,7 @@ namespace Stand
 	};
 }
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// The one real instance - see CommandGod.cpp for why this is a
 	// function-local static behind an accessor rather than a plain

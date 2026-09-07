@@ -5,7 +5,7 @@
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{
@@ -18,7 +18,7 @@ namespace StandEnhanced::Rendering
 	GridItemCommandSliderProximity::GridItemCommandSliderProximity(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride, int step) :
 	    GridItemCommandSlider(width, height, id, std::move(labelOverride), step),
 	    m_Id(id),
-	    m_Command(Commands::GetCommand<CommandSlider>(id))
+	    m_Command(Commands::GetCommand<CommandSliderLegacy>(id))
 	{
 	}
 

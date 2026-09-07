@@ -3,7 +3,7 @@
 #include "Network/PlayerData.hpp"
 #include "Network/GSBD.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class FreemodeStateKick : public PlayerCommand
 	{

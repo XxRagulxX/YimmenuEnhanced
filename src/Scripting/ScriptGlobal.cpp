@@ -1,7 +1,7 @@
 #include "Core/Pointers.hpp"
 #include "Scripting/ScriptGlobal.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	void* ScriptGlobal::Get() const
 	{

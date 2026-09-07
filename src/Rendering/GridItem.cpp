@@ -3,7 +3,7 @@
 #include "Rendering/MenuFocus.hpp"
 #include "Rendering/MenuNavigation.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	bool GridItem::isKeyboardFocused() const
 	{

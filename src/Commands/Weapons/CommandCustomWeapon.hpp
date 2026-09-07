@@ -1,14 +1,14 @@
 #pragma once
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/CommandColourCustom.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/CommandListSelect.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Commands/CommandInput.hpp"
 #include "Rendering/RainbowColor.hpp"
 #include "Game/ControllerInputs.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	enum class CustomWeapons
 	{
@@ -60,10 +60,10 @@ namespace StandEnhanced::Features
 	};
 
 	static CustomWeapon _CustomWeapon{"customweapon", "Custom Weapon", "Modifies weapon ability"};
-	static CommandToggle _CustomWeaponEnabledOnWeaponOut{"customweaponenabledonweaponout", "Enable Only if Weapon is Out", "Enables custom weapon only when weapon is out", true};
-	static CommandToggle _GravityGunLaunchOnRelease{"gravitygunlaunchonrelease", "Launch Entity on Release", "Launches entity when released", false};
+	static CommandToggleLegacy _CustomWeaponEnabledOnWeaponOut{"customweaponenabledonweaponout", "Enable Only if Weapon is Out", "Enables custom weapon only when weapon is out", true};
+	static CommandToggleLegacy _GravityGunLaunchOnRelease{"gravitygunlaunchonrelease", "Launch Entity on Release", "Launches entity when released", false};
 	static CommandInput _VehicleGunModel{"vehiclegunmodel", "Vehicle Model", "Model of the vehicle"};
 	static CommandColourCustom _PaintGunColor{"paintguncolor", "Paint Gun Color", "Color of the paint gun"};
-	static CommandToggle _PaintGunRainbowColorEnabled{"paintgunrainbowcolorenabled", "Rainbow Color", "Enables rainbow color for paint gun", false};
-	static CommandSlider _PaintGunRainbowColorSpeed{"paintgunrainbowcolorspeed", "Rainbow Color Speed", "Speed of rainbow color for paint gun", 1, 10, 1};
+	static CommandToggleLegacy _PaintGunRainbowColorEnabled{"paintgunrainbowcolorenabled", "Rainbow Color", "Enables rainbow color for paint gun", false};
+	static CommandSliderLegacy _PaintGunRainbowColorSpeed{"paintgunrainbowcolorspeed", "Rainbow Color Speed", "Speed of rainbow color for paint gun", 1, 10, 1};
 }

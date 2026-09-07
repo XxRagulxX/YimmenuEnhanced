@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Recovery > Businesses: mirrors MenuRecovery.cpp's
 	// businessSafe, businessOverlay and businessManager groups in full -

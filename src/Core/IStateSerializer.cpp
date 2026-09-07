@@ -2,7 +2,7 @@
 
 #include "Config/Settings.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	IStateSerializer::IStateSerializer(const std::string& name) :
 	    m_SerComponentName(name),

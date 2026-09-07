@@ -1,11 +1,11 @@
 #include "Commands/LoopedCommand.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
-#include "Commands/CommandSliderFloat.hpp"
+#include "Commands/CommandSliderFloatLegacy.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	static CommandSliderFloat _MeleeDamageScale{
+	static CommandSliderFloatLegacy _MeleeDamageScale{
 	    "meleedamagescale",
 	    "Melee Damage Scale",
 	    "Sets the damage scale for melee",

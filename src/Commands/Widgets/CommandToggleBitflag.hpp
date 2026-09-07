@@ -1,9 +1,9 @@
 #pragma once
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 
 #include <utility>
 
-namespace StandEnhanced::StandWidgets
+namespace Stand::StandWidgets
 {
 	// Ported from real Stand's own CommandToggleBitflag (the simpler of
 	// its two bit-level toggles - the other, CommandToggleBitPointer,
@@ -16,11 +16,11 @@ namespace StandEnhanced::StandWidgets
 	// CommandSliderPointer - CommandToggle's own existing OnEnable()/OnDisable()
 	// hooks, no changes to CommandToggle.hpp needed.
 	template<typename T>
-	class CommandToggleBitflag : public CommandToggle
+	class CommandToggleBitflag : public CommandToggleLegacy
 	{
 	public:
 		CommandToggleBitflag(std::string name, std::string label, std::string description, T* addr, T mask) :
-		    CommandToggle(std::move(name), std::move(label), std::move(description), addr && (*addr & mask) != T{0}),
+		    CommandToggleLegacy(std::move(name), std::move(label), std::move(description), addr && (*addr & mask) != T{0}),
 		    m_Addr(addr),
 		    m_Mask(mask)
 		{

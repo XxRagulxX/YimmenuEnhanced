@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for World > Main: mirrors MenuWorld.cpp's Kill,
 	// Delete, Bring, Weather, Time and Other groups in full, now that

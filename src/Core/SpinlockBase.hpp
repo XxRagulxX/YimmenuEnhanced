@@ -2,7 +2,7 @@
 
 #include <atomic>
 
-namespace StandEnhanced
+namespace Stand
 {
 	class SpinlockBase
 	{

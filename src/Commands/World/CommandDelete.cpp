@@ -1,12 +1,12 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Game/Pools.hpp"
 #include "World/Object.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class DeleteAllObjects : public Command
+	class DeleteAllObjects : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -18,9 +18,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class DeleteAllCameras : public Command
+	class DeleteAllCameras : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -32,9 +32,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class DeleteAllPeds : public Command
+	class DeleteAllPeds : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -46,9 +46,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class DeleteAllVehs : public Command
+	class DeleteAllVehs : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

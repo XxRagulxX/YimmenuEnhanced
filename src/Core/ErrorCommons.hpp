@@ -2,7 +2,7 @@
 
 #include <windows.h>
 
-namespace StandEnhanced
+namespace Stand
 {
 	extern "C"
 	{

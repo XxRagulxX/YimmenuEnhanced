@@ -3,7 +3,7 @@
 
 #include <optional>
 
-namespace StandEnhanced {
+namespace Stand {
     inline std::optional<bool> InWine()
     {
         auto module = g_ModuleMgr.Get("ntdll.dll"_J);

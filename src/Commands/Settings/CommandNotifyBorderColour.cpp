@@ -2,7 +2,7 @@
 #include "Commands/Widgets/CommandRainbow.hpp"
 #include "Rendering/NotifySettings.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Ported from real Stand's own CommandNotifyBorderColour (Commands/
 	// Online/CommandListNotifySettings.cpp on origin/stand-reference) -

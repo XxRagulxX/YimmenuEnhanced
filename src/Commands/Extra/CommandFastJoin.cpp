@@ -1,15 +1,15 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Scripting/NativeHooks.hpp"
 #include "Scripting/Natives.hpp"
 #include "Network/GSBD.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	static void BroadcastHook(rage::scrNativeCallContext* ctx);
 
-	class FastJoin : public CommandToggle
+	class FastJoin : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		virtual void OnEnable() override
 		{

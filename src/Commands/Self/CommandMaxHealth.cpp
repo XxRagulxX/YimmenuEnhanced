@@ -1,8 +1,8 @@
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Real Stand's CommandMaxHealth is a single slider, 200-15000 step 25,
 	// where 200 (its own floor) means "Don't Override" - not applied at
@@ -19,9 +19,9 @@ namespace StandEnhanced::Features
 	// wouldn't get immediately overridden the way Stand's own tick
 	// handler would), but keeps this a single row rather than a second
 	// "lock" toggle nothing else in Stand's own UI has either.
-	class MaxHealth : public CommandSlider
+	class MaxHealth : public CommandSliderLegacy
 	{
-		using CommandSlider::CommandSlider;
+		using CommandSliderLegacy::CommandSliderLegacy;
 
 		virtual void OnChange() override
 		{

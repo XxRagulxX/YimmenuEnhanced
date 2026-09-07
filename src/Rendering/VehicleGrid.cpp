@@ -1,6 +1,6 @@
 #include "Rendering/VehicleGrid.hpp"
 
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/Commands.hpp"
 #include "Rendering/GridItemCommandButton.hpp"
 #include "Rendering/GridItemCommandSlider.hpp"
@@ -14,7 +14,7 @@
 #include "Rendering/VehicleEditorGrid.hpp"
 #include "Rendering/VehicleSpawnGrid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{
@@ -34,8 +34,8 @@ namespace StandEnhanced::Rendering
 		// than its plain joaat_t one.
 		bool IsAutoDriveEnabled()
 		{
-			auto* playerAutoDrive = Commands::GetCommand<CommandToggle>("autodrive"_J);
-			auto* npcAutoDrive = Commands::GetCommand<CommandToggle>("npcautodrive"_J);
+			auto* playerAutoDrive = Commands::GetCommand<CommandToggleLegacy>("autodrive"_J);
+			auto* npcAutoDrive = Commands::GetCommand<CommandToggleLegacy>("npcautodrive"_J);
 			return (playerAutoDrive && playerAutoDrive->GetState()) || (npcAutoDrive && npcAutoDrive->GetState());
 		}
 	}

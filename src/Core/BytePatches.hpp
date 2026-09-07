@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <vcruntime_string.h>
 
-namespace StandEnhanced
+namespace Stand
 {
 	class BytePatches
 	{

@@ -1,12 +1,12 @@
 #pragma once
 #include "Commands/Widgets/CommandTickDispatch.hpp"
-#include "Commands/Widgets/CommandToggle.hpp"
+#include "Commands/Widgets/CommandToggleLegacy.hpp"
 
 #include "World/Self.hpp"
 
 // Second real feature migrated onto the ported Stand tree (Self, after
 // Commands/Self/CommandGod.hpp). Replaces the legacy Commands/Self/
-// CommandAutoHeal.cpp (StandEnhanced::Features::AutoHeal, a LoopedCommand) -
+// CommandAutoHeal.cpp (Stand::Features::AutoHeal, a LoopedCommand) -
 // SelfGrid.cpp's own "autoheal" row now points here instead (via
 // GridItemStandCommand, not GridItemCommandToggle).
 //
@@ -39,11 +39,11 @@
 // below max while this is on), just via this project's own tick shape.
 namespace Stand
 {
-	class CommandAutoHeal : public CommandToggle
+	class CommandAutoHeal : public CommandToggleLegacy
 	{
 	public:
 		explicit CommandAutoHeal(CommandList* parent) :
-		    CommandToggle(parent, LIT("Demi-God Mode"), CMDNAMES("demigodmode", "semigodmode"), LIT("Keeps your health and armour topped up."))
+		    CommandToggleLegacy(parent, LIT("Demi-God Mode"), CMDNAMES("demigodmode", "semigodmode"), LIT("Keeps your health and armour topped up."))
 		{
 		}
 
@@ -60,17 +60,17 @@ namespace Stand
 
 		void onTick() override
 		{
-			if (!StandEnhanced::Self::GetPed())
+			if (!Stand::Self::GetPed())
 				return;
 
-			const auto health = StandEnhanced::Self::GetPed().GetHealth();
-			const auto maxHealth = StandEnhanced::Self::GetPed().GetMaxHealth();
+			const auto health = Stand::Self::GetPed().GetHealth();
+			const auto maxHealth = Stand::Self::GetPed().GetMaxHealth();
 			if (health > 0 && health < maxHealth)
-				StandEnhanced::Self::GetPed().SetHealth(maxHealth);
+				Stand::Self::GetPed().SetHealth(maxHealth);
 
-			const auto maxArmour = StandEnhanced::Self::GetPlayer().GetMaxArmour();
-			if (StandEnhanced::Self::GetPed().GetArmour() != maxArmour)
-				StandEnhanced::Self::GetPed().SetArmour(maxArmour);
+			const auto maxArmour = Stand::Self::GetPlayer().GetMaxArmour();
+			if (Stand::Self::GetPed().GetArmour() != maxArmour)
+				Stand::Self::GetPed().SetArmour(maxArmour);
 		}
 
 		~CommandAutoHeal() override
@@ -81,7 +81,7 @@ namespace Stand
 	};
 }
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// The one real instance - see Commands/Self/CommandAutoHeal.cpp and
 	// CommandGod.cpp's own comment for why this is a function-local

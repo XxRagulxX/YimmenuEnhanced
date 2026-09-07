@@ -3,7 +3,7 @@
 #include "Core/Hooks.hpp"
 #include "Core/Hooking.hpp"
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	HRESULT SwapChain::Present(IDXGISwapChain* that, UINT syncInterval, UINT flags)
 	{

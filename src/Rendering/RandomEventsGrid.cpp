@@ -27,7 +27,7 @@
 #include <format>
 #include <limits>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

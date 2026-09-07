@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// A live, self-refreshing list of every player in the current
 	// session (Players::GetPlayers(), src/Players.hpp), sorted by name -

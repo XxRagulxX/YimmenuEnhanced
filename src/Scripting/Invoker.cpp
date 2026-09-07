@@ -6,7 +6,7 @@
 #include "Core/Hooking.hpp"
 #include "Scripting/scrProgram.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	void NativeInvoker::DefaultHandler(rage::scrNativeCallContext* ctx)
 	{

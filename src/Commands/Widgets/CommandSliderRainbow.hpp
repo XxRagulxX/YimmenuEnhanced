@@ -1,12 +1,12 @@
 #pragma once
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Util/get_current_time_millis.hpp"
 
 #include <string>
 #include <utility>
 
-namespace StandEnhanced::StandWidgets
+namespace Stand::StandWidgets
 {
 	// Ported from real Stand's own CommandSliderRainbow: not a colour
 	// itself - a speed control (0 = off, otherwise milliseconds per
@@ -25,11 +25,11 @@ namespace StandEnhanced::StandWidgets
 	// class (a private nested Ticker member) rather than hand-written at
 	// each use site, since unlike Walk Speed/Swim Speed this widget is
 	// meant to be reusable.
-	class CommandSliderRainbow : public CommandSlider
+	class CommandSliderRainbow : public CommandSliderLegacy
 	{
 	public:
-		CommandSliderRainbow(std::string name, std::string label, std::string description, CommandSlider* target) :
-		    CommandSlider(name, label, description, 0, 1000, 0),
+		CommandSliderRainbow(std::string name, std::string label, std::string description, CommandSliderLegacy* target) :
+		    CommandSliderLegacy(name, label, description, 0, 1000, 0),
 		    m_Target(target),
 		    m_Ticker(name + "_tick", label + " Ticker", "Internal - always on, drives " + label + " over time", this)
 		{
@@ -104,7 +104,7 @@ namespace StandEnhanced::StandWidgets
 			CommandSliderRainbow* m_Owner;
 		};
 
-		CommandSlider* m_Target;
+		CommandSliderLegacy* m_Target;
 		time_t m_LastTick = 0;
 		time_t m_MsAccumulated = 0;
 		Ticker m_Ticker;

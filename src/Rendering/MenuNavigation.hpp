@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	class Grid;
 

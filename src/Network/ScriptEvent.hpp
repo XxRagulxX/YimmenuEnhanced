@@ -216,7 +216,7 @@ struct SCRIPT_EVENT_COMMAND : public SCRIPT_EVENT
 
 	REGISTER_SCRIPT_EVENT(SCRIPT_EVENT_COMMAND, TSECommand);
 
-	eCommand Command;
+	eCommand CommandLegacy;
 	SCR_INT RandomNumber; // it's fine if we don't set this
 };
 

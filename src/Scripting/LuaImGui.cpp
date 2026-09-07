@@ -2,7 +2,7 @@
 #include "Scripting/LuaMainScript.hpp"
 #include "Scripting/LuaMainUtils.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	// Lua-facing "ImGui" binding - used to wrap the real Dear ImGui C API
 	// 1:1 (~260 draw/layout/widget/introspection functions) for scripts

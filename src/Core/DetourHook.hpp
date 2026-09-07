@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <string_view>
 
-namespace StandEnhanced
+namespace Stand
 {
 	enum DetourHookFlags : std::uint8_t
 	{

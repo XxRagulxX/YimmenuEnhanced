@@ -5,7 +5,7 @@
 #include "Scripting/FiberPool.hpp"
 #include "Core/ExceptionHandler.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	void ScriptMgr::addScript(HMODULE module, std::unique_ptr<Script>&& script)
 	{

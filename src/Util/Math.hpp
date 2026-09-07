@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-namespace StandEnhanced::Math
+namespace Stand::Math
 {
 	inline float DegToRad(float deg)
 	{

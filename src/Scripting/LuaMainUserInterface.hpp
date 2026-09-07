@@ -1,17 +1,17 @@
 #pragma once
 #include <unordered_set>
 
-namespace StandEnhanced
+namespace Stand
 {
 	class LuaScript;
-	class Command;
+	class CommandLegacy;
 	class Submenu;
 	class Category;
 	class Group;
 	class UIItem;
 }
 
-namespace StandEnhanced
+namespace Stand
 {
 	struct CallbackArg
 	{
@@ -46,7 +46,7 @@ namespace StandEnhanced
 
 		std::vector<std::shared_ptr<Submenu>> m_OwnedSubmenus;
 
-		std::vector<std::unique_ptr<Command>> m_OwnedCommands;
+		std::vector<std::unique_ptr<CommandLegacy>> m_OwnedCommands;
 
 		std::vector<std::pair<std::shared_ptr<Submenu>, std::shared_ptr<Category>>> m_AttachedCategories;
 		std::vector<std::pair<std::shared_ptr<Category>, std::shared_ptr<UIItem>>> m_AttachedCategoryItems;

@@ -4,7 +4,7 @@
 #include "Rendering/VehicleSpawnNewGrid.hpp"
 #include "Rendering/VehicleSpawnPersonalGrid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

@@ -14,7 +14,7 @@
 
 #define MAX_GARAGE_NUM 36
 
-namespace StandEnhanced
+namespace Stand
 {
 	// TO-DO: Use script functions for these instead?
 

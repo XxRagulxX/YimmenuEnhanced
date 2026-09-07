@@ -1,7 +1,7 @@
 #include "Commands/Widgets/Position2dCommands.hpp"
 #include "Rendering/NotifySettings.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Ported from real Stand's own CommandNotifyPosition (Commands/Online/
 	// CommandListNotifySettings.cpp on origin/stand-reference) - only

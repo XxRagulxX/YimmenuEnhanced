@@ -1,7 +1,7 @@
 #pragma once
 #include "lua.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	void RegisterEntityMethods(lua_State* state);
 }

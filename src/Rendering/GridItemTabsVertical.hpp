@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	class GridItemTabsVertical : public GridItem
 	{

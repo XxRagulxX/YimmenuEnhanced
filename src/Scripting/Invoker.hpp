@@ -3,7 +3,7 @@
 #include "Scripting/scrNativeHandler.hpp"
 
 enum class NativeIndex;
-namespace StandEnhanced
+namespace Stand
 {
 	class CustomCallContext : public rage::scrNativeCallContext
 	{

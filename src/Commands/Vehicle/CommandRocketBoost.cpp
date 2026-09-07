@@ -2,7 +2,7 @@
 #include "Commands/CommandListSelect.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	static std::vector<std::pair<int, const char*>> g_BoostBehavior = {
 	    {0, "Infinite"},

@@ -15,7 +15,7 @@
 
 #include <AsyncLogger/Logger.hpp>
 
-namespace StandEnhanced
+namespace Stand
 {
 	long handle_exception_spec(void*) noexcept
 	{
@@ -36,20 +36,20 @@ namespace StandEnhanced
 extern "C"
 {
 	void exceptional_init(
-	    StandEnhanced::handle_caught_exception_t fpCaughtExp,
-	    StandEnhanced::handle_uncaught_exception_t fpLogUncaughtExp);
+	    Stand::handle_caught_exception_t fpCaughtExp,
+	    Stand::handle_uncaught_exception_t fpLogUncaughtExp);
 
 	void disable_exception_handling();
 
 	[[nodiscard]] bool exceptional_has_exp();
 
-	void exceptional_get_exp(void** pOutData, StandEnhanced::handle_exception_t* pOutHandler);
+	void exceptional_get_exp(void** pOutData, Stand::handle_exception_t* pOutHandler);
 
 	void exceptional_clear_exp();
 
-	long exceptional_on_exception(StandEnhanced::ExceptionData* data, StandEnhanced::handle_caught_exception_t handler);
+	long exceptional_on_exception(Stand::ExceptionData* data, Stand::handle_caught_exception_t handler);
 
-	long exceptional_on_caught_exception(StandEnhanced::ExceptionData* data);
+	long exceptional_on_caught_exception(Stand::ExceptionData* data);
 
 	long exceptional_on_uncaught_exception(_EXCEPTION_POINTERS* exp);
 
@@ -57,7 +57,7 @@ extern "C"
 }
 
 
-namespace StandEnhanced
+namespace Stand
 {
 	namespace
 	{

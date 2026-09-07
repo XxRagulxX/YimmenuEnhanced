@@ -7,12 +7,12 @@
 #include <string>
 #include <vector>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	class Grid;
 
 	// Pushes a label + "Current" row followed by X/Y/Z stepper rows into
-	// items_draft, all bound to the same real StandEnhanced::CommandPosition3d,
+	// items_draft, all bound to the same real Stand::CommandPosition3d,
 	// looked up by joaat hash - the Grid equivalent of Vector3CommandItem
 	// (src/Vector3CommandItem.cpp) for the ImGui menu, minus its own
 	// "Saved..." popup (a categorized saved-locations picker with

@@ -4,7 +4,7 @@
 #include "Core/Wine.hpp"
 #include "Core/LogHelper.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	LogColor LogSink::GetColor(const eLogLevel level)
 	{

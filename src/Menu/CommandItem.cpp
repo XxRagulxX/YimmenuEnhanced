@@ -1,11 +1,11 @@
 #include "Menu/Items.hpp"
 #include "Commands/Commands.hpp"
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	CommandItem::CommandItem(joaat_t id, std::optional<std::string> label_override) :
-	    m_Command(Commands::GetCommand<Command>(id)),
+	    m_Command(Commands::GetCommand<CommandLegacy>(id)),
 	    m_LabelOverride(label_override)
 	{
 	}

@@ -4,7 +4,7 @@
 
 #include "Core/ThreadContext.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	struct ExecCtx
 	{

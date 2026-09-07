@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Recovery > Daily Activities: mirrors
 	// DailyActivities.cpp's BuildDailyActivitiesMenu() in full - its top-

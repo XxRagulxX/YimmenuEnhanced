@@ -4,9 +4,9 @@
 #include <nlohmann/json.hpp>
 
 
-namespace StandEnhanced
+namespace Stand
 {
-	class Command
+	class CommandLegacy
 	{
 	private:
 		int m_NumArgs = 0; // TODO: currently unused
@@ -20,8 +20,8 @@ namespace StandEnhanced
 		joaat_t m_Hash;
 
 	public:
-		Command(std::string name, std::string label, std::string description, int num_args = 0);
-		virtual ~Command() = default;
+		CommandLegacy(std::string name, std::string label, std::string description, int num_args = 0);
+		virtual ~CommandLegacy() = default;
 		void Call();
 
 		// Lua-created commands override this so runtime commands don't leave entries behind in the config file.

@@ -4,15 +4,15 @@
 #include "World/Object.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	static CommandInput _PedModelName{"pedmodelname", "Ped Model", "The model name of the ped you wish to spawn."};
 	static CommandInput _ObjectModelName{"objectmodelname", "Object Model", "The model name of the object you wish to spawn."};
 
 
-	class SpawnPed : public Command
+	class SpawnPed : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -35,9 +35,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class SpawnObject : public Command
+	class SpawnObject : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

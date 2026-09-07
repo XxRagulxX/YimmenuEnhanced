@@ -3,7 +3,7 @@
 #include "Scripting/LuaMainUtils.hpp"
 #include "Scripting/Scripts.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	class Scripts : LuaLibrary
 	{
@@ -11,7 +11,7 @@ namespace StandEnhanced::Lua
 
         static int IsActive(lua_State* state)
         {
-            lua_pushboolean(state, StandEnhanced::Scripts::IsScriptActive(GetHashArgument(state, 1)));
+            lua_pushboolean(state, Stand::Scripts::IsScriptActive(GetHashArgument(state, 1)));
             return 1;
         }
 
@@ -20,13 +20,13 @@ namespace StandEnhanced::Lua
             auto script_hash = GetHashArgument(state, 1);
             luaL_checktype(state, 2, LUA_TFUNCTION);
 
-            auto thread = StandEnhanced::Scripts::FindScriptThread(script_hash);
+            auto thread = Stand::Scripts::FindScriptThread(script_hash);
             if (!thread)
                 return 0;
 
             lua_pushvalue(state, 2);
             
-            StandEnhanced::Scripts::RunAsScript(thread, [state] {
+            Stand::Scripts::RunAsScript(thread, [state] {
                 auto& script = LuaScript::GetScript(state);
                 script.CallFunction(0, 0, state);
             });

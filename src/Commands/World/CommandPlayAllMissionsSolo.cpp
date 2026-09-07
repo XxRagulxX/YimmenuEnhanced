@@ -2,7 +2,7 @@
 #include "Scripting/ScriptPatches.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class PlayAllMissionsSolo : public LoopedCommand
 	{

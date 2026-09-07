@@ -2,7 +2,7 @@
 #include "Commands/PlayerCommand.hpp"
 #include "Commands/CommandPosition3d.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	static CommandPosition3d _PlayerTeleportCoordinate{"playertpcoord", "Player Teleport Coords", "The coordinates to teleport the player to"};
 

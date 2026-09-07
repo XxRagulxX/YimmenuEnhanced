@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/Module.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	using joaat_t = std::uint32_t;
 
@@ -33,5 +33,5 @@ namespace StandEnhanced
 		std::unordered_multimap<std::uint32_t, std::unique_ptr<Module>> m_CachedModules;
 	};
 
-	inline StandEnhanced::ModuleMgr g_ModuleMgr;
+	inline Stand::ModuleMgr g_ModuleMgr;
 }

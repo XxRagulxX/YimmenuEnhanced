@@ -4,7 +4,7 @@
 #include "Network/ScriptEvent.hpp"
 #include "Network/GSBD_RandomEvents.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class SendPhantomCar : public PlayerCommand
 	{

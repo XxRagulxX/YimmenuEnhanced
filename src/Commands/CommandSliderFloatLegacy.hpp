@@ -1,12 +1,12 @@
 #pragma once
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 
 #include <functional>
 #include <utility>
 
-namespace StandEnhanced
+namespace Stand
 {
-	class CommandSliderFloat : public Command
+	class CommandSliderFloatLegacy : public CommandLegacy
 	{
 	protected:
 		virtual void OnChange() {};
@@ -20,7 +20,7 @@ namespace StandEnhanced
 		std::function<std::pair<float, float>()> m_DynamicRange;
 
 	public:
-		CommandSliderFloat(std::string name, std::string label, std::string description, std::optional<float> min = std::nullopt, std::optional<float> max = std::nullopt, float def_val = 0.0f);
+		CommandSliderFloatLegacy(std::string name, std::string label, std::string description, std::optional<float> min = std::nullopt, std::optional<float> max = std::nullopt, float def_val = 0.0f);
 		float GetState();
 		void SetState(float state);
 		std::optional<float> GetMinimum();

@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	class Grid;
 

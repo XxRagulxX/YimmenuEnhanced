@@ -3,7 +3,7 @@
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Real Stand's own 3-way list: Off (no-op), Full (always have a
 	// parachute - the same thing this project's own, separate

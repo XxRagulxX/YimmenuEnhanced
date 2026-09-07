@@ -6,7 +6,7 @@
 #include <cstdint>
 #include <string>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Ported from stand-reference's src/Menu/GridItem.hpp - same fields,
 	// same names, same alignment-relative positioning contract (Grid::
@@ -217,7 +217,7 @@ namespace StandEnhanced::Rendering
 		// origin/stand-reference), which every CommandPhysical already
 		// participates in automatically since it owns its own help_text
 		// directly - there's no such single base class here spanning
-		// both this project's own StandEnhanced::Command tree and the ported
+		// both this project's own Stand::Command tree and the ported
 		// Stand::CommandPhysical one, so every GridItem that wraps
 		// either kind overrides this itself instead. Default empty:
 		// chrome (GridItemText, GridItemAddressbar, ...) and anything

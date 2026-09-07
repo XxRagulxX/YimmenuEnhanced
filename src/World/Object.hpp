@@ -1,7 +1,7 @@
 #pragma once
 #include "Game/Entity.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class Object : public Entity
 	{

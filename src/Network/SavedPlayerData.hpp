@@ -1,7 +1,7 @@
 #pragma once
 #include <nlohmann/json.hpp>
 
-namespace StandEnhanced
+namespace Stand
 {
 	struct FetchedPlayerData
 	{

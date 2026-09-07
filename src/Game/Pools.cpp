@@ -3,7 +3,7 @@
 #include "Core/PoolEncryption.hpp"
 
 
-namespace StandEnhanced
+namespace Stand
 {
 	rage::fwBasePool* GetPedPool()
 	{

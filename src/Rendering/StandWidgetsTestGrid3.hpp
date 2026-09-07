@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Reachable from Settings > Debug > "Stand Widgets Test 3" -
 	// exercises CommandToggleBitflag live, same treatment as the two rounds of

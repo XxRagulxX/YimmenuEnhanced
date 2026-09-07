@@ -1,7 +1,7 @@
 #include "Commands/CommandListSelect.hpp"
 #include "Scripting/FiberPool.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	void CommandListSelect::OnCall()
 	{
@@ -18,7 +18,7 @@ namespace StandEnhanced
 	}
 
 	CommandListSelect::CommandListSelect(std::string name, std::string label, std::string description, std::vector<std::pair<int, const char*>> list, int def_val) :
-	    Command(name, label, description, 0),
+	    CommandLegacy(name, label, description, 0),
 	    m_List(list),
 	    m_State(def_val)
 	{

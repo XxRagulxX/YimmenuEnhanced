@@ -1,6 +1,6 @@
 #pragma once
-#include "Commands/CommandToggle.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Core/Pointers.hpp"
 #include "Rendering/Theme.hpp"
@@ -12,7 +12,7 @@
 #include <utility>
 #include <windows.h>
 
-namespace StandEnhanced::StandWidgets
+namespace Stand::StandWidgets
 {
 	namespace Detail
 	{
@@ -48,11 +48,11 @@ namespace StandEnhanced::StandWidgets
 	// int16_t the caller points it at, syncing both on a live edit and
 	// on a loaded config value (see CommandPositionAxis::LoadState()'s
 	// own comment for why the latter needs its own explicit sync).
-	class CommandPositionAxis : public CommandSlider
+	class CommandPositionAxis : public CommandSliderLegacy
 	{
 	public:
 		CommandPositionAxis(std::string name, std::string label, std::string description, int16_t* target, int16_t defaultValue) :
-		    CommandSlider(std::move(name), std::move(label), std::move(description), SHRT_MIN, SHRT_MAX, defaultValue),
+		    CommandSliderLegacy(std::move(name), std::move(label), std::move(description), SHRT_MIN, SHRT_MAX, defaultValue),
 		    m_Target(target)
 		{
 		}
@@ -72,7 +72,7 @@ namespace StandEnhanced::StandWidgets
 		// directly).
 		void LoadState(nlohmann::json& value) override
 		{
-			CommandSlider::LoadState(value);
+			CommandSliderLegacy::LoadState(value);
 			Sync();
 		}
 
@@ -95,11 +95,11 @@ namespace StandEnhanced::StandWidgets
 	// directly, not a mouse click/drag gesture - same shape here (a
 	// hidden always-on LoopedCommand ticker polling GetCursorPos() every
 	// game tick while this toggle itself is on).
-	class CommandPosition2dMouse : public CommandToggle
+	class CommandPosition2dMouse : public CommandToggleLegacy
 	{
 	public:
 		CommandPosition2dMouse(std::string name, std::string label, std::string description, CommandPositionAxis* x, CommandPositionAxis* y) :
-		    CommandToggle(name, label, description, false),
+		    CommandToggleLegacy(name, label, description, false),
 		    m_X(x),
 		    m_Y(y),
 		    m_Ticker(name + "_tick", label + " Ticker", "Internal - always on, polls the cursor while " + label + " is on", this)

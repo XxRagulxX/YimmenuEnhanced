@@ -1,5 +1,5 @@
 #pragma once
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Util/get_current_time_millis.hpp"
 
@@ -9,7 +9,7 @@
 #include <string>
 #include <utility>
 
-namespace StandEnhanced::StandWidgets
+namespace Stand::StandWidgets
 {
 	// Ported from real Stand's own CommandRainbow (Commands/Stand/
 	// CommandRainbow.hpp on origin/stand-reference): a speed control
@@ -32,11 +32,11 @@ namespace StandEnhanced::StandWidgets
 	// yet - a real, disclosed, deliberately deferred gap (see this
 	// session's own Settings > Appearance scoping) - so there's nothing
 	// else here to cross-update.
-	class CommandRainbow : public CommandSlider
+	class CommandRainbow : public CommandSliderLegacy
 	{
 	public:
 		CommandRainbow(std::string name, std::string label, std::string description, DirectX::XMFLOAT4* target) :
-		    CommandSlider(name, label, description, 0, 1000, 0),
+		    CommandSliderLegacy(name, label, description, 0, 1000, 0),
 		    m_Target(target),
 		    m_Ticker(name + "_tick", label + " Ticker", "Internal - always on, cycles " + label + "'s hue over time", this)
 		{

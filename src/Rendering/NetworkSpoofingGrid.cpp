@@ -1,6 +1,6 @@
 #include "Rendering/NetworkSpoofingGrid.hpp"
 
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/Commands.hpp"
 #include "Rendering/GridItemCommandSlider.hpp"
 #include "Rendering/GridItemCommandListSelect.hpp"
@@ -9,7 +9,7 @@
 #include "Util/Joaat.hpp"
 #include "Rendering/Theme.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{
@@ -23,8 +23,8 @@ namespace StandEnhanced::Rendering
 		// rather than its plain joaat_t one.
 		bool ShouldShowMmRegion()
 		{
-			auto* cheaterpool = Commands::GetCommand<CommandToggle>("cheaterpool"_J);
-			auto* spoofmmregion = Commands::GetCommand<CommandToggle>("spoofmmregion"_J);
+			auto* cheaterpool = Commands::GetCommand<CommandToggleLegacy>("cheaterpool"_J);
+			auto* spoofmmregion = Commands::GetCommand<CommandToggleLegacy>("spoofmmregion"_J);
 			return (!cheaterpool || !cheaterpool->GetState()) && spoofmmregion && spoofmmregion->GetState();
 		}
 	}

@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/types.hpp"
 
-namespace StandEnhanced::Stats
+namespace Stand::Stats
 {
 	extern int GetCharIndex();
 

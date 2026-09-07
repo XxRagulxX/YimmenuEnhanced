@@ -12,7 +12,7 @@
 #include "Rendering/imgui_colors.h"
 #include "Core/Hooking.hpp"
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	static std::optional<rage::netMessage::Type> ReadType(rage::datBitBuffer& buffer)
 	{

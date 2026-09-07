@@ -1,7 +1,7 @@
 #include "Commands/Vehicle/CommandAutoDriveShared.hpp"
 #include "Commands/Vehicle/CommandAutoDriveHudTelemetry.hpp"
 
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/Commands.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Rendering/Notifications.hpp"
@@ -15,7 +15,7 @@
 #include <string>
 #include <string_view>
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class NpcAutoDrive : public LoopedCommand
 	{
@@ -318,7 +318,7 @@ namespace StandEnhanced::Features
 
 		virtual void OnEnable() override
 		{
-			auto playerAutoDrive = Commands::GetCommand<CommandToggle>("autodrive"_J);
+			auto playerAutoDrive = Commands::GetCommand<CommandToggleLegacy>("autodrive"_J);
 			if (AutoDriveInternal::Coordinator::GetOwner() == AutoDriveInternal::Owner::None
 			    && playerAutoDrive
 			    && playerAutoDrive->GetState())

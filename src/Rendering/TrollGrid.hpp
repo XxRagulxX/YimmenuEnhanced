@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Players > Troll: mirrors Troll.cpp's general/
 	// bounty/vehicle groups exactly - bountyamount now has a real widget

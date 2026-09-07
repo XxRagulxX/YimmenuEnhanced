@@ -2,7 +2,7 @@
 #include <cstddef>
 #include <cstdint>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	class Grid;
 	class GridItem;

@@ -2,7 +2,7 @@
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Ported from real Stand's own CommandSelfFreeze.
 	class SelfFreeze : public LoopedCommand

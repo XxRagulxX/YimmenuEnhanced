@@ -5,7 +5,7 @@ namespace rage
 	class scrThread;
 }
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class OpenStreetDealerMenu
 	{

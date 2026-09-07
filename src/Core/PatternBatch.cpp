@@ -9,7 +9,7 @@
 #include "Core/LogHelper.hpp"
 #include "Core/PatternCache.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	PatternHash PatternBatch::MakePatternHash(
 	    std::string_view signature)

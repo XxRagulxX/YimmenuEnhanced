@@ -3,7 +3,7 @@
 #include "Core/Pointers.hpp"
 #include "Network/netSyncTree.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	SyncNodeId& Nodes::FindImpl(uintptr_t addr)
 	{

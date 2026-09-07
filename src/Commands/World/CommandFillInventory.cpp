@@ -1,11 +1,11 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "World/Stats.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class FillInventory : public Command
+	class FillInventory : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

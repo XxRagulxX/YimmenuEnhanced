@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <string_view>
 
-namespace StandEnhanced
+namespace Stand
 {
 	using joaat_t = std::uint32_t;
 
@@ -28,13 +28,13 @@ namespace StandEnhanced
 
 };
 
-inline consteval StandEnhanced::joaat_t operator""_J(const char* s, std::size_t n)
+inline consteval Stand::joaat_t operator""_J(const char* s, std::size_t n)
 {
-	StandEnhanced::joaat_t result = 0;
+	Stand::joaat_t result = 0;
 
 	for (std::size_t i = 0; i < n; i++)
 	{
-		result += StandEnhanced::ToLower(s[i]);
+		result += Stand::ToLower(s[i]);
 		result += (result << 10);
 		result ^= (result >> 6);
 	}

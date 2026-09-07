@@ -5,7 +5,7 @@
 #include "Core/Pointers.hpp"
 #include "Network/GlobalPlayerBD.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class OffTheRadar : public LoopedCommand
 	{

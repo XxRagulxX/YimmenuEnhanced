@@ -4,7 +4,7 @@
 #include "Scripting/ScriptFunction.hpp"
 #include "Scripting/ScriptPointer.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	class ScriptFunctionBinding : LuaLibrary
 	{

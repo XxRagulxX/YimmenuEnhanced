@@ -1,6 +1,6 @@
 #include "Commands/Vehicle/CommandAutoDriveShared.hpp"
 
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/CommandListSelect.hpp"
 #include "Scripting/Natives.hpp"
 #include "Game/BlipSprite.hpp"
@@ -12,7 +12,7 @@
 #include <string>
 #include <vector>
 
-namespace StandEnhanced::Features::AutoDriveInternal
+namespace Stand::Features::AutoDriveInternal
 {
 	static constexpr int lawful_driving_style = 786603;
 	static constexpr int ignore_lights_driving_style = 2883621;
@@ -22,7 +22,7 @@ namespace StandEnhanced::Features::AutoDriveInternal
 	static constexpr int reckless_driving_style = 1074529086;
 	static constexpr float target_move_threshold_squared = 25.0f;
 
-	static CommandSlider _AutoDriveSpeed{
+	static CommandSliderLegacy _AutoDriveSpeed{
 	    "autodrivespeed",
 	    "Cruise Speed (km/h)",
 	    "The target speed used by Auto Drive",

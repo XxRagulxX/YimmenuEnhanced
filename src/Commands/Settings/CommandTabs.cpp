@@ -1,19 +1,19 @@
 #include "Commands/CommandListSelect.hpp"
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Rendering/GridRenderer.hpp"
 #include "Rendering/Theme.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Ported from real Stand's own CommandTabs (Commands/Widgets/
 	// CommandTabs.hpp on origin/stand-reference) - show/hide the whole
 	// sidebar (Theme::kTabsVisible), triggering a full menu re-layout the
 	// same way real Stand's own onChange() calls g_menu_grid.update().
-	class CommandTabs : public CommandToggle
+	class CommandTabs : public CommandToggleLegacy
 	{
 	public:
 		CommandTabs() :
-		    CommandToggle("tabs", "Tabs", "Whether the menu's own sidebar/tab strip is shown at all.", true)
+		    CommandToggleLegacy("tabs", "Tabs", "Whether the menu's own sidebar/tab strip is shown at all.", true)
 		{
 		}
 
@@ -30,7 +30,7 @@ namespace StandEnhanced::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			CommandToggle::LoadState(value);
+			CommandToggleLegacy::LoadState(value);
 			Sync();
 		}
 

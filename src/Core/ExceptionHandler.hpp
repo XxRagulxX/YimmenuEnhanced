@@ -10,7 +10,7 @@
 #include "Core/ErrorCommons.hpp"
 #include "Core/Spinlock.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	enum class ExceptionContext : uint8_t
 	{
@@ -39,19 +39,19 @@ namespace StandEnhanced
 
 extern "C"
 {
-	void exceptional_init(StandEnhanced::handle_caught_exception_t fpCaughtExp, StandEnhanced::handle_uncaught_exception_t fpLogUncaughtExp);
+	void exceptional_init(Stand::handle_caught_exception_t fpCaughtExp, Stand::handle_uncaught_exception_t fpLogUncaughtExp);
 
 	void disable_exception_handling();
 
 	[[nodiscard]] bool exceptional_has_exp();
 
-	void exceptional_get_exp(void** pOutData, StandEnhanced::handle_exception_t* pOutHandler);
+	void exceptional_get_exp(void** pOutData, Stand::handle_exception_t* pOutHandler);
 
 	void exceptional_clear_exp();
 
-	long exceptional_on_exception(StandEnhanced::ExceptionData* data, StandEnhanced::handle_caught_exception_t handler);
+	long exceptional_on_exception(Stand::ExceptionData* data, Stand::handle_caught_exception_t handler);
 
-	long exceptional_on_caught_exception(StandEnhanced::ExceptionData* data); long exceptional_on_uncaught_exception(_EXCEPTION_POINTERS* exp);
+	long exceptional_on_caught_exception(Stand::ExceptionData* data); long exceptional_on_uncaught_exception(_EXCEPTION_POINTERS* exp);
 
 	void exceptional_set_retval(long retval);
 }
@@ -64,9 +64,9 @@ extern "C"
 #define __EXCEPTIONAL_CTX(ctx)             \
 	__except (                             \
 	    ::exceptional_on_caught_exception( \
-	        new ::StandEnhanced::ExceptionData{  \
+	        new ::Stand::ExceptionData{  \
 	            GetExceptionInformation(), \
-	            ::StandEnhanced::ExceptionContext::##ctx}))
+	            ::Stand::ExceptionContext::##ctx}))
 
 #define __EXCEPTIONAL() \
 	__EXCEPTIONAL_CTX(OTHER)
@@ -77,9 +77,9 @@ extern "C"
 #define __EXCEPTIONAL_CUSTOM_CTX(handler, ctx)       \
 	__except (                                       \
 	    ::exceptional_on_exception(                  \
-	        new ::StandEnhanced::ExceptionData{            \
+	        new ::Stand::ExceptionData{            \
 	            GetExceptionInformation(),           \
-	            ::StandEnhanced::ExceptionContext::##ctx}, \
+	            ::Stand::ExceptionContext::##ctx}, \
 	        handler))
 
 #define __EXCEPTIONAL_CUSTOM(handler) \
@@ -91,17 +91,17 @@ extern "C"
 #define __EXCEPTIONAL_LOG_IF(cond)                              \
 	__except (                                                  \
 	    (cond) ? ::exceptional_on_caught_exception(             \
-	                 new ::StandEnhanced::ExceptionData{              \
+	                 new ::Stand::ExceptionData{              \
 	                     GetExceptionInformation(),             \
-	                     ::StandEnhanced::ExceptionContext::OTHER}) : \
+	                     ::Stand::ExceptionContext::OTHER}) : \
 	             EXCEPTION_EXECUTE_HANDLER)
 
 #define __EXCEPTIONAL_IF(cond)                                  \
 	__except (                                                  \
 	    (cond) ? ::exceptional_on_caught_exception(             \
-	                 new ::StandEnhanced::ExceptionData{              \
+	                 new ::Stand::ExceptionData{              \
 	                     GetExceptionInformation(),             \
-	                     ::StandEnhanced::ExceptionContext::OTHER}) : \
+	                     ::Stand::ExceptionContext::OTHER}) : \
 	             EXCEPTION_CONTINUE_SEARCH)
 
 
@@ -131,7 +131,7 @@ extern "C"
 	}                                    \
 	mtx.unlock();
 
-namespace StandEnhanced
+namespace Stand
 {
 	class Exceptional
 	{

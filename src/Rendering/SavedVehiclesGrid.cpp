@@ -1,6 +1,6 @@
 #include "Rendering/SavedVehiclesGrid.hpp"
 
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/Vehicle/CommandSavedVehicles.hpp"
 #include "Commands/Commands.hpp"
 #include "Scripting/FiberPool.hpp"
@@ -18,7 +18,7 @@
 
 #include <format>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{
@@ -95,7 +95,7 @@ namespace StandEnhanced::Rendering
 		    [this](size_t, const std::string& value, bool, bool, bool) {
 			    MenuPopup::Confirm(std::format("Are you sure you want to spawn {}", value), [this, value] {
 				    FiberPool::queueJob([this, value] {
-					    auto* spawnInside = Commands::GetCommand<CommandToggle>("spawninsidesavedveh"_J);
+					    auto* spawnInside = Commands::GetCommand<CommandToggleLegacy>("spawninsidesavedveh"_J);
 					    SavedVehicles::Load(m_Folder, value, spawnInside && spawnInside->GetState());
 				    });
 			    });

@@ -2,7 +2,7 @@
 #include "Scripting/LuaMainUtils.hpp"
 #include "Network/Tunables.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	class Tunables : LuaLibrary
 	{

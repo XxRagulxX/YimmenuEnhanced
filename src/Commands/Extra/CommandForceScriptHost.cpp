@@ -3,7 +3,7 @@
 #include "Scripting/Scripts.hpp"
 #include "Core/Pointers.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class ForceScriptHost : public LoopedCommand
 	{

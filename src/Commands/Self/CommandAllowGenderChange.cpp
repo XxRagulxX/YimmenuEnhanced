@@ -1,11 +1,11 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "World/Stats.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class AllowGenderChange : public CommandToggle
+	class AllowGenderChange : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		virtual void OnEnable() override
 		{

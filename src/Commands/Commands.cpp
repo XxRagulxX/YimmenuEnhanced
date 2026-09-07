@@ -1,10 +1,10 @@
 #include "Commands/Commands.hpp"
-#include "Commands/Command.hpp"
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandLegacy.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Scripting/ScriptMgr.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	Commands::Commands() :
 	    IStateSerializer("commands")
@@ -21,12 +21,12 @@ namespace StandEnhanced
 		}
 	}
 
-	void Commands::AddCommandImpl(Command* command)
+	void Commands::AddCommandImpl(CommandLegacy* command)
 	{
 		m_Commands.insert({command->GetHash(), command});
 	}
 
-	void Commands::AddBoolCommandImpl(CommandToggle* command)
+	void Commands::AddBoolCommandImpl(CommandToggleLegacy* command)
 	{
 		m_BoolCommands.push_back(command);
 	}
@@ -36,14 +36,14 @@ namespace StandEnhanced
 		m_LoopedCommands.push_back(command);
 	}
 
-	void Commands::RemoveCommandImpl(Command* command)
+	void Commands::RemoveCommandImpl(CommandLegacy* command)
 	{
 		if (!command)
 			return;
 
 		m_Commands.erase(command->GetHash());
 		
-		std::erase(m_BoolCommands, dynamic_cast<CommandToggle*>(command));
+		std::erase(m_BoolCommands, dynamic_cast<CommandToggleLegacy*>(command));
 		std::erase(m_LoopedCommands, dynamic_cast<LoopedCommand*>(command));
 	}
 
@@ -61,7 +61,7 @@ namespace StandEnhanced
 				command->Tick();
 	}
 
-	Command* Commands::GetCommandImpl(joaat_t hash)
+	CommandLegacy* Commands::GetCommandImpl(joaat_t hash)
 	{
 		if (auto it = m_Commands.find(hash); it != m_Commands.end())
 			return it->second;

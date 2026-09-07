@@ -1,4 +1,4 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/Commands.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Rendering/Notifications.hpp"
@@ -7,7 +7,7 @@
 
 #include <chrono>
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	namespace
 	{
@@ -31,7 +31,7 @@ namespace StandEnhanced::Features
 			// that toggle actively fights this one (it forces ragdoll
 			// OFF every tick, this one wants it back on) - see
 			// CommandNoRagdoll.cpp.
-			if (auto* grace = Commands::GetCommand<CommandToggle>("noragdoll"_J); grace && grace->GetState())
+			if (auto* grace = Commands::GetCommand<CommandToggleLegacy>("noragdoll"_J); grace && grace->GetState())
 			{
 				Notifications::Show("Clumsiness",
 				    "Gracefulness (No Ragdoll) is on - Clumsiness won't work until it's off.",

@@ -1,5 +1,5 @@
-#include "Commands/CommandToggle.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Core/Pointers.hpp"
 #include "Rendering/Theme.hpp"
@@ -9,7 +9,7 @@
 #include <cstdint>
 #include <windows.h>
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	namespace
 	{
@@ -47,11 +47,11 @@ namespace StandEnhanced::Features
 	// to its own MenuGrid::default_origin ({1323, 560}) - this project's
 	// own Theme::kDefaultMenuOriginX/Y are the exact same numbers (see
 	// that constant's own comment).
-	class CommandMenuPositionX : public CommandSlider
+	class CommandMenuPositionX : public CommandSliderLegacy
 	{
 	public:
 		CommandMenuPositionX() :
-		    CommandSlider("menux", "X", "The menu's own horizontal position.", SHRT_MIN, SHRT_MAX, Rendering::Theme::kDefaultMenuOriginX)
+		    CommandSliderLegacy("menux", "X", "The menu's own horizontal position.", SHRT_MIN, SHRT_MAX, Rendering::Theme::kDefaultMenuOriginX)
 		{
 		}
 
@@ -66,7 +66,7 @@ namespace StandEnhanced::Features
 		// LoadState() override.
 		void LoadState(nlohmann::json& value) override
 		{
-			CommandSlider::LoadState(value);
+			CommandSliderLegacy::LoadState(value);
 			Sync();
 		}
 
@@ -77,11 +77,11 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class CommandMenuPositionY : public CommandSlider
+	class CommandMenuPositionY : public CommandSliderLegacy
 	{
 	public:
 		CommandMenuPositionY() :
-		    CommandSlider("menuy", "Y", "The menu's own vertical position.", SHRT_MIN, SHRT_MAX, Rendering::Theme::kDefaultMenuOriginY)
+		    CommandSliderLegacy("menuy", "Y", "The menu's own vertical position.", SHRT_MIN, SHRT_MAX, Rendering::Theme::kDefaultMenuOriginY)
 		{
 		}
 
@@ -93,7 +93,7 @@ namespace StandEnhanced::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			CommandSlider::LoadState(value);
+			CommandSliderLegacy::LoadState(value);
 			Sync();
 		}
 
@@ -118,11 +118,11 @@ namespace StandEnhanced::Features
 	// this toggle itself is on), which is why re-adding this doesn't
 	// conflict with the menu otherwise being keyboard-only now: nothing
 	// here is routed through a window message.
-	class CommandMenuMouseMove : public CommandToggle
+	class CommandMenuMouseMove : public CommandToggleLegacy
 	{
 	public:
 		CommandMenuMouseMove() :
-		    CommandToggle("menumousemove",
+		    CommandToggleLegacy("menumousemove",
 		        "Move With Mouse",
 		        "While on, moving the mouse drags the whole menu with it - turn this back off to drop it in place.",
 		        false),

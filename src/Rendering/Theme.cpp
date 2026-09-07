@@ -5,7 +5,7 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 
-namespace StandEnhanced::Rendering::Theme
+namespace Stand::Rendering::Theme
 {
 	namespace
 	{

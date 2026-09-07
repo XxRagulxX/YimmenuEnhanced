@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
 
-namespace StandEnhanced
+namespace Stand
 {
 	constexpr auto g_PedModels = std::to_array({
 	    "a_c_boar",

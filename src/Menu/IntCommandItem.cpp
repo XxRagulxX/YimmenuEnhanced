@@ -1,12 +1,12 @@
 #include "Menu/Items.hpp"
 #include "Commands/Commands.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	IntCommandItem::IntCommandItem(joaat_t id, std::optional<std::string> label_override, bool use_slider) :
 	    m_useSlider(use_slider),
-	    m_Command(Commands::GetCommand<CommandSlider>(id)),
+	    m_Command(Commands::GetCommand<CommandSliderLegacy>(id)),
 	    m_LabelOverride(label_override)
 	{
 	}

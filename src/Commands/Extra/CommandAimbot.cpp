@@ -1,4 +1,4 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
@@ -7,7 +7,7 @@
 
 #include <set>
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class Aimbot : public LoopedCommand
 	{
@@ -44,9 +44,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class AimbotAimForHead : public CommandToggle
+	class AimbotAimForHead : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		virtual void OnEnable() override
 		{
@@ -59,9 +59,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class AimbotTargetDrivers : public CommandToggle
+	class AimbotTargetDrivers : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		virtual void OnEnable() override
 		{

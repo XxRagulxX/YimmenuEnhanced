@@ -1,5 +1,5 @@
 #pragma once
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Rendering/GridItemCommandSlider.hpp"
 #include "Rendering/GridItemFocusTracker.hpp"
 #include "Util/Joaat.hpp"
@@ -7,7 +7,7 @@
 #include <optional>
 #include <string>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Ported from real Stand's own CommandSliderProximity (Commands/
 	// Widgets/CommandSliderProximity.hpp on origin/stand-reference) - a
@@ -38,7 +38,7 @@ namespace StandEnhanced::Rendering
 
 	private:
 		joaat_t m_Id;
-		CommandSlider* m_Command;
+		CommandSliderLegacy* m_Command;
 		GridItemFocusTracker m_FocusTracker;
 	};
 }

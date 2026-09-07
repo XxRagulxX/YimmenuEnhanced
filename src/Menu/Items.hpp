@@ -2,15 +2,15 @@
 #include "Menu/UIItem.hpp"
 #include "Util/Joaat.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
-	class CommandToggle;
+	class CommandToggleLegacy;
 	class PlayerCommand;
 	class CommandListSelect;
-	class CommandSlider;
-	class CommandSliderFloat;
+	class CommandSliderLegacy;
+	class CommandSliderFloatLegacy;
 	class CommandPosition3d;
-	class Command;
+	class CommandLegacy;
 	class CommandColourCustom;
 	class CommandInput;
 
@@ -34,7 +34,7 @@ namespace StandEnhanced
 		void Draw() override;
 
 	private:
-		Command* m_Command;
+		CommandLegacy* m_Command;
 		std::optional<std::string> m_LabelOverride;
 	};
 
@@ -56,7 +56,7 @@ namespace StandEnhanced
 		void Draw() override;
 
 	private:
-		CommandToggle* m_Command;
+		CommandToggleLegacy* m_Command;
 		std::optional<std::string> m_LabelOverride;
 	};
 
@@ -68,7 +68,7 @@ namespace StandEnhanced
 
 	private:
 		bool m_useSlider;
-		CommandSlider* m_Command;
+		CommandSliderLegacy* m_Command;
 		std::optional<std::string> m_LabelOverride;
 	};
 
@@ -80,7 +80,7 @@ namespace StandEnhanced
 
 	private:
 		bool m_useSlider;
-		CommandSliderFloat* m_Command;
+		CommandSliderFloatLegacy* m_Command;
 		std::optional<std::string> m_LabelOverride;
 	};
 
@@ -115,7 +115,7 @@ namespace StandEnhanced
 		bool CanDraw() override;
 
 	private:
-		CommandToggle* m_Condition;
+		CommandToggleLegacy* m_Condition;
 		std::function<bool()> m_ConditionFn;
 		std::shared_ptr<UIItem> m_Item;
 		bool m_Negate;

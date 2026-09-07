@@ -1,6 +1,6 @@
 #include "Game/BaseObj.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	BaseObj::BaseObj(const std::filesystem::path& path) :
 	    m_Path(path)

@@ -2,7 +2,7 @@
 #include <fstream>
 #include "Core/FileMgr.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	std::filesystem::path SavedLocations::GetSavedLocationsFilePath()
 	{

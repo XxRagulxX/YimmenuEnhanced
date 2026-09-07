@@ -7,7 +7,7 @@
 #include <cctype>
 #include <windows.h>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	GridItemSelectList::GridItemSelectList(int16_t width,
 	    std::string placeholder,

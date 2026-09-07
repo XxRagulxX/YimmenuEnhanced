@@ -1,6 +1,6 @@
 #include "Rendering/SettingsGameGrid.hpp"
 
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/Commands.hpp"
 #include "Rendering/GridItemCommandColourCustom.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
@@ -8,7 +8,7 @@
 #include "Util/Joaat.hpp"
 #include "Rendering/Theme.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{
@@ -21,19 +21,19 @@ namespace StandEnhanced::Rendering
 		// every AddConditionalColorCommandRows() call site below.
 		bool IsPlayerEspOn()
 		{
-			auto* espdrawplayers = Commands::GetCommand<CommandToggle>("espdrawplayers"_J);
+			auto* espdrawplayers = Commands::GetCommand<CommandToggleLegacy>("espdrawplayers"_J);
 			return espdrawplayers && espdrawplayers->GetState();
 		}
 
 		bool IsPedEspOn()
 		{
-			auto* espdrawpeds = Commands::GetCommand<CommandToggle>("espdrawpeds"_J);
+			auto* espdrawpeds = Commands::GetCommand<CommandToggleLegacy>("espdrawpeds"_J);
 			return espdrawpeds && espdrawpeds->GetState();
 		}
 
 		bool IsObjectEspOn()
 		{
-			auto* espdrawobjects = Commands::GetCommand<CommandToggle>("espdrawobjects"_J);
+			auto* espdrawobjects = Commands::GetCommand<CommandToggleLegacy>("espdrawobjects"_J);
 			return espdrawobjects && espdrawobjects->GetState();
 		}
 	}

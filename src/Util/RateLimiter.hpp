@@ -1,7 +1,7 @@
 #pragma once
 #include <chrono>
 
-namespace StandEnhanced
+namespace Stand
 {
 	class RateLimiter
 	{

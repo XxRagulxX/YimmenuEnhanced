@@ -1,9 +1,9 @@
 #pragma once
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 
 #include <utility>
 
-namespace StandEnhanced::StandWidgets
+namespace Stand::StandWidgets
 {
 	// Ported from real Stand's own CommandTogglePointer - a toggle backed
 	// by an existing bool* (typically a static field on some manager
@@ -22,11 +22,11 @@ namespace StandEnhanced::StandWidgets
 	// rather than each row owning independent state - this is the one
 	// widget missing to port those directly instead of redesigning them
 	// around independent BoolCommands.
-	class CommandTogglePointer : public CommandToggle
+	class CommandTogglePointer : public CommandToggleLegacy
 	{
 	public:
 		CommandTogglePointer(std::string name, std::string label, std::string description, bool* ptr) :
-		    CommandToggle(std::move(name), std::move(label), std::move(description), ptr && *ptr),
+		    CommandToggleLegacy(std::move(name), std::move(label), std::move(description), ptr && *ptr),
 		    m_Ptr(ptr)
 		{
 		}

@@ -4,7 +4,7 @@
 
 #include <algorithm>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	void GridItemText::drawText()
 	{

@@ -5,7 +5,7 @@
 #include <cstdint>      // std::uint32_t
 #include <cstring>      // memcpy
 
-namespace StandEnhanced
+namespace Stand
 {
 	class VMTHook
 	{

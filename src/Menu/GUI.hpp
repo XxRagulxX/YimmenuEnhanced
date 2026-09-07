@@ -3,7 +3,7 @@
 
 #include <windows.h>
 
-namespace StandEnhanced
+namespace Stand
 {
 	class GUI final
 	{

@@ -6,7 +6,7 @@
 
 #include <algorithm>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

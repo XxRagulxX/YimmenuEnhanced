@@ -1,6 +1,6 @@
 #include "Rendering/MenuCommandConsole.hpp"
 
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Commands/Commands.hpp"
 #include "Commands/Widgets/CommandPhysical.hpp"
 #include "Commands/Widgets/CommandRegistry.hpp"
@@ -14,7 +14,7 @@
 #include <unordered_set>
 #include <windows.h>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{
@@ -39,7 +39,7 @@ namespace StandEnhanced::Rendering
 		// One command not yet turned into a Match - built for every
 		// registered command up front (both registries), then narrowed
 		// down against the typed prefix. names holds every alias (real
-		// Stand's own command_names - a legacy StandEnhanced::Command only
+		// Stand's own command_names - a legacy Stand::Command only
 		// ever has the one), display is what a match's own hint line
 		// shows regardless of which alias matched (real Stand's own
 		// getCompletionHint() always uses command_names.at(0), never the
@@ -267,7 +267,7 @@ namespace StandEnhanced::Rendering
 
 		const auto layout = ComputeLayout();
 
-		const char* title = "Command Console";
+		const char* title = "CommandLegacy Console";
 		const auto titleSize = GridRenderer::MeasureText(title, Theme::kSmallTextScale);
 		GridRenderer::DrawText(layout.x + kPaddingX,
 		    layout.titleY + std::max(0.f, (layout.titleHeight - titleSize.y) * 0.5f),

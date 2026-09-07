@@ -1,7 +1,7 @@
 #include "World/Self.hpp"
 #include "Commands/PlayerCommand.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class TeleportToPlayer : public PlayerCommand
 	{

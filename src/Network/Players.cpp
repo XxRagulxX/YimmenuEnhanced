@@ -6,7 +6,7 @@
 #include "Network/CNetworkPlayerMgr.hpp"
 #include "Network/rlGamerInfo.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	void Players::InitImpl()
 	{

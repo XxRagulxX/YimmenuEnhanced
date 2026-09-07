@@ -1,6 +1,6 @@
 #pragma once
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Global "is some on-screen text field currently capturing keyboard
 	// input" flag - the DirectXTK-era equivalent of ImGui's own

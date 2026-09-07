@@ -3,12 +3,12 @@
 
 #include <memory>
 
-namespace StandEnhanced
+namespace Stand
 {
 	class LuaScript;
 }
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Settings > Lua Scripts: mirrors LuaScripts.cpp's
 	// BuildLuaScriptsMenu() - a search-list of every loaded script (name

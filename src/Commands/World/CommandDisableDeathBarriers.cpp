@@ -1,11 +1,11 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Scripting/ScriptPatches.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class DisableDeathBarriers : public CommandToggle
+	class DisableDeathBarriers : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		ScriptPatch m_DeathBarriersPatch{};
 

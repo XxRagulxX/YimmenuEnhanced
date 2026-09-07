@@ -8,13 +8,13 @@
 #include "Scripting/LuaMainUtils.hpp"
 #include "Util/Joaat.hpp"
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	static bool CheckLuaScripts(Player player, CScriptedGameEvent& event)
 	{
 		return LuaManager::DispatchEvent(MenuEvent::ScriptedGameEventReceived, [player, &event](lua_State* state)
 		{
-			Lua::CreateObject<StandEnhanced::Player>(state, player);
+			Lua::CreateObject<Stand::Player>(state, player);
 
 			lua_newtable(state);
 			auto length = event.m_ArgsSize / 8;

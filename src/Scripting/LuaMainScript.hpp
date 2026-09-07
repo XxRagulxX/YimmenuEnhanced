@@ -4,7 +4,7 @@
 #include "Scripting/LuaConfig.hpp"
 #include "Scripting/LuaUserInterface.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	enum class MenuEvent
 	{

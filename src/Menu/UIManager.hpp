@@ -2,7 +2,7 @@
 #include "Menu/Category.hpp"
 #include "Menu/Submenu.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	// The classic menu tree - Category/Submenu/UIManager/Items.hpp's own
 	// *Item classes. This project has fully moved onto the Stand-style

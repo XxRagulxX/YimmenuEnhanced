@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Settings > Notifications > Timing - real Stand's own Reading
 	// Speed/Reading Start Delay/Min Duration/Max Duration - see

@@ -1,17 +1,17 @@
 //#include "CommandToggle.hpp"
 #include "World/Stats.hpp"
 #include "Scripting/Natives.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Scripting/ScriptGlobal.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Rendering/Notifications.hpp"
 #include "Scripting/FiberPool.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 
-	static CommandSlider _SetRankValue{"setrankvalue", "Rank", "Enter your desired RP level", std::nullopt, std::nullopt, 1};
-	static CommandSlider _SetCrewRankValue{"setcrewvalue", "Crew Rank", "Enter your desired Crew Rank", std::nullopt, std::nullopt, 1};
+	static CommandSliderLegacy _SetRankValue{"setrankvalue", "Rank", "Enter your desired RP level", std::nullopt, std::nullopt, 1};
+	static CommandSliderLegacy _SetCrewRankValue{"setcrewvalue", "Crew Rank", "Enter your desired Crew Rank", std::nullopt, std::nullopt, 1};
 
 	static const int RP_TABLE[] = {
 	    0,
@@ -113,9 +113,9 @@ namespace StandEnhanced::Features
 	    1499100,
 	    1527300};
 
-	class SetRank : public Command
+	class SetRank : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -145,9 +145,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class SetCrewRank : public Command
+	class SetCrewRank : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -179,9 +179,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class BunkerResearch : public Command
+	class BunkerResearch : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -247,9 +247,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class UnlockClothing : public Command
+	class UnlockClothing : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -881,9 +881,9 @@ namespace StandEnhanced::Features
 			Notifications::Show("Clothing", "Unlocking Clothing Completed", NotificationType::Success);
 		}
 	};
-	class UnlockCareerProgressAwards : public Command
+	class UnlockCareerProgressAwards : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -1780,9 +1780,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class UnlockEverything : public Command
+	class UnlockEverything : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -3509,9 +3509,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class UnlockAllTattoos : public Command
+	class UnlockAllTattoos : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -3571,9 +3571,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class UnlockSpecialItems : public Command
+	class UnlockSpecialItems : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -3955,9 +3955,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class UnlockAllParachutes : public Command
+	class UnlockAllParachutes : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -3976,9 +3976,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class FastRunReloadUnlock : public Command
+	class FastRunReloadUnlock : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -3991,9 +3991,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class UnlockAchievements : public Command
+	class UnlockAchievements : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -4004,9 +4004,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class UnlockMasks : public Command
+	class UnlockMasks : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -4184,9 +4184,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class UnlockFlightSchool : public Command
+	class UnlockFlightSchool : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 		virtual void OnCall() override
 		{
 			for (int i = 0; i < 10; ++i)
@@ -4199,9 +4199,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class UnlockCollectables : public Command
+	class UnlockCollectables : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

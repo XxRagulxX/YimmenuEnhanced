@@ -1,6 +1,6 @@
 #include "Commands/PlayerCommand.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class DeleteVehicle : public PlayerCommand
 	{

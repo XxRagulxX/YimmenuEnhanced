@@ -1,7 +1,7 @@
 #include "Commands/PlayerCommand.hpp"
 #include "Network/ScriptEvent.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class SendSext : public PlayerCommand
 	{

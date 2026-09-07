@@ -56,14 +56,14 @@ namespace Stand
 	{
 		auto lastTrigger = std::chrono::steady_clock::time_point{};
 
-		while (StandEnhanced::g_Running)
+		while (Stand::g_Running)
 		{
 			// Same gating conditions as Config/HotkeySystem.cpp's own
 			// RunScriptImpl() - a hotkey shouldn't fire while typing into
 			// an ImGui text field, while the pause menu/SC overlay has
 			// input focus, or while some other window is focused.
-			if (GetForegroundWindow() == *StandEnhanced::Pointers.Hwnd && !HUD::IS_PAUSE_MENU_ACTIVE() && !HUD::IS_SOCIAL_CLUB_ACTIVE()
-			    && !StandEnhanced::GUI::IsUsingKeyboard() && std::chrono::steady_clock::now() - lastTrigger > kCooldown)
+			if (GetForegroundWindow() == *Stand::Pointers.Hwnd && !HUD::IS_PAUSE_MENU_ACTIVE() && !HUD::IS_SOCIAL_CLUB_ACTIVE()
+			    && !Stand::GUI::IsUsingKeyboard() && std::chrono::steady_clock::now() - lastTrigger > kCooldown)
 			{
 				for (auto* command : m_Commands)
 				{
@@ -79,7 +79,7 @@ namespace Stand
 				}
 			}
 
-			StandEnhanced::Script::current()->yield();
+			Stand::Script::current()->yield();
 		}
 	}
 }

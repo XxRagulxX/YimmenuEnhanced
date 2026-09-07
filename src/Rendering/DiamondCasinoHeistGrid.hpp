@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Tab target for Recovery > Heists > Diamond Casino Heist: mirrors
 	// DiamondCasinoHeist.cpp's RenderDiamondCasinoHeistMenu() in full -

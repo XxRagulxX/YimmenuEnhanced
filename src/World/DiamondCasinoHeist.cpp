@@ -2,7 +2,7 @@
 #include "Menu/Items.hpp"
 #include <memory>
 
-namespace StandEnhanced::Submenus
+namespace Stand::Submenus
 {
 	std::shared_ptr<TabItem> RenderDiamondCasinoHeistMenu()
 	{

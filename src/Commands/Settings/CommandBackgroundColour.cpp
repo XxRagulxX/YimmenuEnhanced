@@ -1,7 +1,7 @@
 #include "Commands/CommandColourCustom.hpp"
 #include "Rendering/Theme.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Ported from real Stand's own CommandBackgroundColour (Commands/
 	// Stand/CommandBackgroundColour.hpp on origin/stand-reference) - the

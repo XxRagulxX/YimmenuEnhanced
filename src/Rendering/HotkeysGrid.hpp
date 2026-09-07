@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Settings > Hotkeys: mirrors MenuSettings.cpp's own
 	// Hotkeys()/DrawHotkey.cpp - one row per registered Command that has

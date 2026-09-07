@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Settings > Appearance > Position - real Stand's own CommandMenuPosition
 	// (X/Y + Move With Mouse) - see Commands/Settings/CommandMenuPosition.cpp.

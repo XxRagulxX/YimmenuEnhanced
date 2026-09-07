@@ -1,7 +1,7 @@
 #pragma once
 #include "Commands/Widgets/CommandList.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Test-only root for the Stand Command/CommandList/CommandToggle
 	// bridge (Rendering/GridItemStandCommand.hpp, Rendering/

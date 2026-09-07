@@ -1,7 +1,7 @@
 #pragma once
 #include "Menu/Items.hpp"
 
-namespace StandEnhanced::Submenus
+namespace Stand::Submenus
 {
 	std::shared_ptr<TabItem> RenderApartmentHeistMenu();
 }

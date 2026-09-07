@@ -3,7 +3,7 @@
 #include "Core/Hooks.hpp"
 #include "Core/Hooking.hpp"
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	bool Hooks::Spoofing::IsNodeInScope(void* node, void* a2, std::uint8_t playerId, int flags, unsigned int a5, int a6)
 	{

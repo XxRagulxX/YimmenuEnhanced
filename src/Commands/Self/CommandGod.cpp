@@ -20,7 +20,7 @@
 // already exist by the time this constructs, which isn't guaranteed at
 // arbitrary global-init time but is guaranteed by the time SelfGrid's
 // own populate() first runs, well after Main() has finished setting up).
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	Stand::CommandGod& GetCommandGod()
 	{

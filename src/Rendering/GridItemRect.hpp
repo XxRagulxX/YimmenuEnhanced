@@ -3,7 +3,7 @@
 
 #include <DirectXMath.h>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// A plain solid-colour rectangle. The simplest possible concrete
 	// GridItem, used to prove out the Grid/GridItem tree before real

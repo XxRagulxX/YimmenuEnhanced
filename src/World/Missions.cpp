@@ -1,6 +1,6 @@
 #include "World/Missions.hpp"
 
-namespace StandEnhanced::Submenus
+namespace Stand::Submenus
 {
 	std::shared_ptr<TabItem> RenderMissionsMenu()
 	{

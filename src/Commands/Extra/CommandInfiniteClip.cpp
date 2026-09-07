@@ -1,7 +1,7 @@
 #include "Commands/LoopedCommand.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class InfiniteClip : public LoopedCommand
 	{

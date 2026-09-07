@@ -17,7 +17,7 @@
 		o = nullptr; \
 	}
 
-namespace StandEnhanced
+namespace Stand
 {
 	using namespace Microsoft::WRL;
 	using WindowProcedureCallback = std::function<void(HWND, UINT, WPARAM, LPARAM)>;

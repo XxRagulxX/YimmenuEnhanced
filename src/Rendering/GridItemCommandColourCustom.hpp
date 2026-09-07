@@ -8,13 +8,13 @@
 #include <string>
 #include <vector>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	class Grid;
 
 	// Pushes ONE folder-style row (a label + right-aligned ">", same
 	// shape as GridItemFolder) into items_draft, bound to a real
-	// StandEnhanced::CommandColourCustom looked up by joaat hash - the Grid
+	// Stand::CommandColourCustom looked up by joaat hash - the Grid
 	// equivalent of ColorCommandItem (src/ColorCommandItem.cpp) for the
 	// ImGui menu, minus its own ImGui::ColorPicker4 popup (a continuous
 	// 2D/gradient picker): clicking through instead opens a sub-page of

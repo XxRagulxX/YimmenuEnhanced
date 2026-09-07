@@ -8,7 +8,7 @@ namespace rage
 	class rlSessionInfo;
 }
 
-namespace StandEnhanced::Network
+namespace Stand::Network
 {
 	enum class JoinType
 	{

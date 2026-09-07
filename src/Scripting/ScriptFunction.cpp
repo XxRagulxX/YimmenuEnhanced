@@ -6,7 +6,7 @@
 #include "Scripting/scrThread.hpp"
 #include "Core/tlsContext.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	ScriptFunction::ScriptFunction(const joaat_t script, ScriptPointer ptr) :
 	    m_Script(script),

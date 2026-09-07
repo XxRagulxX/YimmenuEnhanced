@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Teleport > Main: mirrors MenuTeleport.cpp's Misc
 	// group in full, wired the same way SelfGrid/VehicleGrid wire their

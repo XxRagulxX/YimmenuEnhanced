@@ -59,7 +59,7 @@ namespace Stand
 			{
 				if (GetTickCount64() - start > 3000)
 				{
-					StandEnhanced::Exceptional::report("Bad Timing", "RecursiveScopedSpinlock::lockReadInner");
+					Stand::Exceptional::report("Bad Timing", "RecursiveScopedSpinlock::lockReadInner");
 					break;
 				}
 			} while (isWriteLocked());
@@ -99,7 +99,7 @@ namespace Stand
 		{
 			if (GetTickCount64() - start > 3000)
 			{
-				StandEnhanced::Exceptional::report("Bad Timing", "RecursiveScopedSpinlock::lockWriteInner (set writer)");
+				Stand::Exceptional::report("Bad Timing", "RecursiveScopedSpinlock::lockWriteInner (set writer)");
 				return;
 			}
 		}
@@ -109,7 +109,7 @@ namespace Stand
 		{
 			if (GetTickCount64() - start > 3000)
 			{
-				StandEnhanced::Exceptional::report("Bad Timing", "RecursiveScopedSpinlock::lockWriteInner (wait for readers)");
+				Stand::Exceptional::report("Bad Timing", "RecursiveScopedSpinlock::lockWriteInner (wait for readers)");
 				return;
 			}
 			writer = 0;

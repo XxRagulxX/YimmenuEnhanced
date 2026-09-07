@@ -2,7 +2,7 @@
 
 #include "Core/SpinlockBase.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class Spinlock : public SpinlockBase
 	{

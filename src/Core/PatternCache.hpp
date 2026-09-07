@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/PatternHash.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class PatternCache
 	{

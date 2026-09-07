@@ -3,7 +3,7 @@
 #include "Scripting/scrProgram.hpp"
 #include "Core/LogHelper.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	static std::uint32_t ReadThreeByte(std::uint8_t* arr)
 	{

@@ -1,14 +1,14 @@
 #pragma once
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Rendering/GridItem.hpp"
 #include "Util/Joaat.hpp"
 
 #include <optional>
 #include <string>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
-	// A GridItemButton wired to a real StandEnhanced::Command, looked up by
+	// A GridItemButton wired to a real Stand::Command, looked up by
 	// joaat hash - the Grid/GridItem equivalent of CommandItem (src/
 	// CommandItem.cpp) for the ImGui menu. Click behaviour mirrors
 	// CommandItem::Draw() exactly: FiberPool::queueJob calling
@@ -34,7 +34,7 @@ namespace StandEnhanced::Rendering
 	private:
 		const std::string& Label() const;
 
-		Command* m_Command;
+		CommandLegacy* m_Command;
 		std::optional<std::string> m_LabelOverride;
 	};
 }

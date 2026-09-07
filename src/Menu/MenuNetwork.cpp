@@ -1,6 +1,6 @@
 #include "Menu/MenuNetwork.hpp"
 
-namespace StandEnhanced::Submenus
+namespace Stand::Submenus
 {
 	// Empty on purpose - see UIManager.hpp's own class comment for why
 	// (every category this used to build now lives in NetworkGrid/

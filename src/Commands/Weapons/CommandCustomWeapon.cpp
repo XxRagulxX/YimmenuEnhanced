@@ -10,7 +10,7 @@
 #include "Game/DecalTypes.hpp"
 
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	void CustomWeapon::OnTick()
 	{

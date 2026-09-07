@@ -1,7 +1,7 @@
 #include "Commands/LoopedCommand.hpp"
 #include "Network/Tunables.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class NoIdleKick : public LoopedCommand
 	{

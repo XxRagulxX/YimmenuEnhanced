@@ -5,7 +5,7 @@
 #include "Scripting/Natives.hpp"
 #include "Ped/CPedFactory.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	Self::Self() :
 	    m_SelfPed(nullptr),

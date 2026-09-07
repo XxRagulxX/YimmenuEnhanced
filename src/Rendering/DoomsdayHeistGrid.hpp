@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Tab target for Recovery > Heists > Doomsday Heist: mirrors
 	// DoomsdayHeist.cpp's RenderDoomsdayHeistMenu() in full - Auto Cuts,

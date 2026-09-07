@@ -2,7 +2,7 @@
 #include "Network/Players.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class Spectate : public LoopedCommand
 	{

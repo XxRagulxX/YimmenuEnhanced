@@ -4,7 +4,7 @@
 #include "World/Self.hpp"
 #include "Util/Joaat.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	// only use for internal testing
 	class Internal : LuaLibrary

@@ -1,10 +1,10 @@
 #include "Util/Joaat.hpp"
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Commands/Commands.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
-	Command::Command(std::string name, std::string label, std::string description, int num_args) :
+	CommandLegacy::CommandLegacy(std::string name, std::string label, std::string description, int num_args) :
 	    m_Name(name),
 	    m_Label(label),
 	    m_Description(description),
@@ -14,12 +14,12 @@ namespace StandEnhanced
 		Commands::AddCommand(this);
 	}
 
-	void Command::Call()
+	void CommandLegacy::Call()
 	{
 		OnCall();
 	}
 
-	void Command::MarkDirty()
+	void CommandLegacy::MarkDirty()
 	{
 		Commands::MarkDirty();
 	}

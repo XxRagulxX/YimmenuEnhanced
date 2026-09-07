@@ -14,7 +14,7 @@
 #include "Rendering/Theme.hpp"
 #include "Rendering/TransactionsGrid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

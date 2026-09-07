@@ -1,10 +1,10 @@
 #pragma once
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 
 #include <functional>
 #include <utility>
 
-namespace StandEnhanced::StandWidgets
+namespace Stand::StandWidgets
 {
 	// Ported from real Stand's own CommandLambdaToggle (Commands/Widgets/
 	// CommandLambdaToggle.hpp, verified against origin/stand-reference) -
@@ -22,7 +22,7 @@ namespace StandEnhanced::StandWidgets
 	// file already follows this shape) and there's no Click& to thread
 	// through anyway (this project has no Click system - see this
 	// folder's own sibling files for the same note).
-	class CommandLambdaToggle : public CommandToggle
+	class CommandLambdaToggle : public CommandToggleLegacy
 	{
 	public:
 		CommandLambdaToggle(std::string name,
@@ -31,7 +31,7 @@ namespace StandEnhanced::StandWidgets
 		    std::function<void()> onEnable,
 		    std::function<void()> onDisable = nullptr,
 		    bool def_value = false) :
-		    CommandToggle(std::move(name), std::move(label), std::move(description), def_value),
+		    CommandToggleLegacy(std::move(name), std::move(label), std::move(description), def_value),
 		    m_OnEnable(std::move(onEnable)),
 		    m_OnDisable(std::move(onDisable))
 		{

@@ -4,7 +4,7 @@
 #include "AntiCheat/CAnticheatContext.hpp"
 #include "Core/Hooking.hpp"
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	std::uint32_t Anticheat::GetAnticheatInitializedHash2(void* ac_var, std::uint32_t seed)
 	{

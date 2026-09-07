@@ -1,7 +1,7 @@
 #pragma once
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Commands/CommandPosition3d.hpp"
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/Commands.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Menu/GUI.hpp"
@@ -11,7 +11,7 @@
 #include <string>
 #include <utility>
 
-namespace StandEnhanced::StandWidgets
+namespace Stand::StandWidgets
 {
 	// Ported from real Stand's own CommandPositionSelection (Commands/
 	// Widgets/CommandPositionSelection.cpp on origin/stand-reference) - a
@@ -39,11 +39,11 @@ namespace StandEnhanced::StandWidgets
 	// was just reopened" every tick while a pick is in progress, since
 	// there's no other hook in this system for "GUI::IsOpen() just
 	// became true" to run code from instead.
-	class CommandPositionPick : public Command
+	class CommandPositionPick : public CommandLegacy
 	{
 	public:
 		CommandPositionPick(std::string name, std::string label, std::string description, CommandPosition3d* target) :
-		    Command(name, label, description, 0),
+		    CommandLegacy(name, label, description, 0),
 		    m_Target(target),
 		    m_Ticker(name + "_tick", label + " Ticker", "Internal - always on, watches for the menu reopening while a position pick is in progress", this)
 		{
@@ -63,7 +63,7 @@ namespace StandEnhanced::StandWidgets
 			if (m_Target)
 				m_Target->SetState(rage::fvector3{pos.x, pos.y, pos.z});
 
-			if (auto* freecam = Commands::GetCommand<CommandToggle>("freecam"_J))
+			if (auto* freecam = Commands::GetCommand<CommandToggleLegacy>("freecam"_J))
 				if (freecam->GetState())
 					freecam->SetState(false);
 		}
@@ -74,7 +74,7 @@ namespace StandEnhanced::StandWidgets
 			if (m_Picking)
 				return;
 
-			auto* freecam = Commands::GetCommand<CommandToggle>("freecam"_J);
+			auto* freecam = Commands::GetCommand<CommandToggleLegacy>("freecam"_J);
 			if (!freecam)
 				return;
 

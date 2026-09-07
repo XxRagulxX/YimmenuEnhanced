@@ -10,7 +10,7 @@
 
 #include "Core/LogHelper.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	StackTrace::StackTrace() :
 	    m_FramePointers(32)

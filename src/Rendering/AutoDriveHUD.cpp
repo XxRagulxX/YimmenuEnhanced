@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace StandEnhanced
+namespace Stand
 {
 	using namespace Features::AutoDriveInternal;
 	using namespace std::chrono_literals;

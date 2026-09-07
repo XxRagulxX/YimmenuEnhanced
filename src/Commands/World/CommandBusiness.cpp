@@ -7,12 +7,12 @@
 #include "Scripting/FiberPool.hpp"
 #include "Scripting/ScriptGlobal.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 
-	class NightClubPopularity : public Command
+	class NightClubPopularity : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 		virtual void OnCall() override
 		{
 			Stats::SetInt("MPX_CLUB_POPULARITY", 1000); // Nightclub Popularity
@@ -36,9 +36,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class ResupplyBusiness : public Command
+	class ResupplyBusiness : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 		virtual void OnCall() override
 		{
 			*ScriptGlobal(1673820).At(1).At(0).As<int*>() = 1; // Cash
@@ -76,9 +76,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class HangerResupply : public Command
+	class HangerResupply : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -106,9 +106,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class WarehouseResupply : public Command
+	class WarehouseResupply : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -138,18 +138,18 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class SalvageyardPopularity : public Command
+	class SalvageyardPopularity : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 		virtual void OnCall() override
 		{
 			Stats::SetPackedInt(51051, 100); // Salvage Yard Popularity
 		}
 	};
 
-	class MoneyfrontHeatremove : public Command
+	class MoneyfrontHeatremove : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 		virtual void OnCall() override
 		{
 			Stats::SetPackedInt(24924, 0); // Money Fronts Business Heat

@@ -2,7 +2,7 @@
 
 #include "Core/LogSink.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	LogHelper::~LogHelper()
 	{

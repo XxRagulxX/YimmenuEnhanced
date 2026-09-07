@@ -3,7 +3,7 @@
 #include "Scripting/LuaMainUtils.hpp"
 #include "Game/Pools.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	class Entities : LuaLibrary
 	{

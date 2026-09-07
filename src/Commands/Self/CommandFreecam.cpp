@@ -1,4 +1,4 @@
-#include "Commands/CommandSliderFloat.hpp"
+#include "Commands/CommandSliderFloatLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Util/Math.hpp"
 #include "World/Self.hpp"
@@ -7,9 +7,9 @@
 #include "Game/ControllerInputs.hpp"
 
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	static CommandSliderFloat _FreecamSpeed{"freecamspeed", "Freecam Speed", "How fast the freecam will move positions", 0.01f, 10.0f, 0.10f};
+	static CommandSliderFloatLegacy _FreecamSpeed{"freecamspeed", "Freecam Speed", "How fast the freecam will move positions", 0.01f, 10.0f, 0.10f};
 
 	class Freecam : public LoopedCommand
 	{

@@ -2,7 +2,7 @@
 #include "Config/SavedVariables.hpp"
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	class GridItemTextInput;
 

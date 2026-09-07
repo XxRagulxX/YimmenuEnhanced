@@ -30,7 +30,7 @@
 #include "Core/LogHelper.hpp"
 #include "Core/ExceptionHandler.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	DWORD Main(void*)
 	{
@@ -174,7 +174,7 @@ namespace StandEnhanced
 
 BOOL WINAPI DllMain(HINSTANCE dllInstance, DWORD reason, void*)
 {
-	using namespace StandEnhanced;
+	using namespace Stand;
 
 	if (dllInstance)
 		DisableThreadLibraryCalls(dllInstance);

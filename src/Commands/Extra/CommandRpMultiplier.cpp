@@ -1,10 +1,10 @@
 #include "Commands/LoopedCommand.hpp"
-#include "Commands/CommandSliderFloat.hpp"
+#include "Commands/CommandSliderFloatLegacy.hpp"
 #include "Network/Tunables.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	static CommandSliderFloat _RpMultiplierInput{"rpmultiplierinput", "RP Multiplier Input", "RP Mulitplier (< 0 = 0 -> No RP)", std::nullopt, std::nullopt, 1};
+	static CommandSliderFloatLegacy _RpMultiplierInput{"rpmultiplierinput", "RP Multiplier Input", "RP Mulitplier (< 0 = 0 -> No RP)", std::nullopt, std::nullopt, 1};
 
 	class OverrideRPMultiplier : public LoopedCommand
 	{

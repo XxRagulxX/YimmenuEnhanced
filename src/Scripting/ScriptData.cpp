@@ -1,7 +1,7 @@
 #include "Scripting/ScriptData.hpp"
 #include "Scripting/scrProgram.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	ScriptData::ScriptData(rage::scrProgram* program)
 	{

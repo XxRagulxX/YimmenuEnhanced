@@ -22,7 +22,7 @@ namespace rage
 	class netObject;
 }
 
-namespace StandEnhanced
+namespace Stand
 {
 	class Player;
 	class Entity

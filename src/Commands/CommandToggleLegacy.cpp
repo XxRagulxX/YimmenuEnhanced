@@ -1,37 +1,37 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Scripting/FiberPool.hpp"
 #include "Commands/Commands.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
-	CommandToggle::CommandToggle(std::string name, std::string label, std::string description, bool def_value) :
-	    Command(name, label, description, 0),
+	CommandToggleLegacy::CommandToggleLegacy(std::string name, std::string label, std::string description, bool def_value) :
+	    CommandLegacy(name, label, description, 0),
 	    m_State(def_value)
 	{
 		Commands::AddBoolCommand(this);
 	}
 
-	void CommandToggle::OnCall()
+	void CommandToggleLegacy::OnCall()
 	{
 		SetState(!m_State);
 	}
 
-	void CommandToggle::SaveState(nlohmann::json& value)
+	void CommandToggleLegacy::SaveState(nlohmann::json& value)
 	{
 		value = m_State;
 	}
 
-	void CommandToggle::LoadState(nlohmann::json& value)
+	void CommandToggleLegacy::LoadState(nlohmann::json& value)
 	{
 		m_State = value;
 	}
 
-	bool CommandToggle::GetState()
+	bool CommandToggleLegacy::GetState()
 	{
 		return m_State;
 	}
 
-	void CommandToggle::SetState(bool state)
+	void CommandToggleLegacy::SetState(bool state)
 	{
 		if (state && !m_State)
 		{
@@ -53,13 +53,13 @@ namespace StandEnhanced
 		MarkDirty();
 	}
 
-	void CommandToggle::Initialize()
+	void CommandToggleLegacy::Initialize()
 	{
 		OnEnable();
 		m_Ready = true;
 	}
 
-	void CommandToggle::Shutdown()
+	void CommandToggleLegacy::Shutdown()
 	{
 		m_Ready = false;
 		OnDisable();

@@ -17,7 +17,7 @@
 #include "Rendering/Theme.hpp"
 #include "Weapons/WeaponsHashes.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

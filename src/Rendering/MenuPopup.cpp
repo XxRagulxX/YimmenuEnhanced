@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <windows.h>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

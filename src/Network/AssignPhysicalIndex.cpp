@@ -2,21 +2,21 @@
 #include "Core/Hooks.hpp"
 #include "Network/Players.hpp"
 #include "Network/CNetGamePlayer.hpp"
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Scripting/Natives.hpp"
 #include "Scripting/FiberPool.hpp"
 #include "Core/Hooking.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	static CommandToggle _NotifyOnPlayerJoin{
+	static CommandToggleLegacy _NotifyOnPlayerJoin{
 	    "notifyonplayerjoin",
 	    "Notify on Player Join",
 	    "Notifies you when a player joins above the map",
 	    true};
 }
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	void Info::AssignPhysicalIndex(CNetworkPlayerMgr* mgr, CNetGamePlayer* player, std::uint8_t index)
 	{

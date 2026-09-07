@@ -1,6 +1,6 @@
 #pragma once
 
-namespace StandEnhanced
+namespace Stand
 {
 	class ESP
 	{

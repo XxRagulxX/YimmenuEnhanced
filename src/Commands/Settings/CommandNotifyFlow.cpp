@@ -1,19 +1,19 @@
-#include "Commands/CommandToggle.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Rendering/NotifySettings.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Ported from real Stand's own CommandNotifyInvertFlow (Commands/
 	// Online/CommandListNotifySettings.cpp on origin/stand-reference) -
 	// only takes effect while NotifySettings::kType == StandCustomPosition,
 	// same as Notify Position above (see Notifications.cpp's own
 	// ComputeLayout()).
-	class CommandNotifyInvertFlow : public CommandToggle
+	class CommandNotifyInvertFlow : public CommandToggleLegacy
 	{
 	public:
 		CommandNotifyInvertFlow() :
-		    CommandToggle("notifyinvertflow",
+		    CommandToggleLegacy("notifyinvertflow",
 		        "Invert Flow",
 		        "Stacks newer notifications upward from the anchor point instead of downward. Only takes effect with type set to \"Stand, Custom Position\".",
 		        false)
@@ -37,11 +37,11 @@ namespace StandEnhanced::Features
 	// Ported from real Stand's own CommandNotifyWidth - the toast card's
 	// own width, replacing this project's previous hardcoded 350 (see
 	// NotifySettings::kWidth's own comment).
-	class CommandNotifyWidth : public CommandSlider
+	class CommandNotifyWidth : public CommandSliderLegacy
 	{
 	public:
 		CommandNotifyWidth() :
-		    CommandSlider("notifywidth", "Width", "The notification card's own width.", 0, 15000, 400)
+		    CommandSliderLegacy("notifywidth", "Width", "The notification card's own width.", 0, 15000, 400)
 		{
 		}
 
@@ -53,7 +53,7 @@ namespace StandEnhanced::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			CommandSlider::LoadState(value);
+			CommandSliderLegacy::LoadState(value);
 			Sync();
 		}
 
@@ -68,11 +68,11 @@ namespace StandEnhanced::Features
 
 	// Ported from real Stand's own CommandNotifyPadding - the gap between
 	// the anchor point/stacked cards.
-	class CommandNotifyPadding : public CommandSlider
+	class CommandNotifyPadding : public CommandSliderLegacy
 	{
 	public:
 		CommandNotifyPadding() :
-		    CommandSlider("notifypadding", "Padding", "The gap between the anchor point and stacked notification cards.", 0, 15000, 10)
+		    CommandSliderLegacy("notifypadding", "Padding", "The gap between the anchor point and stacked notification cards.", 0, 15000, 10)
 		{
 		}
 
@@ -84,7 +84,7 @@ namespace StandEnhanced::Features
 
 		void LoadState(nlohmann::json& value) override
 		{
-			CommandSlider::LoadState(value);
+			CommandSliderLegacy::LoadState(value);
 			Sync();
 		}
 

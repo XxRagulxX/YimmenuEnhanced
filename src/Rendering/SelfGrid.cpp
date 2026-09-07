@@ -1,6 +1,6 @@
 #include "Rendering/SelfGrid.hpp"
 
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/Commands.hpp"
 #include "Commands/Self/CommandAutoHeal.hpp"
 #include "Commands/Self/CommandGod.hpp"
@@ -20,7 +20,7 @@
 #include "Rendering/WeaponsGrid.hpp"
 #include "Util/Joaat.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{
@@ -53,8 +53,8 @@ namespace StandEnhanced::Rendering
 		// overload directly instead.
 		bool ShouldClearOrSetWanted()
 		{
-			auto* freezewanted = Commands::GetCommand<CommandToggle>("freezewanted"_J);
-			auto* neverwanted = Commands::GetCommand<CommandToggle>("neverwanted"_J);
+			auto* freezewanted = Commands::GetCommand<CommandToggleLegacy>("freezewanted"_J);
+			auto* neverwanted = Commands::GetCommand<CommandToggleLegacy>("neverwanted"_J);
 			return (!freezewanted || !freezewanted->GetState()) && (!neverwanted || !neverwanted->GetState());
 		}
 	}

@@ -5,7 +5,7 @@
 #include "Vehicle/Vehicle.hpp"
 #include "Game/Entity.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	// TODO: we need to automate this
 	class Vehicle : LuaLibrary
@@ -15,56 +15,56 @@ namespace StandEnhanced::Lua
 
 		static int New(lua_State* state)
 		{
-			CreateObject<StandEnhanced::Vehicle>(state, luaL_checkinteger(state, 1));
+			CreateObject<Stand::Vehicle>(state, luaL_checkinteger(state, 1));
 			return 1;
 		}
 
 		static int Create(lua_State* state)
 		{
-			CopyObject<StandEnhanced::Vehicle>(state, StandEnhanced::Vehicle::Create(GetHashArgument(state, 1), GetObject<rage::fvector3>(state, 2), lua_gettop(state) >= 3 ? luaL_checknumber(state, 3) : 0.0f));
+			CopyObject<Stand::Vehicle>(state, Stand::Vehicle::Create(GetHashArgument(state, 1), GetObject<rage::fvector3>(state, 2), lua_gettop(state) >= 3 ? luaL_checknumber(state, 3) : 0.0f));
 			return 1;
 		}
 
 		static int Fix(lua_State* state)
 		{
-			GetObject<StandEnhanced::Vehicle>(state, 1).Fix();
+			GetObject<Stand::Vehicle>(state, 1).Fix();
 			return 0;
 		}
 
 		static int GetGear(lua_State* state)
 		{
-			lua_pushinteger(state, GetObject<StandEnhanced::Vehicle>(state, 1).GetGear());
+			lua_pushinteger(state, GetObject<Stand::Vehicle>(state, 1).GetGear());
 			return 1;
 		}
 
 		static int GetRevRatio(lua_State* state)
 		{
-			lua_pushnumber(state, GetObject<StandEnhanced::Vehicle>(state, 1).GetRevRatio());
+			lua_pushnumber(state, GetObject<Stand::Vehicle>(state, 1).GetRevRatio());
 			return 1;
 		}
 
 		static int GetSpeed(lua_State* state)
 		{
-			lua_pushnumber(state, GetObject<StandEnhanced::Vehicle>(state, 1).GetSpeed());
+			lua_pushnumber(state, GetObject<Stand::Vehicle>(state, 1).GetSpeed());
 			return 1;
 		}
 
 		static int Upgrade(lua_State* state)
 		{
-			GetObject<StandEnhanced::Vehicle>(state, 1).Upgrade();
+			GetObject<Stand::Vehicle>(state, 1).Upgrade();
 			return 0;
 		}
 
 		static int GetPlateText(lua_State* state)
 		{
-			auto text = GetObject<StandEnhanced::Vehicle>(state, 1).GetPlateText();
+			auto text = GetObject<Stand::Vehicle>(state, 1).GetPlateText();
 			lua_pushlstring(state, text.c_str(), text.size());
 			return 1;
 		}
 
 		static int SetPlateText(lua_State* state)
 		{
-			GetObject<StandEnhanced::Vehicle>(state, 1).SetPlateText(CheckStringSafe(state, 2));
+			GetObject<Stand::Vehicle>(state, 1).SetPlateText(CheckStringSafe(state, 2));
 			return 0;
 		}
 
@@ -72,49 +72,49 @@ namespace StandEnhanced::Lua
 
 		static int IsSeatFree(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<StandEnhanced::Vehicle>(state, 1).IsSeatFree(luaL_checkinteger(state, 2)));
+			lua_pushboolean(state, GetObject<Stand::Vehicle>(state, 1).IsSeatFree(luaL_checkinteger(state, 2)));
 			return 1;
 		}
 
 		static int SupportsBoost(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<StandEnhanced::Vehicle>(state, 1).SupportsBoost());
+			lua_pushboolean(state, GetObject<Stand::Vehicle>(state, 1).SupportsBoost());
 			return 1;
 		}
 
 		static int IsBoostActive(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<StandEnhanced::Vehicle>(state, 1).IsBoostActive());
+			lua_pushboolean(state, GetObject<Stand::Vehicle>(state, 1).IsBoostActive());
 			return 1;
 		}
 
 		static int SetBoostCharge(lua_State* state)
 		{
-			GetObject<StandEnhanced::Vehicle>(state, 1).SetBoostCharge(lua_gettop(state) >= 2 ? luaL_checkinteger(state, 2) : 100);
+			GetObject<Stand::Vehicle>(state, 1).SetBoostCharge(lua_gettop(state) >= 2 ? luaL_checkinteger(state, 2) : 100);
 			return 0;
 		}
 
 		static int LowerStance(lua_State* state)
 		{
-			GetObject<StandEnhanced::Vehicle>(state, 1).LowerStance(CheckBooleanSafe(state, 2));
+			GetObject<Stand::Vehicle>(state, 1).LowerStance(CheckBooleanSafe(state, 2));
 			return 0;
 		}
 
 		static int BringToHalt(lua_State* state)
 		{
-			GetObject<StandEnhanced::Vehicle>(state, 1).BringToHalt(luaL_checknumber(state, 2), luaL_checkinteger(state, 3));
+			GetObject<Stand::Vehicle>(state, 1).BringToHalt(luaL_checknumber(state, 2), luaL_checkinteger(state, 3));
 			return 0;
 		}
 
 		static int SetOnGroundProperly(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<StandEnhanced::Vehicle>(state, 1).SetOnGroundProperly());
+			lua_pushboolean(state, GetObject<Stand::Vehicle>(state, 1).SetOnGroundProperly());
 			return 1;
 		}
 
 		static int GetFullName(lua_State* state)
 		{
-			auto name = GetObject<StandEnhanced::Vehicle>(state, 1).GetFullName();
+			auto name = GetObject<Stand::Vehicle>(state, 1).GetFullName();
 			lua_pushlstring(state, name.c_str(), name.size());
 			return 1;
 		}
@@ -144,8 +144,8 @@ namespace StandEnhanced::Lua
 				}
 				lua_setfield(state, -2, "__index"); // prototype
 			}
-			Metatable<StandEnhanced::Vehicle>::Register(state);
-			Metatable<StandEnhanced::Entity>::AddSubclass<StandEnhanced::Vehicle>();
+			Metatable<Stand::Vehicle>::Register(state);
+			Metatable<Stand::Entity>::AddSubclass<Stand::Vehicle>();
 
 			lua_newtable(state);
 			SetConstructor<New>(state);

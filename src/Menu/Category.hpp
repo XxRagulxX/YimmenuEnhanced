@@ -1,7 +1,7 @@
 #pragma once
 #include "Menu/UIItem.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class Category
 	{

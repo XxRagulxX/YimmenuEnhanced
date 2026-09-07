@@ -47,7 +47,7 @@ class CGameDataHash;
 class CStatsMpCharacterMappingData;
 class CAnticheatContext;
 
-namespace StandEnhanced
+namespace Stand
 {
 	namespace Functions
 	{
@@ -181,5 +181,5 @@ namespace StandEnhanced
 		bool LateInit();
 	};
 
-	inline StandEnhanced::Pointers Pointers;
+	inline Stand::Pointers Pointers;
 }

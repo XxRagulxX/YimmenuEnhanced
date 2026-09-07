@@ -10,7 +10,7 @@
 #include <format>
 #include <stdexcept>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{
@@ -21,7 +21,7 @@ namespace StandEnhanced::Rendering
 
 	GridItemCommandSlider::GridItemCommandSlider(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride, int step) :
 	    GridItem(GRIDITEM_INDIFFERENT, width, height),
-	    m_Command(Commands::GetCommand<CommandSlider>(id)),
+	    m_Command(Commands::GetCommand<CommandSliderLegacy>(id)),
 	    m_LabelOverride(std::move(labelOverride)),
 	    m_Step(step)
 	{

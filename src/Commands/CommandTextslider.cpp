@@ -1,7 +1,7 @@
 #include "Commands/CommandTextslider.hpp"
 #include "Scripting/FiberPool.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	void CommandTextslider::OnCall()
 	{
@@ -18,7 +18,7 @@ namespace StandEnhanced
 	}
 
 	CommandTextslider::CommandTextslider(std::string name, std::string label, std::string description, std::vector<std::string> options, int def_index) :
-	    Command(name, label, description, 0),
+	    CommandLegacy(name, label, description, 0),
 	    m_Options(std::move(options)),
 	    m_Index(def_index)
 	{

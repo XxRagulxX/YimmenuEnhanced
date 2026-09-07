@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Ports DrawVariable.cpp's DrawSavedVariable()/DrawSavedVariableEdit()/
 	// DrawSavedVariablePreview() to Grid rows - shared between GlobalsGrid

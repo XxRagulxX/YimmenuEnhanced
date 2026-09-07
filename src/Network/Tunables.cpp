@@ -8,7 +8,7 @@
 #include "Scripting/Scripts.hpp"
 #include "Scripting/scrProgram.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	struct TUNABLES_LAUNCH_DATA
 	{

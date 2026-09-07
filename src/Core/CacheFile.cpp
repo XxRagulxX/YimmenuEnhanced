@@ -2,7 +2,7 @@
 #include <fstream>
 #include <ios>  
 
-namespace StandEnhanced
+namespace Stand
 {
 	CacheFile::CacheFile(File cacheFile) :
 	    m_CacheFile(cacheFile),

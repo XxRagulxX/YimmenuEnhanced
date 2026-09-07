@@ -4,12 +4,12 @@
 #include <chrono>
 #include <string>
 
-namespace StandEnhanced
+namespace Stand
 {
 	struct CommandLink;
 }
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// One command's hotkey row for Settings > Hotkeys - mirrors
 	// DrawHotkey.cpp's own per-row rendering (label + current chain +

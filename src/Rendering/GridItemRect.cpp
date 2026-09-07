@@ -2,7 +2,7 @@
 
 #include "Rendering/GridRenderer.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	void GridItemRect::draw()
 	{

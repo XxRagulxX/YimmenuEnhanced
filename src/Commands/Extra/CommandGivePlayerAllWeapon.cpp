@@ -2,7 +2,7 @@
 #include "Weapons/WeaponsHashes.hpp"
 
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class GivePlayerAllWeapon : public PlayerCommand
 	{

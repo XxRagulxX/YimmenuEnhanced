@@ -2,7 +2,7 @@
 #include "Scripting/LuaMainUtils.hpp"
 #include "World/Stats.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	class Stats : LuaLibrary
 	{
@@ -10,19 +10,19 @@ namespace StandEnhanced::Lua
 
 		static int SetInt(lua_State* state)
 		{
-			StandEnhanced::Stats::SetInt(CheckStringSafe(state, 1), luaL_checkinteger(state, 2));
+			Stand::Stats::SetInt(CheckStringSafe(state, 1), luaL_checkinteger(state, 2));
 			return 0;
 		}
 
 		static int SetBool(lua_State* state)
 		{
-			StandEnhanced::Stats::SetBool(CheckStringSafe(state, 1), CheckBooleanSafe(state, 2));
+			Stand::Stats::SetBool(CheckStringSafe(state, 1), CheckBooleanSafe(state, 2));
 			return 0;
 		}
 
 		static int SetFloat(lua_State* state)
 		{
-			StandEnhanced::Stats::SetFloat(CheckStringSafe(state, 1), luaL_checknumber(state, 2));
+			Stand::Stats::SetFloat(CheckStringSafe(state, 1), luaL_checknumber(state, 2));
 			return 0;
 		}
 
@@ -30,19 +30,19 @@ namespace StandEnhanced::Lua
 
 		static int SetString(lua_State* state)
 		{
-			StandEnhanced::Stats::SetString(CheckStringSafe(state, 1), CheckStringSafe(state, 2));
+			Stand::Stats::SetString(CheckStringSafe(state, 1), CheckStringSafe(state, 2));
 			return 0;
 		}
 
 		static int SetPackedInt(lua_State* state)
 		{
-			StandEnhanced::Stats::SetPackedInt(luaL_checkinteger(state, 1), luaL_checkinteger(state, 2));
+			Stand::Stats::SetPackedInt(luaL_checkinteger(state, 1), luaL_checkinteger(state, 2));
 			return 0;
 		}
 
 		static int SetPackedBool(lua_State* state)
 		{
-			StandEnhanced::Stats::SetPackedBool(luaL_checkinteger(state, 1), CheckBooleanSafe(state, 2));
+			Stand::Stats::SetPackedBool(luaL_checkinteger(state, 1), CheckBooleanSafe(state, 2));
 			return 0;
 		}
 
@@ -52,37 +52,37 @@ namespace StandEnhanced::Lua
 			int end = luaL_checkinteger(state, 2);
 			bool value = CheckBooleanSafe(state, 3);
 			for (int i = start; i <= end; i++)
-				StandEnhanced::Stats::SetPackedBool(i, value);
+				Stand::Stats::SetPackedBool(i, value);
 			return 0;
 		}
 
 		static int SetMaskedInt(lua_State* state)
 		{
-			StandEnhanced::Stats::SetMaskedInt(CheckStringSafe(state, 1), luaL_checkinteger(state, 2), luaL_checkinteger(state, 3), luaL_checkinteger(state, 4));
+			Stand::Stats::SetMaskedInt(CheckStringSafe(state, 1), luaL_checkinteger(state, 2), luaL_checkinteger(state, 3), luaL_checkinteger(state, 4));
 			return 0;
 		}
 
 		static int SetMaskedBool(lua_State* state)
 		{
-			StandEnhanced::Stats::SetMaskedBool(CheckStringSafe(state, 1), luaL_checkinteger(state, 2), CheckBooleanSafe(state, 3));
+			Stand::Stats::SetMaskedBool(CheckStringSafe(state, 1), luaL_checkinteger(state, 2), CheckBooleanSafe(state, 3));
 			return 0;
 		}
 
 		static int GetInt(lua_State* state)
 		{
-			lua_pushinteger(state, StandEnhanced::Stats::GetInt(CheckStringSafe(state, 1)));
+			lua_pushinteger(state, Stand::Stats::GetInt(CheckStringSafe(state, 1)));
 			return 1;
 		}
 
 		static int GetBool(lua_State* state)
 		{
-			lua_pushboolean(state, StandEnhanced::Stats::GetBool(CheckStringSafe(state, 1)));
+			lua_pushboolean(state, Stand::Stats::GetBool(CheckStringSafe(state, 1)));
 			return 1;
 		}
 
 		static int GetFloat(lua_State* state)
 		{
-			lua_pushnumber(state, StandEnhanced::Stats::GetFloat(CheckStringSafe(state, 1)));
+			lua_pushnumber(state, Stand::Stats::GetFloat(CheckStringSafe(state, 1)));
 			return 1;
 		}
 
@@ -90,31 +90,31 @@ namespace StandEnhanced::Lua
 
 		static int GetString(lua_State* state)
 		{
-			lua_pushstring(state, StandEnhanced::Stats::GetString(CheckStringSafe(state, 1)));
+			lua_pushstring(state, Stand::Stats::GetString(CheckStringSafe(state, 1)));
 			return 1;
 		}
 
 		static int GetPackedInt(lua_State* state)
 		{
-			lua_pushinteger(state, StandEnhanced::Stats::GetPackedInt(luaL_checkinteger(state, 1)));
+			lua_pushinteger(state, Stand::Stats::GetPackedInt(luaL_checkinteger(state, 1)));
 			return 1;
 		}
 
 		static int GetPackedBool(lua_State* state)
 		{
-			lua_pushboolean(state, StandEnhanced::Stats::GetPackedBool(luaL_checkinteger(state, 1)));
+			lua_pushboolean(state, Stand::Stats::GetPackedBool(luaL_checkinteger(state, 1)));
 			return 1;
 		}
 
 		static int GetMaskedInt(lua_State* state)
 		{
-			lua_pushinteger(state, StandEnhanced::Stats::GetMaskedInt(CheckStringSafe(state, 1), luaL_checkinteger(state, 2), luaL_checkinteger(state, 3)));
+			lua_pushinteger(state, Stand::Stats::GetMaskedInt(CheckStringSafe(state, 1), luaL_checkinteger(state, 2), luaL_checkinteger(state, 3)));
 			return 1;
 		}
 
 		static int GetMaskedBool(lua_State* state)
 		{
-			lua_pushboolean(state, StandEnhanced::Stats::GetMaskedBool(CheckStringSafe(state, 1), luaL_checkinteger(state, 2)));
+			lua_pushboolean(state, Stand::Stats::GetMaskedBool(CheckStringSafe(state, 1), luaL_checkinteger(state, 2)));
 			return 1;
 		}
 

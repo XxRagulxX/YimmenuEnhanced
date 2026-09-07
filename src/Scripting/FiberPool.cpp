@@ -5,7 +5,7 @@
 #include "Scripting/Script.hpp"
 #include "Scripting/ScriptMgr.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	static soup::AtomicDeque<std::function<void()>> g_JobQueue;
 

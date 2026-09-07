@@ -12,7 +12,7 @@
 #include "Network/CVehicleProximityMigrationDataNode.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	Player::Player(uint8_t id)
 	{

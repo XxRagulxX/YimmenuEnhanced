@@ -2,9 +2,9 @@
 #include <string_view>
 #include <array>
 
-namespace StandEnhanced
+namespace Stand
 {
-	std::string_view StandEnhanced::FetchedPlayerData::GameStateToString(GameState state)
+	std::string_view Stand::FetchedPlayerData::GameStateToString(GameState state)
 	{
 		if (state == GameState::INVALID)
 			return "Invalid";

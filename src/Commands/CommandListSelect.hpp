@@ -1,9 +1,9 @@
 #pragma once
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
-	class CommandListSelect : public Command
+	class CommandListSelect : public CommandLegacy
 	{
 	protected:
 		virtual void OnChange() {};

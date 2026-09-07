@@ -5,7 +5,7 @@
 #include "Scripting/ScriptGlobal.hpp"
 #include "Scripting/scrThread.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	std::uint32_t SavedVariableBase::CalculateOffset()
 	{

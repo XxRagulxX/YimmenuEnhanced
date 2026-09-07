@@ -12,7 +12,7 @@ namespace rage
 	class netAddress;
 }
 
-namespace StandEnhanced
+namespace Stand
 {
 	class PlayerData;
 

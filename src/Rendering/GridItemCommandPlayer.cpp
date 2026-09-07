@@ -8,7 +8,7 @@
 
 #include <algorithm>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	GridItemCommandPlayer::GridItemCommandPlayer(int16_t width, int16_t height, joaat_t id, std::optional<std::string> labelOverride) :
 	    GridItem(GRIDITEM_INDIFFERENT, width, height),

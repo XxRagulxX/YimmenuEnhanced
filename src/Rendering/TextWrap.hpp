@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Greedy word-wrap against GridRenderer::MeasureText - DrawText/
 	// DrawTextScreen have no built-in wrapping (unlike ImGui::

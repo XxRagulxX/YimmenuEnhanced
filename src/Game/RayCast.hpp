@@ -2,7 +2,7 @@
 #include "Game/Entity.hpp"
 #include "Core/types.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class RayCast
 	{

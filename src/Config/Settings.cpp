@@ -4,7 +4,7 @@
 #include "Config/Settings.hpp"
 
 
-namespace StandEnhanced
+namespace Stand
 {
 	Settings::Settings() :
 	    m_SettingsFile(),

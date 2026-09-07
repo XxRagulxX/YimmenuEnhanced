@@ -10,7 +10,7 @@
 #include <mutex>
 #include <vector>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Ported from real Stand's own "Custom Header" feature (Commands/
 	// Widgets/CommandHeader.hpp/.cpp on origin/stand-reference) - a

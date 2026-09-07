@@ -1,6 +1,6 @@
 #include "Menu/Items.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	InputTextWithHint::InputTextWithHint(std::string label, std::string hint, std::string* buf, std::function<void()> cb) :
 	    m_Id(std::move(label)),

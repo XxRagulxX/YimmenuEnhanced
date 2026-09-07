@@ -1,13 +1,13 @@
-#include "Commands/CommandSliderFloat.hpp"
+#include "Commands/CommandSliderFloatLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
 #include "Game/ControllerInputs.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	static constexpr ControllerInputs controls[] = {ControllerInputs::INPUT_SPRINT, ControllerInputs::INPUT_MOVE_UP_ONLY, ControllerInputs::INPUT_MOVE_DOWN_ONLY, ControllerInputs::INPUT_MOVE_LEFT_ONLY, ControllerInputs::INPUT_MOVE_RIGHT_ONLY, ControllerInputs::INPUT_DUCK, ControllerInputs::INPUT_VEH_HORN};
-	static CommandSliderFloat _NoclipSpeed{"noclipspeed", "Noclip Speed", "Features", 0.1f, 2.0f, 0.14f};
+	static CommandSliderFloatLegacy _NoclipSpeed{"noclipspeed", "Noclip Speed", "Features", 0.1f, 2.0f, 0.14f};
 
 	class Noclip : public LoopedCommand
 	{

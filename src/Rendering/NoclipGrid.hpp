@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Self > Main > Noclip: the noclip toggle itself
 	// plus its one dependent option (noclipspeed, gated on noclip being

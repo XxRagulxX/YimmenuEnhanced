@@ -5,7 +5,7 @@
 #include "Scripting/Scripts.hpp"
 #include "Core/Pointers.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	class Network : LuaLibrary
 	{
@@ -69,11 +69,11 @@ namespace StandEnhanced::Lua
         {
             auto script_hash = GetHashArgument(state, 1);
 
-            auto thread = StandEnhanced::Scripts::FindScriptThread(script_hash);
+            auto thread = Stand::Scripts::FindScriptThread(script_hash);
             if (!thread)
                 return 0;
 
-            StandEnhanced::Scripts::ForceScriptHost(thread);
+            Stand::Scripts::ForceScriptHost(thread);
 
 			return 0;
         }
@@ -83,7 +83,7 @@ namespace StandEnhanced::Lua
 			auto script_hash = GetHashArgument(state, 1);
 			auto bits = luaL_checkinteger(state, 2);
 
-			StandEnhanced::Scripts::ForceScriptOnPlayer(script_hash, bits);
+			Stand::Scripts::ForceScriptOnPlayer(script_hash, bits);
 
 			return 0;
 		}

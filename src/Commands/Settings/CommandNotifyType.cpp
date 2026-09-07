@@ -1,7 +1,7 @@
 #include "Commands/CommandListSelect.hpp"
 #include "Rendering/NotifySettings.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Ported from real Stand's own CommandNotifyType (Commands/Online/
 	// CommandListNotifySettings.cpp on origin/stand-reference) - which of

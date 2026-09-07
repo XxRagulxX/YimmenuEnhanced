@@ -10,7 +10,7 @@
 
 #include <cstdlib>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

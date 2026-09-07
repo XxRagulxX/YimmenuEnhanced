@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Recovery > Transactions: mirrors World/
 	// Transactions.cpp's BuildTransactionsMenu() - not a live viewer of

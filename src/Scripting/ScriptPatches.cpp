@@ -5,7 +5,7 @@
 
 #include "Scripting/scrProgram.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	std::optional<uint32_t> ScriptPatches::Patch::GetPC()
 	{

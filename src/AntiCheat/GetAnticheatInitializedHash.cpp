@@ -1,6 +1,6 @@
 #include "Core/Hooks.hpp"
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	std::uint32_t Anticheat::GetAnticheatInitializedHash()
 	{

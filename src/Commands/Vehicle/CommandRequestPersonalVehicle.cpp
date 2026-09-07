@@ -1,12 +1,12 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Vehicle/PersonalVehicles.hpp"
 #include "Core/Pointers.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
-	class RequestPersonalVehicle : public Command
+	class RequestPersonalVehicle : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

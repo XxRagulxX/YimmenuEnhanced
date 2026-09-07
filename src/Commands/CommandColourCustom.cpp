@@ -9,7 +9,7 @@ namespace
 	}
 }
 
-namespace StandEnhanced
+namespace Stand
 {
 	void CommandColourCustom::OnCall()
 	{
@@ -44,7 +44,7 @@ namespace StandEnhanced
 	}
 
 	CommandColourCustom::CommandColourCustom(std::string name, std::string label, std::string description, ImVec4 color) :
-	    Command(name, label, description, 0),
+	    CommandLegacy(name, label, description, 0),
 	    m_State(color)
 	{
 	}

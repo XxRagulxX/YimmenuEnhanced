@@ -2,7 +2,7 @@
 #include "Util/Joaat.hpp"
 #include <array>
 
-namespace StandEnhanced
+namespace Stand
 {
 	static constexpr auto g_VehicleClassNames = std::to_array({"Compact",
 	    "Sedan",

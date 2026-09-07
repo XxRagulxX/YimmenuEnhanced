@@ -1,9 +1,9 @@
 #include "Commands/LoopedCommand.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	static CommandToggle _LocallyVisible{"localvis", "Locally Visible", "Be locally visible while remaining invisible to other players"};
+	static CommandToggleLegacy _LocallyVisible{"localvis", "Locally Visible", "Be locally visible while remaining invisible to other players"};
 
 	class Invis : public LoopedCommand
 	{

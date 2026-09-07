@@ -2,7 +2,7 @@
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Ported from real Stand's own CommandTennisMode - MISC::ENABLE_
 	// TENNIS_MODE only needs calling when the game's own state disagrees

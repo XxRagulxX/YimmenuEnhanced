@@ -1,8 +1,8 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/CommandColourCustom.hpp"
 #include "Commands/Commands.hpp"
-#include "Commands/CommandSliderFloat.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderFloatLegacy.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/CommandListSelect.hpp"
 #include "Commands/CommandInput.hpp"
 #include "Commands/CommandPosition3d.hpp"
@@ -16,7 +16,7 @@
 #include "Menu/Items.hpp"
 #include "Scripting/LuaCommandHandle.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	static std::optional<int> OptionalInt(lua_State* state, int idx)
 	{
@@ -84,19 +84,19 @@ namespace StandEnhanced::Lua
 			lua_pushnil(state);
 			return 1;
 		case LuaCommandHandle::Kind::Bool:
-			if (auto* c = Commands::GetCommand<CommandToggle>(h.hash))
+			if (auto* c = Commands::GetCommand<CommandToggleLegacy>(h.hash))
 				lua_pushboolean(state, c->GetState());
 			else
 				lua_pushnil(state);
 			return 1;
 		case LuaCommandHandle::Kind::Int:
-			if (auto* c = Commands::GetCommand<CommandSlider>(h.hash))
+			if (auto* c = Commands::GetCommand<CommandSliderLegacy>(h.hash))
 				lua_pushinteger(state, c->GetState());
 			else
 				lua_pushnil(state);
 			return 1;
 		case LuaCommandHandle::Kind::Float:
-			if (auto* c = Commands::GetCommand<CommandSliderFloat>(h.hash))
+			if (auto* c = Commands::GetCommand<CommandSliderFloatLegacy>(h.hash))
 				lua_pushnumber(state, c->GetState());
 			else
 				lua_pushnil(state);
@@ -120,15 +120,15 @@ namespace StandEnhanced::Lua
 		case LuaCommandHandle::Kind::OneShot:
 			return 0;
 		case LuaCommandHandle::Kind::Bool:
-			if (auto* c = Commands::GetCommand<CommandToggle>(h.hash))
+			if (auto* c = Commands::GetCommand<CommandToggleLegacy>(h.hash))
 				c->SetState(CheckBooleanSafe(state, 2));
 			return 0;
 		case LuaCommandHandle::Kind::Int:
-			if (auto* c = Commands::GetCommand<CommandSlider>(h.hash))
+			if (auto* c = Commands::GetCommand<CommandSliderLegacy>(h.hash))
 				c->SetState(static_cast<int>(luaL_checkinteger(state, 2)));
 			return 0;
 		case LuaCommandHandle::Kind::Float:
-			if (auto* c = Commands::GetCommand<CommandSliderFloat>(h.hash))
+			if (auto* c = Commands::GetCommand<CommandSliderFloatLegacy>(h.hash))
 				c->SetState(static_cast<float>(luaL_checknumber(state, 2)));
 			return 0;
 		case LuaCommandHandle::Kind::List:
@@ -307,11 +307,11 @@ namespace StandEnhanced::Lua
 		LuaCommandHandle::Kind kind;
 		if (dynamic_cast<CommandListSelect*>(cmd))
 			kind = LuaCommandHandle::Kind::List;
-		else if (dynamic_cast<CommandSlider*>(cmd))
+		else if (dynamic_cast<CommandSliderLegacy*>(cmd))
 			kind = LuaCommandHandle::Kind::Int;
-		else if (dynamic_cast<CommandSliderFloat*>(cmd))
+		else if (dynamic_cast<CommandSliderFloatLegacy*>(cmd))
 			kind = LuaCommandHandle::Kind::Float;
-		else if (dynamic_cast<CommandToggle*>(cmd))
+		else if (dynamic_cast<CommandToggleLegacy*>(cmd))
 			kind = LuaCommandHandle::Kind::Bool; // covers LoopedCommand too
 		else
 			kind = LuaCommandHandle::Kind::OneShot;

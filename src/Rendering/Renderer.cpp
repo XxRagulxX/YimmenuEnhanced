@@ -2,7 +2,7 @@
 
 #include "Core/Pointers.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	Renderer::Renderer() :
 	    m_Initialized(false),
@@ -103,7 +103,7 @@ namespace StandEnhanced
 		        (void**)m_CommandAllocator.GetAddressOf());
 		    result < 0)
 		{
-			LOG(WARNING) << "Failed to create primary Command Allocator with result: [" << result << "]";
+			LOG(WARNING) << "Failed to create primary CommandLegacy Allocator with result: [" << result << "]";
 
 			return false;
 		}
@@ -115,7 +115,7 @@ namespace StandEnhanced
 		{
 			if (const auto result = m_Device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, __uuidof(ID3D12CommandAllocator), (void**)&m_FrameContext[i].CommandAllocator); result < 0)
 			{
-				LOG(WARNING) << "Failed to create secondary Command Allocator with result: [" << result << "]";
+				LOG(WARNING) << "Failed to create secondary CommandLegacy Allocator with result: [" << result << "]";
 
 				return false;
 			}
@@ -123,14 +123,14 @@ namespace StandEnhanced
 
 		if (const auto result = m_Device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, m_CommandAllocator.Get(), NULL, __uuidof(ID3D12GraphicsCommandList), (void**)m_CommandList.GetAddressOf()); result < 0)
 		{
-			LOG(WARNING) << "Failed to create Command List with result: [" << result << "]";
+			LOG(WARNING) << "Failed to create CommandLegacy List with result: [" << result << "]";
 
 			return false;
 		}
 
 		if (const auto result = m_CommandList->Close(); result < 0)
 		{
-			LOG(WARNING) << "Failed to finalize the creation of Command List with result: [" << result << "]";
+			LOG(WARNING) << "Failed to finalize the creation of CommandLegacy List with result: [" << result << "]";
 
 			return false;
 		}

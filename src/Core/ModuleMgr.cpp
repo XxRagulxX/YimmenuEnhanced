@@ -2,7 +2,7 @@
 
 #include "Util/Joaat.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	Module* ModuleMgr::Get(const std::string_view name)
 	{

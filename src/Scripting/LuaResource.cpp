@@ -1,7 +1,7 @@
 #include "Scripting/LuaResource.hpp"
 #include "Scripting/LuaManager.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	void LuaResourceType::Register()
 	{

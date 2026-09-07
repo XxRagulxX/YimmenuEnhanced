@@ -8,7 +8,7 @@ namespace rage
 	class scrProgram;
 }
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Debug > Scripts > Threads: mirrors
 	// MenuScripts.cpp's own "Threads" TabItem - a live thread picker

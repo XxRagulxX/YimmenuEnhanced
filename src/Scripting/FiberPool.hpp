@@ -2,7 +2,7 @@
 
 #include <functional>
 
-namespace StandEnhanced
+namespace Stand
 {
 	class FiberPool
 	{

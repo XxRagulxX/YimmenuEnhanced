@@ -3,7 +3,7 @@
 #include "Scripting/Scripts.hpp"
 #include "Network/GPBD_FM_3.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class ForceThunder : public LoopedCommand
 	{

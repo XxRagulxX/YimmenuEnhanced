@@ -4,7 +4,7 @@
 #include <DirectXMath.h>
 #include <string>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Settings > Customize: replaces the classic menu's
 	// own Customize page (Config/GUISettings.cpp's DrawGUISettingsMenu())

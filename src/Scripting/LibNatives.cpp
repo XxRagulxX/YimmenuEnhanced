@@ -4,7 +4,7 @@
 #include "Scripting/LuaMainUtils.hpp"
 #include "Scripting/NativeDefs.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	class AreNativesLoadedResource : public LuaResource
 	{

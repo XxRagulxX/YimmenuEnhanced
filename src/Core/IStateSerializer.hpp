@@ -3,7 +3,7 @@
 #include <string>
 #include <nlohmann/json.hpp>
 
-namespace StandEnhanced
+namespace Stand
 {
 	class IStateSerializer
 	{

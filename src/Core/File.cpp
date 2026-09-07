@@ -1,7 +1,7 @@
 #include "Core/File.hpp"
 #include "Core/FileMgr.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	File::File(const std::filesystem::path& path) :
 	    BaseObj(path)

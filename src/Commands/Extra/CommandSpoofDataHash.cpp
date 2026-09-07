@@ -1,4 +1,4 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Core/DetourHook.hpp"
 #include "Scripting/NativeHooks.hpp"
 #include "Scripting/Natives.hpp"
@@ -7,11 +7,11 @@
 #include "Game/CGameDataHash.hpp"
 #include "Core/Hooking.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class DumpDataHash : public Command
+	class DumpDataHash : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -31,9 +31,9 @@ namespace StandEnhanced::Features
 	static DumpDataHash _DumpDataHash{"dumpdatahash", "Dump Data Hash", "Dumps the current data hash into the console"};
 
 	static void PackOrderHook(rage::scrNativeCallContext* ctx);
-	class SpoofDataHash : public CommandToggle
+	class SpoofDataHash : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		std::array<std::uint32_t, 16> origHashes;
 
@@ -87,11 +87,11 @@ namespace StandEnhanced::Features
 	}
 }
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	uint32_t Network::GetDLCHash(void* manager, uint32_t seed)
 	{
-		if (StandEnhanced::Features::_SpoofDataHash.GetState())
+		if (Stand::Features::_SpoofDataHash.GetState())
 			return 1631480001;
 
 		return Hooking::Get<Network::GetDLCHash>()->Original<decltype(&Network::GetDLCHash)>()(manager, seed);

@@ -2,7 +2,7 @@
 #include "Commands/Commands.hpp"
 #include "Commands/CommandPosition3d.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	Vector3CommandItem::Vector3CommandItem(joaat_t id, std::optional<std::string> label_override) :
 	    m_Command(Commands::GetCommand<CommandPosition3d>(id)),

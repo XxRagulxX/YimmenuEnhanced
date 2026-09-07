@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	// Test-only command for CommandToggleBitflag (see Commands/Widgets/
 	// CommandToggleBitflag.hpp) - reachable from Settings > Debug > "Stand

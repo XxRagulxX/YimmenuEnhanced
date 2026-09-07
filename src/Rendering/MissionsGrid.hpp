@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Tab target for Recovery > Heists > Missions: mirrors Missions.cpp's
 	// RenderMissionsMenu() in full - ten List+Command(s) groups (Low

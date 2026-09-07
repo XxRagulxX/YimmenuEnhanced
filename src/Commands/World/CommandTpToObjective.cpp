@@ -1,9 +1,9 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
 #include "Game/BlipSprite.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	static bool GetBlipLocationOfType(Vector3& location, int sprite)
 	{
@@ -17,9 +17,9 @@ namespace StandEnhanced::Features
 		return false;
 	}
 
-	class TpToObjective : public Command
+	class TpToObjective : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 
 		virtual void OnCall() override

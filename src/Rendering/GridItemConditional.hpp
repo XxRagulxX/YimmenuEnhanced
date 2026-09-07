@@ -1,12 +1,12 @@
 #pragma once
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Rendering/GridItem.hpp"
 #include "Util/Joaat.hpp"
 
 #include <functional>
 #include <memory>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Wraps another GridItem, gating every one of its calls on a live
 	// condition - the Grid equivalent of ConditionalItem (src/
@@ -56,7 +56,7 @@ namespace StandEnhanced::Rendering
 	private:
 		[[nodiscard]] bool CanDraw() const;
 
-		CommandToggle* m_Condition;
+		CommandToggleLegacy* m_Condition;
 		std::function<bool()> m_ConditionFn;
 		bool m_Negate;
 		std::unique_ptr<GridItem> m_Item;

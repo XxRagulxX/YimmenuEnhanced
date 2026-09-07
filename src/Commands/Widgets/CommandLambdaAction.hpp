@@ -1,10 +1,10 @@
 #pragma once
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 
 #include <functional>
 #include <utility>
 
-namespace StandEnhanced::StandWidgets
+namespace Stand::StandWidgets
 {
 	// Ported from real Stand's own CommandLambdaAction - a one-shot
 	// action (button) whose behaviour is supplied inline, the Command
@@ -13,11 +13,11 @@ namespace StandEnhanced::StandWidgets
 	// in this codebase (CommandHeal.cpp, CommandSuicide.cpp, ...) still
 	// needs its own subclass file for a single OnCall() override - this
 	// lets a one-off action be dropped in with no subclass at all.
-	class CommandLambdaAction : public Command
+	class CommandLambdaAction : public CommandLegacy
 	{
 	public:
 		CommandLambdaAction(std::string name, std::string label, std::string description, std::function<void()> onCall) :
-		    Command(std::move(name), std::move(label), std::move(description), 0),
+		    CommandLegacy(std::move(name), std::move(label), std::move(description), 0),
 		    m_OnCall(std::move(onCall))
 		{
 		}

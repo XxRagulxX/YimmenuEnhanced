@@ -2,7 +2,7 @@
 #include "Scripting/LuaMainScript.hpp"
 #include "Scripting/LuaMainUtils.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	static bool IsCoroutine(lua_State* state)
 	{

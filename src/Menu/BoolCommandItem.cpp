@@ -1,11 +1,11 @@
 #include "Menu/Items.hpp"
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/Commands.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	BoolCommandItem::BoolCommandItem(joaat_t id, std::optional<std::string> label_override) :
-	    m_Command(Commands::GetCommand<CommandToggle>(id)),
+	    m_Command(Commands::GetCommand<CommandToggleLegacy>(id)),
 	    m_LabelOverride(label_override)
 	{
 	}

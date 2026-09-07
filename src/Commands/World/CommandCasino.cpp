@@ -7,7 +7,7 @@
 #include <set>
 
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class CasinoManipulateRigSlotMachines : public LoopedCommand
 	{

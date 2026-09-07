@@ -1,7 +1,7 @@
 #include "Rendering/Onboarding.hpp"
 #include "Menu/GUI.hpp"
 #include "Commands/Commands.hpp"
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Rendering/GridRenderer.hpp"
 #include "Rendering/TextWrap.hpp"
 #include "Rendering/Theme.hpp"
@@ -9,11 +9,11 @@
 
 #include <shellapi.h>
 
-namespace StandEnhanced
+namespace Stand
 {
 	namespace
 	{
-		CommandToggle _OnboardingComplete{"$onboardingcomplete", "", ""};
+		CommandToggleLegacy _OnboardingComplete{"$onboardingcomplete", "", ""};
 
 		constexpr float kPanelWidth = 700.f;
 		constexpr float kPad = 16.f;
@@ -123,7 +123,7 @@ namespace StandEnhanced
 
 		void Complete()
 		{
-			if (auto* cheaterpool = Commands::GetCommand<CommandToggle>("cheaterpool"_J))
+			if (auto* cheaterpool = Commands::GetCommand<CommandToggleLegacy>("cheaterpool"_J))
 				cheaterpool->SetState(g_SessionMode == 0);
 
 			_OnboardingComplete.SetState(true);

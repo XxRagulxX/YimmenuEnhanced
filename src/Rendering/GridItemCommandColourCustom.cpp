@@ -15,7 +15,7 @@
 #include <unordered_map>
 #include <utility>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

@@ -1,6 +1,6 @@
 #include "Scripting/ScriptLocal.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	void* ScriptLocal::Get() const
 	{

@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <windows.h>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{
@@ -109,7 +109,7 @@ namespace StandEnhanced::Rendering
 
 		const auto layout = ComputeLayout();
 
-		const char* title = "Stand Command Box";
+		const char* title = "Stand CommandLegacy Box";
 		const auto titleSize = GridRenderer::MeasureText(title, Theme::kSmallTextScale);
 		GridRenderer::DrawText(layout.x + kPaddingX,
 		    layout.titleY + std::max(0.f, (layout.titleHeight - titleSize.y) * 0.5f),

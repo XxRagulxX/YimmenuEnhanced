@@ -4,7 +4,7 @@
 
 // Credits to Aure7138
 
-namespace StandEnhanced
+namespace Stand
 {
 	struct SyncNodeId
 	{
@@ -100,9 +100,9 @@ namespace StandEnhanced
 namespace std
 {
 	template<>
-	struct hash<StandEnhanced::SyncNodeId>
+	struct hash<Stand::SyncNodeId>
 	{
-		size_t operator()(const StandEnhanced::SyncNodeId& x) const
+		size_t operator()(const Stand::SyncNodeId& x) const
 		{
 			return x.id;
 		}

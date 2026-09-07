@@ -25,7 +25,7 @@
 #define DEFINE_GLOBAL_ACCESSOR(str, global)       \
 	str* str::Get()                               \
 	{                                             \
-		auto glb = StandEnhanced::ScriptGlobal(global); \
+		auto glb = Stand::ScriptGlobal(global); \
 		if (!glb.CanAccess())                     \
 			return nullptr;                       \
 		return glb.As<str*>();                    \

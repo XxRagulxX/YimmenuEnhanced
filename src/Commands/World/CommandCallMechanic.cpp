@@ -1,4 +1,4 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Rendering/Notifications.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Scripts.hpp"
@@ -7,11 +7,11 @@
 #include "Core/Pointers.hpp"
 #include "Util/Timer.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class CallMechanic : public Command
+	class CallMechanic : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

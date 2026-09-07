@@ -6,7 +6,7 @@
 #include <string>
 #include <string_view>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	class GridItemTextInput;
 

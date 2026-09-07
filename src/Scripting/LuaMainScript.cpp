@@ -1,7 +1,7 @@
 #include "Scripting/LuaMainScript.hpp"
 #include "Scripting/LuaManager.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	// https://github.com/brimworks/lua-ev/blob/2d11066b6f96a7501805e8c28d92f70dd2c0ab13/lua_ev.c#L144
 	// TODO: may need to check if debug is a real table if ChatGPT is to be trusted

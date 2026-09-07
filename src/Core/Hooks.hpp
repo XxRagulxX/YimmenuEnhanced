@@ -27,12 +27,12 @@ namespace rage
 class MatchmakingAttributes;
 class MatchmakingId;
 
-namespace StandEnhanced
+namespace Stand
 {
 	class Player;
 }
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	namespace SwapChain
 	{

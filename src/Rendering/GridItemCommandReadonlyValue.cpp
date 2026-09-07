@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <utility>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

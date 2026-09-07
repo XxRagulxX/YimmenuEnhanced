@@ -1,11 +1,11 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Scripting/FiberPool.hpp"
 #include "Scripting/ScriptMgr.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	void ResolveZCoordinate(Vector3& vec)
 	{
@@ -49,9 +49,9 @@ namespace StandEnhanced::Features
 			vec.z = PATH::GET_APPROX_HEIGHT_FOR_POINT(vec.x, vec.y);
 	}
 
-	class TpToWaypoint : public Command
+	class TpToWaypoint : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace StandEnhanced
+namespace Stand
 {
 	enum class LogColor
 	{

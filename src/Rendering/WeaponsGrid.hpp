@@ -1,7 +1,7 @@
 #pragma once
 #include "Rendering/Grid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// Content grid for Self > Weapons: mirrors Weapons.cpp's
 	// BuildWeaponsMenu() in full - Globals, Tools, Ammu-Nation (see

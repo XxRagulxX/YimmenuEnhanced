@@ -1,16 +1,16 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	static CommandSlider _WantedSlider{"wantedslider", "Wanted Slider", "Wanted level to set/freeze", 0, 5, 0};
+	static CommandSliderLegacy _WantedSlider{"wantedslider", "Wanted Slider", "Wanted level to set/freeze", 0, 5, 0};
 
-	class ClearWanted : public Command
+	class ClearWanted : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -18,9 +18,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class SetWanted : public Command
+	class SetWanted : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

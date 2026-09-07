@@ -1,18 +1,18 @@
-#include "Commands/Command.hpp"
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandLegacy.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	static CommandSlider _NetworkTimeHour{"networktimehour", "Hour", "Set hour (0-23)", 0, 23, 12};
-	static CommandSlider _NetworkTimeMinute{"networktimeminute", "Minute", "Set minute (0-59)", 0, 59, 0};
-	static CommandSlider _NetworkTimeSecond{"networktimesecond", "Second", "Set second (0-59)", 0, 59, 0};
+	static CommandSliderLegacy _NetworkTimeHour{"networktimehour", "Hour", "Set hour (0-23)", 0, 23, 12};
+	static CommandSliderLegacy _NetworkTimeMinute{"networktimeminute", "Minute", "Set minute (0-59)", 0, 59, 0};
+	static CommandSliderLegacy _NetworkTimeSecond{"networktimesecond", "Second", "Set second (0-59)", 0, 59, 0};
 
 
-	class SetNetworkTime : public Command
+	class SetNetworkTime : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

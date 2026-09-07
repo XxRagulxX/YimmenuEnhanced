@@ -2,20 +2,20 @@
 
 #include "Commands/Widgets/CommandPhysical.hpp"
 #include "Commands/Widgets/CommandRegistry.hpp"
-#include "Commands/Widgets/CommandToggle.hpp"
+#include "Commands/Widgets/CommandToggleLegacy.hpp"
 #include "Menu/Click.hpp"
 #include "Menu/Hotkey.hpp"
 #include "Util/Joaat.hpp"
 #include "World/Self.hpp"
 
-// CommandGod lives directly in namespace Stand (not StandEnhanced::Features) -
+// CommandGod lives directly in namespace Stand (not Stand::Features) -
 // matching where the user's own pasted reference example was written.
 // CommandName/Label/CommandList/CommandToggle/Click/LOC()/CMDNAMES() all
 // resolve unqualified only from inside namespace Stand itself (or a
 // namespace nested under it) - writing this class inside
-// StandEnhanced::Features instead (the original mistake here) left every one
+// Stand::Features instead (the original mistake here) left every one
 // of those unqualified names unable to find Stand::CommandName et al.,
-// since StandEnhanced::Features and Stand are unrelated sibling namespace
+// since Stand::Features and Stand are unrelated sibling namespace
 // trees, not parent/child.
 namespace Stand
 {
@@ -26,8 +26,8 @@ namespace Stand
 		// migrated (constructor taking CommandList* parent + LOC()
 		// name/help text/CMDNAMES() aliases, onEnable()/onDisable()
 		// doing the actual work). Reuses this project's own existing
-		// StandEnhanced::Self::GetPed().SetInvincible() - the same native call
-		// this project's own CommandGodmode.cpp (a StandEnhanced::LoopedCommand,
+		// Stand::Self::GetPed().SetInvincible() - the same native call
+		// this project's own CommandGodmode.cpp (a Stand::LoopedCommand,
 		// kept running unmodified and independently for now) already
 		// uses - rather than reimplementing the behaviour a second way.
 		// No LOC() translation database exists here (see Util/Label.hpp's
@@ -41,11 +41,11 @@ namespace Stand
 		// prove against - press G outside the menu and this should flip
 		// exactly like clicking the checkbox or the Phase 2 registry
 		// button does.
-		class CommandGod : public CommandToggle
+		class CommandGod : public CommandToggleLegacy
 		{
 		public:
 			explicit CommandGod(CommandList* parent) :
-			    CommandToggle(parent,
+			    CommandToggleLegacy(parent,
 			        LOC("God Mode (Stand Test)"),
 			        CMDNAMES("standtest_godmode", "standtest_immortality"),
 			        LOC("Makes your character unable to die."),
@@ -58,14 +58,14 @@ namespace Stand
 
 			void onEnable(Click& click) override
 			{
-				if (StandEnhanced::Self::GetPed())
-					StandEnhanced::Self::GetPed().SetInvincible(true);
+				if (Stand::Self::GetPed())
+					Stand::Self::GetPed().SetInvincible(true);
 			}
 
 			void onDisable(Click& click) override
 			{
-				if (StandEnhanced::Self::GetPed())
-					StandEnhanced::Self::GetPed().SetInvincible(false);
+				if (Stand::Self::GetPed())
+					Stand::Self::GetPed().SetInvincible(false);
 			}
 		};
 
@@ -73,7 +73,7 @@ namespace Stand
 		// CommandRegistry.hpp) - this button does NOT hold a pointer to
 		// CommandGod above (it doesn't even know it lives in the same
 		// file); it looks CommandGod up purely by one of its aliases,
-		// hashed the exact same way StandEnhanced::Commands::GetCommand<T>()
+		// hashed the exact same way Stand::Commands::GetCommand<T>()
 		// already does for the legacy system. Proves a command
 		// constructed anywhere in the (eventually many) migrated files
 		// can find another one by name alone, the same cross-referencing
@@ -93,14 +93,14 @@ namespace Stand
 
 			void onClick(Click& click) override
 			{
-				if (auto* god = CommandRegistry::GetCommand<CommandToggle>(StandEnhanced::Joaat("standtest_godmode")))
+				if (auto* god = CommandRegistry::GetCommand<CommandToggleLegacy>(Stand::Joaat("standtest_godmode")))
 					god->onClick(click);
 			}
 		};
 	}
 }
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	Stand::CommandList& GetStandTreeTestRoot()
 	{
@@ -116,7 +116,7 @@ namespace StandEnhanced::Features
 		//
 		// Stand::CommandGod, not just CommandGod - it's declared inside
 		// an anonymous namespace nested under namespace Stand above, not
-		// under StandEnhanced::Features, so it needs that qualifier from here.
+		// under Stand::Features, so it needs that qualifier from here.
 		static bool initialized = [] {
 			root.createChild<Stand::CommandGod>();
 			root.createChild<Stand::CommandGodToggleViaRegistry>();

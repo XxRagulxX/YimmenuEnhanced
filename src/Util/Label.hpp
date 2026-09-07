@@ -27,7 +27,7 @@ namespace Stand
 		};
 
 	private:
-		StandEnhanced::joaat_t hash = 0;
+		Stand::joaat_t hash = 0;
 
 	public:
 		std::string literal_str{};
@@ -35,13 +35,13 @@ namespace Stand
 		Label() noexcept = default;
 
 		Label(const std::string& str, TagLiteral) noexcept :
-		    hash(StandEnhanced::Joaat(str)),
+		    hash(Stand::Joaat(str)),
 		    literal_str(str)
 		{
 		}
 
 		Label(std::string&& str, TagLiteral) noexcept :
-		    hash(StandEnhanced::Joaat(str)),
+		    hash(Stand::Joaat(str)),
 		    literal_str(std::move(str))
 		{
 		}
@@ -58,13 +58,13 @@ namespace Stand
 
 		void setLiteral(const std::string& str) noexcept
 		{
-			hash = StandEnhanced::Joaat(str);
+			hash = Stand::Joaat(str);
 			literal_str = str;
 		}
 
 		void setLiteral(std::string&& str) noexcept
 		{
-			hash = StandEnhanced::Joaat(str);
+			hash = Stand::Joaat(str);
 			literal_str = std::move(str);
 		}
 
@@ -89,7 +89,7 @@ namespace Stand
 			return !operator==(b);
 		}
 
-		[[nodiscard]] StandEnhanced::joaat_t getHash() const noexcept
+		[[nodiscard]] Stand::joaat_t getHash() const noexcept
 		{
 			return hash;
 		}

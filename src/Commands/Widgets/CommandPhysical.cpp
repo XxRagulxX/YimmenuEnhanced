@@ -17,7 +17,7 @@ namespace Stand
 		if (command_names.empty())
 			return {};
 
-		return "Command: " + command_names.front();
+		return "CommandLegacy: " + command_names.front();
 	}
 
 	void CommandPhysical::queueJob(std::function<void()>&& func)
@@ -25,7 +25,7 @@ namespace Stand
 		if (!m_JobQueued)
 		{
 			m_JobQueued = true;
-			StandEnhanced::FiberPool::queueJob([this, func{std::move(func)}] {
+			Stand::FiberPool::queueJob([this, func{std::move(func)}] {
 				m_JobQueued = false;
 				func();
 			});
@@ -37,7 +37,7 @@ namespace Stand
 		if (!m_JobQueued)
 		{
 			m_JobQueued = true;
-			StandEnhanced::FiberPool::queueJob([this, func{std::move(func)}] {
+			Stand::FiberPool::queueJob([this, func{std::move(func)}] {
 				m_JobQueued = false;
 				func(TC_SCRIPT_YIELDABLE);
 			});
@@ -97,7 +97,7 @@ namespace Stand
 		if (!m_JobQueued)
 		{
 			m_JobQueued = true;
-			StandEnhanced::FiberPool::queueJob([this, func{std::move(func)}] {
+			Stand::FiberPool::queueJob([this, func{std::move(func)}] {
 				m_JobQueued = false;
 				func();
 			});

@@ -2,7 +2,7 @@
 #include "Core/Pointers.hpp"
 #include "Scripting/ScriptGlobal.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class UnlockGTAPlus : public LoopedCommand
 	{

@@ -12,7 +12,7 @@
 #include "Network/rlGetAvatarsContext.hpp"
 #include "Network/rlScTaskStatus.hpp"
 
-namespace StandEnhanced::Network
+namespace Stand::Network
 {
 	void LaunchJoinType(JoinType to_launch)
 	{

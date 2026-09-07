@@ -1,8 +1,8 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include <unordered_map>
 #include <array>
 #include <cmath>
-#include "Commands/CommandSlider.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
 #include "Commands/CommandListSelect.hpp"
 #include "Commands/LoopedCommand.hpp"
 #include "World/Self.hpp"
@@ -17,7 +17,7 @@
 #include "World/DeleteObjectsByHash.hpp"
 #include "Scripting/FiberPool.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	namespace CayoPericoHeist
 	{
@@ -31,17 +31,17 @@ namespace StandEnhanced::Features
 		};
 
 
-		static CommandSlider _CayoPericoHeistCut1{"cayopericoheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
-		static CommandSlider _CayoPericoHeistCut2{"cayopericoheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
-		static CommandSlider _CayoPericoHeistCut3{"cayopericoheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
-		static CommandSlider _CayoPericoHeistCut4{"cayopericoheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
-		static CommandSlider _CayoPavelCut{"cayopavelcut", "Pavel Cut (%)", "Pavel cut percentage", std::nullopt, std::nullopt, 2};
-		static CommandSlider _CayoFencingCut{"cayofencecut", "Fencing Fee (%)", "Fencing fee percentage", std::nullopt, std::nullopt, 10};
+		static CommandSliderLegacy _CayoPericoHeistCut1{"cayopericoheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _CayoPericoHeistCut2{"cayopericoheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _CayoPericoHeistCut3{"cayopericoheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _CayoPericoHeistCut4{"cayopericoheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _CayoPavelCut{"cayopavelcut", "Pavel Cut (%)", "Pavel cut percentage", std::nullopt, std::nullopt, 2};
+		static CommandSliderLegacy _CayoFencingCut{"cayofencecut", "Fencing Fee (%)", "Fencing fee percentage", std::nullopt, std::nullopt, 10};
 
 
-		class SetCuts : public Command
+		class SetCuts : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -55,9 +55,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class ForceReady : public Command
+		class ForceReady : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -157,9 +157,9 @@ namespace StandEnhanced::Features
 		    {5, "Marksman"}};
 		static CommandListSelect _CayoPericoHeistWeapon{"cayopericoheistweapon", "Weapon", "Weapon category", cayoPericoHeistWeapon, 1};
 
-		class RequestKosatka : public Command
+		class RequestKosatka : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -167,9 +167,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class Setup : public Command
+		class Setup : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -222,11 +222,11 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		static CommandSlider _CayoPericoHeistPrimaryTargetValue{"cayopericoheistprimarytargetvalue", "Primary Target Value", "Updates primary target value", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _CayoPericoHeistPrimaryTargetValue{"cayopericoheistprimarytargetvalue", "Primary Target Value", "Updates primary target value", std::nullopt, std::nullopt, 0};
 
-		class SetPrimaryTargetValue : public Command
+		class SetPrimaryTargetValue : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -281,11 +281,11 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		static CommandSlider _CayoPericoHeistSecondaryTakeValue{"cayopericoheistsecondarytakevalue", "Secondary Take Value", "Updates secondary take value", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _CayoPericoHeistSecondaryTakeValue{"cayopericoheistsecondarytakevalue", "Secondary Take Value", "Updates secondary take value", std::nullopt, std::nullopt, 0};
 
-		class SetSecondaryTakeValue : public Command
+		class SetSecondaryTakeValue : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -294,9 +294,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class SetMaxPayout : public Command
+		class SetMaxPayout : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 		public:
 			virtual void OnCall() override
@@ -346,7 +346,7 @@ namespace StandEnhanced::Features
 
 			void ApplyCuts(int totalCut, int players)
 			{
-				std::array<CommandSlider*, 4> cmds = {
+				std::array<CommandSliderLegacy*, 4> cmds = {
 				    &_CayoPericoHeistCut1,
 				    &_CayoPericoHeistCut2,
 				    &_CayoPericoHeistCut3,
@@ -370,9 +370,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class SkipHacking : public Command
+		class SkipHacking : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -381,23 +381,23 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class CutSewer : public Command
+		class CutSewer : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
 				if (auto thread = Scripts::FindScriptThread("fm_mission_controller_2020"_J))
 					*ScriptLocal(thread, 31511).As<int*>() = 6;
 				Hash drainagePipeHash = "prop_chem_grill_bit"_J;
-				StandEnhanced::DeleteObjectsByHash(drainagePipeHash);
+				Stand::DeleteObjectsByHash(drainagePipeHash);
 				Notifications::ShowInGame("Cayo Perico", "Cut Sewer Grill - Successfull", "CHAR_LESTER", "Black");
 			}
 		};
 
-		class CutGlass : public Command
+		class CutGlass : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -406,9 +406,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class TakePrimaryTarget : public Command
+		class TakePrimaryTarget : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -464,9 +464,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class InstantFinish : public Command
+		class InstantFinish : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -530,9 +530,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class RemoveCameras : public Command
+		class RemoveCameras : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			static const inline std::vector<Hash> CayoPericoCameraHashes = {
 			    ("prop_cctv_cam_01a"_J),
@@ -556,14 +556,14 @@ namespace StandEnhanced::Features
 			{
 				for (auto cam_hash : CayoPericoCameraHashes)
 				{
-					StandEnhanced::DeleteObjectsByHash(cam_hash);
+					Stand::DeleteObjectsByHash(cam_hash);
 				}
 			}
 		};
 
-		class Teleport : public Command
+		class Teleport : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{

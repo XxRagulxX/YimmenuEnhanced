@@ -1,11 +1,11 @@
 #pragma once
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Game/Player.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class PlayerCommand;
-	class PlayerAllCommand : public Command
+	class PlayerAllCommand : public CommandLegacy
 	{
 		PlayerCommand* m_PlayerCommand;
 
@@ -14,7 +14,7 @@ namespace StandEnhanced
 		virtual void OnCall() override;
 	};
 
-	class PlayerCommand : public Command
+	class PlayerCommand : public CommandLegacy
 	{
 		virtual void OnCall() override;
 		std::unique_ptr<PlayerAllCommand> m_AllCommand;

@@ -8,7 +8,7 @@ namespace rage
 	class scrProgram;
 }
 
-namespace StandEnhanced
+namespace Stand
 {
 	class ScriptPatches
 	{

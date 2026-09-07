@@ -2,7 +2,7 @@
 #include "Util/Joaat.hpp"
 #include "Scripting/ScriptPointer.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class ScriptFunction
 	{

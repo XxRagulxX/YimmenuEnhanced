@@ -1,10 +1,10 @@
 #include "Commands/LoopedCommand.hpp"
 #include "Commands/Commands.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	LoopedCommand::LoopedCommand(std::string name, std::string label, std::string description) :
-	    CommandToggle(name, label, description)
+	    CommandToggleLegacy(name, label, description)
 	{
 		Commands::AddLoopedCommand(this);
 	}

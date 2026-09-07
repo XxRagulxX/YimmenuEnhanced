@@ -1,5 +1,5 @@
-#include "Commands/CommandSlider.hpp"
-#include "Commands/Command.hpp"
+#include "Commands/CommandSliderLegacy.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "World/Stats.hpp"
 #include "Network/Players.hpp"
 #include "Scripting/ScriptGlobal.hpp"
@@ -8,18 +8,18 @@
 #include "Network/GlobalPlayerBD.hpp"
 #include "World/Self.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	namespace ApartmentHeist
 	{
-		static CommandSlider _ApartmentHeistCut1{"apartmentheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
-		static CommandSlider _ApartmentHeistCut2{"apartmentheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
-		static CommandSlider _ApartmentHeistCut3{"apartmentheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
-		static CommandSlider _ApartmentHeistCut4{"apartmentheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _ApartmentHeistCut1{"apartmentheistcut1", "Player 1", "Player 1 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _ApartmentHeistCut2{"apartmentheistcut2", "Player 2", "Player 2 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _ApartmentHeistCut3{"apartmentheistcut3", "Player 3", "Player 3 cut", std::nullopt, std::nullopt, 0};
+		static CommandSliderLegacy _ApartmentHeistCut4{"apartmentheistcut4", "Player 4", "Player 4 cut", std::nullopt, std::nullopt, 0};
 
-		class SetCuts : public Command
+		class SetCuts : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -42,9 +42,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class ForceReady : public Command
+		class ForceReady : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -58,9 +58,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class Setup : public Command
+		class Setup : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -68,9 +68,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class SkipHacking : public Command
+		class SkipHacking : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -82,9 +82,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class SkipDrilling : public Command
+		class SkipDrilling : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -95,9 +95,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class SkipSwiping : public Command
+		class SkipSwiping : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -109,9 +109,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class InstantFinish : public Command
+		class InstantFinish : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -129,9 +129,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class InstantFinishPacific : public Command
+		class InstantFinishPacific : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{

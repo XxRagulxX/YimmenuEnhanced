@@ -1,5 +1,5 @@
 #include "Core/DetourHook.hpp"
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/Commands.hpp"
 #include "Core/Hooks.hpp"
 #include "Scripting/Natives.hpp"
@@ -7,7 +7,7 @@
 #include "AntiCheat/AnticheatBypass.hpp"
 #include "Core/Hooking.hpp"
 
-namespace StandEnhanced::Hooks
+namespace Stand::Hooks
 {
 	bool Anticheat::BattlEyeServerProcessPlayerJoin(CBattlEyePlayerModifyInterface* server_iface, CBattlEyePlayerModifyContext* context)
 	{
@@ -21,7 +21,7 @@ namespace StandEnhanced::Hooks
 				}
 			}
 
-			static auto cheater_pool = Commands::GetCommand<CommandToggle>("cheaterpool"_J);
+			static auto cheater_pool = Commands::GetCommand<CommandToggleLegacy>("cheaterpool"_J);
 			if (cheater_pool->GetState())
 			{
 				return true;

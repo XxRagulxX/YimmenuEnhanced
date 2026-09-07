@@ -1,6 +1,6 @@
 #include "Core/Pattern.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	static constexpr std::optional<std::uint8_t> ToHex(char c)
 	{

@@ -3,7 +3,7 @@
 #include "Scripting/ScriptGlobal.hpp"
 #include "Scripting/scrVector.hpp"
 
-namespace StandEnhanced::Lua
+namespace Stand::Lua
 {
 	// TODO: we need to automate this
 	class ScriptGlobal : LuaLibrary
@@ -12,33 +12,33 @@ namespace StandEnhanced::Lua
 
 		static int New(lua_State* state)
 		{
-			CreateObject<StandEnhanced::ScriptGlobal>(state, luaL_checkinteger(state, 1));
+			CreateObject<Stand::ScriptGlobal>(state, luaL_checkinteger(state, 1));
 			return 1;
 		}
 
 		static int At(lua_State* state)
 		{
 			auto num_args = lua_gettop(state) - 1; // first argument is self
-			auto& global = GetObject<StandEnhanced::ScriptGlobal>(state, 1);
+			auto& global = GetObject<Stand::ScriptGlobal>(state, 1);
 
 			auto size = num_args > 1 ? luaL_checkinteger(state, 3) : 0;
 			if (size != 0)
-				CopyObject<StandEnhanced::ScriptGlobal>(state, global.At(luaL_checkinteger(state, 2), size));
+				CopyObject<Stand::ScriptGlobal>(state, global.At(luaL_checkinteger(state, 2), size));
 			else
-				CopyObject<StandEnhanced::ScriptGlobal>(state, global.At(luaL_checkinteger(state, 2)));
+				CopyObject<Stand::ScriptGlobal>(state, global.At(luaL_checkinteger(state, 2)));
 	
 			return 1;
 		}
 
 		static int CanAccess(lua_State* state)
 		{
-			lua_pushboolean(state, GetObject<StandEnhanced::ScriptGlobal>(state, 1).CanAccess());
+			lua_pushboolean(state, GetObject<Stand::ScriptGlobal>(state, 1).CanAccess());
 			return 1;
 		}
 
 		static int GetInt(lua_State* state)
 		{
-			auto& global = GetObject<StandEnhanced::ScriptGlobal>(state, 1);
+			auto& global = GetObject<Stand::ScriptGlobal>(state, 1);
 			int value = 0;
 			if (global.CanAccess())
 				value = *global.As<int*>();
@@ -48,7 +48,7 @@ namespace StandEnhanced::Lua
 
 		static int GetFloat(lua_State* state)
 		{
-			auto& global = GetObject<StandEnhanced::ScriptGlobal>(state, 1);
+			auto& global = GetObject<Stand::ScriptGlobal>(state, 1);
 			float value = 0;
 			if (global.CanAccess())
 				value = *global.As<float*>();
@@ -58,7 +58,7 @@ namespace StandEnhanced::Lua
 
 		static int GetString(lua_State* state)
 		{
-			auto& global = GetObject<StandEnhanced::ScriptGlobal>(state, 1);
+			auto& global = GetObject<Stand::ScriptGlobal>(state, 1);
 			if (global.CanAccess())
 				lua_pushstring(state, global.As<char*>());
 			else
@@ -68,7 +68,7 @@ namespace StandEnhanced::Lua
 
 		static int GetVector3(lua_State* state)
 		{
-			auto& global = GetObject<StandEnhanced::ScriptGlobal>(state, 1);
+			auto& global = GetObject<Stand::ScriptGlobal>(state, 1);
 			rage::scrVector value{};
 			if (global.CanAccess())
 				value = *global.As<rage::scrVector*>();
@@ -78,7 +78,7 @@ namespace StandEnhanced::Lua
 
 		static int SetInt(lua_State* state)
 		{
-			auto& global = GetObject<StandEnhanced::ScriptGlobal>(state, 1);
+			auto& global = GetObject<Stand::ScriptGlobal>(state, 1);
 			if (global.CanAccess())
 				*global.As<int*>() = luaL_checkinteger(state, 2);
 			return 0;
@@ -86,7 +86,7 @@ namespace StandEnhanced::Lua
 
 		static int SetFloat(lua_State* state)
 		{
-			auto& global = GetObject<StandEnhanced::ScriptGlobal>(state, 1);
+			auto& global = GetObject<Stand::ScriptGlobal>(state, 1);
 			if (global.CanAccess())
 				*global.As<float*>() = static_cast<float>(luaL_checknumber(state, 2));
 			return 0;
@@ -94,7 +94,7 @@ namespace StandEnhanced::Lua
 
 		static int SetString(lua_State* state)
 		{
-			auto& global = GetObject<StandEnhanced::ScriptGlobal>(state, 1);
+			auto& global = GetObject<Stand::ScriptGlobal>(state, 1);
 			if (!global.CanAccess())
 				return 0;
 
@@ -113,7 +113,7 @@ namespace StandEnhanced::Lua
 
 		static int SetVector3(lua_State* state)
 		{
-			auto& global = GetObject<StandEnhanced::ScriptGlobal>(state, 1);
+			auto& global = GetObject<Stand::ScriptGlobal>(state, 1);
 			auto& vec = GetObject<rage::fvector3>(state, 2);
 			auto script_vec = rage::scrVector(vec);
 			if (global.CanAccess())
@@ -140,7 +140,7 @@ namespace StandEnhanced::Lua
 				}
 				lua_setfield(state, -2, "__index"); // prototype
 			}
-			Metatable<StandEnhanced::ScriptGlobal>::Register(state);
+			Metatable<Stand::ScriptGlobal>::Register(state);
 
 			lua_newtable(state);
 			SetConstructor<New>(state);

@@ -1,12 +1,12 @@
 #pragma once
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 
 #include <string>
 #include <vector>
 
-namespace StandEnhanced
+namespace Stand
 {
-	class CommandTextslider : public Command
+	class CommandTextslider : public CommandLegacy
 	{
 	protected:
 		virtual void OnChange() {};

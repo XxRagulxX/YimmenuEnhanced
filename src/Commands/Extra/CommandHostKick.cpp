@@ -1,7 +1,7 @@
 #include "Commands/PlayerCommand.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class HostKick : public PlayerCommand
 	{

@@ -1,13 +1,13 @@
 #include "Scripting/LuaUserInterface.hpp"
 #include "Scripting/LuaMainScript.hpp"
 
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Menu/Category.hpp"
 #include "Menu/Submenu.hpp"
 #include "Menu/UIManager.hpp"
 #include "Menu/Items.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	LuaUserInterface::LuaUserInterface() :
 	    m_LastThrotlledCoroutinePush(std::chrono::system_clock::now())

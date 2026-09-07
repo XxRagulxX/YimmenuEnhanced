@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	// A row of tab labels with one highlighted as active, mirroring
 	// stand-reference's src/Menu/GridItemTabsHorizontal.*. Clicking a tab

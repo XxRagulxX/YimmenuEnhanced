@@ -1,14 +1,14 @@
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Network/NodeHooks.hpp"
 #include "World/Self.hpp"
 #include "Network/Players.hpp"
 #include "Network/CPedHealthDataNode.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class SpamKillfeed : public CommandToggle
+	class SpamKillfeed : public CommandToggleLegacy
 	{
-		using CommandToggle::CommandToggle;
+		using CommandToggleLegacy::CommandToggleLegacy;
 
 		std::shared_ptr<NodeHooks::Hook> m_PedHealthHook;
 

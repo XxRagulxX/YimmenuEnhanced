@@ -6,7 +6,7 @@ namespace rage
 	class scrThread;
 }
 
-namespace StandEnhanced
+namespace Stand
 {
 	enum class VariableType
 	{

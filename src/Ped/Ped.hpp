@@ -5,7 +5,7 @@
 enum class PedConfigFlag : std::uint32_t;
 enum class PedCombatAttribute : std::uint32_t;
 
-namespace StandEnhanced
+namespace Stand
 {
 	class Ped : public Entity
 	{

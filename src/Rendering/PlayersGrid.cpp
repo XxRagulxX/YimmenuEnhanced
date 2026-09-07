@@ -12,7 +12,7 @@
 #include "Rendering/ToxicGrid.hpp"
 #include "Rendering/TrollGrid.hpp"
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	namespace
 	{

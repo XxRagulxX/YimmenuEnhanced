@@ -1,12 +1,12 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "World/Self.hpp"
 #include "Game/Pools.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class BringAllObjs : public Command
+	class BringAllObjs : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -22,9 +22,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class BringAllPeds : public Command
+	class BringAllPeds : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -40,9 +40,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class BringAllVehs : public Command
+	class BringAllVehs : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

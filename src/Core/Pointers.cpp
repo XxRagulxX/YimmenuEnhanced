@@ -7,7 +7,7 @@
 #include "Core/PatternCache.hpp"
 #include "Core/LogHelper.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	// on some cracked game builds
 	static bool IsSocialClubNeverGoingToLoad()

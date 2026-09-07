@@ -1,13 +1,13 @@
 #include "Rendering/Grid.hpp"
 
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/Commands.hpp"
 #include "Rendering/Theme.hpp"
 
 #include <algorithm>
 #include <climits>
 
-namespace StandEnhanced::Rendering
+namespace Stand::Rendering
 {
 	void Grid::ensurePopulated()
 	{
@@ -35,7 +35,7 @@ namespace StandEnhanced::Rendering
 
 	bool Grid::watchCondition(joaat_t hash, bool negate)
 	{
-		auto* cmd = Commands::GetCommand<CommandToggle>(hash);
+		auto* cmd = Commands::GetCommand<CommandToggleLegacy>(hash);
 		auto conditionFn = [cmd] {
 			return cmd && cmd->GetState();
 		};

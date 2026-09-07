@@ -1,11 +1,11 @@
-#include "Commands/Command.hpp"
+#include "Commands/CommandLegacy.hpp"
 #include "Game/Pools.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
-	class KillAll : public Command
+	class KillAll : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{
@@ -17,9 +17,9 @@ namespace StandEnhanced::Features
 		}
 	};
 
-	class KillAllEnemies : public Command
+	class KillAllEnemies : public CommandLegacy
 	{
-		using Command::Command;
+		using CommandLegacy::CommandLegacy;
 
 		virtual void OnCall() override
 		{

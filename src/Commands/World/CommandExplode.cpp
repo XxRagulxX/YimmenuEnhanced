@@ -1,7 +1,7 @@
 #include "Commands/PlayerCommand.hpp"
 #include "Game/ExplosionType.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	class Explode : public PlayerCommand
 	{

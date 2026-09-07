@@ -4,7 +4,7 @@
 
 #include "Game/typedecl.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	using script_func_t = void (*)();
 

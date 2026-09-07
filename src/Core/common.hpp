@@ -13,7 +13,7 @@ using namespace al;
 
 #undef Yield
 
-namespace StandEnhanced
+namespace Stand
 {
 	using namespace std::chrono_literals;
 	using namespace std::string_view_literals;

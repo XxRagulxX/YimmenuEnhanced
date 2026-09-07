@@ -6,7 +6,7 @@
 
 #include "Core/DetourHook.hpp"
 
-namespace StandEnhanced
+namespace Stand
 {
 	class Hooking
 	{

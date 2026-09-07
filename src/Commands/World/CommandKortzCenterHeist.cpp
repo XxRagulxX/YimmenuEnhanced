@@ -1,5 +1,5 @@
-#include "Commands/Command.hpp"
-#include "Commands/CommandToggle.hpp"
+#include "Commands/CommandLegacy.hpp"
+#include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/CommandListSelect.hpp"
 #include "World/Stats.hpp"
 #include "Scripting/ScriptGlobal.hpp"
@@ -8,7 +8,7 @@
 #include "Scripting/ScriptMgr.hpp"
 #include "Scripting/Natives.hpp"
 
-namespace StandEnhanced::Features
+namespace Stand::Features
 {
 	namespace KortzCenterHeist
 	{
@@ -44,36 +44,36 @@ namespace StandEnhanced::Features
 
 		static CommandListSelect _KortzCenterPrimaryTarget{"kortzcenterheistprimarytarget", "Primary Target", "Primary target", kortzCenterTargets, 0};
 
-		static CommandToggle _KortzCenterGuardRoutes{"kortzcenterheistguardroutes", "Guard Routes", "Guard routes purchased", true};
-		static CommandToggle _KortzCenterGlassCutter{"kortzcenterheistglasscutter", "Glass Cutter", "Glass cutter purchased", true};
-		static CommandToggle _KortzCenterPowerDrills{"kortzcenterheistpowerdrills", "Power Drills", "Power drills purchased", true};
-		static CommandToggle _KortzCenterEMPCharges{"kortzcenterheistempcharges", "EMP Charges", "EMP charges purchased", true};
-		static CommandToggle _KortzCenterScopeOut{"kortzcenterheistscopeout", "Scope Out", "Scope out Kortz Center", true};
-		static CommandToggle _KortzCenterAlphaMail{"kortzcenterheistalphamail", "Alpha Mail Disguise", "Alpha mail disguise", true};
-		static CommandToggle _KortzCenterHazmat{"kortzcenterheisthazmat", "Hazmat Suit", "Hazmat suit", true};
-		static CommandToggle _KortzCenterStaffKeycard{"kortzcenterheiststaffkeycard", "Staff Key Card", "Staff key card", true};
-		static CommandToggle _KortzCenterTacticalEquip{"kortzcenterheisttacticalequip", "Tactical Equipment", "Tactical equipment", true};
-		static CommandToggle _KortzCenterHackingDevice{"kortzcenterheisthackingdevice", "Hacking Device", "Hacking device", true};
-		static CommandToggle _KortzCenterAccessCode{"kortzcenterheistaccesscode", "Access Code", "Access code", true};
-		static CommandToggle _KortzCenterUnmarkedWeapons{"kortzcenterheistunmarkedweapons", "Unmarked Weapons", "Unmarked weapons", true};
-		static CommandToggle _KortzCenterCaracara{"kortzcenterheistcaracara", "Armored Caracara", "Armored Caracara", true};
-		static CommandToggle _KortzCenterAnnihilator{"kortzcenterheistannihilator", "Annihilator Stealth", "Annihilator stealth", true};
-		static CommandToggle _KortzCenterManchez{"kortzcenterheistmanchez", "Manchez", "Manchez", true};
-		static CommandToggle _KortzCenterPrepEMP{"kortzcenterheistprepemp", "EMP Charges (Prep)", "EMP charges prep", true};
-		static CommandToggle _KortzCenterGuardShipments{"kortzcenterheistguardshipments", "Guard Shipments", "Guard shipments", true};
-		static CommandToggle _KortzCenterGuardRoutesPrep{"kortzcenterheistguardroutesprep", "Guard Routes (Prep)", "Guard routes prep", true};
-		static CommandToggle _KortzCenterGlassCutterPrep{"kortzcenterheistglasscutterprep", "Glass Cutter (Prep)", "Glass cutter prep", true};
-		static CommandToggle _KortzCenterPowerDrillsPrep{"kortzcenterheistpowerdrillsprep", "Power Drills (Prep)", "Power drills prep", true};
-		static CommandToggle _KortzCenterEMPChargesPrep{"kortzcenterheistempchargesprep", "EMP Charges 2 (Prep)", "EMP charges prep", true};
-		static CommandToggle _KortzCenterCaracaraPrep{"kortzcenterheistcaracaraprep", "Caracara (Prep)", "Armored Caracara prep", true};
-		static CommandToggle _KortzCenterAnnihilatorPrep{"kortzcenterheistannihilatorprep", "Annihilator (Prep)", "Annihilator stealth prep", true};
-		static CommandToggle _KortzCenterManchezPrep{"kortzcenterheistmanchezprep", "Manchez (Prep)", "Manchez prep", true};
-		static CommandToggle _KortzCenterScopeSecondary{"kortzcenterheistscopesecondary", "Secondary Targets", "Scope secondary targets", true};
-		static CommandToggle _KortzCenterScopePOI{"kortzcenterheistscopepoi", "Points of Interest", "Scope points of interest", true};
+		static CommandToggleLegacy _KortzCenterGuardRoutes{"kortzcenterheistguardroutes", "Guard Routes", "Guard routes purchased", true};
+		static CommandToggleLegacy _KortzCenterGlassCutter{"kortzcenterheistglasscutter", "Glass Cutter", "Glass cutter purchased", true};
+		static CommandToggleLegacy _KortzCenterPowerDrills{"kortzcenterheistpowerdrills", "Power Drills", "Power drills purchased", true};
+		static CommandToggleLegacy _KortzCenterEMPCharges{"kortzcenterheistempcharges", "EMP Charges", "EMP charges purchased", true};
+		static CommandToggleLegacy _KortzCenterScopeOut{"kortzcenterheistscopeout", "Scope Out", "Scope out Kortz Center", true};
+		static CommandToggleLegacy _KortzCenterAlphaMail{"kortzcenterheistalphamail", "Alpha Mail Disguise", "Alpha mail disguise", true};
+		static CommandToggleLegacy _KortzCenterHazmat{"kortzcenterheisthazmat", "Hazmat Suit", "Hazmat suit", true};
+		static CommandToggleLegacy _KortzCenterStaffKeycard{"kortzcenterheiststaffkeycard", "Staff Key Card", "Staff key card", true};
+		static CommandToggleLegacy _KortzCenterTacticalEquip{"kortzcenterheisttacticalequip", "Tactical Equipment", "Tactical equipment", true};
+		static CommandToggleLegacy _KortzCenterHackingDevice{"kortzcenterheisthackingdevice", "Hacking Device", "Hacking device", true};
+		static CommandToggleLegacy _KortzCenterAccessCode{"kortzcenterheistaccesscode", "Access Code", "Access code", true};
+		static CommandToggleLegacy _KortzCenterUnmarkedWeapons{"kortzcenterheistunmarkedweapons", "Unmarked Weapons", "Unmarked weapons", true};
+		static CommandToggleLegacy _KortzCenterCaracara{"kortzcenterheistcaracara", "Armored Caracara", "Armored Caracara", true};
+		static CommandToggleLegacy _KortzCenterAnnihilator{"kortzcenterheistannihilator", "Annihilator Stealth", "Annihilator stealth", true};
+		static CommandToggleLegacy _KortzCenterManchez{"kortzcenterheistmanchez", "Manchez", "Manchez", true};
+		static CommandToggleLegacy _KortzCenterPrepEMP{"kortzcenterheistprepemp", "EMP Charges (Prep)", "EMP charges prep", true};
+		static CommandToggleLegacy _KortzCenterGuardShipments{"kortzcenterheistguardshipments", "Guard Shipments", "Guard shipments", true};
+		static CommandToggleLegacy _KortzCenterGuardRoutesPrep{"kortzcenterheistguardroutesprep", "Guard Routes (Prep)", "Guard routes prep", true};
+		static CommandToggleLegacy _KortzCenterGlassCutterPrep{"kortzcenterheistglasscutterprep", "Glass Cutter (Prep)", "Glass cutter prep", true};
+		static CommandToggleLegacy _KortzCenterPowerDrillsPrep{"kortzcenterheistpowerdrillsprep", "Power Drills (Prep)", "Power drills prep", true};
+		static CommandToggleLegacy _KortzCenterEMPChargesPrep{"kortzcenterheistempchargesprep", "EMP Charges 2 (Prep)", "EMP charges prep", true};
+		static CommandToggleLegacy _KortzCenterCaracaraPrep{"kortzcenterheistcaracaraprep", "Caracara (Prep)", "Armored Caracara prep", true};
+		static CommandToggleLegacy _KortzCenterAnnihilatorPrep{"kortzcenterheistannihilatorprep", "Annihilator (Prep)", "Annihilator stealth prep", true};
+		static CommandToggleLegacy _KortzCenterManchezPrep{"kortzcenterheistmanchezprep", "Manchez (Prep)", "Manchez prep", true};
+		static CommandToggleLegacy _KortzCenterScopeSecondary{"kortzcenterheistscopesecondary", "Secondary Targets", "Scope secondary targets", true};
+		static CommandToggleLegacy _KortzCenterScopePOI{"kortzcenterheistscopepoi", "Points of Interest", "Scope points of interest", true};
 
-		class Setup : public Command
+		class Setup : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -117,9 +117,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class SkipFingerprint : public Command
+		class SkipFingerprint : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -128,9 +128,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class SkipSignalNodes : public Command
+		class SkipSignalNodes : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -139,9 +139,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class SkipDataCrack : public Command
+		class SkipDataCrack : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -153,9 +153,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class CutGlass : public Command
+		class CutGlass : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -164,9 +164,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class DisableLaserGrid : public Command
+		class DisableLaserGrid : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -178,9 +178,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class TakePrimaryTarget : public Command
+		class TakePrimaryTarget : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -189,9 +189,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class TakeSecondaryTarget : public Command
+		class TakeSecondaryTarget : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
@@ -200,9 +200,9 @@ namespace StandEnhanced::Features
 			}
 		};
 
-		class AutoEnterPcAccessCode : public Command
+		class AutoEnterPcAccessCode : public CommandLegacy
 		{
-			using Command::Command;
+			using CommandLegacy::CommandLegacy;
 
 			virtual void OnCall() override
 			{
