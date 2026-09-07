@@ -1,17 +1,11 @@
 #include "Commands/CommandLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
-#include "Commands/World/CommandWanted.hpp"
+#include "Commands/Self/CommandWanted.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
 
 namespace Stand::Features
 {
-	Stand::CommandWanted& GetCommandWanted()
-	{
-		static Stand::CommandWanted instance{nullptr};
-		return instance;
-	}
-
 	class ClearWanted : public CommandLegacy
 	{
 		using CommandLegacy::CommandLegacy;

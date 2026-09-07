@@ -6,7 +6,7 @@
 #include "Commands/Self/CommandGod.hpp"
 #include "Commands/Self/CommandGrace.hpp"
 #include "Commands/Self/CommandSeatglue.hpp"
-#include "Commands/World/CommandWanted.hpp"
+#include "Commands/Self/CommandWanted.hpp"
 #include "Rendering/AppearanceGrid.hpp"
 #include "Rendering/FreecamGrid.hpp"
 #include "Rendering/GridItemCommandButton.hpp"
