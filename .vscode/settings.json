@@ -1,7 +1,5 @@
 {
-    "cmake.configureSettings": {
-        "CMAKE_GENERATOR": "Ninja"
-    },
+    "cmake.useCMakePresets": "always",
     "files.associations": {
         ".clangd": "yaml",
         "string_view": "cpp",

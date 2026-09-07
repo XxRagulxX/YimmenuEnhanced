@@ -1,0 +1,61 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 23,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "windows-base",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "installDir": "${sourceDir}/out/install/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            }
+        },
+        {
+            "name": "x64-Release-MSVC",
+            "displayName": "x64 Release (MSVC)",
+            "description": "Ninja + cl.exe, matching CMakeSettings.json's own \"msvc_x64_x64\" Visual Studio environment - same out/build/x64-Release-MSVC directory that config already used.",
+            "inherits": "windows-base",
+            "toolset": {
+                "value": "host=x64",
+                "strategy": "external"
+            }
+        },
+        {
+            "name": "x64-Release-Clang",
+            "displayName": "x64 Release (Clang)",
+            "description": "Ninja + clang-cl.exe (LLVM toolset bundled with Visual Studio), matching CMakeSettings.json's own \"clang_cl_x64_x64\" Visual Studio environment - same out/build/x64-Release-Clang directory that config already used.",
+            "inherits": "windows-base",
+            "toolset": {
+                "value": "ClangCL,host=x64",
+                "strategy": "external"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "x64-Release-MSVC",
+            "displayName": "x64 Release (MSVC)",
+            "configurePreset": "x64-Release-MSVC"
+        },
+        {
+            "name": "x64-Release-Clang",
+            "displayName": "x64 Release (Clang)",
+            "configurePreset": "x64-Release-Clang"
+        }
+    ]
+}
