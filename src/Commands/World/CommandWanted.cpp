@@ -1,12 +1,16 @@
 #include "Commands/CommandLegacy.hpp"
 #include "Commands/LoopedCommand.hpp"
-#include "Commands/CommandSliderLegacy.hpp"
+#include "Commands/World/CommandWanted.hpp"
 #include "World/Self.hpp"
 #include "Scripting/Natives.hpp"
 
 namespace Stand::Features
 {
-	static CommandSliderLegacy _WantedSlider{"wantedslider", "Wanted Slider", "Wanted level to set/freeze", 0, 5, 0};
+	Stand::CommandWanted& GetCommandWanted()
+	{
+		static Stand::CommandWanted instance{nullptr};
+		return instance;
+	}
 
 	class ClearWanted : public CommandLegacy
 	{
@@ -24,7 +28,7 @@ namespace Stand::Features
 
 		virtual void OnCall() override
 		{
-			Self::GetPlayer().SetWantedLevel(_WantedSlider.GetState());
+			Self::GetPlayer().SetWantedLevel(GetCommandWanted().value);
 		}
 	};
 
@@ -50,9 +54,9 @@ namespace Stand::Features
 
 		virtual void OnTick() override
 		{
-			if (Self::GetPlayer().GetWantedLevel() != _WantedSlider.GetState())
-				Self::GetPlayer().SetWantedLevel(_WantedSlider.GetState());
-			PLAYER::SET_MAX_WANTED_LEVEL(_WantedSlider.GetState());
+			if (Self::GetPlayer().GetWantedLevel() != GetCommandWanted().value)
+				Self::GetPlayer().SetWantedLevel(GetCommandWanted().value);
+			PLAYER::SET_MAX_WANTED_LEVEL(GetCommandWanted().value);
 		}
 	};
 
