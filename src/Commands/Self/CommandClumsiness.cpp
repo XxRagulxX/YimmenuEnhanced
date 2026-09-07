@@ -1,6 +1,5 @@
-#include "Commands/CommandToggleLegacy.hpp"
-#include "Commands/Commands.hpp"
 #include "Commands/LoopedCommand.hpp"
+#include "Commands/Self/CommandGrace.hpp"
 #include "Rendering/Notifications.hpp"
 #include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
@@ -26,12 +25,11 @@ namespace Stand::Features
 
 		virtual void OnEnable() override
 		{
-			// Real Stand's own toast when Gracefulness (its own "grace"
-			// toggle - this project's "noragdoll") is already on, since
-			// that toggle actively fights this one (it forces ragdoll
-			// OFF every tick, this one wants it back on) - see
-			// CommandNoRagdoll.cpp.
-			if (auto* grace = Commands::GetCommand<CommandToggleLegacy>("noragdoll"_J); grace && grace->GetState())
+			// Real Stand's own toast when Gracefulness (CommandGrace,
+			// migrated onto the ported Stand tree - see that file) is
+			// already on, since that toggle actively fights this one (it
+			// forces ragdoll OFF every tick, this one wants it back on).
+			if (Features::GetCommandGrace().m_on)
 			{
 				Notifications::Show("Clumsiness",
 				    "Gracefulness (No Ragdoll) is on - Clumsiness won't work until it's off.",

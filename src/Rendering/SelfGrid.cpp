@@ -4,6 +4,7 @@
 #include "Commands/Commands.hpp"
 #include "Commands/Self/CommandAutoHeal.hpp"
 #include "Commands/Self/CommandGod.hpp"
+#include "Commands/Self/CommandGrace.hpp"
 #include "Rendering/AppearanceGrid.hpp"
 #include "Rendering/FreecamGrid.hpp"
 #include "Rendering/GridItemCommandButton.hpp"
@@ -93,12 +94,14 @@ namespace Stand::Rendering
 		// Real Stand's own "Self" tab loose top-level rows (everything
 		// after its 4 categories) - verified against origin/stand-
 		// reference's own src/Commands/Self/CommandTabSelf.cpp, in its
-		// exact order. Three are aliases of commands this project
-		// already had under its own name (godmode, noragdoll, suicide) -
-		// labelOverride matches Stand's own label without touching the
-		// underlying command or its internal name, so nothing else
-		// referencing them (Lua scripts, saved config, the sections
-		// below) breaks. Still missing from this list: No Roll Cooldown
+		// exact order. godmode/noragdoll (now CommandGod/CommandGrace)
+		// have since migrated onto the ported Stand tree below, under
+		// Stand's own real command names directly - suicide is still a
+		// legacy command aliased via labelOverride (matches Stand's own
+		// label without touching the underlying command or its internal
+		// name, so nothing else referencing it - Lua scripts, saved
+		// config, the sections below - breaks). Still missing from this
+		// list: No Roll Cooldown
 		// (real Stand's own version NOPs a private engine function found
 		// by address pattern-scanning - not safe to guess an offset for
 		// here), Respawn Delay (pokes a raw script-global bitset - same
@@ -111,17 +114,18 @@ namespace Stand::Rendering
 		// Self tab (MenuGrid's own breadcrumb already reads "... > Self")
 		// is a redundant label, not a distinguishing one; the loose rows
 		// below read fine directly following "Categories" above.
-		// First real migration off the legacy system onto the ported
-		// Stand tree (Self category pilot) - GridItemStandCommand takes
-		// a live Stand::Command* directly (there's no Stand::CommandList
-		// tree for "Self" to walk generically yet, so this is still one
+		// Migrations off the legacy system onto the ported Stand tree
+		// (Self category pilot - CommandGod, then CommandAutoHeal, then
+		// CommandGrace) - GridItemStandCommand takes a live
+		// Stand::Command* directly (there's no Stand::CommandList tree
+		// for "Self" to walk generically yet, so this is still one
 		// hand-written row per command here, same as every other line in
-		// this function - see Commands/Self/CommandGod.hpp/.cpp for the
-		// actual command).
+		// this function - see each command's own Commands/Self/Command*.hpp
+		// for its actual logic).
 		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandGod()));
 		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandAutoHeal()));
 		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "maxhealth"_J, std::nullopt, 25));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "noragdoll"_J, "Gracefulness"));
+		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandGrace()));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "seatglue"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "wantedslider"_J, "Set Wanted Level"));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "freezewanted"_J, "Lock Wanted Level"));
