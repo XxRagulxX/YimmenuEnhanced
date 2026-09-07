@@ -5,6 +5,7 @@
 #include "Commands/Self/CommandAutoHeal.hpp"
 #include "Commands/Self/CommandGod.hpp"
 #include "Commands/Self/CommandGrace.hpp"
+#include "Commands/Self/CommandSeatglue.hpp"
 #include "Rendering/AppearanceGrid.hpp"
 #include "Rendering/FreecamGrid.hpp"
 #include "Rendering/GridItemCommandButton.hpp"
@@ -126,7 +127,7 @@ namespace Stand::Rendering
 		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandAutoHeal()));
 		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "maxhealth"_J, std::nullopt, 25));
 		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandGrace()));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "seatglue"_J));
+		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandSeatglue()));
 		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "wantedslider"_J, "Set Wanted Level"));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "freezewanted"_J, "Lock Wanted Level"));
 		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "fakewanted"_J));
