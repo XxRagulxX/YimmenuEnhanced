@@ -2,9 +2,13 @@
 
 #include "Commands/Command.hpp"
 #include "Commands/Commands.hpp"
+#include "Commands/Widgets/CommandPhysical.hpp"
+#include "Commands/Widgets/CommandRegistry.hpp"
+#include "Menu/Click.hpp"
 #include "Rendering/GridRenderer.hpp"
 #include "Rendering/InputCapture.hpp"
 #include "Rendering/Theme.hpp"
+#include "Scripting/FiberPool.hpp"
 
 #include <algorithm>
 #include <windows.h>
@@ -30,11 +34,90 @@ namespace YimMenu::Rendering
 		// DrawText()) accounts for the rest, same as real Stand's own
 		// "MORE"/"MANYMORE" rows.
 		constexpr size_t kMaxShown = 8;
+
+		// One command not yet turned into a Match - built for every
+		// registered command up front (both registries), then narrowed
+		// down against the typed prefix. names holds every alias (real
+		// Stand's own command_names - a legacy YimMenu::Command only
+		// ever has the one), display is what a match's own hint line
+		// shows regardless of which alias matched (real Stand's own
+		// getCompletionHint() always uses command_names.at(0), never the
+		// alias that actually matched - mirrored here).
+		struct Candidate
+		{
+			std::vector<std::string> names;
+			std::string display; // "<name> - <label>"
+			std::function<void()> activate;
+		};
+
+		std::vector<Candidate> CollectCandidates()
+		{
+			std::vector<Candidate> candidates;
+
+			for (auto& [hash, command] : Commands::GetCommands())
+			{
+				if (command->GetName().empty())
+					continue;
+
+				candidates.push_back({
+				    {command->GetName()},
+				    command->GetName() + " - " + command->GetLabel(),
+				    // Queued onto a script thread rather than called
+				    // inline - Command::Call() (a toggle's OnEnable()/
+				    // OnDisable(), a one-shot's OnCall()) commonly
+				    // touches game state/natives, which must never run
+				    // directly on this WndProc callback thread. Same
+				    // "queue it, don't call it inline" convention
+				    // GridItemCommandButton.cpp's own onClick() already
+				    // uses for this exact same Command::Call() - a
+				    // previous pass here called it inline by mistake.
+				    [command] {
+					    FiberPool::queueJob([command] {
+						    command->Call();
+					    });
+				    },
+				});
+			}
+
+			for (auto& [hash, command] : Stand::CommandRegistry::GetCommands())
+			{
+				auto* physical = command->getPhysical();
+				if (!physical || physical->command_names.empty())
+					continue;
+
+				candidates.push_back({
+				    physical->command_names,
+				    physical->command_names.front() + " - " + physical->getMenuName().getLocalisedUtf8(),
+				    // CommandPhysical::onClick() (not the empty-stub
+				    // onCommand() a much earlier pass here mistakenly
+				    // gated this whole registry on) is the real generic
+				    // "activate as if clicked" entry point - already
+				    // proven working by CommandHotkeyDispatch and
+				    // GridItemStandCommand, both of which dispatch
+				    // through it the same way. Meaningful today for
+				    // CommandToggleNoCorrelation-derived commands (flips
+				    // + calls onEnable()/onDisable()); CommandPhysical's
+				    // own default onClick() is a no-op, so a match that's
+				    // e.g. a bare CommandSlider is a real, disclosed
+				    // no-op on Enter here - same limitation
+				    // CommandHotkeyDispatch's own doc comment already
+				    // discloses for a hotkey bound to one.
+				    [physical] {
+					    FiberPool::queueJob([physical] {
+						    Stand::Click click(Stand::CLICK_MENU, Stand::TC_SCRIPT_YIELDABLE);
+						    physical->onClick(click);
+					    });
+				    },
+				});
+			}
+
+			return candidates;
+		}
 	}
 
 	bool MenuCommandConsole::s_Open = false;
 	std::string MenuCommandConsole::s_Buffer;
-	std::vector<Command*> MenuCommandConsole::s_Matches;
+	std::vector<MenuCommandConsole::Match> MenuCommandConsole::s_Matches;
 	int MenuCommandConsole::s_SelectedIndex = -1;
 
 	void MenuCommandConsole::Open()
@@ -68,35 +151,37 @@ namespace YimMenu::Rendering
 		if (s_Buffer.empty())
 			return;
 
-		// Exact match short-circuits to the one result, the same as real
-		// Stand's own checkCommandNameMatch NMT_HIT - e.g. typing exactly
-		// "godmode" resolves to it even if some other command's own name
-		// also starts with "godmode" (unusual, but real Stand's own
-		// tie-break rule).
-		for (auto& [hash, command] : Commands::GetCommands())
+		auto candidates = CollectCandidates();
+
+		// Exact match (on ANY of a candidate's own aliases) short-
+		// circuits to the one result, the same as real Stand's own
+		// checkCommandNameMatch NMT_HIT.
+		for (auto& candidate : candidates)
 		{
-			if (command->GetName() == s_Buffer)
+			if (std::ranges::find(candidate.names, s_Buffer) != candidate.names.end())
 			{
-				s_Matches = {command};
+				s_Matches = {{std::move(candidate.display), std::move(candidate.activate)}};
 				s_SelectedIndex = 0;
 				return;
 			}
 		}
 
-		// Otherwise every command whose own name starts with (and is
+		// Otherwise every candidate with an alias starting with (and
 		// longer than) the typed text - real Stand's own NMT_GRAZED.
-		for (auto& [hash, command] : Commands::GetCommands())
+		for (auto& candidate : candidates)
 		{
-			const auto& name = command->GetName();
-			if (name.size() > s_Buffer.size() && name.compare(0, s_Buffer.size(), s_Buffer) == 0)
-				s_Matches.push_back(command);
+			bool grazed = std::ranges::any_of(candidate.names, [](const std::string& name) {
+				return name.size() > s_Buffer.size() && name.compare(0, s_Buffer.size(), s_Buffer) == 0;
+			});
+			if (grazed)
+				s_Matches.push_back({std::move(candidate.display), std::move(candidate.activate)});
 		}
 
 		if (s_Matches.empty())
 			return;
 
-		std::sort(s_Matches.begin(), s_Matches.end(), [](Command* a, Command* b) {
-			return a->GetName() < b->GetName();
+		std::ranges::sort(s_Matches, [](const Match& a, const Match& b) {
+			return a.hint < b.hint;
 		});
 		s_SelectedIndex = 0;
 	}
@@ -183,13 +268,11 @@ namespace YimMenu::Rendering
 		const auto shown = (std::min)(s_Matches.size(), kMaxShown);
 		for (size_t i = 0; i != shown; ++i)
 		{
-			auto* command = s_Matches[i];
-			const auto hint = command->GetName() + " - " + command->GetLabel();
 			const auto rowY = layout.firstRowY + static_cast<float>(i) * layout.rowHeight;
-			const auto hintSize = GridRenderer::MeasureText(hint.c_str(), Theme::kSmallTextScale);
+			const auto hintSize = GridRenderer::MeasureText(s_Matches[i].hint.c_str(), Theme::kSmallTextScale);
 			GridRenderer::DrawText(layout.x + kPaddingX,
 			    rowY + std::max(0.f, (layout.rowHeight - hintSize.y) * 0.5f),
-			    hint.c_str(),
+			    s_Matches[i].hint.c_str(),
 			    Theme::kText,
 			    Theme::kSmallTextScale);
 		}
@@ -217,12 +300,8 @@ namespace YimMenu::Rendering
 		case VK_RETURN:
 			if (s_SelectedIndex >= 0 && static_cast<size_t>(s_SelectedIndex) < s_Matches.size())
 			{
-				// Command::Call() is the generic activation path every
-				// concrete command type already shares (a toggle flips
-				// its own state, a one-shot fires) - the same one a
-				// normal click on its row would take, not something
-				// special-cased here.
-				s_Matches[s_SelectedIndex]->Call();
+				if (auto activate = s_Matches[s_SelectedIndex].activate)
+					activate();
 				Close();
 			}
 			break;

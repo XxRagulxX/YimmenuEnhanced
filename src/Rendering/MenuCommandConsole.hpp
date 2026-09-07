@@ -1,11 +1,7 @@
 #pragma once
+#include <functional>
 #include <string>
 #include <vector>
-
-namespace YimMenu
-{
-	class Command;
-}
 
 namespace YimMenu::Rendering
 {
@@ -21,29 +17,34 @@ namespace YimMenu::Rendering
 	//
 	// Matching logic ported from real Stand's own CommandList::
 	// checkCommandNameMatch (CommandList.cpp) simplified for this
-	// project's own flat legacy registry (YimMenu::Commands::GetCommands(),
-	// one name per command, no tree, no OVERSHOT-driven recursion into
-	// child lists - that only exists there for real Stand's own nested
-	// command-name addressing, which nothing here has): an exact match
-	// short-circuits to a single result the same way real Stand's own
-	// HIT does; otherwise every command whose own name starts with (and
-	// is longer than) the typed text is collected, real Stand's own
-	// GRAZED - sorted alphabetically (real Stand's own tree walk order
-	// isn't alphabetical, but this project has no equivalent ordering to
-	// preserve). Each match displays as "<name> - <label>", exactly
-	// CommandIssuable::getCompletionHint()'s own format (confirmed
-	// against origin/stand-reference).
+	// project's own flat registries (no tree, no OVERSHOT-driven
+	// recursion into child lists - that only exists there for real
+	// Stand's own nested command-name addressing, which nothing here
+	// has): an exact name match short-circuits to a single result the
+	// same way real Stand's own HIT does; otherwise every command with a
+	// name starting with (and longer than) the typed text is collected,
+	// real Stand's own GRAZED - sorted alphabetically by display name
+	// (real Stand's own tree walk order isn't alphabetical, but this
+	// project has no equivalent ordering to preserve). Each match
+	// displays as "<name> - <label>", exactly CommandIssuable::
+	// getCompletionHint()'s own format (confirmed against origin/
+	// stand-reference).
 	//
-	// Deliberately scoped to legacy YimMenu::Command only, not also
-	// Stand::CommandRegistry's own ported commands - Stand::
-	// CommandIssuable::onCommand() (the chat-command execution entry
-	// point every ported widget would need to actually DO something on
-	// Enter here) is still an empty stub in this port (see that
-	// function's own doc comment in CommandIssuable.hpp) - nothing
-	// overrides it yet, only the Grid-click/hotkey-dispatch paths are
-	// wired. Showing a Stand match that's a dead end on Enter would be
-	// worse than not showing it - a real, disclosed gap to close once a
-	// later phase wires that up, not something faked here.
+	// Searches BOTH of this project's own command registries - legacy
+	// YimMenu::Commands::GetCommands() (one name per command) and
+	// Stand::CommandRegistry::GetCommands() (every isPhysical() command,
+	// which may carry several aliases - command_names - same as real
+	// Stand). A previous pass here excluded Stand commands entirely,
+	// reasoning that Stand::CommandIssuable::onCommand() (the chat-
+	// command parsing entry point) is still an empty stub - true, but
+	// irrelevant: CommandPhysical::onClick() is the actual generic
+	// "activate as if clicked" entry point (already proven working by
+	// CommandHotkeyDispatch and GridItemStandCommand, both of which
+	// dispatch through it directly), and needs no chat-command parsing
+	// at all for a plain no-argument activation. Excluding Stand
+	// commands meant a migrated feature (e.g. Self > God Mode) silently
+	// stopped being findable here the moment it moved off the legacy
+	// registry - a real regression, not a disclosed gap, now fixed.
 	//
 	// A free-standing global overlay, drawn every frame regardless of
 	// whether the main menu is open (GridRenderer::DrawImpl's own
@@ -69,12 +70,11 @@ namespace YimMenu::Rendering
 		static void Draw();
 		static void DrawText();
 
-		// Enter (runs the currently-selected match's own Command::Call(),
-		// the same generic activation path Call() already is regardless
-		// of concrete command type - a toggle flips, a one-shot fires)/
-		// Escape (closes without acting)/Up/Down (moves the selection)/
-		// Backspace, same convention as MenuCommandBox::HandleKey()'s own
-		// vkCode. Call for every WM_KEYDOWN while IsOpen().
+		// Enter (runs the currently-selected match's own activate() -
+		// see the Match struct below)/Escape (closes without acting)/
+		// Up/Down (moves the selection)/Backspace, same convention as
+		// MenuCommandBox::HandleKey()'s own vkCode. Call for every
+		// WM_KEYDOWN while IsOpen().
 		static void HandleKey(unsigned int vkCode);
 
 		// A typed character while open - same convention as
@@ -92,19 +92,33 @@ namespace YimMenu::Rendering
 		};
 		static Layout ComputeLayout();
 
+		// One matched command, source-agnostic - built once per match in
+		// UpdateMatches() rather than keeping a legacy Command*/Stand::
+		// CommandPhysical* union around, since the two need genuinely
+		// different activation code (Command::Call() vs
+		// CommandPhysical::onClick(Click&), both queued onto a script
+		// thread via FiberPool::queueJob() - see UpdateMatches()'s own
+		// comment for why neither can run inline on this WndProc
+		// callback thread).
+		struct Match
+		{
+			std::string hint; // "<name> - <label>", ready to draw as-is
+			std::function<void()> activate;
+		};
+
 		// Recomputes s_Matches/s_SelectedIndex from s_Buffer - called
 		// after every edit (HandleChar/Backspace), not lazily from
 		// Draw()/DrawText() - real Stand's own equivalent (
 		// refreshCommandboxCacheOnce) runs on a background thread since
 		// its own tree has thousands of commands; this project's own
-		// legacy registry is small enough (low hundreds) that a plain
+		// registries are small enough (low hundreds) that a plain
 		// synchronous scan on every keystroke is genuinely fine, not a
 		// corner cut.
 		static void UpdateMatches();
 
 		static bool s_Open;
 		static std::string s_Buffer;
-		static std::vector<Command*> s_Matches;
+		static std::vector<Match> s_Matches;
 		static int s_SelectedIndex; // -1 if s_Matches is empty
 	};
 }

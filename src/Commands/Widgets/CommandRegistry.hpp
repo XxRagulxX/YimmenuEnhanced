@@ -46,6 +46,17 @@ namespace Stand
 			return reinterpret_cast<T*>(GetInstance().GetCommandImpl(hash));
 		}
 
+		// Enumeration, not just by-hash lookup - MenuCommandConsole needs
+		// this to live-search every registered Stand command by name
+		// prefix (real Stand has no hash-keyed registry at all to expose
+		// this way - see this file's own top comment; this project's own
+		// legacy YimMenu::Commands::GetCommands() already exposes its map
+		// the same way, for the same reason).
+		static const std::unordered_map<YimMenu::joaat_t, CommandIssuable*>& GetCommands()
+		{
+			return GetInstance().m_Commands;
+		}
+
 	private:
 		std::unordered_map<YimMenu::joaat_t, CommandIssuable*> m_Commands;
 
