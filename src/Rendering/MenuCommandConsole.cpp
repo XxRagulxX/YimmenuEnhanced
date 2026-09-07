@@ -11,6 +11,7 @@
 #include "Scripting/FiberPool.hpp"
 
 #include <algorithm>
+#include <unordered_set>
 #include <windows.h>
 
 namespace YimMenu::Rendering
@@ -79,10 +80,24 @@ namespace YimMenu::Rendering
 				});
 			}
 
+			// Stand::CommandRegistry registers a command once PER ALIAS
+			// (see that class's own comment - "every ... command_names
+			// ... into this flat map"), all pointing at the same
+			// instance - a command with more than one alias (e.g.
+			// CommandGod's own "godmode"/"immortality") therefore shows
+			// up more than once in this map's own iteration. Deduped by
+			// pointer here so it becomes exactly one candidate (with
+			// every one of its own aliases still searched via
+			// candidate.names below), rather than one candidate per
+			// alias.
+			std::unordered_set<Stand::CommandPhysical*> seenStandCommands;
 			for (auto& [hash, command] : Stand::CommandRegistry::GetCommands())
 			{
 				auto* physical = command->getPhysical();
 				if (!physical || physical->command_names.empty())
+					continue;
+
+				if (!seenStandCommands.insert(physical).second)
 					continue;
 
 				candidates.push_back({

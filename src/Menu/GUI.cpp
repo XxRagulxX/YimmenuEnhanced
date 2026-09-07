@@ -3,10 +3,91 @@
 #include "Scripting/ScriptMgr.hpp"
 #include "Rendering/Renderer.hpp"
 #include "Scripting/Natives.hpp"
+#include "Scripting/NativeHooks.hpp"
 #include "Game/ControllerInputs.hpp"
+#include "Rendering/MenuPopup.hpp"
 
 namespace YimMenu
 {
+	namespace
+	{
+		// Whether Escape/frontend-pause should be swallowed rather than
+		// actually opening the game's own pause menu - same gate
+		// GUI::RunScriptImpl()'s own PAD::DISABLE_ALL_CONTROL_ACTIONS(0)
+		// call below uses for InputCapture, plus MenuPopup (also closed
+		// with Escape, but never sets InputCapture - it's not a text
+		// field).
+		bool ShouldBlockPauseMenu()
+		{
+			return Rendering::InputCapture::IsTextInputActive() || Rendering::MenuPopup::IsOpen();
+		}
+
+		bool IsFrontendPauseControl(int action)
+		{
+			auto input = static_cast<ControllerInputs>(action);
+			return input == ControllerInputs::INPUT_FRONTEND_PAUSE || input == ControllerInputs::INPUT_FRONTEND_PAUSE_ALTERNATE;
+		}
+
+		// Reported bug: closing MenuCommandConsole/MenuCommandBox/MenuPopup
+		// (or cancelling a GridItemTextInput mid-edit) with Escape also
+		// opened the game's own pause menu on the same keypress, and did
+		// so unreliably from a pure window-message-level fix (Window.cpp's
+		// own WndProc hook blocking the raw WM_(SYS)KEYDOWN/UP for
+		// VK_ESCAPE) - "closes correctly sometimes, opens the pause menu
+		// most of the time" is exactly what a race looks like: the game
+		// reads its own frontend-pause control every tick, independent of
+		// (and not synchronized with) whenever this project's own WndProc
+		// hook happens to run for that same keystroke, so blocking the
+		// window message alone only sometimes wins that race.
+		//
+		// Checked how real Stand actually solves this instead of guessing
+		// further - origin/stand-reference's own AntiCheat/
+		// NativeTableHooksBuiltin.cpp overrides exactly these four
+		// natives (IS_DISABLED_CONTROL_PRESSED/RELEASED/JUST_PRESSED/
+		// JUST_RELEASED) to force FALSE while its own command box is
+		// capturing keystrokes - the "disabled control" variants exist
+		// specifically so frontend/menu-triggering input (like opening
+		// the pause menu) keeps responding even while a script has called
+		// DISABLE_ALL_CONTROL_ACTIONS for gameplay purposes, which is
+		// exactly why this project's own existing DISABLE_ALL_CONTROL_ACTIONS
+		// call below (already fixed digits/letters leaking into game
+		// controls while typing) never touched this specific case: the
+		// frontend-pause read deliberately bypasses it. This project
+		// already has its own generic native-hooking system (Scripting/
+		// NativeHooks.hpp, used e.g. by CommandMpSpecialAbility.cpp) - no
+		// new infrastructure needed, just registering these four the same
+		// way real Stand's own NativeTableHookOverride does, scoped to
+		// only the frontend-pause control action so nothing else reading
+		// a "disabled control" elsewhere is affected.
+		void IsDisabledControlPressedHook(rage::scrNativeCallContext* ctx)
+		{
+			if (ShouldBlockPauseMenu() && IsFrontendPauseControl(ctx->GetArg<int>(1)))
+				return ctx->SetReturnValue(FALSE);
+			return ctx->SetReturnValue(PAD::IS_DISABLED_CONTROL_PRESSED(ctx->GetArg<int>(0), ctx->GetArg<int>(1)));
+		}
+
+		void IsDisabledControlReleasedHook(rage::scrNativeCallContext* ctx)
+		{
+			if (ShouldBlockPauseMenu() && IsFrontendPauseControl(ctx->GetArg<int>(1)))
+				return ctx->SetReturnValue(FALSE);
+			return ctx->SetReturnValue(PAD::IS_DISABLED_CONTROL_RELEASED(ctx->GetArg<int>(0), ctx->GetArg<int>(1)));
+		}
+
+		void IsDisabledControlJustPressedHook(rage::scrNativeCallContext* ctx)
+		{
+			if (ShouldBlockPauseMenu() && IsFrontendPauseControl(ctx->GetArg<int>(1)))
+				return ctx->SetReturnValue(FALSE);
+			return ctx->SetReturnValue(PAD::IS_DISABLED_CONTROL_JUST_PRESSED(ctx->GetArg<int>(0), ctx->GetArg<int>(1)));
+		}
+
+		void IsDisabledControlJustReleasedHook(rage::scrNativeCallContext* ctx)
+		{
+			if (ShouldBlockPauseMenu() && IsFrontendPauseControl(ctx->GetArg<int>(1)))
+				return ctx->SetReturnValue(FALSE);
+			return ctx->SetReturnValue(PAD::IS_DISABLED_CONTROL_JUST_RELEASED(ctx->GetArg<int>(0), ctx->GetArg<int>(1)));
+		}
+	}
+
 	GUI::GUI() :
 	    m_IsOpen(false)
 	{
@@ -15,6 +96,19 @@ namespace YimMenu
 		Renderer::AddWindowProcedureCallback([this](HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 			GUI::WndProc(hwnd, msg, wparam, lparam);
 		});
+
+		// ALL_SCRIPTS, not one specific script name - unlike most of this
+		// project's own NativeHooks::AddHook() call sites (each gated
+		// behind its own feature's own toggle, hooking only the one
+		// script it cares about), this needs to affect the frontend-pause
+		// read no matter which script happens to be polling it (real
+		// Stand's own equivalent is similarly global, an actual native-
+		// table override rather than a per-script one), and it's always
+		// active rather than opt-in.
+		NativeHooks::AddHook(NativeHooks::ALL_SCRIPTS, NativeIndex::IS_DISABLED_CONTROL_PRESSED, &IsDisabledControlPressedHook);
+		NativeHooks::AddHook(NativeHooks::ALL_SCRIPTS, NativeIndex::IS_DISABLED_CONTROL_RELEASED, &IsDisabledControlReleasedHook);
+		NativeHooks::AddHook(NativeHooks::ALL_SCRIPTS, NativeIndex::IS_DISABLED_CONTROL_JUST_PRESSED, &IsDisabledControlJustPressedHook);
+		NativeHooks::AddHook(NativeHooks::ALL_SCRIPTS, NativeIndex::IS_DISABLED_CONTROL_JUST_RELEASED, &IsDisabledControlJustReleasedHook);
 
 		Renderer::SetSafeToRender();
 	}
