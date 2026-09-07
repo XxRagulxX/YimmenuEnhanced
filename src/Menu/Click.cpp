@@ -185,7 +185,19 @@ namespace Stand
 		if (canHaveResponse() && !response.empty())
 		{
 			response_acknowledged = true;
-			YimMenu::Notifications::Show("", response.getLocalisedUtf8(), YimMenu::NotificationType::Info);
+
+			// Real root cause of "no toast ever shows up" for every Click-
+			// driven response (menu click, hotkey, command console alike -
+			// none of it was actually broken by any of those, this was):
+			// Notifications::ShowImpl() (Rendering/Notifications.cpp) bails
+			// out immediately whenever EITHER title or message is empty -
+			// every other Notifications::Show() call site in this codebase
+			// already passes a real title; this was the one place passing
+			// "" and silently swallowing every single response as a
+			// result, since before this project's own generic-response
+			// wire-up work, nothing had ever actually exercised this path
+			// enough to notice.
+			YimMenu::Notifications::Show("YimMenu", response.getLocalisedUtf8(), YimMenu::NotificationType::Info);
 		}
 	}
 }
