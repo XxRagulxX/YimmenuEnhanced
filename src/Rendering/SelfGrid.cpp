@@ -3,6 +3,7 @@
 #include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/Commands.hpp"
 #include "Commands/Self/CommandAutoHeal.hpp"
+#include "Commands/Self/CommandFakeWanted.hpp"
 #include "Commands/Self/CommandGod.hpp"
 #include "Commands/Self/CommandGrace.hpp"
 #include "Commands/Self/CommandSeatglue.hpp"
@@ -131,7 +132,7 @@ namespace Stand::Rendering
 		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandSeatglue()));
 		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandWanted()));
 		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandWantedLock()));
-		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "fakewanted"_J));
+		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandFakeWanted()));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "infinitestamina"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandListSelect>(Theme::kContentWidth, kItemH, "paralock"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "clumsiness"_J));
