@@ -3,6 +3,7 @@
 #include "Commands/CommandToggleLegacy.hpp"
 #include "Commands/Commands.hpp"
 #include "Commands/Self/CommandAutoHeal.hpp"
+#include "Commands/Self/CommandClumsiness.hpp"
 #include "Commands/Self/CommandFakeWanted.hpp"
 #include "Commands/Self/CommandGod.hpp"
 #include "Commands/Self/CommandGrace.hpp"
@@ -129,7 +130,7 @@ namespace Stand::Rendering
 		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandFakeWanted()));
 		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandInfiniteStamina()));
 		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandParalock()));
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "clumsiness"_J));
+		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandClumsiness()));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "respawnrecall"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "refillhealth"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "refillarmour"_J));
