@@ -45,11 +45,18 @@ namespace YimMenu::Rendering
 	// worse than not showing it - a real, disclosed gap to close once a
 	// later phase wires that up, not something faked here.
 	//
-	// A free-standing global overlay, same shape as MenuPopup/
-	// MenuCommandBox: GridRenderer::DrawImpl draws it last while open,
-	// WndProcImpl routes every key/char to it first while open, ahead of
-	// MenuCommandBox/MenuPopup/the normal text-edit interception - opening
-	// this always takes over input the same way those already do.
+	// A free-standing global overlay, drawn every frame regardless of
+	// whether the main menu is open (GridRenderer::DrawImpl's own
+	// "always drawn" group, alongside Notifications/Overlay/ESP/...) -
+	// unlike MenuPopup/MenuCommandBox (which only ever open from within
+	// an already-open menu), this one opens with its own dedicated 'U'
+	// key and works whether or not the menu itself is open, matching
+	// real Stand's own Gui::showCommandBox() (no g_gui.opened check
+	// there either - confirmed against origin/stand-reference). Wired
+	// through its own separate, ungated AddWindowProcedureCallback
+	// registration in GridRenderer::Init() rather than the menu-gated
+	// WndProcImpl every other overlay here goes through - see that
+	// function's own comment for why.
 	class MenuCommandConsole
 	{
 	public:

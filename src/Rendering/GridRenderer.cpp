@@ -277,7 +277,6 @@ namespace YimMenu::Rendering
 				// overlay rather than a GridItem/Grid of its own.
 				MenuPopup::Draw();
 				MenuCommandBox::Draw();
-				MenuCommandConsole::Draw();
 			}
 
 			// Real Stand's own CommandListNotifySettings::onActiveListUpdate()
@@ -299,13 +298,19 @@ namespace YimMenu::Rendering
 			// Notifications.hpp's own class comment (Overlay.cpp's own
 			// watermark-style FPS/business overlay, ESP, ChatDisplay,
 			// Onboarding, and AutoDriveHUD are the same shape: always
-			// visible, independent of any menu).
+			// visible, independent of any menu). MenuCommandConsole joins
+			// this group rather than the menuActive-gated one above - it
+			// now opens (the 'U' key) and works independently of
+			// GUI::IsOpen(), same as real Stand's own Gui::showCommandBox()
+			// (see its own class comment and the ungated
+			// AddWindowProcedureCallback registration in Init()).
 			Notifications::Draw();
 			Overlay::Draw();
 			ESP::Draw();
 			ChatDisplay::Draw();
 			Onboarding::Draw();
 			AutoDriveHUD::Draw();
+			MenuCommandConsole::Draw();
 
 			m_Batch->End();
 		}
@@ -344,7 +349,6 @@ namespace YimMenu::Rendering
 				}
 				MenuPopup::DrawText();
 				MenuCommandBox::DrawText();
-				MenuCommandConsole::DrawText();
 			}
 
 			Notifications::DrawText();
@@ -353,6 +357,7 @@ namespace YimMenu::Rendering
 			ChatDisplay::DrawText();
 			Onboarding::DrawText();
 			AutoDriveHUD::DrawText();
+			MenuCommandConsole::DrawText();
 
 			m_SpriteBatch->End();
 		}
@@ -539,18 +544,15 @@ namespace YimMenu::Rendering
 			return;
 		}
 
-		// MenuCommandConsole - same precedence/reasoning as MenuCommandBox
-		// right above (the two are never open at once - see that class's
-		// own header comment).
-		if (MenuCommandConsole::IsOpen())
-		{
-			if (msg == WM_CHAR)
-				MenuCommandConsole::HandleChar(static_cast<wchar_t>(wparam));
-			else if (msg == WM_KEYDOWN)
-				MenuCommandConsole::HandleKey(static_cast<unsigned int>(wparam));
-
-			return;
-		}
+		// MenuCommandConsole is NOT handled here (unlike MenuCommandBox
+		// right above) - it has its own separate, ungated
+		// AddWindowProcedureCallback registration (see Init()) so both
+		// opening it (the 'U' key) and routing input to it while open
+		// work regardless of GUI::IsOpen(), matching real Stand's own
+		// Gui::showCommandBox() (no g_gui.opened check there either -
+		// confirmed against origin/stand-reference). Handling it in both
+		// places would double-fire every keystroke while the menu
+		// happens to also be open.
 
 		// MenuPopup takes over every input while open, ahead of even the
 		// text-edit interception right below - a popup open on top of a
@@ -615,21 +617,6 @@ namespace YimMenu::Rendering
 		// other half of this bug (mouse clicks not reaching the game at
 		// all while the menu was open).
 
-		// Opens MenuCommandConsole - the 'U' key, unused by anything else
-		// in this system (GUI::WndProc's own menu-toggle only checks
-		// VK_INSERT/Ctrl+VK_OEM_5) while the menu's open. Checked after
-		// every "something else already owns input" branch above, same
-		// as MenuGrid::HandleKey() below, so it can never fire while a
-		// text field or another overlay is already active - MenuGrid's
-		// own list navigation has no letter-key bindings of its own
-		// either (Up/Down/Left/Right/Enter/Backspace/Ctrl/Shift only),
-		// so this doesn't shadow anything there.
-		if (msg == WM_KEYDOWN && wparam == 'U' && !Rendering::InputCapture::IsTextInputActive())
-		{
-			MenuCommandConsole::Open();
-			return;
-		}
-
 		// Every other key this system responds to (Up/Down/Left/Right/
 		// Enter/Backspace - see MenuGrid::HandleKey()) - the InputCapture
 		// check here is largely defensive at this point (the branch
@@ -673,6 +660,30 @@ namespace YimMenu::Rendering
 		Renderer::AddWindowProcedureCallback([](HWND, UINT msg, WPARAM wparam, LPARAM) {
 			if (msg == WM_KEYDOWN)
 				Onboarding::HandleKey(static_cast<unsigned int>(wparam));
+		});
+
+		// Same reason as Onboarding's own callback right above -
+		// deliberately ungated by GUI::IsOpen() so MenuCommandConsole
+		// opens (the 'U' key) and works whether or not the main menu is
+		// open, matching real Stand's own Gui::showCommandBox() (no
+		// g_gui.opened check there either - confirmed against
+		// origin/stand-reference). Handles both routing input to it
+		// while already open and the 'U' key that opens it - see
+		// WndProcImpl's own comment for why none of this lives there
+		// instead (it would double-fire every keystroke while the menu
+		// also happens to be open).
+		Renderer::AddWindowProcedureCallback([](HWND, UINT msg, WPARAM wparam, LPARAM) {
+			if (MenuCommandConsole::IsOpen())
+			{
+				if (msg == WM_CHAR)
+					MenuCommandConsole::HandleChar(static_cast<wchar_t>(wparam));
+				else if (msg == WM_KEYDOWN)
+					MenuCommandConsole::HandleKey(static_cast<unsigned int>(wparam));
+			}
+			else if (msg == WM_KEYDOWN && wparam == 'U' && !Rendering::InputCapture::IsTextInputActive())
+			{
+				MenuCommandConsole::Open();
+			}
 		});
 	}
 }
