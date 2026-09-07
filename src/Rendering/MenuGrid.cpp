@@ -227,6 +227,27 @@ namespace YimMenu::Rendering
 		return true;
 	}
 
+	bool MenuGrid::GetContentBottomY(int16_t& y) const
+	{
+		auto* content = MenuNavigation::Current();
+		if (!content)
+			return false;
+
+		// Same clipped-height arithmetic as draw()'s own content backdrop
+		// rect - see that function for why panelHeight isn't just
+		// content's own (possibly scrolled-past-the-viewport) full
+		// height.
+		const auto visibleHeight = static_cast<int16_t>(Theme::kHudHeight - content->origin.y - Theme::kContentBottomMargin);
+
+		int16_t cx, cy, cw, ch;
+		content->getDimensions(cx, cy, cw, ch);
+		const auto panelHeight = (ch > 0 && ch < visibleHeight) ? ch : visibleHeight;
+
+		const auto offsetY = static_cast<int16_t>(Theme::kMenuOriginY - Theme::kDefaultMenuOriginY);
+		y = static_cast<int16_t>(content->origin.y + offsetY + panelHeight);
+		return true;
+	}
+
 	GridItem* MenuGrid::SidebarItem() const
 	{
 		if (m_Sidebar)

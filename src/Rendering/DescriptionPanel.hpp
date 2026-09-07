@@ -26,30 +26,30 @@ namespace YimMenu::Rendering
 	// MenuGrid.cpp: ALIGN_BOTTOM_RIGHT forces info_text_force_alignment_to
 	// to tabs_left and switches the actual text alignment to
 	// ALIGN_BOTTOM_LEFT, i.e. anchored under the tab strip's own bottom
-	// edge) - not real Stand's own DEFAULT (ALIGN_TOP_RIGHT, beside
+	// edge, using command_width - the wider, full-menu width - for the
+	// box itself) - not real Stand's own DEFAULT (ALIGN_TOP_RIGHT, beside
 	// content), which doesn't fit this project's own fixed 1920x1080
 	// H-space layout: content already runs from the sidebar's own right
 	// edge out to x=1888 of 1920 (only 32px short of the edge), leaving
-	// nowhere to float a panel beside it. sidebarX/Y/Width/Height (from
-	// MenuGrid::GetSidebarRect(), already runtime-position-adjusted the
-	// same way GetHeaderBarRect() is) are passed in rather than read
-	// from a global, the same reason GridRenderer already reads
-	// GetHeaderBarRect() itself for HeaderBanner's own placement instead
-	// of MenuGrid exposing g_MenuGrid globally.
+	// nowhere to float a panel beside it.
 	//
-	// Sized to the sidebar's own width (tabs_width, ~112 H-units), not
-	// the content column's - an earlier pass here used command_width
-	// (450), which ran the box well past the sidebar's own right edge
-	// and directly over the content list's text next to it. The box is
-	// also inset a few pixels from the sidebar's own left edge (kIndent
-	// in the .cpp), so it doesn't start flush with "Debug" (or whichever
-	// entry) itself, and its right edge lands back at the sidebar's own
-	// right edge - "close to Debug menu end", per the reference
-	// screenshot this was corrected against.
+	// x/width span the WHOLE menu (sidebar + spacer + content, matching
+	// MenuGrid::GetHeaderBarRect()'s own x/width - the header bar spans
+	// exactly this already) - an earlier pass here narrowed the box to
+	// just the sidebar's own ~112-wide column, which fixed one problem
+	// (running over content's own text) by creating an uglier one: any
+	// description longer than a couple of characters wrapped one word
+	// per line. bottomY is the lower of the sidebar's own bottom edge and
+	// the CURRENTLY SHOWING content list's own (viewport-clipped) bottom
+	// edge - MenuGrid::GetSidebarRect()'s height alone isn't enough here,
+	// since the sidebar's fixed 9 entries are shorter than most
+	// categories' own content list, and a category with many rows (e.g.
+	// Vehicle) would otherwise still run this panel straight over still-
+	// visible rows. See MenuGrid::GetContentBottomY()'s own comment.
 	class DescriptionPanel
 	{
 	public:
-		static void Draw(int16_t sidebarX, int16_t sidebarY, int16_t sidebarWidth, int16_t sidebarHeight);
-		static void DrawText(int16_t sidebarX, int16_t sidebarY, int16_t sidebarWidth, int16_t sidebarHeight);
+		static void Draw(int16_t x, int16_t bottomY, int16_t width);
+		static void DrawText(int16_t x, int16_t bottomY, int16_t width);
 	};
 }

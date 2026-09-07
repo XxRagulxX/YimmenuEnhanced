@@ -248,11 +248,26 @@ namespace YimMenu::Rendering
 				g_MenuGrid.draw();
 				// Same free-standing-overlay shape as MenuPopup/
 				// MenuCommandBox below - see DescriptionPanel's own
-				// class comment for why it needs the sidebar's own rect.
+				// class comment for why it needs both of these rects:
+				// the header bar's x/width (spanning the whole menu,
+				// sidebar+content) and whichever of the sidebar's own
+				// bottom edge / the currently-showing content's own
+				// (viewport-clipped) bottom edge is lower.
 				{
+					int16_t headerX, headerY, headerWidth;
 					int16_t sidebarX, sidebarY, sidebarWidth, sidebarHeight;
-					if (g_MenuGrid.GetSidebarRect(sidebarX, sidebarY, sidebarWidth, sidebarHeight))
-						DescriptionPanel::Draw(sidebarX, sidebarY, sidebarWidth, sidebarHeight);
+					if (g_MenuGrid.GetHeaderBarRect(headerX, headerY, headerWidth) && g_MenuGrid.GetSidebarRect(sidebarX, sidebarY, sidebarWidth, sidebarHeight))
+					{
+						(void)headerY;  // only x/width wanted from the header bar - bottomY (below) drives the panel's own y
+						(void)sidebarX; // only y/height wanted from the sidebar - x/width come from the header bar instead
+						(void)sidebarWidth;
+						int16_t bottomY = static_cast<int16_t>(sidebarY + sidebarHeight);
+						int16_t contentBottomY;
+						if (g_MenuGrid.GetContentBottomY(contentBottomY) && contentBottomY > bottomY)
+							bottomY = contentBottomY;
+
+						DescriptionPanel::Draw(headerX, bottomY, headerWidth);
+					}
 				}
 				// Drawn last, on top of everything else - see MenuPopup's
 				// own class comment for why this is a free-standing
@@ -306,9 +321,20 @@ namespace YimMenu::Rendering
 			{
 				g_MenuGrid.drawText();
 				{
+					int16_t headerX, headerY, headerWidth;
 					int16_t sidebarX, sidebarY, sidebarWidth, sidebarHeight;
-					if (g_MenuGrid.GetSidebarRect(sidebarX, sidebarY, sidebarWidth, sidebarHeight))
-						DescriptionPanel::DrawText(sidebarX, sidebarY, sidebarWidth, sidebarHeight);
+					if (g_MenuGrid.GetHeaderBarRect(headerX, headerY, headerWidth) && g_MenuGrid.GetSidebarRect(sidebarX, sidebarY, sidebarWidth, sidebarHeight))
+					{
+						(void)headerY;  // only x/width wanted from the header bar - bottomY (below) drives the panel's own y
+						(void)sidebarX; // only y/height wanted from the sidebar - x/width come from the header bar instead
+						(void)sidebarWidth;
+						int16_t bottomY = static_cast<int16_t>(sidebarY + sidebarHeight);
+						int16_t contentBottomY;
+						if (g_MenuGrid.GetContentBottomY(contentBottomY) && contentBottomY > bottomY)
+							bottomY = contentBottomY;
+
+						DescriptionPanel::DrawText(headerX, bottomY, headerWidth);
+					}
 				}
 				MenuPopup::DrawText();
 				MenuCommandBox::DrawText();
