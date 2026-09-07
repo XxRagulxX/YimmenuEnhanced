@@ -30,6 +30,19 @@ namespace YimMenu::Rendering
 		// cached - cheap (one virtual call plus a word-wrap over a
 		// handful of words), and there's no shared per-frame state to
 		// cache into here the way MenuGrid's own populate() has.
+		//
+		// GetDescription() may embed '\n' as a hard break between
+		// distinct logical lines (e.g. GridItemStandCommand's own
+		// help_text + "Command: ... [on/off]" - see its own comment) -
+		// WrapText()'s own word-splitting (istringstream's `>>`) treats
+		// any whitespace, '\n' included, as just another space, so a
+		// naive single WrapText() call over the whole description would
+		// run those two logical lines together into one paragraph
+		// instead of keeping them on their own line(s). Split on '\n'
+		// first, word-wrap each resulting segment independently, then
+		// concatenate - matches real Stand's own populateCorner(), which
+		// builds each corner entry as its own separate GridItemText row
+		// rather than one big joined block.
 		std::vector<std::string> WrappedLines()
 		{
 			auto* item = FocusedItem();
@@ -40,7 +53,24 @@ namespace YimMenu::Rendering
 			if (description.empty())
 				return {};
 
-			return WrapText(description, static_cast<float>(Theme::kInfoWidth) - kPadding * 2.f, Theme::kSmallTextScale);
+			const auto maxWidth = static_cast<float>(Theme::kInfoWidth) - kPadding * 2.f;
+
+			std::vector<std::string> lines;
+			size_t start = 0;
+			while (start <= description.size())
+			{
+				const auto end = description.find('\n', start);
+				const auto segment = description.substr(start, end == std::string::npos ? std::string::npos : end - start);
+
+				for (auto& wrapped : WrapText(segment, maxWidth, Theme::kSmallTextScale))
+					lines.push_back(std::move(wrapped));
+
+				if (end == std::string::npos)
+					break;
+				start = end + 1;
+			}
+
+			return lines;
 		}
 
 		// The box's own top-left corner, in H-space - see this class's

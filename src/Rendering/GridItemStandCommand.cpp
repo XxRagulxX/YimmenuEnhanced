@@ -57,10 +57,26 @@ namespace YimMenu::Rendering
 		if (!m_Command)
 			return {};
 
-		if (auto* physical = m_Command->getPhysical())
-			return physical->help_text.getLocalisedUtf8();
+		auto* physical = m_Command->getPhysical();
+		if (!physical)
+			return {};
 
-		return {};
+		// help_text, then "Command: <name> [on/off]" (for a toggle) on
+		// its own line below - matches real Stand's own populateCorner()
+		// (CommandPhysical.cpp on origin/stand-reference), which shows
+		// help_text and getCommandSyntax() as separate stacked lines, not
+		// run together into one paragraph. '\n' here is a hard line
+		// break, not just whitespace - see DescriptionPanel::WrappedLines()'s
+		// own comment for why it's split out before word-wrapping.
+		std::string result = physical->help_text.getLocalisedUtf8();
+		if (auto syntax = physical->getCommandSyntax(); !syntax.empty())
+		{
+			if (!result.empty())
+				result += '\n';
+			result += syntax;
+		}
+
+		return result;
 	}
 
 	void GridItemStandCommand::draw()
@@ -186,6 +202,14 @@ namespace YimMenu::Rendering
 		FiberPool::queueJob([toggle] {
 			Stand::Click click(Stand::CLICK_MENU, Stand::TC_SCRIPT_YIELDABLE);
 			toggle->onClick(click);
+			// Fires the "<name> is now enabled/disabled" toast
+			// (CommandToggleNoCorrelation::updateState()'s own generic
+			// response) - same ensureResponse()+respond() pair
+			// CommandHotkeyDispatch.cpp already calls after its own
+			// onClick(); missing here meant clicking a Stand toggle row
+			// directly in the menu never showed one.
+			click.ensureResponse();
+			click.respond();
 		});
 	}
 
@@ -210,6 +234,8 @@ namespace YimMenu::Rendering
 		FiberPool::queueJob([physical] {
 			Stand::Click click(Stand::CLICK_MENU, Stand::TC_SCRIPT_YIELDABLE);
 			physical->onClick(click);
+			click.ensureResponse();
+			click.respond();
 		});
 	}
 

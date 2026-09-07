@@ -26,6 +26,12 @@ namespace Stand
 
 		void onClick(Click& click) override;
 
+		// "Command: <name> [on/off]" - real Stand's own
+		// CommandToggleNoCorrelation::getCommandSyntax() override
+		// (confirmed against origin/stand-reference), appending " [on/off]"
+		// onto CommandPhysical's own base "Command: <name>".
+		[[nodiscard]] std::string getCommandSyntax() const override;
+
 		virtual void onChange(Click& click);
 		virtual void onEnable(Click& click);
 		virtual void onDisable(Click& click);

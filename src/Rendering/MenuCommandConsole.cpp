@@ -106,6 +106,13 @@ namespace YimMenu::Rendering
 					    FiberPool::queueJob([physical] {
 						    Stand::Click click(Stand::CLICK_MENU, Stand::TC_SCRIPT_YIELDABLE);
 						    physical->onClick(click);
+						    // Fires the "<name> is now enabled/disabled"
+						    // toast (CommandToggleNoCorrelation::updateState()'s
+						    // own generic response) - same pair
+						    // GridItemStandCommand.cpp's own click paths and
+						    // CommandHotkeyDispatch.cpp already call.
+						    click.ensureResponse();
+						    click.respond();
 					    });
 				    },
 				});
@@ -264,7 +271,7 @@ namespace YimMenu::Rendering
 
 		// "<name> - <label>", exactly CommandIssuable::getCompletionHint()'s
 		// own format on real Stand (confirmed against origin/stand-
-		// reference) - e.g. "godmode - God Mode".
+		// reference) - e.g. "godmode - Immortality".
 		const auto shown = (std::min)(s_Matches.size(), kMaxShown);
 		for (size_t i = 0; i != shown; ++i)
 		{

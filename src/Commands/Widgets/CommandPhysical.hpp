@@ -91,6 +91,21 @@ namespace Stand
 			return (flags & CMDFLAG_NO_SAVED_STATE) == 0;
 		}
 
+		// Ported from real Stand's own CommandPhysical::getCommandSyntax()
+		// (CommandPhysical.cpp on origin/stand-reference) - "Command: "
+		// plus the command's own primary name (command_names.front()),
+		// e.g. "Command: godmode". CommandToggleNoCorrelation overrides
+		// this to append " [on/off]" (its own real Stand equivalent,
+		// confirmed against origin/stand-reference's own
+		// CommandToggleNoCorrelation::getCommandSyntax()) - see
+		// GridItemStandCommand::GetDescription() for where this actually
+		// shows up (the second line under a focused command's own
+		// help_text, matching real Stand's own populateCorner()). Not
+		// gated behind anything like real Stand's own g_gui.show_syntax
+		// setting - this project has no such setting, so it's always
+		// shown whenever it's non-empty.
+		[[nodiscard]] virtual std::string getCommandSyntax() const;
+
 		virtual void onClick(Click& click)
 		{
 		}

@@ -13,12 +13,17 @@
 // GridItemCommandToggle - see that row's own comment in SelfGrid.cpp).
 //
 // Matches real Stand's own CommandGod (Commands/Self/CommandGod.hpp on
-// origin/stand-reference) exactly for menu_name/command_names/help_text:
+// origin/stand-reference) for command_names/menu_name/help_text:
 //   explicit CommandGod(CommandList* const parent)
 //       : CommandToggle(parent, LOC("GOD"), { CMDNAME("godmode"), CMDNAME("immortality") }, LOC("GOD_H"))
-// (LOC()/CMDNAME() resolve through this project's own Localization
-// stand-in - see Util/Label.hpp/Commands/Online/CommandName.hpp - to
-// plain literals, not a real string table). Real Stand's own onEnable()/
+// LOC("GOD")/LOC("GOD_H") are translation-table KEYS, not the displayed
+// text itself - real Stand's own English text for them (confirmed
+// against its own reference screenshot) is "Immortality" and "Makes
+// your character unable to die.", used directly here via LIT() since
+// this project has no translation table of its own to resolve a LOC key
+// through (see Util/Label.hpp's own class comment) - an earlier pass
+// here wrongly guessed "God Mode" instead of actually checking what
+// real Stand displays. Real Stand's own onEnable()/
 // onDisable() just flip its own g_gui.godmode flag, with the actual
 // SetInvincible-equivalent enforcement happening every tick somewhere
 // else entirely in its own renderer (not ported) - this project has no
@@ -37,7 +42,7 @@ namespace Stand
 	{
 	public:
 		explicit CommandGod(CommandList* parent) :
-		    CommandToggle(parent, LIT("God Mode"), CMDNAMES("godmode", "immortality"), LIT("Blocks all incoming damage."))
+		    CommandToggle(parent, LIT("Immortality"), CMDNAMES("godmode", "immortality"), LIT("Makes your character unable to die."))
 		{
 		}
 

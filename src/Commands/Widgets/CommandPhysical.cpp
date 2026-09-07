@@ -5,6 +5,21 @@
 
 namespace Stand
 {
+	std::string CommandPhysical::getCommandSyntax() const
+	{
+		// Real Stand's own CommandPhysical::getCommandSyntax() (Commands/
+		// Widgets/CommandPhysical.cpp on origin/stand-reference) returns
+		// std::wstring through its own LANG_GET_W("CMD") lookup - this
+		// project has no wide-string/localisation pipeline for any of
+		// its own ported Label text (see Util/Label.hpp's own class
+		// comment), so this is plain UTF-8 with the literal "Command"
+		// prefix, matching every other LIT()-based text in this port.
+		if (command_names.empty())
+			return {};
+
+		return "Command: " + command_names.front();
+	}
+
 	void CommandPhysical::queueJob(std::function<void()>&& func)
 	{
 		if (!m_JobQueued)

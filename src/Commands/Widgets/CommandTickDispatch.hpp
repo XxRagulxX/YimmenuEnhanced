@@ -5,7 +5,7 @@
 // registration tied to its own TickMgr (see CommandPhysical.hpp's own
 // class comment - not ported) that any command can hook into to run
 // logic every game tick. This project has nothing like that yet - the
-// first real feature migrated onto the Stand tree (Self > God Mode,
+// first real feature migrated onto the Stand tree (Self > Immortality,
 // see Commands/Self/CommandGod.hpp) needs it: real Stand's own onEnable()
 // just flips a flag (g_gui.godmode) and lets some other, unported part
 // of its renderer apply invincibility every tick elsewhere; this

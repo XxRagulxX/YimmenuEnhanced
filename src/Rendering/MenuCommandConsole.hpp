@@ -7,7 +7,7 @@ namespace YimMenu::Rendering
 {
 	// Stand-style blank "Command Console" - typing a prefix (e.g. "god")
 	// live-lists every command whose own name starts with it (e.g.
-	// "godmode - God Mode"), same live-narrowing feel as the user's own
+	// "godmode - Immortality"), same live-narrowing feel as the user's own
 	// reference screenshot of real Stand's own Commandbox (Commands/
 	// Widgets/Commandbox.hpp + CommandboxGrid.cpp on origin/stand-
 	// reference). NOT the same class as MenuCommandBox (that one always
@@ -42,7 +42,7 @@ namespace YimMenu::Rendering
 	// CommandHotkeyDispatch and GridItemStandCommand, both of which
 	// dispatch through it directly), and needs no chat-command parsing
 	// at all for a plain no-argument activation. Excluding Stand
-	// commands meant a migrated feature (e.g. Self > God Mode) silently
+	// commands meant a migrated feature (e.g. Self > Immortality) silently
 	// stopped being findable here the moment it moved off the legacy
 	// registry - a real regression, not a disclosed gap, now fixed.
 	//
