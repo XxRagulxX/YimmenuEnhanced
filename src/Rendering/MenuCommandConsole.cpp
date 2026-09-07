@@ -347,6 +347,24 @@ namespace YimMenu::Rendering
 		if (!s_Open)
 			return;
 
+		// Reported bug: the 'U' keypress that opens this (see the
+		// ungated AddWindowProcedureCallback in GridRenderer::Init())
+		// generates its own WM_CHAR right after the WM_KEYDOWN that
+		// opened it - same physical keystroke, so without this, every
+		// open typed a leading "u" straight into the buffer. Real
+		// Stand's own Commandbox has the identical problem for its own
+		// (user-configurable) open hotkey and solves it the same way
+		// (see origin/stand-reference's own Renderer.cpp WM_CHAR
+		// handler, which checks the typed char against Input::scheme.
+		// key_command_box) - narrowed here to this project's own single
+		// fixed 'U' key: while the physical U key is still being held
+		// down from the keystroke that opened this, its own char is
+		// swallowed rather than typed. GetKeyState() (not GetAsyncKeyState())
+		// matches MenuGrid.cpp's own existing convention for a
+		// physical-key-still-down check from within a WndProc callback.
+		if ((c == u'u' || c == u'U') && (GetKeyState('U') & 0x8000) != 0)
+			return;
+
 		// Printable ASCII only, same restriction MenuCommandBox::HandleChar()
 		// applies (see that file's own comment).
 		if (c >= 0x20 && c < 0x7f && s_Buffer.size() < 64)
