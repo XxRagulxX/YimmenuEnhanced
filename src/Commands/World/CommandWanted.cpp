@@ -6,16 +6,6 @@
 
 namespace Stand::Features
 {
-	class ClearWanted : public CommandLegacy
-	{
-		using CommandLegacy::CommandLegacy;
-
-		virtual void OnCall() override
-		{
-			Self::GetPlayer().SetWantedLevel(0);
-		}
-	};
-
 	class SetWanted : public CommandLegacy
 	{
 		using CommandLegacy::CommandLegacy;
@@ -42,7 +32,6 @@ namespace Stand::Features
 		}
 	};
 
-	static ClearWanted _ClearWanted{"clearwanted", "Clear Wanted", "Clears your wanted level"};
 	static SetWanted _SetWanted{"setwanted", "Set Wanted", "Sets your wanted level to the desired level"};
 	static NeverWanted _NeverWanted{"neverwanted", "Never Wanted", "Never gain a wanted level"};
 }

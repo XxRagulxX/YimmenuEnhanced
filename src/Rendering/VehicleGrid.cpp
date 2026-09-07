@@ -29,7 +29,7 @@ namespace Stand::Rendering
 
 		// autodrivespeed/autodrivestyle's own MenuVehicle.cpp gate reads
 		// two BoolCommands (autodrive OR npcautodrive), so - same as
-		// SelfGrid.cpp's ShouldClearOrSetWanted() - this needs
+		// SelfGrid.cpp's ShouldSetWanted() - this needs
 		// GridItemConditional's std::function<bool()> overload rather
 		// than its plain joaat_t one.
 		bool IsAutoDriveEnabled()

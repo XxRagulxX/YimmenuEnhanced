@@ -9,7 +9,7 @@ namespace Stand::Rendering
 	// autodrivespeed/autodrivestyle are gated on IsAutoDriveEnabled()
 	// (VehicleGrid.cpp) - autodrive OR npcautodrive being on, the same
 	// combined-CommandToggle-predicate technique as SelfGrid.cpp's
-	// ShouldClearOrSetWanted().
+	// ShouldSetWanted().
 	//
 	// Also the Vehicle submenu's root as far as MenuGrid/MenuNavigation
 	// are concerned: Populate() appends a GridItemFolder row for each of

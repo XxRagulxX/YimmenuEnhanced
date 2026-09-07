@@ -5,10 +5,9 @@ namespace Stand::Rendering
 {
 	// Content grid for Self > Main: mirrors MenuSelf.cpp's Globals, Tools,
 	// Special Ability, Wanted and Movement groups in full. Wanted's
-	// two-level ConditionalItem nesting (clearWanted/setWanted groups,
-	// each itself containing a further-conditional row) is flattened
-	// into per-row conditions - see SelfGrid.cpp's own comment on
-	// ShouldClearOrSetWanted() for the combined-AND case neither
+	// setWanted group (itself containing a further-conditional row) is
+	// flattened into a per-row condition - see SelfGrid.cpp's own
+	// comment on ShouldSetWanted() for the combined-AND case neither
 	// CommandToggle alone can express.
 	//
 	// Any toggle that owns one or more dependent options of its own

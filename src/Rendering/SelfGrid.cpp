@@ -44,20 +44,13 @@ namespace Stand::Rendering
 		NoclipGrid g_NoclipContent{};
 		FreecamGrid g_FreecamContent{};
 
-		// Wanted group: MenuSelf.cpp nests clearWanted (visible when NOT
-		// freezewanted) and setWanted (visible when NOT neverwanted) as
-		// their own Groups, each itself containing a further-conditional
-		// row (clearwanted gated on !neverwanted inside clearWanted;
-		// setwanted gated on !freezewanted inside setWanted). Flattened
+		// Wanted group: MenuSelf.cpp nests setWanted (visible when NOT
+		// neverwanted) in its own Group, itself containing a further-
+		// conditional row (setwanted gated on !freezewanted). Flattened
 		// (there's no literal "Group" container here - see
-		// GridItemConditional's own class comment), both the clearwanted
-		// and setwanted buttons end up needing the exact same combined
-		// condition: neither freezewanted nor neverwanted is on. The
-		// other three Wanted rows (neverwanted/wantedslider/freezewanted
-		// toggles) each still only need the single outer gate they
-		// already had, so they use GridItemConditional's plain joaat_t
-		// overload directly instead.
-		bool ShouldClearOrSetWanted()
+		// GridItemConditional's own class comment) onto
+		// GridItemConditional's plain joaat_t overload directly.
+		bool ShouldSetWanted()
 		{
 			auto* neverwanted = Commands::GetCommand<CommandToggleLegacy>("neverwanted"_J);
 			return !Features::GetCommandWantedLock().m_on && (!neverwanted || !neverwanted->GetState());
@@ -183,27 +176,21 @@ namespace Stand::Rendering
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Special Ability", Theme::kText));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "infspecialability"_J));
 
-		// Wanted (wantedGroup) - see ShouldClearOrSetWanted()'s own
-		// comment above for how the original's nested ConditionalItem
-		// groups flatten onto individual rows. watchCondition() (not
-		// GridItemConditional) so a hidden row here doesn't reserve its
-		// own layout slot - see its own doc comment in Grid.hpp.
-		// wantedslider/freezewanted's own rows moved into the real Stand
-		// "Self" section above (Set/Lock Wanted Level) - the remaining
-		// three (clearwanted/neverwanted/setwanted) have no Stand
+		// Wanted (wantedGroup) - see ShouldSetWanted()'s own comment above
+		// for how the original's nested ConditionalItem groups flatten
+		// onto individual rows. watchCondition() (not GridItemConditional)
+		// so a hidden row here doesn't reserve its own layout slot - see
+		// its own doc comment in Grid.hpp. wantedslider/freezewanted's
+		// own rows moved into the real Stand "Self" section above (Set/
+		// Lock Wanted Level) - neverwanted/setwanted have no Stand
 		// equivalent in its own top-level list and stay here as this
-		// project's own extras. Still watching both flags below even
-		// with those two rows gone: ShouldClearOrSetWanted() (clearwanted/
-		// setwanted's own gate) and neverwanted's own gate between them
-		// already cover every case that mattered for invalidation.
+		// project's own extras.
 		items_draft.push_back(std::make_unique<GridItemText>(Theme::kContentWidth, kSectionHeaderH, "Wanted", Theme::kText));
-		if (watchCondition(ShouldClearOrSetWanted))
-			items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "clearwanted"_J));
 		if (watchCondition([] {
 			    return !Features::GetCommandWantedLock().m_on;
 		    }))
 			items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "neverwanted"_J));
-		if (watchCondition(ShouldClearOrSetWanted))
+		if (watchCondition(ShouldSetWanted))
 			items_draft.push_back(std::make_unique<GridItemCommandButton>(Theme::kContentWidth, kItemH, "setwanted"_J));
 
 		// Movement Extras - standonvehicles/disableactionmode have no
