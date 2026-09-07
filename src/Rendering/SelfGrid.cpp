@@ -2,6 +2,7 @@
 
 #include "Commands/CommandToggle.hpp"
 #include "Commands/Commands.hpp"
+#include "Commands/Self/CommandGod.hpp"
 #include "Rendering/AppearanceGrid.hpp"
 #include "Rendering/FreecamGrid.hpp"
 #include "Rendering/GridItemCommandButton.hpp"
@@ -9,6 +10,7 @@
 #include "Rendering/GridItemCommandListSelect.hpp"
 #include "Rendering/GridItemCommandToggle.hpp"
 #include "Rendering/GridItemFolder.hpp"
+#include "Rendering/GridItemStandCommand.hpp"
 #include "Rendering/GridItemText.hpp"
 #include "Rendering/MovementGrid.hpp"
 #include "Rendering/MpSpecialAbilityGrid.hpp"
@@ -108,7 +110,14 @@ namespace YimMenu::Rendering
 		// Self tab (MenuGrid's own breadcrumb already reads "... > Self")
 		// is a redundant label, not a distinguishing one; the loose rows
 		// below read fine directly following "Categories" above.
-		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "godmode"_J));
+		// First real migration off the legacy system onto the ported
+		// Stand tree (Self category pilot) - GridItemStandCommand takes
+		// a live Stand::Command* directly (there's no Stand::CommandList
+		// tree for "Self" to walk generically yet, so this is still one
+		// hand-written row per command here, same as every other line in
+		// this function - see Commands/Self/CommandGod.hpp/.cpp for the
+		// actual command).
+		items_draft.push_back(std::make_unique<GridItemStandCommand>(Theme::kContentWidth, kItemH, &Features::GetCommandGod()));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "autoheal"_J));
 		items_draft.push_back(std::make_unique<GridItemCommandSlider>(Theme::kContentWidth, kItemH, "maxhealth"_J, std::nullopt, 25));
 		items_draft.push_back(std::make_unique<GridItemCommandToggle>(Theme::kContentWidth, kItemH, "noragdoll"_J, "Gracefulness"));

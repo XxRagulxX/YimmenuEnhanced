@@ -3,6 +3,7 @@
 #include "Scripting/FiberPool.hpp"
 #include "Commands/Commands.hpp"
 #include "Commands/Widgets/CommandHotkeyDispatch.hpp"
+#include "Commands/Widgets/CommandTickDispatch.hpp"
 #include "Config/HotkeySystem.hpp"
 #include "Config/Settings.hpp"
 #include "Core/FileMgr.hpp"
@@ -103,6 +104,7 @@ namespace YimMenu
 		g_script_mgr.addScript(module, std::make_unique<Script>(&HotkeySystem::RunScript));
 		g_script_mgr.addScript(module, std::make_unique<Script>(&Commands::RunScript));
 		g_script_mgr.addScript(module, std::make_unique<Script>(&Stand::CommandHotkeyDispatch::RunScript));
+		g_script_mgr.addScript(module, std::make_unique<Script>(&Stand::CommandTickDispatch::RunScript));
 		g_script_mgr.addScript(module, std::make_unique<Script>(&Features::SavePersonalVehicle::RunScript));
 		g_script_mgr.addScript(module, std::make_unique<Script>(&Features::OpenGunLocker::RunScript));
 		g_script_mgr.addScript(module, std::make_unique<Script>(&Features::OpenStreetDealerMenu::RunScript));

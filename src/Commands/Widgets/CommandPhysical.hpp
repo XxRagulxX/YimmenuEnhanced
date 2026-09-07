@@ -125,6 +125,17 @@ namespace Stand
 		{
 		}
 
+		// NOT real Stand's own generic tick-event-handler system (tied
+		// to its own TickMgr - see this class's own top comment, not
+		// ported) - a plain empty-default virtual instead, called only
+		// for whichever commands opt into CommandTickDispatch themselves
+		// (see that class's own doc comment for why this isn't wired in
+		// automatically here the way getState()/setState()/
+		// applyDefaultState() are for CommandStateSerializer above).
+		virtual void onTick()
+		{
+		}
+
 		void queueJob(std::function<void()>&& func);
 		void queueJob(std::function<void(ThreadContext)>&& func);
 
