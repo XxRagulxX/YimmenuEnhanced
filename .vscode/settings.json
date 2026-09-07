@@ -1,9 +1,6 @@
 {
     "cmake.useCMakePresets": "always",
     "cmake.useVsDeveloperEnvironment": "always",
-    "cmake.environment": {
-        "NoDefaultCurrentDirectoryInExePath": null
-    },
     "files.associations": {
         ".clangd": "yaml",
         "string_view": "cpp",
