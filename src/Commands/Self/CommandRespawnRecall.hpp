@@ -43,7 +43,7 @@ namespace Stand
 				return;
 			}
 
-			if (!ped.IsDead() && (CAM::IS_SCREEN_FADED_IN() || *Pointers.IsSessionStarted))
+			if (!ped.IsDead() && (CAMERA::IS_SCREEN_FADED_IN() || *Pointers.IsSessionStarted))
 			{
 				ped.SetPosition(m_DeathPos);
 				m_HasDeathPos = false;
