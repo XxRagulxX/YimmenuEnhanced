@@ -1,5 +1,5 @@
 #pragma once
-#include <cstdint>
+#include "Game/typedecl.hpp"
 
 // Real Stand's CommandFlags.hpp also carries flags for systems this
 // project doesn't have (feature-list edition gating, saved/starred
@@ -12,10 +12,14 @@
 // the same names so a command ported from Stand (e.g. CMDFLAGS_TOGGLE)
 // compiles unchanged, even though most now just resolve to 0 or a single
 // flag rather than Stand's own wider combination.
-namespace Stand
-{
-	using commandflags_t = uint16_t;
-}
+//
+// commandflags_t itself comes from Game/typedecl.hpp now (real Stand's
+// own CMDFLAG_BITS=23 -> uint32_t), not declared locally any more - this
+// file used to define its own, narrower uint16_t alias of the same name,
+// which became a hard redefinition conflict (different underlying type,
+// same namespace) once typedecl.hpp was added elsewhere for real Stand's
+// own broader set of fundamental types. Only 4 bits are actually used
+// below either way, so the wider type costs nothing.
 
 #define CMDFLAG_TEMPORARY (Stand::commandflags_t)0b1
 #define CMDFLAG_SUPPORTS_STATE_OPERATIONS (Stand::commandflags_t)0b10
