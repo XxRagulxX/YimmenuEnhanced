@@ -2,6 +2,7 @@
 #include "Commands/Widgets/CommandTickDispatch.hpp"
 #include "Commands/Widgets/CommandToggle.hpp"
 
+#include "Scripting/Natives.hpp"
 #include "World/Self.hpp"
 
 namespace Stand
