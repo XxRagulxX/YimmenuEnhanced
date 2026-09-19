@@ -1,5 +1,6 @@
 #include "Renderer.hpp"
 #include "D3D12Hook.hpp"
+#include "game/frontend/GUI.hpp"
 #include "core/frontend/manager/styles/Themes.hpp"
 #include "game/frontend/Menu.hpp"
 #include <backends/imgui_impl_dx12.h>

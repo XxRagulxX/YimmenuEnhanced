@@ -1,6 +1,6 @@
-﻿#include "core/backend/FiberPool.hpp"
+#include "core/backend/FiberPool.hpp"
 #include "core/frontend/widgets/imgui_bitfield.hpp"
-#include "game/backend/AnticheatBypass.hpp"
+#include "game/frontend/items/Items.hpp"
 #include "game/gta/Natives.hpp"
 #include "game/gta/Stats.hpp"
 #include "game/pointers/Pointers.hpp"

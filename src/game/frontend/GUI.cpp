@@ -43,7 +43,7 @@ namespace YimMenu
 			    AutoDriveHUD::Draw();
 		    },
 		    -7);
-		Renderer::AddRendererCallBack(
+		Renderer::AddRendererCallback(
 		    [&] {
 			    Overlay::Draw();
 		    },

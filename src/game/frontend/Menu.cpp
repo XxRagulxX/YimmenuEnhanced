@@ -12,6 +12,7 @@
 #include "submenus/Debug.hpp"
 #include "submenus/World.hpp"
 #include "Onboarding.hpp"
+#include "GUI.hpp"
 
 namespace YimMenu
 {
